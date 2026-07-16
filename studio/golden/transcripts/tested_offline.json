@@ -1,0 +1,16 @@
+{
+  "id": "tested_offline",
+  "surface": "both",
+  "description": "Offline schema/digest OK without Lean → Tested.",
+  "input": {
+    "resultStatus": "tested",
+    "leanStatus": null,
+    "leanProposition": "∀ (n : ℕ), n + 0 = n",
+    "assumptions": []
+  },
+  "expected": {
+    "label": "Tested",
+    "allowCertified": false,
+    "transcriptOrder": ["leanProposition", "assumptions", "epistemicLabel"]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "verified_without_lean",
+  "surface": "both",
+  "description": "Manifest claims verified but Lean status missing → Ambiguous, never Certified.",
+  "input": {
+    "resultStatus": "soundness_verified",
+    "leanStatus": null,
+    "leanProposition": "∀ (x : ℚ), x ≠ 1 → (x^2 - 1) / (x - 1) = x + 1",
+    "assumptions": ["x ≠ 1"]
+  },
+  "expected": {
+    "label": "Ambiguous",
+    "allowCertified": false,
+    "transcriptOrder": ["leanProposition", "assumptions", "epistemicLabel"]
+  }
+}

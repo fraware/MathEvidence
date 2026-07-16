@@ -1,0 +1,16 @@
+{
+  "id": "computed_only",
+  "surface": "both",
+  "description": "Backend candidate only → Computed.",
+  "input": {
+    "resultStatus": "computed",
+    "leanStatus": null,
+    "leanProposition": "∀ (x : ℚ), True",
+    "assumptions": []
+  },
+  "expected": {
+    "label": "Computed",
+    "allowCertified": false,
+    "transcriptOrder": ["leanProposition", "assumptions", "epistemicLabel"]
+  }
+}

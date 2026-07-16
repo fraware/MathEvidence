@@ -10,6 +10,9 @@
    HARD RULE: never present Certified without an explicit Lean status of
    witness_verified | soundness_verified | completeness_verified |
    optimality_verified | approximation_certified | native_verified.
+
+   Surface rule: Lean proposition + assumptions always appear before the
+   Certified affordance (CertificationSurface transcript order).
 *)
 
 BeginPackage["MathEvidenceStudio`"];
@@ -21,6 +24,11 @@ $MathEvidenceLeanStatus::usage = "Optional Lean replay status string; required f
 EpistemicFromResultStatus::usage =
   "EpistemicFromResultStatus[resultStatus, leanStatus] → <|Label, Detail, AllowCertified|>.";
 StudioStateBadge::usage = "StudioStateBadge[epistemic] formats a text+detail badge.";
+ShowLeanProposition::usage =
+  "ShowLeanProposition[assoc] displays the exact proposed Lean proposition (Agent/Lean field only).";
+ShowAssumptions::usage = "ShowAssumptions[request] lists domainConditions / knownAssumptions / ICs.";
+CertificationSurface::usage =
+  "CertificationSurface[payload] → ordered transcript: proposition, assumptions, epistemic.";
 ProposeCalculusRequest::usage =
   "ProposeCalculusRequest[op, expr, opts] builds an analysis.symbolic_calculus request skeleton.";
 CertifyInLean::usage =
@@ -28,7 +36,6 @@ CertifyInLean::usage =
 InspectBundle::usage = "InspectBundle[bundleDir] displays epistemic state and assumptions.";
 ExportTheoremAndBundle::usage =
   "ExportTheoremAndBundle[path, theoremText, bundleAssoc] writes theorem + evidence paths.";
-ShowAssumptions::usage = "ShowAssumptions[request] lists domainConditions / ICs.";
 ListStudioCapabilities::usage = "ListStudioCapabilities[] queries Agent API list_capabilities.";
 
 Begin["`Private`"];
@@ -36,16 +43,15 @@ Begin["`Private`"];
 $MathEvidenceAgentBase = "http://127.0.0.1:8787";
 $MathEvidenceLeanStatus = None;
 
+$LeanOkStatuses = {
+  "witness_verified", "soundness_verified", "completeness_verified",
+  "optimality_verified", "approximation_certified", "native_verified"
+};
+
 Clear[EpistemicFromResultStatus];
 EpistemicFromResultStatus[resultStatus_String, leanStatus_: None] := Module[
   {s = ToLowerCase[resultStatus], lean = Replace[leanStatus, None -> ""], leanOk},
-  leanOk = MemberQ[
-    {
-      "witness_verified", "soundness_verified", "completeness_verified",
-      "optimality_verified", "approximation_certified", "native_verified"
-    },
-    ToLowerCase[ToString[lean]]
-  ];
+  leanOk = MemberQ[$LeanOkStatuses, ToLowerCase[ToString[lean]]];
   Which[
     leanOk,
       <|
@@ -53,13 +59,7 @@ EpistemicFromResultStatus[resultStatus_String, leanStatus_: None] := Module[
         "Detail" -> "Lean kernel/replay status present: " <> ToString[lean],
         "AllowCertified" -> True
       |>,
-    MemberQ[
-      {
-        "soundness_verified", "witness_verified", "completeness_verified",
-        "optimality_verified", "approximation_certified", "native_verified"
-      },
-      s
-    ],
+    MemberQ[$LeanOkStatuses, s],
       (* Manifest claims verified, but Studio refuses Certified without Lean field. *)
       <|
         "Label" -> "Ambiguous",
@@ -95,11 +95,106 @@ StudioStateBadge[epi_Association] :=
     Style[epi["Detail"], Gray, 11]
   }];
 
+extractLeanProposition[assoc_Association] := Module[
+  {keys = {"leanProposition", "theoremPreview", "proposedLeanProposition"}, v},
+  Catch[
+    Do[
+      v = Lookup[assoc, k, None];
+      If[StringQ[v] && StringTrim[v] =!= "", Throw[StringTrim[v]]],
+      {k, keys}
+    ];
+    ""
+  ]
+];
+
+extractAssumptions[request_Association] := Module[
+  {keys = {"knownAssumptions", "domainConditions", "assumptions"}, v},
+  Catch[
+    Do[
+      v = Lookup[request, k, None];
+      If[ListQ[v], Throw[v]],
+      {k, keys}
+    ];
+    {}
+  ]
+];
+
+ShowLeanProposition[assoc_Association] := Module[
+  {prop = extractLeanProposition[assoc]},
+  Column[{
+    Style["Proposed Lean proposition", Bold],
+    If[prop === "",
+      Style[
+        "(Lean proposition not yet available — required before Certified)",
+        Gray, Italic
+      ],
+      Style[prop, "Input"]
+    ]
+  }]
+];
+
+ShowAssumptions[request_Association] := Module[
+  {conds = extractAssumptions[request],
+   ics = Lookup[request, "initialConditions", {}]},
+  Column[{
+    Style["Assumptions / side conditions", Bold],
+    If[conds === {} || conds === None,
+      Style["(none listed — confirm no hidden defaults)", Gray, Italic],
+      Column[conds]
+    ],
+    Style["Initial conditions", Bold],
+    If[ics === {} || ics === None, "(none)", Column[ics]]
+  }]
+];
+
+CertificationSurface[payload_Association] := Module[
+  {result, status, lean, prop, assumps, epi, transcript},
+  result = Lookup[payload, "agentResult", payload];
+  status = ToString[Lookup[result, "resultStatus", Lookup[payload, "resultStatus", "ambiguous"]]];
+  lean = Lookup[result, "leanStatus",
+    Lookup[payload, "leanStatus", $MathEvidenceLeanStatus]];
+  prop = extractLeanProposition[result];
+  If[prop === "", prop = extractLeanProposition[payload]];
+  assumps = extractAssumptions[If[AssociationQ[Lookup[payload, "request", None]],
+    payload["request"], payload]];
+  If[assumps === {} && KeyExistsQ[result, "domainConditions"],
+    assumps = Lookup[result, "domainConditions", {}]];
+  epi = EpistemicFromResultStatus[status, lean];
+  If[TrueQ[epi["AllowCertified"]] && prop === "",
+    epi = <|
+      "Label" -> "Ambiguous",
+      "Detail" ->
+        "Lean status is present, but the exact Lean proposition is not available yet. Not labeled Certified.",
+      "AllowCertified" -> False
+    |>
+  ];
+  transcript = {
+    <|"section" -> "leanProposition", "title" -> "Proposed Lean proposition",
+      "body" -> If[prop === "",
+        "(Lean proposition not yet available — required before Certified)", prop]|>,
+    <|"section" -> "assumptions", "title" -> "Assumptions / side conditions",
+      "body" -> assumps,
+      "emptyNote" -> "(none listed — confirm no hidden defaults)"|>,
+    <|"section" -> "epistemicLabel", "title" -> "Epistemic state",
+      "body" -> epi["Label"], "detail" -> epi["Detail"],
+      "allowCertified" -> epi["AllowCertified"]|>
+  };
+  <|
+    "epistemic" -> epi,
+    "leanProposition" -> prop,
+    "assumptions" -> assumps,
+    "transcript" -> transcript,
+    "transcriptOrder" -> {"leanProposition", "assumptions", "epistemicLabel"},
+    "certifiedAffordanceIndex" -> 2
+  |>
+];
+
 ProposeCalculusRequest[op_String, expr_, opts : OptionsPattern[]] := Module[
   {indep = OptionValue["IndependentVar"], dep = OptionValue["DependentVar"],
    vars = OptionValue["Variables"], domain = OptionValue["DomainConditions"],
    candidate = OptionValue["Candidate"], ode = OptionValue["OdeRhs"],
-   rec = OptionValue["RecurrenceRhs"], ics = OptionValue["InitialConditions"]},
+   rec = OptionValue["RecurrenceRhs"], ics = OptionValue["InitialConditions"],
+   leanProp = OptionValue["LeanProposition"]},
   <|
     "schemaVersion" -> "0.1.0",
     "capability" -> "analysis.symbolic_calculus",
@@ -114,6 +209,7 @@ ProposeCalculusRequest[op_String, expr_, opts : OptionsPattern[]] := Module[
     "odeRhs" -> ode,
     "recurrenceRhs" -> rec,
     "initialConditions" -> ics,
+    "leanProposition" -> leanProp,
     "requestedClaim" -> "candidate",
     "resourcePolicy" -> <|"maxWallTimeMs" -> 60000, "maxOutputBytes" -> 1048576|>
   |>
@@ -126,19 +222,9 @@ Options[ProposeCalculusRequest] = {
   "Candidate" -> None,
   "OdeRhs" -> None,
   "RecurrenceRhs" -> None,
-  "InitialConditions" -> {}
+  "InitialConditions" -> {},
+  "LeanProposition" -> None
 };
-
-ShowAssumptions[request_Association] := Module[
-  {conds = Lookup[request, "domainConditions", {}],
-   ics = Lookup[request, "initialConditions", {}]},
-  Column[{
-    Style["Domain / singularity / branch conditions", Bold],
-    If[conds === {} || conds === None, "(none listed — only valid when no divisions)", Column[conds]],
-    Style["Initial conditions", Bold],
-    If[ics === {} || ics === None, "(none)", Column[ics]]
-  }]
-];
 
 agentPost[path_String, body_Association] := Module[
   {url = StringTrim[$MathEvidenceAgentBase, "/"] <> path, raw},
@@ -153,43 +239,59 @@ agentPost[path_String, body_Association] := Module[
 ListStudioCapabilities[] := agentPost["/v1/operations/list_capabilities", <||>];
 
 CertifyInLean[payload_Association] := Module[
-  {result, status, lean, epi},
-  (* Step order matches Product 09 §5; Certified only after Lean status. *)
-  result = Lookup[payload, "agentResult", payload];
-  status = ToString[Lookup[result, "resultStatus", "ambiguous"]];
-  lean = Lookup[result, "leanStatus", $MathEvidenceLeanStatus];
-  epi = EpistemicFromResultStatus[status, lean];
+  {surface, epi},
+  (* Step order matches Product 09 §5; Certified only after Lean status + proposition. *)
+  surface = CertificationSurface[payload];
+  epi = surface["epistemic"];
   <|
     "epistemic" -> epi,
-    "resultStatus" -> status,
-    "leanStatus" -> lean,
-    "unresolvedObligations" -> Lookup[result, "unresolvedObligations", {}],
-    "assumptions" -> Lookup[result, "domainConditions", Lookup[payload, "domainConditions", {}]],
-    "bundleRef" -> Lookup[result, "bundleRef", None],
-    "theoremPreview" -> Lookup[result, "theoremPreview", None],
-    "certified" -> TrueQ[epi["AllowCertified"]]
+    "resultStatus" -> Lookup[payload, "resultStatus",
+      Lookup[Lookup[payload, "agentResult", <||>], "resultStatus", "ambiguous"]],
+    "leanStatus" -> Lookup[payload, "leanStatus",
+      Lookup[Lookup[payload, "agentResult", <||>], "leanStatus", $MathEvidenceLeanStatus]],
+    "leanProposition" -> surface["leanProposition"],
+    "assumptions" -> surface["assumptions"],
+    "transcript" -> surface["transcript"],
+    "transcriptOrder" -> surface["transcriptOrder"],
+    "unresolvedObligations" -> Lookup[
+      Lookup[payload, "agentResult", payload], "unresolvedObligations", {}],
+    "bundleRef" -> Lookup[Lookup[payload, "agentResult", payload], "bundleRef", None],
+    "theoremPreview" -> surface["leanProposition"],
+    "certified" -> TrueQ[epi["AllowCertified"]],
+    (* Display order: proposition and assumptions before Certified badge. *)
+    "display" -> Column[{
+      ShowLeanProposition[<|"leanProposition" -> surface["leanProposition"]|>],
+      ShowAssumptions[<|"knownAssumptions" -> surface["assumptions"]|>],
+      StudioStateBadge[epi]
+    }]
   |>
 ];
 
 InspectBundle[bundleDir_String] := Module[
   {manifestPath = FileNameJoin[{bundleDir, "manifest.json"}],
    requestPath = FileNameJoin[{bundleDir, "request.json"}],
-   manifest, request, status, lean, epi},
+   manifest, request, surface},
   If[!FileExistsQ[manifestPath], Return[$Failed]];
   manifest = Import[manifestPath, "RawJSON"];
   request = If[FileExistsQ[requestPath], Import[requestPath, "RawJSON"], <||>];
-  status = ToString[Lookup[manifest, "resultStatus", "ambiguous"]];
-  lean = Lookup[manifest, "leanStatus", $MathEvidenceLeanStatus];
-  epi = EpistemicFromResultStatus[status, lean];
+  surface = CertificationSurface[<|
+    "resultStatus" -> Lookup[manifest, "resultStatus", "ambiguous"],
+    "leanStatus" -> Lookup[manifest, "leanStatus", $MathEvidenceLeanStatus],
+    "leanProposition" -> Lookup[manifest, "leanProposition",
+      Lookup[manifest, "theoremPreview", None]],
+    "request" -> If[AssociationQ[request], request, <||>]
+  |>];
   Column[{
-    StudioStateBadge[epi],
+    (* Proposition + assumptions BEFORE Certified affordance. *)
+    ShowLeanProposition[<|"leanProposition" -> surface["leanProposition"]|>],
+    ShowAssumptions[If[AssociationQ[request], request, <||>]],
+    StudioStateBadge[surface["epistemic"]],
     Style["Capability", Bold],
     Lookup[Lookup[manifest, "capability", <||>], "id", "?"],
     Style["Machine resultStatus", Bold],
-    status,
+    Lookup[manifest, "resultStatus", "ambiguous"],
     Style["Lean status (required for Certified)", Bold],
-    ToString[lean],
-    ShowAssumptions[If[AssociationQ[request], request, <||>]],
+    ToString[Lookup[manifest, "leanStatus", $MathEvidenceLeanStatus]],
     Style["Request digest", Bold],
     Lookup[manifest, "requestDigest", ""]
   }]

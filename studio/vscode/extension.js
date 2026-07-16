@@ -4,7 +4,10 @@ const vscode = require("vscode");
 const fs = require("fs");
 const path = require("path");
 const { spawn } = require("child_process");
-const { epistemicFromResultStatus } = require("./epistemic");
+const {
+  epistemicFromResultStatus,
+  buildCertificationSurface,
+} = require("./epistemic");
 
 /**
  * @param {string} bundleDir
@@ -18,12 +21,39 @@ function loadManifest(bundleDir) {
 }
 
 /**
+ * @param {string} bundleDir
+ * @returns {object}
+ */
+function loadRequest(bundleDir) {
+  const requestPath = path.join(bundleDir, "request.json");
+  if (!fs.existsSync(requestPath)) {
+    return {};
+  }
+  return JSON.parse(fs.readFileSync(requestPath, "utf8"));
+}
+
+/**
+ * @param {object} manifest
+ * @param {object} request
+ */
+function certificationSurfaceForBundle(manifest, request) {
+  return buildCertificationSurface({
+    resultStatus: manifest.resultStatus,
+    leanStatus: manifest.leanStatus || manifest.leanReplayStatus,
+    leanProposition: manifest.leanProposition,
+    theoremPreview: manifest.theoremPreview,
+    request,
+    manifest,
+  });
+}
+
+/**
  * @param {vscode.ExtensionContext} context
  * @param {string} bundleDir
  * @param {object} manifest
- * @param {{ label: EpistemicLabel, detail: string }} epistemic
+ * @param {object} surface  buildCertificationSurface result
  */
-function showBundlePanel(context, bundleDir, manifest, epistemic) {
+function showBundlePanel(context, bundleDir, manifest, surface) {
   const panel = vscode.window.createWebviewPanel(
     "mathevidenceBundle",
     `Evidence: ${path.basename(bundleDir)}`,
@@ -31,6 +61,7 @@ function showBundlePanel(context, bundleDir, manifest, epistemic) {
     { enableScripts: false }
   );
 
+  const epistemic = surface.epistemic;
   const files = (manifest.files || [])
     .map(
       (f) =>
@@ -40,9 +71,17 @@ function showBundlePanel(context, bundleDir, manifest, epistemic) {
     )
     .join("");
 
+  const assumptionsHtml =
+    surface.assumptions && surface.assumptions.length
+      ? `<ul>${surface.assumptions
+          .map((a) => `<li><code>${escapeHtml(JSON.stringify(a))}</code></li>`)
+          .join("")}</ul>`
+      : `<p class="muted">(none listed — confirm no hidden defaults)</p>`;
+
   const cap = manifest.capability || {};
   const replayLink = `mathevidence://replay?path=${encodeURIComponent(bundleDir)}`;
 
+  // Product 09: Lean proposition + assumptions BEFORE Certified affordance.
   panel.webview.html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,18 +135,45 @@ function showBundlePanel(context, bundleDir, manifest, epistemic) {
   ul { padding-left: 1.1rem; }
   .muted { color: var(--muted); font-size: 0.8rem; }
   a { color: var(--computed); }
+  pre.prop {
+    white-space: pre-wrap;
+    background: #eef2f6;
+    padding: 0.75rem;
+    border: 1px solid var(--rule);
+  }
 </style>
 </head>
 <body>
-  <div class="state ${epistemic.label}">${epistemic.label}</div>
   <h1>${escapeHtml(cap.id || "unknown capability")}</h1>
-  <p class="sub">${escapeHtml(epistemic.detail)}</p>
+  <p class="sub">Inspect proposition and assumptions before any Certified label.</p>
+
+  <div class="card" data-section="leanProposition">
+    <div class="label">Proposed Lean proposition</div>
+    <pre class="prop">${escapeHtml(
+      surface.leanProposition ||
+        "(Lean proposition not yet available — required before Certified)"
+    )}</pre>
+  </div>
+
+  <div class="card" data-section="assumptions">
+    <div class="label">Assumptions / side conditions</div>
+    ${assumptionsHtml}
+  </div>
+
+  <div class="card" data-section="epistemicLabel">
+    <div class="label">Epistemic state</div>
+    <div class="state ${epistemic.label}">${epistemic.label}</div>
+    <p class="sub">${escapeHtml(epistemic.detail)}</p>
+  </div>
 
   <div class="card">
     <div class="label">Result status (machine)</div>
     <div><code>${escapeHtml(manifest.resultStatus || "")}</code>
       · claim <code>${escapeHtml(manifest.claimClass || "")}</code>
-      · assurance <code>${escapeHtml(manifest.assuranceMode || "")}</code></div>
+      · assurance <code>${escapeHtml(manifest.assuranceMode || "")}</code>
+      · lean <code>${escapeHtml(
+        String(manifest.leanStatus || manifest.leanReplayStatus || "")
+      )}</code></div>
   </div>
 
   <div class="card">
@@ -145,14 +211,17 @@ class EvidenceTreeProvider {
     this.bundleDir = undefined;
     /** @type {object|undefined} */
     this.manifest = undefined;
-    /** @type {{ label: EpistemicLabel, detail: string }|undefined} */
+    /** @type {{ label: string, detail: string, allowCertified?: boolean }|undefined} */
     this.epistemic = undefined;
+    /** @type {object|undefined} */
+    this.surface = undefined;
   }
 
-  refresh(bundleDir, manifest, epistemic) {
+  refresh(bundleDir, manifest, surface) {
     this.bundleDir = bundleDir;
     this.manifest = manifest;
-    this.epistemic = epistemic;
+    this.surface = surface;
+    this.epistemic = surface && surface.epistemic;
     this._onDidChangeTreeData.fire();
   }
 
@@ -172,6 +241,20 @@ class EvidenceTreeProvider {
       };
       return [item];
     }
+    // Proposition + assumptions precede Certified state in the tree.
+    const prop = new vscode.TreeItem(
+      "Lean proposition",
+      vscode.TreeItemCollapsibleState.None
+    );
+    prop.description = (this.surface.leanProposition || "(missing)").slice(0, 80);
+    prop.tooltip = this.surface.leanProposition || "Required before Certified";
+
+    const assumps = new vscode.TreeItem(
+      `Assumptions (${(this.surface.assumptions || []).length})`,
+      vscode.TreeItemCollapsibleState.None
+    );
+    assumps.tooltip = JSON.stringify(this.surface.assumptions || [], null, 2);
+
     const state = new vscode.TreeItem(
       `State: ${this.epistemic.label}`,
       vscode.TreeItemCollapsibleState.None
@@ -199,7 +282,7 @@ class EvidenceTreeProvider {
       arguments: [this.bundleDir],
     };
 
-    return [state, cap, digest, replay];
+    return [prop, assumps, state, cap, digest, replay];
   }
 }
 
@@ -238,14 +321,14 @@ function activate(context) {
       const bundleDir = uris[0].fsPath;
       try {
         const manifest = loadManifest(bundleDir);
-        const epistemic = epistemicFromResultStatus(
-          manifest.resultStatus,
-          manifest.leanStatus || manifest.leanReplayStatus
-        );
-        tree.refresh(bundleDir, manifest, epistemic);
-        showBundlePanel(context, bundleDir, manifest, epistemic);
+        const request = loadRequest(bundleDir);
+        const surface = certificationSurfaceForBundle(manifest, request);
+        tree.refresh(bundleDir, manifest, surface);
+        showBundlePanel(context, bundleDir, manifest, surface);
         await vscode.window.showInformationMessage(
-          `MathEvidence: ${epistemic.label} — ${manifest.resultStatus || "unknown"}`
+          `MathEvidence: ${surface.epistemic.label} — ${
+            manifest.resultStatus || "unknown"
+          }`
         );
       } catch (err) {
         await vscode.window.showErrorMessage(`MathEvidence: ${err.message || err}`);
@@ -290,10 +373,18 @@ function activate(context) {
           async () => {
             const result = await runPythonReplay(python, script, repoRoot, bundleDir);
             if (result.code === 0) {
-              const epistemic = epistemicFromResultStatus("tested");
               try {
                 const manifest = loadManifest(bundleDir);
-                tree.refresh(bundleDir, manifest, epistemic);
+                const request = loadRequest(bundleDir);
+                const surface = buildCertificationSurface({
+                  resultStatus: "tested",
+                  leanStatus: manifest.leanStatus || manifest.leanReplayStatus,
+                  leanProposition: manifest.leanProposition,
+                  theoremPreview: manifest.theoremPreview,
+                  request,
+                  manifest,
+                });
+                tree.refresh(bundleDir, manifest, surface);
               } catch (_) {
                 /* ignore */
               }
@@ -349,4 +440,8 @@ module.exports = {
   activate,
   deactivate,
   epistemicFromResultStatus,
+  buildCertificationSurface,
+  certificationSurfaceForBundle,
+  loadManifest,
+  loadRequest,
 };

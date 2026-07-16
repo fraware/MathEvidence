@@ -27,8 +27,8 @@ Set `$MathEvidenceAgentBase` if not using `http://127.0.0.1:8787`.
 | --- | --- |
 | Computed | Backend candidate only |
 | Tested | Offline schema/digest OK; Lean not asserted |
-| Certified | **Only** when Lean status is present (`witness_verified`, `soundness_verified`, …) |
-| Ambiguous | Rejected / unsupported / missing / verified-without-Lean |
+| Certified | **Only** when Lean status is present **and** exact Lean proposition text is available |
+| Ambiguous | Rejected / unsupported / missing / verified-without-Lean / Lean-without-proposition |
 
 Color alone is insufficient; every badge includes text + detail
 (`EpistemicFromResultStatus`, `StudioStateBadge`).
@@ -36,15 +36,18 @@ Color alone is insufficient; every badge includes text + detail
 **Hard rule:** a manifest `resultStatus` of `soundness_verified` without
 `$MathEvidenceLeanStatus` / `leanStatus` is shown as **Ambiguous**, never Certified.
 
+**Surface rule:** `ShowLeanProposition` + `ShowAssumptions` always render
+**before** the Certified affordance (`CertificationSurface` transcript order).
+
 ## Workflow (Product 09 §5)
 
 1. Select / generate an expression (`ProposeCalculusRequest`).
 2. Identify capability (`analysis.symbolic_calculus` or registry discovery).
-3. Inspect exact proposed Lean statement and assumptions (`ShowAssumptions`).
+3. Inspect exact proposed Lean statement and assumptions (`ShowLeanProposition`, `ShowAssumptions`).
 4. Resolve ambiguities explicitly (domainConditions / ICs).
 5. Backend generates candidate (SymPy / Mathematica adapter).
 6. Lean checker runs (outside Studio TCB).
-7. `CertifyInLean` displays established status + unresolved goals.
+7. `CertifyInLean` displays established status + unresolved goals (after step 3 fields).
 8. `ExportTheoremAndBundle` writes theorem + evidence.
 
 ## Principal actions
@@ -52,8 +55,10 @@ Color alone is insufficient; every badge includes text + detail
 | Symbol | Role |
 | --- | --- |
 | `ProposeCalculusRequest` | Build calculus request skeleton |
+| `ShowLeanProposition` | Exact proposed Lean statement (Agent/Lean field) |
 | `ShowAssumptions` | Domain / singularity / IC display |
-| `CertifyInLean` | Epistemic gate; Certified iff Lean status |
+| `CertificationSurface` | Ordered transcript: proposition → assumptions → epistemic |
+| `CertifyInLean` | Epistemic gate; Certified iff Lean status + proposition |
 | `InspectBundle` | Open committed EvidenceBundle directory |
 | `ExportTheoremAndBundle` | Export theorem text + bundle JSON |
 | `ListStudioCapabilities` | Agent API discovery |
@@ -67,10 +72,20 @@ LeanLink integration is scaffolded via the Mathematica adapter
 
 See `Examples/CalculusWorkflow.wls`.
 
+## Tests
+
+```text
+python -m pytest adapters/common/test_epistemic_studio.py -q
+just studio-test
+```
+
+Golden transcripts: `studio/golden/transcripts/` (machine). Human usability:
+`docs/validation/studio/usability/` (OPEN until sessions complete).
+
 ## Acceptance (Product 09)
 
-- Users can distinguish Computed / Tested / Certified / Ambiguous.
+- Users can distinguish Computed / Tested / Certified / Ambiguous (**human OPEN**).
 - Exported theorems replay outside Mathematica (committed `evidence/`).
 - Every backend-introduced condition is visible via `ShowAssumptions`.
 - Exact Lean proposition / status available before certification labeling.
-- UI uses only stable capability and orchestration APIs.
+- UI uses only capability and orchestration APIs (no unique Studio math semantics).

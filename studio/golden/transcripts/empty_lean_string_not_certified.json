@@ -1,0 +1,16 @@
+{
+  "id": "empty_lean_string_not_certified",
+  "surface": "both",
+  "description": "Empty leanStatus string must not Certified even if resultStatus is verified.",
+  "input": {
+    "resultStatus": "completeness_verified",
+    "leanStatus": "",
+    "leanProposition": "theorem demo : True := trivial",
+    "assumptions": []
+  },
+  "expected": {
+    "label": "Ambiguous",
+    "allowCertified": false,
+    "transcriptOrder": ["leanProposition", "assumptions", "epistemicLabel"]
+  }
+}
