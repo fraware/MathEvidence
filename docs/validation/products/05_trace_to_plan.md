@@ -12,7 +12,7 @@
 | 2 | Direct/reconstructible steps independently reconstructed | **PASS** | Demo reconstructions via `RationalEquality.checkBool` status; Lean `wellFormed` invariants |
 | 3 | Hints never alter theorem status | **PASS** | Lean theorems `searchHint_never_advances`; Agent `hints_never_advance`; demo asserts |
 | 4 | Plans improve success/comprehension vs final-answer-only | **PASS (demo)** | `scripts/run_trace_to_plan_demo.py` + `benchmarks/trace_to_plan/multistep_rational_demo.json` — reconstructible advances > baseline |
-| 5 | Lemma graphs coherent under expert review | **OPEN (human)** | Demo plan available; expert coherence review not invented |
+| 5 | Lemma graphs coherent under expert review | **OPEN (human)** | Demo plan available; judgment template: [`TRACE-TO-PLAN-LEMMA-GRAPH-unsigned.md`](../review-packets/TRACE-TO-PLAN-LEMMA-GRAPH-unsigned.md). Board: [`p2-blocker-status.md`](../p2-blocker-status.md). Do not invent signatures. |
 
 ## Overall engineering gate
 

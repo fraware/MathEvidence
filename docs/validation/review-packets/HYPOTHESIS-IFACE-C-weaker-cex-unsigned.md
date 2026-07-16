@@ -1,6 +1,18 @@
 # Review packet slot — Hypothesis interface C (OPEN)
 
-**Status:** OPEN for human expert review. Do not invent signatures.
+**Status:** OPEN for human expert review. Do not invent signatures.  
+**Board:** [`../p2-blocker-status.md`](../p2-blocker-status.md)
+
+## How to sign
+
+1. Copy this file to a new name **without** `-unsigned`
+   (e.g. `HYPOTHESIS-IFACE-C-weaker-cex-SIGNED.md`).
+2. Score every rubric criterion 0–2 using
+   [`../expert-review-rubric.md`](../expert-review-rubric.md).
+3. Fill Reviewer Name / Affiliation / Area / Consent / Signature date.
+4. Clear `pending`; check `revise` or `approve for library consideration`.
+5. Pass bar: no zeros; total ≥ 9/12; semantic fidelity ≥ 1; claim strength ≥ 1.
+6. Signed packet ≠ capability `stable` promotion.
 
 ## Metadata
 
@@ -14,6 +26,7 @@
 | Evidence / lattice | `verifyCounterexample` + `recordCertifiedCounterexample` / Agent weakerVariantRequest |
 | Assurance mode | kernel_replay |
 | Rubric version | docs/validation/expert-review-rubric.md |
+| Signature date | |
 
 ## Scores
 
