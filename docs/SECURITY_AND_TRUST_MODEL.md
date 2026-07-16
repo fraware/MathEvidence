@@ -48,6 +48,9 @@ Untrusted solvers, adapters, AI agents, and evidence files may fail arbitrarily.
 - Shell command construction is prohibited.
 - Generated paths are normalized and contained under the workspace.
 
+Operator details and cancel→kill contract:
+[docs/architecture/process-isolation.md](architecture/process-isolation.md).
+
 ## 6. Evidence parser security
 
 - Maximum nesting depth is fixed.

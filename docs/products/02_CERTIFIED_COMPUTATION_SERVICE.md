@@ -82,20 +82,30 @@ A bundle whose checker version is unsupported produces a migration-required stat
 
 ## 9. Lean UX
 
-`mathevidence` displays a concise report:
+`mathevidence` displays a concise report matching
+`MathEvidence.Tactic.StatusReport` wire fields (see
+`MathEvidence/Tactic/Status.lean`). Example for offline Mathematica rational
+evidence (transport is `wolframscript` or a committed bundle — LeanLink is
+scaffold-only until `docs/architecture/leanlink-adapter-review.md` closes):
 
 ```text
-Operation: rational equality over ℚ
-Backend: Mathematica 15.x via LeanLink
-Requested: sound result
-Established: soundness verified
-Added conditions: x ≠ 0
-Assurance: verified reflection
-Evidence: .mathevidence/bundles/<digest>
-Remaining goals: 1
+operation: MathEvidence.Tactic.Operation.rationalEquality
+fragmentSupported: true
+assumptionsExported: []
+conditionsReturned: ["x ≠ 0"]
+backend: MathEvidence.Tactic.Backend.mathematica
+claimRequested: soundResult
+claimEstablished: soundResult
+resultStatus: soundness_verified
+assuranceMode: kernel_replay
+evidenceBundle: evidence/examples/rational_equality_mathematica_offline
+remainingGoals: ["x ≠ 0"]
 ```
 
-Detailed diagnostics are available on demand.
+Detailed diagnostics are available on demand. Rational equality has dual-backend
+evidence: SymPy live + Mathematica live via `wolframscript` when
+`MATHEVIDENCE_WOLFRAMSCRIPT` is set (otherwise Mathematica offline fixtures /
+differential `skip`/`fixture`). LeanLink remains scaffold-only.
 
 ## 10. Agent UX
 

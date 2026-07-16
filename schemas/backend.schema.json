@@ -74,7 +74,15 @@
           },
           "deterministic": { "type": "boolean" },
           "supportLevel": {
-            "enum": ["declared", "implemented", "conformance_verified", "placeholder"]
+            "enum": [
+              "declared",
+              "implemented",
+              "conformance_verified",
+              "placeholder",
+              "offline_fixtures_passing",
+              "live_generator_complete"
+            ],
+            "description": "offline_fixtures_passing = committed evidence replays without the backend; live_generator_complete = full live fragment generator. Do not use implemented for fixture-only or scaffold live paths."
           }
         }
       }

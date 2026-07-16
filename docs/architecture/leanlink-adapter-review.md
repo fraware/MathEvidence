@@ -73,8 +73,9 @@ Errors use Project Spec stable codes (semantic / backend / evidence / system).
 - License / redistribution review before Foundry publication of WL artifacts.
 - Native bridge remains **disabled** (`adapters/mathematica/leanlink.py`);
   `initialize` reports LeanLink path when `MATHEVIDENCE_LEANLINK` is set.
-- Live IR decode currently accepts zero-numerator identities only; richer
-  WL→RationalExpr mapping awaits the paclet.
+- Executable fuzz **stubs** exist (`adapters/mathematica/leanlink_fuzz.py`,
+  `benchmarks/adversarial/leanlink_fuzz/`, `just leanlink-fuzz`); full native
+  WXF decoder fuzz remains open until a paclet lands.
 
 ## Sign-off
 
@@ -94,9 +95,9 @@ Phase 1; this document is the acceptance checklist for that work.
 | Network denied | **met (default)** | adapter does not open sockets |
 | Cancel / shutdown → kernel kill | **partial** | process terminate on client close; richer cancel TBD |
 | Native LeanLink bridge disabled in CI | **met** | `leanlink.py` scaffold; `MATHEVIDENCE_LEANLINK` reported only |
-| Live IR decode narrow | **met** | fixture mode default; live zero-numerator scaffold |
+| Live IR decode narrow | **superseded (R1a)** | Full RationalExpr live generator via wolframscript when `MATHEVIDENCE_WOLFRAMSCRIPT` is set; LeanLink still disabled |
 | Public CI without Mathematica | **met** | fixture + committed offline evidence |
-| Fuzz corpus under `security.yml` | **open** | expand when LeanLink paclet lands |
+| Fuzz corpus under `security.yml` | **partial (stubs)** | Executable stubs: `scripts/run_leanlink_fuzz_stubs.py`, corpus `benchmarks/adversarial/leanlink_fuzz/`, wired in `security.yml` + `just leanlink-fuzz`. Native WXF decoder fuzz still **open** until paclet lands. Bridge remains disabled. |
 
 ### Operator live path
 

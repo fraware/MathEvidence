@@ -28,6 +28,16 @@ Bounded generators test:
 - evidence mutation rejection;
 - and backend-independent candidate verification.
 
+Harness: `adapters/common/test_property.py` (Hypothesis) via
+`scripts/run_property_tests.py` / `just property` (part of `just check`).
+
+### 2.2b Metamorphic tests
+
+Variable rename, reassociation, and redundant assumptions must preserve
+accept/reject for rational equality.
+
+Harness: `scripts/run_metamorphic.py` / `just metamorphic`.
+
 ### 2.3 Differential backend tests
 
 Mathematica and an open backend receive the same requests. Outcomes are classified as:
@@ -38,6 +48,12 @@ Mathematica and an open backend receive the same requests. Outcomes are classifi
 - or semantic disagreement.
 
 Disagreement is never automatically resolved in favor of a backend.
+
+Harness: `scripts/run_differential_backends.py` (writes
+`benchmarks/differential/manifest.json`; retains disagreements under
+`benchmarks/differential/disagreements/`). When Wolfram is absent, Mathematica
+rows are labeled `skip` / `fixture`. Run via `just differential` (part of
+`just check`).
 
 ### 2.4 Adversarial semantic tests
 
@@ -66,6 +82,10 @@ Required cases include:
 - malicious file name;
 - and certificate for a different capability.
 
+Executable runner (beyond seed catalog validation):
+`scripts/run_adversarial_executable.py` / `just adversarial-exec`, also wired in
+`security.yml` and `adversarial.yml`.
+
 ### 2.6 Performance tests
 
 Every stable capability defines budgets for:
@@ -79,6 +99,11 @@ Every stable capability defines budgets for:
 - and downstream Lean build time.
 
 Regressions beyond the declared budget require explicit approval.
+
+Budgets live in registry capability JSON as `perfBudgets`. Runner:
+`scripts/run_perf_budgets.py` / `just perf-budgets` (fails CI on regression for
+measured capabilities). Isolation limits:
+`docs/architecture/process-isolation.md`.
 
 ## 3. CI workflows
 
@@ -112,19 +137,25 @@ Mathematica generation is not required for ordinary open-source pull requests. S
 
 ### `adversarial.yml`
 
-Runs malformed inputs, fuzz seeds, and resource-limit tests.
+Runs malformed inputs, fuzz seeds, and resource-limit tests
+(`validate_adversarial_seed.py` + `run_adversarial_executable.py`).
 
 ### `benchmarks.yml`
 
-Nightly workflow runs real-world benchmarks and publishes performance trends. Benchmark regression is informative initially and becomes blocking after stable budgets are established.
+Nightly workflow runs real-world benchmarks, property/metamorphic suites, and
+performance budgets. Perf budget regressions are blocking when `perfBudgets` are
+declared.
 
 ### `security.yml`
 
-Runs dependency review, static analysis, secret scanning, and native-component checks.
+Runs dependency review, static analysis, secret scanning, executable adversarial
+resource cases, and cancel→kill isolation tests.
 
 ### `release.yml`
 
-Builds source and package artifacts, verifies clean replay, generates provenance, signs artifacts, and publishes release notes containing schema and assurance changes.
+Builds source and package artifacts, verifies clean replay, generates a
+provenance manifest (evidence digests + Lean toolchain / lake commit pins), and
+uploads it as a release artifact. Signing/publish remain governance-gated.
 
 ## 4. Pull-request gates
 

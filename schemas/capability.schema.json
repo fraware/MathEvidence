@@ -115,7 +115,23 @@
         "maxMatrixDim": { "type": "integer", "minimum": 1 },
         "maxDomainCardinality": { "type": "integer", "minimum": 1 },
         "maxWallTimeMs": { "type": "integer", "minimum": 1 },
-        "maxOutputBytes": { "type": "integer", "minimum": 1 }
+        "maxOutputBytes": { "type": "integer", "minimum": 1 },
+        "maxCpuTimeMs": { "type": "integer", "minimum": 1 },
+        "maxMemoryBytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "perfBudgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Regression budgets for scripts/run_perf_budgets.py (TESTING_AND_CI §2.6)",
+      "properties": {
+        "maxReifyMs": { "type": "number", "minimum": 0 },
+        "maxBackendGenerateMs": { "type": "number", "minimum": 0 },
+        "maxEvidenceBytes": { "type": "integer", "minimum": 1 },
+        "maxDecodeMs": { "type": "number", "minimum": 0 },
+        "maxCheckerMs": { "type": "number", "minimum": 0 },
+        "maxMemoryBytes": { "type": "integer", "minimum": 1 },
+        "maxLeanBuildMs": { "type": "number", "minimum": 0 }
       }
     },
     "knownLimitations": {
@@ -185,7 +201,14 @@
                 "minItems": 1
               },
               "supportLevel": {
-                "enum": ["declared", "implemented", "conformance_verified"]
+                "enum": [
+                  "declared",
+                  "implemented",
+                  "conformance_verified",
+                  "offline_fixtures_passing",
+                  "live_generator_complete"
+                ],
+                "description": "offline_fixtures_passing = committed evidence from this backend replays offline; live_generator_complete = full live generator for the declared fragment. Prefer these over implemented when distinguishing fixture vs live."
               }
             }
           }

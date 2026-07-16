@@ -39,14 +39,26 @@
     "maxIntegerDigits": 4096,
     "maxDenominatorFactors": 1024,
     "maxWallTimeMs": 60000,
-    "maxOutputBytes": 4194304
+    "maxOutputBytes": 4194304,
+    "maxCpuTimeMs": 60000,
+    "maxMemoryBytes": 536870912
+  },
+  "perfBudgets": {
+    "maxReifyMs": 500,
+    "maxBackendGenerateMs": 8000,
+    "maxEvidenceBytes": 1048576,
+    "maxDecodeMs": 500,
+    "maxCheckerMs": 5000,
+    "maxMemoryBytes": 536870912,
+    "maxLeanBuildMs": 600000
   },
   "knownLimitations": [
     "Derivative/antiderivative/ODE/recurrence checks are formal rational identities only.",
     "Antiderivative acceptance does not claim completeness of antiderivatives.",
     "ODE acceptance does not claim uniqueness of solutions.",
     "Recurrence acceptance does not claim the recurrence uniquely determines the sequence.",
-    "Branch and singularity conditions must be listed explicitly; empty only when there are no divisions."
+    "Branch and singularity conditions must be listed explicitly; empty only when there are no divisions.",
+    "Mathematica live derivative/antiderivative requires MATHEVIDENCE_WOLFRAMSCRIPT; CI without Wolfram uses offline fixtures. ODE/recurrence live path echoes request fields for Lean check only."
   ],
   "conformance": {
     "suite": "evidence/conformance/symbolic_calculus",
@@ -79,7 +91,7 @@
       {
         "id": "mathematica",
         "versions": ["0.1.0"],
-        "supportLevel": "implemented"
+        "supportLevel": "live_generator_complete"
       }
     ]
   },

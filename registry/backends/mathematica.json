@@ -8,7 +8,7 @@
   "discovery": {
     "method": "fixed_executable",
     "envVar": "MATHEVIDENCE_WOLFRAMSCRIPT",
-    "defaultCandidates": ["wolframscript", "math"],
+    "defaultCandidates": ["wolframscript"],
     "leanLink": {
       "envVar": "MATHEVIDENCE_LEANLINK",
       "status": "scaffold"
@@ -19,7 +19,7 @@
       "id": "algebra.rational_equality",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "implemented"
+      "supportLevel": "live_generator_complete"
     },
     {
       "id": "algebra.linear_algebra",
@@ -37,12 +37,12 @@
       "id": "analysis.symbolic_calculus",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "implemented"
+      "supportLevel": "live_generator_complete"
     }
   ],
   "regeneration": {
     "status": "optional_ci",
-    "notes": "Live generation optional/self-hosted; committed evidence must always replay offline."
+    "notes": "Live rational and calculus (derivative/antiderivative) generation requires MATHEVIDENCE_WOLFRAMSCRIPT (wolframscript). Public CI without Wolfram stays fixture/offline_replay; differential harness labels Mathematica skip/fixture. Committed evidence must always replay offline. Calculus candidates never imply completeness."
   },
   "conformance": {
     "suite": "evidence/conformance/rfc0001",
@@ -54,6 +54,8 @@
     "offlineReplay": "required"
   },
   "knownDefects": [
-    "LeanLink integration is scaffolded; adapter falls back to offline fixture mode when Mathematica/LeanLink unavailable."
+    "LeanLink is scaffold-only (adapters/mathematica/leanlink.py); theorem path uses wolframscript or committed fixtures — see docs/architecture/leanlink-adapter-review.md.",
+    "Public CI without MATHEVIDENCE_WOLFRAMSCRIPT cannot exercise the live generator; offline fixtures + differential skip/fixture remain the CI path.",
+    "Live calculus ODE/recurrence does not invoke Wolfram solvers; request fields are echoed for Lean-owned identity checks only (no uniqueness/completeness)."
   ]
 }

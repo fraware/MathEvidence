@@ -37,11 +37,11 @@ This fragmentation creates four costs.
 ## Repository map
 
 - `MathEvidence/` — Lean semantics, protocol types, verified encodings, checkers, tactics, registry interfaces, and test infrastructure.
-- `adapters/` — untrusted solver adapters. Mathematica is integrated through LeanLink; SageMath and SymPy provide open reference backends.
-- `agent/` — stable AI-facing operation API and SDKs.
+- `adapters/` — untrusted solver adapters. Mathematica evidence is produced via `wolframscript` on licensed hosts or committed as offline fixtures; LeanLink remains a scaffold until the review in `docs/architecture/leanlink-adapter-review.md` closes. SageMath and SymPy provide open reference backends.
+- `agent/` — AI-facing operation API and SDKs.
 - `studio/` — Mathematica notebook and editor experiences.
 - `foundry/` — schemas and pipelines for certified tool-use episodes.
-- `registry/` — machine-readable capability and backend declarations.
+- `registry/` — machine-readable capability and backend declarations (capabilities stay `experimental` until governance gates pass).
 - `benchmarks/` — real-world, adversarial, and conformance suites.
 - `evidence/` — small committed evidence bundles used for examples and offline replay.
 - `docs/` — master specification, standalone product specifications, RFCs, architecture decisions, and threat models.
@@ -54,10 +54,20 @@ Version 0 proves the architecture through three end-to-end capabilities.
 2. Exact linear algebra, beginning with matrix inverses and linear-system witnesses.
 3. Finite counterexamples for false formal conjectures.
 
-Each capability must support Mathematica and at least one open backend while using one shared Lean checker per claim type.
+**Current dual-backend evidence:** `algebra.rational_equality` has SymPy live
+generation plus Mathematica live generation via `wolframscript` when
+`MATHEVIDENCE_WOLFRAMSCRIPT` is set (public CI without Wolfram uses committed
+offline fixtures and differential `skip`/`fixture`). `analysis.symbolic_calculus`
+likewise has SymPy live plus Mathematica live derivative/antiderivative via the
+same wolframscript gate (candidate ≠ completeness; CI offline fixtures when
+Wolfram is absent). Linear algebra and finite counterexample are SymPy
+conformance-verified with Lean offline fixtures; Mathematica/Sage for those
+domains remain declared/placeholder where noted in `registry/`.
+
+The architectural target is that each capability support Mathematica and at least one open backend while using one shared Lean checker per claim type.
 
 ## Delivery rule
 
 The project does not generalize the protocol in anticipation of future domains. New abstractions are admitted only after two independent domain implementations demonstrate the common requirement.
 
-See `docs/PROJECT_SPEC.md` for the normative project specification and `docs/REPOSITORY_ARCHITECTURE.md` for the complete monorepo design.
+See `docs/PROJECT_SPEC.md` for the normative project specification and `docs/REPOSITORY_ARCHITECTURE.md` for the complete monorepo design. Honest status against §21 and milestone exits: `docs/validation/remaining-spec-matrix.md`.

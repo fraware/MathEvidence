@@ -17,7 +17,7 @@
       "id": "algebra.rational_equality",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "implemented"
+      "supportLevel": "placeholder"
     },
     {
       "id": "algebra.linear_algebra",
@@ -34,7 +34,7 @@
   ],
   "regeneration": {
     "status": "fixture_only",
-    "notes": "Sage optional. Without Sage, adapter runs fixture mode (JSON-RPC up; live compute unavailable). Same evidence contract as SymPy."
+    "notes": "Sage optional. Without Sage, adapter runs fixture mode (JSON-RPC up; live compute unavailable). No committed Sage evidence bundles yet; not dual-backend evidence for rational equality."
   },
   "conformance": {
     "suite": "evidence/conformance/rfc0001",
@@ -42,6 +42,7 @@
     "recordedAt": null
   },
   "knownDefects": [
-    "Live Sage compute is best-effort; CI defaults to fixture mode when sage is not installed."
+    "Live Sage compute is scaffold/best-effort (zero-numerator identities); CI defaults to fixture mode when sage is not installed.",
+    "No offline_fixtures_passing Sage bundles under evidence/; dual-backend rational evidence today is SymPy + Mathematica fixtures only."
   ]
 }

@@ -36,15 +36,27 @@
     "maxMatrixDim": 64,
     "maxIntegerDigits": 4096,
     "maxWallTimeMs": 60000,
-    "maxOutputBytes": 4194304
+    "maxOutputBytes": 4194304,
+    "maxCpuTimeMs": 60000,
+    "maxMemoryBytes": 536870912
+  },
+  "perfBudgets": {
+    "maxReifyMs": 500,
+    "maxBackendGenerateMs": 8000,
+    "maxEvidenceBytes": 1048576,
+    "maxDecodeMs": 500,
+    "maxCheckerMs": 5000,
+    "maxMemoryBytes": 536870912,
+    "maxLeanBuildMs": 600000
   },
   "knownLimitations": [
     "Does not claim completeness, uniqueness of kernel basis, or rank optimality.",
-    "Agent/SymPy path is a thin untrusted generator; Lean checker owns acceptance."
+    "Agent/SymPy path is a thin untrusted generator; Lean checker owns acceptance.",
+    "Mathematica and Sage remain declared/placeholder — no live LA generators; not dual-backend evidence."
   ],
   "conformance": {
     "suite": "evidence/conformance/linear_algebra",
-    "status": "partial",
+    "status": "passing",
     "requiredCases": [
       "inverse_witness_2x2",
       "exact_system_solution",
@@ -64,12 +76,12 @@
   "supportClaims": {
     "declared": true,
     "installedHint": "Lean MathEvidence.IR.MatrixExpr + MathEvidence.Checkers.LinearAlgebra; python -m adapters.sympy",
-    "conformanceVerified": false,
+    "conformanceVerified": true,
     "backends": [
       {
         "id": "sympy",
         "versions": ["0.1.0"],
-        "supportLevel": "implemented"
+        "supportLevel": "conformance_verified"
       },
       {
         "id": "sage",

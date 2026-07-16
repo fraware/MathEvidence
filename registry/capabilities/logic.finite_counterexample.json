@@ -34,15 +34,27 @@
   "limits": {
     "maxDomainCardinality": 1024,
     "maxWallTimeMs": 60000,
-    "maxOutputBytes": 1048576
+    "maxOutputBytes": 1048576,
+    "maxCpuTimeMs": 60000,
+    "maxMemoryBytes": 536870912
+  },
+  "perfBudgets": {
+    "maxReifyMs": 500,
+    "maxBackendGenerateMs": 8000,
+    "maxEvidenceBytes": 524288,
+    "maxDecodeMs": 500,
+    "maxCheckerMs": 5000,
+    "maxMemoryBytes": 536870912,
+    "maxLeanBuildMs": 600000
   },
   "knownLimitations": [
     "Does not prove that no counterexample exists.",
-    "Agent enumeration is untrusted; Lean Counterexample checker owns acceptance."
+    "Agent enumeration is untrusted; Lean Counterexample checker owns acceptance.",
+    "Mathematica and Sage remain declared/placeholder — no live CEX generators; not dual-backend evidence."
   ],
   "conformance": {
     "suite": "evidence/conformance/finite_counterexample",
-    "status": "partial",
+    "status": "passing",
     "requiredCases": [
       "simple_false_universal",
       "witness_type_mismatch",
@@ -60,12 +72,12 @@
   "supportClaims": {
     "declared": true,
     "installedHint": "Lean MathEvidence.IR.FinitePredicate + MathEvidence.Checkers.Counterexample; python -m adapters.sympy",
-    "conformanceVerified": false,
+    "conformanceVerified": true,
     "backends": [
       {
         "id": "sympy",
         "versions": ["0.1.0"],
-        "supportLevel": "implemented"
+        "supportLevel": "conformance_verified"
       },
       {
         "id": "sage",

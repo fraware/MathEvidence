@@ -21,13 +21,13 @@
       "id": "algebra.linear_algebra",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "implemented"
+      "supportLevel": "conformance_verified"
     },
     {
       "id": "logic.finite_counterexample",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "implemented"
+      "supportLevel": "conformance_verified"
     },
     {
       "id": "analysis.symbolic_calculus",

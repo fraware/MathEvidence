@@ -3,10 +3,12 @@
 - Import boundaries (this file)
 - `ecosystem-boundaries.md` — what MathEvidence does not replace
 - `collaboration-cslib-lean-auto-smt.md` — Milestone 4 federation collaboration
+- `federation-agreements.md` — live emit/consume agreements ledger (empty until real)
 - `discovery.md` — tactic/CLI discovery orchestration (CI-safe offline default)
 - Foundry / frontier notes live under `docs/foundry/` (Milestone 6)
 - `canonical-json.md` — digest / canonical JSON profile
 - `leanlink-adapter-review.md` — Mathematica transport review + execution notes
+- `process-isolation.md` — CPU/memory/wall limits and cancel→kill contract
 
 ## Dependency and Import Boundaries
 
