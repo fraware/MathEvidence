@@ -1,0 +1,16 @@
+{
+  "id": "T06_reject_shell_backend",
+  "operation": "compute_evidence",
+  "input": {
+    "capability": "algebra.rational_equality",
+    "backend": "bash",
+    "request": {
+      "schemaVersion": "0.1.0",
+      "capability": "algebra.rational_equality"
+    }
+  },
+  "expect": {
+    "resultStatus": "unsupported"
+  },
+  "notes": "Arbitrary shell backends must be rejected at the Agent API boundary."
+}

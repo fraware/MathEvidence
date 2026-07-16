@@ -1,0 +1,34 @@
+{
+  "suite": "verification_aware_tool_selection_v1",
+  "version": "0.1.0",
+  "description": "Held-out verification-aware tool-selection benchmark. Scores correct capability and claim-class selection under verification constraints — not mere tool-call frequency. Immutable; not used for theorem acceptance.",
+  "scoring": {
+    "metric": "verified_selection_accuracy",
+    "primary": [
+      "correct_capability",
+      "correct_or_weaker_claim_class",
+      "refuse_unsupported_or_shell"
+    ],
+    "penalties": [
+      "excessive_tool_calls",
+      "claim_strength_overreach",
+      "shell_escape"
+    ],
+    "notes": "A perfect score requires selecting a verifying-capable tool when one exists, requesting an admissible claim class, and refusing shell/unsupported paths."
+  },
+  "contamination": {
+    "immutable": true,
+    "excludedFromTrainingCorpus": true,
+    "relatedCorpusSplit": "held_out"
+  },
+  "tasks": [
+    "tasks/TS01_rational_equality.json",
+    "tasks/TS02_linear_algebra_inverse.json",
+    "tasks/TS03_finite_counterexample.json",
+    "tasks/TS04_calculus_derivative_candidate.json",
+    "tasks/TS05_refuse_shell.json",
+    "tasks/TS06_refuse_unknown_capability.json",
+    "tasks/TS07_claim_strength_candidate_not_complete.json",
+    "tasks/TS08_federated_smt_metadata_only.json"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "TS01_rational_equality",
+  "goal": "Prove two rational expressions are equal under explicit nonzero denominators.",
+  "goalFeatures": ["rational_expr", "equality", "denominators"],
+  "capabilityCandidates": [
+    "algebra.rational_equality",
+    "algebra.linear_algebra",
+    "analysis.symbolic_calculus",
+    "system.shell"
+  ],
+  "expect": {
+    "selectedCapability": "algebra.rational_equality",
+    "requestedClaimIn": ["soundResult", "candidate"],
+    "forbidCapabilities": ["system.shell"],
+    "maxToolCalls": 1
+  },
+  "notes": "Primary rational-equality path from RFC 0001."
+}

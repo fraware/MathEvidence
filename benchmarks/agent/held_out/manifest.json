@@ -1,0 +1,24 @@
+{
+  "suite": "agent_held_out_v1",
+  "version": "0.1.0",
+  "description": "Held-out Agent API tasks. Not used for adapter training or capability promotion.",
+  "scoring": {
+    "metric": "task_pass_rate",
+    "requires": [
+      "correct_operation_selection",
+      "no_shell_escape",
+      "resultStatus_present",
+      "unresolvedObligations_present",
+      "bundleRef_when_applicable"
+    ]
+  },
+  "tasks": [
+    "tasks/T01_discover_rational.json",
+    "tasks/T02_reject_unknown_capability.json",
+    "tasks/T03_open_example_bundle.json",
+    "tasks/T04_replay_example_bundle.json",
+    "tasks/T05_check_linear_algebra_placeholder.json",
+    "tasks/T06_reject_shell_backend.json",
+    "tasks/T07_discover_calculus.json"
+  ]
+}

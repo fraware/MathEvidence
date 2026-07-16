@@ -1,0 +1,20 @@
+{
+  "id": "TS04_calculus_derivative_candidate",
+  "goal": "Verify a derivative candidate for a polynomial expression with explicit domain conditions.",
+  "goalFeatures": ["derivative", "symbolic_calculus", "candidate_not_completeness"],
+  "capabilityCandidates": [
+    "analysis.symbolic_calculus",
+    "algebra.rational_equality",
+    "algebra.linear_algebra",
+    "system.shell"
+  ],
+  "expect": {
+    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedOperationIn": ["derivative_candidate"],
+    "requestedClaimIn": ["candidate", "soundResult"],
+    "forbidClaims": ["complete", "completeness"],
+    "forbidCapabilities": ["system.shell"],
+    "maxToolCalls": 1
+  },
+  "notes": "Candidate validity remains separate from completeness."
+}

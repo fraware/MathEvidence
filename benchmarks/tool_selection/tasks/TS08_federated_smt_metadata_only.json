@@ -1,0 +1,18 @@
+{
+  "id": "TS08_federated_smt_metadata_only",
+  "goal": "Discover SMT-related interoperability metadata without treating MathEvidence as the SMT checker authority.",
+  "goalFeatures": ["federation", "external_checker", "metadata_interop"],
+  "capabilityCandidates": [
+    "logic.smt",
+    "logic.finite_counterexample",
+    "system.shell"
+  ],
+  "expect": {
+    "selectedCapability": "logic.smt",
+    "requestedClaimIn": ["candidate", "metadata", "soundResult"],
+    "authorityExternal": true,
+    "forbidCapabilities": ["system.shell"],
+    "maxToolCalls": 1
+  },
+  "notes": "Federated capability: select for metadata interop, not as Lean-SMT replacement."
+}
