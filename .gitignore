@@ -1,0 +1,55 @@
+# Lean / Lake
+.lake/
+*.olean
+*.ilean
+*.trace
+# lake-manifest.json is committed when dependencies exist; ignored while empty/local-only
+lake-manifest.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+uv.toml.local
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Secrets and local env
+.env
+.env.*
+!.env.example
+*.pem
+credentials.json
+
+# Evidence / artifacts (large generated; committed examples stay under evidence/)
+/tmp/
+/artifacts/
+*.wxf
+*.mx
+
+# Logs
+*.log
+
+# Just / tooling
+.justfile.local
+
+# Local Foundry capture output (never on acceptance path)
+foundry/episodes/*.json
+!foundry/episodes/.gitkeep
