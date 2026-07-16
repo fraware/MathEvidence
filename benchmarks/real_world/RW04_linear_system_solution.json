@@ -1,0 +1,16 @@
+{
+  "id": "RW04",
+  "bottleneckRef": "docs/validation/bottlenecks.md#4",
+  "domain": "linear_algebra",
+  "capability": "algebra.linear_algebra",
+  "summary": "Exact solution of a dense linear system",
+  "leanOnlyApproach": "Gaussian elimination by tactics",
+  "whyExternal": "Witness vector + residual proof",
+  "expectedClaimStrength": "witness",
+  "permittedAssumptions": [
+    "exact rational entries"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

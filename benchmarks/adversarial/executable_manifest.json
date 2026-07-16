@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "wrong_request_hash",
+      "status": "pass",
+      "rejected": true,
+      "error": "ValueError"
+    },
+    {
+      "id": "truncated_certificate",
+      "status": "pass",
+      "rejected": true,
+      "error": "JSONDecodeError"
+    },
+    {
+      "id": "oversized_integer",
+      "status": "pass",
+      "rejected": true,
+      "error": "AdapterError"
+    },
+    {
+      "id": "excessive_nesting",
+      "status": "pass",
+      "rejected": true,
+      "error": "AdapterError"
+    },
+    {
+      "id": "path_traversal",
+      "status": "pass",
+      "rejected": true,
+      "error": "AdapterError"
+    },
+    {
+      "id": "duplicate_keys",
+      "status": "pass",
+      "rejected": true,
+      "error": "CanonicalJsonError"
+    },
+    {
+      "id": "malicious_filename",
+      "status": "pass",
+      "rejected": true,
+      "error": "AdapterError"
+    },
+    {
+      "id": "bundle_path_traversal",
+      "status": "pass",
+      "rejected": true,
+      "error": "ValueError"
+    }
+  ]
+}

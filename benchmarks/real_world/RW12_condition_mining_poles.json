@@ -1,0 +1,16 @@
+{
+  "id": "RW12",
+  "bottleneckRef": "docs/validation/bottlenecks.md#23",
+  "domain": "algebra",
+  "capability": "algebra.rational_equality",
+  "summary": "Equality that holds only off poles (condition mining)",
+  "leanOnlyApproach": "User invents hypotheses",
+  "whyExternal": "Hypothesis synthesis + sufficiency proof",
+  "expectedClaimStrength": "soundResult",
+  "permittedAssumptions": [
+    "nonzero denominator conditions"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

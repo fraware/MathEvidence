@@ -1,0 +1,14 @@
+{
+  "id": "RW07",
+  "bottleneckRef": "docs/validation/bottlenecks.md#7",
+  "domain": "algebra",
+  "capability": "algebra.rational_equality",
+  "summary": "Polynomial identity after expansion (moderate degree)",
+  "leanOnlyApproach": "ring timeout / memory pressure",
+  "whyExternal": "Normalized certificate / sparse witness",
+  "expectedClaimStrength": "soundResult",
+  "permittedAssumptions": [],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

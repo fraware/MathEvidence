@@ -1,0 +1,17 @@
+{
+  "id": "RW05",
+  "bottleneckRef": "docs/validation/bottlenecks.md#5",
+  "domain": "linear_algebra",
+  "capability": "algebra.linear_algebra",
+  "summary": "Kernel / nullspace vector for an exact matrix",
+  "leanOnlyApproach": "Manual linear dependence proofs",
+  "whyExternal": "Candidate kernel vector checked in Lean",
+  "expectedClaimStrength": "witness",
+  "permittedAssumptions": [
+    "exact rational entries",
+    "nontrivial kernel"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

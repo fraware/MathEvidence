@@ -1,0 +1,16 @@
+{
+  "id": "RW08",
+  "bottleneckRef": "docs/validation/bottlenecks.md#9",
+  "domain": "logic",
+  "capability": "logic.finite_counterexample",
+  "summary": "Finite counterexample search for a false lemma",
+  "leanOnlyApproach": "Random native_decide attempts",
+  "whyExternal": "Typed finite witness evaluated in Lean",
+  "expectedClaimStrength": "refutation",
+  "permittedAssumptions": [
+    "explicit finite domain"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

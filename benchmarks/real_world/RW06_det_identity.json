@@ -1,0 +1,16 @@
+{
+  "id": "RW06",
+  "bottleneckRef": "docs/validation/bottlenecks.md#6",
+  "domain": "linear_algebra",
+  "capability": "algebra.linear_algebra",
+  "summary": "Determinant identity for a structured 2x2 matrix",
+  "leanOnlyApproach": "Cofactor expansion proof",
+  "whyExternal": "Candidate det + polynomial identity check",
+  "expectedClaimStrength": "witness",
+  "permittedAssumptions": [
+    "exact rational entries"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

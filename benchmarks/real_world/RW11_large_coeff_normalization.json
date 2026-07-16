@@ -1,0 +1,16 @@
+{
+  "id": "RW11",
+  "bottleneckRef": "docs/validation/bottlenecks.md#22",
+  "domain": "algebra",
+  "capability": "algebra.rational_equality",
+  "summary": "Large rational coefficient normalization",
+  "leanOnlyApproach": "Kernel blowup on numerals",
+  "whyExternal": "Backend normalizes; Lean checks reduced form",
+  "expectedClaimStrength": "soundResult",
+  "permittedAssumptions": [
+    "nonzero denominators"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

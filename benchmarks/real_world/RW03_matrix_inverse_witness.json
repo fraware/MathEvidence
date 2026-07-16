@@ -1,0 +1,16 @@
+{
+  "id": "RW03",
+  "bottleneckRef": "docs/validation/bottlenecks.md#3",
+  "domain": "linear_algebra",
+  "capability": "algebra.linear_algebra",
+  "summary": "Exact matrix inverse witness over rationals",
+  "leanOnlyApproach": "Adjugate by hand or simp blowup",
+  "whyExternal": "CAS inverse; Lean verifies A*B=I",
+  "expectedClaimStrength": "witness",
+  "permittedAssumptions": [
+    "exact rational entries"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

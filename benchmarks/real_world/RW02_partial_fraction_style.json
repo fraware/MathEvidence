@@ -1,0 +1,16 @@
+{
+  "id": "RW02",
+  "bottleneckRef": "docs/validation/bottlenecks.md#2",
+  "domain": "algebra",
+  "capability": "algebra.rational_equality",
+  "summary": "Partial-fraction style equality on Q(x)",
+  "leanOnlyApproach": "Hand-crafted algebraic manipulation",
+  "whyExternal": "Candidate factorization + Lean identity check",
+  "expectedClaimStrength": "soundResult",
+  "permittedAssumptions": [
+    "nonzero denominators"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

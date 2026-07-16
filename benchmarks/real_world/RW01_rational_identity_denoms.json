@@ -1,0 +1,16 @@
+{
+  "id": "RW01",
+  "bottleneckRef": "docs/validation/bottlenecks.md#1",
+  "domain": "algebra",
+  "capability": "algebra.rational_equality",
+  "summary": "Rational identity with multiple denominator side conditions",
+  "leanOnlyApproach": "Manual field_simp / ring case splits",
+  "whyExternal": "CAS normalizes; Lean checks denominators",
+  "expectedClaimStrength": "soundResult",
+  "permittedAssumptions": [
+    "nonzero denominators for every division"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}
