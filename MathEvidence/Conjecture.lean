@@ -6,6 +6,7 @@ Authors: MathEvidence contributors
 import MathEvidence.Conjecture.States
 import MathEvidence.Conjecture.Family
 import MathEvidence.Conjecture.Engine
+import MathEvidence.Conjecture.Precision
 import MathEvidence.Conjecture.Tests
 
 /-!

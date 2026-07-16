@@ -65,7 +65,8 @@ def deletionPass
     | .missing =>
       deletionPass req L rest remainingIds remainingExprs b
 
-/-- Build a lattice from original + proposed conditions under a rational claim. -/
+/-- Build a lattice from original + proposed conditions under a rational claim,
+then optionally attach Lean-certified counterexamples for weaker variants. -/
 def buildConditionLattice
     (artifactId : String)
     (req : Request)
@@ -110,5 +111,32 @@ def buildConditionLattice
         recommendedInterfaceId := "recommended_v0"
         notes :=
           "Minimality is not claimed. Expert review required before upstreaming." } }
+
+/-- After deletion fails for a condition, attach a Lean-certified CEX for an
+explicit weaker finite claim (Product 03 acceptance: certified failing variant). -/
+def attachCertifiedWeakerRefutation
+    (L : ConditionLattice)
+    (cexReq : MathEvidence.Checkers.Counterexample.Request)
+    (cexCert : MathEvidence.Checkers.Counterexample.Certificate)
+    (cexId : String)
+    (relatedConditionIds : List String) : ConditionLattice :=
+  match verifyCounterexample cexReq cexCert with
+  | .certified =>
+      L.recordCertifiedCounterexample cexId relatedConditionIds relatedConditionIds
+  | .rejected _ => L
+
+/-- End-to-end: propose → lattice → optional certified CEX for unresolved necessity. -/
+def buildConditionLatticeWithCex
+    (artifactId : String)
+    (req : Request)
+    (original : List NamedCondition)
+    (proposed : List NamedCondition)
+    (cexReq : MathEvidence.Checkers.Counterexample.Request)
+    (cexCert : MathEvidence.Checkers.Counterexample.Certificate)
+    (cexId : String)
+    (relatedConditionIds : List String)
+    (policy : BuildPolicy := {}) : ConditionLattice :=
+  let L := buildConditionLattice artifactId req original proposed policy
+  attachCertifiedWeakerRefutation L cexReq cexCert cexId relatedConditionIds
 
 end MathEvidence.Hypothesis

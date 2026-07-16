@@ -9,7 +9,8 @@ Engine over formally defined object families. Initial domain: finite predicates.
 | `States.lean` | Conjecture state machine |
 | `Family.lean` | Object-family contract → Counterexample claims |
 | `Engine.lean` | Observe / candidate / certify refutation / bounded verify |
-| `Tests.lean` | Offline fixtures |
+| `Precision.lean` | Campaign precision accounting; open / formally proved markers |
+| `Tests.lean` | Offline fixtures + `campaignDemo` |
 
 ## Policy
 

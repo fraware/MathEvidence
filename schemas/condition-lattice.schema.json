@@ -77,6 +77,11 @@
     "claimsMinimal": {
       "type": "boolean",
       "description": "MUST be false unless necessityProofs cover every recommendedInterface id."
+    },
+    "authorityStatus": {
+      "type": "string",
+      "enum": ["lean_checker_mirror", "lean_kernel"],
+      "description": "Acceptance authority for sufficiency/deletion/CEX fields. Heuristics alone are forbidden."
     }
   },
   "$defs": {

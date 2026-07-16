@@ -42,4 +42,27 @@ def samplePlan : ProofPlan where
 
 example : samplePlan.nodesWellFormed = true := by native_decide
 
+/-- Multi-step reconstructible plan: only reconstructible nodes advance. -/
+def reconNode2 : PlanNode where
+  id := "r2"
+  claim := "denom cover"
+  stepKind := .reconstructibleComputation
+  status := .proved
+  advancesProofStatus := true
+  suggestedCapability := some "algebra.rational_equality"
+
+def multiStepPlan : ProofPlan where
+  targetTheorem := "(x^2-1)/(x-1)=x+1"
+  nodes := [hintNode, reconNode, reconNode2]
+  edges := [
+    { fromId := "r1", toId := "target" },
+    { fromId := "r2", toId := "target" }
+  ]
+
+example : multiStepPlan.nodesWellFormed = true := by native_decide
+
+example :
+    (multiStepPlan.nodes.filter (·.advancesProofStatus)).length = 2 := by
+  native_decide
+
 end MathEvidence.TraceToPlan
