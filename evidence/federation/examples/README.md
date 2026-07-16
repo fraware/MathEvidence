@@ -1,8 +1,8 @@
 # Federation examples (Milestone 4)
 
 Simulated emit/consume payloads for shared provenance + claim-status metadata.
-These satisfy the Milestone 4 exit gate (≥2 external projects consume or emit
-shared metadata) without claiming live process integration.
+**Mode: `fixture_only`** until maintainer agreements land — do **not** claim live
+external consume/emit.
 
 ## Files
 
@@ -20,10 +20,12 @@ shared metadata) without claiming live process integration.
 
 ```text
 python scripts/validate_federation.py
+python scripts/run_federation_harness.py
 ```
 
 Schemas: `schemas/federation-metadata.schema.json` and related federation schemas.
 Collaboration: `docs/architecture/collaboration-cslib-lean-auto-smt.md`.
+Upgrade path: [`UPGRADE_PATH.md`](UPGRADE_PATH.md).
 
 ## Conformance notes (simulated adapters)
 
@@ -31,12 +33,15 @@ These JSON files are **metadata-only** fixtures. They demonstrate emit/consume
 shapes for lean-smt, CSLib, and related tools. They do **not** assert that
 external maintainers have signed off, nor that live stdio adapters exist.
 
-Harness expectations enforced by `validate_federation.py`:
+Harness expectations enforced by `validate_federation.py` +
+`run_federation_harness.py`:
 
 1. ≥2 distinct project IDs
 2. ≥1 emitter and ≥1 consumer role
 3. Required roles for `lean-smt` (emitter) and `cslib` (consumer)
 4. Schema validation for every example file
+5. Emit→consume pairing on shared digests (lean-smt emit ↔ cslib consume)
+6. Explicit `integrationMode: fixture_only` until agreements exist
 
-When a real external adapter lands, add a live smoke under an env gate and keep
-these fixtures as the offline contract.
+When a real external adapter lands, follow `UPGRADE_PATH.md`, add a live smoke
+under an env gate, and keep these fixtures as the offline contract.

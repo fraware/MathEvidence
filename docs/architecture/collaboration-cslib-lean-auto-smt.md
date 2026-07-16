@@ -58,8 +58,19 @@ Committed examples under `evidence/federation/examples/` demonstrate **two or
 more** projects emitting and consuming the shared metadata envelope without live
 process adapters. Live adapters land only after maintainer agreement.
 
+**Current integration mode: `fixture_only`.** Upgrade checklist:
+`evidence/federation/examples/UPGRADE_PATH.md`. Agreements ledger (empty until
+real): `docs/architecture/federation-agreements.md`. Harness:
+
+```text
+python scripts/validate_federation.py
+python scripts/run_federation_harness.py
+```
+
 ## Proposed next steps (post M4)
 
 1. RFC if federation vocabulary needs Core-level promotion beyond schemas.
 2. Dual review with each external CODEOWNERS before any `supportLevel` upgrade.
 3. Optional thin stdio adapters that only wrap metadata (still no checker fork).
+4. Record agreements in the ledger; only then enable
+   `MATHEVIDENCE_FEDERATION_LIVE=1` smoke (still no invented sign-off).
