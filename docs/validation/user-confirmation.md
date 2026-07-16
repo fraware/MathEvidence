@@ -16,6 +16,8 @@ affiliations.
 
 **Outreach process:** `docs/validation/outreach-checklist.md` (do not invent
 entries). Expert statement reviews use `docs/validation/expert-review-rubric.md`.
+G1 board: `docs/validation/g1-blocker-status.md` (A4 = `BLOCKED_WAITING` until
+real consent).
 
 **Owner:** outreach lead (human). Engineering packaging does not close this
 gate. Capability status remains **experimental**.

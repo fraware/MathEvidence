@@ -46,18 +46,23 @@ Local gate: `just check` (see `justfile`). Public workflows under
 
 ## Governance gates (human — required for `stable`; still OPEN)
 
+One-sitting board: [`g1-blocker-status.md`](g1-blocker-status.md). Runbook:
+[`human-gates-one-sitting.md`](human-gates-one-sitting.md).
+
 - [ ] **Domain review:** independent mathematical review of repaired /
       canonical statement interface using
       `docs/validation/expert-review-rubric.md` (at least one completed
-      sample packet under `docs/validation/review-packets/`, with a real
+      packet under `docs/validation/review-packets/`, with a real
       reviewer identity — not a placeholder). Owner: domain checker /
       Semantic IR maintainer area. Start from
-      `review-packets/SAMPLE-rational-equality-unsigned.md` +
-      `review-packets/TEMPLATE.md`.
+      `review-packets/SAMPLE-rational-equality-unsigned.md` (copy to a new
+      file **without** `-unsigned`) + `review-packets/TEMPLATE.md`.
 - [ ] **Trust-model review:** second maintainer from a different area
       confirms replay, digest binding, and claim-strength guarantees are
       not weakened (`GOVERNANCE.md`). Owner: Core and trust model area
-      (second approver from a different area).
+      (second approver from a different area). Fill
+      `review-packets/TRUST-MODEL-TEMPLATE.md` →
+      `review-packets/trust-model-YYYY-MM-DD.md` (or equivalent PR note).
 - [ ] **Milestone 0 external confirmations:** ≥3 non-maintainer entries in
       `docs/validation/user-confirmation.md` (outreach; cannot be invented).
       Owner: outreach lead (process:
@@ -93,9 +98,13 @@ After cloning `implement/master-plan` (or the candidate promotion PR branch):
 just check
 ```
 
-That runs lean-build, import-boundary, sorry-audit, schema/registry/federation/
-assurance validate, python import smoke, pytest, conformance, differential,
-replay, adversarial, agent-held-out, foundry-validate, and tool-selection.
+That is the `check` recipe in `justfile`. As of this packaging pass it runs
+(in order): lean-build, import-boundary, sorry-audit, schema-validate,
+registry-validate, federation-validate, assurance-validate, python-check, test,
+studio-test, conformance, differential, replay, adversarial, adversarial-exec,
+leanlink-fuzz, property, metamorphic, perf-budgets, real-world, agent-held-out,
+foundry-validate, tool-selection, foundry-metrics, metrics,
+registry-historical-replay, trace-to-plan-demo — then prints `just check: ok`.
 
 Minimum CI workflows that must be green on the PR:
 
@@ -107,4 +116,5 @@ Minimum CI workflows that must be green on the PR:
 | `adversarial.yml` | adversarial seed catalog |
 
 Do **not** treat a green `just check` as permission to set `"status": "stable"`.
-Human governance boxes must still be filled with real artifacts.
+Human governance boxes must still be filled with real artifacts. G1-D is
+`ENGINEERING_READY` on [`g1-blocker-status.md`](g1-blocker-status.md).

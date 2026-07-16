@@ -11,6 +11,7 @@ Completing outreach is **human work**. This checklist only makes the process
 repeatable. Do **not** invent confirmations, signatures, or workflow wins.
 
 **One-sitting pack:** [`human-gates-one-sitting.md`](human-gates-one-sitting.md)  
+**Live G1 board:** [`g1-blocker-status.md`](g1-blocker-status.md)  
 **Copy/paste emails:** [`outreach-email-templates.md`](outreach-email-templates.md)
 
 ## Before contacting anyone
@@ -23,13 +24,33 @@ repeatable. Do **not** invent confirmations, signatures, or workflow wins.
 - [ ] Consent language prepared (public listing vs anonymize)
 - [ ] Know which ask you need: problem confirmation (M0), workflow win
       (§21.10), signed statement review (domain gate), or all three
+- [ ] Open [`g1-blocker-status.md`](g1-blocker-status.md) — A4/A5 stay
+      `BLOCKED_WAITING` until real replies land
 
 ## Candidate sources (≥3 distinct non-maintainers)
 
+Tick only when a **named** candidate is selected (not invented for the checklist):
+
 - [ ] Mathlib / Lean Zulip domain experts (algebra / analysis as relevant)
+      — contact: ________________
 - [ ] Educators teaching Lean+CAS workflows
+      — contact: ________________
 - [ ] Library authors with computational proof obligations
+      — contact: ________________
 - [ ] Industry/research groups using Mathematica↔Lean bridges
+      — contact: ________________
+
+Spare slots if you need a fourth/fifth:
+
+- [ ] Other: ________________
+
+## Send log (optional sitting notes)
+
+| Date | Contact | Email # (1 / 2 / 3) | Sent? | Reply? | Logged where |
+| --- | --- | --- | --- | --- | --- |
+| | | | | | |
+| | | | | | |
+| | | | | | |
 
 ## Per contact (Milestone 0 — problem confirmation)
 
@@ -48,13 +69,14 @@ repeatable. Do **not** invent confirmations, signatures, or workflow wins.
 4. File under `workflow-win-log.md`. If the same person also confirms the
    problem for Milestone 0, note the overlap in both logs explicitly.
 
-## Per contact (domain expert packet)
+## Per contact (domain expert packet — G1-B)
 
 1. Use `review-packets/TEMPLATE.md` (or convert
-   `SAMPLE-rational-equality-unsigned.md`).
+   `SAMPLE-rational-equality-unsigned.md` — drop `-unsigned` in the new name).
 2. Score with `expert-review-rubric.md`; pass bar must hold.
 3. Real reviewer identity (or consented anonymize) — never placeholders.
 4. Do not treat a signed packet as automatic `stable` promotion.
+5. Invite: Email 3 in `outreach-email-templates.md`.
 
 ## Exit metrics
 
@@ -73,6 +95,7 @@ repeatable. Do **not** invent confirmations, signatures, or workflow wins.
 | Milestone 0 confirmations | **0 / 3** — see `user-confirmation.md` |
 | §21.10 workflow wins | **0 / ≥1** — see `workflow-win-log.md` |
 | Signed domain packets | **0** — SAMPLE unsigned only |
+| Trust-model second-area review | **0** — template only (`TRUST-MODEL-TEMPLATE.md`) |
 | Capability `stable` | **not flipped** — engineering packaging only |
 
 Owners and matrix rows: `docs/validation/remaining-spec-matrix.md` (R2 human

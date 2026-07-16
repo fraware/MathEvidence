@@ -1,7 +1,25 @@
 # Sample review packet (unsigned)
 
 Illustrative packet for the classic rational identity used in Milestone 1
-fixtures. **Not an approval.** Reviewer fields intentionally blank.
+fixtures. **Not an approval. Not a signature.**
+
+**G1-B conversion (human only):**
+
+1. Copy this file to a new path such as
+   `docs/validation/review-packets/2026-rational-equality-<REVIEWER>.md`
+   — the new filename must **not** contain `-unsigned`.
+2. Fill every **Scores** cell (replace `_` / “Awaiting reviewer”).
+3. Fill **Reviewer** Name, Affiliation, Consent, Signature date.
+4. Meet pass bar: no zeros; total ≥ 9 / 12; semantic fidelity ≥ 1; claim
+   strength ≥ 1 (see [`../expert-review-rubric.md`](../expert-review-rubric.md)).
+5. Uncheck `pending`; check `revise` or `approve…`.
+6. Answer the three required reviewer notes.
+
+Until those steps happen, this SAMPLE must stay unsigned. Do **not** invent a
+reviewer.
+
+Blank template without SAMPLE metadata:
+[`TEMPLATE.md`](TEMPLATE.md).
 
 ## Metadata
 
@@ -28,6 +46,8 @@ fixtures. **Not an approval.** Reviewer fields intentionally blank.
 | Library interface | _ | |
 | **Total** | _ / 12 | |
 
+**Pass bar:** no zeros; total ≥ 9 / 12; semantic fidelity ≥ 1; claim strength ≥ 1.
+
 ## Reviewer
 
 | Field | Value |
@@ -36,6 +56,7 @@ fixtures. **Not an approval.** Reviewer fields intentionally blank.
 | Affiliation | |
 | Area (domain / trust / other) | domain |
 | Consent to list publicly | |
+| Signature date | _(blank until real signature)_ |
 
 ## Decision
 
@@ -43,7 +64,13 @@ fixtures. **Not an approval.** Reviewer fields intentionally blank.
 - [ ] revise
 - [ ] approve for library consideration (not capability-stable by itself)
 
+## Required reviewer notes (from rubric)
+
+1. What would you change before merging into a library?
+2. Any pole / branch / totality concern the certificate hides?
+3. Is minimality of conditions claimed? (Must be **no** unless proved.)
+
 ## Comments
 
 Prepared as a worked example of packet shape for expert outreach. Fill scores
-only after a real domain review.
+and signature only after a real domain review.

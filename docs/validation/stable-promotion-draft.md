@@ -5,6 +5,10 @@
 **This file does not change the registry.** Do not merge a `stable` flip until
 every human box in `stable-capability-checklist.md` has real artifacts.
 
+**G3 status:** `BLOCKED_WAITING` on G1 — see [`g3-blocker-status.md`](g3-blocker-status.md).
+G2 (wolframscript ADR) is engineering-complete; it does **not** authorize the
+JSON flip without G1.
+
 ## Engineering packaging (ready)
 
 Engineering prerequisites on the checklist are ticked with CI / `just check`
@@ -22,13 +26,14 @@ Required public workflows: `lean.yml`, `adapter-conformance.yml`,
 | Gate | Owner | Artifact when closed | Current |
 | --- | --- | --- | --- |
 | Domain expert review (signed packet) | Domain / Semantic IR | Completed packet under `docs/validation/review-packets/` (not SAMPLE-unsigned) | OPEN — sample unsigned only |
-| Trust-model review (second area) | Core and trust model (+ different-area approver) | Sign-off recorded on promotion PR + checklist | OPEN |
+| Trust-model review (second area) | Core and trust model (+ different-area approver) | `review-packets/trust-model-YYYY-MM-DD.md` from `TRUST-MODEL-TEMPLATE.md`, or PR note + checklist | OPEN |
 | Milestone 0: ≥3 external user confirmations | Outreach lead | `docs/validation/user-confirmation.md` (≥3 completed) | OPEN — 0/3 |
 | §21.10 workflow win | Outreach lead | `docs/validation/workflow-win-log.md` (≥1 completed) | OPEN — 0 entries |
 | Capability JSON PR + two-area approvals | Registry + Core/trust; domain co-review | PR changing status; `GOVERNANCE.md` two-area approvals | OPEN — not opened |
 
 Outreach process: `docs/validation/outreach-checklist.md`.  
-Expert rubric: `docs/validation/expert-review-rubric.md`.
+Expert rubric: `docs/validation/expert-review-rubric.md`.  
+G1 readiness board: `docs/validation/g1-blocker-status.md`.
 
 ## Exact JSON change for a later PR (do not apply now)
 
