@@ -1,0 +1,32 @@
+{
+  "id": "external.groebner",
+  "version": "0.1.0",
+  "adapterVersion": "0.1.0",
+  "status": "experimental",
+  "license": "Apache-2.0",
+  "availability": "open",
+  "discovery": {
+    "method": "optional_runtime",
+    "entry": "simulated:evidence/federation/examples/groebner_emit.json"
+  },
+  "supportedCapabilities": [
+    {
+      "id": "algebra.groebner_membership",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "declared"
+    }
+  ],
+  "regeneration": {
+    "status": "fixture_only",
+    "notes": "Milestone 4 simulated emitter; domain Gröbner projects remain authoritative checkers."
+  },
+  "conformance": {
+    "suite": "evidence/federation/examples",
+    "resultDigest": null,
+    "recordedAt": null
+  },
+  "knownDefects": [
+    "No live process adapter; metadata interoperability only."
+  ]
+}

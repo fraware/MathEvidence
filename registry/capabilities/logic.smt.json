@@ -1,0 +1,77 @@
+{
+  "id": "logic.smt",
+  "version": "0.1.0",
+  "status": "experimental",
+  "domain": "logic.smt",
+  "ownership": "federated",
+  "inputIR": {
+    "name": "OpaqueExternal",
+    "schema": "schemas/federation-opaque-ir.schema.json",
+    "version": "0.1.0",
+    "leanPackage": "external"
+  },
+  "admissibility": {
+    "summary": "Federated SMT capability metadata. Lean-SMT / SMT integrations own proof reconstruction and trusted interfaces.",
+    "rejectedConstructs": [
+      "claiming_MathEvidence_as_SMT_reconstructor",
+      "substituting_evidence_for_SMT_reconstruction"
+    ],
+    "requiredAssumptions": [
+      "Lean-SMT (or sibling) remains authoritative for SMT proof reconstruction"
+    ]
+  },
+  "claimClasses": ["witness", "refutation", "soundResult", "candidate"],
+  "evidenceSchema": "schemas/federation-certificate.schema.json",
+  "requestSchema": "schemas/federation-request.schema.json",
+  "checker": {
+    "package": "external:LeanSMT",
+    "version": "0.0.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "absent"
+  },
+  "assuranceModes": ["kernel_replay"],
+  "limits": {
+    "maxWallTimeMs": 120000,
+    "maxOutputBytes": 16777216
+  },
+  "knownLimitations": [
+    "MathEvidence federates claim-status metadata; it does not subsume Lean-SMT.",
+    "Hints from SMT solvers are search_hint / lemma_candidate unless reconstructed."
+  ],
+  "conformance": {
+    "suite": "evidence/federation/examples",
+    "status": "partial",
+    "requiredCases": ["emit_metadata", "consume_metadata"]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence federation",
+      "role": "metadata_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "Lean-SMT or sibling SMT integration; see collaboration note",
+    "conformanceVerified": false,
+    "backends": [
+      {
+        "id": "external.lean_smt",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      }
+    ]
+  },
+  "federation": {
+    "externalProject": "lean-smt",
+    "checkerAuthority": "external:LeanSMT",
+    "mathEvidenceRole": "metadata_interop",
+    "metadataSchema": "schemas/federation-metadata.schema.json",
+    "collaborationNote": "docs/architecture/collaboration-cslib-lean-auto-smt.md",
+    "relatedProjects": ["lean-auto", "cslib"]
+  },
+  "compatibility": {
+    "policy": "federation_metadata_v0",
+    "minProtocolVersion": "0.1.0"
+  }
+}

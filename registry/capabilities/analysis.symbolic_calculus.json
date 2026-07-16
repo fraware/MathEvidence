@@ -1,0 +1,90 @@
+{
+  "id": "analysis.symbolic_calculus",
+  "version": "0.1.0",
+  "status": "experimental",
+  "domain": "analysis.symbolic_calculus",
+  "inputIR": {
+    "name": "CalculusExpr",
+    "schema": "schemas/calculus-expr.schema.json",
+    "version": "0.1.0",
+    "baseField": "Rat",
+    "leanPackage": "MathEvidence.IR.CalculusExpr"
+  },
+  "admissibility": {
+    "summary": "Rational-expression calculus candidates over ℚ with explicit domain/singularity conditions; transcendentals rejected.",
+    "rejectedConstructs": [
+      "transcendentals",
+      "conditionals",
+      "approximate_numerals",
+      "completeness_claims",
+      "identity_at_poles"
+    ],
+    "requiredAssumptions": [
+      "explicit nonzero domainConditions covering every division denominator",
+      "candidate validity never implies completeness or uniqueness"
+    ]
+  },
+  "claimClasses": ["candidate", "soundResult", "witness"],
+  "evidenceSchema": "schemas/symbolic-calculus-certificate.schema.json",
+  "requestSchema": "schemas/symbolic-calculus-request.schema.json",
+  "checker": {
+    "package": "MathEvidence.Checkers.Calculus",
+    "version": "0.1.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "present"
+  },
+  "assuranceModes": ["kernel_replay"],
+  "limits": {
+    "maxExprNodes": 4096,
+    "maxIntegerDigits": 4096,
+    "maxDenominatorFactors": 1024,
+    "maxWallTimeMs": 60000,
+    "maxOutputBytes": 4194304
+  },
+  "knownLimitations": [
+    "Derivative/antiderivative/ODE/recurrence checks are formal rational identities only.",
+    "Antiderivative acceptance does not claim completeness of antiderivatives.",
+    "ODE acceptance does not claim uniqueness of solutions.",
+    "Recurrence acceptance does not claim the recurrence uniquely determines the sequence.",
+    "Branch and singularity conditions must be listed explicitly; empty only when there are no divisions."
+  ],
+  "conformance": {
+    "suite": "evidence/conformance/symbolic_calculus",
+    "status": "passing",
+    "requiredCases": [
+      "derivative_x2",
+      "antiderivative_x2",
+      "recurrence_n_plus_1",
+      "ode_y_eq_x",
+      "missing_domain_rejection"
+    ]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence core",
+      "role": "capability_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "python -m adapters.sympy | python -m adapters.mathematica",
+    "conformanceVerified": true,
+    "backends": [
+      {
+        "id": "sympy",
+        "versions": ["0.1.0"],
+        "supportLevel": "conformance_verified"
+      },
+      {
+        "id": "mathematica",
+        "versions": ["0.1.0"],
+        "supportLevel": "implemented"
+      }
+    ]
+  },
+  "compatibility": {
+    "policy": "semver_request_digest",
+    "minProtocolVersion": "0.1.0"
+  }
+}

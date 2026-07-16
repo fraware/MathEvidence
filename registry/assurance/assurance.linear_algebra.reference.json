@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "assurance.linear_algebra.reference",
+  "version": "0.1.0",
+  "assuranceLevel": "verified_reference_algorithm",
+  "capabilityId": "algebra.linear_algebra",
+  "inputDomain": "Finite matrices / vectors over Q with nonzero denominators",
+  "outputRelation": "Witness relations (inverse, system solution, kernel, det identity)",
+  "termination": "Finite matrix dimension within capability limits",
+  "soundness": "check_sound; inverse_reference coincides with isInverseWitness",
+  "completeness": null,
+  "complexityAssumptions": [
+    "Matrix dimension bounded by maxMatrixDim"
+  ],
+  "representationRefinement": "MatrixExpr IR → evaluated Rat matrices → witness predicates",
+  "leanContract": {
+    "package": "MathEvidence.Assurance",
+    "module": "MathEvidence.Assurance.LinearAlgebra",
+    "referenceAlgorithm": "referenceCheck",
+    "soundnessTheorem": "check_sound"
+  },
+  "performanceNotes": [
+    "Witness checking is O(n^3)-class matrix multiply for inverses; reported separately from correctness."
+  ],
+  "knownLimitations": [
+    "Does not claim rank/completeness/optimality.",
+    "Does not verify external BLAS or CAS matrix routines."
+  ]
+}

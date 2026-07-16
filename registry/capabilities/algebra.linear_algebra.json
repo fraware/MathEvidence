@@ -1,0 +1,90 @@
+{
+  "id": "algebra.linear_algebra",
+  "version": "0.1.0",
+  "status": "experimental",
+  "domain": "algebra.linear_algebra",
+  "inputIR": {
+    "name": "MatrixExpr",
+    "schema": "schemas/matrix-expr.schema.json",
+    "version": "0.1.0",
+    "baseField": "Rat",
+    "leanPackage": "MathEvidence.IR.MatrixExpr"
+  },
+  "admissibility": {
+    "summary": "Exact linear-algebra witnesses over ℚ: inverse, system solution, kernel vector, det identity. Completeness/rank/basis claims are separate claim classes.",
+    "rejectedConstructs": [
+      "floating_point_matrices",
+      "approximate_svd",
+      "rank_completeness_claims_as_witness"
+    ],
+    "requiredAssumptions": [
+      "exact rational entries",
+      "operation-specific invertibility / consistency side goals"
+    ]
+  },
+  "claimClasses": ["witness", "candidate", "soundResult"],
+  "evidenceSchema": "schemas/linear-algebra-certificate.schema.json",
+  "requestSchema": "schemas/linear-algebra-request.schema.json",
+  "checker": {
+    "package": "MathEvidence.Checkers.LinearAlgebra",
+    "version": "0.1.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "present"
+  },
+  "assuranceModes": ["kernel_replay"],
+  "limits": {
+    "maxMatrixDim": 64,
+    "maxIntegerDigits": 4096,
+    "maxWallTimeMs": 60000,
+    "maxOutputBytes": 4194304
+  },
+  "knownLimitations": [
+    "Does not claim completeness, uniqueness of kernel basis, or rank optimality.",
+    "Agent/SymPy path is a thin untrusted generator; Lean checker owns acceptance."
+  ],
+  "conformance": {
+    "suite": "evidence/conformance/linear_algebra",
+    "status": "partial",
+    "requiredCases": [
+      "inverse_witness_2x2",
+      "exact_system_solution",
+      "kernel_vector",
+      "det_identity",
+      "singular_inverse_rejected",
+      "hash_mismatch"
+    ]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence core",
+      "role": "capability_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "Lean MathEvidence.IR.MatrixExpr + MathEvidence.Checkers.LinearAlgebra; python -m adapters.sympy",
+    "conformanceVerified": false,
+    "backends": [
+      {
+        "id": "sympy",
+        "versions": ["0.1.0"],
+        "supportLevel": "implemented"
+      },
+      {
+        "id": "sage",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      },
+      {
+        "id": "mathematica",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      }
+    ]
+  },
+  "compatibility": {
+    "policy": "semver_request_digest",
+    "minProtocolVersion": "0.1.0"
+  }
+}

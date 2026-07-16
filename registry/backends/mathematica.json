@@ -1,0 +1,59 @@
+{
+  "id": "mathematica",
+  "version": "0.1.0",
+  "adapterVersion": "0.1.0",
+  "status": "experimental",
+  "license": "proprietary",
+  "availability": "licensed",
+  "discovery": {
+    "method": "fixed_executable",
+    "envVar": "MATHEVIDENCE_WOLFRAMSCRIPT",
+    "defaultCandidates": ["wolframscript", "math"],
+    "leanLink": {
+      "envVar": "MATHEVIDENCE_LEANLINK",
+      "status": "scaffold"
+    }
+  },
+  "supportedCapabilities": [
+    {
+      "id": "algebra.rational_equality",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "implemented"
+    },
+    {
+      "id": "algebra.linear_algebra",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "placeholder"
+    },
+    {
+      "id": "logic.finite_counterexample",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "placeholder"
+    },
+    {
+      "id": "analysis.symbolic_calculus",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "implemented"
+    }
+  ],
+  "regeneration": {
+    "status": "optional_ci",
+    "notes": "Live generation optional/self-hosted; committed evidence must always replay offline."
+  },
+  "conformance": {
+    "suite": "evidence/conformance/rfc0001",
+    "resultDigest": null,
+    "recordedAt": null
+  },
+  "ciPolicy": {
+    "generation": "optional_self_hosted",
+    "offlineReplay": "required"
+  },
+  "knownDefects": [
+    "LeanLink integration is scaffolded; adapter falls back to offline fixture mode when Mathematica/LeanLink unavailable."
+  ]
+}

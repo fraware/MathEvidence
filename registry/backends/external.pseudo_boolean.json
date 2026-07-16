@@ -1,0 +1,32 @@
+{
+  "id": "external.pseudo_boolean",
+  "version": "0.1.0",
+  "adapterVersion": "0.1.0",
+  "status": "experimental",
+  "license": "Apache-2.0",
+  "availability": "open",
+  "discovery": {
+    "method": "optional_runtime",
+    "entry": "simulated:evidence/federation/examples/pb_emit.json"
+  },
+  "supportedCapabilities": [
+    {
+      "id": "logic.pseudo_boolean",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "declared"
+    }
+  ],
+  "regeneration": {
+    "status": "fixture_only",
+    "notes": "Simulated PB metadata emitter for federation exit gate."
+  },
+  "conformance": {
+    "suite": "evidence/federation/examples",
+    "resultDigest": null,
+    "recordedAt": null
+  },
+  "knownDefects": [
+    "No live PB adapter; specialized checkers remain authoritative."
+  ]
+}

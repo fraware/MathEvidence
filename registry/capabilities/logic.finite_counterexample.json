@@ -1,0 +1,86 @@
+{
+  "id": "logic.finite_counterexample",
+  "version": "0.1.0",
+  "status": "experimental",
+  "domain": "logic.finite_domains",
+  "inputIR": {
+    "name": "FinitePredicate",
+    "schema": "schemas/finite-predicate.schema.json",
+    "version": "0.1.0",
+    "leanPackage": "MathEvidence.IR.FinitePredicate"
+  },
+  "admissibility": {
+    "summary": "Typed finite witness against a false formal conjecture on an explicit finite carrier. Exhaustive absence proofs are out of scope.",
+    "rejectedConstructs": [
+      "infinite_domain_search",
+      "exhaustive_absence_as_completeness",
+      "approximate_numeric_witness"
+    ],
+    "requiredAssumptions": [
+      "explicit finite domain",
+      "Lean-evaluable original predicate"
+    ]
+  },
+  "claimClasses": ["witness", "candidate", "refutation"],
+  "evidenceSchema": "schemas/finite-counterexample-certificate.schema.json",
+  "requestSchema": "schemas/finite-counterexample-request.schema.json",
+  "checker": {
+    "package": "MathEvidence.Checkers.Counterexample",
+    "version": "0.1.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "present"
+  },
+  "assuranceModes": ["kernel_replay"],
+  "limits": {
+    "maxDomainCardinality": 1024,
+    "maxWallTimeMs": 60000,
+    "maxOutputBytes": 1048576
+  },
+  "knownLimitations": [
+    "Does not prove that no counterexample exists.",
+    "Agent enumeration is untrusted; Lean Counterexample checker owns acceptance."
+  ],
+  "conformance": {
+    "suite": "evidence/conformance/finite_counterexample",
+    "status": "partial",
+    "requiredCases": [
+      "simple_false_universal",
+      "witness_type_mismatch",
+      "hash_mismatch",
+      "out_of_domain_rejected"
+    ]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence core",
+      "role": "capability_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "Lean MathEvidence.IR.FinitePredicate + MathEvidence.Checkers.Counterexample; python -m adapters.sympy",
+    "conformanceVerified": false,
+    "backends": [
+      {
+        "id": "sympy",
+        "versions": ["0.1.0"],
+        "supportLevel": "implemented"
+      },
+      {
+        "id": "sage",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      },
+      {
+        "id": "mathematica",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      }
+    ]
+  },
+  "compatibility": {
+    "policy": "semver_request_digest",
+    "minProtocolVersion": "0.1.0"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "sage",
+  "version": "0.1.0",
+  "adapterVersion": "0.1.0",
+  "status": "experimental",
+  "license": "GPL-3.0-or-later",
+  "availability": "open",
+  "discovery": {
+    "method": "optional_runtime",
+    "module": "adapters.sage",
+    "entry": "python -m adapters.sage",
+    "envVar": "MATHEVIDENCE_SAGE",
+    "defaultCandidates": ["sage", "sagemath"]
+  },
+  "supportedCapabilities": [
+    {
+      "id": "algebra.rational_equality",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "implemented"
+    },
+    {
+      "id": "algebra.linear_algebra",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "placeholder"
+    },
+    {
+      "id": "logic.finite_counterexample",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "placeholder"
+    }
+  ],
+  "regeneration": {
+    "status": "fixture_only",
+    "notes": "Sage optional. Without Sage, adapter runs fixture mode (JSON-RPC up; live compute unavailable). Same evidence contract as SymPy."
+  },
+  "conformance": {
+    "suite": "evidence/conformance/rfc0001",
+    "resultDigest": null,
+    "recordedAt": null
+  },
+  "knownDefects": [
+    "Live Sage compute is best-effort; CI defaults to fixture mode when sage is not installed."
+  ]
+}
