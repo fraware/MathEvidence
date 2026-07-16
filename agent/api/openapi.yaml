@@ -1,0 +1,295 @@
+openapi: 3.1.0
+info:
+  title: MathEvidence Agent API
+  version: 0.1.0
+  description: |
+    Operation-level tools for mathematical AI agents.
+    Does NOT expose arbitrary shell or code execution.
+    Theorem acceptance remains Lean-only via evidence checkers.
+servers:
+  - url: http://127.0.0.1:8787
+    description: Local orchestration (not part of theorem TCB)
+paths:
+  /v1/health:
+    get:
+      operationId: health
+      summary: Liveness probe
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, protocolVersion]
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  protocolVersion:
+                    type: string
+                    const: "0.1.0"
+  /v1/operations:
+    get:
+      operationId: list_operations
+      summary: List registered Agent API operations (no shell tools)
+      responses:
+        "200":
+          description: Operation catalog
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [protocolVersion, operations]
+                properties:
+                  protocolVersion:
+                    type: string
+                  operations:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/OperationDescriptor"
+  /v1/capabilities:
+    get:
+      operationId: list_capabilities
+      summary: Discover registry capabilities
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [experimental, candidate, stable, deprecated]
+        - name: domain
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Capability list
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/list-capabilities.output.schema.json"
+  /v1/check-support:
+    post:
+      operationId: check_support
+      summary: Check whether a capability/backend/claim combination is supported
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/check-support.input.schema.json"
+      responses:
+        "200":
+          description: Support decision
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/compute:
+    post:
+      operationId: compute_evidence
+      summary: Invoke a named adapter compute (operation-level only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/compute-evidence.input.schema.json"
+      responses:
+        "200":
+          description: Candidate evidence + status (never Lean-certified from this API alone)
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/bundles/open:
+    post:
+      operationId: open_bundle
+      summary: Load and summarize an EvidenceBundle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/open-bundle.input.schema.json"
+      responses:
+        "200":
+          description: Bundle summary with epistemic resultStatus
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/bundles/replay:
+    post:
+      operationId: replay_bundle
+      summary: Offline schema+digest replay of an EvidenceBundle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/replay-bundle.input.schema.json"
+      responses:
+        "200":
+          description: Replay result
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/hypothesis/propose-conditions:
+    post:
+      operationId: propose_conditions
+      summary: Propose untrusted side conditions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/hypothesis.input.schema.json"
+      responses:
+        "200":
+          description: Proposed conditions (never auto-inserted)
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/hypothesis/prove-sufficient:
+    post:
+      operationId: prove_sufficient
+      summary: Sufficiency preview (Lean owns acceptance)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/hypothesis.input.schema.json"
+      responses:
+        "200":
+          description: Sufficiency preview
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/hypothesis/delete:
+    post:
+      operationId: delete_hypothesis
+      summary: Hypothesis deletion with redundancy justification preview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/hypothesis.input.schema.json"
+      responses:
+        "200":
+          description: Deletion outcome
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/hypothesis/find-counterexample:
+    post:
+      operationId: find_counterexample
+      summary: Bounded finite counterexample search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/hypothesis.input.schema.json"
+      responses:
+        "200":
+          description: Untrusted witness candidate
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/hypothesis/verify-counterexample:
+    post:
+      operationId: verify_counterexample
+      summary: Verify finite counterexample (Python mirror of Lean)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/hypothesis.input.schema.json"
+      responses:
+        "200":
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/hypothesis/build-lattice:
+    post:
+      operationId: build_condition_lattice
+      summary: Build condition lattice artifact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/hypothesis.input.schema.json"
+      responses:
+        "200":
+          description: Lattice artifact (claimsMinimal false by default)
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/conjecture/campaign:
+    post:
+      operationId: conjecture_campaign
+      summary: Conjecture episode — candidates vs certified refutations only
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/hypothesis.input.schema.json"
+      responses:
+        "200":
+          description: Episode with state machine update
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+components:
+  schemas:
+    OperationDescriptor:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - summary
+        - inputSchema
+        - outputSchema
+        - claimClasses
+        - maxResourcePolicy
+      properties:
+        id:
+          type: string
+        summary:
+          type: string
+        inputSchema:
+          type: string
+        outputSchema:
+          type: string
+        claimClasses:
+          type: array
+          items:
+            type: string
+        maxResourcePolicy:
+          type: object
+          additionalProperties: false
+          properties:
+            maxWallTimeMs:
+              type: integer
+            maxOutputBytes:
+              type: integer
+        notes:
+          type: array
+          items:
+            type: string

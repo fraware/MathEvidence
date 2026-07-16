@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/agent-replay-bundle-input-v0.json",
+  "title": "replay_bundle input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["path"],
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Path to EvidenceBundle for offline Python digest/schema replay"
+    }
+  }
+}

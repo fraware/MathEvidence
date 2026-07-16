@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/agent-list-capabilities-output-v0.json",
+  "title": "list_capabilities output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["operationId", "protocolVersion", "capabilities"],
+  "properties": {
+    "operationId": { "const": "list_capabilities" },
+    "protocolVersion": { "const": "0.1.0" },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "version",
+          "status",
+          "domain",
+          "claimClasses",
+          "supportClaims"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "version": { "type": "string" },
+          "status": { "type": "string" },
+          "domain": { "type": "string" },
+          "claimClasses": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "requestSchema": { "type": "string" },
+          "evidenceSchema": { "type": "string" },
+          "supportClaims": { "type": "object" }
+        }
+      }
+    }
+  }
+}
