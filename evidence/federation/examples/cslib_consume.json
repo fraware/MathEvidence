@@ -1,0 +1,42 @@
+{
+  "federationVersion": "0.1.0",
+  "project": {
+    "id": "cslib",
+    "role": "consumer",
+    "version": "0.1.0-sim",
+    "contact": "simulated-for-milestone-4"
+  },
+  "capabilityId": "logic.smt",
+  "claimClass": "refutation",
+  "resultStatus": "witness_verified",
+  "assuranceMode": "kernel_replay",
+  "provenance": {
+    "producedAt": "2026-07-16T14:05:00Z",
+    "tool": {
+      "name": "CSLib.FederationImport",
+      "version": "0.1.0-sim",
+      "backend": null
+    },
+    "leanVersion": "4.14.0",
+    "libraryRevision": "simulated",
+    "requestDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "notes": [
+      "Simulated consume: CSLib imports MathEvidence federation metadata without adopting MathEvidence checkers.",
+      "Downstream reuse of provenance fields only."
+    ]
+  },
+  "authority": {
+    "checkerOwner": "external",
+    "checkerPackage": "external:LeanSMT",
+    "mathEvidenceRole": "consumer"
+  },
+  "unresolvedObligations": [],
+  "externalRefs": [
+    {
+      "kind": "documentation",
+      "uri": "docs/architecture/collaboration-cslib-lean-auto-smt.md",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "payloadDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

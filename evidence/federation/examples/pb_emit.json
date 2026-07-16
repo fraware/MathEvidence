@@ -1,0 +1,41 @@
+{
+  "federationVersion": "0.1.0",
+  "project": {
+    "id": "pb-checker",
+    "role": "emitter",
+    "version": "0.1.0-sim",
+    "contact": "simulated-for-milestone-4"
+  },
+  "capabilityId": "logic.pseudo_boolean",
+  "claimClass": "witness",
+  "resultStatus": "witness_verified",
+  "assuranceMode": "kernel_replay",
+  "provenance": {
+    "producedAt": "2026-07-16T14:20:00Z",
+    "tool": {
+      "name": "PseudoBooleanChecker",
+      "version": "0.1.0-sim",
+      "backend": "roundingSat"
+    },
+    "leanVersion": null,
+    "libraryRevision": null,
+    "requestDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "notes": [
+      "Simulated emit: specialized PB checker remains authoritative."
+    ]
+  },
+  "authority": {
+    "checkerOwner": "external",
+    "checkerPackage": "external:PseudoBooleanChecker",
+    "mathEvidenceRole": "metadata_interop"
+  },
+  "unresolvedObligations": [],
+  "externalRefs": [
+    {
+      "kind": "certificate",
+      "uri": "simulated://pb-checker/witness/example.pbp",
+      "mediaType": "application/x-pbp"
+    }
+  ],
+  "payloadDigest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+}

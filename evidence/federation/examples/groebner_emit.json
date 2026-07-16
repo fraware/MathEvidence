@@ -1,0 +1,44 @@
+{
+  "federationVersion": "0.1.0",
+  "project": {
+    "id": "groebner-cert",
+    "role": "emitter",
+    "version": "0.1.0-sim",
+    "contact": "simulated-for-milestone-4"
+  },
+  "capabilityId": "algebra.groebner_membership",
+  "claimClass": "witness",
+  "resultStatus": "witness_verified",
+  "assuranceMode": "kernel_replay",
+  "provenance": {
+    "producedAt": "2026-07-16T14:10:00Z",
+    "tool": {
+      "name": "GroebnerCert",
+      "version": "0.1.0-sim",
+      "backend": "singular"
+    },
+    "leanVersion": "4.14.0",
+    "libraryRevision": "simulated",
+    "requestDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "notes": [
+      "Simulated emit: domain Gröbner project owns certificate checking."
+    ]
+  },
+  "authority": {
+    "checkerOwner": "external",
+    "checkerPackage": "external:GroebnerCert",
+    "mathEvidenceRole": "metadata_interop"
+  },
+  "unresolvedObligations": [
+    "side_condition: nonzero_leading_coefficients"
+  ],
+  "externalRefs": [
+    {
+      "kind": "certificate",
+      "uri": "simulated://groebner-cert/membership/example.cert",
+      "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "mediaType": "application/json"
+    }
+  ],
+  "payloadDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+}

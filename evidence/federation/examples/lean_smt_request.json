@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "0.1.0",
+  "capabilityId": "logic.smt",
+  "claimClass": "refutation",
+  "requestDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "opaqueIr": {
+    "kind": "opaque_external",
+    "externalSchema": "https://example.invalid/lean-smt/request.schema.json",
+    "externalFormat": "SMT-LIB",
+    "notes": [
+      "IR authority remains with Lean-SMT; MathEvidence stores opaque pointer only."
+    ]
+  },
+  "externalPayload": {
+    "smtlib": "(assert (and p (not p)))",
+    "logic": "QF_UF"
+  },
+  "hints": [
+    "try_unit_propagation",
+    "untrusted_search_ordering"
+  ]
+}
