@@ -44,6 +44,9 @@ jobs:
       - name: SymPy RFC 0001 conformance
         run: python scripts/run_adapter_conformance.py
 
+      - name: Differential backends (Mathematica skip/fixture without Wolfram)
+        run: python scripts/run_differential_backends.py
+
       - name: Mathematica fixture mode smoke
         env:
           MATHEVIDENCE_ADAPTER_MODE: fixture

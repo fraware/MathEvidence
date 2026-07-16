@@ -1,4 +1,4 @@
-# Phase 0 skeleton: release provenance placeholder (no publish yet).
+# Release provenance: evidence digests + Lean toolchain / lake commit pins.
 name: release
 
 on:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  release-skeleton:
+  release-provenance:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,13 +26,46 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -e . || pip install jsonschema
+
       - name: Validate schemas and build Lean
         run: |
           python scripts/validate_schemas.py
           python scripts/check_import_boundaries.py
           lake build
 
+      - name: Offline replay smoke
+        env:
+          MATHEVIDENCE_ADAPTER_MODE: fixture
+        run: python scripts/offline_replay_python.py
+
+      - name: Generate provenance manifest
+        run: |
+          mkdir -p dist/provenance
+          python scripts/generate_release_provenance.py dist/provenance
+          test -f dist/provenance/provenance-manifest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path("dist/provenance/provenance-manifest.json").read_text(encoding="utf-8"))
+          assert m.get("leanToolchain"), "missing leanToolchain pin"
+          assert m.get("gitCommit"), "missing gitCommit"
+          lake = m.get("lake") or {}
+          assert lake.get("packages"), "missing lake package pins"
+          print("provenance ok:", m["leanToolchain"], "files=", len(m.get("evidenceAndBenchmarkFiles") or []))
+          PY
+
+      - name: Upload provenance artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-provenance
+          path: dist/provenance/provenance-manifest.json
+
       - name: Release notes reminder
         run: |
-          echo "Phase 0: release.yml verifies build only."
-          echo "Later: sign artifacts, attach evidence manifests, publish assurance notes."
+          echo "release.yml: provenance manifest generated (evidence digests + Lean/lake pins)."
+          echo "Signing / publish remain a later governance step."

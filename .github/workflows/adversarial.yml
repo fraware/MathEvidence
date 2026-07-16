@@ -24,10 +24,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install -e . || pip install jsonschema
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install -e ".[dev,sympy]" || pip install jsonschema pytest sympy hypothesis
 
       - name: Validate adversarial seed catalog
         run: python scripts/validate_adversarial_seed.py
+
+      - name: Executable adversarial cases
+        run: python scripts/run_adversarial_executable.py
 
       - name: Canonical JSON vector check
         run: |
