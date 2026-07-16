@@ -1,0 +1,65 @@
+# Dependency review, secret scan hooks, static checks, LeanLink scaffold gate.
+name: security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Import-boundary check (trust boundary)
+        run: python scripts/check_import_boundaries.py
+
+      - name: Basic secret pattern scan
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, sys
+          patterns = [
+              re.compile(r"AKIA[0-9A-Z]{16}"),
+              re.compile(r"-----BEGIN (RSA |OPENSSH )?PRIVATE KEY-----"),
+          ]
+          skip = {".git", ".lake", ".venv"}
+          hits = []
+          for path in Path(".").rglob("*"):
+              if any(p in path.parts for p in skip) or not path.is_file():
+                  continue
+              if path.suffix.lower() in {".olean", ".png", ".jpg"}:
+                  continue
+              try:
+                  text = path.read_text(encoding="utf-8", errors="ignore")
+              except OSError:
+                  continue
+              for pat in patterns:
+                  if pat.search(text):
+                      hits.append(str(path))
+          if hits:
+              print("possible secrets:", *hits, sep="\n  ", file=sys.stderr)
+              sys.exit(1)
+          print("secret pattern scan ok")
+          PY
+
+      - name: LeanLink scaffold note
+        run: |
+          test -f docs/architecture/leanlink-adapter-review.md
+          test -f adapters/mathematica/leanlink.py
+          echo "LeanLink fuzz plan tracked; native bridge disabled by default"
+
+      - name: Dependency review
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        uses: actions/dependency-review-action@v4

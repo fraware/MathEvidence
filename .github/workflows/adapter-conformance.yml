@@ -1,0 +1,57 @@
+# Phase 1: adapter-conformance for SymPy (+ Mathematica fixture mode).
+name: adapter-conformance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sympy-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install -e ".[dev,sympy]" || pip install jsonschema pytest sympy
+
+      - name: Schema + registry + federation + assurance validate
+        run: |
+          python scripts/validate_schemas.py
+          python scripts/validate_registry.py
+          python scripts/validate_federation.py
+          python scripts/validate_assurance.py
+
+      - name: Unit tests
+        run: python -m pytest adapters agent -q
+
+      - name: Agent held-out tasks
+        run: python scripts/run_agent_held_out.py
+
+      - name: SymPy RFC 0001 conformance
+        run: python scripts/run_adapter_conformance.py
+
+      - name: Mathematica fixture mode smoke
+        env:
+          MATHEVIDENCE_ADAPTER_MODE: fixture
+        run: |
+          python -c "from adapters.mathematica import discover_runtime; r=discover_runtime(); assert r.mode=='fixture'; print(r.detail)"
+
+      - name: Sage fixture mode smoke
+        env:
+          MATHEVIDENCE_ADAPTER_MODE: fixture
+        run: |
+          python -c "from adapters.sage import discover_runtime; r=discover_runtime(); assert r.mode=='fixture'; print(r.detail)"
