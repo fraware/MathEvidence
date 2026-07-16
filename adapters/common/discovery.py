@@ -40,25 +40,66 @@ def discovery_env_enabled() -> bool:
     return v in {"1", "true", "live", "on"}
 
 
+def _capability_id(request: dict[str, Any]) -> str:
+    cap = request.get("capability")
+    if isinstance(cap, str) and cap:
+        return cap
+    return "algebra.rational_equality"
+
+
 def _direct_compute(backend: str, request: dict[str, Any]) -> dict[str, Any]:
-    """In-process compute (SymPy always; others respect fixture/live gates)."""
+    """In-process compute (SymPy multi-cap; others respect fixture/live gates)."""
     from adapters.common.limits import ResourceTracker
     from adapters.common.schema_validate import SchemaStore as SS
 
     schemas = SS()
     tracker = ResourceTracker(ResourceLimits.from_policy(request.get("resourcePolicy")))
+    cap = _capability_id(request)
+
     if backend == "sympy":
-        from adapters.sympy.adapter import compute_rational_equality
+        from adapters.sympy.adapter import (
+            compute_finite_counterexample,
+            compute_linear_algebra,
+            compute_rational_equality,
+            compute_symbolic_calculus,
+        )
 
+        if cap == "algebra.linear_algebra":
+            return compute_linear_algebra(request, tracker).result
+        if cap == "logic.finite_counterexample":
+            return compute_finite_counterexample(request, tracker).result
+        if cap == "analysis.symbolic_calculus":
+            return compute_symbolic_calculus(request, tracker).result
         return compute_rational_equality(request, tracker, schemas=schemas).result
+
     if backend == "mathematica":
-        from adapters.mathematica.adapter import compute_rational_equality
+        from adapters.mathematica.adapter import (
+            compute_rational_equality,
+            compute_symbolic_calculus,
+        )
 
+        if cap == "analysis.symbolic_calculus":
+            return compute_symbolic_calculus(request, tracker, schemas=schemas).result
+        if cap in ("algebra.linear_algebra", "logic.finite_counterexample"):
+            raise stable_error(
+                "backend_unsupported",
+                f"Mathematica discovery for {cap} is declared/placeholder; "
+                "use SymPy discovery or committed offline replay bundles",
+                details={"capability": cap, "backend": backend},
+            )
         return compute_rational_equality(request, tracker, schemas=schemas).result
+
     if backend == "sage":
         from adapters.sage.adapter import compute_rational_equality
 
+        if cap != "algebra.rational_equality":
+            raise stable_error(
+                "backend_unsupported",
+                f"Sage discovery supports rational equality only; got {cap}",
+                details={"capability": cap, "backend": backend},
+            )
         return compute_rational_equality(request, tracker, schemas=schemas).result
+
     raise stable_error("backend_unsupported", f"unknown backend: {backend}")
 
 
@@ -88,7 +129,7 @@ def _rpc_compute(backend: str, request: dict[str, Any]) -> dict[str, Any]:
         return result
 
 
-def discover_rational_equality(
+def discover(
     request: dict[str, Any],
     *,
     backend: str = "sympy",
@@ -96,7 +137,11 @@ def discover_rational_equality(
     use_rpc: bool | None = None,
     schemas: SchemaStore | None = None,
 ) -> DiscoveryResult:
-    """Run discovery for ``algebra.rational_equality``.
+    """Run discovery for the request capability (SymPy: rational / LA / CEX / calculus).
+
+    Lean tactic Meta-reify discovery remains rational-equality only; LA/CEX Lean
+    goals use ``mathevidence replay`` with committed BundleIds. This Python path
+    lets operators generate SymPy LA/CEX/calculus certificates for offline commit.
 
     ``use_rpc`` defaults to True when ``MATHEVIDENCE_DISCOVERY_RPC=1``, else
     in-process compute (still CI-safe for SymPy).
@@ -154,4 +199,24 @@ def discover_rational_equality(
         bundle_dir=written,
         via_rpc=via_rpc,
         warnings=warnings,
+    )
+
+
+def discover_rational_equality(
+    request: dict[str, Any],
+    *,
+    backend: str = "sympy",
+    bundle_dir: Path | None = None,
+    use_rpc: bool | None = None,
+    schemas: SchemaStore | None = None,
+) -> DiscoveryResult:
+    """Backward-compatible alias; routes via ``discover``."""
+    req = dict(request)
+    req.setdefault("capability", "algebra.rational_equality")
+    return discover(
+        req,
+        backend=backend,
+        bundle_dir=bundle_dir,
+        use_rpc=use_rpc,
+        schemas=schemas,
     )

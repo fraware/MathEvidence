@@ -94,19 +94,24 @@ OPERATIONS: dict[str, OperationDescriptor] = {
     ),
     "prove_sufficient": OperationDescriptor(
         id="prove_sufficient",
-        summary="Preview sufficiency of a condition set (Lean owns acceptance)",
+        summary="Sufficiency via Lean RationalEquality.checkBool mirror only",
         input_schema=f"{_BASE}hypothesis.input.schema.json",
         output_schema=_RESULT,
         claim_classes=["candidate"],
         max_resource_policy={"maxWallTimeMs": 30_000, "maxOutputBytes": 1_048_576},
+        notes=[
+            "authorityStatus=lean_checker_mirror; kernel replay remains final.",
+            "Heuristics/polyZeroHint never determine acceptance.",
+        ],
     ),
     "delete_hypothesis": OperationDescriptor(
         id="delete_hypothesis",
-        summary="Attempt hypothesis deletion with redundancy justification preview",
+        summary="Hypothesis deletion with redundancy via Lean checkBool mirror",
         input_schema=f"{_BASE}hypothesis.input.schema.json",
         output_schema=_RESULT,
         claim_classes=["candidate"],
         max_resource_policy={"maxWallTimeMs": 30_000, "maxOutputBytes": 1_048_576},
+        notes=["authorityStatus=lean_checker_mirror; absence of CEX is not necessity."],
     ),
     "find_counterexample": OperationDescriptor(
         id="find_counterexample",
@@ -118,19 +123,24 @@ OPERATIONS: dict[str, OperationDescriptor] = {
     ),
     "verify_counterexample": OperationDescriptor(
         id="verify_counterexample",
-        summary="Verify a finite counterexample via Python mirror of Lean checkBool",
+        summary="Verify finite CEX via Lean Counterexample.checkBool mirror",
         input_schema=f"{_BASE}hypothesis.input.schema.json",
         output_schema=_RESULT,
         claim_classes=["witness", "refutation"],
         max_resource_policy={"maxWallTimeMs": 30_000, "maxOutputBytes": 1_048_576},
+        notes=["authorityStatus=lean_checker_mirror; kernel replay remains final."],
     ),
     "build_condition_lattice": OperationDescriptor(
         id="build_condition_lattice",
-        summary="Build a condition lattice artifact (minimality never claimed by default)",
+        summary="Build condition lattice via Lean-authoritative sufficiency/deletion/CEX",
         input_schema=f"{_BASE}hypothesis.input.schema.json",
         output_schema=_RESULT,
         claim_classes=["candidate"],
         max_resource_policy={"maxWallTimeMs": 60_000, "maxOutputBytes": 2_097_152},
+        notes=[
+            "authorityStatus=lean_checker_mirror on sufficiency/deletion/CEX fields.",
+            "Minimality never claimed by default; expert review required.",
+        ],
     ),
     "conjecture_campaign": OperationDescriptor(
         id="conjecture_campaign",

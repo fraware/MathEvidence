@@ -17,6 +17,15 @@ EVIDENCE_ROOTS = [
     ROOT / "evidence" / "conformance",
 ]
 
+# Intentional reject fixtures: checker or digest must fail; acceptance is an error.
+# Note: rfc0001/false_identity is Lean-owned (Python offline only schema+digest).
+EXPECTED_REJECT_MARKERS = (
+    "hash_mismatch",
+    "singular_inverse_rejected",
+    "witness_type_mismatch",
+    "out_of_domain_rejected",
+)
+
 
 def find_bundles() -> list[Path]:
     bundles: list[Path] = []
@@ -28,6 +37,11 @@ def find_bundles() -> list[Path]:
     return sorted(bundles)
 
 
+def _is_expected_reject(rel: Path) -> bool:
+    s = str(rel).replace("\\", "/")
+    return any(m in s for m in EXPECTED_REJECT_MARKERS)
+
+
 def main() -> int:
     bundles = find_bundles()
     if not bundles:
@@ -36,23 +50,33 @@ def main() -> int:
     errors = 0
     for bundle in bundles:
         rel = bundle.relative_to(ROOT)
+        expect_reject = _is_expected_reject(rel)
         try:
             warnings = verify_bundle_offline(bundle)
+            if expect_reject:
+                if not warnings:
+                    print(
+                        f"FAIL {rel}: expected reject but offline verify had no warnings",
+                        file=sys.stderr,
+                    )
+                    errors += 1
+                else:
+                    print(f"ok-expected-reject {rel}")
+                    for w in warnings:
+                        print(f"  warning: {w}")
+                continue
             status = "ok"
             if warnings:
                 status = "ok-with-warnings"
             print(f"{status} {rel}")
             for w in warnings:
                 print(f"  warning: {w}")
-                # Intentional mismatch fixtures live under conformance/*/hash_mismatch
-                if "hash_mismatch" not in str(rel).replace("\\", "/"):
-                    errors += 1
+                errors += 1
         except Exception as exc:  # noqa: BLE001
-            print(f"FAIL {rel}: {exc}", file=sys.stderr)
-            # hash_mismatch and malformed adversarial-style fixtures may fail hard
-            if "hash_mismatch" in str(rel).replace("\\", "/"):
-                print(f"  (expected failure class for hash_mismatch)")
+            if expect_reject:
+                print(f"ok-expected-reject {rel}: {exc}")
             else:
+                print(f"FAIL {rel}: {exc}", file=sys.stderr)
                 errors += 1
     if errors:
         print(f"offline-replay failed ({errors} issues)", file=sys.stderr)

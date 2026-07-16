@@ -17,7 +17,7 @@ if str(ROOT) not in sys.path:
 
 from adapters.common.bundle import write_bundle  # noqa: E402
 from adapters.common.canonical import bind_request_digest  # noqa: E402
-from adapters.common.discovery import discover_rational_equality  # noqa: E402
+from adapters.common.discovery import discover  # noqa: E402
 from adapters.common.limits import ResourceTracker, ResourceLimits  # noqa: E402
 from adapters.common.schema_validate import SchemaStore  # noqa: E402
 
@@ -75,7 +75,7 @@ def cmd_discover(args: argparse.Namespace) -> int:
         use_rpc = True
     elif args.direct:
         use_rpc = False
-    result = discover_rational_equality(
+    result = discover(
         request,
         backend=args.backend,
         bundle_dir=Path(args.bundle_dir) if args.bundle_dir else None,
@@ -129,7 +129,10 @@ def main() -> int:
 
     p_discover = sub.add_parser(
         "discover",
-        help="Discovery orchestration (adapter → bundle); CI-safe when backends fixture",
+        help=(
+            "Discovery orchestration (adapter → bundle); capability from request "
+            "(SymPy: rational / LA / CEX / calculus); CI-safe when backends fixture"
+        ),
     )
     p_discover.add_argument(
         "--backend", choices=["sympy", "mathematica", "sage"], default="sympy"

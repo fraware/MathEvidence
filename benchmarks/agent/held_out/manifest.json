@@ -17,7 +17,7 @@
     "tasks/T02_reject_unknown_capability.json",
     "tasks/T03_open_example_bundle.json",
     "tasks/T04_replay_example_bundle.json",
-    "tasks/T05_check_linear_algebra_placeholder.json",
+    "tasks/T05_compute_replay_linear_algebra.json",
     "tasks/T06_reject_shell_backend.json",
     "tasks/T07_discover_calculus.json"
   ]

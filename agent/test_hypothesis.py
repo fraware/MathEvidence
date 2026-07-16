@@ -43,6 +43,7 @@ def test_delete_marks_necessity_open() -> None:
     out = delete_hypothesis_python(request, conditions, "c0", poly_zero=True)
     assert out["result"] == "not_redundant"
     assert out["necessity"] == "open"
+    assert out["authorityStatus"] == "lean_checker_mirror"
 
 
 def test_lattice_claims_minimal_false() -> None:
@@ -66,8 +67,92 @@ def test_lattice_claims_minimal_false() -> None:
             "right": {"tag": "int", "value": "1"},
         },
     }
-    lattice = build_condition_lattice(artifact_id="t", request=request, poly_zero=True)
+    lattice = build_condition_lattice(artifact_id="t", request=request)
     assert lattice["claimsMinimal"] is False
+    assert lattice["authorityStatus"] == "lean_checker_mirror"
+    assert lattice["sufficientSets"]
+
+
+def test_prove_sufficient_lean_authoritative() -> None:
+    from agent.hypothesis import prove_sufficient_python
+
+    request = {
+        "lhs": {
+            "tag": "div",
+            "num": {
+                "tag": "sub",
+                "left": {"tag": "pow", "base": {"tag": "var", "name": "x"}, "exp": 2},
+                "right": {"tag": "int", "value": "1"},
+            },
+            "den": {
+                "tag": "sub",
+                "left": {"tag": "var", "name": "x"},
+                "right": {"tag": "int", "value": "1"},
+            },
+        },
+        "rhs": {
+            "tag": "add",
+            "left": {"tag": "var", "name": "x"},
+            "right": {"tag": "int", "value": "1"},
+        },
+    }
+    conds = propose_conditions_from_request(request)
+    out = prove_sufficient_python(request, conds)
+    assert out["authorityStatus"] == "lean_checker_mirror"
+    assert out["sufficient"] is True
+
+
+def test_family_campaign_precision_accounting() -> None:
+    from agent.conjecture import run_family_campaign
+
+    req = bind_request_digest(
+        {
+            "schemaVersion": "0.1.0",
+            "capability": "logic.finite_counterexample",
+            "capabilityVersion": "0.1.0",
+            "predicate": {
+                "varNames": ["x"],
+                "domains": [{"ty": "nat", "bound": 3}],
+                "pred": {
+                    "tag": "eq",
+                    "left": {"tag": "var", "idx": 0},
+                    "right": {"tag": "lit", "v": {"tag": "nat", "v": 0}},
+                },
+            },
+            "requestedClaim": "refutation",
+            "resourcePolicy": {"maxWallTimeMs": 5000, "maxOutputBytes": 65536},
+        }
+    )
+    campaign = run_family_campaign(
+        family_id="finite.nat_le_3",
+        candidates=[
+            {"pred": req["predicate"]["pred"], "request": req},
+            {
+                "pred": {
+                    "tag": "eq",
+                    "left": {"tag": "var", "idx": 0},
+                    "right": {"tag": "var", "idx": 0},
+                },
+                "outcome": "formally_proved",
+                "theoremRef": "eq_refl_on_nat3",
+            },
+            {
+                "pred": {
+                    "tag": "le",
+                    "left": {"tag": "var", "idx": 0},
+                    "right": {"tag": "var", "idx": 0},
+                },
+                "outcome": "open",
+                "openDetail": "See conjecture-open-problem-nat-le-family.md",
+                "searchBound": 4,
+            },
+        ],
+    )
+    acc = campaign["precisionAccounting"]
+    assert acc["proposed"] == 3
+    assert acc["falsified"] == 1
+    assert acc["formallyProved"] == 1
+    assert acc["openProblems"] == 1
 
 
 def test_foundry_capture_never_accepts() -> None:

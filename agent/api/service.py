@@ -499,14 +499,16 @@ def op_prove_sufficient(body: dict[str, Any]) -> dict[str, Any]:
     preview = prove_sufficient_python(
         request,
         conditions if isinstance(conditions, list) else [],
-        poly_zero=bool(body.get("polyZeroHint", True)),
     )
     return _agent_result(
         operation_id="prove_sufficient",
         result_status="computed" if preview["sufficient"] else "rejected",
         claim_class="candidate",
         notes=preview["notes"],
-        extra={"sufficiency": preview},
+        extra={
+            "sufficiency": preview,
+            "authorityStatus": preview.get("authorityStatus"),
+        },
     )
 
 
@@ -530,7 +532,6 @@ def op_delete_hypothesis(body: dict[str, Any]) -> dict[str, Any]:
         request,
         conditions if isinstance(conditions, list) else [],
         target,
-        poly_zero=bool(body.get("polyZeroHint", True)),
     )
     episode = _maybe_capture("hypothesis_deletion", result, body)
     status = "computed" if result["result"] in ("redundant", "not_redundant") else "rejected"
@@ -539,7 +540,11 @@ def op_delete_hypothesis(body: dict[str, Any]) -> dict[str, Any]:
         result_status=status,
         claim_class="candidate",
         notes=result.get("notes") or [],
-        extra={"deletion": result, "trainingEpisode": episode},
+        extra={
+            "deletion": result,
+            "authorityStatus": result.get("authorityStatus"),
+            "trainingEpisode": episode,
+        },
     )
 
 
@@ -574,7 +579,7 @@ def op_find_counterexample(body: dict[str, Any]) -> dict[str, Any]:
 
 
 def op_verify_counterexample(body: dict[str, Any]) -> dict[str, Any]:
-    from adapters.common.lean_mirrors import check_finite_counterexample
+    from agent.hypothesis import verify_counterexample_python
 
     request = body.get("request")
     certificate = body.get("certificate")
@@ -588,7 +593,8 @@ def op_verify_counterexample(body: dict[str, Any]) -> dict[str, Any]:
                 "category": "evidence",
             },
         )
-    ok = check_finite_counterexample(request, certificate)
+    verified = verify_counterexample_python(request, certificate)
+    ok = bool(verified["verified"])
     episode = _maybe_capture(
         "certified_refutation" if ok else "hypothesis_deletion",
         {"ok": ok, "certificate": certificate},
@@ -598,11 +604,12 @@ def op_verify_counterexample(body: dict[str, Any]) -> dict[str, Any]:
         operation_id="verify_counterexample",
         result_status="computed" if ok else "rejected",
         claim_class="refutation" if ok else "candidate",
-        notes=[
-            "Python mirror of Lean Counterexample.checkBool.",
-            "Lean kernel replay remains authoritative.",
-        ],
-        extra={"verified": ok, "trainingEpisode": episode},
+        notes=verified["notes"],
+        extra={
+            "verified": ok,
+            "authorityStatus": verified.get("authorityStatus"),
+            "trainingEpisode": episode,
+        },
     )
 
 
@@ -621,12 +628,15 @@ def op_build_condition_lattice(body: dict[str, Any]) -> dict[str, Any]:
             },
         )
     artifact_id = body.get("artifactId") or "lattice_agent"
+    weaker = body.get("weakerVariantRequest")
+    related = body.get("relatedConditionIds")
     lattice = build_condition_lattice(
         artifact_id=str(artifact_id),
         request=request,
         original=body.get("original") if isinstance(body.get("original"), list) else None,
         proposed=body.get("conditions") if isinstance(body.get("conditions"), list) else None,
-        poly_zero=bool(body.get("polyZeroHint", True)),
+        weaker_variant_request=weaker if isinstance(weaker, dict) else None,
+        related_condition_ids=related if isinstance(related, list) else None,
     )
     episode = _maybe_capture("hypothesis_lattice", lattice, body)
     return _agent_result(
@@ -635,15 +645,50 @@ def op_build_condition_lattice(body: dict[str, Any]) -> dict[str, Any]:
         claim_class="candidate",
         notes=[
             "Condition lattice artifact ready for expert review.",
+            "Sufficiency/deletion/CEX status from Lean checkBool mirrors only.",
             "claimsMinimal is false unless necessity proofs cover recommendations.",
         ],
-        extra={"lattice": lattice, "trainingEpisode": episode},
+        extra={
+            "lattice": lattice,
+            "authorityStatus": lattice.get("authorityStatus"),
+            "trainingEpisode": episode,
+        },
     )
 
 
 def op_conjecture_campaign(body: dict[str, Any]) -> dict[str, Any]:
     from adapters.common.hypothesis_util import find_counterexample
-    from agent.conjecture import certify_refutation, mark_bounded_verified, new_episode, to_candidate
+    from agent.conjecture import (
+        certify_refutation,
+        mark_bounded_verified,
+        new_episode,
+        run_family_campaign,
+        to_candidate,
+    )
+
+    # Multi-candidate formal family campaign with precision accounting.
+    if isinstance(body.get("candidates"), list):
+        family_id = str(body.get("familyId") or "finite.default")
+        campaign = run_family_campaign(
+            family_id=family_id, candidates=body["candidates"]
+        )
+        episode = _maybe_capture("conjecture_campaign", campaign, body)
+        return _agent_result(
+            operation_id="conjecture_campaign",
+            result_status="computed",
+            claim_class="candidate",
+            notes=[
+                "Formal family campaign with precision accounting.",
+                "bounded_verified / open are not unbounded theorems.",
+                "Falsification status from Lean checkBool mirrors only.",
+            ],
+            extra={
+                "campaign": campaign,
+                "precisionAccounting": campaign["precisionAccounting"],
+                "authorityStatus": campaign.get("authorityStatus"),
+                "trainingEpisode": episode,
+            },
+        )
 
     request = body.get("request")
     if not isinstance(request, dict):
@@ -652,7 +697,7 @@ def op_conjecture_campaign(body: dict[str, Any]) -> dict[str, Any]:
             result_status="rejected",
             error={
                 "code": "malformed_evidence",
-                "message": "request object required",
+                "message": "request object or candidates[] required",
                 "category": "evidence",
             },
         )
@@ -689,6 +734,12 @@ def op_conjecture_campaign(body: dict[str, Any]) -> dict[str, Any]:
             "Candidates vs certified refutations only.",
             "bounded_verified is not a theorem over the unbounded family.",
             "Training episodes never influence acceptance.",
+            "authorityStatus=lean_checker_mirror for falsification.",
         ],
-        extra={"episode": ep, "certificate": cert, "trainingEpisode": episode},
+        extra={
+            "episode": ep,
+            "certificate": cert,
+            "authorityStatus": ep.get("authorityStatus"),
+            "trainingEpisode": episode,
+        },
     )

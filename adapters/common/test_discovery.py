@@ -55,6 +55,18 @@ def test_rpc_client_initialize_shutdown() -> None:
         assert any(c["id"] == "algebra.rational_equality" for c in caps["capabilities"])
 
 
+def test_discover_direct_sympy_linear_algebra(tmp_path: Path) -> None:
+    from adapters.common.discovery import discover
+
+    la_req = ROOT / "evidence" / "examples" / "linear_algebra_inverse_2x2" / "request.json"
+    request = json.loads(la_req.read_text(encoding="utf-8"))
+    out = tmp_path / "la_bundle"
+    result = discover(request, backend="sympy", bundle_dir=out, use_rpc=False)
+    assert result.via_rpc is False
+    assert (out / "certificate.json").is_file()
+    assert result.certificate.get("capability") == "algebra.linear_algebra"
+
+
 def test_bind_request_matches_committed_basic() -> None:
     request = json.loads(BASIC.read_text(encoding="utf-8"))
     digest = request.pop("requestDigest")

@@ -66,11 +66,12 @@ def test_hypothesis_lattice_never_claims_minimal() -> None:
         },
     }
     out = service.op_build_condition_lattice(
-        {"request": request, "artifactId": "test_lat", "polyZeroHint": True}
+        {"request": request, "artifactId": "test_lat"}
     )
     assert out["resultStatus"] == "computed"
     lattice = out["lattice"]
     assert lattice["claimsMinimal"] is False
+    assert out.get("authorityStatus") == "lean_checker_mirror"
     assert "c0" in lattice["recommendedInterface"] or lattice["sufficientSets"]
 
 
