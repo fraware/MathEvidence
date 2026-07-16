@@ -1,0 +1,30 @@
+{
+  "version": "0.1.0",
+  "profile": "docs/architecture/canonical-json.md",
+  "cases": [
+    {
+      "id": "object-key-order",
+      "input": {
+        "b": 1,
+        "a": 2
+      },
+      "canonical": "{\"a\":2,\"b\":1}",
+      "digest": "sha256:d3626ac30a87e6f7a6428233b3c68299976865fa5508e4267c5415c76af7a772"
+    },
+    {
+      "id": "nested",
+      "input": {
+        "z": [
+          1,
+          {
+            "y": true,
+            "x": null
+          }
+        ],
+        "a": "q"
+      },
+      "canonical": "{\"a\":\"q\",\"z\":[1,{\"x\":null,\"y\":true}]}",
+      "digest": "sha256:50eec61bff879f09b426688576e68cb27f5bb53ac50ae26d571ff233f1e8cab4"
+    }
+  ]
+}

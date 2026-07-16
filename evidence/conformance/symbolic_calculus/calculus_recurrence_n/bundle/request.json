@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "analysis.symbolic_calculus",
+  "capabilityVersion": "0.1.0",
+  "requestedClaim": "candidate",
+  "resourcePolicy": {
+    "maxWallTimeMs": 60000,
+    "maxOutputBytes": 1048576
+  },
+  "operation": "recurrence_identity",
+  "variables": [
+    {
+      "name": "n",
+      "type": "Rat"
+    },
+    {
+      "name": "u",
+      "type": "Rat"
+    }
+  ],
+  "independentVar": "n",
+  "dependentVar": "u",
+  "expr": {
+    "tag": "var",
+    "name": "n"
+  },
+  "candidate": {
+    "tag": "int",
+    "value": "0"
+  },
+  "recurrenceRhs": {
+    "tag": "add",
+    "left": {
+      "tag": "var",
+      "name": "u"
+    },
+    "right": {
+      "tag": "int",
+      "value": "1"
+    }
+  },
+  "domainConditions": [],
+  "requestDigest": "sha256:9f6e1cde36a8af2851c2eaf64cbb4ee7975518d4da700baf577357420fb028bd"
+}
