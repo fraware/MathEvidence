@@ -25,7 +25,7 @@ Deliverables:
 - restricted rational-expression IR;
 - reifier and soundness theorem;
 - solver-independent request and evidence schema;
-- Mathematica adapter through LeanLink;
+- Mathematica adapter (wolframscript; LeanLink deferred);
 - SymPy or SageMath adapter;
 - verified equality checker;
 - offline evidence bundle;

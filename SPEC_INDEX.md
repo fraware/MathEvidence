@@ -20,6 +20,7 @@
 - `docs/adr/0001-monorepo.md`
 - `docs/adr/0002-solver-independence.md`
 - `docs/adr/0003-jsonrpc-stdio.md`
+- `docs/adr/0004-mathematica-transport-wolframscript.md`
 - `docs/architecture/canonical-json.md`
 - `docs/architecture/ecosystem-boundaries.md`
 - `docs/architecture/leanlink-adapter-review.md`
