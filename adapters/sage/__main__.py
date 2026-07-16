@@ -6,7 +6,7 @@ from adapters.common.limits import ResourceLimits
 from adapters.common.protocol import AdapterServer
 from adapters.sage.adapter import (
     ADAPTER_VERSION,
-    RATIONAL_EQUALITY_CAPABILITY,
+    SAGE_CAPABILITIES,
     check_support,
     compute_handler,
     discover_runtime,
@@ -17,9 +17,9 @@ def build_server() -> AdapterServer:
     rt = discover_runtime()
     return AdapterServer(
         backend_id="sage",
-        backend_version="0.1.0-scaffold",
+        backend_version="0.1.0",
         adapter_version=ADAPTER_VERSION,
-        capabilities=[RATIONAL_EQUALITY_CAPABILITY],
+        capabilities=list(SAGE_CAPABILITIES),
         compute=compute_handler,
         check_support=check_support,
         limits=ResourceLimits(),

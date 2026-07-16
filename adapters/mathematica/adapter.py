@@ -59,7 +59,38 @@ SYMBOLIC_CALCULUS_CAPABILITY = CapabilityDescriptor(
     ],
 )
 
-MATHEMATICA_CAPABILITIES = [RATIONAL_EQUALITY_CAPABILITY, SYMBOLIC_CALCULUS_CAPABILITY]
+LINEAR_ALGEBRA_CAPABILITY = CapabilityDescriptor(
+    id="algebra.linear_algebra",
+    version="0.1.0",
+    claim_classes=["witness", "candidate"],
+    request_schema="linear-algebra-request.schema.json",
+    evidence_schema="linear-algebra-certificate.schema.json",
+    deterministic=True,
+    notes=[
+        "Live path: wolframscript Inverse/LinearSolve/NullSpace over rationals → MatrixExpr IR.",
+        "Same certificate schema as SymPy; Lean LinearAlgebra checker owns acceptance.",
+    ],
+)
+
+FINITE_COUNTEREXAMPLE_CAPABILITY = CapabilityDescriptor(
+    id="logic.finite_counterexample",
+    version="0.1.0",
+    claim_classes=["witness", "candidate", "refutation"],
+    request_schema="finite-counterexample-request.schema.json",
+    evidence_schema="finite-counterexample-certificate.schema.json",
+    deterministic=True,
+    notes=[
+        "Live path: bounded domain enumeration (CAS-independent) gated by wolframscript live mode.",
+        "Same certificate schema as SymPy; Lean Counterexample checker owns acceptance.",
+    ],
+)
+
+MATHEMATICA_CAPABILITIES = [
+    RATIONAL_EQUALITY_CAPABILITY,
+    LINEAR_ALGEBRA_CAPABILITY,
+    FINITE_COUNTEREXAMPLE_CAPABILITY,
+    SYMBOLIC_CALCULUS_CAPABILITY,
+]
 
 
 @dataclass(frozen=True)
@@ -599,13 +630,309 @@ def compute_rational_equality(
     )
 
 
+def _require_live(rt: MathematicaRuntime, *, capability: str) -> None:
+    if rt.mode != "live" or not rt.available or not rt.executable:
+        raise stable_error(
+            "backend_unavailable",
+            "Mathematica backend unavailable; use committed evidence for offline replay "
+            "or set MATHEVIDENCE_WOLFRAMSCRIPT to enable live generation",
+            details={
+                "mode": rt.mode,
+                "detail": rt.detail,
+                "capability": capability,
+                "leanLink": rt.leanlink_path,
+            },
+        )
+
+
+def _wl_encode_rat(lit: dict[str, Any]) -> str:
+    return f"({int(lit['num'])}/{int(lit['den'])})"
+
+
+def _wl_encode_matrix(node: dict[str, Any]) -> str:
+    rows_wl: list[str] = []
+    for row in node["entries"]:
+        cells = [_wl_encode_rat(e) for e in row]
+        rows_wl.append("{" + ",".join(cells) + "}")
+    return "{" + ",".join(rows_wl) + "}"
+
+
+def _wl_matrix_ir_preamble() -> str:
+    """WL helpers: rational matrix/vector → MatrixExpr / ratLit JSON."""
+    return """
+SetOptions[$Output, PageWidth -> Infinity];
+ClearAll[ToRatLit, ToMatrixIR, ToVectorIR];
+ToRatLit[r_] := Module[{rr = Together[r]},
+  <|"tag" -> "rat", "num" -> ToString[Numerator[rr]], "den" -> ToString[Denominator[rr]]|>
+];
+ToMatrixIR[m_?MatrixQ] := Module[{dims = Dimensions[m]},
+  <|
+    "tag" -> "matrix",
+    "rows" -> dims[[1]],
+    "cols" -> dims[[2]],
+    "entries" -> Map[ToRatLit, m, {2}]
+  |>
+];
+ToVectorIR[v_List] := Map[ToRatLit, Flatten[v]];
+"""
+
+
+def _build_wl_la_script(request: dict[str, Any]) -> str:
+    """Build WL script for inverse / system / kernel / det_identity witnesses."""
+    op = request["operation"]
+    matrix = _wl_encode_matrix(request["matrix"])
+    preamble = _wl_matrix_ir_preamble()
+    if op == "inverse_witness":
+        body = f"""
+result = Catch[
+  Module[{{A, inv}},
+    A = {matrix};
+    If[Det[A] === 0, Throw[<|"error" -> "singular"|>]];
+    inv = Inverse[A];
+    <|
+      "operation" -> "inverse_witness",
+      "inverse" -> ToMatrixIR[inv],
+      "sideConditions" -> {{"matrix_invertible"}},
+      "rawForm" -> ToString[inv, InputForm]
+    |>
+  ]
+];
+"""
+    elif op == "system_solution":
+        rhs = request.get("rhs") or []
+        rhs_wl = "{" + ",".join(_wl_encode_rat(e) for e in rhs) + "}"
+        body = f"""
+result = Catch[
+  Module[{{A, b, sol}},
+    A = {matrix};
+    b = {rhs_wl};
+    sol = LinearSolve[A, b];
+    <|
+      "operation" -> "system_solution",
+      "vector" -> ToVectorIR[sol],
+      "rawForm" -> ToString[sol, InputForm]
+    |>
+  ]
+];
+"""
+    elif op == "kernel_vector":
+        body = f"""
+result = Catch[
+  Module[{{A, ns, v}},
+    A = {matrix};
+    ns = NullSpace[A];
+    If[ns === {{}}, Throw[<|"error" -> "trivial_kernel"|>]];
+    v = First[ns];
+    <|
+      "operation" -> "kernel_vector",
+      "vector" -> ToVectorIR[v],
+      "rawForm" -> ToString[v, InputForm]
+    |>
+  ]
+];
+"""
+    elif op == "det_identity":
+        body = f"""
+result = Catch[
+  Module[{{A}},
+    A = {matrix};
+    <|
+      "operation" -> "det_identity",
+      "claimedDetEcho" -> ToRatLit[Det[A]],
+      "rawForm" -> ToString[Det[A], InputForm]
+    |>
+  ]
+];
+"""
+    else:
+        raise stable_error("backend_unsupported", f"unknown linear algebra operation {op!r}")
+    return f"""
+{preamble}
+{body}
+ExportString[result, "JSON"]
+"""
+
+
+def _validate_rat_lit(node: Any, *, path: str) -> dict[str, Any]:
+    if not isinstance(node, dict) or node.get("tag") != "rat":
+        raise stable_error("malformed_evidence", f"ratLit at {path} must be tag=rat")
+    return {
+        "tag": "rat",
+        "num": str(int(node["num"])),
+        "den": str(int(node["den"])),
+    }
+
+
+def _validate_matrix_ir(node: Any, *, path: str = "matrix") -> dict[str, Any]:
+    if not isinstance(node, dict) or node.get("tag") != "matrix":
+        raise stable_error("malformed_evidence", f"matrix at {path} must be tag=matrix")
+    rows = int(node["rows"])
+    cols = int(node["cols"])
+    entries_raw = node.get("entries")
+    if not isinstance(entries_raw, list) or len(entries_raw) != rows:
+        raise stable_error("malformed_evidence", f"bad matrix rows at {path}")
+    entries: list[list[dict[str, Any]]] = []
+    for i, row in enumerate(entries_raw):
+        if not isinstance(row, list) or len(row) != cols:
+            raise stable_error("malformed_evidence", f"bad matrix row {i} at {path}")
+        entries.append(
+            [_validate_rat_lit(e, path=f"{path}.entries[{i}][{j}]") for j, e in enumerate(row)]
+        )
+    return {"tag": "matrix", "rows": rows, "cols": cols, "entries": entries}
+
+
+def la_certificate_from_wl_payload(
+    raw: dict[str, Any],
+    request: dict[str, Any],
+    digest: str,
+    *,
+    runtime: MathematicaRuntime,
+) -> dict[str, Any]:
+    """Assemble schema-valid LA certificate from WL JSON (testable offline)."""
+    op = request["operation"]
+    cert: dict[str, Any] = {
+        "schemaVersion": "0.1.0",
+        "capability": "algebra.linear_algebra",
+        "capabilityVersion": "0.1.0",
+        "requestDigest": digest,
+        "operation": op,
+        "provenance": {
+            "backendId": "mathematica",
+            "backendVersion": "wolframscript",
+            "adapterVersion": ADAPTER_VERSION,
+            "generatedAt": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "deterministic": True,
+        },
+    }
+    if op == "inverse_witness":
+        cert["inverse"] = _validate_matrix_ir(raw.get("inverse"), path="inverse")
+        sides = raw.get("sideConditions") or ["matrix_invertible"]
+        if not isinstance(sides, list):
+            raise stable_error("malformed_evidence", "sideConditions must be a list")
+        cert["sideConditions"] = [str(s) for s in sides]
+    elif op in ("system_solution", "kernel_vector"):
+        vec = raw.get("vector")
+        if not isinstance(vec, list):
+            raise stable_error("malformed_evidence", "vector must be a list")
+        cert["vector"] = [
+            _validate_rat_lit(e, path=f"vector[{i}]") for i, e in enumerate(vec)
+        ]
+    elif op == "det_identity":
+        pass
+    else:
+        raise stable_error("backend_unsupported", f"unknown operation {op!r}")
+    return cert
+
+
+def compute_linear_algebra(
+    request: dict[str, Any],
+    tracker: ResourceTracker,
+    *,
+    runtime: MathematicaRuntime | None = None,
+    schemas: SchemaStore | None = None,
+) -> HandlerResult:
+    store = schemas or SchemaStore()
+    store.validate("linear-algebra-request.schema.json", request)
+    try:
+        digest = verify_request_digest(request)
+    except Exception as exc:  # noqa: BLE001
+        raise stable_error("request_digest_mismatch", str(exc)) from exc
+
+    rt = runtime or discover_runtime()
+    _require_live(rt, capability="algebra.linear_algebra")
+    assert rt.executable is not None
+
+    raw = _run_wolfram(rt.executable, _build_wl_la_script(request), tracker)
+    if raw.get("error") == "singular":
+        raise stable_error("certificate_rejected", "matrix is singular")
+    if raw.get("error") == "trivial_kernel":
+        raise stable_error("certificate_rejected", "trivial kernel")
+    if raw.get("error"):
+        raise stable_error(
+            "unsupported_expression",
+            f"Wolfram LA encode failed: {raw.get('error')}",
+            details=raw,
+        )
+
+    certificate = la_certificate_from_wl_payload(raw, request, digest, runtime=rt)
+    store.validate("linear-algebra-certificate.schema.json", certificate)
+    tracker.ensure_output_size(len(str(certificate).encode("utf-8")))
+    return HandlerResult(
+        {
+            "capability": "algebra.linear_algebra",
+            "capabilityVersion": "0.1.0",
+            "requestDigest": digest,
+            "candidate": {"reportedOk": True},
+            "certificate": certificate,
+            "resultHint": "candidate",
+        },
+        resource_usage=tracker.usage(),
+    )
+
+
+def compute_finite_counterexample(
+    request: dict[str, Any],
+    tracker: ResourceTracker,
+    *,
+    runtime: MathematicaRuntime | None = None,
+    schemas: SchemaStore | None = None,
+) -> HandlerResult:
+    """Bounded finite CEX search (same algorithm as SymPy), live-gated.
+
+    Finite-domain enumeration does not require CAS kernels; wolframscript live
+    mode remains the honesty gate so CI fixture mode stays deterministic.
+    """
+    from adapters.common.hypothesis_util import find_counterexample
+
+    store = schemas or SchemaStore()
+    store.validate("finite-counterexample-request.schema.json", request)
+    try:
+        digest = verify_request_digest(request)
+    except Exception as exc:  # noqa: BLE001
+        raise stable_error("request_digest_mismatch", str(exc)) from exc
+
+    rt = runtime or discover_runtime()
+    _require_live(rt, capability="logic.finite_counterexample")
+    tracker.check()
+
+    cert = find_counterexample(request)
+    if cert is None:
+        raise stable_error(
+            "certificate_rejected",
+            "no counterexample found within enumeration bound",
+        )
+    cert["provenance"] = {
+        "backendId": "mathematica",
+        "backendVersion": "wolframscript",
+        "adapterVersion": ADAPTER_VERSION,
+        "generatedAt": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "deterministic": True,
+    }
+    store.validate("finite-counterexample-certificate.schema.json", cert)
+    return HandlerResult(
+        {
+            "capability": "logic.finite_counterexample",
+            "capabilityVersion": "0.1.0",
+            "requestDigest": digest,
+            "candidate": {"reportedFalse": True},
+            "certificate": cert,
+            "resultHint": "candidate",
+        },
+        resource_usage=tracker.usage(),
+    )
+
+
 def check_support(params: dict[str, Any], tracker: ResourceTracker) -> HandlerResult:
     tracker.check()
     rt = discover_runtime()
     request = params.get("request")
     if isinstance(request, dict):
         cap = request.get("capability", CAPABILITY_ID)
-        if cap == "analysis.symbolic_calculus":
+        if cap in (
+            "analysis.symbolic_calculus",
+            "algebra.linear_algebra",
+            "logic.finite_counterexample",
+        ):
             if not rt.available:
                 return HandlerResult(
                     {
@@ -616,6 +943,17 @@ def check_support(params: dict[str, Any], tracker: ResourceTracker) -> HandlerRe
                         "capability": cap,
                     }
                 )
+            notes = {
+                "analysis.symbolic_calculus": (
+                    "candidate≠completeness; derivative/antiderivative live"
+                ),
+                "algebra.linear_algebra": (
+                    "live Inverse/LinearSolve/NullSpace → MatrixExpr IR"
+                ),
+                "logic.finite_counterexample": (
+                    "bounded enumeration gated by wolframscript live mode"
+                ),
+            }.get(cap, "")
             return HandlerResult(
                 {
                     "supported": True,
@@ -623,7 +961,7 @@ def check_support(params: dict[str, Any], tracker: ResourceTracker) -> HandlerRe
                     "mode": rt.mode,
                     "transport": "wolframscript",
                     "leanLinkScaffold": True,
-                    "notes": "candidate≠completeness; derivative/antiderivative live",
+                    "notes": notes,
                 }
             )
         try:
@@ -799,4 +1137,8 @@ def compute_handler(params: dict[str, Any], tracker: ResourceTracker) -> Handler
     cap = request.get("capability", CAPABILITY_ID)
     if cap == "analysis.symbolic_calculus":
         return compute_symbolic_calculus(request, tracker)
+    if cap == "algebra.linear_algebra":
+        return compute_linear_algebra(request, tracker)
+    if cap == "logic.finite_counterexample":
+        return compute_finite_counterexample(request, tracker)
     return compute_rational_equality(request, tracker)

@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """Differential backend harness (TESTING_AND_CI.md §2.3).
 
-Identical rational-equality requests are sent to SymPy and Mathematica.
+Identical requests are sent to SymPy and Mathematica for:
+- algebra.rational_equality (rfc0001)
+- algebra.linear_algebra (accept cases)
+- logic.finite_counterexample (accept cases)
+
 Outcomes are classified; disagreements are retained under
 ``benchmarks/differential/`` and never auto-resolved for a backend.
 
 When ``MATHEVIDENCE_WOLFRAMSCRIPT`` is unset, Mathematica rows are labeled
-``fixture`` / ``skip`` (CI-friendly) and may still compare SymPy live results
-against committed Mathematica offline certificates when present.
+``fixture`` / ``skip`` (CI-friendly).
 """
 
 from __future__ import annotations
@@ -18,7 +21,7 @@ import sys
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -26,18 +29,38 @@ if str(ROOT) not in sys.path:
 
 from adapters.common.canonical import bind_request_digest  # noqa: E402
 from adapters.common.errors import AdapterError  # noqa: E402
-from adapters.common.lean_mirrors import check_rational_equality  # noqa: E402
+from adapters.common.lean_mirrors import (  # noqa: E402
+    check_finite_counterexample,
+    check_linear_algebra,
+    check_rational_equality,
+)
 from adapters.common.limits import ResourceLimits, ResourceTracker  # noqa: E402
 from adapters.mathematica.adapter import (  # noqa: E402
-    compute_rational_equality as mm_compute,
+    compute_finite_counterexample as mm_cex,
+)
+from adapters.mathematica.adapter import (  # noqa: E402
+    compute_linear_algebra as mm_la,
+)
+from adapters.mathematica.adapter import (  # noqa: E402
+    compute_rational_equality as mm_rational,
 )
 from adapters.mathematica.adapter import discover_runtime  # noqa: E402
-from adapters.sympy.adapter import compute_rational_equality as sympy_compute  # noqa: E402
+from adapters.sympy.adapter import (  # noqa: E402
+    compute_finite_counterexample as sympy_cex,
+)
+from adapters.sympy.adapter import (  # noqa: E402
+    compute_linear_algebra as sympy_la,
+)
+from adapters.sympy.adapter import (  # noqa: E402
+    compute_rational_equality as sympy_rational,
+)
 
-SUITE = ROOT / "evidence" / "conformance" / "rfc0001"
 OUT_DIR = ROOT / "benchmarks" / "differential"
 MANIFEST_PATH = OUT_DIR / "manifest.json"
 DISAGREEMENTS_DIR = OUT_DIR / "disagreements"
+
+Checker = Callable[[dict[str, Any], dict[str, Any]], bool]
+Compute = Callable[..., Any]
 
 
 @dataclass
@@ -50,13 +73,19 @@ class BackendOutcome:
     checker_accept: bool | None = None
 
 
-def _load_cases() -> list[Path]:
-    if not SUITE.is_dir():
-        return []
-    return sorted(p for p in SUITE.iterdir() if (p / "case.json").is_file())
+@dataclass(frozen=True)
+class SuiteConfig:
+    name: str
+    root: Path
+    capability: str
+    sympy_compute: Compute
+    mm_compute: Compute
+    checker: Checker
+    request_loader: Callable[[Path], dict[str, Any]]
+    accept_only: bool = False
 
 
-def _load_request(case_dir: Path) -> dict[str, Any]:
+def _load_rfc_request(case_dir: Path) -> dict[str, Any]:
     meta = json.loads((case_dir / "case.json").read_text(encoding="utf-8"))
     request = json.loads((case_dir / "request.json").read_text(encoding="utf-8"))
     if meta.get("bindDigest", True) and meta.get("expect") != "digest_mismatch":
@@ -64,17 +93,122 @@ def _load_request(case_dir: Path) -> dict[str, Any]:
     return request
 
 
-def _run_sympy(request: dict[str, Any]) -> BackendOutcome:
+def _load_bundle_request(case_dir: Path) -> dict[str, Any]:
+    path = case_dir / "bundle" / "request.json"
+    request = json.loads(path.read_text(encoding="utf-8"))
+    return bind_request_digest(request)
+
+
+def _suites() -> list[SuiteConfig]:
+    return [
+        SuiteConfig(
+            name="rfc0001",
+            root=ROOT / "evidence" / "conformance" / "rfc0001",
+            capability="algebra.rational_equality",
+            sympy_compute=sympy_rational,
+            mm_compute=mm_rational,
+            checker=check_rational_equality,
+            request_loader=_load_rfc_request,
+        ),
+        SuiteConfig(
+            name="linear_algebra",
+            root=ROOT / "evidence" / "conformance" / "linear_algebra",
+            capability="algebra.linear_algebra",
+            sympy_compute=sympy_la,
+            mm_compute=mm_la,
+            checker=check_linear_algebra,
+            request_loader=_load_bundle_request,
+            accept_only=True,
+        ),
+        SuiteConfig(
+            name="finite_counterexample",
+            root=ROOT / "evidence" / "conformance" / "finite_counterexample",
+            capability="logic.finite_counterexample",
+            sympy_compute=sympy_cex,
+            mm_compute=mm_cex,
+            checker=check_finite_counterexample,
+            request_loader=_load_bundle_request,
+            accept_only=True,
+        ),
+    ]
+
+
+def _case_dirs(suite: SuiteConfig) -> list[Path]:
+    if not suite.root.is_dir():
+        return []
+    out: list[Path] = []
+    for p in sorted(suite.root.iterdir()):
+        if not (p / "case.json").is_file():
+            continue
+        if suite.accept_only:
+            meta = json.loads((p / "case.json").read_text(encoding="utf-8"))
+            if meta.get("expect") != "accept":
+                continue
+            if not (p / "bundle" / "request.json").is_file():
+                continue
+        out.append(p)
+    return out
+
+
+def _run_backend(
+    *,
+    backend: str,
+    compute: Compute,
+    checker: Checker,
+    request: dict[str, Any],
+    live: bool,
+    skip_detail: str,
+) -> BackendOutcome:
+    if not live:
+        return BackendOutcome(backend, "skip", message=skip_detail)
     tracker = ResourceTracker(ResourceLimits())
     try:
-        result = sympy_compute(request, tracker)
+        result = compute(request, tracker)
         cert = result.result["certificate"]
-        accept = check_rational_equality(request, cert)
-        return BackendOutcome("sympy", "live_ok", certificate=cert, checker_accept=accept)
+        accept = checker(request, cert)
+        return BackendOutcome(backend, "live_ok", certificate=cert, checker_accept=accept)
     except AdapterError as exc:
         return BackendOutcome(
-            "sympy", "live_error", error_code=exc.code, message=exc.message
+            backend, "live_error", error_code=exc.code, message=exc.message
         )
+
+
+def _run_mathematica_rational_or_offline(
+    request: dict[str, Any],
+    case_dir: Path,
+    suite: SuiteConfig,
+    rt_detail: str,
+    live: bool,
+) -> BackendOutcome:
+    if live:
+        return _run_backend(
+            backend="mathematica",
+            compute=suite.mm_compute,
+            checker=suite.checker,
+            request=request,
+            live=True,
+            skip_detail=rt_detail,
+        )
+
+    # Rational suite: try committed Mathematica offline certificate.
+    if suite.capability == "algebra.rational_equality":
+        cert = _committed_mm_cert(case_dir) or _example_mm_cert_for_digest(
+            str(request.get("requestDigest", ""))
+        )
+        if cert is not None and cert.get("requestDigest") == request.get("requestDigest"):
+            accept = suite.checker(request, cert)
+            return BackendOutcome(
+                "mathematica",
+                "fixture",
+                message=rt_detail,
+                certificate=cert,
+                checker_accept=accept,
+            )
+    return BackendOutcome(
+        "mathematica",
+        "skip",
+        message=rt_detail or "Mathematica unavailable; no matching offline certificate",
+    )
 
 
 def _committed_mm_cert(case_dir: Path) -> dict[str, Any] | None:
@@ -84,13 +218,10 @@ def _committed_mm_cert(case_dir: Path) -> dict[str, Any] | None:
     cert = json.loads(path.read_text(encoding="utf-8"))
     if cert.get("provenance", {}).get("backendId") == "mathematica":
         return cert
-    # Many rfc0001 bundles are SymPy-authored; still usable as offline reference
-    # only when explicitly Mathematica. Prefer examples path for MM offline.
     return None
 
 
 def _example_mm_cert_for_digest(digest: str) -> dict[str, Any] | None:
-    """Match committed Mathematica offline example by request digest when present."""
     example = ROOT / "evidence" / "examples" / "rational_equality_mathematica_offline"
     req_path = example / "request.json"
     cert_path = example / "certificate.json"
@@ -100,47 +231,6 @@ def _example_mm_cert_for_digest(digest: str) -> dict[str, Any] | None:
     if req.get("requestDigest") == digest:
         return json.loads(cert_path.read_text(encoding="utf-8"))
     return None
-
-
-def _run_mathematica(request: dict[str, Any], case_dir: Path) -> BackendOutcome:
-    rt = discover_runtime()
-    if rt.mode == "live" and rt.available and rt.executable:
-        tracker = ResourceTracker(ResourceLimits())
-        try:
-            result = mm_compute(request, tracker, runtime=rt)
-            cert = result.result["certificate"]
-            accept = check_rational_equality(request, cert)
-            return BackendOutcome(
-                "mathematica", "live_ok", certificate=cert, checker_accept=accept
-            )
-        except AdapterError as exc:
-            return BackendOutcome(
-                "mathematica",
-                "live_error",
-                error_code=exc.code,
-                message=exc.message,
-            )
-
-    # CI / no Wolfram: fixture or offline committed certificate when available.
-    cert = _committed_mm_cert(case_dir) or _example_mm_cert_for_digest(
-        str(request.get("requestDigest", ""))
-    )
-    if cert is not None:
-        # Re-bind digest check against this request when digests match.
-        if cert.get("requestDigest") == request.get("requestDigest"):
-            accept = check_rational_equality(request, cert)
-            return BackendOutcome(
-                "mathematica",
-                "fixture",
-                message=rt.detail,
-                certificate=cert,
-                checker_accept=accept,
-            )
-    return BackendOutcome(
-        "mathematica",
-        "skip",
-        message=rt.detail or "Mathematica unavailable; no matching offline certificate",
-    )
 
 
 def _classify(sym: BackendOutcome, mm: BackendOutcome) -> str:
@@ -180,64 +270,81 @@ def _write_disagreement(case_id: str, row: dict[str, Any]) -> Path:
 
 def run(*, write_manifest: bool = True) -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    cases = _load_cases()
-    if not cases:
-        print(f"missing differential suite source {SUITE}", file=sys.stderr)
-        return 1
-
+    suites = _suites()
     rows: list[dict[str, Any]] = []
     disagreements = 0
     rt = discover_runtime()
+    live = bool(rt.mode == "live" and rt.available and rt.executable)
     print(
         f"differential: mathematica mode={rt.mode} available={rt.available} "
         f"({rt.detail})"
     )
 
-    for case_dir in cases:
-        case_id = case_dir.name
-        meta = json.loads((case_dir / "case.json").read_text(encoding="utf-8"))
-        request = _load_request(case_dir)
+    for suite in suites:
+        cases = _case_dirs(suite)
+        if not cases:
+            print(f"skip suite {suite.name}: no cases under {suite.root}", file=sys.stderr)
+            continue
+        print(f"suite {suite.name} ({len(cases)} cases)")
+        for case_dir in cases:
+            case_id = f"{suite.name}/{case_dir.name}"
+            meta = json.loads((case_dir / "case.json").read_text(encoding="utf-8"))
+            request = suite.request_loader(case_dir)
 
-        # Digest-mismatch / unsupported cases: still attempt classification.
-        sym = _run_sympy(request)
-        mm = _run_mathematica(request, case_dir)
-        classification = _classify(sym, mm)
+            sym = _run_backend(
+                backend="sympy",
+                compute=suite.sympy_compute,
+                checker=suite.checker,
+                request=request,
+                live=True,
+                skip_detail="",
+            )
+            mm = _run_mathematica_rational_or_offline(
+                request, case_dir, suite, rt.detail, live
+            )
+            classification = _classify(sym, mm)
 
-        row: dict[str, Any] = {
-            "caseId": case_id,
-            "expect": meta.get("expect"),
-            "classification": classification,
-            "requestDigest": request.get("requestDigest"),
-            "sympy": {
-                "status": sym.status,
-                "errorCode": sym.error_code,
-                "message": sym.message,
-                "checkerAccept": sym.checker_accept,
-            },
-            "mathematica": {
-                "status": mm.status,
-                "errorCode": mm.error_code,
-                "message": mm.message,
-                "checkerAccept": mm.checker_accept,
-            },
-            "recordedAt": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "autoResolved": False,
-        }
+            row: dict[str, Any] = {
+                "caseId": case_id,
+                "suite": suite.name,
+                "capability": suite.capability,
+                "expect": meta.get("expect"),
+                "classification": classification,
+                "requestDigest": request.get("requestDigest"),
+                "sympy": {
+                    "status": sym.status,
+                    "errorCode": sym.error_code,
+                    "message": sym.message,
+                    "checkerAccept": sym.checker_accept,
+                },
+                "mathematica": {
+                    "status": mm.status,
+                    "errorCode": mm.error_code,
+                    "message": mm.message,
+                    "checkerAccept": mm.checker_accept,
+                },
+                "recordedAt": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "autoResolved": False,
+            }
 
-        if classification == "semantic_disagreement":
-            disagreements += 1
-            path = _write_disagreement(case_id, row)
-            row["disagreementPath"] = str(path.relative_to(ROOT)).replace("\\", "/")
-            print(f"DISAGREEMENT {case_id} -> {row['disagreementPath']}")
-        else:
-            label = mm.status if mm.status in {"skip", "fixture"} else classification
-            print(f"ok {case_id}: {classification} (mm={label})")
+            if classification == "semantic_disagreement":
+                disagreements += 1
+                path = _write_disagreement(case_id.replace("/", "__"), row)
+                row["disagreementPath"] = str(path.relative_to(ROOT)).replace("\\", "/")
+                print(f"DISAGREEMENT {case_id} -> {row['disagreementPath']}")
+            else:
+                label = mm.status if mm.status in {"skip", "fixture"} else classification
+                print(f"ok {case_id}: {classification} (mm={label})")
 
-        rows.append(row)
+            rows.append(row)
+
+    if not rows:
+        print("differential: no cases loaded", file=sys.stderr)
+        return 1
 
     manifest = {
         "schemaVersion": "0.1.0",
-        "suite": "evidence/conformance/rfc0001",
+        "suites": [s.name for s in suites],
         "policy": "never_auto_resolve_disagreement",
         "mathematicaRuntime": {
             "mode": rt.mode,
@@ -254,7 +361,6 @@ def run(*, write_manifest: bool = True) -> int:
         )
         print(f"wrote {MANIFEST_PATH.relative_to(ROOT)}")
 
-    # Exit 0 even with skips/fixtures; fail only on semantic disagreement.
     if disagreements:
         print(
             f"differential FAILED: {disagreements} semantic disagreement(s) retained "

@@ -74,28 +74,35 @@ def _direct_compute(backend: str, request: dict[str, Any]) -> dict[str, Any]:
 
     if backend == "mathematica":
         from adapters.mathematica.adapter import (
+            compute_finite_counterexample,
+            compute_linear_algebra,
             compute_rational_equality,
             compute_symbolic_calculus,
         )
 
         if cap == "analysis.symbolic_calculus":
             return compute_symbolic_calculus(request, tracker, schemas=schemas).result
-        if cap in ("algebra.linear_algebra", "logic.finite_counterexample"):
-            raise stable_error(
-                "backend_unsupported",
-                f"Mathematica discovery for {cap} is declared/placeholder; "
-                "use SymPy discovery or committed offline replay bundles",
-                details={"capability": cap, "backend": backend},
-            )
+        if cap == "algebra.linear_algebra":
+            return compute_linear_algebra(request, tracker, schemas=schemas).result
+        if cap == "logic.finite_counterexample":
+            return compute_finite_counterexample(request, tracker, schemas=schemas).result
         return compute_rational_equality(request, tracker, schemas=schemas).result
 
     if backend == "sage":
-        from adapters.sage.adapter import compute_rational_equality
+        from adapters.sage.adapter import (
+            compute_finite_counterexample,
+            compute_linear_algebra,
+            compute_rational_equality,
+        )
 
+        if cap == "algebra.linear_algebra":
+            return compute_linear_algebra(request, tracker, schemas=schemas).result
+        if cap == "logic.finite_counterexample":
+            return compute_finite_counterexample(request, tracker, schemas=schemas).result
         if cap != "algebra.rational_equality":
             raise stable_error(
                 "backend_unsupported",
-                f"Sage discovery supports rational equality only; got {cap}",
+                f"Sage discovery supports rational equality / LA / CEX; got {cap}",
                 details={"capability": cap, "backend": backend},
             )
         return compute_rational_equality(request, tracker, schemas=schemas).result

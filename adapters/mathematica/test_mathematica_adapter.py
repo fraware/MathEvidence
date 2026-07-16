@@ -218,3 +218,144 @@ def test_calculus_certificate_from_wl_payload() -> None:
     assert cert["operation"] == "derivative_candidate"
     assert "completeness" in cert["notes"]
     assert cert["provenance"]["backendId"] == "mathematica"
+
+
+def test_la_fixture_mode_unavailable(monkeypatch) -> None:
+    monkeypatch.setenv("MATHEVIDENCE_ADAPTER_MODE", "fixture")
+    monkeypatch.delenv("MATHEVIDENCE_WOLFRAMSCRIPT", raising=False)
+    from adapters.mathematica.adapter import compute_linear_algebra
+
+    req = bind_request_digest(
+        {
+            "schemaVersion": "0.1.0",
+            "capability": "algebra.linear_algebra",
+            "capabilityVersion": "0.1.0",
+            "operation": "inverse_witness",
+            "matrix": {
+                "tag": "matrix",
+                "rows": 2,
+                "cols": 2,
+                "entries": [
+                    [{"tag": "rat", "num": "1", "den": "1"}, {"tag": "rat", "num": "0", "den": "1"}],
+                    [{"tag": "rat", "num": "0", "den": "1"}, {"tag": "rat", "num": "1", "den": "1"}],
+                ],
+            },
+            "requestedClaim": "witness",
+            "resourcePolicy": {"maxWallTimeMs": 1000, "maxOutputBytes": 4096},
+        }
+    )
+    try:
+        compute_linear_algebra(
+            req, ResourceTracker(ResourceLimits()), runtime=discover_runtime()
+        )
+        raise AssertionError("expected backend_unavailable")
+    except AdapterError as exc:
+        assert exc.code == "backend_unavailable"
+
+
+def test_la_certificate_from_wl_payload_inverse() -> None:
+    from adapters.common.lean_mirrors import check_linear_algebra
+    from adapters.mathematica.adapter import la_certificate_from_wl_payload
+
+    req = bind_request_digest(
+        {
+            "schemaVersion": "0.1.0",
+            "capability": "algebra.linear_algebra",
+            "capabilityVersion": "0.1.0",
+            "operation": "inverse_witness",
+            "matrix": {
+                "tag": "matrix",
+                "rows": 2,
+                "cols": 2,
+                "entries": [
+                    [{"tag": "rat", "num": "1", "den": "2"}, {"tag": "rat", "num": "0", "den": "1"}],
+                    [{"tag": "rat", "num": "0", "den": "1"}, {"tag": "rat", "num": "2", "den": "1"}],
+                ],
+            },
+            "requestedClaim": "witness",
+            "resourcePolicy": {"maxWallTimeMs": 1000, "maxOutputBytes": 4096},
+        }
+    )
+    rt = MathematicaRuntime(True, "/fake/ws", None, "live", "test")
+    raw = {
+        "operation": "inverse_witness",
+        "inverse": {
+            "tag": "matrix",
+            "rows": 2,
+            "cols": 2,
+            "entries": [
+                [{"tag": "rat", "num": "2", "den": "1"}, {"tag": "rat", "num": "0", "den": "1"}],
+                [{"tag": "rat", "num": "0", "den": "1"}, {"tag": "rat", "num": "1", "den": "2"}],
+            ],
+        },
+        "sideConditions": ["matrix_invertible"],
+    }
+    cert = la_certificate_from_wl_payload(raw, req, req["requestDigest"], runtime=rt)
+    SchemaStore().validate("linear-algebra-certificate.schema.json", cert)
+    assert cert["provenance"]["backendId"] == "mathematica"
+    assert check_linear_algebra(req, cert) is True
+
+
+def test_cex_fixture_mode_unavailable(monkeypatch) -> None:
+    monkeypatch.setenv("MATHEVIDENCE_ADAPTER_MODE", "fixture")
+    from adapters.mathematica.adapter import compute_finite_counterexample
+
+    req = bind_request_digest(
+        {
+            "schemaVersion": "0.1.0",
+            "capability": "logic.finite_counterexample",
+            "capabilityVersion": "0.1.0",
+            "predicate": {
+                "varNames": ["x"],
+                "domains": [{"ty": "nat", "bound": 3}],
+                "pred": {
+                    "tag": "eq",
+                    "left": {"tag": "var", "idx": 0},
+                    "right": {"tag": "lit", "v": {"tag": "nat", "v": 0}},
+                },
+            },
+            "requestedClaim": "refutation",
+            "resourcePolicy": {"maxWallTimeMs": 1000, "maxOutputBytes": 4096},
+        }
+    )
+    try:
+        compute_finite_counterexample(
+            req, ResourceTracker(ResourceLimits()), runtime=discover_runtime()
+        )
+        raise AssertionError("expected backend_unavailable")
+    except AdapterError as exc:
+        assert exc.code == "backend_unavailable"
+
+
+def test_cex_live_enumeration_without_cas(monkeypatch) -> None:
+    """CEX uses shared enumeration under a live runtime gate (no Wolfram call)."""
+    from adapters.common.lean_mirrors import check_finite_counterexample
+    from adapters.mathematica.adapter import MathematicaRuntime, compute_finite_counterexample
+
+    req = bind_request_digest(
+        {
+            "schemaVersion": "0.1.0",
+            "capability": "logic.finite_counterexample",
+            "capabilityVersion": "0.1.0",
+            "predicate": {
+                "varNames": ["x"],
+                "domains": [{"ty": "nat", "bound": 3}],
+                "pred": {
+                    "tag": "eq",
+                    "left": {"tag": "var", "idx": 0},
+                    "right": {"tag": "lit", "v": {"tag": "nat", "v": 0}},
+                },
+            },
+            "requestedClaim": "refutation",
+            "resourcePolicy": {"maxWallTimeMs": 5000, "maxOutputBytes": 65536},
+        }
+    )
+    rt = MathematicaRuntime(True, "/fake/ws", None, "live", "test")
+    result = compute_finite_counterexample(
+        req, ResourceTracker(ResourceLimits()), runtime=rt
+    )
+    cert = result.result["certificate"]
+    SchemaStore().validate("finite-counterexample-certificate.schema.json", cert)
+    assert cert["provenance"]["backendId"] == "mathematica"
+    assert check_finite_counterexample(req, cert) is True
+

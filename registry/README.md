@@ -40,8 +40,8 @@ fixtures / differential `skip`/`fixture`). LeanLink remains scaffold
 | ID | Ownership | Status | Notes |
 | --- | --- | --- | --- |
 | `algebra.rational_equality` | owned | experimental | Milestone 1 reference path — see `docs/validation/stable-capability-checklist.md` before `stable` |
-| `algebra.linear_algebra` | owned | experimental | SymPy conformance-verified; Mathematica/Sage declared/placeholder |
-| `logic.finite_counterexample` | owned | experimental | SymPy conformance-verified; Mathematica/Sage declared/placeholder |
+| `algebra.linear_algebra` | owned | experimental | SymPy conformance-verified; Mathematica/Sage live_generator_complete (CI fixture without Wolfram/Sage) |
+| `logic.finite_counterexample` | owned | experimental | SymPy conformance-verified; Mathematica/Sage live_generator_complete (CI fixture without Wolfram/Sage) |
 | `analysis.symbolic_calculus` | owned | experimental | SymPy live; Mathematica live via wolframscript (CI offline fixtures) |
 | `algebra.groebner_membership` | federated | experimental | Metadata only; external checker |
 | `logic.sat_unsat` | federated | experimental | Metadata only; external checker |

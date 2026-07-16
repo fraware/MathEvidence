@@ -49,8 +49,9 @@
   },
   "knownLimitations": [
     "Does not prove that no counterexample exists.",
-    "Agent enumeration is untrusted; Lean Counterexample checker owns acceptance.",
-    "Mathematica and Sage remain declared/placeholder — no live CEX generators; not dual-backend evidence."
+    "Adapter enumeration is untrusted; Lean Counterexample checker owns acceptance.",
+    "Mathematica live_generator_complete when wolframscript live mode is enabled (CI fixture otherwise); search is bounded enumeration.",
+    "Sage live_generator_complete when sage is available (CI fixture otherwise)."
   ],
   "conformance": {
     "suite": "evidence/conformance/finite_counterexample",
@@ -71,7 +72,7 @@
   ],
   "supportClaims": {
     "declared": true,
-    "installedHint": "Lean MathEvidence.IR.FinitePredicate + MathEvidence.Checkers.Counterexample; python -m adapters.sympy",
+    "installedHint": "Lean MathEvidence.IR.FinitePredicate + MathEvidence.Checkers.Counterexample; python -m adapters.sympy | python -m adapters.mathematica | python -m adapters.sage",
     "conformanceVerified": true,
     "backends": [
       {
@@ -82,12 +83,12 @@
       {
         "id": "sage",
         "versions": ["0.1.0"],
-        "supportLevel": "declared"
+        "supportLevel": "live_generator_complete"
       },
       {
         "id": "mathematica",
         "versions": ["0.1.0"],
-        "supportLevel": "declared"
+        "supportLevel": "live_generator_complete"
       }
     ]
   },

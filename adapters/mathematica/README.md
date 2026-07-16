@@ -1,6 +1,7 @@
 # Mathematica adapter (wolframscript live path)
 
-Closed v0 backend for `algebra.rational_equality` (RFC 0001) and live
+Closed v0 backend for `algebra.rational_equality` (RFC 0001),
+`algebra.linear_algebra`, `logic.finite_counterexample`, and live
 `analysis.symbolic_calculus` derivative/antiderivative candidates. Evidence
 contracts match the SymPy adapter — never a trusted Boolean.
 Candidate calculus results never imply completeness or uniqueness.
@@ -10,7 +11,7 @@ Candidate calculus results never imply completeness or uniqueness.
 | Mode | When | Behavior |
 | --- | --- | --- |
 | `fixture` | Default when `MATHEVIDENCE_WOLFRAMSCRIPT` is unset, or `MATHEVIDENCE_ADAPTER_MODE=fixture` | JSON-RPC works; `compute` returns `backend_unavailable` |
-| `live` | `MATHEVIDENCE_WOLFRAMSCRIPT` set to an existing `wolframscript` executable | Spawns fixed-argv subprocess; RationalExpr + calculus ToIR |
+| `live` | `MATHEVIDENCE_WOLFRAMSCRIPT` set to an existing `wolframscript` executable | Spawns fixed-argv subprocess; RationalExpr + MatrixExpr + calculus ToIR |
 
 Committed evidence under `evidence/` must always replay offline without
 Mathematica. Public CI uses fixture / replay paths.
@@ -54,6 +55,21 @@ When live, the rational adapter:
 4. Emits the same certificate schema as SymPy
    (`schemas/rational-equality-certificate.schema.json`).
 
+## Live linear algebra
+
+When live, Inverse / LinearSolve / NullSpace / det_identity requests:
+
+1. Encode `MatrixExpr` rationals as Wolfram matrices.
+2. Run the corresponding exact solver over rationals.
+3. Map results to MatrixExpr / ratLit IR matching SymPy certificates.
+4. Lean `LinearAlgebra` checker owns acceptance.
+
+## Live finite counterexample
+
+When live, bounded domain enumeration (same algorithm as SymPy) is gated by
+wolframscript live mode for honesty with other Mathematica ops. Lean
+`Counterexample` checker owns acceptance.
+
 ## Live symbolic calculus (M5 polish)
 
 When live, derivative/antiderivative requests:
@@ -65,8 +81,8 @@ When live, derivative/antiderivative requests:
 4. ODE/recurrence live path echoes request fields for Lean identity checks only
    (no uniqueness/completeness claim).
 
-Registry support level is `live_generator_complete` for rational and calculus
-code paths. Public CI without Wolfram still runs fixture / offline replay.
+Registry support level is `live_generator_complete` for rational, LA, CEX, and
+calculus code paths. Public CI without Wolfram still runs fixture / offline replay.
 
 ## LeanLink scaffold
 
@@ -96,4 +112,5 @@ python scripts/run_differential_backends.py
 ```
 
 When Wolfram is absent, Mathematica rows are labeled `fixture` / `skip` and
-disagreements are never auto-resolved.
+disagreements are never auto-resolved. Suites: rfc0001, linear_algebra accept,
+finite_counterexample accept.

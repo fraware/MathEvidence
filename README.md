@@ -60,9 +60,10 @@ generation plus Mathematica live generation via `wolframscript` when
 offline fixtures and differential `skip`/`fixture`). `analysis.symbolic_calculus`
 likewise has SymPy live plus Mathematica live derivative/antiderivative via the
 same wolframscript gate (candidate ≠ completeness; CI offline fixtures when
-Wolfram is absent). Linear algebra and finite counterexample are SymPy
-conformance-verified with Lean offline fixtures; Mathematica/Sage for those
-domains remain declared/placeholder where noted in `registry/`.
+Wolfram is absent). Linear algebra and finite counterexample have SymPy
+`conformance_verified` plus Mathematica/Sage `live_generator_complete` generators
+(CI fixture when Wolfram/Sage absent); see `registry/` and
+`docs/validation/remaining-spec-matrix.md`.
 
 The architectural target is that each capability support Mathematica and at least one open backend while using one shared Lean checker per claim type.
 

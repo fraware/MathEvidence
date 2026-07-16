@@ -23,18 +23,18 @@
       "id": "algebra.linear_algebra",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "placeholder"
+      "supportLevel": "live_generator_complete"
     },
     {
       "id": "logic.finite_counterexample",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "placeholder"
+      "supportLevel": "live_generator_complete"
     }
   ],
   "regeneration": {
-    "status": "fixture_only",
-    "notes": "Sage optional. Without Sage, adapter runs fixture mode (JSON-RPC up; live compute unavailable). No committed Sage evidence bundles yet; not dual-backend evidence for rational equality."
+    "status": "optional_ci",
+    "notes": "Sage optional. LA/CEX live generators are complete for the declared fragment when sage is installed; rational equality remains scaffold/best-effort (placeholder). Without Sage, adapter runs fixture mode (JSON-RPC up; live compute unavailable). No committed Sage evidence bundles yet."
   },
   "conformance": {
     "suite": "evidence/conformance/rfc0001",
@@ -42,7 +42,8 @@
     "recordedAt": null
   },
   "knownDefects": [
-    "Live Sage compute is scaffold/best-effort (zero-numerator identities); CI defaults to fixture mode when sage is not installed.",
-    "No offline_fixtures_passing Sage bundles under evidence/; dual-backend rational evidence today is SymPy + Mathematica fixtures only."
+    "Live Sage rational compute is scaffold/best-effort (zero-numerator identities); CI defaults to fixture mode when sage is not installed.",
+    "No offline_fixtures_passing Sage bundles under evidence/; dual-backend rational evidence today is SymPy + Mathematica fixtures only.",
+    "LA/CEX live_generator_complete requires sage executable; public CI without Sage stays fixture/unavailable (same honesty pattern as Mathematica without Wolfram)."
   ]
 }

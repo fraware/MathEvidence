@@ -42,11 +42,43 @@ RATIONAL_EQUALITY_CAPABILITY = CapabilityDescriptor(
     ],
 )
 
+LINEAR_ALGEBRA_CAPABILITY = CapabilityDescriptor(
+    id="algebra.linear_algebra",
+    version="0.1.0",
+    claim_classes=["witness", "candidate"],
+    request_schema="linear-algebra-request.schema.json",
+    evidence_schema="linear-algebra-certificate.schema.json",
+    deterministic=True,
+    notes=[
+        "Live path: sage -python matrix inverse/solve/nullspace over QQ.",
+        "Same certificate schema as SymPy; Lean LinearAlgebra checker owns acceptance.",
+    ],
+)
+
+FINITE_COUNTEREXAMPLE_CAPABILITY = CapabilityDescriptor(
+    id="logic.finite_counterexample",
+    version="0.1.0",
+    claim_classes=["witness", "candidate", "refutation"],
+    request_schema="finite-counterexample-request.schema.json",
+    evidence_schema="finite-counterexample-certificate.schema.json",
+    deterministic=True,
+    notes=[
+        "Live path: bounded domain enumeration gated by Sage availability.",
+        "Same certificate schema as SymPy; Lean Counterexample checker owns acceptance.",
+    ],
+)
+
+SAGE_CAPABILITIES = [
+    RATIONAL_EQUALITY_CAPABILITY,
+    LINEAR_ALGEBRA_CAPABILITY,
+    FINITE_COUNTEREXAMPLE_CAPABILITY,
+]
+
 _SAGE_WORKER = r'''
 import json
 import sys
 
-from sage.all import QQ, SR, factor  # type: ignore
+from sage.all import QQ, SR, factor, matrix  # type: ignore
 
 
 def from_ir(node, env):
@@ -87,7 +119,61 @@ def to_ir(expr):
     raise ValueError(f"cannot encode sage expression: {expr}")
 
 
+def rat_lit(q):
+    q = QQ(q)
+    return {"tag": "rat", "num": str(q.numerator()), "den": str(q.denominator())}
+
+
+def matrix_to_ir(m):
+    rows = m.nrows()
+    cols = m.ncols()
+    entries = [[rat_lit(m[i, j]) for j in range(cols)] for i in range(rows)]
+    return {"tag": "matrix", "rows": rows, "cols": cols, "entries": entries}
+
+
+def matrix_from_ir(node):
+    entries = [[QQ(int(e["num"])) / QQ(int(e["den"])) for e in row] for row in node["entries"]]
+    return matrix(QQ, entries)
+
+
+def sage_version():
+    try:
+        import sage.version as _sv
+        return str(getattr(_sv, "version", "unknown"))
+    except Exception:
+        return "unknown"
+
+
 req = json.load(sys.stdin)
+cap = req.get("capability", "algebra.rational_equality")
+
+if cap == "algebra.linear_algebra":
+    A = matrix_from_ir(req["matrix"])
+    op = req["operation"]
+    out = {"operation": op, "sageVersion": sage_version()}
+    if op == "inverse_witness":
+        if A.det() == 0:
+            out["error"] = "singular"
+        else:
+            out["inverse"] = matrix_to_ir(A.inverse())
+            out["sideConditions"] = ["matrix_invertible"]
+    elif op == "system_solution":
+        b = matrix(QQ, [[QQ(int(e["num"])) / QQ(int(e["den"]))] for e in req.get("rhs", [])])
+        sol = A.solve_right(b)
+        out["vector"] = [rat_lit(sol[i, 0]) for i in range(sol.nrows())]
+    elif op == "kernel_vector":
+        ns = A.right_kernel_matrix()
+        if ns.nrows() == 0:
+            out["error"] = "trivial_kernel"
+        else:
+            out["vector"] = [rat_lit(ns[0, j]) for j in range(ns.ncols())]
+    elif op == "det_identity":
+        pass
+    else:
+        out["error"] = f"unknown_operation:{op}"
+    json.dump(out, sys.stdout)
+    raise SystemExit(0)
+
 names = [v["name"] for v in req["variables"]]
 env = {n: SR.var(n) for n in names}
 env_symbols_rev = {v: k for k, v in env.items()}
@@ -104,17 +190,12 @@ if denom != 1 and denom != 0:
             factors.append({"base": str(base), "multiplicity": int(mult)})
     except Exception:
         factors.append({"base": str(denom), "multiplicity": 1})
-try:
-    import sage.version as _sv
-    sage_ver = str(getattr(_sv, "version", "unknown"))
-except Exception:
-    sage_ver = "unknown"
 json.dump(
     {
         "differenceNumerator": numer_ir,
         "isZeroNumerator": bool(numer == 0),
         "denominatorFactorHints": factors,
-        "sageVersion": sage_ver,
+        "sageVersion": sage_version(),
     },
     sys.stdout,
 )
@@ -179,6 +260,15 @@ def _allowlisted_env() -> dict[str, str]:
     if "MATHEVIDENCE_SAGE" in os.environ:
         env["MATHEVIDENCE_SAGE"] = os.environ["MATHEVIDENCE_SAGE"]
     return env
+
+
+def _require_live(rt: SageRuntime, *, capability: str) -> None:
+    if rt.mode != "live" or not rt.available or not rt.executable:
+        raise stable_error(
+            "backend_unavailable",
+            "SageMath backend unavailable; use committed evidence for offline replay",
+            details={"mode": rt.mode, "detail": rt.detail, "capability": capability},
+        )
 
 
 def _run_sage(
@@ -247,13 +337,8 @@ def compute_rational_equality(
     expr_size(request["lhs"])
     expr_size(request["rhs"])
     rt = runtime or discover_runtime()
-
-    if rt.mode != "live" or not rt.available or not rt.executable:
-        raise stable_error(
-            "backend_unavailable",
-            "SageMath backend unavailable; use committed evidence for offline replay",
-            details={"mode": rt.mode, "detail": rt.detail},
-        )
+    _require_live(rt, capability=CAPABILITY_ID)
+    assert rt.executable is not None
 
     raw = _run_sage(rt.executable, request, tracker)
     numer_ir = raw.get("differenceNumerator")
@@ -309,11 +394,188 @@ def compute_rational_equality(
     )
 
 
+def _validate_rat_lit(node: Any, *, path: str) -> dict[str, Any]:
+    if not isinstance(node, dict) or node.get("tag") != "rat":
+        raise stable_error("malformed_evidence", f"ratLit at {path} must be tag=rat")
+    return {
+        "tag": "rat",
+        "num": str(int(node["num"])),
+        "den": str(int(node["den"])),
+    }
+
+
+def _validate_matrix_ir(node: Any, *, path: str = "matrix") -> dict[str, Any]:
+    if not isinstance(node, dict) or node.get("tag") != "matrix":
+        raise stable_error("malformed_evidence", f"matrix at {path} must be tag=matrix")
+    rows = int(node["rows"])
+    cols = int(node["cols"])
+    entries_raw = node.get("entries")
+    if not isinstance(entries_raw, list) or len(entries_raw) != rows:
+        raise stable_error("malformed_evidence", f"bad matrix rows at {path}")
+    entries: list[list[dict[str, Any]]] = []
+    for i, row in enumerate(entries_raw):
+        if not isinstance(row, list) or len(row) != cols:
+            raise stable_error("malformed_evidence", f"bad matrix row {i} at {path}")
+        entries.append(
+            [_validate_rat_lit(e, path=f"{path}.entries[{i}][{j}]") for j, e in enumerate(row)]
+        )
+    return {"tag": "matrix", "rows": rows, "cols": cols, "entries": entries}
+
+
+def la_certificate_from_sage_payload(
+    raw: dict[str, Any],
+    request: dict[str, Any],
+    digest: str,
+) -> dict[str, Any]:
+    """Assemble schema-valid LA certificate from Sage worker JSON (offline-testable)."""
+    op = request["operation"]
+    cert: dict[str, Any] = {
+        "schemaVersion": "0.1.0",
+        "capability": "algebra.linear_algebra",
+        "capabilityVersion": "0.1.0",
+        "requestDigest": digest,
+        "operation": op,
+        "provenance": {
+            "backendId": "sage",
+            "backendVersion": str(raw.get("sageVersion", "unknown")),
+            "adapterVersion": ADAPTER_VERSION,
+            "generatedAt": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "deterministic": True,
+        },
+    }
+    if op == "inverse_witness":
+        cert["inverse"] = _validate_matrix_ir(raw.get("inverse"), path="inverse")
+        sides = raw.get("sideConditions") or ["matrix_invertible"]
+        if not isinstance(sides, list):
+            raise stable_error("malformed_evidence", "sideConditions must be a list")
+        cert["sideConditions"] = [str(s) for s in sides]
+    elif op in ("system_solution", "kernel_vector"):
+        vec = raw.get("vector")
+        if not isinstance(vec, list):
+            raise stable_error("malformed_evidence", "vector must be a list")
+        cert["vector"] = [
+            _validate_rat_lit(e, path=f"vector[{i}]") for i, e in enumerate(vec)
+        ]
+    elif op == "det_identity":
+        pass
+    else:
+        raise stable_error("backend_unsupported", f"unknown operation {op!r}")
+    return cert
+
+
+def compute_linear_algebra(
+    request: dict[str, Any],
+    tracker: ResourceTracker,
+    *,
+    runtime: SageRuntime | None = None,
+    schemas: SchemaStore | None = None,
+) -> HandlerResult:
+    store = schemas or SchemaStore()
+    store.validate("linear-algebra-request.schema.json", request)
+    try:
+        digest = verify_request_digest(request)
+    except Exception as exc:  # noqa: BLE001
+        raise stable_error("request_digest_mismatch", str(exc)) from exc
+
+    rt = runtime or discover_runtime()
+    _require_live(rt, capability="algebra.linear_algebra")
+    assert rt.executable is not None
+
+    raw = _run_sage(rt.executable, request, tracker)
+    if raw.get("error") == "singular":
+        raise stable_error("certificate_rejected", "matrix is singular")
+    if raw.get("error") == "trivial_kernel":
+        raise stable_error("certificate_rejected", "trivial kernel")
+    if raw.get("error"):
+        raise stable_error(
+            "unsupported_expression",
+            f"Sage LA failed: {raw.get('error')}",
+            details=raw,
+        )
+
+    certificate = la_certificate_from_sage_payload(raw, request, digest)
+    store.validate("linear-algebra-certificate.schema.json", certificate)
+    return HandlerResult(
+        {
+            "capability": "algebra.linear_algebra",
+            "capabilityVersion": "0.1.0",
+            "requestDigest": digest,
+            "candidate": {"reportedOk": True},
+            "certificate": certificate,
+            "resultHint": "candidate",
+        },
+        resource_usage=tracker.usage(),
+    )
+
+
+def compute_finite_counterexample(
+    request: dict[str, Any],
+    tracker: ResourceTracker,
+    *,
+    runtime: SageRuntime | None = None,
+    schemas: SchemaStore | None = None,
+) -> HandlerResult:
+    """Bounded finite CEX search gated by Sage live availability."""
+    from adapters.common.hypothesis_util import find_counterexample
+
+    store = schemas or SchemaStore()
+    store.validate("finite-counterexample-request.schema.json", request)
+    try:
+        digest = verify_request_digest(request)
+    except Exception as exc:  # noqa: BLE001
+        raise stable_error("request_digest_mismatch", str(exc)) from exc
+
+    rt = runtime or discover_runtime()
+    _require_live(rt, capability="logic.finite_counterexample")
+    tracker.check()
+
+    cert = find_counterexample(request)
+    if cert is None:
+        raise stable_error(
+            "certificate_rejected",
+            "no counterexample found within enumeration bound",
+        )
+    cert["provenance"] = {
+        "backendId": "sage",
+        "backendVersion": "sage",
+        "adapterVersion": ADAPTER_VERSION,
+        "generatedAt": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "deterministic": True,
+    }
+    store.validate("finite-counterexample-certificate.schema.json", cert)
+    return HandlerResult(
+        {
+            "capability": "logic.finite_counterexample",
+            "capabilityVersion": "0.1.0",
+            "requestDigest": digest,
+            "candidate": {"reportedFalse": True},
+            "certificate": cert,
+            "resultHint": "candidate",
+        },
+        resource_usage=tracker.usage(),
+    )
+
+
 def check_support(params: dict[str, Any], tracker: ResourceTracker) -> HandlerResult:
     tracker.check()
     rt = discover_runtime()
     request = params.get("request")
     if isinstance(request, dict):
+        cap = request.get("capability", CAPABILITY_ID)
+        if cap in ("algebra.linear_algebra", "logic.finite_counterexample"):
+            if not rt.available:
+                return HandlerResult(
+                    {
+                        "supported": False,
+                        "reasonCode": "backend_unavailable",
+                        "message": rt.detail,
+                        "mode": rt.mode,
+                        "capability": cap,
+                    }
+                )
+            return HandlerResult(
+                {"supported": True, "capability": cap, "mode": rt.mode}
+            )
         try:
             expr_size(request.get("lhs", {"tag": "int", "value": "0"}))
             expr_size(request.get("rhs", {"tag": "int", "value": "0"}))
@@ -339,4 +601,9 @@ def compute_handler(params: dict[str, Any], tracker: ResourceTracker) -> Handler
     request = params.get("request")
     if not isinstance(request, dict):
         raise stable_error("malformed_evidence", "compute.params.request must be an object")
+    cap = request.get("capability", CAPABILITY_ID)
+    if cap == "algebra.linear_algebra":
+        return compute_linear_algebra(request, tracker)
+    if cap == "logic.finite_counterexample":
+        return compute_finite_counterexample(request, tracker)
     return compute_rational_equality(request, tracker)

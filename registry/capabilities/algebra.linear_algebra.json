@@ -51,8 +51,9 @@
   },
   "knownLimitations": [
     "Does not claim completeness, uniqueness of kernel basis, or rank optimality.",
-    "Agent/SymPy path is a thin untrusted generator; Lean checker owns acceptance.",
-    "Mathematica and Sage remain declared/placeholder — no live LA generators; not dual-backend evidence."
+    "Agent/backend paths are thin untrusted generators; Lean checker owns acceptance.",
+    "Mathematica live_generator_complete via wolframscript when MATHEVIDENCE_WOLFRAMSCRIPT is set (CI fixture otherwise).",
+    "Sage live_generator_complete when sage executable is available (CI fixture otherwise); rational Sage remains placeholder."
   ],
   "conformance": {
     "suite": "evidence/conformance/linear_algebra",
@@ -75,7 +76,7 @@
   ],
   "supportClaims": {
     "declared": true,
-    "installedHint": "Lean MathEvidence.IR.MatrixExpr + MathEvidence.Checkers.LinearAlgebra; python -m adapters.sympy",
+    "installedHint": "Lean MathEvidence.IR.MatrixExpr + MathEvidence.Checkers.LinearAlgebra; python -m adapters.sympy | python -m adapters.mathematica | python -m adapters.sage",
     "conformanceVerified": true,
     "backends": [
       {
@@ -86,12 +87,12 @@
       {
         "id": "sage",
         "versions": ["0.1.0"],
-        "supportLevel": "declared"
+        "supportLevel": "live_generator_complete"
       },
       {
         "id": "mathematica",
         "versions": ["0.1.0"],
-        "supportLevel": "declared"
+        "supportLevel": "live_generator_complete"
       }
     ]
   },
