@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "algebra.rational_equality",
+  "capabilityVersion": "0.1.0",
+  "variables": [
+    {
+      "name": "y",
+      "type": "Rat"
+    },
+    {
+      "name": "x",
+      "type": "Rat"
+    }
+  ],
+  "lhs": {
+    "tag": "div",
+    "num": {
+      "tag": "sub",
+      "left": {
+        "tag": "pow",
+        "base": {
+          "tag": "var",
+          "name": "x"
+        },
+        "exp": 2
+      },
+      "right": {
+        "tag": "int",
+        "value": "1"
+      }
+    },
+    "den": {
+      "tag": "sub",
+      "left": {
+        "tag": "var",
+        "name": "x"
+      },
+      "right": {
+        "tag": "int",
+        "value": "1"
+      }
+    }
+  },
+  "rhs": {
+    "tag": "add",
+    "left": {
+      "tag": "var",
+      "name": "x"
+    },
+    "right": {
+      "tag": "int",
+      "value": "1"
+    }
+  },
+  "knownAssumptions": [],
+  "requestedClaim": "soundResult",
+  "resourcePolicy": {
+    "maxWallTimeMs": 10000,
+    "maxOutputBytes": 1048576
+  },
+  "requestDigest": "sha256:350974b15faa664468f5c38021d89bf0b63255c34f41643db7fe61ef610f863d"
+}

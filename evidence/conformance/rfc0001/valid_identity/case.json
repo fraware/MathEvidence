@@ -1,0 +1,7 @@
+{
+  "id": "valid_identity",
+  "expect": "valid_identity",
+  "requireFactorRoles": [
+    "original_division"
+  ]
+}

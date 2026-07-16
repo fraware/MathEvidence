@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "algebra.rational_equality",
+  "capabilityVersion": "0.1.0",
+  "requestDigest": "sha256:b64d030cf1569cc802b4289c175697ae4a1577435a9a4240d1b98509979396bb",
+  "differenceNumerator": {
+    "tag": "int",
+    "value": "0"
+  },
+  "denominatorFactors": [
+    {
+      "expr": {
+        "tag": "sub",
+        "left": {
+          "tag": "var",
+          "name": "x"
+        },
+        "right": {
+          "tag": "int",
+          "value": "1"
+        }
+      },
+      "role": "original_division",
+      "multiplicity": 1
+    }
+  ],
+  "factorization": {
+    "method": "sympy.factor+together+cancel",
+    "notes": "Untrusted candidate evidence for Lean checker replay."
+  },
+  "provenance": {
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "generatedAt": "2026-07-16T12:22:27Z",
+    "deterministic": true
+  }
+}

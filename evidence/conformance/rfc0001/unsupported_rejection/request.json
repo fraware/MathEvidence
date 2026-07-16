@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "algebra.rational_equality",
+  "capabilityVersion": "0.1.0",
+  "variables": [
+    {
+      "name": "x",
+      "type": "Rat"
+    }
+  ],
+  "lhs": {
+    "tag": "var",
+    "name": "sin_x"
+  },
+  "rhs": {
+    "tag": "int",
+    "value": "0"
+  },
+  "knownAssumptions": [],
+  "requestedClaim": "soundResult",
+  "resourcePolicy": {
+    "maxWallTimeMs": 10000,
+    "maxOutputBytes": 1048576
+  },
+  "requestDigest": "sha256:5c28de9c482608bcdb3ba65acd3f86cb103314698b438290dadcafb6ca23eb0c"
+}

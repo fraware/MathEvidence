@@ -1,0 +1,5 @@
+{
+  "id": "variable_permutation",
+  "expect": "valid_identity",
+  "notes": "Declaration order must not affect digest-stable math outcome."
+}
