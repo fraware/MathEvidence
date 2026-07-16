@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/trace-item-v0.json",
+  "title": "Untrusted Trace Item",
+  "description": "Single item from an external computational trace or AI plan. Always untrusted until classified and reconstructed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "rawKind", "content"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "rawKind": {
+      "type": "string",
+      "description": "Backend-native label (ProofObject step, SMT hint, Groebner elim, …)"
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "string",
+      "description": "Backend or generator identity"
+    },
+    "classifiedAs": {
+      "enum": [
+        "direct_proof_step",
+        "reconstructible_computation",
+        "lemma_candidate",
+        "search_hint",
+        "diagnostic_metadata"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

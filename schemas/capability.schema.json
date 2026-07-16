@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/capability-v0.json",
+  "title": "MathEvidence Capability",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "status",
+    "domain",
+    "inputIR",
+    "admissibility",
+    "claimClasses",
+    "evidenceSchema",
+    "checker",
+    "assuranceModes",
+    "limits",
+    "knownLimitations",
+    "conformance",
+    "maintainers",
+    "supportClaims"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$",
+      "description": "Stable operation / capability ID"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "status": {
+      "enum": ["experimental", "candidate", "stable", "deprecated"]
+    },
+    "domain": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inputIR": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "schema", "version"],
+      "properties": {
+        "name": { "type": "string" },
+        "schema": { "type": "string" },
+        "version": { "type": "string" },
+        "baseField": { "type": "string" },
+        "leanPackage": {
+          "type": "string",
+          "description": "Lean IR package pointer (sibling-owned packages may be stubs)"
+        }
+      }
+    },
+    "admissibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary"],
+      "properties": {
+        "summary": { "type": "string" },
+        "rejectedConstructs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "requiredAssumptions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "claimClasses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "evidenceSchema": {
+      "type": "string",
+      "description": "Repo-relative path to certificate / evidence JSON Schema"
+    },
+    "requestSchema": {
+      "type": "string",
+      "description": "Repo-relative path to request JSON Schema"
+    },
+    "checker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package", "version", "assurance"],
+      "properties": {
+        "package": { "type": "string" },
+        "version": { "type": "string" },
+        "assurance": {
+          "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+        },
+        "soundnessStatus": {
+          "enum": ["absent", "partial", "present"],
+          "description": "Whether a Lean soundness theorem exists for this checker"
+        }
+      }
+    },
+    "assuranceModes": {
+      "type": "array",
+      "items": {
+        "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+      },
+      "minItems": 1
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maxExprNodes": { "type": "integer", "minimum": 1 },
+        "maxIntegerDigits": { "type": "integer", "minimum": 1 },
+        "maxDenominatorFactors": { "type": "integer", "minimum": 1 },
+        "maxMatrixDim": { "type": "integer", "minimum": 1 },
+        "maxDomainCardinality": { "type": "integer", "minimum": 1 },
+        "maxWallTimeMs": { "type": "integer", "minimum": 1 },
+        "maxOutputBytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "knownLimitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "conformance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["suite"],
+      "properties": {
+        "suite": { "type": "string" },
+        "rfc": { "type": "string" },
+        "requiredCases": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": {
+          "enum": ["planned", "partial", "passing"],
+          "description": "Machine-readable conformance claim for this capability version"
+        }
+      }
+    },
+    "maintainers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "contact": { "type": "string" },
+          "role": { "type": "string" }
+        }
+      }
+    },
+    "supportClaims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declared", "installedHint", "conformanceVerified"],
+      "description": "Versioned support discovery layers (Product 07 §6)",
+      "properties": {
+        "declared": {
+          "type": "boolean",
+          "description": "Capability is declared in registry"
+        },
+        "installedHint": {
+          "type": "string",
+          "description": "How agents discover local installation (not a live probe result)"
+        },
+        "conformanceVerified": {
+          "type": "boolean",
+          "description": "True only when conformance suite is recorded as passing for this version"
+        },
+        "backends": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "versions"],
+            "properties": {
+              "id": { "type": "string" },
+              "versions": {
+                "type": "array",
+                "items": { "type": "string" },
+                "minItems": 1
+              },
+              "supportLevel": {
+                "enum": ["declared", "implemented", "conformance_verified"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "policy": { "type": "string" },
+        "minProtocolVersion": { "type": "string" }
+      }
+    },
+    "ownership": {
+      "enum": ["owned", "federated"],
+      "description": "owned = MathEvidence checker; federated = external checker authority with shared metadata only"
+    },
+    "federation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "externalProject",
+        "checkerAuthority",
+        "mathEvidenceRole",
+        "metadataSchema"
+      ],
+      "properties": {
+        "externalProject": {
+          "type": "string",
+          "description": "Primary external project that owns the specialized checker"
+        },
+        "checkerAuthority": {
+          "type": "string",
+          "description": "Package / repo that remains authoritative for certificates"
+        },
+        "mathEvidenceRole": {
+          "enum": ["metadata_interop", "optional_adapter", "consumer"]
+        },
+        "metadataSchema": {
+          "type": "string",
+          "description": "Repo-relative path to federation-metadata schema"
+        },
+        "collaborationNote": {
+          "type": "string",
+          "description": "Pointer to collaboration / boundary documentation"
+        },
+        "relatedProjects": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

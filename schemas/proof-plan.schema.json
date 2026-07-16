@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/proof-plan-v0.json",
+  "title": "MathEvidence Proof-Plan DAG",
+  "description": "Trace-to-Plan output (Product 05). Only direct_proof_step and reconstructible_computation nodes may advance formal proof status.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "targetTheorem",
+    "nodes",
+    "edges",
+    "sourceTraces"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "targetTheorem": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/planNode"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "kind": {
+            "enum": ["depends_on", "suggests", "reconstructs"]
+          }
+        }
+      }
+    },
+    "sourceTraces": {
+      "type": "array",
+      "items": {
+        "$ref": "https://mathevidence.org/schemas/trace-item-v0.json"
+      }
+    },
+    "unresolvedNodes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "planNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "claim", "stepKind", "status", "advancesProofStatus"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "claim": { "type": "string", "minLength": 1 },
+        "stepKind": {
+          "enum": [
+            "direct_proof_step",
+            "reconstructible_computation",
+            "lemma_candidate",
+            "search_hint",
+            "diagnostic_metadata"
+          ]
+        },
+        "status": {
+          "enum": ["proved", "checkable", "proposed", "rejected", "blocked"]
+        },
+        "advancesProofStatus": {
+          "type": "boolean",
+          "description": "True only for reconstructible categories when independently verified"
+        },
+        "suggestedCapability": { "type": ["string", "null"] },
+        "suggestedTactic": { "type": ["string", "null"] },
+        "sourceTraceIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "reconstruction": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "method": { "type": "string" },
+            "resultStatus": { "type": "string" },
+            "bundleRef": { "type": ["string", "null"] }
+          }
+        }
+      }
+    }
+  }
+}

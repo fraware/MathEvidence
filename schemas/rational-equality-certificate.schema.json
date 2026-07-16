@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/rational-equality-certificate-v0.json",
+  "title": "algebra.rational_equality certificate (untrusted candidate evidence)",
+  "description": "Backend candidate for rational equality. Never contains a trusted Boolean.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capability",
+    "capabilityVersion",
+    "requestDigest",
+    "differenceNumerator",
+    "denominatorFactors",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "capability": {
+      "type": "string",
+      "const": "algebra.rational_equality"
+    },
+    "capabilityVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "differenceNumerator": {
+      "$ref": "https://mathevidence.org/schemas/rational-expr-v0.json",
+      "description": "Numerator of lhs - rhs after common-denominator construction (as RationalExpr)."
+    },
+    "denominatorFactors": {
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["expr", "role"],
+        "properties": {
+          "expr": {
+            "$ref": "https://mathevidence.org/schemas/rational-expr-v0.json"
+          },
+          "role": {
+            "enum": [
+              "original_division",
+              "common_denominator",
+              "factorization"
+            ]
+          },
+          "multiplicity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          }
+        }
+      }
+    },
+    "factorization": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2048
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backendId", "adapterVersion"],
+      "properties": {
+        "backendId": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$",
+          "maxLength": 64
+        },
+        "backendVersion": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "adapterVersion": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "leanLinkVersion": {
+          "type": ["string", "null"],
+          "maxLength": 128
+        },
+        "generatedAt": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "deterministic": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
