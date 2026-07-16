@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/agent-result-v0.json",
+  "title": "Agent API operation result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "operationId",
+    "protocolVersion",
+    "resultStatus",
+    "claimClass",
+    "unresolvedObligations",
+    "bundleRef"
+  ],
+  "properties": {
+    "operationId": { "type": "string" },
+    "protocolVersion": { "type": "string", "const": "0.1.0" },
+    "resultStatus": {
+      "enum": [
+        "computed",
+        "tested",
+        "witness_verified",
+        "soundness_verified",
+        "completeness_verified",
+        "optimality_verified",
+        "approximation_certified",
+        "native_verified",
+        "rejected",
+        "unsupported",
+        "ambiguous"
+      ]
+    },
+    "claimClass": { "type": "string" },
+    "requestedClaim": { "type": "string" },
+    "unresolvedObligations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "message"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": {
+            "enum": [
+              "side_condition",
+              "lean_goal",
+              "ambiguity",
+              "backend_unavailable",
+              "schema",
+              "other"
+            ]
+          },
+          "message": { "type": "string" },
+          "expr": { "type": "string" }
+        }
+      }
+    },
+    "bundleRef": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string" },
+        "requestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "capability": { "type": "string" },
+        "capabilityVersion": { "type": "string" }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": { "type": "string" },
+        "message": { "type": "string" },
+        "category": { "type": "string" },
+        "details": { "type": "object" }
+      }
+    },
+    "resourceUsage": { "type": "object" },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

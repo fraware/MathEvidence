@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/finite-counterexample-request-v0.json",
+  "title": "logic.finite_counterexample request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capability",
+    "capabilityVersion",
+    "predicate",
+    "requestedClaim",
+    "resourcePolicy",
+    "requestDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "capability": { "type": "string", "const": "logic.finite_counterexample" },
+    "capabilityVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "predicate": {
+      "$ref": "https://mathevidence.org/schemas/finite-predicate-v0.json"
+    },
+    "requestedClaim": {
+      "enum": ["witness", "candidate", "refutation"]
+    },
+    "resourcePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maxWallTimeMs": { "type": "integer", "minimum": 1 },
+        "maxOutputBytes": { "type": "integer", "minimum": 1 },
+        "maxDomainCardinality": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

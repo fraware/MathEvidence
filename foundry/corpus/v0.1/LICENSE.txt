@@ -1,0 +1,2 @@
+Apache-2.0 — see repository LICENSE.
+Corpus episodes have acceptanceInfluence=false and never feed theorem acceptance.

@@ -1,0 +1,42 @@
+{
+  "federationVersion": "0.1.0",
+  "project": {
+    "id": "lean-smt",
+    "role": "emitter",
+    "version": "0.1.0-sim",
+    "contact": "simulated-for-milestone-4"
+  },
+  "capabilityId": "logic.smt",
+  "claimClass": "refutation",
+  "resultStatus": "witness_verified",
+  "assuranceMode": "kernel_replay",
+  "provenance": {
+    "producedAt": "2026-07-16T14:00:00Z",
+    "tool": {
+      "name": "LeanSMT",
+      "version": "0.1.0-sim",
+      "backend": "z3"
+    },
+    "leanVersion": "4.14.0",
+    "libraryRevision": "simulated",
+    "requestDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "notes": [
+      "Simulated emit: Lean-SMT remains authoritative for reconstruction.",
+      "MathEvidence role is metadata interop only."
+    ]
+  },
+  "authority": {
+    "checkerOwner": "external",
+    "checkerPackage": "external:LeanSMT",
+    "mathEvidenceRole": "metadata_interop"
+  },
+  "unresolvedObligations": [],
+  "externalRefs": [
+    {
+      "kind": "proof_object",
+      "uri": "simulated://lean-smt/proofs/example-unsat.smt2.proof",
+      "mediaType": "application/x-smt-proof"
+    }
+  ],
+  "payloadDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

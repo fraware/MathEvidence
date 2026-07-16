@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "assurance.rational_equality.reference",
+  "version": "0.1.0",
+  "assuranceLevel": "verified_reference_algorithm",
+  "capabilityId": "algebra.rational_equality",
+  "inputDomain": "RationalExpr over Q with explicit divisions; transcendentals rejected",
+  "outputRelation": "lhs = rhs under explicit nonzero denomFactors (Claim.proposition)",
+  "termination": "Finite expression size; polynomial normalization terminates on sparse terms",
+  "soundness": "check_sound / referenceCheck_sound",
+  "completeness": null,
+  "complexityAssumptions": [
+    "Expression node count bounded by capability limits",
+    "Integer digit length bounded by capability limits"
+  ],
+  "representationRefinement": "RationalExpr IR → sparse Poly → kernel-checked equality",
+  "leanContract": {
+    "package": "MathEvidence.Assurance",
+    "module": "MathEvidence.Assurance.RationalEquality",
+    "referenceAlgorithm": "referenceCheck",
+    "soundnessTheorem": "referenceCheck_sound"
+  },
+  "performanceNotes": [
+    "Correctness is independent of backend speed.",
+    "Reference path is checker-side polyEqual + denom cover, not a CAS rewrite engine."
+  ],
+  "knownLimitations": [
+    "Does not claim completeness over all rational identities.",
+    "Does not verify Mathematica or SymPy internals."
+  ]
+}

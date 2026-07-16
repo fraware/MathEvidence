@@ -1,0 +1,23 @@
+{
+  "registryVersion": "0.1.0",
+  "generatedNote": "Static catalog for discovery; live install probes are Agent API / adapter concerns. Federated capabilities declare external checker authority.",
+  "capabilities": [
+    "capabilities/algebra.rational_equality.json",
+    "capabilities/algebra.linear_algebra.json",
+    "capabilities/algebra.groebner_membership.json",
+    "capabilities/logic.finite_counterexample.json",
+    "capabilities/logic.sat_unsat.json",
+    "capabilities/logic.pseudo_boolean.json",
+    "capabilities/logic.smt.json",
+    "capabilities/analysis.symbolic_calculus.json"
+  ],
+  "backends": [
+    "backends/sympy.json",
+    "backends/mathematica.json",
+    "backends/sage.json",
+    "backends/external.lean_smt.json",
+    "backends/external.groebner.json",
+    "backends/external.sat.json",
+    "backends/external.pseudo_boolean.json"
+  ]
+}

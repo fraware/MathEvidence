@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "algebra.linear_algebra",
+  "capabilityVersion": "0.1.0",
+  "requestDigest": "sha256:a733deead48e91cb7f38dd327d626119e48425a700bcafe672cb414a09d91174",
+  "operation": "inverse_witness",
+  "inverse": {
+    "tag": "matrix",
+    "rows": 2,
+    "cols": 2,
+    "entries": [
+      [
+        {
+          "tag": "rat",
+          "num": "1",
+          "den": "1"
+        },
+        {
+          "tag": "rat",
+          "num": "0",
+          "den": "1"
+        }
+      ],
+      [
+        {
+          "tag": "rat",
+          "num": "0",
+          "den": "1"
+        },
+        {
+          "tag": "rat",
+          "num": "1",
+          "den": "1"
+        }
+      ]
+    ]
+  },
+  "sideConditions": [
+    "matrix_invertible"
+  ],
+  "provenance": {
+    "backendId": "fixture",
+    "backendVersion": "0.1.0",
+    "adapterVersion": "0.1.0",
+    "generatedAt": "2026-07-16T00:00:00Z",
+    "deterministic": true
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "name": "mathevidence-evidence-inspector",
+  "displayName": "MathEvidence Evidence Inspector",
+  "description": "Inspect EvidenceBundles with explicit epistemic states (Computed / Tested / Certified / Ambiguous).",
+  "version": "0.1.0",
+  "publisher": "mathevidence",
+  "license": "Apache-2.0",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other", "Visualization"],
+  "activationEvents": [
+    "onCommand:mathevidence.openBundle",
+    "onCommand:mathevidence.replayBundle",
+    "onCommand:mathevidence.showEpistemicLegend",
+    "onView:mathevidence.evidenceExplorer"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mathevidence.openBundle",
+        "title": "MathEvidence: Open Evidence Bundle"
+      },
+      {
+        "command": "mathevidence.replayBundle",
+        "title": "MathEvidence: Replay Evidence Bundle (link)"
+      },
+      {
+        "command": "mathevidence.showEpistemicLegend",
+        "title": "MathEvidence: Show Epistemic States"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mathevidence",
+          "title": "MathEvidence",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "mathevidence": [
+        {
+          "id": "mathevidence.evidenceExplorer",
+          "name": "Evidence"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "MathEvidence",
+      "properties": {
+        "mathevidence.agentApiBaseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8787",
+          "description": "Base URL for the local Agent API (optional; offline open uses filesystem)."
+        },
+        "mathevidence.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Python executable used for offline replay helpers."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "node -e \"console.log(require('./epistemic').buildCertificationSurface({resultStatus:'computed',leanProposition:'theorem t : True := trivial'}))\""
+  }
+}

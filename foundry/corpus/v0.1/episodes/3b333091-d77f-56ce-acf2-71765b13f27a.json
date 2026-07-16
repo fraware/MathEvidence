@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "3b333091-d77f-56ce-acf2-71765b13f27a",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-16T14:35:09Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q2_formally_verified",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/examples/calculus_recurrence_n",
+    "sourceDate": "2026-07-16T14:23:43Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "analysis.symbolic_calculus",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "train",
+    "duplicateOf": null,
+    "contentDigest": "sha256:7f58a65587a3e3bb30ed0f5a951645c28f8de61783f1f8e10fc94de2087b2ee5",
+    "benchmarkExclusion": false,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "analysis.symbolic_calculus"
+    ],
+    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedOperation": "recurrence_identity",
+    "requestedClaim": "candidate",
+    "backendId": "sympy",
+    "selectionRationale": "Committed example for capability analysis.symbolic_calculus."
+  },
+  "outcome": {
+    "resultStatus": "computed",
+    "claimClass": "candidate",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:9f6e1cde36a8af2851c2eaf64cbb4ee7975518d4da700baf577357420fb028bd",
+    "replayable": true,
+    "negative": false,
+    "negativeKind": "none",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/examples/calculus_recurrence_n"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/agent/hypothesis.input.schema.json",
+  "title": "Hypothesis / conjecture Agent API input",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "request": { "type": "object" },
+    "conditions": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "targetConditionId": { "type": "string" },
+    "certificate": { "type": "object" },
+    "polyZeroHint": { "type": "boolean" },
+    "artifactId": { "type": "string" },
+    "captureEpisode": { "type": "boolean" },
+    "familyId": { "type": "string" },
+    "refutationId": { "type": "string" },
+    "searchBound": { "type": "integer", "minimum": 0 }
+  }
+}

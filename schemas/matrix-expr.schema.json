@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/matrix-expr-v0.json",
+  "title": "MatrixExpr IR (aligned with MathEvidence.IR.MatrixExpr)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tag", "rows", "cols", "entries"],
+  "properties": {
+    "tag": { "const": "matrix" },
+    "rows": { "type": "integer", "minimum": 1 },
+    "cols": { "type": "integer", "minimum": 1 },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/ratLit" }
+      }
+    }
+  },
+  "$defs": {
+    "ratLit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag", "num", "den"],
+      "properties": {
+        "tag": { "const": "rat" },
+        "num": { "type": "string", "pattern": "^-?[0-9]+$" },
+        "den": { "type": "string", "pattern": "^[0-9]+$" }
+      }
+    }
+  }
+}

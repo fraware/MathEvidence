@@ -1,0 +1,9 @@
+{
+  "id": "T07_discover_calculus",
+  "summary": "Discover analysis.symbolic_calculus via list_capabilities",
+  "operation": "list_capabilities",
+  "input": {},
+  "expect": {
+    "containsCapability": "analysis.symbolic_calculus"
+  }
+}

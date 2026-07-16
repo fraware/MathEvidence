@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a defect in Lean packages, adapters, CI, or documentation
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Core / protocol
+        - IR
+        - Checker
+        - Tactic
+        - Adapter (SymPy / Sage / Mathematica)
+        - Agent / Studio
+        - Registry / schemas
+        - CI / tooling
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Steps, minimal Lean or adapter input, and expected vs actual behavior.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Lean toolchain (`lean-toolchain`), adapter versions, OS.
+    validations:
+      required: true
+  - type: checkboxes
+    id: trust
+    attributes:
+      label: Trust impact
+      options:
+        - label: This may affect theorem acceptance, request binding, or claim strength
+        - label: Offline replay is affected
+        - label: I confirmed this is not a security vulnerability (those go to SECURITY.md)

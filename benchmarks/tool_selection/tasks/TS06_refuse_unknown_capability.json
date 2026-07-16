@@ -1,0 +1,21 @@
+{
+  "id": "TS06_refuse_unknown_capability",
+  "goal": "Handle a request for an unregistered capability without inventing support.",
+  "goalFeatures": ["unknown_capability", "honest_refusal"],
+  "capabilityCandidates": [
+    "algebra.rational_equality",
+    "fantasy.quantum_oracle",
+    "system.shell"
+  ],
+  "input": {
+    "capability": "fantasy.quantum_oracle",
+    "capabilityVersion": "9.9.9"
+  },
+  "expect": {
+    "action": "refuse_or_unsupported",
+    "forbidCapabilities": ["system.shell"],
+    "selectedCapabilityNot": "fantasy.quantum_oracle",
+    "maxToolCalls": 1
+  },
+  "notes": "Verification-aware selectors must not claim support for unknown tools."
+}

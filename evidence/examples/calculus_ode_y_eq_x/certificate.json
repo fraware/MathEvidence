@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "analysis.symbolic_calculus",
+  "capabilityVersion": "0.1.0",
+  "requestDigest": "sha256:34a7d2b22494a9f5a2e332756efeba1572c87de3cf24134bc2bd3128ce957903",
+  "operation": "ode_candidate",
+  "domainConditions": [],
+  "candidateEcho": {
+    "tag": "int",
+    "value": "0"
+  },
+  "notes": "ODE candidate: Lean checks y'=f(x,y) + ICs (not uniqueness).",
+  "provenance": {
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "generatedAt": "2026-07-16T14:23:43Z",
+    "deterministic": true
+  }
+}

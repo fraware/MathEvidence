@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/backend-v0.json",
+  "title": "MathEvidence Backend",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "adapterVersion",
+    "status",
+    "license",
+    "availability",
+    "discovery",
+    "supportedCapabilities",
+    "regeneration",
+    "knownDefects"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "adapterVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "status": {
+      "enum": ["experimental", "candidate", "stable", "deprecated"]
+    },
+    "license": { "type": "string" },
+    "availability": {
+      "enum": ["open", "licensed", "restricted"]
+    },
+    "discovery": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["method"],
+      "properties": {
+        "method": {
+          "enum": [
+            "python_module",
+            "fixed_executable",
+            "env_executable",
+            "optional_runtime"
+          ]
+        },
+        "module": { "type": "string" },
+        "entry": { "type": "string" },
+        "envVar": { "type": "string" },
+        "defaultCandidates": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "supportedCapabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "versions", "deterministic"],
+        "properties": {
+          "id": { "type": "string" },
+          "versions": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1
+          },
+          "deterministic": { "type": "boolean" },
+          "supportLevel": {
+            "enum": [
+              "declared",
+              "implemented",
+              "conformance_verified",
+              "placeholder",
+              "offline_fixtures_passing",
+              "live_generator_complete"
+            ],
+            "description": "offline_fixtures_passing = committed evidence replays without the backend; live_generator_complete = full live fragment generator. Do not use implemented for fixture-only or scaffold live paths."
+          }
+        }
+      }
+    },
+    "regeneration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "enum": [
+            "always",
+            "optional_ci",
+            "fixture_only",
+            "unavailable"
+          ]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "conformance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultDigest": {
+          "type": ["string", "null"],
+          "description": "sha256:… digest of last recorded conformance run, or null if not yet run"
+        },
+        "suite": { "type": "string" },
+        "recordedAt": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "ciPolicy": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "knownDefects": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

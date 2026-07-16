@@ -1,0 +1,45 @@
+{
+  "bundleVersion": "0.1.0",
+  "capability": {
+    "id": "algebra.rational_equality",
+    "version": "0.1.0"
+  },
+  "requestDigest": "sha256:abababababababababababababababababababababababababababababababab",
+  "claimClass": "candidate",
+  "resultStatus": "computed",
+  "assuranceMode": "kernel_replay",
+  "files": [
+    {
+      "path": "request.json",
+      "digest": "sha256:04381589ac7fe2b22bb533a933526e75902a4de68f008af633b4e0f17b2efcac",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "candidate.json",
+      "digest": "sha256:afbe6f80d43eae9653132b452f5bda350d5caf3f2db41889b29a30dee0681d0f",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "certificate.json",
+      "digest": "sha256:12510d21a96374d01e6cdfc16e018626b9d08b9b4e7255e6cb88cff2f4fdda3f",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:6ab5fdac8e31e5ac729867663c49a7bab2762d0831abe2147d879daa8348a037",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "provenance": {
+    "leanVersion": "4.x-pending",
+    "libraryRevision": "workspace",
+    "checkerVersion": "0.1.0",
+    "backend": {
+      "backendId": "sympy",
+      "backendVersion": "1.14.0",
+      "adapterVersion": "0.1.0",
+      "generatedAt": "2026-07-16T12:22:27Z",
+      "deterministic": true
+    }
+  }
+}

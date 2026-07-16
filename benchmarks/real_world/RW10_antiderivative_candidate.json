@@ -1,0 +1,16 @@
+{
+  "id": "RW10",
+  "bottleneckRef": "docs/validation/bottlenecks.md#13",
+  "domain": "calculus",
+  "capability": "analysis.symbolic_calculus",
+  "summary": "Antiderivative verification obligation",
+  "leanOnlyApproach": "FTC proofs by hand",
+  "whyExternal": "Candidate + domain conditions checked",
+  "expectedClaimStrength": "candidate",
+  "permittedAssumptions": [
+    "domainConditions covering singularities"
+  ],
+  "contaminationStatus": "clean",
+  "source": "docs/validation/bottlenecks.md",
+  "notes": "Curated obligation for R3 real-world suite; executable compute/replay may reuse evidence/examples when available."
+}

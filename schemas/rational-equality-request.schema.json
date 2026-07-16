@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/rational-equality-request-v0.json",
+  "title": "algebra.rational_equality request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capability",
+    "capabilityVersion",
+    "variables",
+    "lhs",
+    "rhs",
+    "knownAssumptions",
+    "requestedClaim",
+    "resourcePolicy",
+    "requestDigest"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "capability": {
+      "type": "string",
+      "const": "algebra.rational_equality"
+    },
+    "capabilityVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "variables": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_']*$",
+            "maxLength": 64
+          },
+          "type": {
+            "const": "Rat"
+          }
+        }
+      }
+    },
+    "lhs": {
+      "$ref": "https://mathevidence.org/schemas/rational-expr-v0.json"
+    },
+    "rhs": {
+      "$ref": "https://mathevidence.org/schemas/rational-expr-v0.json"
+    },
+    "knownAssumptions": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "expr"],
+        "properties": {
+          "kind": {
+            "enum": ["nonzero"]
+          },
+          "expr": {
+            "$ref": "https://mathevidence.org/schemas/rational-expr-v0.json"
+          }
+        }
+      }
+    },
+    "requestedClaim": {
+      "const": "soundResult"
+    },
+    "resourcePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxWallTimeMs", "maxOutputBytes"],
+      "properties": {
+        "maxWallTimeMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600000
+        },
+        "maxOutputBytes": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 67108864
+        },
+        "maxCpuTimeMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600000
+        },
+        "maxMemoryBytes": {
+          "type": "integer",
+          "minimum": 1048576,
+          "maximum": 8589934592
+        }
+      }
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

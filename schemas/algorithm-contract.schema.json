@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/algorithm-contract-v0.json",
+  "title": "Algorithm Assurance Contract",
+  "description": "Machine-readable contract for Product 06. Assurance level is always explicit; proprietary backend internals are never claimed verified.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "version",
+    "assuranceLevel",
+    "capabilityId",
+    "inputDomain",
+    "outputRelation",
+    "soundness",
+    "leanContract",
+    "performanceNotes"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "assuranceLevel": {
+      "enum": [
+        "output_verification",
+        "checker_soundness",
+        "verified_reference_algorithm",
+        "restricted_completeness",
+        "open_implementation_correspondence",
+        "proprietary_differential"
+      ],
+      "description": "Product 06 ordered levels; higher levels are not implied by lower ones"
+    },
+    "capabilityId": { "type": "string" },
+    "inputDomain": { "type": "string" },
+    "outputRelation": { "type": "string" },
+    "termination": { "type": "string" },
+    "soundness": { "type": "string" },
+    "completeness": {
+      "type": ["string", "null"],
+      "description": "Null when completeness is not claimed"
+    },
+    "complexityAssumptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "representationRefinement": { "type": "string" },
+    "leanContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package", "module"],
+      "properties": {
+        "package": { "type": "string" },
+        "module": { "type": "string" },
+        "referenceAlgorithm": { "type": "string" },
+        "soundnessTheorem": { "type": "string" }
+      }
+    },
+    "performanceNotes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Reported separately from correctness"
+    },
+    "knownLimitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

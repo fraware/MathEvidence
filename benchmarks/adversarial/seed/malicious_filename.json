@@ -1,0 +1,9 @@
+{
+  "id": "adv-018",
+  "category": "malicious_filename",
+  "expect": "reject",
+  "summary": "Malicious file name in bundle manifest",
+  "capability": "algebra.rational_equality",
+  "notes": "Executable via scripts/run_adversarial_executable.py (security.yml / just adversarial-exec).",
+  "executable": true
+}

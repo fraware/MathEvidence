@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/agent-check-support-input-v0.json",
+  "title": "check_support input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["capability"],
+  "properties": {
+    "capability": { "type": "string" },
+    "capabilityVersion": { "type": "string" },
+    "backend": { "type": "string" },
+    "requestedClaim": { "type": "string" }
+  }
+}

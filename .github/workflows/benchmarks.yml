@@ -1,0 +1,81 @@
+# Phase 0 skeleton: nightly real-world benchmarks (informative until budgets exist).
+name: benchmarks
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "benchmarks/**"
+      - "foundry/**"
+      - "scripts/build_foundry_corpus.py"
+      - "scripts/validate_foundry_corpus.py"
+      - "scripts/run_tool_selection_benchmark.py"
+      - "scripts/run_agent_held_out.py"
+      - "scripts/run_real_world.py"
+      - "scripts/run_property_tests.py"
+      - "scripts/run_metamorphic.py"
+      - "scripts/run_perf_budgets.py"
+      - "scripts/run_differential_backends.py"
+      - "scripts/run_leanlink_fuzz_stubs.py"
+      - ".github/workflows/benchmarks.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inventory benchmark trees
+        run: |
+          find benchmarks -type f | sort
+          test -d benchmarks/adversarial/seed
+          test -d benchmarks/real_world
+          test -d benchmarks/conformance
+          test -d benchmarks/agent/held_out
+          test -d benchmarks/tool_selection
+          test -d foundry/corpus/v0.1
+          echo "benchmarks skeleton ok"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install -e ".[dev,sympy]" || pip install jsonschema pytest sympy hypothesis
+
+      - name: Agent held-out suite
+        run: python scripts/run_agent_held_out.py
+
+      - name: Real-world bottleneck obligations
+        run: python scripts/run_real_world.py
+
+      - name: Property tests
+        run: python scripts/run_property_tests.py
+
+      - name: Metamorphic suite
+        run: python scripts/run_metamorphic.py
+
+      - name: Perf budgets (blocking on regression)
+        run: python scripts/run_perf_budgets.py
+
+      - name: Differential backends (skip/fixture without Wolfram)
+        run: python scripts/run_differential_backends.py
+
+      - name: Build Foundry corpus (idempotent)
+        run: python scripts/build_foundry_corpus.py
+
+      - name: Validate Foundry corpus
+        run: python scripts/validate_foundry_corpus.py
+
+      - name: Tool-selection benchmark
+        run: python scripts/run_tool_selection_benchmark.py

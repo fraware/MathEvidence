@@ -1,0 +1,16 @@
+{
+  "id": "certified_with_lean_and_proposition",
+  "surface": "both",
+  "description": "Lean status + exact proposition → Certified; transcript order enforced.",
+  "input": {
+    "resultStatus": "soundness_verified",
+    "leanStatus": "soundness_verified",
+    "leanProposition": "∀ (x : ℚ), x ≠ 1 → (x^2 - 1) / (x - 1) = x + 1",
+    "assumptions": ["x ≠ 1"]
+  },
+  "expected": {
+    "label": "Certified",
+    "allowCertified": true,
+    "transcriptOrder": ["leanProposition", "assumptions", "epistemicLabel"]
+  }
+}

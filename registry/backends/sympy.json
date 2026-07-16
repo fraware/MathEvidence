@@ -1,0 +1,49 @@
+{
+  "id": "sympy",
+  "version": "0.1.0",
+  "adapterVersion": "0.1.0",
+  "status": "experimental",
+  "license": "BSD-3-Clause",
+  "availability": "open",
+  "discovery": {
+    "method": "python_module",
+    "module": "adapters.sympy",
+    "entry": "python -m adapters.sympy"
+  },
+  "supportedCapabilities": [
+    {
+      "id": "algebra.rational_equality",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "conformance_verified"
+    },
+    {
+      "id": "algebra.linear_algebra",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "conformance_verified"
+    },
+    {
+      "id": "logic.finite_counterexample",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "conformance_verified"
+    },
+    {
+      "id": "analysis.symbolic_calculus",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "conformance_verified"
+    }
+  ],
+  "regeneration": {
+    "status": "always",
+    "notes": "Open CI regenerates rational_equality evidence via SymPy."
+  },
+  "conformance": {
+    "suite": "evidence/conformance/rfc0001",
+    "resultDigest": null,
+    "recordedAt": null
+  },
+  "knownDefects": []
+}

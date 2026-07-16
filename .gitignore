@@ -19,6 +19,7 @@ venv/
 .mypy_cache/
 .ruff_cache/
 .pytest_cache/
+.hypothesis/
 .coverage
 htmlcov/
 uv.toml.local
@@ -53,3 +54,6 @@ credentials.json
 # Local Foundry capture output (never on acceptance path)
 foundry/episodes/*.json
 !foundry/episodes/.gitkeep
+
+# Differential harness regenerates this each run
+benchmarks/differential/manifest.json

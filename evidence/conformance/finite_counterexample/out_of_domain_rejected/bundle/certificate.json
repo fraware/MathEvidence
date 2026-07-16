@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "logic.finite_counterexample",
+  "capabilityVersion": "0.1.0",
+  "requestDigest": "sha256:b833c4deea06cf0afb21e98df142c8e7687284209b60bac3da588bff63681c57",
+  "witness": {
+    "assignment": [
+      {
+        "tag": "nat",
+        "v": 9
+      }
+    ]
+  },
+  "provenance": {
+    "backendId": "fixture",
+    "backendVersion": "0.1.0",
+    "adapterVersion": "0.1.0",
+    "generatedAt": "2026-07-16T00:00:00Z",
+    "deterministic": true
+  }
+}

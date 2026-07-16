@@ -1,0 +1,10 @@
+{
+  "id": "T02_reject_unknown_capability",
+  "operation": "check_support",
+  "input": {
+    "capability": "algebra.nonexistent_capability"
+  },
+  "expect": {
+    "resultStatus": "unsupported"
+  }
+}

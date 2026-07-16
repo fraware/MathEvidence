@@ -1,0 +1,9 @@
+{
+  "id": "adv-012",
+  "category": "truncated_certificate",
+  "expect": "reject",
+  "summary": "Truncated certificate payload",
+  "capability": "algebra.rational_equality",
+  "notes": "Executable via scripts/run_adversarial_executable.py (security.yml / just adversarial-exec).",
+  "executable": true
+}

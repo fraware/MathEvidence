@@ -1,0 +1,6 @@
+{
+  "id": "unsupported_rejection",
+  "expect": "unsupported",
+  "errorCode": "unsupported_expression",
+  "bindDigest": true
+}

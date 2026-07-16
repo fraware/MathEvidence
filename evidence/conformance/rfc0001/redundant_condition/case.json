@@ -1,0 +1,5 @@
+{
+  "id": "redundant_condition",
+  "expect": "valid_identity",
+  "notes": "Extra known assumption must not break candidate generation."
+}

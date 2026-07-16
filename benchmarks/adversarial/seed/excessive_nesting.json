@@ -1,0 +1,9 @@
+{
+  "id": "adv-015",
+  "category": "excessive_nesting",
+  "expect": "reject",
+  "summary": "Nesting depth beyond parser bound",
+  "capability": "algebra.rational_equality",
+  "notes": "Executable via scripts/run_adversarial_executable.py (security.yml / just adversarial-exec).",
+  "executable": true
+}

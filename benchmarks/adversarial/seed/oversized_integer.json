@@ -1,0 +1,9 @@
+{
+  "id": "adv-016",
+  "category": "oversized_integer",
+  "expect": "reject",
+  "summary": "Integer exceeding declared size limit",
+  "capability": "algebra.rational_equality",
+  "notes": "Executable via scripts/run_adversarial_executable.py (security.yml / just adversarial-exec).",
+  "executable": true
+}

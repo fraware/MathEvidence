@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.1.0",
+  "targetTheorem": "(x^2 - 1) / (x - 1) = x + 1",
+  "nodes": [
+    {
+      "id": "target",
+      "claim": "(x^2 - 1) / (x - 1) = x + 1",
+      "stepKind": "lemma_candidate",
+      "status": "proposed",
+      "advancesProofStatus": false,
+      "suggestedCapability": null,
+      "suggestedTactic": null,
+      "sourceTraceIds": [],
+      "confidence": 1.0,
+      "reconstruction": null
+    },
+    {
+      "id": "n_hint",
+      "claim": "cancel (x-1) factor",
+      "stepKind": "search_hint",
+      "status": "proposed",
+      "advancesProofStatus": false,
+      "suggestedCapability": null,
+      "suggestedTactic": "ring",
+      "sourceTraceIds": ["hint1"],
+      "confidence": 0.4,
+      "reconstruction": null
+    },
+    {
+      "id": "n_recon",
+      "claim": "poly equal under denom cover",
+      "stepKind": "reconstructible_computation",
+      "status": "proved",
+      "advancesProofStatus": true,
+      "suggestedCapability": "algebra.rational_equality",
+      "suggestedTactic": null,
+      "sourceTraceIds": ["cert1"],
+      "confidence": 0.95,
+      "reconstruction": {
+        "method": "RationalEquality.checkBool",
+        "resultStatus": "soundness_verified",
+        "bundleRef": "evidence/examples"
+      }
+    }
+  ],
+  "edges": [
+    { "from": "n_hint", "to": "target", "kind": "suggests" },
+    { "from": "n_recon", "to": "target", "kind": "depends_on" }
+  ],
+  "sourceTraces": [
+    {
+      "id": "hint1",
+      "rawKind": "smt_hint",
+      "content": { "claim": "cancel (x-1) factor", "tactic": "ring" },
+      "source": "simulated",
+      "classifiedAs": "search_hint",
+      "confidence": 0.4
+    },
+    {
+      "id": "cert1",
+      "rawKind": "certificate",
+      "content": {
+        "claim": "poly equal under denom cover",
+        "capability": "algebra.rational_equality"
+      },
+      "source": "sympy",
+      "classifiedAs": "reconstructible_computation",
+      "confidence": 0.95
+    }
+  ],
+  "unresolvedNodes": [],
+  "notes": [
+    "Hint does not advance proof status.",
+    "Only reconstructed rational-equality step advances."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "adv-011",
+  "category": "wrong_request_hash",
+  "expect": "reject",
+  "summary": "Certificate bound to a different request digest",
+  "capability": "algebra.rational_equality",
+  "notes": "Executable via scripts/run_adversarial_executable.py (security.yml / just adversarial-exec).",
+  "executable": true
+}

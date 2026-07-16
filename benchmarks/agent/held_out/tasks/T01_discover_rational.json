@@ -1,0 +1,10 @@
+{
+  "id": "T01_discover_rational",
+  "operation": "list_capabilities",
+  "input": {},
+  "expect": {
+    "containsCapability": "algebra.rational_equality",
+    "minCapabilities": 3
+  },
+  "notes": "Agent must discover rational equality without parsing prose docs."
+}

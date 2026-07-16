@@ -1,0 +1,77 @@
+{
+  "id": "logic.sat_unsat",
+  "version": "0.1.0",
+  "status": "experimental",
+  "domain": "logic.sat",
+  "ownership": "federated",
+  "inputIR": {
+    "name": "OpaqueExternal",
+    "schema": "schemas/federation-opaque-ir.schema.json",
+    "version": "0.1.0",
+    "leanPackage": "external"
+  },
+  "admissibility": {
+    "summary": "Federated SAT / UNSAT certificate metadata. Specialized SAT checkers remain authoritative.",
+    "rejectedConstructs": [
+      "claiming_MathEvidence_as_SAT_checker",
+      "unified_logic_AST"
+    ],
+    "requiredAssumptions": [
+      "External SAT checker owns acceptance of witnesses / proofs"
+    ]
+  },
+  "claimClasses": ["witness", "refutation", "candidate"],
+  "evidenceSchema": "schemas/federation-certificate.schema.json",
+  "requestSchema": "schemas/federation-request.schema.json",
+  "checker": {
+    "package": "external:SATChecker",
+    "version": "0.0.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "absent"
+  },
+  "assuranceModes": ["kernel_replay"],
+  "limits": {
+    "maxWallTimeMs": 120000,
+    "maxOutputBytes": 16777216
+  },
+  "knownLimitations": [
+    "MathEvidence does not reconstruct SAT proofs itself in Milestone 4.",
+    "Shared vocabulary only: claimClass, resultStatus, provenance."
+  ],
+  "conformance": {
+    "suite": "evidence/federation/examples",
+    "status": "partial",
+    "requiredCases": ["emit_metadata", "consume_metadata"]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence federation",
+      "role": "metadata_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "External SAT checker project; see federation examples",
+    "conformanceVerified": false,
+    "backends": [
+      {
+        "id": "external.sat",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      }
+    ]
+  },
+  "federation": {
+    "externalProject": "sat-checker",
+    "checkerAuthority": "external:SATChecker",
+    "mathEvidenceRole": "metadata_interop",
+    "metadataSchema": "schemas/federation-metadata.schema.json",
+    "collaborationNote": "docs/architecture/collaboration-cslib-lean-auto-smt.md",
+    "relatedProjects": ["lean-auto"]
+  },
+  "compatibility": {
+    "policy": "federation_metadata_v0",
+    "minProtocolVersion": "0.1.0"
+  }
+}

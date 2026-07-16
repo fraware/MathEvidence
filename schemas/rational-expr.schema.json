@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/rational-expr-v0.json",
+  "title": "MathEvidence RationalExpr IR (JSON encoding)",
+  "description": "Solver-independent rational expression fragment over Q (RFC 0001).",
+  "$defs": {
+    "RationalExpr": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "name"],
+          "properties": {
+            "tag": { "const": "var" },
+            "name": {
+              "type": "string",
+              "pattern": "^[A-Za-z_][A-Za-z0-9_']*$",
+              "maxLength": 64
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "value"],
+          "properties": {
+            "tag": { "const": "int" },
+            "value": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)$",
+              "maxLength": 4096
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "num", "den"],
+          "properties": {
+            "tag": { "const": "rat" },
+            "num": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)$",
+              "maxLength": 4096
+            },
+            "den": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)$",
+              "maxLength": 4096
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "left", "right"],
+          "properties": {
+            "tag": { "const": "add" },
+            "left": { "$ref": "#/$defs/RationalExpr" },
+            "right": { "$ref": "#/$defs/RationalExpr" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "left", "right"],
+          "properties": {
+            "tag": { "const": "sub" },
+            "left": { "$ref": "#/$defs/RationalExpr" },
+            "right": { "$ref": "#/$defs/RationalExpr" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "left", "right"],
+          "properties": {
+            "tag": { "const": "mul" },
+            "left": { "$ref": "#/$defs/RationalExpr" },
+            "right": { "$ref": "#/$defs/RationalExpr" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "arg"],
+          "properties": {
+            "tag": { "const": "neg" },
+            "arg": { "$ref": "#/$defs/RationalExpr" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "base", "exp"],
+          "properties": {
+            "tag": { "const": "pow" },
+            "base": { "$ref": "#/$defs/RationalExpr" },
+            "exp": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tag", "num", "den"],
+          "properties": {
+            "tag": { "const": "div" },
+            "num": { "$ref": "#/$defs/RationalExpr" },
+            "den": { "$ref": "#/$defs/RationalExpr" }
+          }
+        }
+      ]
+    }
+  },
+  "$ref": "#/$defs/RationalExpr"
+}

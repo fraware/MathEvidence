@@ -1,0 +1,63 @@
+name = "MathEvidence"
+version = "0.1.0"
+defaultTargets = [
+  "MathEvidenceCore",
+  "MathEvidenceIR",
+  "MathEvidenceCheckers",
+  "MathEvidenceHypothesis",
+  "MathEvidenceConjecture",
+  "MathEvidenceTraceToPlan",
+  "MathEvidenceAssurance",
+  "MathEvidenceTactic",
+  "MathEvidenceRegistry",
+  "MathEvidenceTesting",
+]
+
+# Pin Mathlib to the Lean 4.14.0 release tag (matches lean-toolchain).
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.14.0"
+
+# Each lean_lib is a MathEvidence.* package boundary. Roots pull in submodules
+# via import; avoid globs here so Lake 5 reliably builds the barrel modules.
+
+[[lean_lib]]
+name = "MathEvidenceCore"
+roots = ["MathEvidence.Core"]
+
+[[lean_lib]]
+name = "MathEvidenceIR"
+roots = ["MathEvidence.IR"]
+
+[[lean_lib]]
+name = "MathEvidenceCheckers"
+roots = ["MathEvidence.Checkers"]
+
+[[lean_lib]]
+name = "MathEvidenceHypothesis"
+roots = ["MathEvidence.Hypothesis"]
+
+[[lean_lib]]
+name = "MathEvidenceConjecture"
+roots = ["MathEvidence.Conjecture"]
+
+[[lean_lib]]
+name = "MathEvidenceTraceToPlan"
+roots = ["MathEvidence.TraceToPlan"]
+
+[[lean_lib]]
+name = "MathEvidenceAssurance"
+roots = ["MathEvidence.Assurance"]
+
+[[lean_lib]]
+name = "MathEvidenceTactic"
+roots = ["MathEvidence.Tactic"]
+
+[[lean_lib]]
+name = "MathEvidenceRegistry"
+roots = ["MathEvidence.Registry"]
+
+[[lean_lib]]
+name = "MathEvidenceTesting"
+roots = ["MathEvidence.Testing"]

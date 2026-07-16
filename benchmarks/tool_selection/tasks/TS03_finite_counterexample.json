@@ -1,0 +1,18 @@
+{
+  "id": "TS03_finite_counterexample",
+  "goal": "Refute a false universal claim over a finite natural domain with a typed witness.",
+  "goalFeatures": ["finite_domain", "refutation", "counterexample"],
+  "capabilityCandidates": [
+    "algebra.rational_equality",
+    "logic.finite_counterexample",
+    "logic.smt",
+    "system.shell"
+  ],
+  "expect": {
+    "selectedCapability": "logic.finite_counterexample",
+    "requestedClaimIn": ["refutation", "soundResult", "candidate"],
+    "forbidCapabilities": ["system.shell"],
+    "maxToolCalls": 1
+  },
+  "notes": "Federated SMT is not a substitute when a finite typed witness checker exists."
+}

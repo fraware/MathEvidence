@@ -1,0 +1,20 @@
+{
+  "id": "witness_verified_with_lean",
+  "surface": "both",
+  "description": "witness_verified Lean status + proposition → Certified.",
+  "input": {
+    "resultStatus": "computed",
+    "leanStatus": "witness_verified",
+    "leanProposition": "∃ (w : Matrix ℚ 2 2), A * w = 1",
+    "assumptions": ["det A ≠ 0"],
+    "request": {
+      "knownAssumptions": ["det A ≠ 0"],
+      "leanProposition": "∃ (w : Matrix ℚ 2 2), A * w = 1"
+    }
+  },
+  "expected": {
+    "label": "Certified",
+    "allowCertified": true,
+    "transcriptOrder": ["leanProposition", "assumptions", "epistemicLabel"]
+  }
+}

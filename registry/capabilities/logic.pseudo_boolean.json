@@ -1,0 +1,76 @@
+{
+  "id": "logic.pseudo_boolean",
+  "version": "0.1.0",
+  "status": "experimental",
+  "domain": "logic.pseudo_boolean",
+  "ownership": "federated",
+  "inputIR": {
+    "name": "OpaqueExternal",
+    "schema": "schemas/federation-opaque-ir.schema.json",
+    "version": "0.1.0",
+    "leanPackage": "external"
+  },
+  "admissibility": {
+    "summary": "Federated pseudo-Boolean constraint metadata. Specialized PB checkers remain authoritative.",
+    "rejectedConstructs": [
+      "claiming_MathEvidence_as_PB_checker"
+    ],
+    "requiredAssumptions": [
+      "External PB checker owns certificate checking"
+    ]
+  },
+  "claimClasses": ["witness", "refutation", "candidate"],
+  "evidenceSchema": "schemas/federation-certificate.schema.json",
+  "requestSchema": "schemas/federation-request.schema.json",
+  "checker": {
+    "package": "external:PseudoBooleanChecker",
+    "version": "0.0.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "absent"
+  },
+  "assuranceModes": ["kernel_replay"],
+  "limits": {
+    "maxWallTimeMs": 120000,
+    "maxOutputBytes": 16777216
+  },
+  "knownLimitations": [
+    "Milestone 4 ships registry + shared metadata only.",
+    "No MathEvidence PB checker is claimed."
+  ],
+  "conformance": {
+    "suite": "evidence/federation/examples",
+    "status": "partial",
+    "requiredCases": ["emit_metadata", "consume_metadata"]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence federation",
+      "role": "metadata_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "External pseudo-Boolean checker; see federation examples",
+    "conformanceVerified": false,
+    "backends": [
+      {
+        "id": "external.pseudo_boolean",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      }
+    ]
+  },
+  "federation": {
+    "externalProject": "pb-checker",
+    "checkerAuthority": "external:PseudoBooleanChecker",
+    "mathEvidenceRole": "metadata_interop",
+    "metadataSchema": "schemas/federation-metadata.schema.json",
+    "collaborationNote": "docs/architecture/collaboration-cslib-lean-auto-smt.md",
+    "relatedProjects": ["sat-checker"]
+  },
+  "compatibility": {
+    "policy": "federation_metadata_v0",
+    "minProtocolVersion": "0.1.0"
+  }
+}

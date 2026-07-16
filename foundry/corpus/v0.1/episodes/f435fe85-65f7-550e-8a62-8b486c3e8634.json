@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "f435fe85-65f7-550e-8a62-8b486c3e8634",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-16T14:35:09Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q2_formally_verified",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/examples/calculus_ode_y_eq_x",
+    "sourceDate": "2026-07-16T14:23:43Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "analysis.symbolic_calculus",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "held_out",
+    "duplicateOf": null,
+    "contentDigest": "sha256:8d426d5a7999ebc5ea7c924632bc7d36dd3339ec16df8487eef03b6e4b3ee1da",
+    "benchmarkExclusion": true,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "analysis.symbolic_calculus"
+    ],
+    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedOperation": "ode_candidate",
+    "requestedClaim": "candidate",
+    "backendId": "sympy",
+    "selectionRationale": "Committed example for capability analysis.symbolic_calculus."
+  },
+  "outcome": {
+    "resultStatus": "computed",
+    "claimClass": "candidate",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:34a7d2b22494a9f5a2e332756efeba1572c87de3cf24134bc2bd3128ce957903",
+    "replayable": true,
+    "negative": false,
+    "negativeKind": "none",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/examples/calculus_ode_y_eq_x"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

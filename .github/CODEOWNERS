@@ -1,0 +1,25 @@
+# Code ownership for MathEvidence.
+#
+# Choice (Phase 0): GitHub teams referenced in the charter templates
+# (@core-maintainers, @trust-maintainers, …) do not exist yet on the
+# publishing org. Until teams are created, all review paths route to @fraware.
+# Replace @fraware with specialized teams when GOVERNANCE.md maintainer areas
+# are staffed; keep dual review for checkers (domain + trust).
+
+*                              @fraware
+
+/MathEvidence/Core/            @fraware
+/MathEvidence/IR/              @fraware
+/MathEvidence/Checkers/        @fraware
+/adapters/mathematica/         @fraware
+/adapters/sage/                @fraware
+/adapters/sympy/               @fraware
+/adapters/common/              @fraware
+/agent/                        @fraware
+/studio/                       @fraware
+/foundry/                      @fraware
+/registry/                     @fraware
+/.github/workflows/            @fraware
+/docs/PROJECT_SPEC.md          @fraware
+/docs/SECURITY_AND_TRUST_MODEL.md @fraware
+/SECURITY.md                   @fraware

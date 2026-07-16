@@ -1,0 +1,16 @@
+{
+  "id": "lean_without_proposition",
+  "surface": "both",
+  "description": "Lean status present but exact proposition missing → Ambiguous (before Certified).",
+  "input": {
+    "resultStatus": "witness_verified",
+    "leanStatus": "witness_verified",
+    "leanProposition": "",
+    "assumptions": []
+  },
+  "expected": {
+    "label": "Ambiguous",
+    "allowCertified": false,
+    "transcriptOrder": ["leanProposition", "assumptions", "epistemicLabel"]
+  }
+}

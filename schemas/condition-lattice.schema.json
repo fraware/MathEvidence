@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/condition-lattice-v0.json",
+  "title": "Condition lattice artifact (Product 03)",
+  "description": "Primary Hypothesis Synthesis output. Minimality must not be claimed without necessityProofs covering every recommended condition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactId",
+    "originalAssumptions",
+    "proposed",
+    "sufficientSets",
+    "redundant",
+    "weakenedVariants",
+    "certifiedCounterexamples",
+    "unresolvedNecessity",
+    "claimsMinimal"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "artifactId": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "originalAssumptions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/conditionNode" }
+    },
+    "proposed": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/conditionNode" }
+    },
+    "sufficientSets": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "redundant": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "weakenedVariants": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "certifiedCounterexamples": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "unresolvedNecessity": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "necessityProofs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/necessityProof" }
+    },
+    "recommendedInterface": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "ranking": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "criteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "recommendedInterfaceId": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "claimsMinimal": {
+      "type": "boolean",
+      "description": "MUST be false unless necessityProofs cover every recommendedInterface id."
+    },
+    "authorityStatus": {
+      "type": "string",
+      "enum": ["lean_checker_mirror", "lean_kernel"],
+      "description": "Acceptance authority for sufficiency/deletion/CEX fields. Heuristics alone are forbidden."
+    }
+  },
+  "$defs": {
+    "conditionNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "expr", "source", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "expr": { "type": "object" },
+        "source": {
+          "enum": [
+            "original_assumption",
+            "backend_proposed",
+            "library_heuristic",
+            "human"
+          ]
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "sufficient_member",
+            "redundant",
+            "necessity_open",
+            "weaker_falsified"
+          ]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "necessityProof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conditionId", "kind"],
+      "properties": {
+        "conditionId": { "type": "string" },
+        "kind": {
+          "enum": [
+            "sufficiency_proof",
+            "redundancy_proof",
+            "certified_counterexample",
+            "unresolved"
+          ]
+        },
+        "detail": { "type": "string" }
+      }
+    }
+  }
+}

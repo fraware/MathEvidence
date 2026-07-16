@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/symbolic-calculus-certificate-v0.json",
+  "title": "analysis.symbolic_calculus certificate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capability",
+    "capabilityVersion",
+    "requestDigest",
+    "operation",
+    "domainConditions",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "capability": { "type": "string", "const": "analysis.symbolic_calculus" },
+    "capabilityVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "operation": {
+      "enum": [
+        "derivative_candidate",
+        "antiderivative_candidate",
+        "recurrence_identity",
+        "ode_candidate"
+      ]
+    },
+    "domainConditions": {
+      "type": "array",
+      "items": {
+        "$ref": "https://mathevidence.org/schemas/rational-expr-v0.json#/$defs/RationalExpr"
+      },
+      "description": "Echo of request domainConditions; Lean requires exact match + denom coverage."
+    },
+    "candidateEcho": {
+      "$ref": "https://mathevidence.org/schemas/rational-expr-v0.json#/$defs/RationalExpr"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "backendId",
+        "backendVersion",
+        "adapterVersion",
+        "generatedAt",
+        "deterministic"
+      ],
+      "properties": {
+        "backendId": { "type": "string" },
+        "backendVersion": { "type": "string" },
+        "adapterVersion": { "type": "string" },
+        "leanLinkVersion": { "type": ["string", "null"] },
+        "generatedAt": { "type": "string" },
+        "deterministic": { "type": "boolean" }
+      }
+    }
+  }
+}

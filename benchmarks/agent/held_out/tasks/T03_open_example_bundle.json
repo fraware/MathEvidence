@@ -1,0 +1,11 @@
+{
+  "id": "T03_open_example_bundle",
+  "operation": "open_bundle",
+  "input": {
+    "path": "evidence/examples/rational_equality_basic"
+  },
+  "expect": {
+    "resultStatusIn": ["computed", "tested", "soundness_verified", "witness_verified"],
+    "hasBundleRef": true
+  }
+}

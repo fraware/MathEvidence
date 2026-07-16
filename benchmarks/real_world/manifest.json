@@ -1,0 +1,186 @@
+{
+  "version": 1,
+  "description": "Real-world formalization bottleneck obligations (R3)",
+  "source": "docs/validation/bottlenecks.md",
+  "cases": [
+    {
+      "id": "RW01",
+      "path": "RW01_rational_identity_denoms.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#1",
+      "domain": "algebra",
+      "capability": "algebra.rational_equality",
+      "summary": "Rational identity with multiple denominator side conditions",
+      "leanOnlyApproach": "Manual field_simp / ring case splits",
+      "whyExternal": "CAS normalizes; Lean checks denominators",
+      "expectedClaimStrength": "soundResult",
+      "permittedAssumptions": [
+        "nonzero denominators for every division"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW02",
+      "path": "RW02_partial_fraction_style.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#2",
+      "domain": "algebra",
+      "capability": "algebra.rational_equality",
+      "summary": "Partial-fraction style equality on Q(x)",
+      "leanOnlyApproach": "Hand-crafted algebraic manipulation",
+      "whyExternal": "Candidate factorization + Lean identity check",
+      "expectedClaimStrength": "soundResult",
+      "permittedAssumptions": [
+        "nonzero denominators"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW03",
+      "path": "RW03_matrix_inverse_witness.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#3",
+      "domain": "linear_algebra",
+      "capability": "algebra.linear_algebra",
+      "summary": "Exact matrix inverse witness over rationals",
+      "leanOnlyApproach": "Adjugate by hand or simp blowup",
+      "whyExternal": "CAS inverse; Lean verifies A*B=I",
+      "expectedClaimStrength": "witness",
+      "permittedAssumptions": [
+        "exact rational entries"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW04",
+      "path": "RW04_linear_system_solution.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#4",
+      "domain": "linear_algebra",
+      "capability": "algebra.linear_algebra",
+      "summary": "Exact solution of a dense linear system",
+      "leanOnlyApproach": "Gaussian elimination by tactics",
+      "whyExternal": "Witness vector + residual proof",
+      "expectedClaimStrength": "witness",
+      "permittedAssumptions": [
+        "exact rational entries"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW05",
+      "path": "RW05_kernel_vector.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#5",
+      "domain": "linear_algebra",
+      "capability": "algebra.linear_algebra",
+      "summary": "Kernel / nullspace vector for an exact matrix",
+      "leanOnlyApproach": "Manual linear dependence proofs",
+      "whyExternal": "Candidate kernel vector checked in Lean",
+      "expectedClaimStrength": "witness",
+      "permittedAssumptions": [
+        "exact rational entries",
+        "nontrivial kernel"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW06",
+      "path": "RW06_det_identity.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#6",
+      "domain": "linear_algebra",
+      "capability": "algebra.linear_algebra",
+      "summary": "Determinant identity for a structured 2x2 matrix",
+      "leanOnlyApproach": "Cofactor expansion proof",
+      "whyExternal": "Candidate det + polynomial identity check",
+      "expectedClaimStrength": "witness",
+      "permittedAssumptions": [
+        "exact rational entries"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW07",
+      "path": "RW07_polynomial_identity.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#7",
+      "domain": "algebra",
+      "capability": "algebra.rational_equality",
+      "summary": "Polynomial identity after expansion (moderate degree)",
+      "leanOnlyApproach": "ring timeout / memory pressure",
+      "whyExternal": "Normalized certificate / sparse witness",
+      "expectedClaimStrength": "soundResult",
+      "permittedAssumptions": [],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW08",
+      "path": "RW08_finite_counterexample.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#9",
+      "domain": "logic",
+      "capability": "logic.finite_counterexample",
+      "summary": "Finite counterexample search for a false lemma",
+      "leanOnlyApproach": "Random native_decide attempts",
+      "whyExternal": "Typed finite witness evaluated in Lean",
+      "expectedClaimStrength": "refutation",
+      "permittedAssumptions": [
+        "explicit finite domain"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW09",
+      "path": "RW09_derivative_candidate.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#12",
+      "domain": "calculus",
+      "capability": "analysis.symbolic_calculus",
+      "summary": "Derivative candidate verification",
+      "leanOnlyApproach": "Unfold deriv definitions",
+      "whyExternal": "Candidate derivative checked symbolically in Lean",
+      "expectedClaimStrength": "candidate",
+      "permittedAssumptions": [
+        "domainConditions covering singularities"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW10",
+      "path": "RW10_antiderivative_candidate.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#13",
+      "domain": "calculus",
+      "capability": "analysis.symbolic_calculus",
+      "summary": "Antiderivative verification obligation",
+      "leanOnlyApproach": "FTC proofs by hand",
+      "whyExternal": "Candidate + domain conditions checked",
+      "expectedClaimStrength": "candidate",
+      "permittedAssumptions": [
+        "domainConditions covering singularities"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW11",
+      "path": "RW11_large_coeff_normalization.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#22",
+      "domain": "algebra",
+      "capability": "algebra.rational_equality",
+      "summary": "Large rational coefficient normalization",
+      "leanOnlyApproach": "Kernel blowup on numerals",
+      "whyExternal": "Backend normalizes; Lean checks reduced form",
+      "expectedClaimStrength": "soundResult",
+      "permittedAssumptions": [
+        "nonzero denominators"
+      ],
+      "contaminationStatus": "clean"
+    },
+    {
+      "id": "RW12",
+      "path": "RW12_condition_mining_poles.json",
+      "bottleneckRef": "docs/validation/bottlenecks.md#23",
+      "domain": "algebra",
+      "capability": "algebra.rational_equality",
+      "summary": "Equality that holds only off poles (condition mining)",
+      "leanOnlyApproach": "User invents hypotheses",
+      "whyExternal": "Hypothesis synthesis + sufficiency proof",
+      "expectedClaimStrength": "soundResult",
+      "permittedAssumptions": [
+        "nonzero denominator conditions"
+      ],
+      "contaminationStatus": "clean"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "bundleVersion": "0.1.0",
+  "capability": {
+    "id": "analysis.symbolic_calculus",
+    "version": "0.1.0"
+  },
+  "requestDigest": "sha256:34a7d2b22494a9f5a2e332756efeba1572c87de3cf24134bc2bd3128ce957903",
+  "claimClass": "candidate",
+  "resultStatus": "computed",
+  "assuranceMode": "kernel_replay",
+  "files": [
+    {
+      "path": "request.json",
+      "digest": "sha256:5c4d275ef30faded1d010671d917ce58112f60f3455c2aaac92474f0a10ce903",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "candidate.json",
+      "digest": "sha256:3b7bd55dde1462cdd1f81178d0b159c2674a6382e5a98f3500287123820e21d1",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "certificate.json",
+      "digest": "sha256:edef7ec8ea046c6ef6548caa60b9f87fa3076cf9e47298bdbef1efa76c324caa",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:942d0f2fcdeb35df103f978885488b215addaab984d12891424b2b42038e0bfd",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "provenance": {
+    "leanVersion": "4.x-pending",
+    "libraryRevision": "workspace",
+    "checkerVersion": "0.1.0",
+    "backend": {
+      "backendId": "sympy",
+      "backendVersion": "1.14.0",
+      "adapterVersion": "0.1.0",
+      "generatedAt": "2026-07-16T14:23:43Z",
+      "deterministic": true
+    }
+  }
+}

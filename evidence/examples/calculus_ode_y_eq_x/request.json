@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "analysis.symbolic_calculus",
+  "capabilityVersion": "0.1.0",
+  "requestedClaim": "candidate",
+  "resourcePolicy": {
+    "maxWallTimeMs": 60000,
+    "maxOutputBytes": 1048576
+  },
+  "operation": "ode_candidate",
+  "variables": [
+    {
+      "name": "x",
+      "type": "Rat"
+    },
+    {
+      "name": "y",
+      "type": "Rat"
+    }
+  ],
+  "independentVar": "x",
+  "dependentVar": "y",
+  "expr": {
+    "tag": "var",
+    "name": "x"
+  },
+  "candidate": {
+    "tag": "int",
+    "value": "0"
+  },
+  "odeRhs": {
+    "tag": "int",
+    "value": "1"
+  },
+  "initialConditions": [
+    {
+      "point": {
+        "tag": "int",
+        "value": "0"
+      },
+      "value": {
+        "tag": "int",
+        "value": "0"
+      }
+    }
+  ],
+  "domainConditions": [],
+  "requestDigest": "sha256:34a7d2b22494a9f5a2e332756efeba1572c87de3cf24134bc2bd3128ce957903"
+}

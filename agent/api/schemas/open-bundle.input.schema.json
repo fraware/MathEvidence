@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/agent-open-bundle-input-v0.json",
+  "title": "open_bundle input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["path"],
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Path to an EvidenceBundle directory containing manifest.json"
+    }
+  }
+}

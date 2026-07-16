@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "results": [
+    {
+      "capability": "algebra.linear_algebra",
+      "measured": {},
+      "violations": [],
+      "status": "budgets_declared_unmeasured"
+    },
+    {
+      "capability": "algebra.rational_equality",
+      "measured": {
+        "reifyMs": 0.1466000103391707,
+        "backendGenerateMs": 58.63759998464957,
+        "evidenceBytes": 654,
+        "checkerMs": 2.5671999901533127
+      },
+      "violations": []
+    },
+    {
+      "capability": "analysis.symbolic_calculus",
+      "measured": {},
+      "violations": [],
+      "status": "budgets_declared_unmeasured"
+    },
+    {
+      "capability": "logic.finite_counterexample",
+      "measured": {},
+      "violations": [],
+      "status": "budgets_declared_unmeasured"
+    }
+  ]
+}

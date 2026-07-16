@@ -1,0 +1,9 @@
+{
+  "id": "adv-013",
+  "category": "duplicate_keys",
+  "expect": "reject",
+  "summary": "Duplicate JSON keys in evidence envelope",
+  "capability": "algebra.rational_equality",
+  "notes": "Executable via scripts/run_adversarial_executable.py (security.yml / just adversarial-exec).",
+  "executable": true
+}

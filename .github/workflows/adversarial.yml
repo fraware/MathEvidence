@@ -1,0 +1,48 @@
+# Adversarial / malformed evidence seed validation.
+name: adversarial
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  adversarial-seed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install -e ".[dev,sympy]" || pip install jsonschema pytest sympy hypothesis
+
+      - name: Validate adversarial seed catalog
+        run: python scripts/validate_adversarial_seed.py
+
+      - name: Executable adversarial cases
+        run: python scripts/run_adversarial_executable.py
+
+      - name: Canonical JSON vector check
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from adapters.common.canonical import canonical_dumps, sha256_digest
+          path = Path("evidence/conformance/vectors/canonical_json_vectors.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          for case in data["cases"]:
+              assert canonical_dumps(case["input"]) == case["canonical"], case["id"]
+              assert sha256_digest(case["input"]) == case["digest"], case["id"]
+          print(f"canonical vectors ok ({len(data['cases'])})")
+          PY

@@ -1,0 +1,61 @@
+{
+  "id": "ttp_multistep_rational_v1",
+  "targetTheorem": "(x^2 - 1)/(x - 1) = x + 1  (under x - 1 ≠ 0)",
+  "finalAnswerOnlyTrace": {
+    "id": "final_only",
+    "rawKind": "certificate",
+    "content": {
+      "claim": "final CAS equality answer",
+      "capability": "algebra.rational_equality"
+    },
+    "confidence": 0.9
+  },
+  "traces": [
+    {
+      "id": "t_hint_order",
+      "rawKind": "smt_hint",
+      "content": { "claim": "try cancel then field_simp" },
+      "confidence": 0.4
+    },
+    {
+      "id": "t_poly",
+      "rawKind": "reconstructible",
+      "content": {
+        "claim": "difference numerator is identically zero after cancel",
+        "capability": "algebra.rational_equality"
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "t_denom",
+      "rawKind": "checker",
+      "content": {
+        "claim": "denominator factor x-1 covers divisions",
+        "capability": "algebra.rational_equality"
+      },
+      "confidence": 0.85
+    },
+    {
+      "id": "t_diag",
+      "rawKind": "timing",
+      "content": { "ms": 12 },
+      "confidence": 0.1
+    }
+  ],
+  "reconstructions": {
+    "t_poly": {
+      "method": "RationalEquality.checkBool",
+      "resultStatus": "soundness_verified",
+      "bundleRef": "evidence/examples/rational_equality_basic"
+    },
+    "t_denom": {
+      "method": "RationalEquality.checkBool",
+      "resultStatus": "soundness_verified",
+      "bundleRef": "evidence/examples/rational_equality_basic"
+    }
+  },
+  "notes": [
+    "Only reconstructible_computation / direct_proof_step with proved|checkable advance proof status.",
+    "search_hint and diagnostic_metadata never advance."
+  ]
+}

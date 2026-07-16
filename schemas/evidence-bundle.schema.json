@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/evidence-bundle-v0.json",
+  "title": "MathEvidence Evidence Bundle Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundleVersion",
+    "capability",
+    "requestDigest",
+    "claimClass",
+    "resultStatus",
+    "assuranceMode",
+    "files",
+    "provenance"
+  ],
+  "properties": {
+    "bundleVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "claimClass": {
+      "type": "string"
+    },
+    "resultStatus": {
+      "type": "string"
+    },
+    "assuranceMode": {
+      "enum": [
+        "kernel_replay",
+        "verified_reflection",
+        "native_checked"
+      ]
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "digest",
+          "mediaType"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._/-]+$"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "mediaType": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "leanVersion",
+        "libraryRevision",
+        "checkerVersion"
+      ],
+      "properties": {
+        "leanVersion": {
+          "type": "string"
+        },
+        "libraryRevision": {
+          "type": "string"
+        },
+        "checkerVersion": {
+          "type": "string"
+        },
+        "backend": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

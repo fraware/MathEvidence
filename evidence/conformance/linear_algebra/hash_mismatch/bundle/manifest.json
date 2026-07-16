@@ -1,0 +1,45 @@
+{
+  "bundleVersion": "0.1.0",
+  "capability": {
+    "id": "algebra.linear_algebra",
+    "version": "0.1.0"
+  },
+  "requestDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "claimClass": "witness",
+  "resultStatus": "rejected",
+  "assuranceMode": "kernel_replay",
+  "files": [
+    {
+      "path": "request.json",
+      "digest": "sha256:98f4485365b45e90ee54cb40923c13e2d0349c14c76de4aff63c71b2247f8e77",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "candidate.json",
+      "digest": "sha256:f501897893042858f60bfa93f2f2e6b1e00c232bdedea15624e1a1be9ebfbc5a",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "certificate.json",
+      "digest": "sha256:3896b9436bf5c0f5801e47cdcd7d9158c7656e38bc069a1d01bc4dc37222d52b",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:a76036469e7511a1ce13f280c2882c35810f5d6e568b30b6357df219698371c5",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "provenance": {
+    "leanVersion": "4.x-pending",
+    "libraryRevision": "workspace",
+    "checkerVersion": "0.1.0",
+    "backend": {
+      "backendId": "sympy",
+      "backendVersion": "1.14.0",
+      "adapterVersion": "0.1.0",
+      "generatedAt": "2026-07-16T16:01:22Z",
+      "deterministic": true
+    }
+  }
+}

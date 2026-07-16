@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/finite-counterexample-certificate-v0.json",
+  "title": "logic.finite_counterexample certificate (untrusted witness)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capability",
+    "capabilityVersion",
+    "requestDigest",
+    "witness",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "capability": { "type": "string", "const": "logic.finite_counterexample" },
+    "capabilityVersion": { "type": "string" },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "witness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assignment"],
+      "properties": {
+        "assignment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tag"],
+            "properties": {
+              "tag": { "enum": ["bool", "nat", "int"] },
+              "v": {}
+            }
+          }
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backendId", "adapterVersion"],
+      "properties": {
+        "backendId": { "type": "string" },
+        "backendVersion": { "type": "string" },
+        "adapterVersion": { "type": "string" },
+        "generatedAt": { "type": "string" },
+        "deterministic": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "id": "algebra.groebner_membership",
+  "version": "0.1.0",
+  "status": "experimental",
+  "domain": "algebra.polynomial_ideals",
+  "ownership": "federated",
+  "inputIR": {
+    "name": "OpaqueExternal",
+    "schema": "schemas/federation-opaque-ir.schema.json",
+    "version": "0.1.0",
+    "leanPackage": "external"
+  },
+  "admissibility": {
+    "summary": "Federated Gröbner / ideal-membership certificates. MathEvidence records shared provenance and claim status; it does not own or replace domain Gröbner checkers.",
+    "rejectedConstructs": [
+      "claiming_MathEvidence_as_authoritative_checker",
+      "universal_polynomial_AST"
+    ],
+    "requiredAssumptions": [
+      "External project remains authoritative for certificate reconstruction"
+    ]
+  },
+  "claimClasses": ["witness", "soundResult", "candidate"],
+  "evidenceSchema": "schemas/federation-certificate.schema.json",
+  "requestSchema": "schemas/federation-request.schema.json",
+  "checker": {
+    "package": "external:GroebnerCert",
+    "version": "0.0.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "absent"
+  },
+  "assuranceModes": ["kernel_replay"],
+  "limits": {
+    "maxWallTimeMs": 120000,
+    "maxOutputBytes": 16777216
+  },
+  "knownLimitations": [
+    "MathEvidence does not verify Gröbner certificates itself in Milestone 4.",
+    "Interoperability is metadata + registry discovery only.",
+    "Completeness / optimality claims remain external-project-owned."
+  ],
+  "conformance": {
+    "suite": "evidence/federation/examples",
+    "status": "partial",
+    "requiredCases": ["emit_metadata", "consume_metadata"]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence federation",
+      "role": "metadata_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "External Gröbner/certificate project; see docs/architecture/collaboration-cslib-lean-auto-smt.md",
+    "conformanceVerified": false,
+    "backends": [
+      {
+        "id": "external.groebner",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      }
+    ]
+  },
+  "federation": {
+    "externalProject": "groebner-cert",
+    "checkerAuthority": "external:GroebnerCert",
+    "mathEvidenceRole": "metadata_interop",
+    "metadataSchema": "schemas/federation-metadata.schema.json",
+    "collaborationNote": "docs/architecture/collaboration-cslib-lean-auto-smt.md",
+    "relatedProjects": ["cslib", "mathlib"]
+  },
+  "compatibility": {
+    "policy": "federation_metadata_v0",
+    "minProtocolVersion": "0.1.0"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "assurance.symbolic_calculus.reference",
+  "version": "0.1.0",
+  "assuranceLevel": "verified_reference_algorithm",
+  "capabilityId": "analysis.symbolic_calculus",
+  "inputDomain": "CalculusExpr over RationalExpr with explicit domainConditions",
+  "outputRelation": "Formal candidate identity (deriv / antideriv / recurrence / ODE+IC)",
+  "termination": "Expression size within capability limits",
+  "soundness": "referenceCheck_sound / checkBool_sound",
+  "completeness": null,
+  "complexityAssumptions": [
+    "RationalExpr size bounded by maxExprNodes"
+  ],
+  "representationRefinement": "CalculusExpr → formalDeriv/formalSubst → polyEqual",
+  "leanContract": {
+    "package": "MathEvidence.Assurance",
+    "module": "MathEvidence.Assurance.Calculus",
+    "referenceAlgorithm": "referenceCheck",
+    "soundnessTheorem": "referenceCheck_sound"
+  },
+  "performanceNotes": [
+    "Formal polynomial identity only; no transcendental calculus."
+  ],
+  "knownLimitations": [
+    "Candidate validity never implies completeness or uniqueness.",
+    "Identity at poles is never claimed; domainConditions are mandatory for divisions."
+  ]
+}

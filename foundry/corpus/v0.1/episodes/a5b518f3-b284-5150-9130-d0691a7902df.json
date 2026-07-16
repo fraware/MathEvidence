@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "a5b518f3-b284-5150-9130-d0691a7902df",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-16T14:35:09Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q2_formally_verified",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/examples/calculus_derivative_x2",
+    "sourceDate": "2026-07-16T14:23:42Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "analysis.symbolic_calculus",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "train",
+    "duplicateOf": null,
+    "contentDigest": "sha256:5fd9f90d3ef40c3093c29b4eec2cb1d2005a0ea69b7b5c2c37f04e5bc896c424",
+    "benchmarkExclusion": false,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "analysis.symbolic_calculus"
+    ],
+    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedOperation": "derivative_candidate",
+    "requestedClaim": "candidate",
+    "backendId": "sympy",
+    "selectionRationale": "Committed example for capability analysis.symbolic_calculus."
+  },
+  "outcome": {
+    "resultStatus": "computed",
+    "claimClass": "candidate",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:547a610da59158efd852768ed6c2257af3f17feed5ededdf3c8b03f47419feb0",
+    "replayable": true,
+    "negative": false,
+    "negativeKind": "none",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/examples/calculus_derivative_x2"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

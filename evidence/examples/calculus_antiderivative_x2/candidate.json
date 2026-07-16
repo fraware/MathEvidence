@@ -1,0 +1,11 @@
+{
+  "reportedOk": true,
+  "expr": {
+    "tag": "pow",
+    "base": {
+      "tag": "var",
+      "name": "x"
+    },
+    "exp": 2
+  }
+}

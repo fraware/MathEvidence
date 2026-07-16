@@ -1,0 +1,11 @@
+{
+  "id": "T04_replay_example_bundle",
+  "operation": "replay_bundle",
+  "input": {
+    "path": "evidence/examples/rational_equality_basic"
+  },
+  "expect": {
+    "resultStatus": "tested",
+    "hasBundleRef": true
+  }
+}

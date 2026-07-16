@@ -1,0 +1,41 @@
+{
+  "federationVersion": "0.1.0",
+  "project": {
+    "id": "sat-checker",
+    "role": "emitter",
+    "version": "0.1.0-sim",
+    "contact": "simulated-for-milestone-4"
+  },
+  "capabilityId": "logic.sat_unsat",
+  "claimClass": "refutation",
+  "resultStatus": "witness_verified",
+  "assuranceMode": "kernel_replay",
+  "provenance": {
+    "producedAt": "2026-07-16T14:15:00Z",
+    "tool": {
+      "name": "SATChecker",
+      "version": "0.1.0-sim",
+      "backend": "cadical"
+    },
+    "leanVersion": null,
+    "libraryRevision": null,
+    "requestDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "notes": [
+      "Simulated emit: specialized SAT checker remains authoritative."
+    ]
+  },
+  "authority": {
+    "checkerOwner": "external",
+    "checkerPackage": "external:SATChecker",
+    "mathEvidenceRole": "metadata_interop"
+  },
+  "unresolvedObligations": [],
+  "externalRefs": [
+    {
+      "kind": "certificate",
+      "uri": "simulated://sat-checker/unsat/example.drat",
+      "mediaType": "application/x-drat"
+    }
+  ],
+  "payloadDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+}

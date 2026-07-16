@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.1.0",
+  "requestDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "federation": {
+    "federationVersion": "0.1.0",
+    "project": {
+      "id": "lean-smt",
+      "role": "emitter",
+      "version": "0.1.0-sim"
+    },
+    "capabilityId": "logic.smt",
+    "claimClass": "refutation",
+    "resultStatus": "witness_verified",
+    "assuranceMode": "kernel_replay",
+    "provenance": {
+      "producedAt": "2026-07-16T14:00:00Z",
+      "tool": {
+        "name": "LeanSMT",
+        "version": "0.1.0-sim",
+        "backend": "z3"
+      },
+      "leanVersion": "4.14.0",
+      "libraryRevision": "simulated",
+      "requestDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "authority": {
+      "checkerOwner": "external",
+      "checkerPackage": "external:LeanSMT",
+      "mathEvidenceRole": "metadata_interop"
+    },
+    "unresolvedObligations": [],
+    "externalRefs": [],
+    "payloadDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "externalCertificate": {
+    "format": "simulated_smt_proof",
+    "status": "unsat",
+    "note": "Certificate body checked by Lean-SMT, not MathEvidence."
+  }
+}

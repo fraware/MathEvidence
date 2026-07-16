@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "analysis.symbolic_calculus",
+  "capabilityVersion": "0.1.0",
+  "requestedClaim": "candidate",
+  "resourcePolicy": {
+    "maxWallTimeMs": 60000,
+    "maxOutputBytes": 1048576
+  },
+  "operation": "derivative_candidate",
+  "variables": [
+    {
+      "name": "x",
+      "type": "Rat"
+    }
+  ],
+  "independentVar": "x",
+  "expr": {
+    "tag": "pow",
+    "base": {
+      "tag": "var",
+      "name": "x"
+    },
+    "exp": 2
+  },
+  "candidate": {
+    "tag": "mul",
+    "left": {
+      "tag": "int",
+      "value": "2"
+    },
+    "right": {
+      "tag": "var",
+      "name": "x"
+    }
+  },
+  "domainConditions": [],
+  "requestDigest": "sha256:547a610da59158efd852768ed6c2257af3f17feed5ededdf3c8b03f47419feb0"
+}

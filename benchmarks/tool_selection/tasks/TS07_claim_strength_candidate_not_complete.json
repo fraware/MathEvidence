@@ -1,0 +1,19 @@
+{
+  "id": "TS07_claim_strength_candidate_not_complete",
+  "goal": "Check an ODE candidate solution without asserting completeness of the solution family.",
+  "goalFeatures": ["ode", "candidate", "no_completeness_overclaim"],
+  "capabilityCandidates": [
+    "analysis.symbolic_calculus",
+    "algebra.rational_equality",
+    "system.shell"
+  ],
+  "expect": {
+    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedOperationIn": ["ode_candidate", "ode_ic_check"],
+    "requestedClaimIn": ["candidate", "soundResult"],
+    "forbidClaims": ["complete", "completeness", "exhaustive"],
+    "forbidCapabilities": ["system.shell"],
+    "maxToolCalls": 1
+  },
+  "notes": "Claim-strength overreach is scored as a failure even if the capability is correct."
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/finite-predicate-v0.json",
+  "title": "FinitePredicate IR (aligned with MathEvidence.IR.FinitePredicate)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["varNames", "domains", "pred"],
+  "properties": {
+    "varNames": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "domains": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/domain" },
+      "minItems": 1
+    },
+    "pred": { "$ref": "#/$defs/pred" }
+  },
+  "$defs": {
+    "domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ty"],
+      "properties": {
+        "ty": { "enum": ["bool", "nat", "int"] },
+        "bound": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "val": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag"],
+      "properties": {
+        "tag": { "enum": ["bool", "nat", "int"] },
+        "v": {}
+      }
+    },
+    "term": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag"],
+      "properties": {
+        "tag": { "enum": ["var", "lit", "neg", "add", "sub", "mul"] },
+        "idx": { "type": "integer", "minimum": 0 },
+        "v": { "$ref": "#/$defs/val" },
+        "e": { "$ref": "#/$defs/term" },
+        "left": { "$ref": "#/$defs/term" },
+        "right": { "$ref": "#/$defs/term" }
+      }
+    },
+    "pred": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag"],
+      "properties": {
+        "tag": { "enum": ["eq", "ne", "le", "lt", "not", "and", "or"] },
+        "left": { "$ref": "#/$defs/term" },
+        "right": { "$ref": "#/$defs/term" },
+        "e": { "$ref": "#/$defs/pred" }
+      }
+    }
+  }
+}

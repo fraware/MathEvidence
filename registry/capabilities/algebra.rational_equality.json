@@ -1,0 +1,108 @@
+{
+  "id": "algebra.rational_equality",
+  "version": "0.1.0",
+  "status": "experimental",
+  "domain": "algebra.rational_functions",
+  "inputIR": {
+    "name": "RationalExpr",
+    "schema": "schemas/rational-expr.schema.json",
+    "version": "0.1.0",
+    "baseField": "Rat",
+    "leanPackage": "MathEvidence.IR.RationalExpr"
+  },
+  "admissibility": {
+    "summary": "Rational expressions over ℚ with explicit division; transcendentals and approximate numerals rejected.",
+    "rejectedConstructs": [
+      "transcendentals",
+      "conditionals",
+      "approximate_numerals",
+      "implicit_totalization_at_poles"
+    ],
+    "requiredAssumptions": [
+      "nonzero denominator conditions for every division in the derivation"
+    ]
+  },
+  "claimClasses": ["soundResult", "candidate"],
+  "evidenceSchema": "schemas/rational-equality-certificate.schema.json",
+  "requestSchema": "schemas/rational-equality-request.schema.json",
+  "checker": {
+    "package": "MathEvidence.Checkers.RationalEquality",
+    "version": "0.1.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "present"
+  },
+  "assuranceModes": ["kernel_replay"],
+  "limits": {
+    "maxExprNodes": 4096,
+    "maxIntegerDigits": 4096,
+    "maxDenominatorFactors": 1024,
+    "maxWallTimeMs": 60000,
+    "maxOutputBytes": 4194304,
+    "maxCpuTimeMs": 60000,
+    "maxMemoryBytes": 536870912
+  },
+  "perfBudgets": {
+    "maxReifyMs": 500,
+    "maxBackendGenerateMs": 8000,
+    "maxEvidenceBytes": 1048576,
+    "maxDecodeMs": 500,
+    "maxCheckerMs": 5000,
+    "maxMemoryBytes": 536870912,
+    "maxLeanBuildMs": 600000
+  },
+  "knownLimitations": [
+    "Equality is established only under explicit nonzero denominator conditions.",
+    "Does not claim identity at poles or under totalized field conventions.",
+    "Status remains experimental until docs/validation/stable-capability-checklist.md gates pass (governance; not docs-only).",
+    "Transcendentals, conditionals, and approximate numerals are rejected.",
+    "Dual-backend evidence: SymPy live (conformance_verified) + Mathematica live_generator_complete via wolframscript when MATHEVIDENCE_WOLFRAMSCRIPT is set (public CI without Wolfram remains offline fixtures / differential skip-fixture). Sage is declared/placeholder only."
+  ],
+  "conformance": {
+    "suite": "evidence/conformance/rfc0001",
+    "rfc": "docs/rfcs/0001-rational-function-equality.md",
+    "status": "passing",
+    "requiredCases": [
+      "valid_identity",
+      "false_identity",
+      "missing_condition",
+      "redundant_condition",
+      "hash_mismatch",
+      "variable_permutation",
+      "large_coeffs",
+      "unsupported_rejection"
+    ]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence core",
+      "role": "capability_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "python -m adapters.sympy | python -m adapters.mathematica",
+    "conformanceVerified": true,
+    "backends": [
+      {
+        "id": "sympy",
+        "versions": ["0.1.0"],
+        "supportLevel": "conformance_verified"
+      },
+      {
+        "id": "mathematica",
+        "versions": ["0.1.0"],
+        "supportLevel": "live_generator_complete"
+      },
+      {
+        "id": "sage",
+        "versions": ["0.1.0"],
+        "supportLevel": "declared"
+      }
+    ]
+  },
+  "compatibility": {
+    "policy": "semver_request_digest",
+    "minProtocolVersion": "0.1.0"
+  }
+}

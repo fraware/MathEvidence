@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/training-episode-v0.json",
+  "title": "Foundry training episode (capture only)",
+  "description": "Records hypothesis/conjecture episodes for Foundry training. MUST NEVER influence theorem acceptance, checker results, or ResultStatus.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "episodeId",
+    "kind",
+    "capturedAt",
+    "acceptanceInfluence",
+    "payload"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "episodeId": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "kind": {
+      "enum": [
+        "hypothesis_lattice",
+        "hypothesis_deletion",
+        "conjecture_campaign",
+        "certified_refutation",
+        "bounded_verification",
+        "evidence_bundle",
+        "tool_selection",
+        "negative_failure",
+        "synthetic_negative"
+      ]
+    },
+    "capturedAt": { "type": "string", "maxLength": 64 },
+    "acceptanceInfluence": {
+      "type": "boolean",
+      "const": false,
+      "description": "Hard invariant: always false."
+    },
+    "capability": { "type": "string" },
+    "artifactRefs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "payload": {
+      "type": "object",
+      "description": "Opaque episode body; not consulted by checkers."
+    },
+    "notes": { "type": "string", "maxLength": 4096 }
+  }
+}

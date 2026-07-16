@@ -1,0 +1,56 @@
+# Offline replay with backends unavailable (Python + Lean checker).
+name: offline-replay
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -e . || pip install jsonschema
+
+      - name: Assert replay does not require backends
+        run: |
+          python - <<'PY'
+          import os, shutil
+          os.environ["MATHEVIDENCE_ADAPTER_MODE"] = "fixture"
+          for name in ("math", "wolframscript", "sage"):
+              path = shutil.which(name)
+              if path:
+                  print(f"note: {name} present at {path}; replay must not invoke it")
+          print("backend executables not required for offline replay")
+          PY
+
+      - name: Python offline replay (schemas + digests)
+        env:
+          MATHEVIDENCE_ADAPTER_MODE: fixture
+        run: python scripts/offline_replay_python.py
+
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Lean offline replay (checker fixtures + tactic examples)
+        env:
+          MATHEVIDENCE_ADAPTER_MODE: fixture
+        run: |
+          lake build MathEvidence.Checkers.RationalEquality.OfflineFixtures
+          lake build MathEvidence.Tactic.Examples

@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "description": "Adversarial semantic and malformed-evidence seed catalog",
+  "source": "docs/TESTING_AND_CI.md \u00a7\u00a72.4\u20132.5",
+  "cases": [
+    {
+      "id": "adv-001",
+      "category": "denominator_zero",
+      "path": "denominator_zero.json"
+    },
+    {
+      "id": "adv-002",
+      "category": "coercion_change",
+      "path": "coercion_change.json"
+    },
+    {
+      "id": "adv-003",
+      "category": "inequality_strictness",
+      "path": "inequality_strictness.json"
+    },
+    {
+      "id": "adv-004",
+      "category": "variable_shadowing",
+      "path": "variable_shadowing.json"
+    },
+    {
+      "id": "adv-005",
+      "category": "swapped_matrix_dimensions",
+      "path": "swapped_matrix_dimensions.json"
+    },
+    {
+      "id": "adv-006",
+      "category": "transposed_indexing",
+      "path": "transposed_indexing.json"
+    },
+    {
+      "id": "adv-007",
+      "category": "hidden_branch",
+      "path": "hidden_branch.json"
+    },
+    {
+      "id": "adv-008",
+      "category": "subdomain_candidate",
+      "path": "subdomain_candidate.json"
+    },
+    {
+      "id": "adv-009",
+      "category": "incomplete_solution_family",
+      "path": "incomplete_solution_family.json"
+    },
+    {
+      "id": "adv-010",
+      "category": "approx_to_exact",
+      "path": "approx_to_exact.json"
+    },
+    {
+      "id": "adv-011",
+      "category": "wrong_request_hash",
+      "path": "wrong_request_hash.json"
+    },
+    {
+      "id": "adv-012",
+      "category": "truncated_certificate",
+      "path": "truncated_certificate.json"
+    },
+    {
+      "id": "adv-013",
+      "category": "duplicate_keys",
+      "path": "duplicate_keys.json"
+    },
+    {
+      "id": "adv-014",
+      "category": "unknown_schema_version",
+      "path": "unknown_schema_version.json"
+    },
+    {
+      "id": "adv-015",
+      "category": "excessive_nesting",
+      "path": "excessive_nesting.json"
+    },
+    {
+      "id": "adv-016",
+      "category": "oversized_integer",
+      "path": "oversized_integer.json"
+    },
+    {
+      "id": "adv-017",
+      "category": "path_traversal",
+      "path": "path_traversal.json"
+    },
+    {
+      "id": "adv-018",
+      "category": "malicious_filename",
+      "path": "malicious_filename.json"
+    },
+    {
+      "id": "adv-019",
+      "category": "wrong_capability_certificate",
+      "path": "wrong_capability_certificate.json"
+    }
+  ]
+}

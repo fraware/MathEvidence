@@ -1,0 +1,8 @@
+{
+  "id": "missing_condition",
+  "expect": "valid_identity",
+  "notes": "Backend still returns denominator factors; Lean exposes missing locals as goals.",
+  "requireFactorRoles": [
+    "original_division"
+  ]
+}

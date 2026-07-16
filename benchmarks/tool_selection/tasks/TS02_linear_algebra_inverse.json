@@ -1,0 +1,19 @@
+{
+  "id": "TS02_linear_algebra_inverse",
+  "goal": "Produce an exact inverse witness for a 2x2 rational matrix.",
+  "goalFeatures": ["matrix", "inverse_witness", "exact_arithmetic"],
+  "capabilityCandidates": [
+    "algebra.rational_equality",
+    "algebra.linear_algebra",
+    "logic.finite_counterexample",
+    "system.shell"
+  ],
+  "expect": {
+    "selectedCapability": "algebra.linear_algebra",
+    "selectedOperationIn": ["inverse_witness"],
+    "requestedClaimIn": ["soundResult", "candidate"],
+    "forbidCapabilities": ["system.shell"],
+    "maxToolCalls": 1
+  },
+  "notes": "Must not confuse matrix inverse with rational equality."
+}

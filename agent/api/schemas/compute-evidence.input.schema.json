@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/agent-compute-input-v0.json",
+  "title": "compute_evidence input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["capability", "request", "backend"],
+  "properties": {
+    "capability": { "type": "string" },
+    "backend": {
+      "type": "string",
+      "description": "Named adapter only (sympy|mathematica|sage); arbitrary shell backends rejected in-handler"
+    },
+    "request": {
+      "type": "object",
+      "description": "Capability-specific request object (validated against capability requestSchema)"
+    },
+    "writeBundleTo": {
+      "type": "string",
+      "description": "Optional repo-relative or absolute directory for EvidenceBundle output"
+    }
+  }
+}

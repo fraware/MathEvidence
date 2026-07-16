@@ -1,0 +1,45 @@
+{
+  "bundleVersion": "0.1.0",
+  "capability": {
+    "id": "algebra.linear_algebra",
+    "version": "0.1.0"
+  },
+  "requestDigest": "sha256:8201158e993bafb423a9600b3f6bc7a9144a2445f5420563eb17855b9355ad8c",
+  "claimClass": "witness",
+  "resultStatus": "computed",
+  "assuranceMode": "kernel_replay",
+  "files": [
+    {
+      "path": "request.json",
+      "digest": "sha256:b9c2cabd60a144a32a70232610811790c664c0445b2949ca8341c7439f0f1a0c",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "candidate.json",
+      "digest": "sha256:f501897893042858f60bfa93f2f2e6b1e00c232bdedea15624e1a1be9ebfbc5a",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "certificate.json",
+      "digest": "sha256:0eb23d06a3c03cc6e52154208c5fb3f5ccc0c1d028169d011c535078d5af31da",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:3afe53afe50933dfe3268415b3087c4a11f6fabf498ec44316d8aee129a4c4a2",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "provenance": {
+    "leanVersion": "4.x-pending",
+    "libraryRevision": "workspace",
+    "checkerVersion": "0.1.0",
+    "backend": {
+      "backendId": "sympy",
+      "backendVersion": "1.14.0",
+      "adapterVersion": "0.1.0",
+      "generatedAt": "2026-07-16T16:01:22Z",
+      "deterministic": true
+    }
+  }
+}

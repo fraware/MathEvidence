@@ -1,0 +1,8 @@
+{
+  "id": "adv-003",
+  "category": "inequality_strictness",
+  "expect": "reject",
+  "summary": "Strict vs non-strict side condition swap",
+  "capability": "algebra.rational_equality",
+  "notes": "Phase 0 seed from docs/TESTING_AND_CI.md \u00a7\u00a72.4\u20132.5. Executable fixtures land with checkers."
+}

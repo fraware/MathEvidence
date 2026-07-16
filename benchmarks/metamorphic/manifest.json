@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "rename_preserves_accept",
+      "status": "pass",
+      "expectAccept": true,
+      "gotAccept": true
+    },
+    {
+      "id": "rename_preserves_reject",
+      "status": "pass",
+      "expectAccept": false,
+      "gotAccept": false
+    },
+    {
+      "id": "reassoc_preserves_accept",
+      "status": "pass",
+      "expectAccept": true,
+      "gotAccept": true
+    },
+    {
+      "id": "redundant_assumption_preserves_accept",
+      "status": "pass",
+      "expectAccept": true,
+      "gotAccept": true
+    },
+    {
+      "id": "reassoc_preserves_reject",
+      "status": "pass",
+      "expectAccept": false,
+      "gotAccept": false
+    }
+  ]
+}

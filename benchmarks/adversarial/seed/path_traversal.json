@@ -1,0 +1,9 @@
+{
+  "id": "adv-017",
+  "category": "path_traversal",
+  "expect": "reject",
+  "summary": "Path traversal in evidence file reference",
+  "capability": "algebra.rational_equality",
+  "notes": "Executable via scripts/run_adversarial_executable.py (security.yml / just adversarial-exec).",
+  "executable": true
+}

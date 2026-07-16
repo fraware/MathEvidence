@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/federation-opaque-ir-v0.json",
+  "title": "Federated Opaque IR Placeholder",
+  "description": "Opaque IR pointer for federated capabilities whose syntax authority lives outside MathEvidence. Not a universal AST.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "externalSchema"],
+  "properties": {
+    "kind": {
+      "const": "opaque_external"
+    },
+    "externalSchema": {
+      "type": "string",
+      "minLength": 1,
+      "description": "URI or path owned by the external project"
+    },
+    "externalFormat": {
+      "type": "string",
+      "description": "Human-readable format label (SMT-LIB, DIMACS, GroebnerCert, …)"
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

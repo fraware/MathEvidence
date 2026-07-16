@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "assurance.finite_counterexample.reference",
+  "version": "0.1.0",
+  "assuranceLevel": "verified_reference_algorithm",
+  "capabilityId": "logic.finite_counterexample",
+  "inputDomain": "FinitePredicate over typed finite domains",
+  "outputRelation": "Witness assignment falsifies the claimed universal predicate",
+  "termination": "Finite domain cardinality within capability limits",
+  "soundness": "referenceCheck_sound / checkBool_sound",
+  "completeness": null,
+  "complexityAssumptions": [
+    "Domain cardinality bounded by maxDomainCardinality"
+  ],
+  "representationRefinement": "FinitePredicate IR → assignment evaluation → counterexample predicate",
+  "leanContract": {
+    "package": "MathEvidence.Assurance",
+    "module": "MathEvidence.Assurance.Counterexample",
+    "referenceAlgorithm": "referenceCheck",
+    "soundnessTheorem": "referenceCheck_sound"
+  },
+  "performanceNotes": [
+    "Single-witness evaluation only; exhaustive search is out of scope."
+  ],
+  "knownLimitations": [
+    "Absence of a counterexample is never completeness.",
+    "Does not claim universal quantification over infinite domains."
+  ]
+}

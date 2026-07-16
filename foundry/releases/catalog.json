@@ -1,0 +1,14 @@
+{
+  "foundryCatalogVersion": "0.1.0",
+  "acceptanceInfluence": false,
+  "note": "Foundry release index. Not a capability registry entry; never consulted by Lean acceptance.",
+  "releases": [
+    {
+      "releaseId": "foundry-corpus-v0.1",
+      "version": "0.1.0",
+      "path": "corpus/v0.1/manifest.json",
+      "status": "sample",
+      "datasheet": "corpus/v0.1/DATASHEET.md"
+    }
+  ]
+}
