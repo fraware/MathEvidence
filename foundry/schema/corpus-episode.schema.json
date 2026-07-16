@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/corpus-episode-v0.json",
+  "title": "Foundry public corpus episode",
+  "description": "Certified tool-use episode for public Foundry releases. MUST NEVER influence theorem acceptance, checker results, or ResultStatus. acceptanceInfluence is always false.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "episodeId",
+    "kind",
+    "capturedAt",
+    "acceptanceInfluence",
+    "qualityTier",
+    "provenance",
+    "contamination",
+    "toolUse",
+    "outcome"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "episodeId": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "kind": {
+      "enum": [
+        "evidence_bundle",
+        "hypothesis_lattice",
+        "hypothesis_deletion",
+        "conjecture_campaign",
+        "certified_refutation",
+        "bounded_verification",
+        "tool_selection",
+        "negative_failure",
+        "synthetic_negative"
+      ]
+    },
+    "capturedAt": { "type": "string", "maxLength": 64 },
+    "acceptanceInfluence": {
+      "type": "boolean",
+      "const": false,
+      "description": "Hard invariant: always false. Corpus never feeds Lean acceptance."
+    },
+    "qualityTier": {
+      "enum": [
+        "Q0_raw",
+        "Q1_schema_valid",
+        "Q2_formally_verified",
+        "Q3_semantically_reviewed",
+        "Q4_library_grade"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceKind", "license", "publicationAllowed"],
+      "properties": {
+        "sourceKind": {
+          "enum": [
+            "committed_evidence",
+            "capture_hook",
+            "synthetic",
+            "external_contribution"
+          ]
+        },
+        "sourcePath": { "type": "string", "maxLength": 1024 },
+        "sourceCommit": { "type": "string", "maxLength": 128 },
+        "sourceDate": { "type": "string", "maxLength": 64 },
+        "license": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "publicationAllowed": { "type": "boolean" },
+        "userConsent": {
+          "enum": ["not_applicable", "granted", "denied", "unknown"]
+        },
+        "backendId": { "type": "string", "maxLength": 128 },
+        "backendVersion": { "type": "string", "maxLength": 128 },
+        "adapterVersion": { "type": "string", "maxLength": 128 },
+        "checkerPackage": { "type": "string", "maxLength": 256 },
+        "notes": { "type": "string", "maxLength": 4096 }
+      }
+    },
+    "contamination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inPublicLibrary",
+        "trainEvalSeparation",
+        "duplicateOf",
+        "benchmarkExclusion"
+      ],
+      "properties": {
+        "inPublicLibrary": { "type": "boolean" },
+        "publicLibraryRefs": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 512 },
+          "maxItems": 32
+        },
+        "trainEvalSeparation": {
+          "enum": ["train", "eval", "held_out", "unassigned"]
+        },
+        "duplicateOf": {
+          "type": ["string", "null"],
+          "maxLength": 256
+        },
+        "contentDigest": { "type": "string", "maxLength": 128 },
+        "benchmarkExclusion": { "type": "boolean" },
+        "notes": { "type": "string", "maxLength": 2048 }
+      }
+    },
+    "toolUse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capabilityCandidates", "selectedCapability", "requestedClaim"],
+      "properties": {
+        "capabilityCandidates": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 256 },
+          "maxItems": 64
+        },
+        "selectedCapability": { "type": "string", "maxLength": 256 },
+        "selectedOperation": { "type": "string", "maxLength": 256 },
+        "requestedClaim": { "type": "string", "maxLength": 128 },
+        "backendId": { "type": "string", "maxLength": 128 },
+        "selectionRationale": { "type": "string", "maxLength": 4096 }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resultStatus", "negative"],
+      "properties": {
+        "resultStatus": { "type": "string", "maxLength": 128 },
+        "claimClass": { "type": "string", "maxLength": 128 },
+        "assuranceMode": { "type": "string", "maxLength": 128 },
+        "requestDigest": { "type": "string", "maxLength": 128 },
+        "replayable": { "type": "boolean" },
+        "negative": {
+          "type": "boolean",
+          "description": "True for failures, unsupported requests, rejected certificates, selection errors."
+        },
+        "negativeKind": {
+          "enum": [
+            "none",
+            "unsupported_request",
+            "missing_assumptions",
+            "incorrect_candidate",
+            "rejected_certificate",
+            "translation_defect",
+            "claim_strength_mismatch",
+            "tool_selection_error",
+            "synthetic"
+          ]
+        },
+        "errorCodes": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 128 },
+          "maxItems": 32
+        },
+        "humanReviewLabels": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 128 },
+          "maxItems": 32
+        }
+      }
+    },
+    "artifactRefs": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 1024 },
+      "maxItems": 64
+    },
+    "payload": {
+      "type": "object",
+      "description": "Opaque episode body; never consulted by checkers."
+    },
+    "notes": { "type": "string", "maxLength": 4096 }
+  }
+}
