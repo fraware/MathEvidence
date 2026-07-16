@@ -1,0 +1,8 @@
+{
+  "id": "adv-002",
+  "category": "coercion_change",
+  "expect": "reject",
+  "summary": "Integer vs rational coercion alters claim",
+  "capability": "algebra.rational_equality",
+  "notes": "Phase 0 seed from docs/TESTING_AND_CI.md \u00a7\u00a72.4\u20132.5. Executable fixtures land with checkers."
+}
