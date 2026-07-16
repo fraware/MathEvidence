@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "481c337f-cfbb-577f-b6bc-c6c0be1545f3",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-16T14:35:09Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q2_formally_verified",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/examples/calculus_antiderivative_x2",
+    "sourceDate": "2026-07-16T14:23:43Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "analysis.symbolic_calculus",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "eval",
+    "duplicateOf": null,
+    "contentDigest": "sha256:c82b8251b6497baaad6767b5a210c52d7cbc557986cdadf6dacb02da8ea37c7c",
+    "benchmarkExclusion": true,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "analysis.symbolic_calculus"
+    ],
+    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedOperation": "antiderivative_candidate",
+    "requestedClaim": "candidate",
+    "backendId": "sympy",
+    "selectionRationale": "Committed example for capability analysis.symbolic_calculus."
+  },
+  "outcome": {
+    "resultStatus": "computed",
+    "claimClass": "candidate",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:c5a604d5fd8c33f4b17d2dd1ebc0dc238e921f165a70c35e600ba805e5118546",
+    "replayable": true,
+    "negative": false,
+    "negativeKind": "none",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/examples/calculus_antiderivative_x2"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

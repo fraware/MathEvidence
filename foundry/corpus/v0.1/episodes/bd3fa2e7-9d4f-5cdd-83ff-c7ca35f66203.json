@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "bd3fa2e7-9d4f-5cdd-83ff-c7ca35f66203",
+  "kind": "synthetic_negative",
+  "capturedAt": "2026-07-16T14:35:09Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q1_schema_valid",
+  "provenance": {
+    "sourceKind": "synthetic",
+    "sourcePath": "foundry/pipelines/negatives:shell_escape",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "notes": "Synthetic negative; labeled separately from natural failures."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "train",
+    "duplicateOf": null,
+    "contentDigest": "sha256:80caeddde072735f34b2a7a22280c4392aba18ae3e78dd438988e80dceb34c4f",
+    "benchmarkExclusion": true,
+    "notes": "Synthetic negatives excluded from eval contamination."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "analysis.symbolic_calculus"
+    ],
+    "selectedCapability": "system.shell",
+    "requestedClaim": "soundResult",
+    "selectionRationale": "Attempted arbitrary shell instead of operation-level tool."
+  },
+  "outcome": {
+    "resultStatus": "rejected",
+    "replayable": false,
+    "negative": true,
+    "negativeKind": "tool_selection_error",
+    "errorCodes": [
+      "tool_selection_error"
+    ],
+    "humanReviewLabels": [
+      "synthetic",
+      "correct_capability:algebra.rational_equality"
+    ]
+  },
+  "payload": {
+    "correctCapability": "algebra.rational_equality",
+    "slug": "shell_escape"
+  },
+  "notes": "Synthetic tool-selection error for Foundry negative data."
+}

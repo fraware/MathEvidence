@@ -1,0 +1,16 @@
+{
+  "acceptanceInfluence": false,
+  "summary": {
+    "duplicateCount": 0,
+    "inPublicLibraryCount": 0,
+    "syntheticNegativeCount": 3,
+    "notes": "Immutable splits; eval/held_out excluded from train. Synthetic negatives marked benchmarkExclusion."
+  },
+  "benchmarkExclusions": [
+    "481c337f-cfbb-577f-b6bc-c6c0be1545f3",
+    "6eeb163c-f77a-5a23-a493-626d381f7b59",
+    "f435fe85-65f7-550e-8a62-8b486c3e8634",
+    "67e53e02-774e-5a5a-814b-4ab425ac0cd7"
+  ],
+  "immutableSplits": true
+}

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "81b52506-d80d-507e-aa07-ec8d4e473caf",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-16T14:35:09Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q2_formally_verified",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/examples/rational_equality_mathematica_offline",
+    "sourceDate": "2026-07-16T12:22:27Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "mathematica",
+    "backendVersion": "offline-fixture",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "algebra.rational_equality",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "train",
+    "duplicateOf": null,
+    "contentDigest": "sha256:a5ca7d096cf66ae91cc2845be237ecb70189514d2e697528cde676668c67c547",
+    "benchmarkExclusion": false,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "analysis.symbolic_calculus"
+    ],
+    "selectedCapability": "algebra.rational_equality",
+    "requestedClaim": "soundResult",
+    "backendId": "mathematica",
+    "selectionRationale": "Committed example for capability algebra.rational_equality."
+  },
+  "outcome": {
+    "resultStatus": "computed",
+    "claimClass": "candidate",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423",
+    "replayable": true,
+    "negative": false,
+    "negativeKind": "none",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/examples/rational_equality_mathematica_offline"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}
