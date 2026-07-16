@@ -1,6 +1,6 @@
 # Conformance suite for logic.finite_counterexample
 
-Lean fixtures live in `MathEvidence.Checkers.Counterexample.Tests`.
-Agent/Python offline bundles:
-
-- `simple_false_universal/bundle` — `x = 0` over `nat ≤ 3` falsified by `x = 1` (or other nonzero)
+Lean offline fixtures: `MathEvidence.Checkers.Counterexample.Tests`.
+Python offline bundles under each `requiredCases` name (accept + intentional reject).
+SymPy/enumeration live generation backs accept cases; Lean owns accept.
+Mathematica/Sage remain declared/placeholder (not dual-backend).

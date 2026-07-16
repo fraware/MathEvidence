@@ -1,0 +1,45 @@
+{
+  "bundleVersion": "0.1.0",
+  "capability": {
+    "id": "logic.finite_counterexample",
+    "version": "0.1.0"
+  },
+  "requestDigest": "sha256:b833c4deea06cf0afb21e98df142c8e7687284209b60bac3da588bff63681c57",
+  "claimClass": "refutation",
+  "resultStatus": "rejected",
+  "assuranceMode": "kernel_replay",
+  "files": [
+    {
+      "path": "request.json",
+      "digest": "sha256:d502587115feb85ce5ba55b7803ae09121e65a80c653e1006b52b80b1f0aa239",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "candidate.json",
+      "digest": "sha256:b7cf557b34e9ce3d274163ccb9978cdaa72bbc139493000635df32ff4c2693d7",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "certificate.json",
+      "digest": "sha256:935d13da47702e10dcc759809384d3439b51ecc5b5b3972697ad7dd317cf928a",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:60459738ab0ae11cd61592594fe10b0fcb0943d8b64357d0c17c2828edac97be",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "provenance": {
+    "leanVersion": "4.x-pending",
+    "libraryRevision": "workspace",
+    "checkerVersion": "0.1.0",
+    "backend": {
+      "backendId": "fixture",
+      "backendVersion": "0.1.0",
+      "adapterVersion": "0.1.0",
+      "generatedAt": "2026-07-16T00:00:00Z",
+      "deterministic": true
+    }
+  }
+}

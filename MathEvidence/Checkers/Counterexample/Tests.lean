@@ -67,6 +67,11 @@ def cert_nat_ood : Certificate where
   requestDigest := req_nat_eq0.requestDigest
   witness := [.nat 9]
 
+/-- Type mismatch: bool witness for nat domain rejected. -/
+def cert_type_mismatch : Certificate where
+  requestDigest := req_nat_eq0.requestDigest
+  witness := [.bool false]
+
 /-- Digest mismatch rejected. -/
 def cert_bad_digest : Certificate where
   requestDigest := ⟨"sha256:0000000000000000000000000000000000000000000000000000000000000000"⟩
@@ -86,6 +91,9 @@ theorem reject_true_witness :
 
 theorem reject_ood :
     checkBool req_nat_eq0 cert_nat_ood = false := by native_decide
+
+theorem reject_type_mismatch :
+    checkBool req_nat_eq0 cert_type_mismatch = false := by native_decide
 
 theorem reject_bad_digest :
     checkBool req_nat_eq0 cert_bad_digest = false := by native_decide

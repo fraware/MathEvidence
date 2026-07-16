@@ -1,0 +1,45 @@
+{
+  "bundleVersion": "0.1.0",
+  "capability": {
+    "id": "logic.finite_counterexample",
+    "version": "0.1.0"
+  },
+  "requestDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "claimClass": "refutation",
+  "resultStatus": "rejected",
+  "assuranceMode": "kernel_replay",
+  "files": [
+    {
+      "path": "request.json",
+      "digest": "sha256:72c64886a71e8bc2d1c268104dddf5855115c411c763ecbce0c61a21e3583c0d",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "candidate.json",
+      "digest": "sha256:b7cf557b34e9ce3d274163ccb9978cdaa72bbc139493000635df32ff4c2693d7",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "certificate.json",
+      "digest": "sha256:719e29452f62a1fabacd9fe7ea1fe7512c8f9a0c4e4460d384b3098cfb5782ae",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:a76036469e7511a1ce13f280c2882c35810f5d6e568b30b6357df219698371c5",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "provenance": {
+    "leanVersion": "4.x-pending",
+    "libraryRevision": "workspace",
+    "checkerVersion": "0.1.0",
+    "backend": {
+      "backendId": "sympy",
+      "backendVersion": "1.14.0",
+      "adapterVersion": "0.1.0",
+      "generatedAt": "2026-07-16T16:01:22Z",
+      "deterministic": true
+    }
+  }
+}

@@ -104,6 +104,24 @@ def cert_inv_bad : Certificate where
   requestDigest := req_inv.requestDigest
   inverse := some B_bad
 
+/-- Singular matrix with identity claimed as inverse must be rejected. -/
+def A_sing : Matrix :=
+  { nrows := 2, ncols := 2
+    entries :=
+      [[RatLit.ofInt 1, RatLit.ofInt 2],
+       [RatLit.ofInt 2, RatLit.ofInt 4]] }
+
+def claim_sing : Claim where
+  operation := .inverseWitness
+  matrix := A_sing
+  claimClass := .witness
+
+def req_sing : Request := Request.ofClaim claim_sing
+
+def cert_sing_id : Certificate where
+  requestDigest := req_sing.requestDigest
+  inverse := some (Matrix.identity 2)
+
 /-- Digest mismatch rejected. -/
 def cert_bad_digest : Certificate where
   requestDigest := ⟨"sha256:0000000000000000000000000000000000000000000000000000000000000000"⟩
@@ -128,6 +146,9 @@ theorem replay_det :
 
 theorem reject_bad_inverse :
     checkBool req_inv cert_inv_bad = false := by native_decide
+
+theorem reject_singular_inverse :
+    checkBool req_sing cert_sing_id = false := by native_decide
 
 theorem reject_bad_digest :
     checkBool req_inv cert_bad_digest = false := by native_decide

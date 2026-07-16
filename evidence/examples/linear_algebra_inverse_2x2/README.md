@@ -1,4 +1,3 @@
-# Evidence bundle
+# Example: 2x2 inverse witness
 
-Offline-replayable candidate evidence for `algebra.linear_algebra`.
-Adapter output is untrusted; Lean checkers own theorem acceptance.
+Diagonal matrix inverse over ℚ. SymPy generates; Lean owns accept.

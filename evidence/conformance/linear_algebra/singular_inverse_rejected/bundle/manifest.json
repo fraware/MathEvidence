@@ -1,0 +1,45 @@
+{
+  "bundleVersion": "0.1.0",
+  "capability": {
+    "id": "algebra.linear_algebra",
+    "version": "0.1.0"
+  },
+  "requestDigest": "sha256:a733deead48e91cb7f38dd327d626119e48425a700bcafe672cb414a09d91174",
+  "claimClass": "witness",
+  "resultStatus": "rejected",
+  "assuranceMode": "kernel_replay",
+  "files": [
+    {
+      "path": "request.json",
+      "digest": "sha256:6512055b4f33299d764ae6ff789dd65e10adebae4e0917a72ccf9da9dc67651d",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "candidate.json",
+      "digest": "sha256:f501897893042858f60bfa93f2f2e6b1e00c232bdedea15624e1a1be9ebfbc5a",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "certificate.json",
+      "digest": "sha256:37e7b2964a83f3ab3d4b63dded297072b8d3e5790321e0c95786e3ed7d9e93d4",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:3d673d9aed5f30473e401950a745c18f7cc2463e6554737290e966a24c293f50",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "provenance": {
+    "leanVersion": "4.x-pending",
+    "libraryRevision": "workspace",
+    "checkerVersion": "0.1.0",
+    "backend": {
+      "backendId": "fixture",
+      "backendVersion": "0.1.0",
+      "adapterVersion": "0.1.0",
+      "generatedAt": "2026-07-16T00:00:00Z",
+      "deterministic": true
+    }
+  }
+}

@@ -1,4 +1,3 @@
-# Evidence bundle
+# Example: finite counterexample
 
-Offline-replayable candidate evidence for `logic.finite_counterexample`.
-Adapter output is untrusted; Lean checkers own theorem acceptance.
+Predicate `x = 0` over `nat ≤ 3` falsified by a nonzero witness.
