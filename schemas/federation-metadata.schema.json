@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/federation-metadata-v0.json",
+  "title": "MathEvidence Federation Metadata",
+  "description": "Shared provenance + claim-status envelope for ecosystem interoperability. External projects MAY emit or consume this without adopting MathEvidence checkers. MathEvidence NEVER claims to replace specialized Gröbner / SAT / PB / SMT checkers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "federationVersion",
+    "project",
+    "capabilityId",
+    "claimClass",
+    "resultStatus",
+    "assuranceMode",
+    "provenance",
+    "authority"
+  ],
+  "properties": {
+    "federationVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable external project identifier (e.g. lean-smt, cslib, groebner-cert)"
+        },
+        "role": {
+          "enum": ["emitter", "consumer", "bidirectional"]
+        },
+        "version": { "type": "string" },
+        "contact": { "type": "string" }
+      }
+    },
+    "capabilityId": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$",
+      "description": "Federated or owned capability id from the MathEvidence registry"
+    },
+    "claimClass": {
+      "type": "string",
+      "description": "Wire claim class (must not silently promote)"
+    },
+    "resultStatus": {
+      "type": "string",
+      "description": "Wire result status from MathEvidence.Core vocabulary"
+    },
+    "assuranceMode": {
+      "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["producedAt", "tool"],
+      "properties": {
+        "producedAt": {
+          "type": "string",
+          "description": "ISO-8601 timestamp or opaque production stamp"
+        },
+        "tool": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": { "type": "string" },
+            "version": { "type": "string" },
+            "backend": { "type": ["string", "null"] }
+          }
+        },
+        "leanVersion": { "type": ["string", "null"] },
+        "libraryRevision": { "type": ["string", "null"] },
+        "requestDigest": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          ],
+          "description": "Optional request binding when the emitter has a digest"
+        },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkerOwner", "mathEvidenceRole"],
+      "properties": {
+        "checkerOwner": {
+          "enum": ["math_evidence", "external"],
+          "description": "Who owns the authoritative checker for this result"
+        },
+        "checkerPackage": {
+          "type": "string",
+          "description": "Lean / library package that owns checking (external projects keep theirs)"
+        },
+        "mathEvidenceRole": {
+          "enum": ["metadata_interop", "optional_adapter", "consumer"],
+          "description": "MathEvidence adds interoperability only; never subsumes external checkers"
+        }
+      }
+    },
+    "unresolvedObligations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "externalRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "uri"],
+        "properties": {
+          "kind": {
+            "enum": [
+              "certificate",
+              "proof_object",
+              "bundle",
+              "trace",
+              "documentation"
+            ]
+          },
+          "uri": { "type": "string" },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "mediaType": { "type": "string" }
+        }
+      }
+    },
+    "payloadDigest": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      ]
+    }
+  }
+}

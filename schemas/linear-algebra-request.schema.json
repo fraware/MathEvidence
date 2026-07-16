@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/linear-algebra-request-v0.json",
+  "title": "algebra.linear_algebra request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capability",
+    "capabilityVersion",
+    "operation",
+    "matrix",
+    "requestedClaim",
+    "resourcePolicy",
+    "requestDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "capability": { "type": "string", "const": "algebra.linear_algebra" },
+    "capabilityVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "operation": {
+      "enum": [
+        "inverse_witness",
+        "system_solution",
+        "kernel_vector",
+        "det_identity"
+      ]
+    },
+    "matrix": {
+      "$ref": "https://mathevidence.org/schemas/matrix-expr-v0.json"
+    },
+    "rhs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://mathevidence.org/schemas/matrix-expr-v0.json#/$defs/ratLit"
+      }
+    },
+    "claimedDet": {
+      "$ref": "https://mathevidence.org/schemas/matrix-expr-v0.json#/$defs/ratLit"
+    },
+    "requestedClaim": {
+      "enum": ["witness", "candidate", "soundResult"]
+    },
+    "resourcePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maxWallTimeMs": { "type": "integer", "minimum": 1 },
+        "maxOutputBytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

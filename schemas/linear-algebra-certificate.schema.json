@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/linear-algebra-certificate-v0.json",
+  "title": "algebra.linear_algebra certificate (untrusted witness)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capability",
+    "capabilityVersion",
+    "requestDigest",
+    "operation",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "capability": { "type": "string", "const": "algebra.linear_algebra" },
+    "capabilityVersion": { "type": "string" },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "operation": {
+      "enum": [
+        "inverse_witness",
+        "system_solution",
+        "kernel_vector",
+        "det_identity"
+      ]
+    },
+    "inverse": {
+      "$ref": "https://mathevidence.org/schemas/matrix-expr-v0.json"
+    },
+    "vector": {
+      "type": "array",
+      "items": {
+        "$ref": "https://mathevidence.org/schemas/matrix-expr-v0.json#/$defs/ratLit"
+      }
+    },
+    "sideConditions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backendId", "adapterVersion"],
+      "properties": {
+        "backendId": { "type": "string" },
+        "backendVersion": { "type": "string" },
+        "adapterVersion": { "type": "string" },
+        "generatedAt": { "type": "string" },
+        "deterministic": { "type": "boolean" }
+      }
+    }
+  }
+}

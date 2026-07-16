@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/federation-certificate-v0.json",
+  "title": "Federated Capability Certificate Wrapper",
+  "description": "Metadata wrapper around an external certificate. The authoritative checker remains external.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "requestDigest",
+    "federation",
+    "externalCertificate"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "federation": {
+      "$ref": "https://mathevidence.org/schemas/federation-metadata-v0.json"
+    },
+    "externalCertificate": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Certificate body owned and checked by the external project"
+    }
+  }
+}
