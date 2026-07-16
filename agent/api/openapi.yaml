@@ -1,6 +1,7 @@
 openapi: 3.1.0
 info:
   title: MathEvidence Agent API
+  # Pinned Agent API release version (keep in sync with PROTOCOL_VERSION and agent/CHANGELOG.md).
   version: 0.1.0
   description: |
     Operation-level tools for mathematical AI agents.
