@@ -53,7 +53,7 @@ in-repo artifact path or `OPEN`.
 | Adversarial semantic benchmark seed | MET | `benchmarks/adversarial/seed/` |
 | Ecosystem RFC | MET | `docs/rfcs/0001-rational-function-equality.md` (rational-equality capability RFC) |
 | Rational-equality capability specification | MET | `docs/rfcs/0001-rational-function-equality.md`, `registry/capabilities/algebra.rational_equality.json` |
-| LeanLink adapter design review | PARTIAL | Doc: `docs/architecture/leanlink-adapter-review.md`. Executable fuzz **stubs** MET (`adapters/mathematica/leanlink_fuzz.py`, `benchmarks/adversarial/leanlink_fuzz/`, `just leanlink-fuzz`, `security.yml`). Native bridge + full WXF decoder fuzz still open; bridge disabled. |
+| LeanLink adapter design review | MET (wolframscript) / DEFERRED (LeanLink native) | Supported live Mathematica transport for v0.1 is wolframscript per `docs/adr/0004-mathematica-transport-wolframscript.md`. Review doc + fuzz stubs remain: `docs/architecture/leanlink-adapter-review.md`, `adapters/mathematica/leanlink_fuzz.py`, `benchmarks/adversarial/leanlink_fuzz/`, `just leanlink-fuzz`, `security.yml`. Native LeanLink bridge stays disabled until review checkboxes close with evidence. |
 
 ---
 
@@ -74,7 +74,7 @@ in-repo artifact path or `OPEN`.
 | Restricted rational-expression IR | MET | `MathEvidence/IR/RationalExpr/`, `schemas/rational-expr.schema.json` |
 | Reifier and soundness theorem | MET | `MathEvidence/Tactic/ReifyRational.lean`, `MathEvidence/Checkers/RationalEquality/Soundness.lean` |
 | Solver-independent request and evidence schema | MET | `schemas/rational-equality-request.schema.json`, `schemas/rational-equality-certificate.schema.json` |
-| Mathematica adapter through LeanLink | PARTIAL | Adapter: `adapters/mathematica/` via **wolframscript** (supported live path; full rational generator). LeanLink scaffold + fuzz stubs (`leanlink_fuzz.py`); not integrated as TCB transport. |
+| Mathematica adapter (wolframscript; LeanLink deferred) | MET (wolframscript) / DEFERRED (LeanLink native) | Adapter: `adapters/mathematica/` via **wolframscript** (`MATHEVIDENCE_WOLFRAMSCRIPT`; full rational generator). Normative decision: `docs/adr/0004-mathematica-transport-wolframscript.md`. LeanLink scaffold + fuzz stubs (`leanlink_fuzz.py`); `enabled=False`; not TCB / not required for §21 or M1 exit. |
 | SymPy or SageMath adapter | MET | `adapters/sympy/` (primary open). Sage: `adapters/sage/` placeholder / fixture-only (`registry/backends/sage.json`). |
 | Verified equality checker | MET | `MathEvidence/Checkers/RationalEquality/` |
 | Offline evidence bundle | MET | `evidence/examples/rational_equality_*`, `evidence/conformance/rfc0001/` |
@@ -96,10 +96,10 @@ in-repo artifact path or `OPEN`.
 
 | Deliverable | Status | Artifact |
 | --- | --- | --- |
-| Exact matrix inverse and system-solution witnesses | MET | Lean: `MathEvidence/Checkers/LinearAlgebra/` (+ `Tests.lean` offline fixtures). Conformance: `evidence/conformance/linear_algebra/` (all `requiredCases`). SymPy `conformance_verified`. Mathematica/Sage: `declared` / backend `placeholder`. |
-| Finite counterexample checker | MET | `MathEvidence/Checkers/Counterexample/` (+ `Tests.lean`). Conformance: `evidence/conformance/finite_counterexample/` (all `requiredCases`). SymPy `conformance_verified`. Mathematica/Sage: `declared` / backend `placeholder`. |
+| Exact matrix inverse and system-solution witnesses | MET | Lean: `MathEvidence/Checkers/LinearAlgebra/` (+ `Tests.lean` offline fixtures). Conformance: `evidence/conformance/linear_algebra/` (all `requiredCases`). SymPy `conformance_verified`. Mathematica/Sage: `live_generator_complete` (CI fixture when Wolfram/Sage absent). |
+| Finite counterexample checker | MET | `MathEvidence/Checkers/Counterexample/` (+ `Tests.lean`). Conformance: `evidence/conformance/finite_counterexample/` (all `requiredCases`). SymPy `conformance_verified`. Mathematica/Sage: `live_generator_complete` (CI fixture when live runtime absent). |
 | Capability registry | MET | `registry/`, `scripts/validate_registry.py` |
-| First Agent API release | PARTIAL | `agent/api/`, SDKs present; not a versioned external release claim. |
+| First Agent API release | MET | Versioned **v0.1.0**: `agent/api/openapi.yaml` `info.version`, `PROTOCOL_VERSION`, `agent/CHANGELOG.md`, `agent/README.md` release notes. GitHub Release / annotated tag `agent-api-v0.1.0` is human-cut after push (see README). Does **not** close external adoption (M2.AD remains OPEN). |
 | VS Code evidence inspector | MET (eng) | `studio/vscode/` Certified-iff-Lean + proposition-before-Certified; goldens `studio/golden/`; usability human OPEN (`docs/validation/studio/usability/`). |
 | `mathevidence` ops for LA/CEX | MET | `MathEvidence/Tactic/Status.lean` `Operation.linearAlgebra` / `.finiteCounterexample`; replay BundleIds + examples in `Tactic/Examples.lean`. Lean Meta discovery remains rational-focused; **SymPy CLI discovery** for LA/CEX/calculus via `adapters/common/discovery.py` `discover()` + `mathevidence_cli.py discover`. |
 
@@ -138,7 +138,7 @@ in-repo artifact path or `OPEN`.
 
 | Exit criterion | Status | Artifact path or OPEN |
 | --- | --- | --- |
-| Data improves held-out verified tool use | OPEN (research) / PARTIAL (eng) | Sample corpus: `foundry/`; tool-selection: `benchmarks/tool_selection/`. Measured **reference vs naive baseline** accuracy: `scripts/metrics/foundry_tool_selection.py` / `just foundry-metrics`. **Trained selector uplift: OPEN** (`docs/foundry/exit-gate-status.md`). |
+| Data improves held-out verified tool use | OPEN (research) / PARTIAL (eng+trained) | Sample corpus: `foundry/`; tool-selection: `benchmarks/tool_selection/`. Reference vs naive: `just foundry-metrics`. **Trivial trained selector measured:** naive 37.5% → trained 100% on suite (n=8), lift +62.5 pp via `just foundry-train-eval` / `scripts/metrics/foundry_trained_selector.py` — see `docs/foundry/exit-gate-status.md` (tiny suite; not frontier/funding). |
 | At least one frontier program is materially accelerated | OPEN | Human/research exit; do not invent. |
 | Maintenance funding and ownership are established | OPEN | Human/org exit; ownership plan only — funding not secured. |
 
@@ -149,8 +149,8 @@ in-repo artifact path or `OPEN`.
 | Capability | SymPy | Mathematica | Sage |
 | --- | --- | --- | --- |
 | `algebra.rational_equality` | `conformance_verified` (live) | `live_generator_complete` (wolframscript when env set; CI offline/fixture otherwise) | `declared` / backend `placeholder` |
-| `algebra.linear_algebra` | `conformance_verified` (live + offline fixtures) | `placeholder` / capability `declared` | `placeholder` / capability `declared` |
-| `logic.finite_counterexample` | `conformance_verified` (live + offline fixtures) | `placeholder` / capability `declared` | `placeholder` / capability `declared` |
+| `algebra.linear_algebra` | `conformance_verified` (live + offline fixtures) | `live_generator_complete` (wolframscript when env set; CI offline/fixture + differential skip otherwise) | `live_generator_complete` (when sage available; CI fixture otherwise) |
+| `logic.finite_counterexample` | `conformance_verified` (live + offline fixtures) | `live_generator_complete` (bounded enum gated by wolframscript live mode; CI fixture otherwise) | `live_generator_complete` (bounded enum gated by sage availability; CI fixture otherwise) |
 | `analysis.symbolic_calculus` | `conformance_verified` (live) | `live_generator_complete` (derivative/antiderivative via wolframscript; CI offline fixtures; candidate≠completeness) | n/a |
 
 LeanLink: scaffold until review checkboxes close — not claimed as integrated Mathematica transport.
@@ -181,7 +181,7 @@ Capability `"status"` remains **experimental** (R2 governance); R3 does not prom
 | LA conformance all `requiredCases` | MET | `evidence/conformance/linear_algebra/`; `conformanceVerified: true` |
 | CEX conformance all `requiredCases` | MET | `evidence/conformance/finite_counterexample/`; `conformanceVerified: true` |
 | SymPy certificate parity + Lean offline fixtures | MET | SymPy generators + Python mirrors; Lean `Checkers/*/Tests.lean` |
-| Mathematica/Sage honesty | MET | Remain `declared` / backend `placeholder` (no false `implemented`) |
+| Mathematica/Sage honesty | MET | Mathematica LA/CEX `live_generator_complete` (wolframscript gate); Sage LA/CEX `live_generator_complete` (sage gate); Sage rational remains `placeholder` / `declared` |
 | `mathevidence` `.linearAlgebra` / `.finiteCounterexample` | MET | `Tactic/Status.lean`, replay BundleIds, `Tactic/Examples.lean` |
 | Agent held-out T05 compute/replay + baseline | MET | `T05_compute_replay_linear_algebra.json`; `just agent-held-out` |
 | External Lean adoption | OPEN | Template: `docs/validation/adoption-log.md` (human fills) |
@@ -233,16 +233,17 @@ with CI / `just check` evidence. Capability JSON remains
 
 | R2 human gate | Status | Owner | Artifact when closed |
 | --- | --- | --- | --- |
-| Domain expert signed review packet | OPEN | Domain / Semantic IR | Completed file under `review-packets/` (not SAMPLE-unsigned) |
-| Trust-model review (second maintainer area) | OPEN | Core and trust model (+ different-area approver) | Sign-off on promotion PR; checklist box |
+| Domain expert signed review packet | OPEN | Domain / Semantic IR | Completed file under `review-packets/` (not SAMPLE-unsigned); start SAMPLE + `TEMPLATE.md` |
+| Trust-model review (second maintainer area) | OPEN | Core and trust model (+ different-area approver) | `review-packets/TRUST-MODEL-TEMPLATE.md` → `trust-model-YYYY-MM-DD.md` or PR note; checklist box |
 | Milestone 0: ≥3 external user confirmations | OPEN | Outreach lead | `user-confirmation.md` (≥3); process `outreach-checklist.md` + emails `outreach-email-templates.md` |
 | §21.10 workflow win (≥1) | OPEN | Outreach lead | `workflow-win-log.md` (≥1 entry) |
 | Capability JSON → `stable` PR + two-area approvals | OPEN | Registry + Core/trust; domain co-review | PR using body in `stable-promotion-draft.md` after gates |
-| One-sitting human pack | MET (eng packaging) | — | `human-gates-one-sitting.md`, Studio `FACILITATOR_CARD.md` |
+| One-sitting human pack | MET (eng packaging) | — | `human-gates-one-sitting.md`, `g1-blocker-status.md`, Studio `FACILITATOR_CARD.md` |
 
 **Reviewer verification (engineering):** `just check`; workflows `lean.yml`,
 `adapter-conformance.yml`, `offline-replay.yml`, `adversarial.yml`. Green CI
-does **not** flip `stable`.
+does **not** flip `stable`. Human gate board:
+[`g1-blocker-status.md`](g1-blocker-status.md).
 
 ---
 
@@ -254,10 +255,11 @@ does **not** flip `stable`.
 | Federation upgrade path + agreements ledger | MET (docs) | `evidence/federation/examples/UPGRADE_PATH.md`, `docs/architecture/federation-agreements.md` (all OPEN) |
 | Live external federation (≥2 peers) | OPEN | Human/maintainer agreements — do not invent |
 | M5 Mathematica calculus live (R1a ToIR) | MET (eng) | `adapters/mathematica/adapter.py` `compute_symbolic_calculus`; supportLevel `live_generator_complete`; CI fixture when Wolfram absent |
-| Foundry tool-selection baseline vs reference | MET (eng) | `scripts/metrics/foundry_tool_selection.py` — not trained uplift |
+| Foundry tool-selection baseline vs reference | MET (eng) | `scripts/metrics/foundry_tool_selection.py` — harness self-check |
 | Foundry corpus quality + contribution tracking | MET (eng) | `scripts/metrics/foundry_corpus_quality.py`, `track_contributions.py` (0 records) |
 | §19 metrics instrumentation | MET (eng) | `scripts/metrics/` — verified coverage, open replay, semantic defect placeholders |
-| Trained selector uplift / frontier accel / funding | OPEN | Human/research — see `docs/foundry/exit-gate-status.md` |
+| Trivial trained selector vs naive (tool_selection) | MET (measured) | `just foundry-train-eval` — naive 37.5% → trained 100% (n=8); lift +62.5 pp; not frontier |
+| Trained selector uplift / frontier accel / funding | PARTIAL / OPEN | Trivial lift measured; frontier accel + funding remain OPEN — `docs/foundry/exit-gate-status.md` |
 
 Capability `"status"` remains **experimental**. R7 does not flip `stable`, invent
 federation liveness, funding, or frontier acceleration.
