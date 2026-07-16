@@ -145,10 +145,15 @@ def verify_bundle_offline(bundle_dir: Path, *, schemas: SchemaStore | None = Non
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     store.validate("evidence-bundle.schema.json", manifest)
 
+    from adapters.common.errors import AdapterError
+    from adapters.common.security_bounds import reject_path_traversal
+
     for entry in manifest["files"]:
         rel = entry["path"]
-        if ".." in rel.split("/") or rel.startswith("/"):
-            raise ValueError(f"path traversal rejected: {rel}")
+        try:
+            reject_path_traversal(rel, root=bundle_dir)
+        except AdapterError as exc:
+            raise ValueError(str(exc)) from exc
         path = bundle_dir / rel
         if not path.is_file():
             raise FileNotFoundError(f"missing bundle file: {rel}")

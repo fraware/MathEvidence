@@ -1,9 +1,43 @@
-"""Python mirrors of Lean LinearAlgebra / Counterexample checkers (orchestration only)."""
+"""Python mirrors of Lean checkers (orchestration only; Lean owns acceptance)."""
 
 from __future__ import annotations
 
 from fractions import Fraction
 from typing import Any
+
+from adapters.common.rational_ir import collect_division_denominators
+
+
+def check_rational_equality(request: dict[str, Any], certificate: dict[str, Any]) -> bool:
+    """Thin Python mirror of Lean RationalEquality.checkBool.
+
+    Mirrors digest binding, denominator coverage, and polynomial identity of
+    ``lhs`` vs ``rhs``. Does not trust adapter Booleans.
+    """
+    if certificate.get("requestDigest") != request.get("requestDigest"):
+        return False
+    factors = certificate.get("denominatorFactors") or []
+    if not isinstance(factors, list):
+        return False
+    factor_exprs = [f.get("expr") for f in factors if isinstance(f, dict)]
+    for dens in collect_division_denominators(request.get("lhs", {})) + collect_division_denominators(
+        request.get("rhs", {})
+    ):
+        if dens not in factor_exprs:
+            return False
+    try:
+        from sympy import Symbol, cancel, simplify, together
+
+        from adapters.sympy.adapter import _sympy_from_ir
+    except Exception:  # noqa: BLE001
+        return False
+    env = {v["name"]: Symbol(v["name"]) for v in request.get("variables") or []}
+    try:
+        lhs = _sympy_from_ir(request["lhs"], env)
+        rhs = _sympy_from_ir(request["rhs"], env)
+    except Exception:  # noqa: BLE001
+        return False
+    return simplify(together(cancel(lhs - rhs))) == 0
 
 
 def _rat(lit: dict[str, Any]) -> Fraction:
@@ -156,14 +190,48 @@ def _val_from_wire(v: dict[str, Any]) -> Any:
     return int(v["v"])
 
 
+def _val_in_domain(v: dict[str, Any], domain: dict[str, Any]) -> bool:
+    """Mirror Lean `Val.inDomain` / `Assignment.wellFormed`."""
+    tag = v.get("tag")
+    ty = domain.get("ty")
+    if tag != ty:
+        return False
+    if ty == "bool":
+        return True
+    bound = domain.get("bound")
+    if bound is None:
+        return False
+    b = int(bound)
+    raw = v.get("v")
+    if not isinstance(raw, int) or isinstance(raw, bool):
+        return False
+    n = int(raw)
+    if ty == "nat":
+        return 0 <= n <= b
+    if ty == "int":
+        return -b <= n <= b
+    return False
+
+
 def check_finite_counterexample(request: dict[str, Any], certificate: dict[str, Any]) -> bool:
     """Thin Python mirror of Lean Counterexample.checkBool for Agent replay."""
     if certificate.get("requestDigest") != request.get("requestDigest"):
         return False
     pred_obj = request.get("predicate") or {}
     pred = pred_obj.get("pred")
+    domains = pred_obj.get("domains") or []
+    var_names = pred_obj.get("varNames") or []
     assignment = (certificate.get("witness") or {}).get("assignment")
     if not isinstance(pred, dict) or not isinstance(assignment, list):
+        return False
+    if not isinstance(domains, list) or len(assignment) != len(domains):
+        return False
+    if isinstance(var_names, list) and len(var_names) != len(domains):
+        return False
+    if not all(
+        isinstance(a, dict) and isinstance(d, dict) and _val_in_domain(a, d)
+        for a, d in zip(assignment, domains, strict=True)
+    ):
         return False
     env = [_val_from_wire(v) for v in assignment]
     result = _eval_pred(env, pred)

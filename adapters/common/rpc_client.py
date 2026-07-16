@@ -46,6 +46,30 @@ class RpcClient:
             ) from exc
         return cls(proc=proc, limits=limits or ResourceLimits())
 
+    def cancel_and_kill(self, *, grace_s: float = 2.0) -> None:
+        """Send ``cancel``, then terminate/kill so no orphan adapter remains."""
+        if self.proc.poll() is not None:
+            return
+        try:
+            self.request("cancel", {})
+        except AdapterError:
+            pass
+        try:
+            self.proc.terminate()
+        except OSError:
+            pass
+        try:
+            self.proc.wait(timeout=grace_s)
+        except subprocess.TimeoutExpired:
+            try:
+                self.proc.kill()
+            except OSError:
+                pass
+            try:
+                self.proc.wait(timeout=grace_s)
+            except subprocess.TimeoutExpired:
+                pass
+
     def close(self) -> None:
         if self.proc.poll() is None:
             try:

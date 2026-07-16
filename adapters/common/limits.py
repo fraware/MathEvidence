@@ -1,4 +1,8 @@
-"""Resource limits for adapter processes."""
+"""Resource limits for adapter processes.
+
+See ``docs/architecture/process-isolation.md`` for the normative CPU / memory /
+wall / output budget contract and cancel→kill behavior.
+"""
 
 from __future__ import annotations
 
@@ -7,28 +11,42 @@ from dataclasses import dataclass
 
 from adapters.common.errors import stable_error
 
+# Defaults aligned with registry capability ``limits`` and request resourcePolicy.
+DEFAULT_MAX_WALL_TIME_MS = 60_000
+DEFAULT_MAX_OUTPUT_BYTES = 4_194_304
+DEFAULT_MAX_REQUEST_BYTES = 1_048_576
+DEFAULT_MAX_NESTING_DEPTH = 64
+# Soft advisory defaults when OS cgroups are unavailable (documented; not enforced
+# by the Python supervisor on all platforms).
+DEFAULT_MAX_CPU_TIME_MS = 60_000
+DEFAULT_MAX_MEMORY_BYTES = 512 * 1024 * 1024
+
 
 @dataclass(frozen=True)
 class ResourceLimits:
-    max_wall_time_ms: int = 60_000
-    max_output_bytes: int = 4_194_304
-    max_request_bytes: int = 1_048_576
-    max_nesting_depth: int = 64
-    max_cpu_time_ms: int | None = None
-    max_memory_bytes: int | None = None
+    max_wall_time_ms: int = DEFAULT_MAX_WALL_TIME_MS
+    max_output_bytes: int = DEFAULT_MAX_OUTPUT_BYTES
+    max_request_bytes: int = DEFAULT_MAX_REQUEST_BYTES
+    max_nesting_depth: int = DEFAULT_MAX_NESTING_DEPTH
+    max_cpu_time_ms: int | None = DEFAULT_MAX_CPU_TIME_MS
+    max_memory_bytes: int | None = DEFAULT_MAX_MEMORY_BYTES
 
     @classmethod
     def from_policy(cls, policy: dict[str, object] | None) -> ResourceLimits:
         if not policy:
             return cls()
         return cls(
-            max_wall_time_ms=int(policy.get("maxWallTimeMs", 60_000)),  # type: ignore[arg-type]
-            max_output_bytes=int(policy.get("maxOutputBytes", 4_194_304)),  # type: ignore[arg-type]
+            max_wall_time_ms=int(policy.get("maxWallTimeMs", DEFAULT_MAX_WALL_TIME_MS)),  # type: ignore[arg-type]
+            max_output_bytes=int(policy.get("maxOutputBytes", DEFAULT_MAX_OUTPUT_BYTES)),  # type: ignore[arg-type]
             max_cpu_time_ms=(
-                int(policy["maxCpuTimeMs"]) if "maxCpuTimeMs" in policy else None
+                int(policy["maxCpuTimeMs"])  # type: ignore[arg-type]
+                if "maxCpuTimeMs" in policy
+                else DEFAULT_MAX_CPU_TIME_MS
             ),
             max_memory_bytes=(
-                int(policy["maxMemoryBytes"]) if "maxMemoryBytes" in policy else None
+                int(policy["maxMemoryBytes"])  # type: ignore[arg-type]
+                if "maxMemoryBytes" in policy
+                else DEFAULT_MAX_MEMORY_BYTES
             ),
         )
 

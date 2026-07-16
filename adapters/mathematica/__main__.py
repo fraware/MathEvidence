@@ -18,7 +18,7 @@ def build_server() -> AdapterServer:
     rt = discover_runtime()
     return AdapterServer(
         backend_id="mathematica",
-        backend_version="0.1.0-scaffold",
+        backend_version="0.1.0",
         adapter_version=ADAPTER_VERSION,
         capabilities=list(MATHEMATICA_CAPABILITIES),
         compute=compute_handler,
