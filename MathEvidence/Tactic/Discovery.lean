@@ -42,7 +42,8 @@ partial def exprToWireJson (names : List String) : RExpr → Json
   | .int n => Json.mkObj [("tag", Json.str "int"), ("value", Json.str (toString n))]
   | .rat n d =>
     Json.mkObj
-      [("tag", Json.str "rat"), ("n", Json.str (toString n)), ("d", Json.num d)]
+      [("tag", Json.str "rat"), ("num", Json.str (toString n)),
+       ("den", Json.str (toString d))]
   | .neg e => Json.mkObj [("tag", Json.str "neg"), ("arg", exprToWireJson names e)]
   | .add a b =>
     Json.mkObj
@@ -103,8 +104,11 @@ def discoveryEnabled : IO Bool := do
     pure (v == "1" || v == "true" || v == "live" || v == "on")
   | none => pure false
 
-/-- Map claim to a committed offline bundle when IR matches. -/
-def matchOfflineBundle (c : Claim) : Option BundleId :=
+/-- Map claim to a committed offline bundle when IR matches.
+
+When several fixtures share the same IR, prefer one whose backend matches the
+requested discovery backend (SymPy vs Mathematica). -/
+def matchOfflineBundle (c : Claim) (prefer : Backend := .none) : Option BundleId :=
   let pairs : List (BundleId × Claim) := [
     (.basicSympy, claim_basic_sympy),
     (.basicMathematica, claim_basic_mathematica),
@@ -113,14 +117,23 @@ def matchOfflineBundle (c : Claim) : Option BundleId :=
     (.variablePermutation, claim_variable_permutation),
     (.largeCoeffs, claim_large_coeffs)
   ]
-  (pairs.find? fun (_, cl) => claimsEqual c cl).map (·.1)
+  let hits := pairs.filter fun (_, cl) => claimsEqual c cl
+  match prefer with
+  | .mathematica =>
+    (hits.find? fun (id, _) => id.backend == .mathematica).map (·.1)
+      <|> hits.head?.map (·.1)
+  | .sympy =>
+    (hits.find? fun (id, _) => id.backend == .sympy).map (·.1)
+      <|> hits.head?.map (·.1)
+  | .none => hits.head?.map (·.1)
 
 /-- Status report after successful reification without a live backend. -/
 def offlineDiscoveryReport (c : Claim) (backend : Backend) : StatusReport :=
-  match matchOfflineBundle c with
+  match matchOfflineBundle c backend with
   | some id =>
     let report := replayStatus id
     { report with
+      backend := backend
       detail :=
         s!"discovery(offline): reified claim matched committed bundle {id.toPath}; " ++
           "backends not started" }
@@ -171,21 +184,65 @@ def spawnDiscover (requestJson : String) (backend : String) : IO (Except String 
   | some line => pure (.ok line)
   | none => pure (.error "discovery CLI produced empty stdout")
 
-/-- Attempt `field_simp; ring` close; return true if main goal became `True` or solved. -/
+/-- Attempt `field_simp; ring` close under explicit nonzero denom hypotheses.
+
+Proof strategy (documented for Product 02 / §12.1):
+1. Local context must already contain nonzero hypotheses for every division
+   that the checker exported (no silent totalization at poles).
+2. `field_simp` clears divisions using those hypotheses.
+3. `ring` finishes the polynomial identity on the cleared field expression.
+4. If goals remain, the status report lists them; the tactic does **not**
+   invent hypotheses or claim equality at poles.
+-/
 def tryCloseRationalEquality : TacticM Bool := do
   let goalsBefore ← getGoals
   try
-    evalTactic (← `(tactic| try field_simp <;> try ring))
+    -- Prefer local hypotheses (`*`) so explicit denom ≠ 0 facts are used.
+    evalTactic (← `(tactic| try field_simp [*] <;> try ring))
   catch _ =>
     pure ()
   let goalsAfter ← getGoals
   if goalsAfter.isEmpty then
     return true
   if goalsAfter.length < goalsBefore.length then
-    return true
+    -- Partial progress is not a full close for equality goals.
+    return goalsAfter.isEmpty
   let g ← getMainGoal
   let t ← g.getType
   return t.isConstOf ``True
+
+/-- Describe open goals for status reporting (claim vs remaining work). -/
+def remainingGoalSummaries : TacticM (List String) := do
+  let goals ← getGoals
+  goals.mapM fun g => do
+    let t ← g.withContext do
+      let ty ← g.getType
+      pure (toString (← ppExpr ty))
+    pure s!"goal: {t}"
+
+/-- Build a full status report (always includes claim requested vs established). -/
+def makeStatusReport
+    (_c : Claim)
+    (backend : Backend)
+    (claim : ClaimClass)
+    (established : Option ClaimClass)
+    (result : ResultStatus)
+    (bundle : String)
+    (conds : List String)
+    (remaining : List String)
+    (detail : String) : StatusReport :=
+  { operation := .rationalEquality
+    fragmentSupported := true
+    assumptionsExported := conds.map fun d => s!"{d} ≠ 0"
+    conditionsReturned := conds
+    backend := backend
+    claimRequested := claim
+    claimEstablished := established
+    resultStatus := result
+    assuranceMode := .kernelReplay
+    evidenceBundle := bundle
+    remainingGoals := remaining
+    detail := detail }
 
 /-- Run discovery for the main goal: reify → offline match or live spawn → check. -/
 def runDiscoveryOrchestration (backend : Backend) (claim : ClaimClass) : TacticM Unit := do
@@ -205,22 +262,43 @@ reification + offline fixture match or MATHEVIDENCE_DISCOVERY=1 applies.\n{repor
       let c := { c with claimClass := claim }
       let live ← discoveryEnabled
       if !live then
-        let report := offlineDiscoveryReport c backend
-        logInfo m!"{report.format}"
-        match matchOfflineBundle c with
+        let report0 := offlineDiscoveryReport c backend
+        match matchOfflineBundle c backend with
         | some id =>
           let b := id.replayBundle
           unless checkBool b.request b.certificate do
             throwError "offline fixture failed checker after reify match"
+          let conds := b.certificate.denomFactors.map fun e => reprStr e
           let closed ← tryCloseRationalEquality
-          if closed then
-            logInfo m!"discovery(offline): closed after matching {id.toPath}"
-          else
+          let remaining ← remainingGoalSummaries
+          let report := makeStatusReport c (if backend == .none then id.backend else backend) claim
+            (if closed then some .soundResult else none)
+            (if closed then .soundnessVerified else .computed)
+            id.toPath
+            conds
+            (if closed then [] else
+              if remaining.isEmpty then
+                conds.map fun d => s!"nonzero: {d}"
+              else remaining)
+            (if closed then
+              s!"discovery(offline): reified; checker accepted {id.toPath}; \
+closed under explicit denom hyps via field_simp[*]/ring"
+             else
+              s!"discovery(offline): reified; checker accepted {id.toPath}; \
+equality not closed — add nonzero denom hyps then field_simp[*]; ring \
+(no claim at poles).\n(prior) {report0.detail}")
+          logInfo m!"{report.format}"
+          unless closed do
             throwError
               "mathevidence discovery(offline): fixture matched and checked, but automatic \
 close did not finish the goal. Add nonzero denominator hypotheses then \
-`field_simp; ring`, or use `mathevidence replay`.\n{report.format}"
+`field_simp [*]; ring`, or use `mathevidence replay`.\n{report.format}"
         | none =>
+          let dens := (c.lhs.denominators ++ c.rhs.denominators).map reprStr
+          let report := makeStatusReport c backend claim none .unsupported "" dens
+            ["set MATHEVIDENCE_DISCOVERY=1 to spawn adapters, or commit a bundle and replay"]
+            report0.detail
+          logInfo m!"{report.format}"
           throwError
             "mathevidence discovery(offline): reified Rat equality; backends not started \
 (CI-safe default). Set MATHEVIDENCE_DISCOVERY=1 to spawn adapters, or generate a \
@@ -245,25 +323,27 @@ bundle with scripts/mathevidence_cli.py discover then `mathevidence replay`.\n\
             unless checkBool req cert do
               throwError "live discovery: Lean checker rejected certificate"
             let conds := cert.denomFactors.map fun e => reprStr e
-            let report : StatusReport := {
-              operation := .rationalEquality
-              fragmentSupported := true
-              assumptionsExported := []
-              conditionsReturned := conds
-              backend := backend
-              claimRequested := claim
-              claimEstablished := some .soundResult
-              resultStatus := .soundnessVerified
-              assuranceMode := .kernelReplay
-              evidenceBundle := "(discovery ephemeral bundle)"
-              remainingGoals := conds.map fun d => s!"nonzero: {d}"
-              detail := "discovery(live): adapter spawned; certificate checked"
-            }
-            logInfo m!"{report.format}"
             let closed ← tryCloseRationalEquality
+            let remaining ← remainingGoalSummaries
+            let report := makeStatusReport c backend claim
+              (if closed then some .soundResult else none)
+              (if closed then .soundnessVerified else .computed)
+              "(discovery ephemeral bundle)"
+              conds
+              (if closed then [] else
+                if remaining.isEmpty then
+                  conds.map fun d => s!"nonzero: {d}"
+                else remaining)
+              (if closed then
+                "discovery(live): adapter spawned; certificate checked; \
+closed under explicit denom hyps via field_simp[*]/ring"
+               else
+                "discovery(live): adapter spawned; certificate checked; \
+finish remaining nonzero/equality goals (field_simp[*]/ring); no claim at poles")
+            logInfo m!"{report.format}"
             unless closed do
               throwError
                 "mathevidence discovery(live): certificate accepted; finish remaining \
-nonzero/equality goals (field_simp/ring).\n{report.format}"
+nonzero/equality goals (field_simp[*]/ring).\n{report.format}"
 
 end MathEvidence.Tactic.Discovery

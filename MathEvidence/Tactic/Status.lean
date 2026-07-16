@@ -3,6 +3,10 @@ Copyright (c) 2026 MathEvidence contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: MathEvidence contributors
 -/
+import MathEvidence.Checkers.Counterexample.Replay
+import MathEvidence.Checkers.Counterexample.Tests
+import MathEvidence.Checkers.LinearAlgebra.Replay
+import MathEvidence.Checkers.LinearAlgebra.Tests
 import MathEvidence.Checkers.RationalEquality.Check
 import MathEvidence.Checkers.RationalEquality.OfflineFixtures
 import MathEvidence.Checkers.RationalEquality.Replay
@@ -20,6 +24,8 @@ open MathEvidence.Checkers.RationalEquality.OfflineFixtures
 
 inductive Operation where
   | rationalEquality
+  | linearAlgebra
+  | finiteCounterexample
   deriving DecidableEq, Repr, Inhabited
 
 inductive Backend where
@@ -80,6 +86,16 @@ inductive BundleId where
   | largeCoeffs
   | falseIdentity
   | hashMismatch
+  | laInverse2x2
+  | laExactSystem
+  | laKernelVector
+  | laDetIdentity
+  | laSingularInverseRejected
+  | laHashMismatch
+  | cexSimpleFalseUniversal
+  | cexWitnessTypeMismatch
+  | cexHashMismatch
+  | cexOutOfDomainRejected
   deriving DecidableEq, Repr, Inhabited
 
 def BundleId.toPath : BundleId → String
@@ -91,10 +107,31 @@ def BundleId.toPath : BundleId → String
   | .largeCoeffs => "evidence/conformance/rfc0001/large_coeffs/bundle"
   | .falseIdentity => "evidence/conformance/rfc0001/false_identity/bundle"
   | .hashMismatch => "evidence/conformance/rfc0001/hash_mismatch/bundle"
+  | .laInverse2x2 => "evidence/conformance/linear_algebra/inverse_witness_2x2/bundle"
+  | .laExactSystem => "evidence/conformance/linear_algebra/exact_system_solution/bundle"
+  | .laKernelVector => "evidence/conformance/linear_algebra/kernel_vector/bundle"
+  | .laDetIdentity => "evidence/conformance/linear_algebra/det_identity/bundle"
+  | .laSingularInverseRejected =>
+      "evidence/conformance/linear_algebra/singular_inverse_rejected/bundle"
+  | .laHashMismatch => "evidence/conformance/linear_algebra/hash_mismatch/bundle"
+  | .cexSimpleFalseUniversal =>
+      "evidence/conformance/finite_counterexample/simple_false_universal/bundle"
+  | .cexWitnessTypeMismatch =>
+      "evidence/conformance/finite_counterexample/witness_type_mismatch/bundle"
+  | .cexHashMismatch => "evidence/conformance/finite_counterexample/hash_mismatch/bundle"
+  | .cexOutOfDomainRejected =>
+      "evidence/conformance/finite_counterexample/out_of_domain_rejected/bundle"
 
 def BundleId.backend : BundleId → Backend
   | .basicMathematica => .mathematica
   | _ => .sympy
+
+def BundleId.operation : BundleId → Operation
+  | .laInverse2x2 | .laExactSystem | .laKernelVector | .laDetIdentity
+  | .laSingularInverseRejected | .laHashMismatch => .linearAlgebra
+  | .cexSimpleFalseUniversal | .cexWitnessTypeMismatch | .cexHashMismatch
+  | .cexOutOfDomainRejected => .finiteCounterexample
+  | _ => .rationalEquality
 
 def BundleId.replayBundle : BundleId → ReplayBundle
   | .basicSympy => bundle_basic_sympy
@@ -105,9 +142,14 @@ def BundleId.replayBundle : BundleId → ReplayBundle
   | .largeCoeffs => bundle_large_coeffs
   | .falseIdentity => bundle_false_identity
   | .hashMismatch => bundle_hash_mismatch
+  -- Discovery only matches rational BundleIds; LA/CEX use dedicated replayStatus arms.
+  | .laInverse2x2 | .laExactSystem | .laKernelVector | .laDetIdentity
+  | .laSingularInverseRejected | .laHashMismatch
+  | .cexSimpleFalseUniversal | .cexWitnessTypeMismatch | .cexHashMismatch
+  | .cexOutOfDomainRejected => bundle_basic_sympy
 
-/-- Replay mode: load a committed bundle, run the RationalEquality checker, no backends. -/
-def replayStatus (id : BundleId) : StatusReport :=
+/-- Replay mode for rational-equality committed bundles. -/
+def replayStatusRational (id : BundleId) : StatusReport :=
   let b := id.replayBundle
   let report := replay b
   let conds := b.certificate.denomFactors.map fun e => reprStr e
@@ -138,12 +180,118 @@ def replayStatus (id : BundleId) : StatusReport :=
       remainingGoals := []
       detail := report.detail }
 
+def replayStatusLinearAlgebra (id : BundleId) : StatusReport :=
+  let mk (accepted : Bool) (detail : String) (claim : ClaimClass) : StatusReport :=
+    { operation := .linearAlgebra
+      fragmentSupported := true
+      assumptionsExported := []
+      conditionsReturned := []
+      backend := .sympy
+      claimRequested := claim
+      claimEstablished := if accepted then some claim else none
+      resultStatus := if accepted then .witnessVerified else .rejected
+      assuranceMode := .kernelReplay
+      evidenceBundle := id.toPath
+      remainingGoals := []
+      detail := detail }
+  match id with
+  | .laInverse2x2 =>
+      mk (MathEvidence.Checkers.LinearAlgebra.checkBool
+            MathEvidence.Checkers.LinearAlgebra.Tests.req_inv
+            MathEvidence.Checkers.LinearAlgebra.Tests.cert_inv)
+        "linear algebra inverse offline fixture" .witness
+  | .laExactSystem =>
+      mk (MathEvidence.Checkers.LinearAlgebra.checkBool
+            MathEvidence.Checkers.LinearAlgebra.Tests.req_sys
+            MathEvidence.Checkers.LinearAlgebra.Tests.cert_sys)
+        "linear algebra system offline fixture" .witness
+  | .laKernelVector =>
+      mk (MathEvidence.Checkers.LinearAlgebra.checkBool
+            MathEvidence.Checkers.LinearAlgebra.Tests.req_ker
+            MathEvidence.Checkers.LinearAlgebra.Tests.cert_ker)
+        "linear algebra kernel offline fixture" .witness
+  | .laDetIdentity =>
+      mk (MathEvidence.Checkers.LinearAlgebra.checkBool
+            MathEvidence.Checkers.LinearAlgebra.Tests.req_det
+            MathEvidence.Checkers.LinearAlgebra.Tests.cert_det)
+        "linear algebra det offline fixture" .soundResult
+  | .laSingularInverseRejected =>
+      mk (MathEvidence.Checkers.LinearAlgebra.checkBool
+            MathEvidence.Checkers.LinearAlgebra.Tests.req_sing
+            MathEvidence.Checkers.LinearAlgebra.Tests.cert_sing_id)
+        "singular inverse must be rejected" .witness
+  | .laHashMismatch =>
+      mk (MathEvidence.Checkers.LinearAlgebra.checkBool
+            MathEvidence.Checkers.LinearAlgebra.Tests.req_inv
+            MathEvidence.Checkers.LinearAlgebra.Tests.cert_bad_digest)
+        "LA hash mismatch must be rejected" .witness
+  | _ =>
+      { operation := .linearAlgebra
+        fragmentSupported := false
+        resultStatus := .unsupported
+        evidenceBundle := id.toPath
+        detail := "unknown linearAlgebra bundle" }
+
+def replayStatusFiniteCounterexample (id : BundleId) : StatusReport :=
+  let mk (accepted : Bool) (detail : String) : StatusReport :=
+    { operation := .finiteCounterexample
+      fragmentSupported := true
+      assumptionsExported := []
+      conditionsReturned := []
+      backend := .sympy
+      claimRequested := .refutation
+      claimEstablished := if accepted then some .refutation else none
+      resultStatus := if accepted then .witnessVerified else .rejected
+      assuranceMode := .kernelReplay
+      evidenceBundle := id.toPath
+      remainingGoals := []
+      detail := detail }
+  match id with
+  | .cexSimpleFalseUniversal =>
+      mk (MathEvidence.Checkers.Counterexample.checkBool
+            MathEvidence.Checkers.Counterexample.Tests.req_nat_eq0
+            MathEvidence.Checkers.Counterexample.Tests.cert_nat_eq0)
+        "finite CEX offline fixture"
+  | .cexWitnessTypeMismatch =>
+      mk (MathEvidence.Checkers.Counterexample.checkBool
+            MathEvidence.Checkers.Counterexample.Tests.req_nat_eq0
+            MathEvidence.Checkers.Counterexample.Tests.cert_type_mismatch)
+        "type mismatch must be rejected"
+  | .cexHashMismatch =>
+      mk (MathEvidence.Checkers.Counterexample.checkBool
+            MathEvidence.Checkers.Counterexample.Tests.req_nat_eq0
+            MathEvidence.Checkers.Counterexample.Tests.cert_bad_digest)
+        "CEX hash mismatch must be rejected"
+  | .cexOutOfDomainRejected =>
+      mk (MathEvidence.Checkers.Counterexample.checkBool
+            MathEvidence.Checkers.Counterexample.Tests.req_nat_eq0
+            MathEvidence.Checkers.Counterexample.Tests.cert_nat_ood)
+        "out-of-domain must be rejected"
+  | _ =>
+      { operation := .finiteCounterexample
+        fragmentSupported := false
+        resultStatus := .unsupported
+        evidenceBundle := id.toPath
+        detail := "unknown finiteCounterexample bundle" }
+
+/-- Replay mode: load a committed bundle, run the matching checker, no backends. -/
+def replayStatus (id : BundleId) : StatusReport :=
+  match id.operation with
+  | .linearAlgebra => replayStatusLinearAlgebra id
+  | .finiteCounterexample => replayStatusFiniteCounterexample id
+  | .rationalEquality => replayStatusRational id
+
 /-- Discovery mode without a live backend: report capability recognition only.
 
 Backends are never started from this path. Callers that need generation must use
 an adapter out-of-process and then `replayStatus`. Prefer
 `MathEvidence.Tactic.Discovery.runDiscoveryOrchestration` for Meta-reify +
-offline fixture match / env-gated live discovery. -/
+offline fixture match / env-gated live discovery (rational equality).
+
+For linearAlgebra / finiteCounterexample: Lean Meta discovery is not available
+yet — use `mathevidence replay <BundleId>` offline, or generate SymPy evidence
+via `python scripts/mathevidence_cli.py discover --backend sympy --request …`
+then commit + replay. -/
 def discoveryStatus (backend : Backend := .none) (claim : ClaimClass := .soundResult) :
     StatusReport :=
   { operation := .rationalEquality
@@ -157,9 +305,13 @@ def discoveryStatus (backend : Backend := .none) (claim : ClaimClass := .soundRe
     assuranceMode := .kernelReplay
     evidenceBundle := ""
     remainingGoals :=
-      ["reify Rat equality goal, or provide evidence bundle and switch to replay mode"]
+      ["reify Rat equality goal, or provide evidence bundle and switch to replay mode",
+       "LA/CEX: mathevidence replay .laInverse2x2 / .cexSimpleFalseUniversal (offline)",
+       "LA/CEX SymPy generate: mathevidence_cli.py discover --backend sympy"]
     detail :=
-      "discovery: rational_equality fragment recognized; use Discovery orchestration \
-(offline fixture match or MATHEVIDENCE_DISCOVERY=1)" }
+      "discovery: rational_equality Meta-reify path recognized; use Discovery \
+orchestration (offline fixture match or MATHEVIDENCE_DISCOVERY=1). \
+linearAlgebra / finiteCounterexample: Lean Meta discovery not available — \
+`mathevidence replay` with BundleId, or SymPy CLI discover then commit bundles." }
 
 end MathEvidence.Tactic

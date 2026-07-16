@@ -14,6 +14,10 @@ import MathEvidence.Tactic.Status
 - **Discovery:** `mathevidence` / `mathevidence discovery` — Meta-reify ℚ equality;
   offline fixture match by default; live adapter spawn when
   `MATHEVIDENCE_DISCOVERY=1`.
+- After checker accept, closes under **explicit** nonzero denom hypotheses via
+  `field_simp [*] ; ring` (never claims equality at poles).
+- Status report always lists claim requested vs established, bundle path, and
+  remaining goals.
 - Kwargs sugar expands to replay / discovery forms.
 -/
 
@@ -35,12 +39,31 @@ private def evalBundleIdExpr (e : Expr) : TacticM BundleId := do
   | ``BundleId.largeCoeffs => pure .largeCoeffs
   | ``BundleId.falseIdentity => pure .falseIdentity
   | ``BundleId.hashMismatch => pure .hashMismatch
+  | ``BundleId.laInverse2x2 => pure .laInverse2x2
+  | ``BundleId.laExactSystem => pure .laExactSystem
+  | ``BundleId.laKernelVector => pure .laKernelVector
+  | ``BundleId.laDetIdentity => pure .laDetIdentity
+  | ``BundleId.laSingularInverseRejected => pure .laSingularInverseRejected
+  | ``BundleId.laHashMismatch => pure .laHashMismatch
+  | ``BundleId.cexSimpleFalseUniversal => pure .cexSimpleFalseUniversal
+  | ``BundleId.cexWitnessTypeMismatch => pure .cexWitnessTypeMismatch
+  | ``BundleId.cexHashMismatch => pure .cexHashMismatch
+  | ``BundleId.cexOutOfDomainRejected => pure .cexOutOfDomainRejected
   | _ => throwError "mathevidence: unknown bundle id {e}"
 
 private def runReplay (id : BundleId) : TacticM Unit := do
   let report := replayStatus id
-  if report.claimEstablished.isNone then
+  -- Accept fixtures close `True`; intentional reject fixtures report status only.
+  let expectAccept :=
+    match id with
+    | .falseIdentity | .hashMismatch
+    | .laSingularInverseRejected | .laHashMismatch
+    | .cexWitnessTypeMismatch | .cexHashMismatch | .cexOutOfDomainRejected => false
+    | _ => true
+  if expectAccept && report.claimEstablished.isNone then
     throwError "mathevidence replay rejected:\n{report.format}"
+  if !expectAccept && report.claimEstablished.isSome then
+    throwError "mathevidence replay unexpectedly accepted reject fixture:\n{report.format}"
   let goal ← getMainGoal
   goal.withContext do
     let tgt ← goal.getType
