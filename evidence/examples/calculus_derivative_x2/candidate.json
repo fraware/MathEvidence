@@ -1,0 +1,14 @@
+{
+  "reportedOk": true,
+  "expr": {
+    "tag": "mul",
+    "left": {
+      "tag": "int",
+      "value": "2"
+    },
+    "right": {
+      "tag": "var",
+      "name": "x"
+    }
+  }
+}
