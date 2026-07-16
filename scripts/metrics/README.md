@@ -21,9 +21,13 @@ python scripts/metrics/foundry_tool_selection.py
 python scripts/metrics/foundry_corpus_quality.py
 python scripts/metrics/track_contributions.py
 
+# Trivial trained selector (corpus train → tool_selection eval)
+python scripts/metrics/foundry_trained_selector.py
+
 # Or via just
 just metrics
 just foundry-metrics
+just foundry-train-eval
 ```
 
 ## Honesty
@@ -33,5 +37,6 @@ just foundry-metrics
 | Verified coverage | Share of real-world / bottleneck rows with evidence or capability binding | Fraction of all Lean developments in the wild |
 | Open replay rate | Offline replay pass rate over committed bundles | Live backend regeneration success |
 | Semantic defect rate | Adversarial + expected-reject fixtures that correctly reject | Expert-audited field defect incidence |
-| Tool-selection | Reference vs naive baseline accuracy on `benchmarks/tool_selection` | Trained model held-out uplift |
+| Tool-selection | Reference vs naive baseline accuracy on `benchmarks/tool_selection` | Frontier model uplift |
+| Trained selector | Rule+learned bag-of-token weights on foundry train → tool_selection | Funding / frontier acceleration |
 | Contributions | Count of YAML/JSON records under `docs/foundry/contributions/` | Funding secured or frontier acceleration |

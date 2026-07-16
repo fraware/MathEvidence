@@ -73,6 +73,10 @@ foundry-metrics:
     python scripts/metrics/foundry_corpus_quality.py
     python scripts/metrics/track_contributions.py
 
+# Train trivial selector on foundry corpus train split; eval on tool_selection.
+foundry-train-eval:
+    python scripts/metrics/foundry_trained_selector.py
+
 agent-api:
     python -m agent.api.server --host 127.0.0.1 --port 8787
 

@@ -30,11 +30,11 @@ def main() -> int:
         "contributions": track_contributions.measure(),
         "human_research_open": [
             "live federation emit/consume (≥2 peers with maintainer agreement)",
-            "trained tool-selector held-out uplift vs baseline",
+            "frontier-grade trained selector (trivial bag-of-token lift measured; see just foundry-train-eval)",
             "frontier program materially accelerated",
             "maintenance funding secured",
             "field semantic defect rate (expert audit)",
-            "capability status stable (governance)",
+            "capability status stable (governance; blocked on G1)",
         ],
     }
     print(json.dumps(payload, indent=2))
