@@ -1,0 +1,11 @@
+# Prefer uv when TLS to PyPI works:
+#   uv lock && uv sync --extra dev --extra sympy
+# If `uv lock` fails with certificate errors (common on some Windows MITM/TLS
+# setups), use the pinned requirements path instead:
+#   python -m pip install -r requirements.txt -r requirements-dev.txt
+#
+# `uv.lock` is intentionally optional until lock generation succeeds in CI;
+# `just check` uses the active interpreter + requirements install.
+
+jsonschema>=4.23.0
+sympy>=1.13.0

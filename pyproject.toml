@@ -1,0 +1,46 @@
+[project]
+name = "mathevidence-adapters"
+version = "0.1.0"
+description = "Untrusted MathEvidence backend adapters (JSON-RPC over stdio)"
+readme = "adapters/README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [{ name = "MathEvidence contributors" }]
+dependencies = [
+  "jsonschema>=4.23.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.14.0",
+  "pytest>=8.3.0",
+  "ruff>=0.9.0",
+]
+sympy = [
+  "sympy>=1.13.0",
+]
+mathematica = []
+sage = []
+
+[build-system]
+requires = ["hatchling>=1.26.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["adapters", "agent", "foundry"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["adapters", "agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["adapters", "agent", "foundry"]
+python_files = ["test_*.py"]
