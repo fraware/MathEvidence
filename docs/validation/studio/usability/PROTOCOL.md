@@ -2,13 +2,18 @@
 
 **Status:** engineering protocol ready; **human session results OPEN**  
 **Owner (sessions):** Studio / UX lead  
-**Do not invent** completed human study outcomes.
+**Do not invent** completed human study outcomes.  
+**Readiness board:** [`../../p1-blocker-status.md`](../../p1-blocker-status.md)
 
 This document defines how to run scripted usability sessions for Product 09
 acceptance criterion 1 (*Users correctly identify result status in usability
 testing*). Machine-checkable Certified gates live under
-[`studio/golden/`](../../studio/golden/) and
-[`adapters/common/test_epistemic_studio.py`](../../adapters/common/test_epistemic_studio.py).
+[`studio/golden/`](../../../../studio/golden/) and
+[`adapters/common/test_epistemic_studio.py`](../../../../adapters/common/test_epistemic_studio.py).
+
+Facilitators: print or keep open
+[`FACILITATOR_CARD.md`](FACILITATOR_CARD.md) during each sitting. Invite copy:
+[`../../outreach-email-templates.md`](../../outreach-email-templates.md) Email 4.
 
 ## Goals
 

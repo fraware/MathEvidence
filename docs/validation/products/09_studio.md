@@ -8,7 +8,7 @@
 
 | # | Criterion | Result | Evidence |
 | --- | --- | --- | --- |
-| 1 | Users correctly identify result status in usability testing | **OPEN (human)** | Protocol + ≥3 scripted templates: [`docs/validation/studio/usability/`](../studio/usability/). Session result rows deliberately **OPEN** — do not invent human studies. |
+| 1 | Users correctly identify result status in usability testing | **OPEN (human)** | Protocol + ≥3 scripted templates: [`docs/validation/studio/usability/`](../studio/usability/). Facilitation board: [`p1-blocker-status.md`](../p1-blocker-status.md). Session result rows deliberately **OPEN** — do not invent human studies. |
 | 2 | Exported theorems replay outside Mathematica | **PASS (eng)** | Studio export writes theorem + bundle; offline replay via Agent/`just replay` on committed `evidence/` (Studio is not TCB). |
 | 3 | Studio displays every backend-introduced condition | **PASS (eng)** | `ShowAssumptions` / VS Code assumptions section from `knownAssumptions` / `domainConditions`; golden + UI order tests. |
 | 4 | Exact Lean proposition available before certification | **PASS (eng)** | `buildCertificationSurface` / `CertificationSurface`: proposition + assumptions **before** epistemic Certified affordance; missing proposition → not Certified. |

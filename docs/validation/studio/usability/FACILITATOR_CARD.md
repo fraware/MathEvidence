@@ -1,7 +1,8 @@
 # Studio usability — facilitator card (one sitting)
 
 **Human results stay OPEN until real participants complete sessions.**  
-Do not invent labels, pass rates, or quotes.
+Do not invent labels, pass rates, or quotes.  
+**Board:** [`../../p1-blocker-status.md`](../../p1-blocker-status.md) · **Protocol:** [`PROTOCOL.md`](PROTOCOL.md)
 
 ## Before the first participant (5 min)
 
@@ -10,6 +11,7 @@ Do not invent labels, pass rates, or quotes.
       (`studio/golden/transcripts/` for expected machine behavior)
 - [ ] Consent language ready (public defect notes vs anonymize)
 - [ ] Open `defect-log.md` and the three session templates S01–S03
+- [ ] Invite sent (Email 4 in `outreach-email-templates.md`) or walk-up consented
 
 ## Per session (~20 min)
 
@@ -34,8 +36,9 @@ Do not invent labels, pass rates, or quotes.
 - [ ] Defects triaged in `defect-log.md`
 - [ ] Update Product 09 acceptance only when humans finished — do not flip
       capability `stable` from Studio alone
+- [ ] Mark corresponding rows on [`p1-blocker-status.md`](../../p1-blocker-status.md)
 
 ## If blocked
 
 Record blocker in `defect-log.md` (environment, consent refusal, no participants)
-and leave session outcomes **OPEN**.
+and leave session outcomes **OPEN**. Do not invent fill-ins to clear the board.
