@@ -5,10 +5,10 @@ It is part of the trust surface: do not treat experimental capabilities as
 stable, and do not invent human confirmations to close the gates below.
 
 All registry capabilities remain `"status": "experimental"` until the
-[stable promotion checklist](docs/validation/stable-capability-checklist.md)
-and [governance](GOVERNANCE.md) requirements are met with real artifacts.
+[stable promotion checklist](../validation/stable-capability-checklist.md)
+and [governance](../../GOVERNANCE.md) requirements are met with real artifacts.
 
-For a short project status summary, see [`docs/STATUS.md`](docs/STATUS.md).
+For a short project status summary, see [`docs/STATUS.md`](../STATUS.md).
 
 ---
 

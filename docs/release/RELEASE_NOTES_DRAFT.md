@@ -8,7 +8,9 @@
 MathEvidence is published as an **experimental** open computational-evidence
 platform for Lean. This preview packages protocol, checkers, adapters, Agent
 API v0.1.0, Studio surfaces, registry, Foundry samples, and offline evidence
-under honest limitation docs (`KNOWN_TRUST_GAPS.md`, `docs/STATUS.md`).
+under honest limitation docs
+([`KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md),
+[`STATUS.md`](../STATUS.md)).
 
 ## Highlights
 
@@ -39,7 +41,8 @@ under honest limitation docs (`KNOWN_TRUST_GAPS.md`, `docs/STATUS.md`).
 3. Use registry ID `algebra.formal_rational_calculus`; treat legacy
    `symbolic_calculus` path names under `evidence/conformance/` as fixture
    directory names only.
-4. Read `KNOWN_TRUST_GAPS.md` before relying on any experimental capability.
+4. Read [`docs/security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md)
+   before relying on any experimental capability.
 
 ## Next (human / org)
 

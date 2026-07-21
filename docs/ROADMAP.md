@@ -1,7 +1,8 @@
 # Roadmap
 
-The normative roadmap is `docs/DELIVERY_ROADMAP.md`.
-Honest preview status: `docs/STATUS.md` and `KNOWN_TRUST_GAPS.md`.
+The normative roadmap is [`DELIVERY_ROADMAP.md`](DELIVERY_ROADMAP.md).
+Honest preview status: [`STATUS.md`](STATUS.md) and
+[`security/KNOWN_TRUST_GAPS.md`](security/KNOWN_TRUST_GAPS.md).
 
 The project advances in this order:
 
