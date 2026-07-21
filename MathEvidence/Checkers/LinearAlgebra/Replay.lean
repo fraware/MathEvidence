@@ -42,19 +42,21 @@ def replay (b : ReplayBundle) : ReplayReport :=
       assuranceMode := .kernelReplay
       detail := code.toWire ++ (if detail.isEmpty then "" else ": " ++ detail) }
 
-def replayBundleMetadata (b : ReplayBundle) (prov : Provenance) : Option BundleMetadata :=
+def replayBundleMetadata (b : ReplayBundle) (prov : Provenance)
+    (certContent : ContentDigest) : Option BundleMetadata :=
   let report := replay b
   if !report.accepted then none
   else
     some {
+      bundleVersion := "0.2.0"
       capability := b.request.capability
       requestDigest := b.request.requestDigest
       claimClass := b.request.claim.claimClass
       resultStatus := report.resultStatus
       assuranceMode := report.assuranceMode
       files := [{
-        path := "certificate/linear_algebra.json"
-        digest := b.certificate.requestDigest
+        path := "certificate.json"
+        digest := certContent
         mediaType := "application/json"
       }]
       provenance := prov

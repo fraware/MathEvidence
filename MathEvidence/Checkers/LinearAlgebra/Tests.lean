@@ -104,6 +104,15 @@ def cert_inv_bad : Certificate where
   requestDigest := req_inv.requestDigest
   inverse := some B_bad
 
+/-- Wrong-shape inverse matrix must be rejected before any semantic claim. -/
+def B_wrong_shape : Matrix :=
+  { nrows := 1, ncols := 2
+    entries := [[RatLit.ofInt 1, RatLit.ofInt 0]] }
+
+def cert_inv_wrong_shape : Certificate where
+  requestDigest := req_inv.requestDigest
+  inverse := some B_wrong_shape
+
 /-- Singular matrix with identity claimed as inverse must be rejected. -/
 def A_sing : Matrix :=
   { nrows := 2, ncols := 2
@@ -127,10 +136,39 @@ def cert_bad_digest : Certificate where
   requestDigest := ⟨"sha256:0000000000000000000000000000000000000000000000000000000000000000"⟩
   inverse := some B_diag
 
+/-- Dimension-mismatched system witness must be rejected. -/
+def cert_sys_short : Certificate where
+  requestDigest := req_sys.requestDigest
+  vector := some [RatLit.ofInt 1]
+
+/-- Transposed system matrix with the old solution no longer satisfies `A x = b`. -/
+def A_sys_transpose : Matrix :=
+  { nrows := 2, ncols := 2
+    entries :=
+      [[RatLit.ofInt 1, RatLit.ofInt 0],
+       [RatLit.ofInt 1, RatLit.ofInt 1]] }
+
+def claim_sys_transpose : Claim where
+  operation := .systemSolution
+  matrix := A_sys_transpose
+  rhs := b_sys
+  claimClass := .witness
+
+def req_sys_transpose : Request := Request.ofClaim claim_sys_transpose
+
+def cert_sys_transpose_old_solution : Certificate where
+  requestDigest := req_sys_transpose.requestDigest
+  vector := some x_sys
+
 /-- Zero vector is not a kernel witness. -/
 def cert_ker_zero : Certificate where
   requestDigest := req_ker.requestDigest
   vector := some (Vector.zero 2)
+
+/-- Kernel witness with the wrong dimension must be rejected. -/
+def cert_ker_short : Certificate where
+  requestDigest := req_ker.requestDigest
+  vector := some [RatLit.ofInt 1]
 
 theorem replay_inv :
     checkBool req_inv cert_inv = true := by native_decide
@@ -147,14 +185,26 @@ theorem replay_det :
 theorem reject_bad_inverse :
     checkBool req_inv cert_inv_bad = false := by native_decide
 
+theorem reject_wrong_shape_inverse :
+    checkBool req_inv cert_inv_wrong_shape = false := by native_decide
+
 theorem reject_singular_inverse :
     checkBool req_sing cert_sing_id = false := by native_decide
 
 theorem reject_bad_digest :
     checkBool req_inv cert_bad_digest = false := by native_decide
 
+theorem reject_system_dim_mismatch :
+    checkBool req_sys cert_sys_short = false := by native_decide
+
+theorem reject_system_transpose_old_solution :
+    checkBool req_sys_transpose cert_sys_transpose_old_solution = false := by native_decide
+
 theorem reject_zero_kernel :
     checkBool req_ker cert_ker_zero = false := by native_decide
+
+theorem reject_kernel_dim_mismatch :
+    checkBool req_ker cert_ker_short = false := by native_decide
 
 theorem replay_report_inv :
     (replay { request := req_inv, certificate := cert_inv }).accepted = true := by
@@ -167,5 +217,29 @@ theorem sound_inv :
 theorem sound_ker :
     Claim.proposition claim_ker cert_ker.inverse cert_ker.vector :=
   checkBool_sound req_ker cert_ker replay_ker
+
+/-- Ordinary semantic inverse example: accepted fixture evaluates to identity on both sides. -/
+theorem ordinary_inverse_eval :
+    (∃ M, A_diag.mulEval? B_diag = some M ∧ M = identityRats A_diag.nrows) ∧
+      (∃ M, B_diag.mulEval? A_diag = some M ∧ M = identityRats A_diag.nrows) :=
+  inverse_eval_sound req_inv cert_inv replay_inv rfl B_diag rfl
+
+/-- Ordinary semantic system example: accepted fixture evaluates `A * x = b`. -/
+theorem ordinary_system_eval :
+    ∃ ax bv, A_sys.mulVecEval? x_sys = some ax ∧
+      b_sys.eval? = some bv ∧ ax = bv :=
+  systemSolution_eval_sound req_sys cert_sys replay_sys rfl x_sys rfl
+
+/-- Ordinary semantic kernel example: accepted fixture is nonzero and maps to zero. -/
+theorem ordinary_kernel_eval :
+    ∃ av xv, A_ker.mulVecEval? v_ker = some av ∧
+      v_ker.eval? = some xv ∧ isZeroRats av = true ∧ isNonzeroRats xv = true :=
+  kernelVector_eval_sound req_ker cert_ker replay_ker rfl v_ker rfl
+
+/-- Ordinary determinant example: accepted fixture evaluates to the claimed determinant. -/
+theorem ordinary_det_eval :
+    ∃ detA dq, A_det.detEval? = some detA ∧
+      (RatLit.ofInt (-2)).toRat? = some dq ∧ detA = dq :=
+  detIdentity_eval_sound req_det cert_det replay_det rfl (RatLit.ofInt (-2)) rfl
 
 end MathEvidence.Checkers.LinearAlgebra.Tests

@@ -17,6 +17,14 @@ Establishes **witness-strength** exact linear-algebra facts over `ℚ`
 - Mode: `kernel_replay` (exact rational arithmetic in Lean).
 - Backends are untrusted generators only.
 
+## Current E2E status
+
+The checker currently operates on MathEvidence's custom exact matrix IR
+(`MathEvidence.IR.MatrixExpr.ExactMatrixIR`, an alias for the local
+`MatrixExpr.Matrix` type). End-to-end Meta reification from Lean/mathlib
+`Matrix (Fin m) (Fin n) ℚ` goals is scaffolded in `MathEvidence.Tactic`, but it
+is not implemented in this pass and must not be described as complete.
+
 ## Explicitly out of scope
 
 - Completeness of a kernel **basis**
