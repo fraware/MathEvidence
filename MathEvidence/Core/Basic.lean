@@ -14,6 +14,7 @@ import MathEvidence.Core.EvidenceId
 import MathEvidence.Core.JsonCanonical
 import MathEvidence.Core.JsonCanonicalTests
 import MathEvidence.Core.Provenance
+import MathEvidence.Core.Receipt
 import MathEvidence.Core.ResultStatus
 
 /-!

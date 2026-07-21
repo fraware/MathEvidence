@@ -45,11 +45,24 @@ def CapabilityId.finiteCounterexample : CapabilityId :=
 def CapabilityRef.finiteCounterexample : CapabilityRef :=
   ⟨.finiteCounterexample, .v0_1_0⟩
 
-/-- Milestone-5 symbolic calculus (derivative / antiderivative / recurrence / ODE). -/
-def CapabilityId.symbolicCalculus : CapabilityId :=
-  ⟨"analysis.symbolic_calculus"⟩
+/-- Formal rational calculus over rational-expression syntax. -/
+def CapabilityId.formalRationalCalculus : CapabilityId :=
+  ⟨"algebra.formal_rational_calculus"⟩
 
-def CapabilityRef.symbolicCalculus : CapabilityRef :=
-  ⟨.symbolicCalculus, .v0_1_0⟩
+/-- Deprecated alias — prefer `formalRationalCalculus`. -/
+abbrev CapabilityId.symbolicCalculus := CapabilityId.formalRationalCalculus
+
+def CapabilityRef.formalRationalCalculus : CapabilityRef :=
+  ⟨.formalRationalCalculus, .v0_1_0⟩
+
+/-- Deprecated alias — prefer `formalRationalCalculus`. -/
+abbrev CapabilityRef.symbolicCalculus := CapabilityRef.formalRationalCalculus
+
+/-- Analytic calculus capability for Mathlib `HasDerivAt` / ODE fragments. -/
+def CapabilityId.analyticCalculus : CapabilityId :=
+  ⟨"analysis.analytic_calculus"⟩
+
+def CapabilityRef.analyticCalculus : CapabilityRef :=
+  ⟨.analyticCalculus, .v0_1_0⟩
 
 end MathEvidence.Core
