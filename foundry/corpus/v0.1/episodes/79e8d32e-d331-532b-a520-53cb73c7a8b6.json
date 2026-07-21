@@ -2,12 +2,13 @@
   "schemaVersion": "0.1.0",
   "episodeId": "79e8d32e-d331-532b-a520-53cb73c7a8b6",
   "kind": "synthetic_negative",
-  "capturedAt": "2026-07-16T14:35:09Z",
+  "capturedAt": "2026-07-21T11:08:39Z",
   "acceptanceInfluence": false,
   "qualityTier": "Q1_schema_valid",
   "provenance": {
     "sourceKind": "synthetic",
     "sourcePath": "foundry/pipelines/negatives:claim_overreach",
+    "sourceFamily": "synthetic_negative",
     "license": "Apache-2.0",
     "publicationAllowed": true,
     "userConsent": "not_applicable",
@@ -16,9 +17,9 @@
   "contamination": {
     "inPublicLibrary": false,
     "publicLibraryRefs": [],
-    "trainEvalSeparation": "train",
+    "trainEvalSeparation": "held_out",
     "duplicateOf": null,
-    "contentDigest": "sha256:c1092541a5cc3e188f290e120ce3724b282b5cb9ec475909a8c45e72a4ca66c3",
+    "contentDigest": "sha256:7200653e155803c1fcf442c381baefe0e32a28402594dd2caf2e71e1f006791b",
     "benchmarkExclusion": true,
     "notes": "Synthetic negatives excluded from eval contamination."
   },
@@ -31,9 +32,9 @@
       "logic.sat_unsat",
       "logic.pseudo_boolean",
       "logic.smt",
-      "analysis.symbolic_calculus"
+      "algebra.formal_rational_calculus"
     ],
-    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedCapability": "algebra.formal_rational_calculus",
     "requestedClaim": "soundResult",
     "selectionRationale": "Requested completeness for a derivative candidate claim."
   },
@@ -47,11 +48,11 @@
     ],
     "humanReviewLabels": [
       "synthetic",
-      "correct_capability:analysis.symbolic_calculus"
+      "correct_capability:algebra.formal_rational_calculus"
     ]
   },
   "payload": {
-    "correctCapability": "analysis.symbolic_calculus",
+    "correctCapability": "algebra.formal_rational_calculus",
     "slug": "claim_overreach"
   },
   "notes": "Synthetic tool-selection error for Foundry negative data."

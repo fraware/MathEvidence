@@ -40,9 +40,9 @@ def finiteCounterexample : CapabilityPointer where
   leanCheckerPackage := "MathEvidence.Checkers.Counterexample"
 
 def symbolicCalculus : CapabilityPointer where
-  id := "analysis.symbolic_calculus"
+  id := "algebra.formal_rational_calculus"
   version := "0.1.0"
-  registryPath := "registry/capabilities/analysis.symbolic_calculus.json"
+  registryPath := "registry/capabilities/algebra.formal_rational_calculus.json"
   leanIRPackage := "MathEvidence.IR.CalculusExpr"
   leanCheckerPackage := "MathEvidence.Checkers.Calculus"
 

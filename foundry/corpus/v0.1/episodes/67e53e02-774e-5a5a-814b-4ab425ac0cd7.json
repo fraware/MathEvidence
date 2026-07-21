@@ -2,13 +2,14 @@
   "schemaVersion": "0.1.0",
   "episodeId": "67e53e02-774e-5a5a-814b-4ab425ac0cd7",
   "kind": "evidence_bundle",
-  "capturedAt": "2026-07-16T14:35:09Z",
+  "capturedAt": "2026-07-21T11:08:39Z",
   "acceptanceInfluence": false,
   "qualityTier": "Q2_formally_verified",
   "provenance": {
     "sourceKind": "committed_evidence",
     "sourcePath": "evidence/examples/finite_counterexample_nat_eq0",
-    "sourceDate": "2026-07-16T14:02:27Z",
+    "sourceFamily": "evidence_examples",
+    "sourceDate": "2026-07-16T16:01:22Z",
     "license": "Apache-2.0",
     "publicationAllowed": true,
     "userConsent": "not_applicable",
@@ -21,10 +22,10 @@
   "contamination": {
     "inPublicLibrary": false,
     "publicLibraryRefs": [],
-    "trainEvalSeparation": "held_out",
+    "trainEvalSeparation": "train",
     "duplicateOf": null,
     "contentDigest": "sha256:5ab893815595823fcb094acb742bf8cee587aab8e566931a00591112468ea530",
-    "benchmarkExclusion": true,
+    "benchmarkExclusion": false,
     "notes": "Split assignment applied by foundry.pipelines.split."
   },
   "toolUse": {
@@ -36,7 +37,7 @@
       "logic.sat_unsat",
       "logic.pseudo_boolean",
       "logic.smt",
-      "analysis.symbolic_calculus"
+      "algebra.formal_rational_calculus"
     ],
     "selectedCapability": "logic.finite_counterexample",
     "requestedClaim": "refutation",

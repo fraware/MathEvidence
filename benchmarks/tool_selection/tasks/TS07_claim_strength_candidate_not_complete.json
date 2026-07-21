@@ -3,12 +3,12 @@
   "goal": "Check an ODE candidate solution without asserting completeness of the solution family.",
   "goalFeatures": ["ode", "candidate", "no_completeness_overclaim"],
   "capabilityCandidates": [
-    "analysis.symbolic_calculus",
+    "algebra.formal_rational_calculus",
     "algebra.rational_equality",
     "system.shell"
   ],
   "expect": {
-    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedCapability": "algebra.formal_rational_calculus",
     "selectedOperationIn": ["ode_candidate", "ode_ic_check"],
     "requestedClaimIn": ["candidate", "soundResult"],
     "forbidClaims": ["complete", "completeness", "exhaustive"],

@@ -42,7 +42,7 @@ Color alone is insufficient; every badge includes text + detail
 ## Workflow (Product 09 §5)
 
 1. Select / generate an expression (`ProposeCalculusRequest`).
-2. Identify capability (`analysis.symbolic_calculus` or registry discovery).
+2. Identify capability (`algebra.formal_rational_calculus` or registry discovery).
 3. Inspect exact proposed Lean statement and assumptions (`ShowLeanProposition`, `ShowAssumptions`).
 4. Resolve ambiguities explicitly (domainConditions / ICs).
 5. Backend generates candidate (SymPy / Mathematica adapter).

@@ -1,4 +1,4 @@
-# Foundry Corpus Datasheet — v0.1 (sample)
+# Foundry Corpus Datasheet — v0.1
 
 ## Motivation
 
@@ -10,6 +10,8 @@ episodes for mathematical AI evaluation and diagnosis.
 Episodes are built from:
 
 - committed offline evidence under `evidence/examples/`;
+- conformance offline bundles under `evidence/conformance/` (request+certificate);
+- FiniteGraph certified refutations under `evidence/conjecture/finite_graph/`;
 - optional Foundry capture-hook records under `foundry/episodes/`;
 - labeled synthetic negatives for tool-selection failure modes.
 
@@ -24,22 +26,25 @@ theorem acceptance, checker results, or `ResultStatus`.
 | --- | --- |
 | Q0_raw | unreviewed |
 | Q1_schema_valid | schema-valid / metadata complete |
-| Q2_formally_verified | replayable committed evidence |
-| Q3_semantically_reviewed | human semantic review (none auto-assigned) |
-| Q4_library_grade | library-integrated (none auto-assigned) |
+| Q2_formally_verified | replayable evidence / certified rejection |
+| Q3_semantically_reviewed | human semantic review (not auto-assigned) |
+| Q4_library_grade | library-integrated (not auto-assigned) |
+
+Q3 review-ready packets live in `review_queue/` with status
+`awaiting_human_review`. They are **not** counted as Q3 until humans add
+`humanReviewLabels`.
 
 ## Contamination controls
 
-- Immutable `train` / `eval` / `held_out` splits in `splits.json`.
+- Immutable `train` / `eval` / `held_out` splits by **source family** (not random).
 - Content digests for duplicate detection.
 - Synthetic negatives labeled and excluded from eval contamination.
-- Flags for results already present in public libraries (default false for sample).
+- Flags for results already present in public libraries (default false).
 
 ## Licensing
 
-Apache-2.0 for MathEvidence-authored sample content. Solver artifact
-redistribution rights must be reviewed before including proprietary backends'
-raw outputs in future releases.
+Apache-2.0 for MathEvidence-authored content. Solver artifact redistribution
+rights must be reviewed before including proprietary backends' raw outputs.
 
 ## Intended uses
 
@@ -50,8 +55,9 @@ raw outputs in future releases.
 ## Out of scope / known limitations
 
 - Not a claim of live frontier acceleration.
-- Sample is small and algebra/calculus-skewed.
-- Q3/Q4 require human review queues not closed by this release.
+- FiniteGraph precision metrics are campaign-local, not field-level.
+- Q3/Q4 require human review; queue packets are unlabeled by design.
+- Independent evaluation: `python scripts/evaluate_foundry_corpus.py`.
 
 ## Maintenance
 

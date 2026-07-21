@@ -3,7 +3,7 @@
   "id": "assurance.symbolic_calculus.reference",
   "version": "0.1.0",
   "assuranceLevel": "verified_reference_algorithm",
-  "capabilityId": "analysis.symbolic_calculus",
+  "capabilityId": "algebra.formal_rational_calculus",
   "inputDomain": "CalculusExpr over RationalExpr with explicit domainConditions",
   "outputRelation": "Formal candidate identity (deriv / antideriv / recurrence / ODE+IC)",
   "termination": "Expression size within capability limits",

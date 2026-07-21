@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "f949754c-1342-5841-9033-341de867ef4e",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-21T11:08:39Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q2_formally_verified",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/conformance/symbolic_calculus/calculus_recurrence_n/bundle",
+    "sourceFamily": "conformance_calculus",
+    "sourceDate": "2026-07-16T14:23:43Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "algebra.formal_rational_calculus",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance. Ingested from evidence/conformance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "eval",
+    "duplicateOf": null,
+    "contentDigest": "sha256:7dd986441c09e81235edc86a3d0b21474040ecea89ee5c6e4168e68ddb9f3e60",
+    "benchmarkExclusion": true,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "algebra.formal_rational_calculus"
+    ],
+    "selectedCapability": "algebra.formal_rational_calculus",
+    "selectedOperation": "recurrence_identity",
+    "requestedClaim": "candidate",
+    "backendId": "sympy",
+    "selectionRationale": "Committed example for capability algebra.formal_rational_calculus."
+  },
+  "outcome": {
+    "resultStatus": "computed",
+    "claimClass": "candidate",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:44f233bd12bcd48f7f0e6809777153e17e437077f9c1150670d54234ef01f19a",
+    "replayable": true,
+    "negative": false,
+    "negativeKind": "none",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/conformance/symbolic_calculus/calculus_recurrence_n/bundle"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

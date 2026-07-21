@@ -58,6 +58,11 @@
           "const": true,
           "description": "Benchmark / eval splits MUST NOT be reshuffled after release."
         },
+        "policy": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Split assignment policy (e.g. source_family)."
+        },
         "train": {
           "type": "array",
           "items": { "type": "string" },
@@ -72,6 +77,14 @@
           "type": "array",
           "items": { "type": "string" },
           "maxItems": 100000
+        },
+        "bySourceFamily": {
+          "type": "object",
+          "description": "Per source-family counts in train/eval/held_out.",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": { "type": "integer", "minimum": 0 }
+          }
         }
       }
     },
@@ -84,7 +97,7 @@
     "benchmarkExclusions": {
       "type": "array",
       "items": { "type": "string", "maxLength": 512 },
-      "maxItems": 1024
+      "maxItems": 100000
     },
     "datasheet": { "type": "string", "maxLength": 1024 },
     "knownBiases": {

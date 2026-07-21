@@ -1,0 +1,82 @@
+{
+  "id": "IM52_x2_minus_2xy_plus_y2",
+  "family": "ideal_membership",
+  "description": "f = (x-y)^2 \u2208 \u27e8x-y\u27e9 with q = x-y.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          0,
+          2
+        ]
+      },
+      {
+        "coefficient": -2,
+        "exponents": [
+          1,
+          1
+        ]
+      },
+      {
+        "coefficient": 1,
+        "exponents": [
+          2,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": -1,
+          "exponents": [
+            0,
+            1
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": -1,
+          "exponents": [
+            0,
+            1
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

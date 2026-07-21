@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "0.1.0",
+  "agreementId": "fixture.lean-smt.emit",
+  "producer": {
+    "projectId": "lean-smt",
+    "role": "emitter"
+  },
+  "consumer": {
+    "projectId": "mathevidence",
+    "role": "consumer"
+  },
+  "federationLevel": "fixture",
+  "requestSemantics": "Shared federation-request.schema.json claim envelopes; Lean-SMT owns SMT semantics.",
+  "evidenceFormat": "schemas/federation-certificate.schema.json + evidence/federation/examples/lean_smt_emit.json",
+  "digestBinding": "requestDigest via mathevidence-jcs-0.2 over request payload excluding digest",
+  "checkerOwner": "lean-smt (external); MathEvidence does not replace the checker",
+  "versioning": "semver on capability + schema pins; historical bundles retain versions",
+  "contacts": {
+    "support": "fixture-only — see docs/architecture/federation-agreements.md",
+    "security": "fixture-only — no live traffic"
+  },
+  "conformanceCorpus": "evidence/federation/examples/lean_smt_*.json",
+  "releasePolicy": "Fixture harness only (integrationMode=fixture_only). Live upgrade requires human agreement row.",
+  "humanAgreementStatus": "open",
+  "notes": "Engineering fixture peer record. Does NOT close ME-404 live federation."
+}

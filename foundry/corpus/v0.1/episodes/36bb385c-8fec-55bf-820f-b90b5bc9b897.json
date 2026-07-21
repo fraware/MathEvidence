@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "36bb385c-8fec-55bf-820f-b90b5bc9b897",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-21T11:08:39Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q1_schema_valid",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/conformance/finite_counterexample/hash_mismatch/bundle",
+    "sourceFamily": "conformance_finite_cex",
+    "sourceDate": "2026-07-16T16:01:22Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "logic.finite_counterexample",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance. Ingested from evidence/conformance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "held_out",
+    "duplicateOf": null,
+    "contentDigest": "sha256:590bcc306b041be6533a12ac2911fca49e3c007caa9342df4b0b457f070fd0e8",
+    "benchmarkExclusion": true,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "algebra.formal_rational_calculus"
+    ],
+    "selectedCapability": "logic.finite_counterexample",
+    "requestedClaim": "refutation",
+    "backendId": "sympy",
+    "selectionRationale": "Committed example for capability logic.finite_counterexample."
+  },
+  "outcome": {
+    "resultStatus": "rejected",
+    "claimClass": "refutation",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "replayable": true,
+    "negative": true,
+    "negativeKind": "rejected_certificate",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/conformance/finite_counterexample/hash_mismatch/bundle"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

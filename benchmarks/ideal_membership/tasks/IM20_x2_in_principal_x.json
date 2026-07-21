@@ -1,0 +1,50 @@
+{
+  "id": "IM20_x2_in_principal_x",
+  "family": "ideal_membership",
+  "description": "f = x^2 \u2208 \u27e8x\u27e9 with multiplier x (non-trivial degree-1 witness).",
+  "claimClass": "membership",
+  "variables": [
+    "x"
+  ],
+  "target": {
+    "varCount": 1,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          2
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

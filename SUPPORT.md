@@ -2,8 +2,8 @@
 
 ## How to get help
 
-1. Read `README.md`, `docs/PROJECT_SPEC.md`, and `SPEC_INDEX.md` for normative
-   intent and document map.
+1. Read `README.md`, `docs/PROJECT_SPEC.md`, and `docs/SPEC_INDEX.md` for
+   normative intent and document map. Start at `docs/README.md` for navigation.
 2. Search existing GitHub issues and discussions before opening a new one.
 3. For usage questions and design clarification, open a GitHub Discussion or an
    issue using the question template.

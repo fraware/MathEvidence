@@ -9,7 +9,7 @@ relation, reference algorithm steps, soundness, and explicitly null completeness
 | [rational-equality.md](rational-equality.md) | `algebra.rational_equality` | `MathEvidence.Assurance.RationalEquality` |
 | [linear-algebra.md](linear-algebra.md) | `algebra.linear_algebra` | `MathEvidence.Assurance.LinearAlgebra` |
 | [finite-counterexample.md](finite-counterexample.md) | `logic.finite_counterexample` | `MathEvidence.Assurance.Counterexample` |
-| [symbolic-calculus.md](symbolic-calculus.md) | `analysis.symbolic_calculus` | `MathEvidence.Assurance.Calculus` |
+| [symbolic-calculus.md](symbolic-calculus.md) | `algebra.formal_rational_calculus` | `MathEvidence.Assurance.Calculus` |
 
 Machine-readable mirrors: `registry/assurance/`. Validate with
 `just assurance-validate`.

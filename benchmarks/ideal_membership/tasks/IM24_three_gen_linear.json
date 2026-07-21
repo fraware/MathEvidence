@@ -1,0 +1,126 @@
+{
+  "id": "IM24_three_gen_linear",
+  "family": "ideal_membership",
+  "description": "f = 2x + 3y - z \u2208 \u27e8x,y,z\u27e9 with constant multipliers.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y",
+    "z"
+  ],
+  "target": {
+    "varCount": 3,
+    "terms": [
+      {
+        "coefficient": -1,
+        "exponents": [
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "coefficient": 3,
+        "exponents": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "coefficient": 2,
+        "exponents": [
+          1,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 2,
+          "exponents": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 3,
+          "exponents": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": -1,
+          "exponents": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

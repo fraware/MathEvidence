@@ -1,0 +1,29 @@
+{
+  "id": "IM06_x_times_y_plus_z",
+  "family": "ideal_membership",
+  "description": "f = xy + xz is in Ideal.span {x} with multiplier y + z.",
+  "claimClass": "membership",
+  "variables": ["x", "y", "z"],
+  "target": {
+    "varCount": 3,
+    "terms": [
+      {"coefficient": 1, "exponents": [1, 1, 0]},
+      {"coefficient": 1, "exponents": [1, 0, 1]}
+    ]
+  },
+  "generators": [
+    {"varCount": 3, "terms": [{"coefficient": 1, "exponents": [1, 0, 0]}]}
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 3,
+      "terms": [
+        {"coefficient": 1, "exponents": [0, 1, 0]},
+        {"coefficient": 1, "exponents": [0, 0, 1]}
+      ]
+    }
+  ],
+  "baselineNotes": [
+    "Multivariate principal ideal with a two-term multiplier."
+  ]
+}

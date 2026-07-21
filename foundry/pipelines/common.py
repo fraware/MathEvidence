@@ -24,10 +24,10 @@ KNOWN_CAPABILITIES = [
     "logic.sat_unsat",
     "logic.pseudo_boolean",
     "logic.smt",
-    "analysis.symbolic_calculus",
+    "algebra.formal_rational_calculus",
 ]
 
-# Immutable split seeds — do not reshuffle after public release.
+# Legacy path-suffix split seeds (source-family policy lives in split.py).
 SPLIT_HELD_OUT_SUFFIXES = (
     "finite_counterexample_nat_eq0",
     "calculus_ode_y_eq_x",

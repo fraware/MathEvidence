@@ -6,6 +6,7 @@ Authors: MathEvidence contributors
 import MathEvidence.Checkers.RationalEquality.Check
 import MathEvidence.Checkers.RationalEquality.Replay
 import MathEvidence.Checkers.RationalEquality.Soundness
+import MathEvidence.Checkers.RationalEquality.SpecProp
 import MathEvidence.IR.RationalExpr.Syntax
 
 namespace MathEvidence.Checkers.RationalEquality.Tests
@@ -99,7 +100,7 @@ theorem replay_report_add0 :
 
 /-- Soundness instantiation for the add0 certificate. -/
 theorem sound_add0 :
-    Claim.proposition claim_add0 cert_add0.denomFactors :=
+    Claim.proposition req_add0.claim cert_add0.denomFactors :=
   checkBool_sound req_add0 cert_add0 replay_add0
 
 end MathEvidence.Checkers.RationalEquality.Tests

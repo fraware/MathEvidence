@@ -12,9 +12,8 @@ explicitly scopes both a problem confirmation and a concrete workflow win.
 
 **Process:** follow `docs/validation/outreach-checklist.md` § “§21.10
 workflow win”. Rubric for statement reviews (if any) remains
-`docs/validation/expert-review-rubric.md`. G1 board:
-`docs/validation/g1-blocker-status.md` (A5 = `BLOCKED_WAITING` until real
-consent).
+`docs/validation/expert-review-rubric.md`. Status: see
+`docs/STATUS.md` / `docs/security/KNOWN_TRUST_GAPS.md` (0 entries until real consent).
 
 ## What counts
 

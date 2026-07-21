@@ -1,0 +1,68 @@
+{
+  "id": "IM38_ax_plus_by_family",
+  "family": "ideal_membership",
+  "description": "f = 8*(3x+1y) \u2208 \u27e83x+1y\u27e9.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 8,
+        "exponents": [
+          0,
+          1
+        ]
+      },
+      {
+        "coefficient": 24,
+        "exponents": [
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1
+          ]
+        },
+        {
+          "coefficient": 3,
+          "exponents": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 8,
+          "exponents": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

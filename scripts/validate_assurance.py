@@ -18,7 +18,7 @@ OWNED_CAPABILITIES = {
     "algebra.rational_equality",
     "algebra.linear_algebra",
     "logic.finite_counterexample",
-    "analysis.symbolic_calculus",
+    "algebra.formal_rational_calculus",
 }
 
 

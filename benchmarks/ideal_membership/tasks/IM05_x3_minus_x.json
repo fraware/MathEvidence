@@ -1,0 +1,29 @@
+{
+  "id": "IM05_x3_minus_x",
+  "family": "ideal_membership",
+  "description": "f = x^3 - x is in Ideal.span {x^2 - 1} with multiplier x.",
+  "claimClass": "membership",
+  "variables": ["x"],
+  "target": {
+    "varCount": 1,
+    "terms": [
+      {"coefficient": 1, "exponents": [3]},
+      {"coefficient": -1, "exponents": [1]}
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 1,
+      "terms": [
+        {"coefficient": 1, "exponents": [2]},
+        {"coefficient": -1, "exponents": [0]}
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {"varCount": 1, "terms": [{"coefficient": 1, "exponents": [1]}]}
+  ],
+  "baselineNotes": [
+    "A one-generator factor witness; native search is factorization, MathEvidence checks multiplication."
+  ]
+}

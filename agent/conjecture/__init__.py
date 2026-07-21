@@ -7,16 +7,27 @@ from typing import Any
 from adapters.common.hypothesis_util import find_counterexample
 from adapters.common.lean_mirrors import check_finite_counterexample
 
+from agent.conjecture.finite_graph import (  # noqa: F401
+    GENERATOR_VERSION as FINITE_GRAPH_GENERATOR_VERSION,
+    calibrated_candidates,
+    load_atlas,
+    run_falsification_batch,
+)
+
 __all__ = [
     "STATES",
+    "FINITE_GRAPH_GENERATOR_VERSION",
+    "calibrated_candidates",
     "certify_refutation",
     "find_counterexample",
+    "load_atlas",
     "mark_bounded_verified",
     "mark_formally_proved",
     "mark_open_problem",
     "new_episode",
     "precision_accounting",
     "run_family_campaign",
+    "run_falsification_batch",
     "to_candidate",
 ]
 

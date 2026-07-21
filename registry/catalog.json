@@ -9,7 +9,8 @@
     "capabilities/logic.sat_unsat.json",
     "capabilities/logic.pseudo_boolean.json",
     "capabilities/logic.smt.json",
-    "capabilities/analysis.symbolic_calculus.json"
+    "capabilities/algebra.formal_rational_calculus.json",
+    "capabilities/analysis.analytic_calculus.json"
   ],
   "backends": [
     "backends/sympy.json",

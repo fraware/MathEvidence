@@ -1,0 +1,43 @@
+{
+  "bundleVersion": "0.1.0",
+  "capability": {
+    "id": "algebra.groebner_membership",
+    "version": "0.1.0"
+  },
+  "requestDigest": "sha256:b3728da504fd93582e2d6bd02f75e51669100e44f557e40a46a2028ba18e99cb",
+  "claimClass": "candidate",
+  "resultStatus": "computed",
+  "assuranceMode": "kernel_replay",
+  "files": [
+    {
+      "path": "request.json",
+      "digest": "sha256:b3daaee4f39624cc1225c26712db9abeefcbace24643f2175d2a670bfc4f5ebd",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "candidate.json",
+      "digest": "sha256:e89a64abf87779758b8e77c39b8924d74a72cf541fa882b0abd5544613419867",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "certificate.json",
+      "digest": "sha256:d669155ff8d29ab9b509202adf77abeefdf82cf07638f016e62458409b7bfb1c",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:6558c7ba96c2f8619957c6c22c572ee41a9a90d4039f4d2458b32e36673abee9",
+      "mediaType": "text/markdown"
+    }
+  ],
+  "provenance": {
+    "leanVersion": "4.x-pending",
+    "libraryRevision": "workspace",
+    "checkerVersion": "0.1.0",
+    "backend": {
+      "backendId": "sympy",
+      "adapterVersion": "0.1.0",
+      "deterministic": true
+    }
+  }
+}

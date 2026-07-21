@@ -31,15 +31,25 @@ def measure() -> dict:
     total = len(episodes)
     q2_share = round(q2 / total, 4) if total else 0.0
 
+    review_index = CORPUS / "review_queue" / "index.json"
+    q3_queue = 0
+    if review_index.is_file():
+        q3_queue = int(
+            json.loads(review_index.read_text(encoding="utf-8")).get("packetCount") or 0
+        )
+
     # Build quality gates (engineering)
     checks = {
         "acceptance_influence_false": release.get("acceptanceInfluence") is False,
         "splits_immutable": splits.get("immutable") is True,
+        "splits_source_family": splits.get("policy") == "source_family",
         "has_datasheet": (CORPUS / "DATASHEET.md").is_file(),
         "has_contamination": (CORPUS / "contamination.json").is_file(),
         "has_license": (CORPUS / "LICENSE.txt").is_file(),
         "episode_count_ge_12": total >= 12,
+        "q2_ge_500": q2 >= 500,
         "no_auto_q3_q4": q3 == 0 and q4 == 0,
+        "q3_review_queue_ge_100": q3_queue >= 100,
     }
     return {
         "metric": "foundry_corpus_quality",
@@ -47,13 +57,16 @@ def measure() -> dict:
         "episode_count": total,
         "tierComposition": tiers,
         "q2_formally_verified_share": q2_share,
+        "q3_review_queue_packets": q3_queue,
         "contaminationSummary": cont,
         "build_quality_checks": checks,
         "build_quality_pass": all(checks.values()),
         "claims": {
-            "sample_corpus": True,
+            "sample_corpus": False,
+            "scaled_q2_corpus": q2 >= 500,
             "trained_selector_uplift": False,
             "funding_secured": False,
+            "q3_human_labels": False,
         },
     }
 

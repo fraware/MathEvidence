@@ -45,20 +45,25 @@ def replay (b : ReplayBundle) : ReplayReport :=
       assuranceMode := .kernelReplay
       detail := code.toWire ++ (if detail.isEmpty then "" else ": " ++ detail) }
 
-/-- Build minimal bundle metadata after a successful replay. -/
-def replayBundleMetadata (b : ReplayBundle) (prov : Provenance) : Option BundleMetadata :=
+/-- Build minimal bundle metadata after a successful replay.
+
+Requires an explicit certificate **content** digest — never reuse `requestDigest`
+as a file content digest (P0-8). -/
+def replayBundleMetadata (b : ReplayBundle) (prov : Provenance)
+    (certContent : ContentDigest) : Option BundleMetadata :=
   let report := replay b
   if !report.accepted then none
   else
     some {
+      bundleVersion := "0.2.0"
       capability := b.request.capability
       requestDigest := b.request.requestDigest
       claimClass := b.request.claim.claimClass
       resultStatus := report.resultStatus
       assuranceMode := report.assuranceMode
       files := [{
-        path := "certificate/rational_equality.json"
-        digest := b.certificate.requestDigest
+        path := "certificate.json"
+        digest := certContent
         mediaType := "application/json"
       }]
       provenance := prov

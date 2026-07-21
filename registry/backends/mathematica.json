@@ -34,7 +34,7 @@
       "supportLevel": "live_generator_complete"
     },
     {
-      "id": "analysis.symbolic_calculus",
+      "id": "algebra.formal_rational_calculus",
       "versions": ["0.1.0"],
       "deterministic": true,
       "supportLevel": "live_generator_complete"

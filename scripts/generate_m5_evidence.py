@@ -17,7 +17,7 @@ from adapters.common.canonical import bind_request_digest  # noqa: E402
 from adapters.common.limits import ResourceLimits, ResourceTracker  # noqa: E402
 from adapters.sympy.adapter import compute_symbolic_calculus  # noqa: E402
 
-CAP = "analysis.symbolic_calculus"
+CAP = "algebra.formal_rational_calculus"
 CAP_VER = "0.1.0"
 
 

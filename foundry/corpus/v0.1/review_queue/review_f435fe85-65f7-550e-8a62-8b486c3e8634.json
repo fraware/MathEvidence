@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "0.1.0",
+  "packetId": "review:f435fe85-65f7-550e-8a62-8b486c3e8634",
+  "episodeId": "f435fe85-65f7-550e-8a62-8b486c3e8634",
+  "status": "awaiting_human_review",
+  "createdAt": "2026-07-21T11:08:43Z",
+  "sourceFamily": "evidence_examples",
+  "qualityTierAtQueue": "Q2_formally_verified",
+  "requestedReview": "semantically_reviewed",
+  "humanReviewLabels": [],
+  "checklist": [
+    "Statement fidelity to the mathematical claim",
+    "Witness / certificate interpretation correctness",
+    "No overclaim of unbounded theorems from bounded evidence",
+    "Contamination / public-library novelty judgment"
+  ],
+  "artifactRefs": [
+    "evidence/examples/calculus_ode_y_eq_x"
+  ],
+  "notes": "Unlabeled queue item. Do NOT count as Q3 until a human adds humanReviewLabels including semantically_reviewed.",
+  "acceptanceInfluence": false
+}

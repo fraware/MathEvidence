@@ -2,12 +2,13 @@
   "schemaVersion": "0.1.0",
   "episodeId": "690001ce-cc83-59fd-bef4-3b62b1668cbc",
   "kind": "synthetic_negative",
-  "capturedAt": "2026-07-16T14:35:09Z",
+  "capturedAt": "2026-07-21T11:08:39Z",
   "acceptanceInfluence": false,
   "qualityTier": "Q1_schema_valid",
   "provenance": {
     "sourceKind": "synthetic",
     "sourcePath": "foundry/pipelines/negatives:rational_vs_la",
+    "sourceFamily": "synthetic_negative",
     "license": "Apache-2.0",
     "publicationAllowed": true,
     "userConsent": "not_applicable",
@@ -16,7 +17,7 @@
   "contamination": {
     "inPublicLibrary": false,
     "publicLibraryRefs": [],
-    "trainEvalSeparation": "train",
+    "trainEvalSeparation": "held_out",
     "duplicateOf": null,
     "contentDigest": "sha256:6d1ed7290d1eb2b6c06f45e4a9320406696897e815760fecd35fb5baddbfd051",
     "benchmarkExclusion": true,
@@ -31,7 +32,7 @@
       "logic.sat_unsat",
       "logic.pseudo_boolean",
       "logic.smt",
-      "analysis.symbolic_calculus"
+      "algebra.formal_rational_calculus"
     ],
     "selectedCapability": "algebra.linear_algebra",
     "requestedClaim": "soundResult",

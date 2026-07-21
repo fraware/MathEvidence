@@ -1,0 +1,54 @@
+{
+  "id": "IM51_false_membership_xfail",
+  "family": "ideal_membership",
+  "description": "f = x \u2209 \u27e8x^2, y^2\u27e9; false membership xfail.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": null,
+  "expectedStatus": "xfail",
+  "xfailReason": "false membership; no witness expected",
+  "baselineNotes": [
+    "Target overridden to x^5; with gens \u27e8x^2,y^2\u27e9 this is false membership."
+  ]
+}

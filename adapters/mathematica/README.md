@@ -1,10 +1,13 @@
 # Mathematica adapter (wolframscript live path)
 
 Closed v0 backend for `algebra.rational_equality` (RFC 0001),
-`algebra.linear_algebra`, `logic.finite_counterexample`, and live
-`analysis.symbolic_calculus` derivative/antiderivative candidates. Evidence
-contracts match the SymPy adapter — never a trusted Boolean.
-Candidate calculus results never imply completeness or uniqueness.
+`algebra.linear_algebra`, `logic.finite_counterexample`, live
+`algebra.formal_rational_calculus` derivative/antiderivative candidates, and
+`algebra.groebner_membership` (PolynomialReduce → sparse multipliers when
+`MATHEVIDENCE_WOLFRAMSCRIPT` is set; otherwise fixture/`backend_unavailable`,
+not advertised as live in the registry). Evidence contracts match the SymPy
+adapter — never a trusted Boolean. Candidate calculus results never imply
+completeness or uniqueness.
 
 ## Modes
 

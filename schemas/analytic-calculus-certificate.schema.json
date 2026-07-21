@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/analytic-calculus-certificate-v0.json",
+  "title": "Analytic calculus certificate (experimental fragment)",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schemaVersion", "capability", "requestDigest"],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "capability": {
+      "const": "analysis.analytic_calculus"
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "rules": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "odeResidual": { "type": "object" },
+    "provenance": { "type": "object" }
+  }
+}

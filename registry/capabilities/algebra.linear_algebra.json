@@ -2,6 +2,12 @@
   "id": "algebra.linear_algebra",
   "version": "0.1.0",
   "status": "experimental",
+  "lifecycle": "experimental",
+  "role": "custom_ir_checker",
+  "externalSearchEssential": true,
+  "implementationLevel": "custom_ir",
+  "adoptionLevel": "none",
+  "federationLevel": "fixture",
   "domain": "algebra.linear_algebra",
   "inputIR": {
     "name": "MatrixExpr",
@@ -11,7 +17,7 @@
     "leanPackage": "MathEvidence.IR.MatrixExpr"
   },
   "admissibility": {
-    "summary": "Exact linear-algebra witnesses over ℚ: inverse, system solution, kernel vector, det identity. Completeness/rank/basis claims are separate claim classes.",
+    "summary": "Custom MatrixExpr/RatLit IR witnesses over ℚ (inverse, system, kernel, det). Not Mathlib Matrix goal reification yet. Completeness/rank/basis claims are separate claim classes.",
     "rejectedConstructs": [
       "floating_point_matrices",
       "approximate_svd",
@@ -22,7 +28,11 @@
       "operation-specific invertibility / consistency side goals"
     ]
   },
-  "claimClasses": ["witness", "candidate", "soundResult"],
+  "claimClasses": [
+    "witness",
+    "candidate",
+    "soundResult"
+  ],
   "evidenceSchema": "schemas/linear-algebra-certificate.schema.json",
   "requestSchema": "schemas/linear-algebra-request.schema.json",
   "checker": {
@@ -31,7 +41,9 @@
     "assurance": "kernel_replay",
     "soundnessStatus": "present"
   },
-  "assuranceModes": ["kernel_replay"],
+  "assuranceModes": [
+    "kernel_replay"
+  ],
   "limits": {
     "maxMatrixDim": 64,
     "maxIntegerDigits": 4096,
@@ -76,28 +88,36 @@
   ],
   "supportClaims": {
     "declared": true,
-    "installedHint": "Lean MathEvidence.IR.MatrixExpr + MathEvidence.Checkers.LinearAlgebra; python -m adapters.sympy | python -m adapters.mathematica | python -m adapters.sage",
+    "installedHint": "Lean MathEvidence.IR.MatrixExpr + MathEvidence.Checkers.LinearAlgebra; Agent registry dispatch routes implemented backends",
     "conformanceVerified": true,
     "backends": [
       {
         "id": "sympy",
-        "versions": ["0.1.0"],
+        "versions": [
+          "0.1.0"
+        ],
         "supportLevel": "conformance_verified"
       },
       {
         "id": "sage",
-        "versions": ["0.1.0"],
-        "supportLevel": "live_generator_complete"
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "implemented"
       },
       {
         "id": "mathematica",
-        "versions": ["0.1.0"],
-        "supportLevel": "live_generator_complete"
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "implemented"
       }
     ]
   },
   "compatibility": {
     "policy": "semver_request_digest",
     "minProtocolVersion": "0.1.0"
-  }
+  },
+  "semanticReview": "absent",
+  "trustReview": "absent"
 }

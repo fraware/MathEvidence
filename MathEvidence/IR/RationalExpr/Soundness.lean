@@ -38,11 +38,12 @@ theorem defined_toFrac_eval (env : Env ℚ) (e : Expr) (h : Defined env e) :
     · simp [evalPoly, Poly.one, Poly.eval_C]
     · simp [eval, evalPoly, Poly.eval_C, Poly.one]
   | rat n d =>
-    have hd : d ≠ 0 := h
+    have hd : d ≠ 0 := h.1
+    have hcast : (d : ℚ) ≠ 0 := h.2
     refine ⟨Poly.C n, Poly.C (Int.ofNat d), ?_, ?_, ?_⟩
     · simp [toFrac, hd]
-    · simpa [evalPoly, Poly.eval_C] using (by exact_mod_cast hd : (d : ℚ) ≠ 0)
-    · simp [eval, evalPoly, Poly.eval_C, hd]
+    · simpa [evalPoly, Poly.eval_C] using hcast
+    · simp [eval, evalPoly, Poly.eval_C, hd, hcast]
   | neg e ih =>
     obtain ⟨n, d, ht, hd, he⟩ := ih h
     refine ⟨Poly.neg n, d, ?_, hd, ?_⟩

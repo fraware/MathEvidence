@@ -1,0 +1,295 @@
+{
+  "generatorVersion": "finite_graph.v0.2.0",
+  "episodes": [
+    {
+      "familyId": "finite.simple_graph_fin3",
+      "candidatePred": {
+        "tag": "or",
+        "left": {
+          "tag": "or",
+          "left": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 0
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          },
+          "right": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 1
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 2
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "state": "falsified",
+      "certifiedRefutationId": "fin3_has_edge",
+      "searchBound": 0,
+      "notes": "Falsified by certified finite counterexample (Lean checker owns truth).",
+      "authorityStatus": "lean_checker_mirror",
+      "candidateId": "fin3_has_edge",
+      "candidateKind": "false_universal",
+      "generatorVersion": "finite_graph.v0.2.0"
+    },
+    {
+      "familyId": "finite.simple_graph_fin3",
+      "candidatePred": {
+        "tag": "eq",
+        "left": {
+          "tag": "var",
+          "idx": 0
+        },
+        "right": {
+          "tag": "lit",
+          "v": {
+            "tag": "bool",
+            "v": true
+          }
+        }
+      },
+      "state": "falsified",
+      "certifiedRefutationId": "fin3_edge0_always",
+      "searchBound": 0,
+      "notes": "Falsified by certified finite counterexample (Lean checker owns truth).",
+      "authorityStatus": "lean_checker_mirror",
+      "candidateId": "fin3_edge0_always",
+      "candidateKind": "false_universal",
+      "generatorVersion": "finite_graph.v0.2.0"
+    },
+    {
+      "familyId": "finite.simple_graph_fin3",
+      "candidatePred": {
+        "tag": "and",
+        "left": {
+          "tag": "and",
+          "left": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 0
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          },
+          "right": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 1
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 2
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "state": "falsified",
+      "certifiedRefutationId": "fin3_complete",
+      "searchBound": 0,
+      "notes": "Falsified by certified finite counterexample (Lean checker owns truth).",
+      "authorityStatus": "lean_checker_mirror",
+      "candidateId": "fin3_complete",
+      "candidateKind": "false_universal",
+      "generatorVersion": "finite_graph.v0.2.0"
+    },
+    {
+      "familyId": "finite.simple_graph_fin3",
+      "candidatePred": {
+        "tag": "and",
+        "left": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 0
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 1
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "state": "falsified",
+      "certifiedRefutationId": "fin3_edge0_and_edge1",
+      "searchBound": 0,
+      "notes": "Falsified by certified finite counterexample (Lean checker owns truth).",
+      "authorityStatus": "lean_checker_mirror",
+      "candidateId": "fin3_edge0_and_edge1",
+      "candidateKind": "false_universal",
+      "generatorVersion": "finite_graph.v0.2.0"
+    },
+    {
+      "familyId": "finite.simple_graph_fin3",
+      "candidatePred": {
+        "tag": "or",
+        "left": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 0
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 1
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "state": "falsified",
+      "certifiedRefutationId": "fin3_edge0_or_edge1",
+      "searchBound": 0,
+      "notes": "Falsified by certified finite counterexample (Lean checker owns truth).",
+      "authorityStatus": "lean_checker_mirror",
+      "candidateId": "fin3_edge0_or_edge1",
+      "candidateKind": "false_universal",
+      "generatorVersion": "finite_graph.v0.2.0"
+    },
+    {
+      "familyId": "finite.simple_graph_fin3",
+      "candidatePred": {
+        "tag": "eq",
+        "left": {
+          "tag": "var",
+          "idx": 0
+        },
+        "right": {
+          "tag": "var",
+          "idx": 0
+        }
+      },
+      "state": "formally_proved",
+      "certifiedRefutationId": null,
+      "searchBound": 0,
+      "notes": "Reusable theorem: edge_var_refl_fin3",
+      "candidateId": "fin3_edge0_refl",
+      "candidateKind": "tautology",
+      "generatorVersion": "finite_graph.v0.2.0"
+    },
+    {
+      "familyId": "finite.simple_graph_fin3",
+      "candidatePred": {
+        "tag": "or",
+        "left": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 0
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": false
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 0
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "state": "open",
+      "certifiedRefutationId": null,
+      "searchBound": 8,
+      "notes": "Holds on the finite family; not lifted as an unbounded theorem here.",
+      "candidateId": "fin3_excluded_middle_edge0",
+      "candidateKind": "bounded_survivor",
+      "generatorVersion": "finite_graph.v0.2.0"
+    }
+  ],
+  "authorityStatus": "lean_checker_mirror"
+}

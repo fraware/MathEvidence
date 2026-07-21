@@ -47,4 +47,5 @@ just tool-selection
 ## Docs
 
 See `docs/foundry/` for frontier collaboration notes, contribution tracking,
-maintenance/ownership plan, and exit-gate status (met vs deferred human criteria).
+and maintenance/ownership plan. Honest open exits: `docs/STATUS.md` and
+`docs/security/KNOWN_TRUST_GAPS.md`.

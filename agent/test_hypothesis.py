@@ -74,7 +74,11 @@ def test_lattice_claims_minimal_false() -> None:
 
 
 def test_prove_sufficient_lean_authoritative() -> None:
-    from agent.hypothesis import prove_sufficient_python
+    from agent.hypothesis import (
+        SUFFICIENCY_CHECKER_DECL,
+        SUFFICIENCY_THEOREM_DECL,
+        prove_sufficient_python,
+    )
 
     request = {
         "lhs": {
@@ -97,9 +101,49 @@ def test_prove_sufficient_lean_authoritative() -> None:
         },
     }
     conds = propose_conditions_from_request(request)
-    out = prove_sufficient_python(request, conds)
+    out = prove_sufficient_python(
+        request,
+        conds,
+        receipt_ref={"receiptId": "recv-test-1"},
+        axiom_report_id="axiom-report-demo",
+    )
     assert out["authorityStatus"] == "lean_checker_mirror"
+    assert out["outcome"] == "proved"
     assert out["sufficient"] is True
+    assert out["evidence"]["theoremDecl"] == SUFFICIENCY_THEOREM_DECL
+    assert out["evidence"]["checkerDecl"] == SUFFICIENCY_CHECKER_DECL
+    assert out["evidence"]["receiptId"] == "recv-test-1"
+    assert out["evidence"]["axiomReportId"] == "axiom-report-demo"
+
+
+def test_prove_sufficient_refuses_denom_coverage_alone() -> None:
+    """Coverage of denoms must not mark sufficiency when poly identity fails."""
+    from agent.hypothesis import prove_sufficient_python
+
+    request = {
+        "lhs": {
+            "tag": "div",
+            "num": {"tag": "var", "name": "x"},
+            "den": {"tag": "var", "name": "x"},
+        },
+        "rhs": {"tag": "int", "value": "2"},
+    }
+    # Correct denom coverage for x/x, but identity x/x = 2 is false.
+    conditions = [
+        {
+            "id": "c0",
+            "expr": {"tag": "var", "name": "x"},
+            "role": "original_division",
+            "source": "backend_proposed",
+            "status": "proposed",
+        }
+    ]
+    out = prove_sufficient_python(request, conditions)
+    assert out["denominatorsCovered"] is True
+    assert out["sufficient"] is False
+    assert out["outcome"] == "failed"
+    assert out["evidence"]["detail"] == "poly_identity_failed_despite_denom_coverage"
+    assert any("denom coverage alone" in n for n in out["notes"])
 
 
 def test_family_campaign_precision_accounting() -> None:
@@ -226,3 +270,22 @@ def test_la_inverse_mirror() -> None:
         "provenance": {"backendId": "test", "adapterVersion": "0.1.0"},
     }
     assert check_linear_algebra(req, cert)
+
+
+def test_make_condition_node_typed_kinds() -> None:
+    from agent.hypothesis import CONDITION_NODE_KINDS, make_condition_node
+
+    node = make_condition_node(
+        node_id="c0",
+        kind="nonzero_denominator",
+        expr={"tag": "var", "name": "x"},
+        lean_prop_hint="x ≠ 0",
+    )
+    assert node["kind"] in CONDITION_NODE_KINDS
+    assert node["leanPropHint"] == "x ≠ 0"
+    assert node["sufficiencyRequires"] == "lean_proof_and_receipt"
+    try:
+        make_condition_node(node_id="bad", kind="not_a_kind", expr={})
+        raise AssertionError("expected ValueError")
+    except ValueError:
+        pass

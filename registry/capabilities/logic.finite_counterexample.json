@@ -2,6 +2,12 @@
   "id": "logic.finite_counterexample",
   "version": "0.1.0",
   "status": "experimental",
+  "lifecycle": "experimental",
+  "role": "custom_ir_checker",
+  "externalSearchEssential": true,
+  "implementationLevel": "custom_ir",
+  "adoptionLevel": "none",
+  "federationLevel": "fixture",
   "domain": "logic.finite_domains",
   "inputIR": {
     "name": "FinitePredicate",
@@ -10,7 +16,7 @@
     "leanPackage": "MathEvidence.IR.FinitePredicate"
   },
   "admissibility": {
-    "summary": "Typed finite witness against a false formal conjecture on an explicit finite carrier. Exhaustive absence proofs are out of scope.",
+    "summary": "Custom FinitePredicate IR witness against a false conjecture on an explicit finite carrier. Not general Mathlib goal reification yet. Exhaustive absence proofs are out of scope.",
     "rejectedConstructs": [
       "infinite_domain_search",
       "exhaustive_absence_as_completeness",
@@ -21,7 +27,11 @@
       "Lean-evaluable original predicate"
     ]
   },
-  "claimClasses": ["witness", "candidate", "refutation"],
+  "claimClasses": [
+    "witness",
+    "candidate",
+    "refutation"
+  ],
   "evidenceSchema": "schemas/finite-counterexample-certificate.schema.json",
   "requestSchema": "schemas/finite-counterexample-request.schema.json",
   "checker": {
@@ -30,7 +40,9 @@
     "assurance": "kernel_replay",
     "soundnessStatus": "present"
   },
-  "assuranceModes": ["kernel_replay"],
+  "assuranceModes": [
+    "kernel_replay"
+  ],
   "limits": {
     "maxDomainCardinality": 1024,
     "maxWallTimeMs": 60000,
@@ -72,28 +84,36 @@
   ],
   "supportClaims": {
     "declared": true,
-    "installedHint": "Lean MathEvidence.IR.FinitePredicate + MathEvidence.Checkers.Counterexample; python -m adapters.sympy | python -m adapters.mathematica | python -m adapters.sage",
+    "installedHint": "Lean MathEvidence.IR.FinitePredicate + MathEvidence.Checkers.Counterexample; Agent thin compute: sympy only until registry-driven dispatch lands",
     "conformanceVerified": true,
     "backends": [
       {
         "id": "sympy",
-        "versions": ["0.1.0"],
+        "versions": [
+          "0.1.0"
+        ],
         "supportLevel": "conformance_verified"
       },
       {
         "id": "sage",
-        "versions": ["0.1.0"],
-        "supportLevel": "live_generator_complete"
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "implemented"
       },
       {
         "id": "mathematica",
-        "versions": ["0.1.0"],
-        "supportLevel": "live_generator_complete"
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "implemented"
       }
     ]
   },
   "compatibility": {
     "policy": "semver_request_digest",
     "minProtocolVersion": "0.1.0"
-  }
+  },
+  "semanticReview": "absent",
+  "trustReview": "absent"
 }

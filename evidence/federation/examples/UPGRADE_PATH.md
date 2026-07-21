@@ -5,7 +5,7 @@ Do not claim live external emit/consume, maintainer sign-off, or process
 integration until the checklist below is complete for each peer.
 
 **Agreements ledger:** `docs/architecture/federation-agreements.md`  
-**Readiness board:** `docs/validation/p4-blocker-status.md`  
+**Status:** live agreements remain OPEN — see `docs/STATUS.md` / `docs/security/KNOWN_TRUST_GAPS.md`  
 **Collaboration notes:** `docs/architecture/collaboration-cslib-lean-auto-smt.md`
 
 ## Current mode

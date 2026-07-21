@@ -12,6 +12,14 @@ Establishes a **refutation** of a finite predicate at a typed witness
 - Mode: `kernel_replay` (Lean evaluates the original predicate).
 - Backends are untrusted generators only.
 
+## Current E2E status
+
+The checker currently operates on MathEvidence's custom
+`MathEvidence.IR.FinitePredicate` representation plus explicit finite witness
+assignments. End-to-end Meta reification from arbitrary Lean predicates and
+witness extraction is scaffolded in `MathEvidence.Tactic`, but it is not
+implemented in this pass and must not be described as complete.
+
 ## Explicitly out of scope
 
 - Exhaustive search

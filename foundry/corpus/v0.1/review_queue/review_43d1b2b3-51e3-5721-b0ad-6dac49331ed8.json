@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "0.1.0",
+  "packetId": "review:43d1b2b3-51e3-5721-b0ad-6dac49331ed8",
+  "episodeId": "43d1b2b3-51e3-5721-b0ad-6dac49331ed8",
+  "status": "awaiting_human_review",
+  "createdAt": "2026-07-21T11:08:43Z",
+  "sourceFamily": "evidence_examples",
+  "qualityTierAtQueue": "Q2_formally_verified",
+  "requestedReview": "semantically_reviewed",
+  "humanReviewLabels": [],
+  "checklist": [
+    "Statement fidelity to the mathematical claim",
+    "Witness / certificate interpretation correctness",
+    "No overclaim of unbounded theorems from bounded evidence",
+    "Contamination / public-library novelty judgment"
+  ],
+  "artifactRefs": [
+    "evidence/examples/ideal_membership_mathematica_offline_xy"
+  ],
+  "notes": "Unlabeled queue item. Do NOT count as Q3 until a human adds humanReviewLabels including semantically_reviewed.",
+  "acceptanceInfluence": false
+}

@@ -2,12 +2,13 @@
   "schemaVersion": "0.1.0",
   "episodeId": "bd3fa2e7-9d4f-5cdd-83ff-c7ca35f66203",
   "kind": "synthetic_negative",
-  "capturedAt": "2026-07-16T14:35:09Z",
+  "capturedAt": "2026-07-21T11:08:39Z",
   "acceptanceInfluence": false,
   "qualityTier": "Q1_schema_valid",
   "provenance": {
     "sourceKind": "synthetic",
     "sourcePath": "foundry/pipelines/negatives:shell_escape",
+    "sourceFamily": "synthetic_negative",
     "license": "Apache-2.0",
     "publicationAllowed": true,
     "userConsent": "not_applicable",
@@ -16,7 +17,7 @@
   "contamination": {
     "inPublicLibrary": false,
     "publicLibraryRefs": [],
-    "trainEvalSeparation": "train",
+    "trainEvalSeparation": "held_out",
     "duplicateOf": null,
     "contentDigest": "sha256:80caeddde072735f34b2a7a22280c4392aba18ae3e78dd438988e80dceb34c4f",
     "benchmarkExclusion": true,
@@ -31,7 +32,7 @@
       "logic.sat_unsat",
       "logic.pseudo_boolean",
       "logic.smt",
-      "analysis.symbolic_calculus"
+      "algebra.formal_rational_calculus"
     ],
     "selectedCapability": "system.shell",
     "requestedClaim": "soundResult",

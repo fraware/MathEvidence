@@ -1,0 +1,29 @@
+{
+  "id": "IM07_xy_times_x_plus_y",
+  "family": "ideal_membership",
+  "description": "f = x^2 y + x y^2 is in Ideal.span {xy} with multiplier x + y.",
+  "claimClass": "membership",
+  "variables": ["x", "y"],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {"coefficient": 1, "exponents": [2, 1]},
+      {"coefficient": 1, "exponents": [1, 2]}
+    ]
+  },
+  "generators": [
+    {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 1]}]}
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {"coefficient": 1, "exponents": [1, 0]},
+        {"coefficient": 1, "exponents": [0, 1]}
+      ]
+    }
+  ],
+  "baselineNotes": [
+    "Checks multiplication by a non-monomial multiplier."
+  ]
+}

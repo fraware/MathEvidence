@@ -30,7 +30,7 @@ Lean status without an exact Lean proposition string is also **Ambiguous**
 
 ## Calculus vertical
 
-Studio proposes `analysis.symbolic_calculus` requests. Branch/singularity
+Studio proposes `algebra.formal_rational_calculus` requests. Branch/singularity
 conditions live in `domainConditions` and are always shown near the result.
 Candidate acceptance never implies completeness of antiderivatives, uniqueness
 of ODE solutions, or uniqueness of recurrence closed forms.

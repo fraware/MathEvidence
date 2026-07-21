@@ -1,0 +1,20 @@
+{
+  "id": "IM04_constant_in_unit_ideal",
+  "family": "ideal_membership",
+  "description": "f = 1 is in Ideal.span {1} with multiplier 1.",
+  "claimClass": "membership",
+  "variables": ["x"],
+  "target": {
+    "varCount": 1,
+    "terms": [{"coefficient": 1, "exponents": [0]}]
+  },
+  "generators": [
+    {"varCount": 1, "terms": [{"coefficient": 1, "exponents": [0]}]}
+  ],
+  "expectedMultipliers": [
+    {"varCount": 1, "terms": [{"coefficient": 1, "exponents": [0]}]}
+  ],
+  "baselineNotes": [
+    "Sanity unit-ideal membership; used to smoke-test the harness."
+  ]
+}

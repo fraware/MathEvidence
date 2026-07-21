@@ -50,7 +50,7 @@ def reference_select(task: dict[str, Any]) -> dict[str, Any]:
         }
     if tid == "TS04_calculus_derivative_candidate":
         return {
-            "selectedCapability": "analysis.symbolic_calculus",
+            "selectedCapability": "algebra.formal_rational_calculus",
             "selectedOperation": "derivative_candidate",
             "requestedClaim": "candidate",
             "toolCalls": 1,
@@ -72,7 +72,7 @@ def reference_select(task: dict[str, Any]) -> dict[str, Any]:
         }
     if tid == "TS07_claim_strength_candidate_not_complete":
         return {
-            "selectedCapability": "analysis.symbolic_calculus",
+            "selectedCapability": "algebra.formal_rational_calculus",
             "selectedOperation": "ode_candidate",
             "requestedClaim": "candidate",
             "toolCalls": 1,
@@ -194,7 +194,7 @@ def main() -> int:
     print(f"tool-selection ok ({total} tasks, metric=verified_selection_accuracy)")
     print(
         "NOTE: reference policy validates the harness; held-out model improvement "
-        "vs baseline remains a research exit criterion (see docs/foundry/exit-gate-status.md)."
+        "vs baseline remains a research exit criterion (see docs/STATUS.md / docs/security/KNOWN_TRUST_GAPS.md)."
     )
     return 0
 

@@ -3,42 +3,22 @@ Copyright (c) 2026 MathEvidence contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: MathEvidence contributors
 -/
-import Mathlib.Algebra.Field.Rat
-import Mathlib.Data.List.Basic
 import Mathlib.Tactic.Ring
+import Mathlib.Data.List.Basic
 import MathEvidence.IR.RationalExpr.Eval
-import MathEvidence.IR.RationalExpr.Syntax
-
-namespace MathEvidence.IR.RationalExpr
+import MathEvidence.IR.RationalExpr.PolyCompute
 
 /-!
 Computable sparse polynomials with evaluation homomorphism lemmas used by
 `Soundness` / `RationalEquality`.
+
+Computational definitions (`polyEqual`, `toFrac`, `combineLike`, …) live in
+`PolyCompute.lean` so Lake exes can link without Mathlib.
 -/
 
-structure Term where
-  vars : List Nat
-  coeff : Int
-  deriving DecidableEq, Repr, Inhabited
-
-abbrev Poly := List Term
+namespace MathEvidence.IR.RationalExpr
 
 namespace Poly
-
-def C (n : Int) : Poly := if n = 0 then [] else [{ vars := [], coeff := n }]
-def X (i : Nat) : Poly := [{ vars := [i], coeff := 1 }]
-def zero : Poly := []
-def one : Poly := C 1
-
-def insertSorted (i : Nat) : List Nat → List Nat
-  | [] => [i]
-  | j :: js => if i ≤ j then i :: j :: js else j :: insertSorted i js
-
-def sortNats : List Nat → List Nat
-  | [] => []
-  | i :: is => insertSorted i (sortNats is)
-
-def Term.sortVars (t : Term) : Term := { t with vars := sortNats t.vars }
 
 def evalTerm (env : Env ℚ) (t : Term) : ℚ :=
   (t.coeff : ℚ) * t.vars.foldl (fun acc i => acc * env i) (1 : ℚ)
@@ -47,34 +27,6 @@ def eval (env : Env ℚ) (p : Poly) : ℚ :=
   p.foldl (fun acc t => acc + evalTerm env t) 0
 
 @[simp] theorem eval_nil (env : Env ℚ) : eval env ([] : Poly) = 0 := rfl
-
-def mulTerm (t u : Term) : Term :=
-  Term.sortVars { vars := t.vars ++ u.vars, coeff := t.coeff * u.coeff }
-
-def add (p q : Poly) : Poly := p ++ q
-def neg (p : Poly) : Poly := p.map fun t => { t with coeff := -t.coeff }
-def sub (p q : Poly) : Poly := add p (neg q)
-def mul (p q : Poly) : Poly := p.flatMap fun t => q.map (mulTerm t)
-
-def pow (p : Poly) : Nat → Poly
-  | 0 => one
-  | k + 1 => mul (pow p k) p
-
-def combineLike (p : Poly) : Poly :=
-  match p with
-  | [] => []
-  | t :: rest =>
-    let t := Term.sortVars t
-    let same := rest.filter fun u => (Term.sortVars u).vars = t.vars
-    let others := rest.filter fun u => (Term.sortVars u).vars ≠ t.vars
-    let c := t.coeff + same.foldl (fun acc u => acc + u.coeff) 0
-    let others' := combineLike others
-    if c = 0 then others' else { vars := t.vars, coeff := c } :: others'
-termination_by p.length
-decreasing_by
-  all_goals
-    simp_wf
-    exact Nat.lt_succ_of_le (List.length_filter_le _ _)
 
 /-! ### Evaluation helpers -/
 
@@ -344,7 +296,7 @@ theorem eval_combineLike (env : Env ℚ) (p : Poly) :
             (same.foldl (fun acc u => acc + u.coeff) 0 : Int) * monom env t'.vars := by
         refine eval_sum_same env t'.vars same ?_
         intro u hu
-        simpa using (List.of_mem_filter hu)
+        exact of_decide_eq_true (List.mem_filter.mp hu).2
       have ht : evalTerm env t = (t'.coeff : ℚ) * monom env t'.vars := by
         simpa [t', ht'] using evalTerm_eq_coeff_monom env t
       have hc_eval :
@@ -387,44 +339,6 @@ theorem eval_eq_zero_of_combineLike_nil (env : Env ℚ) (p : Poly)
 
 end Poly
 
-def toFrac : Expr → Option (Poly × Poly)
-  | .var i => some (Poly.X i, Poly.one)
-  | .int n => some (Poly.C n, Poly.one)
-  | .rat n d =>
-    if d = 0 then none
-    else some (Poly.C n, Poly.C (Int.ofNat d))
-  | .neg e => do
-    let (n, d) ← toFrac e
-    pure (Poly.neg n, d)
-  | .add a b => do
-    let (n1, d1) ← toFrac a
-    let (n2, d2) ← toFrac b
-    pure (Poly.add (Poly.mul n1 d2) (Poly.mul n2 d1), Poly.mul d1 d2)
-  | .sub a b => do
-    let (n1, d1) ← toFrac a
-    let (n2, d2) ← toFrac b
-    pure (Poly.sub (Poly.mul n1 d2) (Poly.mul n2 d1), Poly.mul d1 d2)
-  | .mul a b => do
-    let (n1, d1) ← toFrac a
-    let (n2, d2) ← toFrac b
-    pure (Poly.mul n1 n2, Poly.mul d1 d2)
-  | .pow b k => do
-    let (n, d) ← toFrac b
-    pure (Poly.pow n k, Poly.pow d k)
-  | .div a b => do
-    let (n1, d1) ← toFrac a
-    let (n2, d2) ← toFrac b
-    pure (Poly.mul n1 d2, Poly.mul d1 n2)
-
-def differenceNumerator (lhs rhs : Expr) : Option Poly := do
-  let (nl, dl) ← toFrac lhs
-  let (nr, dr) ← toFrac rhs
-  pure (Poly.sub (Poly.mul nl dr) (Poly.mul nr dl))
-
-def polyEqual (lhs rhs : Expr) : Bool :=
-  match differenceNumerator lhs rhs with
-  | some p => decide (Poly.combineLike p = [])
-  | none => false
 
 def evalPoly (env : Env ℚ) (p : Poly) : ℚ := Poly.eval env p
 

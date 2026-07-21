@@ -27,6 +27,13 @@ structure Matrix where
   entries : List Vector
   deriving DecidableEq, Repr, Inhabited
 
+/-- Exact custom matrix IR used by MathEvidence linear-algebra checkers.
+
+This is intentionally an alias for this namespace's `Matrix`, not mathlib's
+`Matrix (Fin m) (Fin n) ℚ`. Tactic-level Meta reification should target
+mathlib matrices and then lower into this exact IR through validators. -/
+abbrev ExactMatrixIR := Matrix
+
 /-- Number of scalar entries (resource measure). -/
 def Matrix.size (A : Matrix) : Nat :=
   A.nrows * A.ncols

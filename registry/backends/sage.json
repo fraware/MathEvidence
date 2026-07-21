@@ -14,27 +14,27 @@
   },
   "supportedCapabilities": [
     {
-      "id": "algebra.rational_equality",
-      "versions": ["0.1.0"],
-      "deterministic": true,
-      "supportLevel": "placeholder"
-    },
-    {
       "id": "algebra.linear_algebra",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "live_generator_complete"
+      "supportLevel": "implemented"
     },
     {
       "id": "logic.finite_counterexample",
       "versions": ["0.1.0"],
       "deterministic": true,
-      "supportLevel": "live_generator_complete"
+      "supportLevel": "implemented"
+    },
+    {
+      "id": "algebra.groebner_membership",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "implemented"
     }
   ],
   "regeneration": {
     "status": "optional_ci",
-    "notes": "Sage optional. LA/CEX live generators are complete for the declared fragment when sage is installed; rational equality remains scaffold/best-effort (placeholder). Without Sage, adapter runs fixture mode (JSON-RPC up; live compute unavailable). No committed Sage evidence bundles yet."
+    "notes": "Sage optional. Rational equality is NOT advertised (spec 05: implement+conformance or remove). LA/CEX/ideal may run when sage is installed; without Sage, adapter runs fixture mode for those capabilities."
   },
   "conformance": {
     "suite": "evidence/conformance/rfc0001",
@@ -42,8 +42,7 @@
     "recordedAt": null
   },
   "knownDefects": [
-    "Live Sage rational compute is scaffold/best-effort (zero-numerator identities); CI defaults to fixture mode when sage is not installed.",
-    "No offline_fixtures_passing Sage bundles under evidence/; dual-backend rational evidence today is SymPy + Mathematica fixtures only.",
-    "LA/CEX live_generator_complete requires sage executable; public CI without Sage stays fixture/unavailable (same honesty pattern as Mathematica without Wolfram)."
+    "algebra.rational_equality deliberately un-advertised for Sage (scaffold exists in adapter for local experiments only; no offline fixtures; not in supportClaims).",
+    "LA/CEX/ideal: live only when sage binary present — not claimed live_generator_complete without conformance matrix evidence."
   ]
 }

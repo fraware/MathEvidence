@@ -1,6 +1,6 @@
 # Process isolation (adapter supervisors)
 
-Normative companion to [SECURITY_AND_TRUST_MODEL.md](../SECURITY_AND_TRUST_MODEL.md) §5
+Normative companion to [SECURITY_AND_TRUST_MODEL.md](../security/SECURITY_AND_TRUST_MODEL.md) §5
 and [TESTING_AND_CI.md](../TESTING_AND_CI.md) resource-limit layers.
 
 ## Documented limits

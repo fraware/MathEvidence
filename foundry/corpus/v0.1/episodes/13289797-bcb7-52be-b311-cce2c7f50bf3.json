@@ -2,12 +2,13 @@
   "schemaVersion": "0.1.0",
   "episodeId": "13289797-bcb7-52be-b311-cce2c7f50bf3",
   "kind": "evidence_bundle",
-  "capturedAt": "2026-07-16T14:35:09Z",
+  "capturedAt": "2026-07-21T11:08:39Z",
   "acceptanceInfluence": false,
   "qualityTier": "Q2_formally_verified",
   "provenance": {
     "sourceKind": "committed_evidence",
     "sourcePath": "evidence/examples/rational_equality_basic",
+    "sourceFamily": "evidence_examples",
     "sourceDate": "2026-07-16T12:22:27Z",
     "license": "Apache-2.0",
     "publicationAllowed": true,
@@ -36,7 +37,7 @@
       "logic.sat_unsat",
       "logic.pseudo_boolean",
       "logic.smt",
-      "analysis.symbolic_calculus"
+      "algebra.formal_rational_calculus"
     ],
     "selectedCapability": "algebra.rational_equality",
     "requestedClaim": "soundResult",

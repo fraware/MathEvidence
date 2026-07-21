@@ -77,7 +77,7 @@ def _has_evidence_for_capability(cap: str | None) -> bool:
         "algebra.rational_equality": ["rational_equality", "rfc0001"],
         "algebra.linear_algebra": ["linear_algebra"],
         "logic.finite_counterexample": ["finite_counterexample", "counterexample"],
-        "analysis.symbolic_calculus": ["symbolic_calculus", "calculus_"],
+        "algebra.formal_rational_calculus": ["symbolic_calculus", "calculus_"],
     }
     keys = needles.get(cap, [cap.replace(".", "_")])
     for root in (EVIDENCE / "examples", EVIDENCE / "conformance"):

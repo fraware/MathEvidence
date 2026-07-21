@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "a6e00aae-a74b-5bea-af92-ace3f3021fa9",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-21T11:08:39Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q2_formally_verified",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/conformance/linear_algebra/exact_system_solution/bundle",
+    "sourceFamily": "conformance_linear_algebra",
+    "sourceDate": "2026-07-16T16:01:22Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "algebra.linear_algebra",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance. Ingested from evidence/conformance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "eval",
+    "duplicateOf": null,
+    "contentDigest": "sha256:20d2d7ac9572363674d70b560160b704efa8f7764885a0c110a9482669fcc096",
+    "benchmarkExclusion": true,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "algebra.formal_rational_calculus"
+    ],
+    "selectedCapability": "algebra.linear_algebra",
+    "selectedOperation": "system_solution",
+    "requestedClaim": "witness",
+    "backendId": "sympy",
+    "selectionRationale": "Committed example for capability algebra.linear_algebra."
+  },
+  "outcome": {
+    "resultStatus": "computed",
+    "claimClass": "witness",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:e8ff8e89817c1f85556799bc65c4231cff0a91c9d4653dfa6f428a77996c1a84",
+    "replayable": true,
+    "negative": false,
+    "negativeKind": "none",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/conformance/linear_algebra/exact_system_solution/bundle"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

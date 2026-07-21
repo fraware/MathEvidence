@@ -68,7 +68,7 @@ def _direct_compute(backend: str, request: dict[str, Any]) -> dict[str, Any]:
             return compute_linear_algebra(request, tracker).result
         if cap == "logic.finite_counterexample":
             return compute_finite_counterexample(request, tracker).result
-        if cap == "analysis.symbolic_calculus":
+        if cap == "algebra.formal_rational_calculus":
             return compute_symbolic_calculus(request, tracker).result
         return compute_rational_equality(request, tracker, schemas=schemas).result
 
@@ -80,7 +80,7 @@ def _direct_compute(backend: str, request: dict[str, Any]) -> dict[str, Any]:
             compute_symbolic_calculus,
         )
 
-        if cap == "analysis.symbolic_calculus":
+        if cap == "algebra.formal_rational_calculus":
             return compute_symbolic_calculus(request, tracker, schemas=schemas).result
         if cap == "algebra.linear_algebra":
             return compute_linear_algebra(request, tracker, schemas=schemas).result

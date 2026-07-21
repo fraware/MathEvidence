@@ -20,7 +20,7 @@ inductive CheckResult where
   deriving DecidableEq, Repr, Inhabited
 
 def digestOk (req : Request) (cert : Certificate) : Bool :=
-  digestsEqual cert.requestDigest req.requestDigest
+  cert.requestDigest == req.requestDigest
 
 def wellFormedOk (req : Request) (cert : Certificate) : Bool :=
   req.claim.matrix.wellFormed &&

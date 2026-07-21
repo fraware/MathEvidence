@@ -1,0 +1,20 @@
+{
+  "generatorVersion": "finite_graph.v0.2.0",
+  "note": "Sample expanded falsification precision; not field-level performance.",
+  "precisionAccounting": {
+    "familyId": "finite.simple_graph_fin5",
+    "proposed": 64,
+    "falsified": 64,
+    "boundedVerified": 0,
+    "formallyProved": 0,
+    "openProblems": 0,
+    "precisionRate": 1.0,
+    "notes": [
+      "precisionRate = falsified/proposed among campaign candidates.",
+      "bounded_verified and open are not unbounded theorems.",
+      "formally_proved requires an explicit reusable theorem reference.",
+      "Precision is campaign-local; do not claim field-level performance from tiny batches.",
+      "generatorVersion=finite_graph.v0.2.0"
+    ]
+  }
+}

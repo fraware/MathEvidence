@@ -1,0 +1,1 @@
+{"capability":"logic.finite_counterexample","capabilityVersion":"0.1.0","provenance":{"adapterVersion":"0.1.0","backendId":"sympy","backendVersion":"1.14.0","deterministic":true,"generatedAt":"2026-07-16T16:01:22Z"},"requestDigest":"sha256:0000000000000000000000000000000000000000000000000000000000000000","schemaVersion":"0.1.0","witness":{"assignment":[{"tag":"nat","v":1}]}}

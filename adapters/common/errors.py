@@ -26,25 +26,38 @@ STABLE_CODES: dict[str, ErrorCategory] = {
     "branch_convention_required": ErrorCategory.SEMANTIC,
     "partial_operation_unresolved": ErrorCategory.SEMANTIC,
     "claim_strength_unavailable": ErrorCategory.SEMANTIC,
+    "goal_mismatch": ErrorCategory.SEMANTIC,
+    "side_condition_unproved": ErrorCategory.SEMANTIC,
+    "encoding_version_unsupported": ErrorCategory.SEMANTIC,
     # Backend
     "backend_unavailable": ErrorCategory.BACKEND,
     "backend_timeout": ErrorCategory.BACKEND,
     "backend_crash": ErrorCategory.BACKEND,
     "backend_unsupported": ErrorCategory.BACKEND,
     "backend_nondeterministic_failure": ErrorCategory.BACKEND,
-    # Evidence
+    # Evidence / replay (spec 03 hard-fail set)
     "malformed_evidence": ErrorCategory.EVIDENCE,
     "request_digest_mismatch": ErrorCategory.EVIDENCE,
     "candidate_rejected": ErrorCategory.EVIDENCE,
     "certificate_rejected": ErrorCategory.EVIDENCE,
+    "certificate_decode_failed": ErrorCategory.EVIDENCE,
     "completeness_not_established": ErrorCategory.EVIDENCE,
     "approximation_bound_missing": ErrorCategory.EVIDENCE,
+    "bundle_not_found": ErrorCategory.EVIDENCE,
+    "bundle_path_forbidden": ErrorCategory.EVIDENCE,
+    "bundle_path_rejected": ErrorCategory.EVIDENCE,
+    "manifest_schema_invalid": ErrorCategory.EVIDENCE,
+    "content_digest_mismatch": ErrorCategory.EVIDENCE,
+    "capability_version_unsupported": ErrorCategory.EVIDENCE,
+    "checker_receipt_invalid": ErrorCategory.EVIDENCE,
+    "axiom_policy_violation": ErrorCategory.EVIDENCE,
     # System
     "schema_version_unsupported": ErrorCategory.SYSTEM,
     "resource_limit_exceeded": ErrorCategory.SYSTEM,
     "replay_dependency_missing": ErrorCategory.SYSTEM,
     "assurance_mode_unavailable": ErrorCategory.SYSTEM,
     "cancelled": ErrorCategory.SYSTEM,
+    "operation_unsupported": ErrorCategory.SYSTEM,
 }
 
 

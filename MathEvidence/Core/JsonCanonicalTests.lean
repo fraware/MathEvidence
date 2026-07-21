@@ -40,11 +40,23 @@ theorem vector_nested :
       "sha256:50eec61bff879f09b426688576e68cb27f5bb53ac50ae26d571ff233f1e8cab4" = true := by
   native_decide
 
-/-- Empty-object digest sanity (not in vectors file; cross-check with Python). -/
+/-- Empty-object digest sanity (cross-check with Python). -/
 theorem empty_object_canonical :
     (match JsonCanonical.canonicalString (Json.mkObj ([] : List (String × Json))) with
      | .ok s => s == "{}"
      | .error _ => false) = true := by
+  native_decide
+
+/-- Vector `empty-object` from conformance suite. -/
+theorem vector_empty_object :
+    expectDigest "{}"
+      "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a" = true := by
+  native_decide
+
+/-- Vector `negative-int` from conformance suite. -/
+theorem vector_negative_int :
+    expectDigest "{\"n\":-42}"
+      "sha256:fbd5ac2f42479228ed2d3b495816fbda98a9cb9d71d523869a37e784790e9f2c" = true := by
   native_decide
 
 end MathEvidence.Core.JsonCanonicalTests

@@ -10,22 +10,22 @@ Operational companion to:
 Completing outreach is **human work**. This checklist only makes the process
 repeatable. Do **not** invent confirmations, signatures, or workflow wins.
 
-**One-sitting pack:** [`human-gates-one-sitting.md`](human-gates-one-sitting.md)  
-**Live G1 board:** [`g1-blocker-status.md`](g1-blocker-status.md)  
-**Copy/paste emails:** [`outreach-email-templates.md`](outreach-email-templates.md)
+**Status:** [`../STATUS.md`](../STATUS.md) · [`../security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md)  
+**Copy/paste emails:** [`outreach-email-templates.md`](outreach-email-templates.md)  
+**Stable promotion path:** [`stable-capability-checklist.md`](stable-capability-checklist.md)
 
 ## Before contacting anyone
 
 - [ ] Bottleneck inventory reviewed (`docs/validation/bottlenecks.md`)
-- [ ] Trust-model one-pager ready (`docs/SECURITY_AND_TRUST_MODEL.md`)
+- [ ] Trust-model one-pager ready (`docs/security/SECURITY_AND_TRUST_MODEL.md`)
 - [ ] Demo path ready: offline `mathevidence` replay + optional discovery with
       SymPy on a laptop (`MATHEVIDENCE_DISCOVERY=1`); or point reviewers at
       `just replay` / `MathEvidence.Tactic.Examples`
 - [ ] Consent language prepared (public listing vs anonymize)
 - [ ] Know which ask you need: problem confirmation (M0), workflow win
       (§21.10), signed statement review (domain gate), or all three
-- [ ] Open [`g1-blocker-status.md`](g1-blocker-status.md) — A4/A5 stay
-      `BLOCKED_WAITING` until real replies land
+- [ ] Keep `user-confirmation.md` / `workflow-win-log.md` open — leave rows
+      empty until real replies land
 
 ## Candidate sources (≥3 distinct non-maintainers)
 
@@ -98,6 +98,5 @@ Spare slots if you need a fourth/fifth:
 | Trust-model second-area review | **0** — template only (`TRUST-MODEL-TEMPLATE.md`) |
 | Capability `stable` | **not flipped** — engineering packaging only |
 
-Owners and matrix rows: `docs/validation/remaining-spec-matrix.md` (R2 human
-gates). Draft promotion PR text (not applied):
-`docs/validation/stable-promotion-draft.md`.
+Owners and matrix rows: `docs/validation/remaining-spec-matrix.md`.
+Promotion path (not applied): `docs/validation/stable-capability-checklist.md`.

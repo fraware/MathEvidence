@@ -30,10 +30,16 @@
       "supportLevel": "conformance_verified"
     },
     {
-      "id": "analysis.symbolic_calculus",
+      "id": "algebra.formal_rational_calculus",
       "versions": ["0.1.0"],
       "deterministic": true,
       "supportLevel": "conformance_verified"
+    },
+    {
+      "id": "algebra.groebner_membership",
+      "versions": ["0.1.0"],
+      "deterministic": true,
+      "supportLevel": "implemented"
     }
   ],
   "regeneration": {

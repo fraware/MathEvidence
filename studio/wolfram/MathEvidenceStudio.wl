@@ -30,7 +30,7 @@ ShowAssumptions::usage = "ShowAssumptions[request] lists domainConditions / know
 CertificationSurface::usage =
   "CertificationSurface[payload] → ordered transcript: proposition, assumptions, epistemic.";
 ProposeCalculusRequest::usage =
-  "ProposeCalculusRequest[op, expr, opts] builds an analysis.symbolic_calculus request skeleton.";
+  "ProposeCalculusRequest[op, expr, opts] builds an algebra.formal_rational_calculus request skeleton.";
 CertifyInLean::usage =
   "CertifyInLean[bundleOrRequest] runs Agent API compute/replay; never labels Certified without Lean.";
 InspectBundle::usage = "InspectBundle[bundleDir] displays epistemic state and assumptions.";
@@ -197,7 +197,7 @@ ProposeCalculusRequest[op_String, expr_, opts : OptionsPattern[]] := Module[
    leanProp = OptionValue["LeanProposition"]},
   <|
     "schemaVersion" -> "0.1.0",
-    "capability" -> "analysis.symbolic_calculus",
+    "capability" -> "algebra.formal_rational_calculus",
     "capabilityVersion" -> "0.1.0",
     "operation" -> op,
     "variables" -> vars,

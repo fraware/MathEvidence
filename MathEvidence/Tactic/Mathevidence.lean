@@ -5,6 +5,7 @@ Authors: MathEvidence contributors
 -/
 import Lean
 import MathEvidence.Tactic.Discovery
+import MathEvidence.Tactic.Replay
 import MathEvidence.Tactic.Status
 
 /-!
@@ -26,34 +27,62 @@ namespace MathEvidence.Tactic
 open Lean Meta Elab Tactic
 open MathEvidence.Core
 open MathEvidence.Tactic.Discovery
+open MathEvidence.Tactic.Replay
+
+private def bundleIdOfName? : Name → Option BundleId
+  | ``BundleId.basicSympy => some .basicSympy
+  | ``BundleId.basicMathematica => some .basicMathematica
+  | ``BundleId.validIdentity => some .validIdentity
+  | ``BundleId.redundantCondition => some .redundantCondition
+  | ``BundleId.variablePermutation => some .variablePermutation
+  | ``BundleId.largeCoeffs => some .largeCoeffs
+  | ``BundleId.falseIdentity => some .falseIdentity
+  | ``BundleId.hashMismatch => some .hashMismatch
+  | ``BundleId.laInverse2x2 => some .laInverse2x2
+  | ``BundleId.laExactSystem => some .laExactSystem
+  | ``BundleId.laKernelVector => some .laKernelVector
+  | ``BundleId.laDetIdentity => some .laDetIdentity
+  | ``BundleId.laSingularInverseRejected => some .laSingularInverseRejected
+  | ``BundleId.laHashMismatch => some .laHashMismatch
+  | ``BundleId.cexSimpleFalseUniversal => some .cexSimpleFalseUniversal
+  | ``BundleId.cexWitnessTypeMismatch => some .cexWitnessTypeMismatch
+  | ``BundleId.cexHashMismatch => some .cexHashMismatch
+  | ``BundleId.cexOutOfDomainRejected => some .cexOutOfDomainRejected
+  | _ => none
+
+private def bundleIdOfShortName? : String → Option BundleId
+  | "basicSympy" => some .basicSympy
+  | "basicMathematica" => some .basicMathematica
+  | "validIdentity" => some .validIdentity
+  | "redundantCondition" => some .redundantCondition
+  | "variablePermutation" => some .variablePermutation
+  | "largeCoeffs" => some .largeCoeffs
+  | "falseIdentity" => some .falseIdentity
+  | "hashMismatch" => some .hashMismatch
+  | "laInverse2x2" => some .laInverse2x2
+  | "laExactSystem" => some .laExactSystem
+  | "laKernelVector" => some .laKernelVector
+  | "laDetIdentity" => some .laDetIdentity
+  | "laSingularInverseRejected" => some .laSingularInverseRejected
+  | "laHashMismatch" => some .laHashMismatch
+  | "cexSimpleFalseUniversal" => some .cexSimpleFalseUniversal
+  | "cexWitnessTypeMismatch" => some .cexWitnessTypeMismatch
+  | "cexHashMismatch" => some .cexHashMismatch
+  | "cexOutOfDomainRejected" => some .cexOutOfDomainRejected
+  | _ => none
 
 private def evalBundleIdExpr (e : Expr) : TacticM BundleId := do
   let e ← whnf (← instantiateMVars e)
   let name := e.getAppFn.constName?.getD Name.anonymous
-  match name with
-  | ``BundleId.basicSympy => pure .basicSympy
-  | ``BundleId.basicMathematica => pure .basicMathematica
-  | ``BundleId.validIdentity => pure .validIdentity
-  | ``BundleId.redundantCondition => pure .redundantCondition
-  | ``BundleId.variablePermutation => pure .variablePermutation
-  | ``BundleId.largeCoeffs => pure .largeCoeffs
-  | ``BundleId.falseIdentity => pure .falseIdentity
-  | ``BundleId.hashMismatch => pure .hashMismatch
-  | ``BundleId.laInverse2x2 => pure .laInverse2x2
-  | ``BundleId.laExactSystem => pure .laExactSystem
-  | ``BundleId.laKernelVector => pure .laKernelVector
-  | ``BundleId.laDetIdentity => pure .laDetIdentity
-  | ``BundleId.laSingularInverseRejected => pure .laSingularInverseRejected
-  | ``BundleId.laHashMismatch => pure .laHashMismatch
-  | ``BundleId.cexSimpleFalseUniversal => pure .cexSimpleFalseUniversal
-  | ``BundleId.cexWitnessTypeMismatch => pure .cexWitnessTypeMismatch
-  | ``BundleId.cexHashMismatch => pure .cexHashMismatch
-  | ``BundleId.cexOutOfDomainRejected => pure .cexOutOfDomainRejected
-  | _ => throwError "mathevidence: unknown bundle id {e}"
+  match bundleIdOfName? name with
+  | some id => pure id
+  | none => throwError "mathevidence: unknown bundle id {e}"
+
+private def inspectBundle (id : BundleId) : Lean.Elab.Command.CommandElabM Unit := do
+  logInfo m!"{(replayStatus id).format}"
 
 private def runReplay (id : BundleId) : TacticM Unit := do
   let report := replayStatus id
-  -- Accept fixtures close `True`; intentional reject fixtures report status only.
   let expectAccept :=
     match id with
     | .falseIdentity | .hashMismatch
@@ -64,19 +93,32 @@ private def runReplay (id : BundleId) : TacticM Unit := do
     throwError "mathevidence replay rejected:\n{report.format}"
   if !expectAccept && report.claimEstablished.isSome then
     throwError "mathevidence replay unexpectedly accepted reject fixture:\n{report.format}"
-  let goal ← getMainGoal
-  goal.withContext do
-    let tgt ← goal.getType
-    unless tgt.isConstOf ``True do
-      throwError "mathevidence replay expects goal `True` for status-only close; got {tgt}\n{report.format}"
-    logInfo m!"{report.format}"
-    goal.assign (mkConst ``True.intro)
+  logInfo m!"{report.format}"
+  match ← tryReplayTheorem id with
+  | .closed => pure ()
+  | .unsupported report =>
+    throwError
+      "mathevidence replay: theorem-producing replay is not available for this \
+bundle yet. Status-only replay is forbidden and will not close the goal. Use \
+`#mathevidence inspect .<bundle>` for a non-closing status report.\n{report.format}"
 
 /-- `mathevidence replay .basicSympy` -/
 elab "mathevidence" "replay" id:term : tactic => do
   let e ← elabTerm id (some (mkConst ``BundleId))
   let bid ← evalBundleIdExpr e
   runReplay bid
+
+/-- `#mathevidence inspect .basicSympy` logs replay status and never closes goals. -/
+elab "#mathevidence" "inspect" "." id:ident : command => do
+  match bundleIdOfShortName? id.getId.getString! with
+  | some bid => inspectBundle bid
+  | none => throwError "mathevidence inspect: unknown bundle id .{id.getId}"
+
+/-- `#mathevidence inspect basicSympy` logs replay status and never closes goals. -/
+elab "#mathevidence" "inspect" id:ident : command => do
+  match bundleIdOfShortName? id.getId.getString! with
+  | some bid => inspectBundle bid
+  | none => throwError "mathevidence inspect: unknown bundle id {id.getId}"
 
 /-- `mathevidence discovery` — Meta reify + offline/live orchestration. -/
 elab "mathevidence" "discovery" : tactic =>

@@ -11,9 +11,6 @@ structure EvidenceId where
   value : String
   deriving DecidableEq, Repr, Inhabited
 
-/-- Request-binding digest (same wire form as `EvidenceId`). -/
-abbrev RequestDigest := EvidenceId
-
 /-- True when `s` matches `sha256:[0-9a-f]{64}`. -/
 def isSha256DigestWire (s : String) : Bool :=
   s.length == 71 &&

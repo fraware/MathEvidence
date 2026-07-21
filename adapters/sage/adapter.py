@@ -68,10 +68,24 @@ FINITE_COUNTEREXAMPLE_CAPABILITY = CapabilityDescriptor(
     ],
 )
 
+IDEAL_MEMBERSHIP_CAPABILITY = CapabilityDescriptor(
+    id="algebra.groebner_membership",
+    version="0.1.0",
+    claim_classes=["witness", "soundResult", "candidate"],
+    request_schema="federation-request.schema.json",
+    evidence_schema="ideal-membership-certificate.schema.json",
+    deterministic=True,
+    notes=[
+        "Live path only when sage/sagemath is on PATH; not advertised otherwise.",
+        "Same certificate schema as SymPy; Lean checkMembership owns acceptance.",
+    ],
+)
+
 SAGE_CAPABILITIES = [
     RATIONAL_EQUALITY_CAPABILITY,
     LINEAR_ALGEBRA_CAPABILITY,
     FINITE_COUNTEREXAMPLE_CAPABILITY,
+    IDEAL_MEMBERSHIP_CAPABILITY,
 ]
 
 _SAGE_WORKER = r'''
@@ -606,4 +620,28 @@ def compute_handler(params: dict[str, Any], tracker: ResourceTracker) -> Handler
         return compute_linear_algebra(request, tracker)
     if cap == "logic.finite_counterexample":
         return compute_finite_counterexample(request, tracker)
+    if cap == "algebra.groebner_membership":
+        from adapters.common.ideal_membership import (
+            compute_ideal_membership_certificate,
+            sage_executable,
+        )
+
+        tracker.check()
+        if sage_executable() is None:
+            raise stable_error(
+                "backend_unavailable",
+                "ideal membership Sage path requires sage/sagemath on PATH; "
+                "not advertised without a live binary",
+            )
+        try:
+            result = compute_ideal_membership_certificate(request, backend="sage")
+        except ValueError as exc:
+            raise stable_error("malformed_evidence", str(exc)) from exc
+        if not (result.get("candidate") or {}).get("reportedOk"):
+            raise stable_error(
+                "backend_unavailable",
+                "Sage ideal-membership produced no ZZ witness",
+            )
+        tracker.ensure_output_size(len(str(result).encode("utf-8")))
+        return HandlerResult(result, resource_usage=tracker.usage())
     return compute_rational_equality(request, tracker)

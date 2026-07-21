@@ -3,6 +3,7 @@ version = "0.1.0"
 defaultTargets = [
   "MathEvidenceCore",
   "MathEvidenceIR",
+  "MathEvidenceEncoding",
   "MathEvidenceCheckers",
   "MathEvidenceHypothesis",
   "MathEvidenceConjecture",
@@ -29,6 +30,10 @@ roots = ["MathEvidence.Core"]
 [[lean_lib]]
 name = "MathEvidenceIR"
 roots = ["MathEvidence.IR"]
+
+[[lean_lib]]
+name = "MathEvidenceEncoding"
+roots = ["MathEvidence.Encoding"]
 
 [[lean_lib]]
 name = "MathEvidenceCheckers"
@@ -61,3 +66,15 @@ roots = ["MathEvidence.Registry"]
 [[lean_lib]]
 name = "MathEvidenceTesting"
 roots = ["MathEvidence.Testing"]
+
+[[lean_exe]]
+name = "mathevidence-replay"
+root = "MathEvidence.Exe.Replay"
+
+[[lean_exe]]
+name = "mathevidence-axiom-report"
+root = "MathEvidence.Exe.AxiomReport"
+
+[[lean_exe]]
+name = "mathevidence-import-graph"
+root = "MathEvidence.Exe.ImportGraph"

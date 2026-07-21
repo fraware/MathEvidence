@@ -7,16 +7,18 @@ Lean-side sufficiency / deletion / lattice for repairing incomplete statements.
 | File | Role |
 | --- | --- |
 | `Lattice.lean` | Condition lattice artifact (primary output) |
-| `Sufficiency.lean` | `prove_sufficient` via `RationalEquality` checker |
+| `Sufficiency.lean` | `proveSufficient` three-way + typed `SufficiencyEvidence` via `RationalEquality` checker |
 | `Deletion.lean` | `delete_hypothesis` with redundancy justification |
 | `CounterexampleBridge.lean` | Weaker-variant CEX via `Counterexample` checker |
 | `Build.lean` | Bounded lattice construction policy |
-| `Tests.lean` | Offline fixtures (`native_decide`) |
+| `Tests.lean` | Offline fixtures (`native_decide`); denom-coverage-alone refusal |
 
 ## Invariants
 
 - Proposed conditions are never silently inserted into theorems.
-- Sufficiency is checker acceptance (`checkBool`) + soundness theorem.
+- Sufficiency is checker acceptance (`checkBool` = poly identity **and** denom coverage) + soundness theorem.
+- Denominator coverage alone is never sufficiency.
+- `proveSufficient` outcomes are distinct: `proved` / `failed` / `unknown`, with theoremDecl / checkerDecl / receiptId / axiomReportId citations.
 - Necessity / minimality require explicit `NecessityProof` entries.
 - Absence of a counterexample is not necessity.
 

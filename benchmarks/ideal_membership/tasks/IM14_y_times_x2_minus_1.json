@@ -1,0 +1,35 @@
+{
+  "id": "IM14_y_times_x2_minus_1",
+  "family": "ideal_membership",
+  "description": "f = x^2 y - y is in Ideal.span {x - 1} with multiplier xy + y.",
+  "claimClass": "membership",
+  "variables": ["x", "y"],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {"coefficient": 1, "exponents": [2, 1]},
+      {"coefficient": -1, "exponents": [0, 1]}
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {"coefficient": 1, "exponents": [1, 0]},
+        {"coefficient": -1, "exponents": [0, 0]}
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {"coefficient": 1, "exponents": [1, 1]},
+        {"coefficient": 1, "exponents": [0, 1]}
+      ]
+    }
+  ],
+  "baselineNotes": [
+    "Factorization witness with a two-term multiplier over two variables."
+  ]
+}

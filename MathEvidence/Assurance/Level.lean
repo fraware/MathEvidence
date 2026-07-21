@@ -48,10 +48,18 @@ structure AlgorithmContract where
   outputRelation : String
   soundness : String
   completeness : Option String := none
+  /-- Lean declaration name that owns the soundness theorem (string form). -/
+  soundnessDecl : String := ""
+  /-- Lean declaration name for the executable checker entry. -/
+  checkerDecl : String := ""
   deriving Repr, Inhabited
 
 /-- Completeness is never silently claimed. -/
 def AlgorithmContract.claimsCompleteness (c : AlgorithmContract) : Bool :=
   c.completeness.isSome
+
+/-- True when the contract links concrete Lean decls (not free-text only). -/
+def AlgorithmContract.linksDecls (c : AlgorithmContract) : Bool :=
+  !c.soundnessDecl.isEmpty && !c.checkerDecl.isEmpty
 
 end MathEvidence.Assurance

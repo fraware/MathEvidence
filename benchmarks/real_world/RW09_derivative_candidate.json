@@ -2,7 +2,7 @@
   "id": "RW09",
   "bottleneckRef": "docs/validation/bottlenecks.md#12",
   "domain": "calculus",
-  "capability": "analysis.symbolic_calculus",
+  "capability": "algebra.formal_rational_calculus",
   "summary": "Derivative candidate verification",
   "leanOnlyApproach": "Unfold deriv definitions",
   "whyExternal": "Candidate derivative checked symbolically in Lean",

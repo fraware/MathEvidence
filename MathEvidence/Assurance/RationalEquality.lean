@@ -6,6 +6,7 @@ Authors: MathEvidence contributors
 import MathEvidence.Assurance.Level
 import MathEvidence.Checkers.RationalEquality.Check
 import MathEvidence.Checkers.RationalEquality.Soundness
+import MathEvidence.Checkers.RationalEquality.SpecProp
 
 namespace MathEvidence.Assurance.RationalEquality
 
@@ -31,6 +32,8 @@ def contract : AlgorithmContract where
   outputRelation := "lhs = rhs under explicit nonzero denomFactors (Claim.proposition)"
   soundness := "check_sound / checkBool_sound"
   completeness := none
+  soundnessDecl := "MathEvidence.Checkers.RationalEquality.checkBool_sound"
+  checkerDecl := "MathEvidence.Checkers.RationalEquality.checkBool"
 
 /-- Verified reference algorithm: coincides with `checkBool`. -/
 def referenceCheck (req : Request) (cert : Certificate) : Bool :=
@@ -49,5 +52,7 @@ theorem referenceCheck_sound (req : Request) (cert : Certificate)
 example : contract.claimsCompleteness = false := by native_decide
 
 example : contract.assuranceLevel = .verifiedReferenceAlgorithm := by native_decide
+
+example : contract.linksDecls = true := by native_decide
 
 end MathEvidence.Assurance.RationalEquality

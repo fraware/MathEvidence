@@ -114,10 +114,14 @@ Runs on every pull request:
 - Lake build;
 - formatting and linting;
 - unit tests;
-- import-boundary checks;
-- `sorry` scan;
-- axiom audit;
+- compiled trust-audit executables (`mathevidence-import-graph` and
+  `mathevidence-axiom-report`);
 - documentation consistency.
+
+The compiled trust-audit executables are authoritative when available. They are
+currently honest compiled drivers over Lean source scans, not full Lean
+environment audits; the Python scripts under `scripts/` are supplemental
+regex-only fallbacks.
 
 ### `offline-replay.yml`
 
@@ -150,6 +154,11 @@ declared.
 
 Runs dependency review, static analysis, secret scanning, executable adversarial
 resource cases, and cancel→kill isolation tests.
+
+### `supply-chain.yml`
+
+Runs a blocking gitleaks secret scan with immutable action pins. Dependency
+review remains in `security.yml`.
 
 ### `release.yml`
 

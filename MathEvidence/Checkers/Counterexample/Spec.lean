@@ -5,6 +5,7 @@ Authors: MathEvidence contributors
 -/
 import MathEvidence.Core.CapabilityId
 import MathEvidence.Core.ClaimClass
+import MathEvidence.Core.Digest.Types
 import MathEvidence.Core.EvidenceId
 import MathEvidence.IR.FinitePredicate.Eval
 import MathEvidence.IR.FinitePredicate.Serialize

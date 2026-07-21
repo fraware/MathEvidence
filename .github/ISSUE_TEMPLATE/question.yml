@@ -13,6 +13,6 @@ body:
     id: context
     attributes:
       label: Context
-      description: Relevant docs you already read (e.g. PROJECT_SPEC §, SECURITY_AND_TRUST_MODEL).
+      description: Relevant docs you already read (e.g. PROJECT_SPEC §, docs/security/SECURITY_AND_TRUST_MODEL).
     validations:
       required: false

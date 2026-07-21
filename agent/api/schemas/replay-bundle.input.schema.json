@@ -4,11 +4,13 @@
   "title": "replay_bundle input",
   "type": "object",
   "additionalProperties": false,
-  "required": ["path"],
+  "required": ["bundleId"],
   "properties": {
-    "path": {
+    "bundleId": {
       "type": "string",
-      "description": "Path to EvidenceBundle for offline Python digest/schema replay"
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Opaque Agent bundle identifier. Raw filesystem paths are not accepted on the public Agent API."
     }
   }
 }

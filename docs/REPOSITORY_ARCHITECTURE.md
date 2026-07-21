@@ -13,7 +13,6 @@ mathevidence/
 ├── GOVERNANCE.md
 ├── SECURITY.md
 ├── SUPPORT.md
-├── ROADMAP.md
 ├── lakefile.toml
 ├── lean-toolchain
 ├── pyproject.toml
@@ -60,10 +59,19 @@ mathevidence/
 ├── examples/
 ├── schemas/
 ├── docs/
+│   ├── README.md
+│   ├── STATUS.md
+│   ├── ROADMAP.md
+│   ├── SPEC_INDEX.md
+│   ├── getting-started/
+│   ├── security/
 │   ├── products/
 │   ├── architecture/
 │   ├── rfcs/
 │   ├── adr/
+│   ├── assurance/
+│   ├── validation/
+│   ├── release/
 │   └── threat-model/
 ├── scripts/
 └── tools/

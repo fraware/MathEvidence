@@ -1,0 +1,77 @@
+{
+  "id": "IM25_product_xy_gens",
+  "family": "ideal_membership",
+  "description": "f = xy \u2208 \u27e8x+y, xy\u27e9 via second generator.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": []
+    },
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

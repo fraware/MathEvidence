@@ -1,4 +1,9 @@
-# Symbolic calculus checker
+# Formal rational calculus checker
+
+Formerly documented as the symbolic calculus checker. The implementation path
+remains `MathEvidence.Checkers.Calculus` during PR-Calculus-Reclassification to
+avoid a partial filesystem rename; the public capability should be read as
+**formal rational calculus**.
 
 ## Claim
 
@@ -16,6 +21,8 @@ Establishes a **candidate** formal identity for Milestone 5 operations
 
 - Mode: `kernel_replay` (Lean formal differentiation / substitution + `polyEqual`).
 - Backends are untrusted generators only.
+- Additive alias barrel: `MathEvidence.IR.FormalRationalCalculus` re-exports the
+  existing `MathEvidence.IR.CalculusExpr` implementation during the rename path.
 
 ## Explicitly out of scope
 
@@ -49,3 +56,15 @@ Hand-written fixtures live in `Tests.lean` and discharge with `native_decide`.
 
 - Project `sorry`: none in this checker or `IR/CalculusExpr`.
 - Project-specific axioms: none.
+
+## Rename path
+
+The safe migration path is:
+
+1. Treat registry text and user-facing docs as `algebra.formal_rational_calculus`.
+2. Import `MathEvidence.IR.FormalRationalCalculus` for new Lean references.
+3. Keep `MathEvidence.IR.CalculusExpr` and `MathEvidence.Checkers.Calculus`
+   available until all downstream adapters, schemas, fixtures, and request
+   digests can be migrated in one coordinated change.
+
+Do not claim analytic semantics during or after the rename.

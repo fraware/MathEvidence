@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "0.1.0",
+  "packetId": "review:7ddea51a-165b-5c2f-b366-8bac11b4703a",
+  "episodeId": "7ddea51a-165b-5c2f-b366-8bac11b4703a",
+  "status": "awaiting_human_review",
+  "createdAt": "2026-07-21T11:08:43Z",
+  "sourceFamily": "conformance_ideal",
+  "qualityTierAtQueue": "Q2_formally_verified",
+  "requestedReview": "semantically_reviewed",
+  "humanReviewLabels": [],
+  "checklist": [
+    "Statement fidelity to the mathematical claim",
+    "Witness / certificate interpretation correctness",
+    "No overclaim of unbounded theorems from bounded evidence",
+    "Contamination / public-library novelty judgment"
+  ],
+  "artifactRefs": [
+    "evidence/conformance/rfc0001/missing_condition/bundle"
+  ],
+  "notes": "Unlabeled queue item. Do NOT count as Q3 until a human adds humanReviewLabels including semantically_reviewed.",
+  "acceptanceInfluence": false
+}

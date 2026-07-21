@@ -2,8 +2,7 @@
 
 **Status:** engineering protocol ready; **human session results OPEN**  
 **Owner (sessions):** Studio / UX lead  
-**Do not invent** completed human study outcomes.  
-**Readiness board:** [`../../p1-blocker-status.md`](../../p1-blocker-status.md)
+**Do not invent** completed human study outcomes.
 
 This document defines how to run scripted usability sessions for Product 09
 acceptance criterion 1 (*Users correctly identify result status in usability
@@ -11,9 +10,8 @@ testing*). Machine-checkable Certified gates live under
 [`studio/golden/`](../../../../studio/golden/) and
 [`adapters/common/test_epistemic_studio.py`](../../../../adapters/common/test_epistemic_studio.py).
 
-Facilitators: print or keep open
-[`FACILITATOR_CARD.md`](FACILITATOR_CARD.md) during each sitting. Invite copy:
-[`../../outreach-email-templates.md`](../../outreach-email-templates.md) Email 4.
+Invite copy: [`../../outreach-email-templates.md`](../../outreach-email-templates.md)
+Email 4. Product context: [`docs/products/09_STUDIO.md`](../../../products/09_STUDIO.md).
 
 ## Goals
 
@@ -37,7 +35,7 @@ Facilitators: print or keep open
 | Golden transcripts (integration) | `studio/golden/transcripts/` |
 | VS Code surface | `studio/vscode/` |
 | Wolfram surface | `studio/wolfram/` |
-| Defect log (fill during sessions) | [`defect-log.md`](defect-log.md) |
+| Defect log | Create a local working copy during sessions (do not invent defects in-tree) |
 
 ## Session flow (all templates)
 
@@ -45,8 +43,8 @@ Facilitators: print or keep open
 2. Warm-up: open a **Computed** bundle / payload; ask for status label + why.
 3. Scripted tasks from the chosen session template (S01–S03).
 4. Debrief: where false confidence could arise; any missing assumption display.
-5. Facilitator files defects in `defect-log.md` (severity + repro). Leave result
-   rows **OPEN** until a real human completes them.
+5. Facilitator files defects in a local defect log (severity + repro). Leave
+   result rows in session templates **OPEN** until a real human completes them.
 
 ## Success criteria (when humans complete)
 
@@ -58,9 +56,3 @@ A session **passes** only if:
 
 Aggregate Product 09 criterion 1 is **OPEN** until ≥3 completed session result
 rows exist under [`sessions/`](sessions/).
-
-## Explicitly out of scope
-
-- Inventing pass rates, quotes, or signed consent forms.
-- Claiming Stable capability promotion (R2).
-- Treating golden/integration tests as substitute for human usability.

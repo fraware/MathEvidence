@@ -54,7 +54,7 @@ def envOfList {α : Type*} [Zero α] (vals : List α) : Env α :=
   fun i => vals.getD i 0
 
 /-- Interpret a successfully accepted reification under concrete values. -/
-def interpretReified {α : Type*} [Field α] [DecidableEq α] (r : Reified) (vals : List α) :
+def interpretReified {α : Type*} [Field α] [CharZero α] [DecidableEq α] (r : Reified) (vals : List α) :
     Option α :=
   eval (envOfList vals) r.expr
 

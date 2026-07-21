@@ -17,7 +17,11 @@
     },
     "writeBundleTo": {
       "type": "string",
-      "description": "Optional repo-relative or absolute directory for EvidenceBundle output"
+      "description": "Optional repo-relative directory for EvidenceBundle output"
+    },
+    "bundleId": {
+      "type": "string",
+      "description": "Optional opaque Agent bundle identifier for EvidenceBundle output"
     }
   }
 }

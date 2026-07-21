@@ -1,7 +1,8 @@
 # Threat Model Summary
 
-This document summarizes `docs/SECURITY_AND_TRUST_MODEL.md` for the
+This document summarizes `docs/security/SECURITY_AND_TRUST_MODEL.md` for the
 `docs/threat-model/` tree. Detailed controls remain normative in that file.
+See also [`../security/README.md`](../security/README.md).
 
 ## Objective
 

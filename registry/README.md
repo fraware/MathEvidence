@@ -42,8 +42,8 @@ fixtures / differential `skip`/`fixture`). LeanLink remains scaffold
 | `algebra.rational_equality` | owned | experimental | Milestone 1 reference path — see `docs/validation/stable-capability-checklist.md` before `stable` |
 | `algebra.linear_algebra` | owned | experimental | SymPy conformance-verified; Mathematica/Sage live_generator_complete (CI fixture without Wolfram/Sage) |
 | `logic.finite_counterexample` | owned | experimental | SymPy conformance-verified; Mathematica/Sage live_generator_complete (CI fixture without Wolfram/Sage) |
-| `analysis.symbolic_calculus` | owned | experimental | SymPy live; Mathematica live via wolframscript (CI offline fixtures) |
-| `algebra.groebner_membership` | federated | experimental | Metadata only; external checker |
+| `algebra.formal_rational_calculus` | owned | experimental | Transitional ID for planned `algebra.formal_rational_calculus`; formal rational identities only, not analytic semantics |
+| `algebra.groebner_membership` | owned | experimental | Native sparse witness identity checker; SymPy simple witness generation; ≥50 value gate still open |
 | `logic.sat_unsat` | federated | experimental | Metadata only; external checker |
 | `logic.pseudo_boolean` | federated | experimental | Metadata only; external checker |
 | `logic.smt` | federated | experimental | Metadata only; Lean-SMT authority |

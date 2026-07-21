@@ -3,6 +3,7 @@ Copyright (c) 2026 MathEvidence contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: MathEvidence contributors
 -/
+import MathEvidence.Core.Digest.Types
 import MathEvidence.Core.EvidenceId
 import MathEvidence.IR.RationalExpr.Syntax
 
@@ -22,9 +23,12 @@ structure Certificate where
   denomFactors : List Expr
   deriving DecidableEq, Repr, Inhabited
 
-/-- Candidate output is empty for equality-only claims; equality is the claim. -/
+/-- Candidate output is diagnostic only for equality claims; equality is recomputed
+from the claim and certificate. -/
 structure Candidate where
-  /-- Optional normalized numerator of `lhs - rhs` (informational; checker recomputes). -/
+  /-- Diagnostic backend report about the normalized numerator of `lhs - rhs`.
+  The checker does not trust this bit; it recomputes `differenceNumerator` via
+  `polyOk`. -/
   reportedNumeratorZero : Bool := true
   deriving DecidableEq, Repr, Inhabited
 

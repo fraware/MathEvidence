@@ -3,79 +3,55 @@
 This checklist is the **only** in-repo path to mark
 `registry/capabilities/algebra.rational_equality.json` `"status": "stable"`.
 
-Do **not** flip `stable` from documentation alone (`registry/README.md`,
-`GOVERNANCE.md`). Each box requires an artifact or CI-green evidence.
+Do **not** flip `stable` from documentation alone. Each box requires an
+artifact or CI-green evidence. Capability JSON remains `"experimental"` until
+every box below is checked with real human artifacts and a separate governance
+PR lands.
 
-**Promotion draft (not applied):** see
-[`stable-promotion-draft.md`](stable-promotion-draft.md). Capability JSON
-remains `"experimental"` until every box below is checked with real human
-artifacts and a separate governance PR lands.
+> **BLOCKED:** Do not flip `status: stable` while the human gates in
+> [`docs/security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md) remain open (0 external
+> confirmations today). Engineering packaging is not human confirmation.
+> Ownership reality: [`.github/CODEOWNERS`](../../.github/CODEOWNERS) is still a
+> single-owner stub — see [`GOVERNANCE.md`](../../GOVERNANCE.md).
 
-## Prerequisites (engineering — evidenced by CI / `just check`)
+## Prerequisites (engineering)
 
 Local gate: `just check` (see `justfile`). Public workflows under
 `.github/workflows/` (index: `.github/workflows/README.md`).
 
-- [x] Conformance suite `evidence/conformance/rfc0001` passing in CI
-      (`adapter-conformance.yml` → `python scripts/run_adapter_conformance.py`;
-      local: `just conformance`)
-- [x] Checker soundness theorems present
-      (`MathEvidence/Checkers/RationalEquality/Soundness.lean`; module
-      `MathEvidence.Checkers.RationalEquality.Soundness`; built by
-      `just lean-build` / `lean.yml` → `lake build`)
-- [x] Offline replay green for SymPy and Mathematica committed bundles
-      (`offline-replay.yml` → `scripts/offline_replay_python.py` +
-      `lake build MathEvidence.Checkers.RationalEquality.OfflineFixtures`;
-      local: `just replay`)
-- [x] Adversarial seed validation green
-      (`adversarial.yml` → `scripts/validate_adversarial_seed.py`;
-      local: `just adversarial`)
-- [x] Import-boundary + sorry/axiom audit green
-      (`lean.yml` → `scripts/check_import_boundaries.py`,
-      `scripts/audit_sorry_axioms.py`; local: `just import-boundary`,
-      `just sorry-audit`)
-- [x] Agent API lists the capability; registry schemas validate
-      (`adapter-conformance.yml` → `scripts/validate_registry.py` +
-      `pytest adapters agent`; Agent
-      `list_capabilities` includes `algebra.rational_equality`
-      (`agent/test_agent_api.py`); local: `just registry-validate`,
-      `just test`, `just agent-held-out`)
-- [x] Meta reification + discovery offline path documented and tested
-      (`MathEvidence/Tactic/Examples.lean` → `MathEvidence.Tactic.Examples`;
-      built in `offline-replay.yml` and `just replay-lean`)
+Do not re-tick boxes from memory. Prefer immutable workflow URLs on the
+candidate commit plus forensic-green evidence under `tests/forensic/`.
+
+- [ ] Conformance suite `evidence/conformance/rfc0001` passing in **immutable CI**
+      on the candidate commit (not only local `just conformance`)
+- [ ] Checker soundness with coverage⇒Defined bridge (ℚ)
+- [ ] Offline replay with Lean-recomputed request digests and theorem-producing
+      rational replay (not status-only)
+- [ ] Adversarial + forensic suites green (`tests/forensic/`)
+- [ ] Compiled axiom + import-graph audits preferred over regex-only
+- [ ] Agent `bundleId`-only public surface + registry-driven dispatch
+- [ ] Live request-digest binding; checker theorem remains closing authority
+- [ ] Typed digests / receipts present
 
 ## Governance gates (human — required for `stable`; still OPEN)
 
-One-sitting board: [`g1-blocker-status.md`](g1-blocker-status.md). Runbook:
-[`human-gates-one-sitting.md`](human-gates-one-sitting.md).
-
-- [ ] **Domain review:** independent mathematical review of repaired /
-      canonical statement interface using
-      `docs/validation/expert-review-rubric.md` (at least one completed
-      packet under `docs/validation/review-packets/`, with a real
-      reviewer identity — not a placeholder). Owner: domain checker /
-      Semantic IR maintainer area. Start from
-      `review-packets/SAMPLE-rational-equality-unsigned.md` (copy to a new
-      file **without** `-unsigned`) + `review-packets/TEMPLATE.md`.
-- [ ] **Trust-model review:** second maintainer from a different area
-      confirms replay, digest binding, and claim-strength guarantees are
-      not weakened (`GOVERNANCE.md`). Owner: Core and trust model area
-      (second approver from a different area). Fill
-      `review-packets/TRUST-MODEL-TEMPLATE.md` →
-      `review-packets/trust-model-YYYY-MM-DD.md` (or equivalent PR note).
+- [ ] **Domain review:** independent mathematical review using
+      `docs/validation/expert-review-rubric.md` (completed packet under
+      `docs/validation/review-packets/`, real reviewer identity). Start from
+      `review-packets/SAMPLE-rational-equality-unsigned.md` (copy without
+      `-unsigned`) + `review-packets/TEMPLATE.md`.
+- [ ] **Trust-model review:** second maintainer from a different area confirms
+      replay, digest binding, and claim-strength guarantees are not weakened
+      (`GOVERNANCE.md`). Fill `review-packets/TRUST-MODEL-TEMPLATE.md`.
 - [ ] **Milestone 0 external confirmations:** ≥3 non-maintainer entries in
-      `docs/validation/user-confirmation.md` (outreach; cannot be invented).
-      Owner: outreach lead (process:
-      `docs/validation/outreach-checklist.md`). Status: **0/3**.
-- [ ] **Project Spec §21 item 10:** at least one external Lean contributor
-      or project confirms a real workflow win (may overlap with user
-      confirmations if explicitly scoped). Owner: outreach lead. Log:
+      `docs/validation/user-confirmation.md`. Process:
+      `docs/validation/outreach-checklist.md`. Status: **0/3**.
+- [ ] **Project Spec §21 item 10:** at least one external Lean contributor or
+      project confirms a real workflow win. Log:
       `docs/validation/workflow-win-log.md`. Status: **0 entries**.
 - [ ] **Capability JSON update PR:** status → `stable`, `knownLimitations`
-      updated, reviewers from Core/trust + domain recorded in the PR.
-      Owner: Registry + Core/trust (two-area approvals per `GOVERNANCE.md`).
-      Exact proposed diff: `docs/validation/stable-promotion-draft.md`
-      (**draft only — not applied**).
+      updated, reviewers from Core/trust + domain recorded in the PR
+      (two-area approvals per `GOVERNANCE.md` once teams exist).
 
 ## Explicitly out of scope for this checklist
 
@@ -86,25 +62,17 @@ One-sitting board: [`g1-blocker-status.md`](g1-blocker-status.md). Runbook:
 ## How to promote
 
 1. Complete every box above with links to CI runs / review packets / log entries.
-2. Open a PR that only changes registry status (+ limitation text) after gates
-   (use the JSON sketch in `stable-promotion-draft.md`).
-3. Require two approvals from different maintainer areas before merge.
+2. Open a PR that only changes registry status (+ limitation text) after gates.
+3. Require two approvals from different maintainer areas before merge (when
+   multi-area CODEOWNERS is real; until then, do not pretend dual-area review
+   happened).
 
 ## Reviewer verification (engineering prerequisites)
 
-After cloning `implement/master-plan` (or the candidate promotion PR branch):
-
 ```text
 just check
+pytest tests/forensic -q
 ```
-
-That is the `check` recipe in `justfile`. As of this packaging pass it runs
-(in order): lean-build, import-boundary, sorry-audit, schema-validate,
-registry-validate, federation-validate, assurance-validate, python-check, test,
-studio-test, conformance, differential, replay, adversarial, adversarial-exec,
-leanlink-fuzz, property, metamorphic, perf-budgets, real-world, agent-held-out,
-foundry-validate, tool-selection, foundry-metrics, metrics,
-registry-historical-replay, trace-to-plan-demo — then prints `just check: ok`.
 
 Minimum CI workflows that must be green on the PR:
 
@@ -116,5 +84,4 @@ Minimum CI workflows that must be green on the PR:
 | `adversarial.yml` | adversarial seed catalog |
 
 Do **not** treat a green `just check` as permission to set `"status": "stable"`.
-Human governance boxes must still be filled with real artifacts. G1-D is
-`ENGINEERING_READY` on [`g1-blocker-status.md`](g1-blocker-status.md).
+Human governance boxes must still be filled with real artifacts.

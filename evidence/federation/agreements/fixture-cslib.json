@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "0.1.0",
+  "agreementId": "fixture.cslib.consume",
+  "producer": {
+    "projectId": "mathevidence",
+    "role": "emitter"
+  },
+  "consumer": {
+    "projectId": "cslib",
+    "role": "consumer"
+  },
+  "federationLevel": "fixture",
+  "requestSemantics": "Shared provenance + claim-status metadata for protocol infrastructure.",
+  "evidenceFormat": "schemas/federation-metadata.schema.json + evidence/federation/examples/cslib_consume.json",
+  "digestBinding": "requestDigest pairing validated by scripts/validate_federation.py",
+  "checkerOwner": "cslib / external protocol checkers; MathEvidence consumes metadata only",
+  "versioning": "semver on federation metadata schema; pin in harness",
+  "contacts": {
+    "support": "fixture-only — see docs/architecture/federation-agreements.md",
+    "security": "fixture-only — no live traffic"
+  },
+  "conformanceCorpus": "evidence/federation/examples/cslib_consume.json",
+  "releasePolicy": "Fixture harness only. Live consume requires maintainer agreement.",
+  "humanAgreementStatus": "open",
+  "notes": "Second fixture peer record (≥2 required for fixture federation packaging). Live ME-404 remains OPEN."
+}

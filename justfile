@@ -5,8 +5,10 @@ set windows-shell := ["powershell.exe", "-NoProfile", "-Command"]
 default:
     @just --list
 
-# Full local gate assumed by CONTRIBUTING.md
-check: lean-build import-boundary sorry-audit schema-validate registry-validate federation-validate assurance-validate python-check test studio-test conformance differential replay adversarial adversarial-exec leanlink-fuzz property metamorphic perf-budgets real-world agent-held-out foundry-validate tool-selection foundry-metrics metrics registry-historical-replay trace-to-plan-demo
+# Full local gate assumed by CONTRIBUTING.md. It is intentionally heavy and
+# includes Ruff lint/format checks, mypy, pytest including tests/forensic, and
+# capability registry validation.
+check: lean-build import-boundary sorry-audit schema-validate registry-validate federation-validate assurance-validate python-check lint fmt mypy test forensic-test studio-test conformance differential replay adversarial adversarial-exec leanlink-fuzz property metamorphic perf-budgets real-world agent-held-out foundry-validate tool-selection foundry-metrics metrics registry-historical-replay trace-to-plan-demo
     @echo "just check: ok"
 
 lean-build:
@@ -41,10 +43,19 @@ python-check:
     python -c "import adapters.common; import adapters.common.discovery; import adapters.common.rpc_client; import adapters.sympy; import adapters.mathematica; import adapters.sage; import agent.api; import agent.sdk; import agent.hypothesis; import agent.conjecture; import agent.trace_to_plan; import foundry.capture; import foundry.pipelines; print('adapters+agent+foundry import ok')"
 
 lint:
-    python -m ruff check adapters scripts agent foundry
+    python -m ruff check adapters scripts agent foundry tests
+
+fmt:
+    python -m ruff format --check adapters scripts agent foundry tests
+
+mypy:
+    python -m mypy adapters agent
 
 test:
     python -m pytest adapters agent foundry -q
+
+forensic-test:
+    python -m pytest tests/forensic -q
 
 # Product 09 Studio epistemic gate + golden transcripts (VS Code / Wolfram contract)
 studio-test:
@@ -130,5 +141,3 @@ generate-lean-fixtures:
 release-provenance:
     python scripts/generate_release_provenance.py
 
-fmt:
-    @echo "Phase 1: no Lean formatter gate yet"

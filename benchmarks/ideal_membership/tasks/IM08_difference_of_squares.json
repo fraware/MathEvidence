@@ -1,0 +1,35 @@
+{
+  "id": "IM08_difference_of_squares",
+  "family": "ideal_membership",
+  "description": "f = x^2 - y^2 is in Ideal.span {x + y} with multiplier x - y.",
+  "claimClass": "membership",
+  "variables": ["x", "y"],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {"coefficient": 1, "exponents": [2, 0]},
+      {"coefficient": -1, "exponents": [0, 2]}
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {"coefficient": 1, "exponents": [1, 0]},
+        {"coefficient": 1, "exponents": [0, 1]}
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {"coefficient": 1, "exponents": [1, 0]},
+        {"coefficient": -1, "exponents": [0, 1]}
+      ]
+    }
+  ],
+  "baselineNotes": [
+    "Cancellation-heavy witness for normalize/check."
+  ]
+}

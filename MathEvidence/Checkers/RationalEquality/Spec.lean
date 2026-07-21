@@ -5,10 +5,16 @@ Authors: MathEvidence contributors
 -/
 import MathEvidence.Core.CapabilityId
 import MathEvidence.Core.ClaimClass
+import MathEvidence.Core.Digest.Types
 import MathEvidence.Core.EvidenceId
-import MathEvidence.IR.RationalExpr.Eval
-import MathEvidence.IR.RationalExpr.Serialize
 import MathEvidence.IR.RationalExpr.Syntax
+
+/-!
+# Rational equality request / claim structures
+
+Structures only — no Mathlib `ℚ` evaluation. Propositional soundness lives in
+`SpecProp.lean` so Lake exes can import Spec without linking Mathlib.
+-/
 
 namespace MathEvidence.Checkers.RationalEquality
 
@@ -37,25 +43,5 @@ structure Request where
   /-- Precomputed or recomputed request digest. -/
   requestDigest : RequestDigest
   deriving DecidableEq, Repr, Inhabited
-
-/-- Build a request payload and its digest from a claim. -/
-def Request.ofClaim (c : Claim) : Request :=
-  let payload : RequestPayload := {
-    varNames := c.varNames
-    lhs := c.lhs
-    rhs := c.rhs
-    knownAssumptions := c.knownAssumptions
-    claim := c.claimClass.toWire
-  }
-  { claim := c, requestDigest := payload.digest }
-
-/-- Proposition established on success: for every environment where all required
-conditions are defined and nonzero, `eval lhs = eval rhs`. -/
-def Claim.proposition (c : Claim) (conditions : List Expr) : Prop :=
-  ∀ env : Env ℚ,
-    (∀ e ∈ conditions ++ c.knownAssumptions, Defined env e ∧
-      ∃ v, eval env e = some v ∧ v ≠ 0) →
-    Defined env c.lhs → Defined env c.rhs →
-    eval env c.lhs = eval env c.rhs
 
 end MathEvidence.Checkers.RationalEquality

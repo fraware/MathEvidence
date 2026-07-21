@@ -42,3 +42,13 @@ def test_cancel_and_kill_leaves_no_orphan() -> None:
         if client.proc.poll() is None:
             client.proc.kill()
             client.proc.wait(timeout=5)
+
+
+def test_adapter_spawn_uses_fixed_argv_no_shell() -> None:
+    argv = default_adapter_argv("sympy", root=ROOT)
+    assert argv
+    assert all(isinstance(a, str) for a in argv)
+    joined = " ".join(argv).lower()
+    assert "cmd.exe" not in joined
+    assert "/c" not in argv
+    assert "bash" not in argv[0].lower()

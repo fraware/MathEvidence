@@ -6,6 +6,7 @@ Authors: MathEvidence contributors
 import MathEvidence.Checkers.RationalEquality.Check
 import MathEvidence.Checkers.RationalEquality.Replay
 import MathEvidence.Checkers.RationalEquality.Soundness
+import MathEvidence.Checkers.RationalEquality.Wire
 import MathEvidence.IR.RationalExpr.Syntax
 
 /-
@@ -27,8 +28,10 @@ def claim_basic_sympy : Claim :=
     rhs := Expr.add (Expr.var 0) (Expr.int (1 : Int))
   }
 def digest_basic_sympy : RequestDigest := ⟨"sha256:354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"⟩
+theorem digest_matches_ofClaim_basic_sympy :
+    (Request.ofClaim claim_basic_sympy).requestDigest = digest_basic_sympy := by native_decide
 def req_basic_sympy : Request :=
-  { claim := claim_basic_sympy, requestDigest := digest_basic_sympy }
+  Request.ofClaim claim_basic_sympy
 def cert_basic_sympy : Certificate where
   requestDigest := ⟨"sha256:354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"⟩
   denomFactors := [Expr.sub (Expr.var 0) (Expr.int (1 : Int))]
@@ -40,7 +43,7 @@ theorem replay_basic_sympy :
 theorem replay_report_basic_sympy :
     (replay bundle_basic_sympy).accepted = true := by native_decide
 theorem sound_basic_sympy :
-    Claim.proposition claim_basic_sympy cert_basic_sympy.denomFactors :=
+    Claim.proposition req_basic_sympy.claim cert_basic_sympy.denomFactors :=
   checkBool_sound req_basic_sympy cert_basic_sympy replay_basic_sympy
 
 /-- Generated from `evidence/examples/rational_equality_mathematica_offline`. -/
@@ -51,8 +54,10 @@ def claim_basic_mathematica : Claim :=
     rhs := Expr.add (Expr.var 0) (Expr.int (1 : Int))
   }
 def digest_basic_mathematica : RequestDigest := ⟨"sha256:354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"⟩
+theorem digest_matches_ofClaim_basic_mathematica :
+    (Request.ofClaim claim_basic_mathematica).requestDigest = digest_basic_mathematica := by native_decide
 def req_basic_mathematica : Request :=
-  { claim := claim_basic_mathematica, requestDigest := digest_basic_mathematica }
+  Request.ofClaim claim_basic_mathematica
 def cert_basic_mathematica : Certificate where
   requestDigest := ⟨"sha256:354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"⟩
   denomFactors := [Expr.sub (Expr.var 0) (Expr.int (1 : Int))]
@@ -64,7 +69,7 @@ theorem replay_basic_mathematica :
 theorem replay_report_basic_mathematica :
     (replay bundle_basic_mathematica).accepted = true := by native_decide
 theorem sound_basic_mathematica :
-    Claim.proposition claim_basic_mathematica cert_basic_mathematica.denomFactors :=
+    Claim.proposition req_basic_mathematica.claim cert_basic_mathematica.denomFactors :=
   checkBool_sound req_basic_mathematica cert_basic_mathematica replay_basic_mathematica
 
 /-- Generated from `evidence/conformance/rfc0001/valid_identity/bundle`. -/
@@ -75,8 +80,10 @@ def claim_valid_identity : Claim :=
     rhs := Expr.add (Expr.var 0) (Expr.int (1 : Int))
   }
 def digest_valid_identity : RequestDigest := ⟨"sha256:354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"⟩
+theorem digest_matches_ofClaim_valid_identity :
+    (Request.ofClaim claim_valid_identity).requestDigest = digest_valid_identity := by native_decide
 def req_valid_identity : Request :=
-  { claim := claim_valid_identity, requestDigest := digest_valid_identity }
+  Request.ofClaim claim_valid_identity
 def cert_valid_identity : Certificate where
   requestDigest := ⟨"sha256:354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"⟩
   denomFactors := [Expr.sub (Expr.var 0) (Expr.int (1 : Int))]
@@ -88,7 +95,7 @@ theorem replay_valid_identity :
 theorem replay_report_valid_identity :
     (replay bundle_valid_identity).accepted = true := by native_decide
 theorem sound_valid_identity :
-    Claim.proposition claim_valid_identity cert_valid_identity.denomFactors :=
+    Claim.proposition req_valid_identity.claim cert_valid_identity.denomFactors :=
   checkBool_sound req_valid_identity cert_valid_identity replay_valid_identity
 
 /-- Generated from `evidence/conformance/rfc0001/redundant_condition/bundle`. -/
@@ -97,10 +104,13 @@ def claim_redundant_condition : Claim :=
     varNames := ["x", "y"]
     lhs := Expr.div (Expr.sub (Expr.pow (Expr.var 0) 2) (Expr.int (1 : Int))) (Expr.sub (Expr.var 0) (Expr.int (1 : Int)))
     rhs := Expr.add (Expr.var 0) (Expr.int (1 : Int))
+    knownAssumptions := [Expr.var 1]
   }
 def digest_redundant_condition : RequestDigest := ⟨"sha256:b64d030cf1569cc802b4289c175697ae4a1577435a9a4240d1b98509979396bb"⟩
+theorem digest_matches_ofClaim_redundant_condition :
+    (Request.ofClaim claim_redundant_condition).requestDigest = digest_redundant_condition := by native_decide
 def req_redundant_condition : Request :=
-  { claim := claim_redundant_condition, requestDigest := digest_redundant_condition }
+  Request.ofClaim claim_redundant_condition
 def cert_redundant_condition : Certificate where
   requestDigest := ⟨"sha256:b64d030cf1569cc802b4289c175697ae4a1577435a9a4240d1b98509979396bb"⟩
   denomFactors := [Expr.sub (Expr.var 0) (Expr.int (1 : Int))]
@@ -112,7 +122,7 @@ theorem replay_redundant_condition :
 theorem replay_report_redundant_condition :
     (replay bundle_redundant_condition).accepted = true := by native_decide
 theorem sound_redundant_condition :
-    Claim.proposition claim_redundant_condition cert_redundant_condition.denomFactors :=
+    Claim.proposition req_redundant_condition.claim cert_redundant_condition.denomFactors :=
   checkBool_sound req_redundant_condition cert_redundant_condition replay_redundant_condition
 
 /-- Generated from `evidence/conformance/rfc0001/variable_permutation/bundle`. -/
@@ -123,8 +133,10 @@ def claim_variable_permutation : Claim :=
     rhs := Expr.add (Expr.var 1) (Expr.int (1 : Int))
   }
 def digest_variable_permutation : RequestDigest := ⟨"sha256:350974b15faa664468f5c38021d89bf0b63255c34f41643db7fe61ef610f863d"⟩
+theorem digest_matches_ofClaim_variable_permutation :
+    (Request.ofClaim claim_variable_permutation).requestDigest = digest_variable_permutation := by native_decide
 def req_variable_permutation : Request :=
-  { claim := claim_variable_permutation, requestDigest := digest_variable_permutation }
+  Request.ofClaim claim_variable_permutation
 def cert_variable_permutation : Certificate where
   requestDigest := ⟨"sha256:350974b15faa664468f5c38021d89bf0b63255c34f41643db7fe61ef610f863d"⟩
   denomFactors := [Expr.sub (Expr.var 1) (Expr.int (1 : Int))]
@@ -136,7 +148,7 @@ theorem replay_variable_permutation :
 theorem replay_report_variable_permutation :
     (replay bundle_variable_permutation).accepted = true := by native_decide
 theorem sound_variable_permutation :
-    Claim.proposition claim_variable_permutation cert_variable_permutation.denomFactors :=
+    Claim.proposition req_variable_permutation.claim cert_variable_permutation.denomFactors :=
   checkBool_sound req_variable_permutation cert_variable_permutation replay_variable_permutation
 
 /-- Generated from `evidence/conformance/rfc0001/large_coeffs/bundle`. -/
@@ -147,8 +159,10 @@ def claim_large_coeffs : Claim :=
     rhs := Expr.mul (Expr.var 0) (Expr.int (9999999999999999999999999999999999999999999999999999999999999999 : Int))
   }
 def digest_large_coeffs : RequestDigest := ⟨"sha256:6dd8784e5cca49737c8c4366eabc55b082a2203ee69c536f37524c7d7b8c5978"⟩
+theorem digest_matches_ofClaim_large_coeffs :
+    (Request.ofClaim claim_large_coeffs).requestDigest = digest_large_coeffs := by native_decide
 def req_large_coeffs : Request :=
-  { claim := claim_large_coeffs, requestDigest := digest_large_coeffs }
+  Request.ofClaim claim_large_coeffs
 def cert_large_coeffs : Certificate where
   requestDigest := ⟨"sha256:6dd8784e5cca49737c8c4366eabc55b082a2203ee69c536f37524c7d7b8c5978"⟩
   denomFactors := []
@@ -160,7 +174,7 @@ theorem replay_large_coeffs :
 theorem replay_report_large_coeffs :
     (replay bundle_large_coeffs).accepted = true := by native_decide
 theorem sound_large_coeffs :
-    Claim.proposition claim_large_coeffs cert_large_coeffs.denomFactors :=
+    Claim.proposition req_large_coeffs.claim cert_large_coeffs.denomFactors :=
   checkBool_sound req_large_coeffs cert_large_coeffs replay_large_coeffs
 
 /-- Generated from `evidence/conformance/rfc0001/false_identity/bundle`. -/
@@ -171,8 +185,10 @@ def claim_false_identity : Claim :=
     rhs := Expr.int (2 : Int)
   }
 def digest_false_identity : RequestDigest := ⟨"sha256:2e87f982f2b1500831a0e78526813da1a8e1207d7d50be21fae39ee00f2deda2"⟩
+theorem digest_matches_ofClaim_false_identity :
+    (Request.ofClaim claim_false_identity).requestDigest = digest_false_identity := by native_decide
 def req_false_identity : Request :=
-  { claim := claim_false_identity, requestDigest := digest_false_identity }
+  Request.ofClaim claim_false_identity
 def cert_false_identity : Certificate where
   requestDigest := ⟨"sha256:2e87f982f2b1500831a0e78526813da1a8e1207d7d50be21fae39ee00f2deda2"⟩
   denomFactors := [Expr.var 0]
@@ -192,6 +208,8 @@ def claim_hash_mismatch : Claim :=
     rhs := Expr.add (Expr.var 0) (Expr.int (1 : Int))
   }
 def digest_hash_mismatch : RequestDigest := ⟨"sha256:abababababababababababababababababababababababababababababababab"⟩
+theorem digest_differs_from_ofClaim_hash_mismatch :
+    ((Request.ofClaim claim_hash_mismatch).requestDigest == digest_hash_mismatch) = false := by native_decide
 def req_hash_mismatch : Request :=
   { claim := claim_hash_mismatch, requestDigest := digest_hash_mismatch }
 def cert_hash_mismatch : Certificate where

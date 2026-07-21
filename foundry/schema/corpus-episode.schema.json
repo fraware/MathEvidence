@@ -62,6 +62,11 @@
           ]
         },
         "sourcePath": { "type": "string", "maxLength": 1024 },
+        "sourceFamily": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Source-family tag for immutable non-random splits."
+        },
         "sourceCommit": { "type": "string", "maxLength": 128 },
         "sourceDate": { "type": "string", "maxLength": 64 },
         "license": { "type": "string", "minLength": 1, "maxLength": 128 },

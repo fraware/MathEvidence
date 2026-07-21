@@ -2,7 +2,7 @@
 
 **Status:** OPEN for human expert review. Do not invent signatures.  
 **Product:** 05 Trace-to-Plan — acceptance criterion 5  
-**Board:** [`../p2-blocker-status.md`](../p2-blocker-status.md)
+**Status tracking:** [`../remaining-spec-matrix.md`](../remaining-spec-matrix.md) · [`../../STATUS.md`](../../STATUS.md)
 
 ## How to sign
 

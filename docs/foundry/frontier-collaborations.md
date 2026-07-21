@@ -5,7 +5,7 @@ Status: **engineering scaffolding and collaboration notes**. This document does
 
 See also: `docs/architecture/collaboration-cslib-lean-auto-smt.md`,
 `docs/foundry/library-contribution-template.md`,
-`docs/foundry/exit-gate-status.md`.
+`docs/STATUS.md`, `docs/security/KNOWN_TRUST_GAPS.md`.
 
 ## Purpose
 
@@ -27,7 +27,7 @@ A frontier collaboration candidate SHOULD:
 | Program / area | Computational bottleneck | MathEvidence posture | Status |
 | --- | --- | --- | --- |
 | Large Mathlib algebra / linear algebra refactors | Exact matrix witnesses, rational identities | Offer `algebra.linear_algebra` / `algebra.rational_equality` replay bundles | Outreach not started |
-| Analytic / formal calculus libraries | Derivative / antiderivative / ODE candidates with domains | `analysis.symbolic_calculus` with candidate ≠ completeness | Outreach not started |
+| Analytic / formal calculus libraries | Derivative / antiderivative / ODE candidates with domains | `algebra.formal_rational_calculus` with candidate ≠ completeness | Outreach not started |
 | Finite combinatorial falsification | Bounded counterexamples | `logic.finite_counterexample` typed witnesses | Outreach not started |
 | SMT-backed developments | Reconstruction authority elsewhere | Federated `logic.smt` metadata only | Align with Lean-SMT maintainers |
 | Gröbner / ideal membership stacks | Specialized checkers | Federated `algebra.groebner_membership` metadata | Align with external owners |

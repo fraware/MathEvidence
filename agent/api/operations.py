@@ -151,6 +151,39 @@ OPERATIONS: dict[str, OperationDescriptor] = {
         max_resource_policy={"maxWallTimeMs": 60_000, "maxOutputBytes": 2_097_152},
         notes=["Bounded verification is never an unbounded theorem."],
     ),
+    "inspect_bundle": OperationDescriptor(
+        id="inspect_bundle",
+        summary="Alias of open_bundle — summarize an EvidenceBundle without closing goals",
+        input_schema=f"{_BASE}open-bundle.input.schema.json",
+        output_schema=_RESULT,
+        claim_classes=["replay"],
+        max_resource_policy={"maxWallTimeMs": 10_000, "maxOutputBytes": 1_048_576},
+        notes=["Same handler as open_bundle; public path fields are rejected."],
+    ),
+    "build_proof_plan": OperationDescriptor(
+        id="build_proof_plan",
+        summary="Trace-to-Plan build; Agent returns unsupported without Lean receipt",
+        input_schema=f"{_BASE}ttp.input.schema.json",
+        output_schema=_RESULT,
+        claim_classes=["candidate"],
+        max_resource_policy={"maxWallTimeMs": 30_000, "maxOutputBytes": 1_048_576},
+        notes=[
+            "Honestly unsupported on the Python Agent surface.",
+            "Use Lean TraceToPlan / committed receipts; Agent never upgrades to verified.",
+        ],
+    ),
+    "reconstruct_plan": OperationDescriptor(
+        id="reconstruct_plan",
+        summary="Trace-to-Plan reconstruct; Agent returns unsupported without receipt",
+        input_schema=f"{_BASE}ttp.input.schema.json",
+        output_schema=_RESULT,
+        claim_classes=["candidate"],
+        max_resource_policy={"maxWallTimeMs": 30_000, "maxOutputBytes": 1_048_576},
+        notes=[
+            "Honestly unsupported on the Python Agent surface without a Lean receipt.",
+            "Hint-only reconstruct must not advance plan state.",
+        ],
+    ),
 }
 
 

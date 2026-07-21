@@ -20,7 +20,11 @@
       "External SAT checker owns acceptance of witnesses / proofs"
     ]
   },
-  "claimClasses": ["witness", "refutation", "candidate"],
+  "claimClasses": [
+    "witness",
+    "refutation",
+    "candidate"
+  ],
   "evidenceSchema": "schemas/federation-certificate.schema.json",
   "requestSchema": "schemas/federation-request.schema.json",
   "checker": {
@@ -29,7 +33,9 @@
     "assurance": "kernel_replay",
     "soundnessStatus": "absent"
   },
-  "assuranceModes": ["kernel_replay"],
+  "assuranceModes": [
+    "kernel_replay"
+  ],
   "limits": {
     "maxWallTimeMs": 120000,
     "maxOutputBytes": 16777216
@@ -41,7 +47,10 @@
   "conformance": {
     "suite": "evidence/federation/examples",
     "status": "partial",
-    "requiredCases": ["emit_metadata", "consume_metadata"]
+    "requiredCases": [
+      "emit_metadata",
+      "consume_metadata"
+    ]
   },
   "maintainers": [
     {
@@ -57,7 +66,9 @@
     "backends": [
       {
         "id": "external.sat",
-        "versions": ["0.1.0"],
+        "versions": [
+          "0.1.0"
+        ],
         "supportLevel": "declared"
       }
     ]
@@ -68,10 +79,15 @@
     "mathEvidenceRole": "metadata_interop",
     "metadataSchema": "schemas/federation-metadata.schema.json",
     "collaborationNote": "docs/architecture/collaboration-cslib-lean-auto-smt.md",
-    "relatedProjects": ["lean-auto"]
+    "relatedProjects": [
+      "lean-auto"
+    ]
   },
   "compatibility": {
     "policy": "federation_metadata_v0",
     "minProtocolVersion": "0.1.0"
-  }
+  },
+  "semanticReview": "absent",
+  "trustReview": "absent",
+  "lifecycle": "experimental"
 }

@@ -1,0 +1,501 @@
+absl-py==2.4.0
+accelerate==1.13.0
+aiohappyeyeballs==2.6.1
+aiohttp==3.13.3
+aiokafka==0.12.0
+aiosignal==1.4.0
+# Editable install with no version control (akta-protocol==1.0.0)
+-e c:\users\mateo\akta
+alabaster==1.0.0
+ale-py==0.11.2
+aliyun-python-sdk-core==2.16.0
+aliyun-python-sdk-kms==2.16.5
+altair==6.1.0
+altgraph==0.17.5
+# Editable install with no version control (alzheimer-ml==0.2.0)
+-e c:\users\mateo\alzheimer_deep_learning
+anaconda-anon-usage @ file:///opt/miniconda3/conda-bld/anaconda-anon-usage_1764636648062/work
+anaconda-auth @ file:///C:/miniconda3/conda-bld/anaconda-cloud-auth-split_1765839853030/work
+anaconda-cli-base @ file:///C:/miniconda3/conda-bld/anaconda-cli-base_1764888883727/work
+annotated-doc==0.0.4
+annotated-types @ file:///C:/miniconda3/conda-bld/annotated-types_1761745107361/work
+anthropic==0.85.0
+antlr4-python3-runtime==4.9.3
+anyio==4.12.1
+archspec @ file:///home/task_175812491784513/conda-bld/archspec_1758124989039/work
+arrow==1.4.0
+astroid==4.0.4
+async-timeout==5.0.1
+attrs==25.4.0
+babel==2.18.0
+backoff==2.2.1
+backrefs==6.2
+bandit==1.9.4
+beautifulsoup4==4.14.3
+black==26.3.1
+blinker==1.9.0
+boltons @ file:///C:/b/abs_e2_iokhxbp/croot/boltons_1751383740243/work
+boolean.py==5.0
+boto3==1.42.81
+botocore==1.42.81
+brotli==1.2.0
+brotlicffi @ file:///C:/miniconda3/conda-bld/brotlicffi_1764961374486/work
+build==1.4.0
+CacheControl==0.14.4
+cachetools==7.1.4
+cbor2==5.8.0
+certifi @ file:///C:/Users/task_176765924055489/croot/certifi_1767659363027/work/certifi
+cffi @ file:///C:/miniconda3/conda-bld/cffi_1761832792955/work
+cfgv==3.5.0
+chardet==5.2.0
+charset-normalizer @ file:///C:/miniconda3/conda-bld/charset-normalizer_1761744975868/work
+# Editable install with no version control (chronoapi==1.0.0)
+-e c:\users\mateo\chronoapi
+clarabel==0.11.1
+click @ file:///C:/miniconda3/conda-bld/click_1764332372183/work
+cloudpickle==3.1.2
+# Editable install with no version control (cloudpilot==1.0.0)
+-e c:\users\mateo\cloudpilot
+colorama @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/colorama_1729036581634/work
+colorlog==6.10.1
+conda @ file:///C:/Users/task_177004801732150/croot/conda_1770048806743/work/conda-src
+conda-anaconda-telemetry @ file:///croot/conda-anaconda-telemetry_1755883788794/work
+conda-anaconda-tos @ file:///C:/b/abs_c9yejtsx9g/croot/conda-anaconda-tos_1755123332641/work
+conda-content-trust @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/conda-content-trust_1729088072778/work
+conda-libmamba-solver @ file:///C:/miniconda3/conda-bld/conda-libmamba-solver_1764245615235/work/src
+conda-package-handling @ file:///C:/miniconda3/conda-bld/conda-package-handling_1762366515145/work
+conda_package_streaming @ file:///C:/miniconda3/conda-bld/conda-package-streaming_1762361689679/work
+-e git+https://github.com/fraware/conicshield.git@180bed7411f3146205b65b4258e6711c786c9f6f#egg=conicshield
+contourpy==1.3.3
+coverage==7.13.4
+crcmod==1.7
+croniter==6.2.2
+cryptography==46.0.5
+cvxpy==1.8.2
+cvxpylayers==1.0.4
+cycler==0.12.1
+cyclonedx-bom==7.3.0
+cyclonedx-python-lib==11.6.0
+datasets==4.5.0
+dateparser==1.4.0
+ddgs==9.14.4
+decorator==5.2.1
+defusedxml==0.7.1
+Deprecated==1.3.1
+diffcp==1.1.8
+dill==0.4.0
+distlib==0.4.0
+distro @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/distro_1729059153117/work
+docker==7.1.0
+docstring_parser==0.17.0
+docutils==0.22.4
+# Editable install with no version control (ds-guard==0.1.0)
+-e c:\users\mateo\dataset-safety-specs-1
+durationpy==0.10
+EditorConfig==0.17.1
+# Editable install with no version control (eeg-advanced-analytics==0.2.0)
+-e c:\users\mateo\eeg-advanced-analytics
+einops==0.8.2
+et_xmlfile==2.0.0
+etils==1.14.0
+-e git+https://github.com/fraware/rust-evals.git@862edd31fcf2d6d4dc5f68a7c6056efbe447ebab#egg=eval_ladder_python
+-e git+https://github.com/fraware/LabTrust-Gym.git@1d9f2fa0b853975cb4a215f7a32eb3015356c3cd#egg=example_plugin&subdirectory=examples\extension_example
+execnet==2.1.2
+fake-useragent==2.2.0
+Farama-Notifications==0.0.4
+fastapi==0.115.14
+fastcore==1.12.13
+filelock==3.29.4
+flake8==7.3.0
+flatbuffers==25.12.19
+fonttools==4.61.1
+fpdf2==2.8.7
+fqdn==1.5.1
+-e git+https://github.com/fraware/formalization-readiness-engine.git@b57cb68e00ffc80ce5b08e04b983ad9728bbe50b#egg=fre_core&subdirectory=packages\fre_core
+frozendict @ file:///C:/miniconda3/conda-bld/frozendict_1761750728192/work
+frozenlist==1.8.0
+fsspec==2025.10.0
+ghapi==1.0.10
+ghp-import==2.1.0
+gitdb==4.0.12
+GitPython==3.1.46
+google-api-core==2.30.2
+google-auth==2.49.1
+google-cloud-core==2.5.1
+google-cloud-storage==3.10.1
+google-crc32c==1.8.0
+google-resumable-media==2.8.2
+googleapis-common-protos==1.74.0
+granite-tsfm @ git+https://github.com/ibm-granite/granite-tsfm.git@e6774c09a6e99ec47b5acadba114b07f08d7f5e2
+griffe==1.15.0
+grpcio==1.80.0
+grpcio-tools==1.80.0
+grpclib==0.4.9
+gunicorn==23.0.0
+gymnasium==1.2.3
+h11==0.16.0
+h2==4.3.0
+hatchling==1.30.1
+hf-xet==1.2.0
+highspy==1.14.0
+hpack==4.1.0
+httpcore==1.0.9
+httptools==0.7.1
+httpx==0.28.1
+huggingface_hub==0.36.2
+hydra-colorlog==1.2.0
+hydra-core==1.3.2
+hyperframe==6.1.0
+hypothesis==6.151.6
+id==1.5.0
+identify==2.6.16
+idna @ file:///C:/miniconda3/conda-bld/idna_1761912043388/work
+imagesize==2.0.0
+iniconfig==2.3.0
+isoduration==20.11.0
+isort==8.0.1
+itsdangerous==2.2.0
+jaraco.classes @ file:///C:/b/abs_6erueoob1v/croot/jaraco.classes_1755516340851/work
+jaraco.context @ file:///C:/Users/dev-admin/buildout/perseverance-python-buildout/croot/jaraco.context_1731721000658/work
+jaraco.functools @ file:///C:/b/abs_a1jv6v_pzp/croot/jaraco.functools_1740408129620/work
+javalang==0.13.0
+Jinja2==3.1.6
+jiter==0.13.0
+jmespath==0.10.0
+joblib==1.5.3
+jsbeautifier==1.15.4
+jsonpatch @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/jsonpatch_1729054776004/work
+jsonpath-rw==1.4.0
+jsonpointer @ file:///C:/b/abs_73u73l7pl9/croot/jsonpointer_1753788460913/work
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+keyring @ file:///C:/miniconda3/conda-bld/keyring_1763637203252/work
+kiwisolver==1.4.9
+kubernetes==35.0.0
+-e git+https://github.com/fraware/LabTrust-Gym.git@1d9f2fa0b853975cb4a215f7a32eb3015356c3cd#egg=labtrust_gym
+langchain==1.2.10
+langchain-core==1.2.18
+langgraph==1.0.10
+langgraph-checkpoint==4.0.1
+langgraph-prebuilt==1.0.8
+langgraph-sdk==0.3.10
+langsmith==0.7.16
+lark==1.3.1
+lazy-loader==0.5
+# Editable install with no version control (lean-langchain==0.1.0)
+-e c:\users\mateo\lean-langchain
+# Editable install with no version control (lean-langchain-evals==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\evals
+# Editable install with no version control (lean-langchain-gateway==0.1.0)
+-e c:\users\mateo\lean-langchain\apps\lean-gateway
+# Editable install with no version control (lean-langchain-orchestrator==0.1.0)
+-e c:\users\mateo\lean-langchain\apps\orchestrator
+# Editable install with no version control (lean-langchain-policy==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\policy
+# Editable install with no version control (lean-langchain-protocol==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\protocol
+# Editable install with no version control (lean-langchain-schemas==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\schemas
+# Editable install with no version control (lean-langchain-sdk==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\sdk-py
+# Editable install with no version control (lean-langchain-telemetry==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\telemetry
+# Editable install with no version control (lean-langchain-tools==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\tools
+-e git+https://github.com/fraware/lean-project-evidence.git@7ec498e937f6efa96cae2fee24a90d0959565973#egg=lean_project_evidence
+libmambapy @ file:///C:/miniconda3/conda-bld/mamba-split_1763111608356/work/libmambapy
+librt==0.7.8
+license-expression==30.4.4
+llvmlite==0.47.0
+lxml==5.3.2
+Markdown==3.10.2
+markdown-it-py @ file:///C:/b/abs_3espcrdl35/croot/markdown-it-py_1756299213703/work
+MarkupSafe==3.0.3
+-e git+https://github.com/fraware/MathEvidence.git@f17ab39599018590b435fc2583688ffc5682fbdd#egg=mathevidence_adapters
+matplotlib==3.10.8
+maturin==1.12.6
+mccabe==0.7.0
+mdurl @ file:///C:/miniconda3/conda-bld/mdurl_1758552277768/work
+menuinst @ file:///C:/miniconda3/conda-bld/menuinst_1765382397455/work
+mergedeep==1.3.4
+mkdocs==1.6.1
+mkdocs-autorefs==1.4.3
+mkdocs-gen-files==0.6.1
+mkdocs-get-deps==0.2.0
+mkdocs-literate-nav==0.6.3
+mkdocs-material==9.7.6
+mkdocs-material-extensions==1.3.1
+mkdocs-mermaid2-plugin==1.2.3
+mkdocstrings==1.0.3
+mkdocstrings-python==2.0.2
+ml_dtypes==0.5.4
+mlcroissant==1.1.0
+mne==1.11.0
+modal==1.3.3
+more-itertools @ file:///C:/miniconda3/conda-bld/more-itertools_1761121564395/work
+moto==5.2.2
+mpmath==1.3.0
+mqt-core==3.6.1
+mqt.qcec==3.6.0
+msgpack @ file:///C:/b/abs_4b3t4uhz3r/croot/msgpack-python_1750958631084/work
+multidict==6.7.1
+multiprocess==0.70.18
+mypy==1.19.1
+mypy_extensions==1.1.0
+narwhals==2.21.2
+natsort==8.4.0
+networkx==3.6.1
+# Editable install with no version control (neuroaging==0.2.0)
+-e c:\users\mateo\neuroaging
+nh3==0.3.4
+nodeenv==1.10.0
+# Editable install with no version control (noisecutter==0.1.0)
+-e c:\users\mateo\noisecutter
+numba==0.65.0
+numpy==2.4.2
+nvidia-ml-py==13.610.43
+oauthlib==3.3.1
+# Editable install with no version control (obligation-runtime==0.1.0)
+-e c:\users\mateo\lean-langchain
+# Editable install with no version control (obligation-runtime-evals==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\evals
+# Editable install with no version control (obligation-runtime-lean-gateway==0.1.0)
+-e c:\users\mateo\lean-langchain\apps\lean-gateway
+# Editable install with no version control (obligation-runtime-orchestrator==0.1.0)
+-e c:\users\mateo\lean-langchain\apps\orchestrator
+# Editable install with no version control (obligation-runtime-policy==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\policy
+# Editable install with no version control (obligation-runtime-protocol==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\protocol
+# Editable install with no version control (obligation-runtime-schemas==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\schemas
+# Editable install with no version control (obligation-runtime-sdk==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\sdk-py
+# Editable install with no version control (obligation-runtime-telemetry==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\telemetry
+# Editable install with no version control (obligation-runtime-tools==0.1.0)
+-e c:\users\mateo\lean-langchain\packages\tools
+# Editable install with no version control (occupational-transition==0.1.0)
+-e c:\users\mateo\occupational-transition
+omegaconf==2.3.0
+onnx==1.21.0
+onnxruntime==1.24.4
+-e git+https://github.com/fraware/open-verification-kernel.git@ce8cf518d0f305ea840c348b4143a71fc23adf1b#egg=open_verification_kernel
+openai==1.86.0
+openapi-schema-validator==0.9.0
+opencv-python==4.13.0.92
+-e git+https://github.com/fraware/OpenJarvis.git@98f4df1f7e5eb409acc65d691ad24dfb9c7673bc#egg=OpenJarvis
+openpyxl==3.1.5
+openxlab==0.1.3
+orjson==3.11.7
+ormsgpack==1.12.2
+osqp==1.1.1
+oss2==2.17.0
+packageurl-python==0.17.6
+packaging==24.2
+paginate==0.5.7
+pandas==2.3.3
+pandas-stubs==2.3.3.260113
+pathspec==1.0.4
+patsy==1.0.2
+-e git+https://github.com/fraware/pcs-bench.git@a3a080e5cb4c24db49f3704c6a582903eed9bbb5#egg=pcs_bench
+# Editable install with no version control (pcs-core==0.1.0)
+-e c:\users\mateo\pcs-core\python
+pefile==2024.8.26
+pettingzoo==1.24.3
+pillow==12.1.1
+pip-api==0.0.34
+pip-requirements-parser==32.0.1
+pip-tools==7.5.3
+pip_audit==2.10.0
+pip_system_certs==5.3
+pkce @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/pkce_1729049216383/work
+platformdirs @ file:///C:/miniconda3/conda-bld/platformdirs_1762356623609/work
+plotly==5.24.1
+pluggy @ file:///C:/b/abs_dfec_m79vo/croot/pluggy_1733170145382/work
+ply==3.11
+polars==1.42.1
+polars-runtime-32==1.42.1
+pooch==1.9.0
+posthog==7.21.2
+pre-commit==3.8.0
+primp==1.3.1
+prometheus-api-client==0.7.0
+prometheus_client==0.21.1
+propcache==0.4.1
+properdocs==1.6.7
+proto-plus==1.27.2
+protobuf==6.33.5
+psutil==7.2.2
+puzpy==0.2.6
+py-partiql-parser==0.6.3
+py-serializable==2.1.0
+pyarrow==23.0.0
+pyasn1==0.6.3
+pyasn1_modules==0.4.2
+pybind11==3.0.3
+pycodestyle==2.14.0
+pycosat @ file:///C:/b/abs_18nblzzn70/croot/pycosat_1736868434419/work
+pycparser @ file:///C:/miniconda3/conda-bld/pycparser_1757496153123/work
+pycryptodome==3.23.0
+pydantic==2.12.5
+pydantic-settings @ file:///C:/miniconda3/conda-bld/pydantic-settings_1764165236385/work
+pydantic_core==2.41.5
+pydeck==0.9.2
+pyfiglet==1.0.4
+pyflakes==3.4.0
+pygame==2.6.1
+Pygments @ file:///C:/miniconda3/conda-bld/pygments_1762431428918/work
+pyinstaller==6.19.0
+pyinstaller-hooks-contrib==2026.4
+PyJWT @ file:///C:/miniconda3/conda-bld/pyjwt_1764332257117/work
+pylint==4.0.5
+pymdown-extensions==10.20.1
+pyparsing==3.3.2
+pypdf==6.9.1
+pyprep==0.6.0
+pyproj==3.7.2
+pyproject_hooks==1.2.0
+pyright==1.1.408
+PySocks @ file:///C:/miniconda3/conda-bld/pysocks_1761753030965/work
+pytest==8.3.5
+pytest-asyncio==0.24.0
+pytest-cov==6.3.0
+pytest-mock==3.15.1
+pytest-timeout==2.4.0
+pytest-xdist==3.8.0
+python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
+python-multipart==0.0.29
+python-telegram-bot==22.8
+pytokens==0.4.1
+pytz==2023.4
+pywin32==311
+pywin32-ctypes @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/pywin32-ctypes_1729046491215/work
+PyYAML==6.0.2
+pyyaml_env_tag==1.1
+# Editable install with no version control (qspecbench==0.2.0)
+-e c:\users\mateo\qspecbench
+rdflib==7.6.0
+readchar @ file:///C:/miniconda3/conda-bld/readchar_1760613474723/work
+readme_renderer==44.0
+redis==7.4.0
+referencing==0.37.0
+regex==2026.3.32
+requests==2.34.2
+requests-oauthlib==2.0.0
+requests-toolbelt==1.0.0
+responses==0.26.2
+respx==0.23.1
+rfc3339-validator==0.1.4
+rfc3986==2.0.0
+rfc3986-validator==0.1.1
+rfc3987-syntax==1.1.0
+rich==15.0.0
+roman-numerals==4.1.0
+rpds-py==0.30.0
+rq==2.9.1
+ruamel.yaml @ file:///C:/miniconda3/conda-bld/ruamel.yaml_1762536064547/work
+ruamel.yaml.clib @ file:///C:/miniconda3/conda-bld/ruamel.yaml.clib_1762530094515/work
+ruff==0.15.9
+s3transfer==0.16.0
+safetensors==0.7.0
+scikit-learn==1.7.2
+scipy==1.17.1
+# Editable install with no version control (scope-protocol==1.0.0)
+-e c:\users\mateo\scope
+scs==3.2.11
+seaborn==0.13.2
+semver @ file:///C:/miniconda3/conda-bld/semver_1761903323755/work
+sentencepiece==0.2.2
+sentry-sdk==2.57.0
+setuptools==82.0.1
+shap==0.51.0
+shapely==2.1.2
+shellingham @ file:///C:/miniconda3/conda-bld/shellingham_1761912227081/work
+six==1.17.0
+slicer==0.0.8
+-e git+https://github.com/fraware/scientific-memory.git@784140baee2589c89453243bee37ea074d0a4a2d#egg=sm_pipeline&subdirectory=pipeline
+smmap==5.0.2
+sniffio==1.3.1
+snowballstemmer==3.0.1
+socksio==1.0.0
+# Editable install with no version control (solarsim==0.1.0)
+-e c:\users\mateo\solarsim
+sortedcontainers==2.4.0
+soupsieve==2.8.3
+Sphinx==9.1.0
+sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-serializinghtml==2.0.0
+stable_baselines3==2.7.1
+starlette==0.46.2
+statsmodels==0.14.6
+stevedore==5.7.0
+streamlit==1.58.0
+swebench==4.1.0
+sympy==1.14.0
+synchronicity==0.11.1
+tenacity==9.1.4
+tensorboard==2.20.0
+tensorboard-data-server==0.7.2
+threadpoolctl==3.6.0
+# Editable install with no version control (tinyrl==0.1.0)
+-e c:\users\mateo\tinyrl
+tokenizers==0.22.2
+toml==0.10.2
+tomli @ file:///C:/b/abs_88e598m6o8/croot/tomli_1753774604115/work
+tomli_w==1.2.0
+tomlkit==0.14.0
+torch==2.11.0
+torchao==0.17.0
+torchvision==0.26.0
+tqdm==4.68.3
+transformers==4.57.6
+trove-classifiers==2026.6.1.19
+truststore @ file:///C:/miniconda3/conda-bld/truststore_1762521027919/work
+twine==6.2.0
+typer==0.20.0
+typer-slim==0.20.0
+types-certifi==2021.10.8.3
+types-jsonschema==4.26.0.20260202
+types-pytz==2026.1.1.20260402
+types-PyYAML==6.0.12.20250915
+types-requests==2.33.0.20260402
+types-seaborn==0.13.2.20260402
+types-toml==0.10.8.20240310
+typing-inspection @ file:///C:/miniconda3/conda-bld/typing-inspection_1760614188477/work
+typing_extensions @ file:///C:/b/abs_ecq8gc0vbm/croot/typing_extensions_1756281142218/work
+tzdata==2025.3
+tzlocal==5.3.1
+-e git+https://github.com/SentinelOps-CI/understand-first.git@234ae236a206d2741486f41e1d6da3d6b04d82c0#egg=understand_first
+Unidecode==1.3.8
+unidiff==0.7.5
+# Editable install with no version control (universal-recycle==0.1.0)
+-e c:\users\mateo\universal-recycle
+uri-template==1.3.0
+urllib3==1.26.20
+uuid_utils==0.14.1
+uvicorn==0.32.1
+# Editable install with no version control (verified-science-agent==0.7.1)
+-e c:\users\mateo\verified-science-agent
+virtualenv==20.36.1
+wandb==0.25.1
+watchdog==6.0.0
+watchfiles==1.1.1
+webcolors==25.10.0
+websocket-client==1.9.0
+websockets==16.0
+Werkzeug==3.1.5
+wheel==0.47.0
+win_inet_pton @ file:///C:/miniconda3/conda-bld/win_inet_pton_1761746278300/work
+wrapt==2.1.2
+xmltodict==1.0.4
+xxhash==3.6.0
+yamllint==1.38.0
+yarl==1.22.0
+zipp==3.23.1
+zstandard @ file:///C:/miniconda3/conda-bld/zstandard_1758189089298/work

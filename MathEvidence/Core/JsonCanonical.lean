@@ -6,16 +6,22 @@ Authors: MathEvidence contributors
 import Lean.Data.Json
 import MathEvidence.Core.CanonicalJson
 import MathEvidence.Core.Digest
+import MathEvidence.Core.Digest.Types
+import MathEvidence.Core.Digest.Types
 
 /-!
 # Lean-side JCS-style canonicalization of `Lean.Json`
+
+Profile version: **mathevidence-jcs-0.2**
 
 Recomputes the same digest profile as the Python canonical module under
 `adapters/common` (see `docs/architecture/canonical-json.md`).
 
 Numbers in Lean `Json` that are floats are rejected for digest binding (v0
 forbids floats). Integer-valued `Json.num` values are emitted as canonical
-decimal integers.
+decimal integers. Duplicate keys are rejected at the text-parse boundary when
+using the shared Python/Lean vectors; Lean `Json` objects are already keyed
+uniquely by `RBNode`.
 -/
 
 namespace MathEvidence.Core.JsonCanonical
@@ -87,21 +93,29 @@ partial def dumps : Json → Except Error String
 /-- Canonical UTF-8 JSON text for digest binding. -/
 def canonicalString (j : Json) : Except Error String := dumps j
 
-/-- SHA-256 digest of canonical JSON (`sha256:` + hex). -/
+/-- SHA-256 digest of canonical JSON as a typed request digest. -/
+def digestRequest (j : Json) : Except Error RequestDigest := do
+  let s ← canonicalString j
+  let eid := CanonicalJson.digest s
+  match RequestDigest.ofWire? eid.value with
+  | some d => pure d
+  | none => throw (.unsupported "digest wire form invalid")
+
+/-- SHA-256 digest of canonical JSON (`sha256:` + hex). Prefer `digestRequest` for binding. -/
 def digest (j : Json) : Except Error EvidenceId := do
   let s ← canonicalString j
   pure (CanonicalJson.digest s)
 
 /-- Digest a JSON object after removing `requestDigest` (Python binding payload). -/
-def digestRequestBinding (j : Json) : Except Error EvidenceId := do
+def digestRequestBinding (j : Json) : Except Error RequestDigest := do
   match j with
   | .obj m =>
     let m' := RBNode.erase compare "requestDigest" m
-    digest (.obj m')
+    digestRequest (.obj m')
   | _ => throw (.unsupported "request binding requires a JSON object")
 
 /-- Parse text and digest the request-binding payload. -/
-def digestRequestBindingString (s : String) : Except String EvidenceId := do
+def digestRequestBindingString (s : String) : Except String RequestDigest := do
   let j ← match Json.parse s with
     | .ok j => pure j
     | .error m => throw m

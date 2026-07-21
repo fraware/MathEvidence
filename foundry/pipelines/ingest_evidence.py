@@ -43,7 +43,11 @@ def ingest_evidence_bundle(bundle_dir: Path, *, repo_root: Path | None = None) -
         except ValueError:
             rel = str(bundle_dir.as_posix())
 
-    capability = (manifest.get("capability") or {}).get("id") or request.get("capability") or ""
+    capability_raw = manifest.get("capability") or request.get("capability") or ""
+    if isinstance(capability_raw, dict):
+        capability = str(capability_raw.get("id") or "")
+    else:
+        capability = str(capability_raw)
     backend = ((manifest.get("provenance") or {}).get("backend") or {})
     result_status = manifest.get("resultStatus") or "unknown"
     claim_class = manifest.get("claimClass") or request.get("requestedClaim")
@@ -76,6 +80,7 @@ def ingest_evidence_bundle(bundle_dir: Path, *, repo_root: Path | None = None) -
         "provenance": {
             "sourceKind": "committed_evidence",
             "sourcePath": rel,
+            "sourceFamily": "evidence_examples",
             "sourceDate": (backend.get("generatedAt") or "")[:64] or None,
             "license": "Apache-2.0",
             "publicationAllowed": True,
@@ -83,7 +88,7 @@ def ingest_evidence_bundle(bundle_dir: Path, *, repo_root: Path | None = None) -
             "backendId": backend.get("backendId"),
             "backendVersion": backend.get("backendVersion"),
             "adapterVersion": backend.get("adapterVersion"),
-            "checkerPackage": ((manifest.get("capability") or {}).get("id")),
+            "checkerPackage": capability or None,
             "notes": "Ingested from committed evidence; never consulted by Lean acceptance.",
         },
         "contamination": {

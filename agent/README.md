@@ -52,9 +52,9 @@ acceptance path).
 | --- | --- |
 | `list_capabilities` | Registry discovery |
 | `check_support` | Pre-compute support gate |
-| `compute_evidence` | Named adapter compute (`rational_equality`, `linear_algebra`, `finite_counterexample`, `symbolic_calculus`) |
-| `open_bundle` | Epistemic status from bundle manifest |
-| `replay_bundle` | Offline schema+digest replay |
+| `compute_evidence` | Named adapter compute (`rational_equality`, `linear_algebra`, `finite_counterexample`, `symbolic_calculus` compute key; registry id `algebra.formal_rational_calculus`) |
+| `open_bundle` | Epistemic status by opaque **`bundleId`** (raw paths rejected) |
+| `replay_bundle` | Offline schema+digest replay by **`bundleId`** |
 | `propose_conditions` | Untrusted side-condition proposals |
 | `prove_sufficient` | Sufficiency preview |
 | `delete_hypothesis` | Deletion / redundancy preview |
@@ -64,6 +64,11 @@ acceptance path).
 | `conjecture_campaign` | Candidate vs certified refutation |
 
 Results always include `resultStatus`, `unresolvedObligations`, and `bundleRef` where applicable.
+
+**Trust notes:** public open/inspect/replay reject raw filesystem paths. See
+[`docs/security/KNOWN_TRUST_GAPS.md`](../docs/security/KNOWN_TRUST_GAPS.md) and
+[`docs/STATUS.md`](../docs/STATUS.md).
+The Agent API remains experimental; no capability is stable.
 
 ## Release notes (v0.1.0)
 

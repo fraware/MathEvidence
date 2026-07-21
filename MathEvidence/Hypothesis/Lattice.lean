@@ -45,6 +45,10 @@ structure ConditionNode where
   expr : Expr
   source : ConditionSource := .backendProposed
   status : ConditionStatus := .proposed
+  /-- Typed condition kind (ME-301); empty means legacy untyped. -/
+  kind : String := "hypothesis_literal"
+  /-- Optional Lean proposition hint string (Agent/Studio facing; not a proof). -/
+  leanPropHint : String := ""
   /-- Human-readable notes; never a soundness claim. -/
   notes : String := ""
   deriving DecidableEq, Repr, Inhabited

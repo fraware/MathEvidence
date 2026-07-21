@@ -1,0 +1,25 @@
+{
+  "id": "IM10_linear_combination_2x_3y",
+  "family": "ideal_membership",
+  "description": "f = 2x + 3y is in Ideal.span {x, y} with constant multipliers 2 and 3.",
+  "claimClass": "membership",
+  "variables": ["x", "y"],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {"coefficient": 2, "exponents": [1, 0]},
+      {"coefficient": 3, "exponents": [0, 1]}
+    ]
+  },
+  "generators": [
+    {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 0]}]},
+    {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [0, 1]}]}
+  ],
+  "expectedMultipliers": [
+    {"varCount": 2, "terms": [{"coefficient": 2, "exponents": [0, 0]}]},
+    {"varCount": 2, "terms": [{"coefficient": 3, "exponents": [0, 0]}]}
+  ],
+  "baselineNotes": [
+    "Constant multipliers smoke-test coefficient handling."
+  ]
+}

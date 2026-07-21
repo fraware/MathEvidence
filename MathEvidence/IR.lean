@@ -7,6 +7,7 @@ import MathEvidence.IR.Common.Identifier
 import MathEvidence.IR.RationalExpr.Syntax
 import MathEvidence.IR.RationalExpr.Eval
 import MathEvidence.IR.RationalExpr.Poly
+import MathEvidence.IR.RationalExpr.PolyCompute
 import MathEvidence.IR.RationalExpr.Reify
 import MathEvidence.IR.RationalExpr.Soundness
 import MathEvidence.IR.RationalExpr.Serialize
@@ -22,12 +23,9 @@ import MathEvidence.IR.FinitePredicate.Eval
 import MathEvidence.IR.FinitePredicate.Reify
 import MathEvidence.IR.FinitePredicate.Soundness
 import MathEvidence.IR.FinitePredicate.Serialize
-import MathEvidence.IR.CalculusExpr.Syntax
-import MathEvidence.IR.CalculusExpr.Ops
-import MathEvidence.IR.CalculusExpr.Eval
-import MathEvidence.IR.CalculusExpr.Serialize
-import MathEvidence.IR.CalculusExpr.Soundness
-import MathEvidence.IR.CalculusExpr.Reify
+import MathEvidence.IR.FormalRationalCalculus
+import MathEvidence.IR.AnalyticExpr.Syntax
+import MathEvidence.IR.Polynomial.Syntax
 
 /-!
 # MathEvidence.IR
@@ -39,5 +37,8 @@ Domain IRs:
 * `RationalExpr` (RFC 0001)
 * `MatrixExpr` (exact linear algebra, Milestone 2)
 * `FinitePredicate` (finite counterexamples, Milestone 2)
-* `CalculusExpr` (symbolic calculus candidates, Milestone 5)
+* `FormalRationalCalculus` (formal rational differentiation/substitution identities,
+  formerly `CalculusExpr`; not analytic semantics)
+* `AnalyticExpr` (analytic-calculus syntax scaffold, ME-105)
+* `Polynomial` (sparse polynomial syntax for ideal-membership federation scaffolding)
 -/

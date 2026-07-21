@@ -1,0 +1,68 @@
+{
+  "id": "IM36_ax_plus_by_family",
+  "family": "ideal_membership",
+  "description": "f = 6*(1x+4y) \u2208 \u27e81x+4y\u27e9.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 24,
+        "exponents": [
+          0,
+          1
+        ]
+      },
+      {
+        "coefficient": 6,
+        "exponents": [
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 4,
+          "exponents": [
+            0,
+            1
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 6,
+          "exponents": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}
