@@ -66,7 +66,7 @@ SEED_SYNONYMS: dict[str, list[str]] = {
         "refutation",
         "domain",
     ],
-    "analysis.symbolic_calculus": [
+    "algebra.formal_rational_calculus": [
         "derivative",
         "antiderivative",
         "calculus",
@@ -220,7 +220,7 @@ def _infer_operation(selected: str, tokens: list[str]) -> str | None:
     tokset = set(tokens)
     if selected == "algebra.linear_algebra":
         return "inverse_witness"
-    if selected == "analysis.symbolic_calculus":
+    if selected == "algebra.formal_rational_calculus":
         if "ode" in tokset:
             return "ode_candidate"
         if "antiderivative" in tokset:
@@ -293,7 +293,7 @@ def trained_select(task: dict[str, Any], model: WeightedTokenSelector) -> dict[s
 
     claim = model.predict_claim(tokens, selected)
 
-    if selected == "analysis.symbolic_calculus" and (
+    if selected == "algebra.formal_rational_calculus" and (
         "candidate" in feats
         or "candidate_not_completeness" in feats
         or "no_completeness_overclaim" in feats
