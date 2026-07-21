@@ -18,7 +18,7 @@ the completed table into the future stable-promotion PR description / comment.
 | Date | YYYY-MM-DD |
 | Capability | algebra.rational_equality |
 | Related domain packet | docs/validation/review-packets/… (signed packet path, if any) |
-| Rubric / trust doc | docs/SECURITY_AND_TRUST_MODEL.md |
+| Rubric / trust doc | docs/security/SECURITY_AND_TRUST_MODEL.md |
 
 ## Checklist (reviewer must answer yes/no + note)
 

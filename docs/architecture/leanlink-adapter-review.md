@@ -1,7 +1,7 @@
 # LeanLink Adapter Design Review (Phase 0)
 
 Review target: Mathematica adapter via LeanLink (`adapters/mathematica`), per
-`docs/SECURITY_AND_TRUST_MODEL.md` §7 and ADR 0003 (JSON-RPC over stdio).
+`docs/security/SECURITY_AND_TRUST_MODEL.md` §7 and ADR 0003 (JSON-RPC over stdio).
 
 ## Goals
 

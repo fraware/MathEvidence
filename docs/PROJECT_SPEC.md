@@ -593,7 +593,7 @@ Free-form exception strings are diagnostic supplements, never the only error rep
 - CI includes malformed, adversarial, and resource-exhaustion cases.
 - Security advisories follow coordinated disclosure.
 
-See `docs/SECURITY_AND_TRUST_MODEL.md`.
+See `docs/security/SECURITY_AND_TRUST_MODEL.md`.
 
 ---
 

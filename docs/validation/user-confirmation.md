@@ -16,7 +16,7 @@ affiliations.
 
 **Outreach process:** `docs/validation/outreach-checklist.md` (do not invent
 entries). Expert statement reviews use `docs/validation/expert-review-rubric.md`.
-Status: see `docs/STATUS.md` / `KNOWN_TRUST_GAPS.md` (0 confirmations until
+Status: see `docs/STATUS.md` / `docs/security/KNOWN_TRUST_GAPS.md` (0 confirmations until
 real consent).
 
 **Owner:** outreach lead (human). Engineering packaging does not close this

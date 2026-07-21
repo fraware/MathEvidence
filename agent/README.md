@@ -66,7 +66,8 @@ acceptance path).
 Results always include `resultStatus`, `unresolvedObligations`, and `bundleRef` where applicable.
 
 **Trust notes:** public open/inspect/replay reject raw filesystem paths. See
-[`KNOWN_TRUST_GAPS.md`](../KNOWN_TRUST_GAPS.md) and [`docs/STATUS.md`](../docs/STATUS.md).
+[`docs/security/KNOWN_TRUST_GAPS.md`](../docs/security/KNOWN_TRUST_GAPS.md) and
+[`docs/STATUS.md`](../docs/STATUS.md).
 The Agent API remains experimental; no capability is stable.
 
 ## Release notes (v0.1.0)

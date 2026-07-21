@@ -7,7 +7,7 @@ Engineering fixtures alone do **not** close Milestone 4 live exits.
 (`federationLevel: fixture`; validated by `scripts/validate_federation.py`).
 
 **Status:** live agreements remain **OPEN** (fixture peers only). See
-[`../STATUS.md`](../STATUS.md) and [`../../KNOWN_TRUST_GAPS.md`](../../KNOWN_TRUST_GAPS.md).  
+[`../STATUS.md`](../STATUS.md) and [`../security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md).  
 **Upgrade checklist:** [`../../evidence/federation/examples/UPGRADE_PATH.md`](../../evidence/federation/examples/UPGRADE_PATH.md)  
 **Outreach copy:** [`../validation/outreach-email-templates.md`](../validation/outreach-email-templates.md) Emails 6–8  
 **Agreement form:** [`../validation/federation-agreement-template.md`](../validation/federation-agreement-template.md)

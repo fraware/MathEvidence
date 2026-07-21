@@ -48,4 +48,4 @@ just tool-selection
 
 See `docs/foundry/` for frontier collaboration notes, contribution tracking,
 and maintenance/ownership plan. Honest open exits: `docs/STATUS.md` and
-`KNOWN_TRUST_GAPS.md`.
+`docs/security/KNOWN_TRUST_GAPS.md`.

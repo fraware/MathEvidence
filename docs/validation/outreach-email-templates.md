@@ -43,7 +43,7 @@ confirmation log? Reply with:
 3. Consent: public name / anonymize / no listing
 
 Repo: https://github.com/fraware/MathEvidence  
-Trust model: `docs/SECURITY_AND_TRUST_MODEL.md`
+Trust model: `docs/security/SECURITY_AND_TRUST_MODEL.md`
 
 Thank you,
 [Your name]

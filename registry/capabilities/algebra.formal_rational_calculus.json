@@ -66,7 +66,7 @@
   },
   "knownLimitations": [
     "FORMAL RATIONAL CALCULUS: not HasDerivAt / analytic ODE.",
-    "NOT analytic: does not prove HasDerivAt / HasDerivWithinAt / function equality on a set (KNOWN_TRUST_GAPS.md P0-12).",
+    "NOT analytic: does not prove HasDerivAt / HasDerivWithinAt / function equality on a set (docs/security/KNOWN_TRUST_GAPS.md).",
     "Public registry ID is algebra.formal_rational_calculus; legacy schemas and fixtures may still use symbolic_calculus/calculus path names.",
     "Filesystem rename is deferred to avoid broken imports; MathEvidence.IR.FormalRationalCalculus is an additive alias barrel over MathEvidence.IR.CalculusExpr.",
     "Derivative/antiderivative/ODE/recurrence checks are formal rational identities only.",

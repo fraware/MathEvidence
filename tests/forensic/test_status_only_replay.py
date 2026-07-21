@@ -16,7 +16,7 @@ def test_replay_does_not_require_true_goal() -> None:
     text = TACTIC.read_text(encoding="utf-8")
     assert "tgt.isConstOf ``True" not in text, (
         "P0-3 status-only replay still present: mathevidence replay requires "
-        "goal True. See KNOWN_TRUST_GAPS.md P0-3."
+        "goal True. See docs/security/KNOWN_TRUST_GAPS.md."
     )
 
 

@@ -2,7 +2,7 @@
 
 **Branch / preview:** `engineering-closure` public preview  
 **Capability status:** all registry capabilities remain **`experimental`**  
-**Authoritative limitations:** [`KNOWN_TRUST_GAPS.md`](../KNOWN_TRUST_GAPS.md)
+**Authoritative limitations:** [`security/KNOWN_TRUST_GAPS.md`](security/KNOWN_TRUST_GAPS.md)
 
 This page is the short, honest status for outsiders. Detailed §21 / milestone
 mapping lives in [`validation/remaining-spec-matrix.md`](validation/remaining-spec-matrix.md).
@@ -41,7 +41,8 @@ It is **not**:
 
 ## How to build and test
 
-See [`README.md`](../README.md). Typical local gate: `just check` (Lean build,
+See [`getting-started/`](getting-started/) and the root
+[`README.md`](../README.md). Typical local gate: `just check` (Lean build,
 schema/registry validation, Python tests, conformance, replay, and related
 harnesses). Forensic subset:
 
@@ -56,8 +57,9 @@ promotion evidence.
 
 | Doc | Role |
 | --- | --- |
-| [`KNOWN_TRUST_GAPS.md`](../KNOWN_TRUST_GAPS.md) | Known limitations / trust gaps |
+| [`security/KNOWN_TRUST_GAPS.md`](security/KNOWN_TRUST_GAPS.md) | Known limitations / trust gaps |
 | [`validation/stable-capability-checklist.md`](validation/stable-capability-checklist.md) | Only path to `stable` |
 | [`validation/remaining-spec-matrix.md`](validation/remaining-spec-matrix.md) | §21 / milestone honesty matrix |
-| [`RELEASE_NOTES_DRAFT.md`](RELEASE_NOTES_DRAFT.md) | Public-preview release notes draft |
+| [`release/RELEASE_NOTES_DRAFT.md`](release/RELEASE_NOTES_DRAFT.md) | Public-preview release notes draft |
 | [`PROJECT_SPEC.md`](PROJECT_SPEC.md) | Normative specification |
+| [`README.md`](README.md) | Documentation landing |

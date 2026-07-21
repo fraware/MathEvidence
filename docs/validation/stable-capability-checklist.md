@@ -9,7 +9,7 @@ every box below is checked with real human artifacts and a separate governance
 PR lands.
 
 > **BLOCKED:** Do not flip `status: stable` while the human gates in
-> [`KNOWN_TRUST_GAPS.md`](../../KNOWN_TRUST_GAPS.md) remain open (0 external
+> [`docs/security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md) remain open (0 external
 > confirmations today). Engineering packaging is not human confirmation.
 > Ownership reality: [`.github/CODEOWNERS`](../../.github/CODEOWNERS) is still a
 > single-owner stub — see [`GOVERNANCE.md`](../../GOVERNANCE.md).

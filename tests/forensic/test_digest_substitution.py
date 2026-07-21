@@ -20,7 +20,7 @@ def test_discovery_does_not_substitute_cert_request_digest() -> None:
     assert FORBIDDEN not in text, (
         "P0-1 live request-binding bypass still present: "
         "Discovery.lean overwrites Lean requestDigest with cert.requestDigest. "
-        "See KNOWN_TRUST_GAPS.md P0-1."
+        "See docs/security/KNOWN_TRUST_GAPS.md."
     )
 
 

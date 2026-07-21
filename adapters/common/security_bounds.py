@@ -1,4 +1,4 @@
-"""Parser and path security bounds (SECURITY_AND_TRUST_MODEL §5–6)."""
+"""Parser and path security bounds (docs/security/SECURITY_AND_TRUST_MODEL §5–6)."""
 
 from __future__ import annotations
 

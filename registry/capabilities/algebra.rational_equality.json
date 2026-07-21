@@ -62,8 +62,8 @@
     "maxLeanBuildMs": 600000
   },
   "knownLimitations": [
-    "PROTOCOL REFERENCE ONLY: external search is not essential; Lean can close equalities via field_simp/ring independently of backend output (KNOWN_TRUST_GAPS.md P0-7).",
-    "P0 trust gaps open at audit baseline: live digest substitution, offline digest trust, coverage≠Defined (KNOWN_TRUST_GAPS.md).",
+    "PROTOCOL REFERENCE ONLY: external search is not essential; Lean can close equalities via field_simp/ring independently of backend output (docs/security/KNOWN_TRUST_GAPS.md).",
+    "P0 trust gaps open at audit baseline: live digest substitution, offline digest trust, coverage≠Defined (docs/security/KNOWN_TRUST_GAPS.md).",
     "Equality is established only under explicit nonzero denominator conditions.",
     "Does not claim identity at poles or under totalized field conventions.",
     "Status remains experimental; stable promotion blocked until P0 trust path + human gates ME-401–408 close.",

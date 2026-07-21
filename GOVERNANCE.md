@@ -31,7 +31,8 @@ Until real teams exist:
 - all capabilities remain `"experimental"`;
 - stable promotion remains blocked by
   [`docs/validation/stable-capability-checklist.md`](docs/validation/stable-capability-checklist.md)
-  and the human gates in [`KNOWN_TRUST_GAPS.md`](KNOWN_TRUST_GAPS.md);
+  and the human gates in
+  [`docs/security/KNOWN_TRUST_GAPS.md`](docs/security/KNOWN_TRUST_GAPS.md);
 - trust-model or checker weakenings still require explicit scrutiny even if
   GitHub cannot yet enforce two distinct area teams.
 

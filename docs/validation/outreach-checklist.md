@@ -10,14 +10,14 @@ Operational companion to:
 Completing outreach is **human work**. This checklist only makes the process
 repeatable. Do **not** invent confirmations, signatures, or workflow wins.
 
-**Status:** [`../STATUS.md`](../STATUS.md) · [`../../KNOWN_TRUST_GAPS.md`](../../KNOWN_TRUST_GAPS.md)  
+**Status:** [`../STATUS.md`](../STATUS.md) · [`../security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md)  
 **Copy/paste emails:** [`outreach-email-templates.md`](outreach-email-templates.md)  
 **Stable promotion path:** [`stable-capability-checklist.md`](stable-capability-checklist.md)
 
 ## Before contacting anyone
 
 - [ ] Bottleneck inventory reviewed (`docs/validation/bottlenecks.md`)
-- [ ] Trust-model one-pager ready (`docs/SECURITY_AND_TRUST_MODEL.md`)
+- [ ] Trust-model one-pager ready (`docs/security/SECURITY_AND_TRUST_MODEL.md`)
 - [ ] Demo path ready: offline `mathevidence` replay + optional discovery with
       SymPy on a laptop (`MATHEVIDENCE_DISCOVERY=1`); or point reviewers at
       `just replay` / `MathEvidence.Tactic.Examples`

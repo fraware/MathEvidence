@@ -194,7 +194,7 @@ def main() -> int:
     print(f"tool-selection ok ({total} tasks, metric=verified_selection_accuracy)")
     print(
         "NOTE: reference policy validates the harness; held-out model improvement "
-        "vs baseline remains a research exit criterion (see docs/STATUS.md / KNOWN_TRUST_GAPS.md)."
+        "vs baseline remains a research exit criterion (see docs/STATUS.md / docs/security/KNOWN_TRUST_GAPS.md)."
     )
     return 0
 

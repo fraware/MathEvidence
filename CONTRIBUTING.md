@@ -1,9 +1,9 @@
 # Contributing
 
 Contributions must preserve the project trust model and repository dependency
-rules. Read [`KNOWN_TRUST_GAPS.md`](KNOWN_TRUST_GAPS.md) and
-[`docs/STATUS.md`](docs/STATUS.md) before proposing promotions or trust-surface
-changes.
+rules. Read [`docs/security/KNOWN_TRUST_GAPS.md`](docs/security/KNOWN_TRUST_GAPS.md)
+and [`docs/STATUS.md`](docs/STATUS.md) before proposing promotions or
+trust-surface changes.
 
 ## Before opening a pull request
 

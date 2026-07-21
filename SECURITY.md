@@ -31,7 +31,7 @@ Include:
 
 Checker soundness defects, request-binding failures, and evidence paths capable
 of authorizing a false theorem are **critical**. Follow the incident response
-process in `docs/SECURITY_AND_TRUST_MODEL.md` §10.
+process in `docs/security/SECURITY_AND_TRUST_MODEL.md` §10.
 
 ## Scope
 
@@ -47,4 +47,5 @@ Out of scope for this policy:
 - defects that only affect untrusted backend computation without Lean acceptance;
 - third-party solvers (Mathematica, SymPy, SageMath) except adapter boundary bugs.
 
-The complete security model is in `docs/SECURITY_AND_TRUST_MODEL.md`.
+The complete security model is in `docs/security/SECURITY_AND_TRUST_MODEL.md`.
+Known preview limitations: `docs/security/KNOWN_TRUST_GAPS.md`.

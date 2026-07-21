@@ -4,7 +4,7 @@ Maps every [PROJECT_SPEC §21](../PROJECT_SPEC.md) DoD row and every
 [DELIVERY_ROADMAP](../DELIVERY_ROADMAP.md) milestone exit criterion to an
 in-repo artifact path or `OPEN`.
 
-**Authority:** [`KNOWN_TRUST_GAPS.md`](../../KNOWN_TRUST_GAPS.md) and
+**Authority:** [`docs/security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md) and
 [`STATUS.md`](../STATUS.md) supersede optimistic labels when they conflict.
 Do not invent human confirmations. Capabilities remain
 `"status": "experimental"` until
@@ -44,7 +44,7 @@ Local `just check` ≠ attested immutable CI green on a release commit.
 | --- | --- | --- |
 | At least three external users confirm the problem | OPEN | `docs/validation/user-confirmation.md` (0/3); process: `outreach-checklist.md`. |
 | Initial capability is materially useful beyond existing tactics | PARTIAL | Engineering path exists; external usefulness confirmation OPEN. |
-| End-to-end trust theorem is understood | MET | `docs/SECURITY_AND_TRUST_MODEL.md`, `docs/PROJECT_SPEC.md`, `README.md`. |
+| End-to-end trust theorem is understood | MET | `docs/security/SECURITY_AND_TRUST_MODEL.md`, `docs/PROJECT_SPEC.md`, `README.md`. |
 | Open-backend path is credible | MET | `adapters/sympy/`, `registry/backends/sympy.json`. |
 
 ---

@@ -4,5 +4,5 @@ contact_links:
     url: https://github.com/fraware/MathEvidence/security/advisories/new
     about: Report privately via GitHub Security Advisories or security@mathevidence.org (see SECURITY.md).
   - name: Project documentation
-    url: https://github.com/fraware/MathEvidence/blob/main/SPEC_INDEX.md
-    about: Start with SPEC_INDEX.md and docs/PROJECT_SPEC.md before opening an issue.
+    url: https://github.com/fraware/MathEvidence/blob/main/docs/SPEC_INDEX.md
+    about: Start with docs/README.md, docs/SPEC_INDEX.md, and docs/PROJECT_SPEC.md before opening an issue.

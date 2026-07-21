@@ -6,5 +6,5 @@
 - `contributions/` — optional committed aggregates (empty template dir)
 
 Milestone 6 honesty (frontier acceleration, funding) remains **OPEN** — see
-[`../STATUS.md`](../STATUS.md) and [`../../KNOWN_TRUST_GAPS.md`](../../KNOWN_TRUST_GAPS.md).
+[`../STATUS.md`](../STATUS.md) and [`../security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md).
 Corpus samples live under `foundry/corpus/`.

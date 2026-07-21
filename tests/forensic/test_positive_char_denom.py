@@ -23,7 +23,7 @@ def test_eval_rat_literal_requires_char_zero_or_cast_nonzero() -> None:
         "restrict" in text.lower() and "ℚ" in text
     ), (
         "P0-10: Eval.lean still uses Nat denominator checks without CharZero / "
-        "cast-nonzero / ℚ-only policy. See KNOWN_TRUST_GAPS.md P0-10.\n"
+        "cast-nonzero / ℚ-only policy. See docs/security/KNOWN_TRUST_GAPS.md.\n"
         f"charZero={has_char_zero} castNonzero={has_cast_nonzero} qOnly={has_q_only}"
     )
 
