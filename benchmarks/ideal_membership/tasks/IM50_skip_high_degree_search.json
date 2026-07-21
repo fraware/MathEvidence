@@ -1,0 +1,74 @@
+{
+  "id": "IM50_skip_high_degree_search",
+  "family": "ideal_membership",
+  "description": "High-degree membership search beyond exact-linear budget; honest skip.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y",
+    "z"
+  ],
+  "target": {
+    "varCount": 3,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          6,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            3,
+            0
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            4,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            0,
+            5
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            2,
+            2,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": null,
+  "expectedStatus": "skip",
+  "skipReason": "total degree search space exceeds current exact-linear coefficient budget",
+  "baselineNotes": [
+    "Honest skip: generator does not claim a witness for this degree."
+  ]
+}

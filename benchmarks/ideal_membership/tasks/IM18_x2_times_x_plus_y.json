@@ -1,0 +1,29 @@
+{
+  "id": "IM18_x2_times_x_plus_y",
+  "family": "ideal_membership",
+  "description": "f = x^3 + x^2 y is in Ideal.span {x^2} with multiplier x + y.",
+  "claimClass": "membership",
+  "variables": ["x", "y"],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {"coefficient": 1, "exponents": [3, 0]},
+      {"coefficient": 1, "exponents": [2, 1]}
+    ]
+  },
+  "generators": [
+    {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [2, 0]}]}
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {"coefficient": 1, "exponents": [1, 0]},
+        {"coefficient": 1, "exponents": [0, 1]}
+      ]
+    }
+  ],
+  "baselineNotes": [
+    "Degree-shifted principal ideal witness."
+  ]
+}

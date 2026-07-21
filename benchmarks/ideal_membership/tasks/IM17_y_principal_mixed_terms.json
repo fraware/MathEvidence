@@ -1,0 +1,29 @@
+{
+  "id": "IM17_y_principal_mixed_terms",
+  "family": "ideal_membership",
+  "description": "f = x^2 y + y^2 z is in Ideal.span {y} with multiplier x^2 + yz.",
+  "claimClass": "membership",
+  "variables": ["x", "y", "z"],
+  "target": {
+    "varCount": 3,
+    "terms": [
+      {"coefficient": 1, "exponents": [2, 1, 0]},
+      {"coefficient": 1, "exponents": [0, 2, 1]}
+    ]
+  },
+  "generators": [
+    {"varCount": 3, "terms": [{"coefficient": 1, "exponents": [0, 1, 0]}]}
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 3,
+      "terms": [
+        {"coefficient": 1, "exponents": [2, 0, 0]},
+        {"coefficient": 1, "exponents": [0, 1, 1]}
+      ]
+    }
+  ],
+  "baselineNotes": [
+    "Principal ideal with separated support in the multiplier."
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "IM49_5xy_in_xy_ideal",
+  "family": "ideal_membership",
+  "description": "f = 5xy \u2208 \u27e8xy\u27e9 with multiplier 5.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 5,
+        "exponents": [
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 5,
+          "exponents": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

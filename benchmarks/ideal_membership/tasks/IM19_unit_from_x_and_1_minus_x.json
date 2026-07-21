@@ -1,0 +1,28 @@
+{
+  "id": "IM19_unit_from_x_and_1_minus_x",
+  "family": "ideal_membership",
+  "description": "f = 1 is in Ideal.span {x, 1 - x} with multipliers 1 and 1.",
+  "claimClass": "membership",
+  "variables": ["x"],
+  "target": {
+    "varCount": 1,
+    "terms": [{"coefficient": 1, "exponents": [0]}]
+  },
+  "generators": [
+    {"varCount": 1, "terms": [{"coefficient": 1, "exponents": [1]}]},
+    {
+      "varCount": 1,
+      "terms": [
+        {"coefficient": 1, "exponents": [0]},
+        {"coefficient": -1, "exponents": [1]}
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {"varCount": 1, "terms": [{"coefficient": 1, "exponents": [0]}]},
+    {"varCount": 1, "terms": [{"coefficient": 1, "exponents": [0]}]}
+  ],
+  "baselineNotes": [
+    "Unit-ideal decomposition with cancellation across generators."
+  ]
+}

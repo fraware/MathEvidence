@@ -1,0 +1,68 @@
+{
+  "id": "IM37_ax_plus_by_family",
+  "family": "ideal_membership",
+  "description": "f = 7*(2x+3y) \u2208 \u27e82x+3y\u27e9.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 21,
+        "exponents": [
+          0,
+          1
+        ]
+      },
+      {
+        "coefficient": 14,
+        "exponents": [
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 3,
+          "exponents": [
+            0,
+            1
+          ]
+        },
+        {
+          "coefficient": 2,
+          "exponents": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 7,
+          "exponents": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

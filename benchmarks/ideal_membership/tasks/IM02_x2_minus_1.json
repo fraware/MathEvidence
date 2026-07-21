@@ -1,0 +1,35 @@
+{
+  "id": "IM02_x2_minus_1",
+  "family": "ideal_membership",
+  "description": "f = x^2 - 1 is in Ideal.span {x - 1} with multiplier x + 1.",
+  "claimClass": "membership",
+  "variables": ["x"],
+  "target": {
+    "varCount": 1,
+    "terms": [
+      {"coefficient": 1, "exponents": [2]},
+      {"coefficient": -1, "exponents": [0]}
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 1,
+      "terms": [
+        {"coefficient": 1, "exponents": [1]},
+        {"coefficient": -1, "exponents": [0]}
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 1,
+      "terms": [
+        {"coefficient": 1, "exponents": [1]},
+        {"coefficient": 1, "exponents": [0]}
+      ]
+    }
+  ],
+  "baselineNotes": [
+    "Classical factorization witness; Lean checks the linear combination only."
+  ]
+}

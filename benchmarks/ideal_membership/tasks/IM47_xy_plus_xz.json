@@ -1,0 +1,74 @@
+{
+  "id": "IM47_xy_plus_xz",
+  "family": "ideal_membership",
+  "description": "f = xy + xz \u2208 \u27e8x\u27e9 with multiplier (y+z).",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y",
+    "z"
+  ],
+  "target": {
+    "varCount": 3,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          1,
+          0,
+          1
+        ]
+      },
+      {
+        "coefficient": 1,
+        "exponents": [
+          1,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

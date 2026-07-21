@@ -1,0 +1,50 @@
+{
+  "id": "IM45_x_power_in_x",
+  "family": "ideal_membership",
+  "description": "f = x^6 \u2208 \u27e8x\u27e9 with multiplier x^5.",
+  "claimClass": "membership",
+  "variables": [
+    "x"
+  ],
+  "target": {
+    "varCount": 1,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          6
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            5
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

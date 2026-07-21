@@ -1,0 +1,50 @@
+{
+  "id": "IM28_x4_in_x2",
+  "family": "ideal_membership",
+  "description": "f = x^4 \u2208 \u27e8x^2\u27e9 with multiplier x^2.",
+  "claimClass": "membership",
+  "variables": [
+    "x"
+  ],
+  "target": {
+    "varCount": 1,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          4
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

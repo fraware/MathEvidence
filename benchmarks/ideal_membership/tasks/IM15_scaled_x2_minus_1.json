@@ -1,0 +1,35 @@
+{
+  "id": "IM15_scaled_x2_minus_1",
+  "family": "ideal_membership",
+  "description": "f = 3x^2 - 3 is in Ideal.span {x - 1} with multiplier 3x + 3.",
+  "claimClass": "membership",
+  "variables": ["x"],
+  "target": {
+    "varCount": 1,
+    "terms": [
+      {"coefficient": 3, "exponents": [2]},
+      {"coefficient": -3, "exponents": [0]}
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 1,
+      "terms": [
+        {"coefficient": 1, "exponents": [1]},
+        {"coefficient": -1, "exponents": [0]}
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 1,
+      "terms": [
+        {"coefficient": 3, "exponents": [1]},
+        {"coefficient": 3, "exponents": [0]}
+      ]
+    }
+  ],
+  "baselineNotes": [
+    "Scaled factorization witness checks integer coefficient propagation."
+  ]
+}

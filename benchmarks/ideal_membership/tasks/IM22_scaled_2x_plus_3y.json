@@ -1,0 +1,68 @@
+{
+  "id": "IM22_scaled_2x_plus_3y",
+  "family": "ideal_membership",
+  "description": "f = 4x + 6y \u2208 \u27e82x+3y\u27e9 with multiplier 2.",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 6,
+        "exponents": [
+          0,
+          1
+        ]
+      },
+      {
+        "coefficient": 4,
+        "exponents": [
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 3,
+          "exponents": [
+            0,
+            1
+          ]
+        },
+        {
+          "coefficient": 2,
+          "exponents": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 2,
+          "exponents": [
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

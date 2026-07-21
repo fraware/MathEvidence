@@ -1,0 +1,29 @@
+{
+  "id": "IM13_z_times_x2_minus_1",
+  "family": "ideal_membership",
+  "description": "f = x^2 z - z is in Ideal.span {x^2 - 1} with multiplier z.",
+  "claimClass": "membership",
+  "variables": ["x", "z"],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {"coefficient": 1, "exponents": [2, 1]},
+      {"coefficient": -1, "exponents": [0, 1]}
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {"coefficient": 1, "exponents": [2, 0]},
+        {"coefficient": -1, "exponents": [0, 0]}
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [0, 1]}]}
+  ],
+  "baselineNotes": [
+    "Carries a univariate factor witness through an extra variable."
+  ]
+}

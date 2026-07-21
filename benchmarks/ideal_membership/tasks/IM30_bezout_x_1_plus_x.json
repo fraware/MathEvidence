@@ -1,0 +1,78 @@
+{
+  "id": "IM30_bezout_x_1_plus_x",
+  "family": "ideal_membership",
+  "description": "f = 1 \u2208 \u27e8x, 1+x\u27e9 with multipliers (-1, 1).",
+  "claimClass": "membership",
+  "variables": [
+    "x"
+  ],
+  "target": {
+    "varCount": 1,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": -1,
+          "exponents": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

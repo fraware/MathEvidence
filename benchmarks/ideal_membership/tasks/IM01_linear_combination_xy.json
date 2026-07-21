@@ -1,0 +1,22 @@
+{
+  "id": "IM01_linear_combination_xy",
+  "family": "ideal_membership",
+  "description": "f = x*y is in Ideal.span {x, y} with multipliers (y, 0) or (0, x).",
+  "claimClass": "membership",
+  "variables": ["x", "y"],
+  "target": {
+    "varCount": 2,
+    "terms": [{"coefficient": 1, "exponents": [1, 1]}]
+  },
+  "generators": [
+    {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 0]}]},
+    {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [0, 1]}]}
+  ],
+  "expectedMultipliers": [
+    {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [0, 1]}]},
+    {"varCount": 2, "terms": []}
+  ],
+  "baselineNotes": [
+    "Native Lean search may struggle for larger ideals; checking a witness is cheap."
+  ]
+}

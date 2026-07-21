@@ -1,0 +1,92 @@
+{
+  "id": "IM26_xyz_membership",
+  "family": "ideal_membership",
+  "description": "f = xyz \u2208 \u27e8x, y, z\u27e9 with multipliers (yz, 0, 0).",
+  "claimClass": "membership",
+  "variables": [
+    "x",
+    "y",
+    "z"
+  ],
+  "target": {
+    "varCount": 3,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 3,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 3,
+      "terms": []
+    },
+    {
+      "varCount": 3,
+      "terms": []
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

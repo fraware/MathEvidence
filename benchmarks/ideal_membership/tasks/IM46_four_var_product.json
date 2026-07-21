@@ -1,0 +1,116 @@
+{
+  "id": "IM46_four_var_product",
+  "family": "ideal_membership",
+  "description": "f = x0*x1*x2 \u2208 \u27e8x0,x1,x2,x3\u27e9 with (x1*x2,0,0,0).",
+  "claimClass": "membership",
+  "variables": [
+    "x0",
+    "x1",
+    "x2",
+    "x3"
+  ],
+  "target": {
+    "varCount": 4,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          1,
+          1,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 4,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 4,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 4,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 4,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 4,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 4,
+      "terms": []
+    },
+    {
+      "varCount": 4,
+      "terms": []
+    },
+    {
+      "varCount": 4,
+      "terms": []
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}

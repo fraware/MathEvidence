@@ -1,0 +1,70 @@
+{
+  "id": "IM27_adversarial_yx_order",
+  "family": "ideal_membership",
+  "description": "f = yx \u2208 \u27e8y, x\u27e9 multipliers (x, 0) \u2014 variable-order adversarial.",
+  "claimClass": "membership",
+  "variables": [
+    "y",
+    "x"
+  ],
+  "target": {
+    "varCount": 2,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedMultipliers": [
+    {
+      "varCount": 2,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "varCount": 2,
+      "terms": []
+    }
+  ],
+  "expectedStatus": "pass",
+  "baselineNotes": [
+    "Constructed from known multipliers; Lean checkMembership is authoritative."
+  ]
+}
