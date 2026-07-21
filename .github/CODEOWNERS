@@ -1,16 +1,32 @@
 # Code ownership for MathEvidence.
 #
-# Choice (Phase 0): GitHub teams referenced in the charter templates
-# (@core-maintainers, @trust-maintainers, …) do not exist yet on the
-# publishing org. Until teams are created, all review paths route to @fraware.
-# Replace @fraware with specialized teams when GOVERNANCE.md maintainer areas
-# are staffed; keep dual review for checkers (domain + trust).
+# ME-405 / governance: nine responsibility areas (closure spec 19).
+# GitHub teams do not exist yet on the publishing org — all paths still
+# route to @fraware as a single-owner incubation stub.
+#
+# HONESTY: this is NOT multi-area governance. Stable promotion remains
+# blocked until real teams exist and dual-area review is enforceable for
+# trust/checker changes. Do not treat @fraware-everywhere as staffing.
+#
+# Target team handles (create before PR-Candidate-Promotion):
+#   @core-maintainers
+#   @trust-maintainers
+#   @semantics-maintainers
+#   @adapter-maintainers
+#   @agent-maintainers
+#   @studio-maintainers
+#   @foundry-maintainers
+#   @ci-release-maintainers
+#   @docs-governance-maintainers
 
 *                              @fraware
 
+# Area stubs (still @fraware until teams exist)
 /MathEvidence/Core/            @fraware
 /MathEvidence/IR/              @fraware
+/MathEvidence/Encoding/        @fraware
 /MathEvidence/Checkers/        @fraware
+/MathEvidence/Tactic/          @fraware
 /adapters/mathematica/         @fraware
 /adapters/sage/                @fraware
 /adapters/sympy/               @fraware
@@ -22,4 +38,9 @@
 /.github/workflows/            @fraware
 /docs/PROJECT_SPEC.md          @fraware
 /docs/SECURITY_AND_TRUST_MODEL.md @fraware
+/docs/validation/              @fraware
 /SECURITY.md                   @fraware
+/KNOWN_TRUST_GAPS.md           @fraware
+/tools/jcs/                    @fraware
+/schemas/                      @fraware
+/evidence/federation/          @fraware

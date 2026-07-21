@@ -1,0 +1,57 @@
+# Generate uv.lock on ubuntu-latest where TLS to PyPI works.
+# Local Windows runners may hit UnknownIssuer; do not invent a lock file locally.
+name: uv-lock
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "pyproject.toml"
+      - "requirements*.txt"
+      - ".github/workflows/uv-lock.yml"
+  pull_request:
+    paths:
+      - "pyproject.toml"
+      - "requirements*.txt"
+      - ".github/workflows/uv-lock.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  generate-uv-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Generate uv.lock (authoritative CI path)
+        run: |
+          if [ -f pyproject.toml ]; then
+            uv lock
+          else
+            echo "No pyproject.toml; skipping uv lock generation."
+            exit 0
+          fi
+
+      - name: Upload uv.lock artifact
+        if: hashFiles('uv.lock') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: uv-lock
+          path: uv.lock
+          if-no-files-found: warn
+
+      - name: Summarize
+        run: |
+          if [ -f uv.lock ]; then
+            echo "uv.lock generated on ubuntu-latest (authoritative TLS path)."
+            wc -l uv.lock
+          else
+            echo "uv.lock not produced (missing project metadata or lock skipped)."
+          fi
