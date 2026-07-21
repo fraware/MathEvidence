@@ -101,8 +101,14 @@ class AgentAPIHandler(BaseHTTPRequestHandler):
                 return _json_response(self, 200, service.op_compute_evidence(body))
             if path == "/v1/bundles/open":
                 return _json_response(self, 200, service.op_open_bundle(body))
+            if path == "/v1/bundles/inspect":
+                return _json_response(self, 200, service.op_inspect_bundle(body))
             if path == "/v1/bundles/replay":
                 return _json_response(self, 200, service.op_replay_bundle(body))
+            if path == "/v1/ttp/build-proof-plan":
+                return _json_response(self, 200, service.op_build_proof_plan(body))
+            if path == "/v1/ttp/reconstruct-plan":
+                return _json_response(self, 200, service.op_reconstruct_plan(body))
             if path == "/v1/hypothesis/propose-conditions":
                 return _json_response(self, 200, service.op_propose_conditions(body))
             if path == "/v1/hypothesis/prove-sufficient":

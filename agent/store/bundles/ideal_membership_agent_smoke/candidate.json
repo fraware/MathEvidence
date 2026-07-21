@@ -1,0 +1,22 @@
+{
+  "reportedOk": true,
+  "multipliers": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            0
+          ]
+        },
+        {
+          "coefficient": 1,
+          "exponents": [
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

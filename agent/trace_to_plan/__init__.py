@@ -2,6 +2,8 @@
 
 Converts untrusted computational traces / hints into a proof-plan DAG.
 Only reconstructible step kinds may advance formal proof status.
+``reconstructible_computation`` advances only when reconstruction carries a
+verified checker receipt gate (see ``reconstruct_from_receipt``).
 """
 
 from __future__ import annotations
@@ -14,6 +16,8 @@ __all__ = [
     "classify_trace_item",
     "hints_never_advance",
     "plan_from_traces",
+    "reconstruct_from_receipt",
+    "reconstruction_has_verified_receipt",
     "validate_plan_invariants",
 ]
 
@@ -61,11 +65,36 @@ def classify_trace_item(item: dict[str, Any]) -> str:
     return "search_hint"
 
 
-def _advances(kind: str, status: str) -> bool:
-    """Only reconstructible categories with verified status advance proof status."""
+def reconstruction_has_verified_receipt(recon: dict[str, Any] | None) -> bool:
+    """True when reconstruction was gated by a verified checker receipt."""
+    if not isinstance(recon, dict):
+        return False
+    gate = recon.get("receiptGate")
+    if not isinstance(gate, dict):
+        return False
+    return bool(gate.get("ok")) and bool(gate.get("allowCertified"))
+
+
+def _verified_status(recon: dict[str, Any]) -> bool:
+    return str(recon.get("resultStatus", "")).endswith("verified") or recon.get(
+        "resultStatus"
+    ) in {"proved", "soundness_verified", "witness_verified"}
+
+
+def _advances(kind: str, status: str, *, recon: dict[str, Any] | None = None) -> bool:
+    """Only reconstructible categories with verified status advance proof status.
+
+    ``reconstructible_computation`` additionally requires a receipt gate from
+    ``reconstruct_from_receipt`` (or equivalent ``receiptGate`` payload).
+    ``direct_proof_step`` may advance on proved|checkable without a receipt.
+    """
     if kind not in ADVANCEABLE_KINDS:
         return False
-    return status in {"proved", "checkable"}
+    if status not in {"proved", "checkable"}:
+        return False
+    if kind == "reconstructible_computation":
+        return reconstruction_has_verified_receipt(recon)
+    return True
 
 
 def plan_from_traces(
@@ -77,8 +106,9 @@ def plan_from_traces(
     """Build a proof-plan DAG from untrusted traces.
 
     ``reconstructions`` maps trace ids to optional reconstruction records
-    ``{method, resultStatus, bundleRef}``. Hints without reconstruction stay
-    ``proposed`` and never set ``advancesProofStatus``.
+    ``{method, resultStatus, bundleRef, receiptGate?}``. Hints without
+    reconstruction stay ``proposed`` and never set ``advancesProofStatus``.
+    Reconstructible nodes advance only when ``receiptGate.allowCertified``.
     """
     reconstructions = reconstructions or {}
     nodes: list[dict[str, Any]] = []
@@ -114,10 +144,15 @@ def plan_from_traces(
         recon = reconstructions.get(tid)
         if kind in ADVANCEABLE_KINDS and recon is not None:
             status = "checkable"
-            if str(recon.get("resultStatus", "")).endswith("verified") or recon.get(
-                "resultStatus"
-            ) in {"proved", "soundness_verified", "witness_verified"}:
+            if _verified_status(recon):
                 status = "proved"
+            # Reconstructible without receipt stays proposed for advance purposes
+            # but may still record checkable/proved method status for audits.
+            if kind == "reconstructible_computation" and not reconstruction_has_verified_receipt(
+                recon
+            ):
+                # Keep status for diagnostics; do not treat as advance-ready.
+                unresolved.append(tid)
         elif kind in ADVANCEABLE_KINDS:
             status = "proposed"
             unresolved.append(tid)
@@ -142,7 +177,7 @@ def plan_from_traces(
             "claim": str(content.get("claim") or content.get("goal") or tid),
             "stepKind": kind,
             "status": status,
-            "advancesProofStatus": _advances(kind, status),
+            "advancesProofStatus": _advances(kind, status, recon=recon),
             "suggestedCapability": suggested_cap,
             "suggestedTactic": content.get("tactic") if isinstance(content, dict) else None,
             "sourceTraceIds": [tid],
@@ -165,11 +200,43 @@ def plan_from_traces(
         "notes": [
             "Traces are untrusted until reconstructed.",
             "search_hint and diagnostic_metadata never advance proof status.",
-            "Only direct_proof_step / reconstructible_computation with proved|checkable status advance.",
+            "Only direct_proof_step with proved|checkable, or reconstructible_computation "
+            "with a verified checker receipt, may advance proof status.",
         ],
     }
     validate_plan_invariants(plan)
     return plan
+
+
+def reconstruct_from_receipt(
+    *,
+    trace_id: str,
+    receipt: dict[str, Any],
+    method: str = "CheckerReceipt.verify",
+) -> dict[str, Any] | None:
+    """Build a typed reconstruction record from a Studio/Agent checker receipt.
+
+    Returns None when the receipt does not structurally allow certified status.
+    Never invents proved status from manifest fields alone.
+    """
+    from studio.epistemic_contract import verify_checker_receipt
+
+    gate = verify_checker_receipt(receipt)
+    if not gate.get("ok"):
+        return None
+    status = "checkable"
+    if gate.get("allowCertified"):
+        status = "proved"
+    return {
+        "method": method,
+        "resultStatus": (
+            "soundness_verified" if status == "proved" else "checkable"
+        ),
+        "bundleRef": receipt.get("bundleDigest") or receipt.get("bundleId"),
+        "requestDigest": receipt.get("requestDigest"),
+        "traceId": trace_id,
+        "receiptGate": gate,
+    }
 
 
 def hints_never_advance(plan: dict[str, Any]) -> bool:
@@ -217,3 +284,9 @@ def validate_plan_invariants(plan: dict[str, Any]) -> None:
             raise ValueError(f"node {node['id']}: non-reconstructible cannot advance")
         if advances and status not in {"proved", "checkable"}:
             raise ValueError(f"node {node['id']}: advances requires proved|checkable")
+        if advances and kind == "reconstructible_computation":
+            if not reconstruction_has_verified_receipt(node.get("reconstruction")):
+                raise ValueError(
+                    f"node {node['id']}: reconstructible_computation advances only with "
+                    "verified receiptGate"
+                )

@@ -107,7 +107,7 @@ paths:
   /v1/bundles/open:
     post:
       operationId: open_bundle
-      summary: Load and summarize an EvidenceBundle
+      summary: Load and summarize an EvidenceBundle by opaque bundleId
       requestBody:
         required: true
         content:
@@ -121,10 +121,27 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/agent-result.schema.json"
+  /v1/bundles/inspect:
+    post:
+      operationId: inspect_bundle
+      summary: Inspect an EvidenceBundle (alias of open_bundle; never closes goals)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/open-bundle.input.schema.json"
+      responses:
+        "200":
+          description: Bundle summary
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
   /v1/bundles/replay:
     post:
       operationId: replay_bundle
-      summary: Offline schema+digest replay of an EvidenceBundle
+      summary: Offline schema+digest replay of an EvidenceBundle by bundleId
       requestBody:
         required: true
         content:
@@ -134,6 +151,40 @@ paths:
       responses:
         "200":
           description: Replay result
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/ttp/build-proof-plan:
+    post:
+      operationId: build_proof_plan
+      summary: Trace-to-Plan build (returns unsupported without Lean ProofPlan)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/ttp.input.schema.json"
+      responses:
+        "200":
+          description: Unsupported or rejected
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/agent-result.schema.json"
+  /v1/ttp/reconstruct-plan:
+    post:
+      operationId: reconstruct_plan
+      summary: Trace-to-Plan reconstruct (returns unsupported without Lean receipt)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/ttp.input.schema.json"
+      responses:
+        "200":
+          description: Unsupported or rejected
           content:
             application/json:
               schema:

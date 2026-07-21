@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "0.1.0",
+  "capability": "algebra.groebner_membership",
+  "capabilityVersion": "0.1.0",
+  "target": {
+    "varCount": 1,
+    "terms": [
+      {
+        "coefficient": 1,
+        "exponents": [
+          2
+        ]
+      },
+      {
+        "coefficient": -1,
+        "exponents": [
+          0
+        ]
+      }
+    ]
+  },
+  "generators": [
+    {
+      "varCount": 1,
+      "terms": [
+        {
+          "coefficient": 1,
+          "exponents": [
+            1
+          ]
+        },
+        {
+          "coefficient": -1,
+          "exponents": [
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "requestedClaim": "candidate",
+  "requestDigest": "sha256:b3728da504fd93582e2d6bd02f75e51669100e44f557e40a46a2028ba18e99cb"
+}

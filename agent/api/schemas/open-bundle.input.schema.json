@@ -1,14 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://mathevidence.org/schemas/agent-open-bundle-input-v0.json",
-  "title": "open_bundle input",
+  "title": "open_bundle / inspect_bundle input",
   "type": "object",
   "additionalProperties": false,
-  "required": ["path"],
+  "required": ["bundleId"],
   "properties": {
-    "path": {
+    "bundleId": {
       "type": "string",
-      "description": "Path to an EvidenceBundle directory containing manifest.json"
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Opaque Agent bundle identifier (content-addressed sha256_* or agent store id). Raw filesystem paths are not accepted."
     }
   }
 }
