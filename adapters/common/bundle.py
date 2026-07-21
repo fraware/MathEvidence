@@ -75,6 +75,24 @@ def load_role_json(bundle_dir: Path, stem: str) -> dict[str, Any]:
     return data
 
 
+def iter_bundle_dirs(root: Path) -> list[Path]:
+    """Unique bundle directories under ``root`` that have a manifest role (``.cjson`` or ``.json``)."""
+    if not root.is_dir():
+        return []
+    seen: set[Path] = set()
+    bundles: list[Path] = []
+    for pattern in ("manifest.cjson", "manifest.json"):
+        for path in root.rglob(pattern):
+            parent = path.parent.resolve()
+            if parent in seen:
+                continue
+            if find_role_path(parent, "manifest") is None:
+                continue
+            seen.add(parent)
+            bundles.append(parent)
+    return sorted(bundles)
+
+
 def build_manifest(
     *,
     capability_id: str,

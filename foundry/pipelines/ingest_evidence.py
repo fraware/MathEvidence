@@ -7,11 +7,11 @@ from pathlib import Path
 from typing import Any
 from uuid import UUID, uuid5
 
+from adapters.common.bundle import find_role_path, load_role_json
 from foundry.pipelines.common import (
     EVIDENCE_EXAMPLES,
     KNOWN_CAPABILITIES,
     content_digest,
-    load_json,
 )
 
 # Stable namespace so rebuilds are deterministic for the same source path.
@@ -29,13 +29,13 @@ def ingest_evidence_bundle(bundle_dir: Path, *, repo_root: Path | None = None) -
     complete offline bundle (request + certificate + manifest), not from
     acceptance.
     """
-    manifest_path = bundle_dir / "manifest.json"
-    request_path = bundle_dir / "request.json"
-    if not manifest_path.is_file() or not request_path.is_file():
+    if find_role_path(bundle_dir, "manifest") is None or find_role_path(
+        bundle_dir, "request"
+    ) is None:
         raise FileNotFoundError(f"incomplete evidence bundle: {bundle_dir}")
 
-    manifest = load_json(manifest_path)
-    request = load_json(request_path)
+    manifest = load_role_json(bundle_dir, "manifest")
+    request = load_role_json(bundle_dir, "request")
     rel = str(bundle_dir.as_posix())
     if repo_root is not None:
         try:
@@ -52,7 +52,7 @@ def ingest_evidence_bundle(bundle_dir: Path, *, repo_root: Path | None = None) -
     result_status = manifest.get("resultStatus") or "unknown"
     claim_class = manifest.get("claimClass") or request.get("requestedClaim")
     request_digest = manifest.get("requestDigest") or request.get("requestDigest")
-    has_cert = (bundle_dir / "certificate.json").is_file()
+    has_cert = find_role_path(bundle_dir, "certificate") is not None
     replayable = has_cert and bool(request_digest)
 
     # Committed offline examples that replay in CI are Q2; others stay Q1.
@@ -123,7 +123,7 @@ def ingest_evidence_bundle(bundle_dir: Path, *, repo_root: Path | None = None) -
         "payload": {
             "manifestKeys": sorted(manifest.keys()) if isinstance(manifest, dict) else [],
             "hasCertificate": has_cert,
-            "hasCandidate": (bundle_dir / "candidate.json").is_file(),
+            "hasCandidate": find_role_path(bundle_dir, "candidate") is not None,
         },
         "notes": "Corpus episode built from evidence; acceptanceInfluence=false.",
     }
@@ -155,7 +155,7 @@ def ingest_all_evidence_examples(
     for child in sorted(root.iterdir()):
         if not child.is_dir():
             continue
-        if not (child / "manifest.json").is_file():
+        if find_role_path(child, "manifest") is None:
             continue
         ep = ingest_evidence_bundle(child, repo_root=repo_root)
         episodes.append(_strip_optional_nones(ep))

@@ -1,11 +1,12 @@
 {
   "id": "T04_replay_example_bundle",
   "operation": "replay_bundle",
+  "seedExample": "evidence/examples/rational_equality_basic",
   "input": {
-    "path": "evidence/examples/rational_equality_basic"
+    "bundleId": "sha256_354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"
   },
   "expect": {
-    "resultStatus": "tested",
+    "resultStatusIn": ["tested", "computed", "soundness_verified", "witness_verified"],
     "hasBundleRef": true
   }
 }

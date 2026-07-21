@@ -1,8 +1,9 @@
 {
   "id": "T03_open_example_bundle",
   "operation": "open_bundle",
+  "seedExample": "evidence/examples/rational_equality_basic",
   "input": {
-    "path": "evidence/examples/rational_equality_basic"
+    "bundleId": "sha256_354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"
   },
   "expect": {
     "resultStatusIn": ["computed", "tested", "soundness_verified", "witness_verified"],

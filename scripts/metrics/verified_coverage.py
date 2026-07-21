@@ -83,10 +83,11 @@ def _has_evidence_for_capability(cap: str | None) -> bool:
     for root in (EVIDENCE / "examples", EVIDENCE / "conformance"):
         if not root.is_dir():
             continue
-        for p in root.rglob("manifest.json"):
-            s = str(p).replace("\\", "/")
-            if any(k in s for k in keys):
-                return True
+        for pattern in ("manifest.cjson", "manifest.json"):
+            for p in root.rglob(pattern):
+                s = str(p).replace("\\", "/")
+                if any(k in s for k in keys):
+                    return True
     return False
 
 

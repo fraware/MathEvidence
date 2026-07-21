@@ -18,7 +18,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from adapters.common.bundle import verify_bundle_offline, write_bundle  # noqa: E402
+from adapters.common.bundle import (  # noqa: E402
+    find_role_path,
+    load_role_json,
+    verify_bundle_offline,
+    write_bundle,
+    write_cjson,
+)
 from adapters.common.canonical import bind_request_digest, reject_duplicate_keys  # noqa: E402
 from adapters.common.errors import AdapterError  # noqa: E402
 from adapters.common.limits import ResourceLimits  # noqa: E402
@@ -34,9 +40,9 @@ BASIC = ROOT / "evidence" / "examples" / "rational_equality_basic"
 
 
 def _load_basic() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
-    req = json.loads((BASIC / "request.json").read_text(encoding="utf-8"))
-    cand = json.loads((BASIC / "candidate.json").read_text(encoding="utf-8"))
-    cert = json.loads((BASIC / "certificate.json").read_text(encoding="utf-8"))
+    req = load_role_json(BASIC, "request")
+    cand = load_role_json(BASIC, "candidate")
+    cert = load_role_json(BASIC, "certificate")
     return req, cand, cert
 
 
@@ -58,16 +64,18 @@ def case_wrong_hash() -> dict[str, Any]:
             bundle = Path(tmp)
             # Bypass write_bundle schema path: plant mismatched digest files + manifest.
             write_bundle(bundle, request=req, candidate=cand, certificate=cert)
-            (bundle / "certificate.json").write_text(
-                json.dumps(bad, indent=2) + "\n", encoding="utf-8"
-            )
+            # Overwrite the authoritative v0.2 role (dual-read prefers .cjson).
+            write_cjson(bundle / "certificate.cjson", bad)
             verify_bundle_offline(bundle)
 
     return _expect_reject("wrong_request_hash", run)
 
 
 def case_truncated_certificate() -> dict[str, Any]:
-    raw = (BASIC / "certificate.json").read_text(encoding="utf-8")
+    cert_path = find_role_path(BASIC, "certificate")
+    if cert_path is None:
+        raise FileNotFoundError(f"missing certificate under {BASIC}")
+    raw = cert_path.read_text(encoding="utf-8")
     truncated = raw[: max(20, len(raw) // 3)]
 
     def run() -> None:
@@ -125,7 +133,7 @@ def case_bundle_path_traversal_manifest() -> dict[str, Any]:
         with tempfile.TemporaryDirectory() as tmp:
             bundle = Path(tmp)
             write_bundle(bundle, request=req, candidate=cand, certificate=cert)
-            manifest = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
+            manifest = load_role_json(bundle, "manifest")
             manifest["files"].append(
                 {
                     "path": "../outside.json",
@@ -133,9 +141,7 @@ def case_bundle_path_traversal_manifest() -> dict[str, Any]:
                     "mediaType": "application/json",
                 }
             )
-            (bundle / "manifest.json").write_text(
-                json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
-            )
+            write_cjson(bundle / "manifest.cjson", manifest)
             verify_bundle_offline(bundle)
 
     return _expect_reject("bundle_path_traversal", run)

@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from adapters.common.bundle import verify_bundle_offline  # noqa: E402
+from adapters.common.bundle import load_role_json, verify_bundle_offline  # noqa: E402
 
 PINNED_BUNDLES = [
     ROOT / "evidence" / "examples" / "rational_equality_basic",
@@ -28,11 +28,11 @@ PINNED_BUNDLES = [
 
 
 def _assert_version_pin(bundle: Path) -> dict:
-    manifest = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
+    manifest = load_role_json(bundle, "manifest")
     cap = manifest.get("capability") or {}
     if not isinstance(cap.get("id"), str) or not isinstance(cap.get("version"), str):
         raise AssertionError(f"{bundle}: manifest missing capability.id/version pin")
-    request = json.loads((bundle / "request.json").read_text(encoding="utf-8"))
+    request = load_role_json(bundle, "request")
     if request.get("capabilityVersion") != cap["version"]:
         raise AssertionError(
             f"{bundle}: request.capabilityVersion != manifest.capability.version"

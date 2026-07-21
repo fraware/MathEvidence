@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 from uuid import UUID, uuid5
 
+from adapters.common.bundle import find_role_path
 from foundry.pipelines.common import REPO_ROOT, content_digest, load_json
 from foundry.pipelines.ingest_evidence import _strip_optional_nones, ingest_evidence_bundle
 
@@ -41,11 +42,15 @@ def _conformance_bundle_dirs(root: Path) -> list[Path]:
     if not root.is_dir():
         return []
     dirs: list[Path] = []
-    for manifest in root.rglob("manifest.json"):
-        bundle = manifest.parent
-        if (bundle / "request.json").is_file() and (bundle / "certificate.json").is_file():
-            dirs.append(bundle)
-    return sorted(dirs)
+    for pattern in ("manifest.cjson", "manifest.json"):
+        for manifest in root.rglob(pattern):
+            bundle = manifest.parent
+            if find_role_path(bundle, "request") is not None and find_role_path(
+                bundle, "certificate"
+            ) is not None:
+                dirs.append(bundle)
+    # Deduplicate when both .cjson and .json manifests exist.
+    return sorted(set(dirs))
 
 
 def ingest_conformance_bundles(

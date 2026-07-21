@@ -84,12 +84,12 @@ def test_open_and_replay_example_bundle() -> None:
 
     from agent.api.bundle_store import BundleStore
 
+    from adapters.common.bundle import load_role_json
+
     root = Path(__file__).resolve().parents[1]
     example = root / "evidence" / "examples" / "rational_equality_basic"
     store = BundleStore.default(root)
-    digest = json.loads((example / "manifest.json").read_text(encoding="utf-8"))[
-        "requestDigest"
-    ]
+    digest = load_role_json(example, "manifest")["requestDigest"]
     dest, bid = store.commit_content_addressed(example, request_digest=digest)
     try:
         opened = service.op_open_bundle({"bundleId": bid})

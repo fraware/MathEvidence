@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from adapters.common.bundle import verify_bundle_offline  # noqa: E402
+from adapters.common.bundle import iter_bundle_dirs, verify_bundle_offline  # noqa: E402
 
 EVIDENCE_ROOTS = [
     ROOT / "evidence" / "examples",
@@ -30,11 +30,8 @@ EXPECTED_REJECT_MARKERS = (
 def find_bundles() -> list[Path]:
     bundles: list[Path] = []
     for root in EVIDENCE_ROOTS:
-        if not root.is_dir():
-            continue
-        for manifest in root.rglob("manifest.json"):
-            bundles.append(manifest.parent)
-    return sorted(bundles)
+        bundles.extend(iter_bundle_dirs(root))
+    return sorted(set(bundles))
 
 
 def _is_expected_reject(rel: Path) -> bool:

@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from adapters.common.bundle import find_role_path, load_role_json  # noqa: E402
 from adapters.common.canonical import bind_request_digest  # noqa: E402
 from adapters.common.errors import AdapterError  # noqa: E402
 from adapters.common.lean_mirrors import (  # noqa: E402
@@ -94,8 +95,7 @@ def _load_rfc_request(case_dir: Path) -> dict[str, Any]:
 
 
 def _load_bundle_request(case_dir: Path) -> dict[str, Any]:
-    path = case_dir / "bundle" / "request.json"
-    request = json.loads(path.read_text(encoding="utf-8"))
+    request = load_role_json(case_dir / "bundle", "request")
     return bind_request_digest(request)
 
 
@@ -144,7 +144,7 @@ def _case_dirs(suite: SuiteConfig) -> list[Path]:
             meta = json.loads((p / "case.json").read_text(encoding="utf-8"))
             if meta.get("expect") != "accept":
                 continue
-            if not (p / "bundle" / "request.json").is_file():
+            if find_role_path(p / "bundle", "request") is None:
                 continue
         out.append(p)
     return out
@@ -212,8 +212,8 @@ def _run_mathematica_rational_or_offline(
 
 
 def _committed_mm_cert(case_dir: Path) -> dict[str, Any] | None:
-    path = case_dir / "bundle" / "certificate.json"
-    if not path.is_file():
+    path = find_role_path(case_dir / "bundle", "certificate")
+    if path is None:
         return None
     cert = json.loads(path.read_text(encoding="utf-8"))
     if cert.get("provenance", {}).get("backendId") == "mathematica":
@@ -223,9 +223,9 @@ def _committed_mm_cert(case_dir: Path) -> dict[str, Any] | None:
 
 def _example_mm_cert_for_digest(digest: str) -> dict[str, Any] | None:
     example = ROOT / "evidence" / "examples" / "rational_equality_mathematica_offline"
-    req_path = example / "request.json"
-    cert_path = example / "certificate.json"
-    if not req_path.is_file() or not cert_path.is_file():
+    req_path = find_role_path(example, "request")
+    cert_path = find_role_path(example, "certificate")
+    if req_path is None or cert_path is None:
         return None
     req = json.loads(req_path.read_text(encoding="utf-8"))
     if req.get("requestDigest") == digest:

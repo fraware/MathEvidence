@@ -33,10 +33,11 @@ def _reject_fixture_count() -> int:
         "missing_domain",
     )
     n = 0
-    for manifest in CONFORMANCE.rglob("manifest.json"):
-        s = str(manifest).replace("\\", "/")
-        if any(m in s for m in markers):
-            n += 1
+    for pattern in ("manifest.cjson", "manifest.json"):
+        for manifest in CONFORMANCE.rglob(pattern):
+            s = str(manifest).replace("\\", "/")
+            if any(m in s for m in markers):
+                n += 1
     return n
 
 

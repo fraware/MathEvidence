@@ -229,9 +229,11 @@ def test_fixture_dual_backend_certificates_accepted() -> None:
             "ideal_membership_sage_offline_xy",
         ),
     ]
+    from adapters.common.bundle import load_role_json
+
     for mm_name, sage_name in pairs:
-        mm = json.loads((root / mm_name / "certificate.json").read_text(encoding="utf-8"))
-        sg = json.loads((root / sage_name / "certificate.json").read_text(encoding="utf-8"))
+        mm = load_role_json(root / mm_name, "certificate")
+        sg = load_role_json(root / sage_name, "certificate")
         assert mm["requestDigest"] == sg["requestDigest"]
         assert mm["target"] == sg["target"]
         assert mm["generators"] == sg["generators"]

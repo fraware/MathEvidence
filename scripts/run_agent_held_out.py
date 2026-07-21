@@ -10,22 +10,42 @@ from __future__ import annotations
 import json
 import shutil
 import sys
-import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from adapters.common.bundle import load_role_json  # noqa: E402
 from agent.api import service  # noqa: E402
+from agent.api.bundle_store import BundleStore  # noqa: E402
 
 MANIFEST = ROOT / "benchmarks" / "agent" / "held_out" / "manifest.json"
 
 
+def _seed_example_bundle(rel: str) -> str:
+    """Commit a repo example into the content-addressed store; return opaque bundleId."""
+    example = ROOT / rel
+    digest = load_role_json(example, "manifest")["requestDigest"]
+    if not isinstance(digest, str):
+        raise ValueError(f"{rel}: missing requestDigest")
+    store = BundleStore.default(ROOT)
+    _, bid = store.commit_content_addressed(example, request_digest=digest)
+    return bid
+
+
 def _run_task(task: dict) -> tuple[bool, str]:
     op = task["operation"]
-    inp = task.get("input", {})
+    inp = dict(task.get("input", {}))
     expect = task.get("expect", {})
+
+    seed = task.get("seedExample")
+    if isinstance(seed, str) and seed and op in {"open_bundle", "replay_bundle"}:
+        bid = _seed_example_bundle(seed)
+        declared = inp.get("bundleId")
+        if isinstance(declared, str) and declared and declared != bid:
+            return False, f"fixture bundleId {declared!r} != seeded {bid!r}"
+        inp["bundleId"] = bid
 
     if op == "list_capabilities":
         out = service.op_list_capabilities()
@@ -40,10 +60,13 @@ def _run_task(task: dict) -> tuple[bool, str]:
         return True, "ok"
 
     if op == "compute_and_replay":
-        scratch = Path(tempfile.mkdtemp(prefix="me_held_out_"))
+        store = BundleStore.default(ROOT)
+        bid = store.allocate_bundle_id()
+        out_path = store.path_for_bundle_id(bid)
         try:
             body = dict(inp)
-            body["writeBundleTo"] = str(scratch)
+            body.pop("writeBundleTo", None)
+            body["bundleId"] = bid
             out = service.op_compute_evidence(body)
             if "resultStatus" in expect and out.get("resultStatus") != expect["resultStatus"]:
                 return (
@@ -55,7 +78,10 @@ def _run_task(task: dict) -> tuple[bool, str]:
                 return False, "missing bundleRef after compute"
             if "unresolvedObligations" not in out:
                 return False, "missing unresolvedObligations after compute"
-            replay = service.op_replay_bundle({"path": str(scratch)})
+            # Prefer content-addressed id from compute when present.
+            ref = out.get("bundleRef") or {}
+            replay_id = ref.get("bundleId") if isinstance(ref.get("bundleId"), str) else bid
+            replay = service.op_replay_bundle({"bundleId": replay_id})
             want_replay = expect.get("replayResultStatus", "tested")
             if replay.get("resultStatus") != want_replay:
                 return (
@@ -66,7 +92,8 @@ def _run_task(task: dict) -> tuple[bool, str]:
                 return False, "missing unresolvedObligations after replay"
             return True, "ok"
         finally:
-            shutil.rmtree(scratch, ignore_errors=True)
+            if out_path.exists():
+                shutil.rmtree(out_path, ignore_errors=True)
 
     if op == "check_support":
         out = service.op_check_support(inp)
