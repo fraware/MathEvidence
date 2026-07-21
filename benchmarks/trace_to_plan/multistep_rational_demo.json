@@ -46,16 +46,26 @@
     "t_poly": {
       "method": "RationalEquality.checkBool",
       "resultStatus": "soundness_verified",
-      "bundleRef": "evidence/examples/rational_equality_basic"
+      "bundleRef": "evidence/examples/rational_equality_basic",
+      "receiptGate": {
+        "ok": true,
+        "allowCertified": true,
+        "detail": "demo fixture receipt gate (offline)"
+      }
     },
     "t_denom": {
       "method": "RationalEquality.checkBool",
       "resultStatus": "soundness_verified",
-      "bundleRef": "evidence/examples/rational_equality_basic"
+      "bundleRef": "evidence/examples/rational_equality_basic",
+      "receiptGate": {
+        "ok": true,
+        "allowCertified": true,
+        "detail": "demo fixture receipt gate (offline)"
+      }
     }
   },
   "notes": [
-    "Only reconstructible_computation / direct_proof_step with proved|checkable advance proof status.",
+    "Only direct_proof_step with proved|checkable, or reconstructible_computation with verified receiptGate, may advance.",
     "search_hint and diagnostic_metadata never advance."
   ]
 }

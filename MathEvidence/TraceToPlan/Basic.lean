@@ -95,6 +95,26 @@ structure ProofPlan where
 def ProofPlan.nodesWellFormed (p : ProofPlan) : Bool :=
   p.nodes.all PlanNode.wellFormed
 
+/-- Successors of `id` in the edge list. -/
+def ProofPlan.successors (p : ProofPlan) (id : String) : List String :=
+  p.edges.filterMap fun e => if e.fromId == id then some e.toId else none
+
+/-- DFS cycle detection from `start`, with path stack `stack`. -/
+partial def ProofPlan.reachesCycleFrom
+    (p : ProofPlan) (start : String) (stack : List String) : Bool :=
+  if stack.contains start then true
+  else
+    let stack' := start :: stack
+    (p.successors start).any fun nxt => p.reachesCycleFrom nxt stack'
+
+/-- Executable DAG acyclicity: no node reaches itself via directed edges. -/
+def ProofPlan.isAcyclic (p : ProofPlan) : Bool :=
+  !(p.nodes.any fun n => p.reachesCycleFrom n.id [])
+
+/-- Combined structural gate: node WF + acyclicity. -/
+def ProofPlan.structurallyOk (p : ProofPlan) : Bool :=
+  p.nodesWellFormed && p.isAcyclic
+
 /-- Hints never alter theorem status when the node is well-formed. -/
 theorem searchHint_never_advances (n : PlanNode)
     (hk : n.stepKind = .searchHint) (hw : n.hintSafe = true) :
@@ -112,5 +132,34 @@ theorem diagnostic_never_advances (n : PlanNode)
   · rfl
   · unfold PlanNode.hintSafe at hw
     simp [hk, hadv, StepKind.mayAdvanceProofStatus] at hw
+
+/-- Concrete acyclic plan accepts. -/
+theorem example_acyclic_plan :
+    let p : ProofPlan := {
+      targetTheorem := "demo"
+      nodes := [
+        { id := "a", claim := "A", stepKind := .directProofStep, status := .proved,
+          advancesProofStatus := true },
+        { id := "b", claim := "B", stepKind := .lemmaCandidate, status := .proposed }
+      ]
+      edges := [{ fromId := "a", toId := "b" }]
+    }
+    p.isAcyclic = true ∧ p.structurallyOk = true := by
+  native_decide
+
+/-- Concrete cyclic plan rejects acyclicity. -/
+theorem example_cyclic_plan_rejected :
+    let p : ProofPlan := {
+      targetTheorem := "cycle"
+      nodes := [
+        { id := "a", claim := "A", stepKind := .directProofStep, status := .checkable,
+          advancesProofStatus := true },
+        { id := "b", claim := "B", stepKind := .directProofStep, status := .checkable,
+          advancesProofStatus := true }
+      ]
+      edges := [{ fromId := "a", toId := "b" }, { fromId := "b", toId := "a" }]
+    }
+    p.isAcyclic = false := by
+  native_decide
 
 end MathEvidence.TraceToPlan

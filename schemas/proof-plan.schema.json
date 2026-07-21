@@ -99,7 +99,18 @@
           "properties": {
             "method": { "type": "string" },
             "resultStatus": { "type": "string" },
-            "bundleRef": { "type": ["string", "null"] }
+            "bundleRef": { "type": ["string", "null"] },
+            "requestDigest": { "type": ["string", "null"] },
+            "traceId": { "type": ["string", "null"] },
+            "receiptGate": {
+              "type": ["object", "null"],
+              "additionalProperties": true,
+              "properties": {
+                "ok": { "type": "boolean" },
+                "allowCertified": { "type": "boolean" },
+                "detail": { "type": "string" }
+              }
+            }
           }
         }
       }
