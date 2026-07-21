@@ -43,5 +43,5 @@ strict = true
 packages = ["adapters", "agent"]
 
 [tool.pytest.ini_options]
-testpaths = ["adapters", "agent", "foundry"]
+testpaths = ["adapters", "agent", "foundry", "tests"]
 python_files = ["test_*.py"]
