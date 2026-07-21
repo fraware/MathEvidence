@@ -1,0 +1,435 @@
+{
+  "schemaVersion": "0.1.0",
+  "generatedAt": "2026-07-21T11:23:28Z",
+  "generator": "scripts/generate_support_matrix.py",
+  "signatureStatus": "unsigned",
+  "signatureNote": "Default output is intentionally unsigned. ``matrixDigest``/``contentDigest`` bind the canonical unsigned body. Optional ``--sign-hmac`` attaches a **dev-only** HMAC (not production PKI).",
+  "capabilities": [
+    {
+      "id": "algebra.formal_rational_calculus",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": "custom_ir",
+      "adoptionLevel": "none",
+      "federationLevel": "fixture",
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": false,
+      "conformance": {
+        "suite": "evidence/conformance/symbolic_calculus",
+        "status": "passing",
+        "suiteExists": true,
+        "artifactCount": 4,
+        "requiredCases": [
+          "derivative_x2",
+          "antiderivative_x2",
+          "recurrence_n_plus_1",
+          "ode_y_eq_x",
+          "missing_domain_rejection"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": true,
+        "conformanceVerifiedEvidence": true,
+        "installedHint": "python -m adapters.sympy | python -m adapters.mathematica",
+        "backends": [
+          {
+            "id": "sympy",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "conformance_verified",
+            "evidenceCapped": false
+          },
+          {
+            "id": "mathematica",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "live_generator_complete",
+            "evidenceCapped": false
+          }
+        ]
+      },
+      "descriptorDigest": "sha256:373158fb916e60715d19ddd9c7b7aeed9c23a5241b6f46faeaf7edb1879cec69",
+      "descriptorPath": "registry/capabilities/algebra.formal_rational_calculus.json"
+    },
+    {
+      "id": "algebra.groebner_membership",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": null,
+      "adoptionLevel": null,
+      "federationLevel": null,
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": true,
+      "conformance": {
+        "suite": "benchmarks/ideal_membership",
+        "status": "partial",
+        "suiteExists": true,
+        "artifactCount": 0,
+        "requiredCases": [
+          "checked_witness_identity",
+          "multiplier_arity",
+          "backend_honesty",
+          "fixture_dual_backend"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": false,
+        "conformanceVerifiedEvidence": false,
+        "installedHint": "python -m adapters.sympy (always); Mathematica/Sage offline fixtures committed; live only when MATHEVIDENCE_WOLFRAMSCRIPT / sage on PATH (not advertised when absent)",
+        "backends": [
+          {
+            "id": "sympy",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "implemented",
+            "evidenceCapped": false
+          },
+          {
+            "id": "mathematica",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "declared",
+            "evidenceCapped": false
+          },
+          {
+            "id": "sage",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "declared",
+            "evidenceCapped": false
+          }
+        ]
+      },
+      "descriptorDigest": "sha256:94c0a35e83930aed4927bb74930dcfbc53266f47da9d8ea62e427e06087ca9a1",
+      "descriptorPath": "registry/capabilities/algebra.groebner_membership.json"
+    },
+    {
+      "id": "algebra.linear_algebra",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": "custom_ir",
+      "adoptionLevel": "none",
+      "federationLevel": "fixture",
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": true,
+      "conformance": {
+        "suite": "evidence/conformance/linear_algebra",
+        "status": "passing",
+        "suiteExists": true,
+        "artifactCount": 12,
+        "requiredCases": [
+          "inverse_witness_2x2",
+          "exact_system_solution",
+          "kernel_vector",
+          "det_identity",
+          "singular_inverse_rejected",
+          "hash_mismatch"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": true,
+        "conformanceVerifiedEvidence": true,
+        "installedHint": "Lean MathEvidence.IR.MatrixExpr + MathEvidence.Checkers.LinearAlgebra; Agent registry dispatch routes implemented backends",
+        "backends": [
+          {
+            "id": "sympy",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "conformance_verified",
+            "evidenceCapped": false
+          },
+          {
+            "id": "sage",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "implemented",
+            "evidenceCapped": false
+          },
+          {
+            "id": "mathematica",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "implemented",
+            "evidenceCapped": false
+          }
+        ]
+      },
+      "descriptorDigest": "sha256:cf19e42dbe7dc98ea8e163753deb6e1ccd1fd905cf574af43980a8d010b1dff8",
+      "descriptorPath": "registry/capabilities/algebra.linear_algebra.json"
+    },
+    {
+      "id": "algebra.rational_equality",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": "custom_ir",
+      "adoptionLevel": "none",
+      "federationLevel": "fixture",
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": false,
+      "conformance": {
+        "suite": "evidence/conformance/rfc0001",
+        "status": "partial",
+        "suiteExists": true,
+        "artifactCount": 15,
+        "requiredCases": [
+          "valid_identity",
+          "false_identity",
+          "missing_condition",
+          "redundant_condition",
+          "hash_mismatch",
+          "variable_permutation",
+          "large_coeffs",
+          "unsupported_rejection"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": false,
+        "conformanceVerifiedEvidence": false,
+        "installedHint": "python -m adapters.sympy | python -m adapters.mathematica",
+        "backends": [
+          {
+            "id": "sympy",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "implemented",
+            "evidenceCapped": true
+          },
+          {
+            "id": "mathematica",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "live_generator_complete",
+            "evidenceCapped": false
+          }
+        ]
+      },
+      "descriptorDigest": "sha256:eb1d9eced5b972fd3b201f7e4ce8058fedc73ad974a01b10681bcbd15d81c715",
+      "descriptorPath": "registry/capabilities/algebra.rational_equality.json"
+    },
+    {
+      "id": "analysis.analytic_calculus",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": "mathlib_bridge",
+      "adoptionLevel": "none",
+      "federationLevel": "none",
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": false,
+      "conformance": {
+        "suite": "MathEvidence/Checkers/AnalyticCalculus",
+        "status": "partial",
+        "suiteExists": true,
+        "artifactCount": 1,
+        "requiredCases": [
+          "hasDerivAt_product_fragment",
+          "domain_conditioned_deriv",
+          "ode_residual_ic_bool"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": false,
+        "conformanceVerifiedEvidence": false,
+        "installedHint": "Lean MathEvidence.Checkers.AnalyticCalculus fragment; not Agent compute-dispatched",
+        "backends": []
+      },
+      "descriptorDigest": "sha256:d62efb21ae22d60bd1c361a7fd3c56a6d6569890bca433f03aae748c9de8d23d",
+      "descriptorPath": "registry/capabilities/analysis.analytic_calculus.json"
+    },
+    {
+      "id": "logic.finite_counterexample",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": "custom_ir",
+      "adoptionLevel": "none",
+      "federationLevel": "fixture",
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": true,
+      "conformance": {
+        "suite": "evidence/conformance/finite_counterexample",
+        "status": "passing",
+        "suiteExists": true,
+        "artifactCount": 8,
+        "requiredCases": [
+          "simple_false_universal",
+          "witness_type_mismatch",
+          "hash_mismatch",
+          "out_of_domain_rejected"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": true,
+        "conformanceVerifiedEvidence": true,
+        "installedHint": "Lean MathEvidence.IR.FinitePredicate + MathEvidence.Checkers.Counterexample; Agent thin compute: sympy only until registry-driven dispatch lands",
+        "backends": [
+          {
+            "id": "sympy",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "conformance_verified",
+            "evidenceCapped": false
+          },
+          {
+            "id": "sage",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "implemented",
+            "evidenceCapped": false
+          },
+          {
+            "id": "mathematica",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "implemented",
+            "evidenceCapped": false
+          }
+        ]
+      },
+      "descriptorDigest": "sha256:d27ba5e4e0a05654f0677d2954a327375b9f4c4411b29657fe9db7d10391ab9b",
+      "descriptorPath": "registry/capabilities/logic.finite_counterexample.json"
+    },
+    {
+      "id": "logic.pseudo_boolean",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": null,
+      "adoptionLevel": null,
+      "federationLevel": null,
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": null,
+      "conformance": {
+        "suite": "evidence/federation/examples",
+        "status": "partial",
+        "suiteExists": true,
+        "artifactCount": 0,
+        "requiredCases": [
+          "emit_metadata",
+          "consume_metadata"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": false,
+        "conformanceVerifiedEvidence": false,
+        "installedHint": "External pseudo-Boolean checker; see federation examples",
+        "backends": [
+          {
+            "id": "external.pseudo_boolean",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "declared",
+            "evidenceCapped": false
+          }
+        ]
+      },
+      "descriptorDigest": "sha256:df2d74e99b736b0939c1303986fe66021206a6a1f0dfde6bebb956028fb1a557",
+      "descriptorPath": "registry/capabilities/logic.pseudo_boolean.json"
+    },
+    {
+      "id": "logic.sat_unsat",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": null,
+      "adoptionLevel": null,
+      "federationLevel": null,
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": null,
+      "conformance": {
+        "suite": "evidence/federation/examples",
+        "status": "partial",
+        "suiteExists": true,
+        "artifactCount": 0,
+        "requiredCases": [
+          "emit_metadata",
+          "consume_metadata"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": false,
+        "conformanceVerifiedEvidence": false,
+        "installedHint": "External SAT checker project; see federation examples",
+        "backends": [
+          {
+            "id": "external.sat",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "declared",
+            "evidenceCapped": false
+          }
+        ]
+      },
+      "descriptorDigest": "sha256:e0b8b2fa4701d83e7bc159d1b61064d04f5da1d746188ef38256bc4bf23ffd8b",
+      "descriptorPath": "registry/capabilities/logic.sat_unsat.json"
+    },
+    {
+      "id": "logic.smt",
+      "version": "0.1.0",
+      "lifecycle": "experimental",
+      "implementationLevel": null,
+      "adoptionLevel": null,
+      "federationLevel": null,
+      "semanticReview": "absent",
+      "trustReview": "absent",
+      "externalSearchEssential": null,
+      "conformance": {
+        "suite": "evidence/federation/examples",
+        "status": "partial",
+        "suiteExists": true,
+        "artifactCount": 0,
+        "requiredCases": [
+          "emit_metadata",
+          "consume_metadata"
+        ]
+      },
+      "supportClaims": {
+        "declared": true,
+        "conformanceVerifiedDeclared": false,
+        "conformanceVerifiedEvidence": false,
+        "installedHint": "Lean-SMT or sibling SMT integration; see collaboration note",
+        "backends": [
+          {
+            "id": "external.lean_smt",
+            "versions": [
+              "0.1.0"
+            ],
+            "supportLevel": "declared",
+            "evidenceCapped": false
+          }
+        ]
+      },
+      "descriptorDigest": "sha256:8ba905e44b58e2f630c97f05093d957dda394855a29ad11230fed1f70c441d7a",
+      "descriptorPath": "registry/capabilities/logic.smt.json"
+    }
+  ],
+  "matrixDigest": "sha256:9048986cb0d49e78f1552b811edf5a4c6c0824c4fd948d14faa860352013b872",
+  "contentDigest": "sha256:9048986cb0d49e78f1552b811edf5a4c6c0824c4fd948d14faa860352013b872"
+}

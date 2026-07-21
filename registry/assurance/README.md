@@ -10,7 +10,7 @@ see [`docs/assurance/`](../../docs/assurance/README.md).
 | `assurance.rational_equality.reference` | `algebra.rational_equality` | verified_reference_algorithm |
 | `assurance.linear_algebra.reference` | `algebra.linear_algebra` | verified_reference_algorithm |
 | `assurance.finite_counterexample.reference` | `logic.finite_counterexample` | verified_reference_algorithm |
-| `assurance.symbolic_calculus.reference` | `analysis.symbolic_calculus` | verified_reference_algorithm |
+| `assurance.symbolic_calculus.reference` | `algebra.formal_rational_calculus` | verified_reference_algorithm |
 
 Validate:
 

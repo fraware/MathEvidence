@@ -1,0 +1,89 @@
+{
+  "id": "analysis.analytic_calculus",
+  "version": "0.1.0",
+  "status": "experimental",
+  "lifecycle": "experimental",
+  "role": "custom_ir_checker",
+  "externalSearchEssential": false,
+  "implementationLevel": "mathlib_bridge",
+  "adoptionLevel": "none",
+  "federationLevel": "none",
+  "semanticReview": "absent",
+  "trustReview": "absent",
+  "domain": "analysis.analytic_calculus",
+  "inputIR": {
+    "name": "AnalyticExpr",
+    "schema": "schemas/analytic-calculus-request.schema.json",
+    "version": "0.1.0",
+    "baseField": "Real",
+    "leanPackage": "MathEvidence.IR.AnalyticExpr"
+  },
+  "admissibility": {
+    "summary": "Experimental Mathlib analytic fragment for explicit HasDerivAt / HasDerivWithinAt and ODE residual certificates. It is not a completeness, existence, uniqueness, or solution-family classifier.",
+    "rejectedConstructs": [
+      "completeness_claims",
+      "existence_uniqueness_claims",
+      "implicit_domain_conditions",
+      "branch_cut_claims",
+      "approximate_candidates"
+    ],
+    "requiredAssumptions": [
+      "typed point-in-domain conditions",
+      "typed denominator nonzero conditions for quotient/inverse rules",
+      "candidate equality is proved by Lean, not CAS output"
+    ]
+  },
+  "claimClasses": [
+    "candidate",
+    "soundResult",
+    "witness"
+  ],
+  "evidenceSchema": "schemas/analytic-calculus-certificate.schema.json",
+  "requestSchema": "schemas/analytic-calculus-request.schema.json",
+  "checker": {
+    "package": "MathEvidence.Checkers.AnalyticCalculus",
+    "version": "0.1.0",
+    "assurance": "kernel_replay",
+    "soundnessStatus": "partial"
+  },
+  "assuranceModes": [
+    "kernel_replay"
+  ],
+  "limits": {
+    "maxExprNodes": 1024,
+    "maxWallTimeMs": 60000,
+    "maxOutputBytes": 1048576
+  },
+  "knownLimitations": [
+    "Only concrete derivative and ODE residual fragments are present.",
+    "No antiderivative-family completeness, ODE existence, ODE uniqueness, or maximal-interval claims.",
+    "Backend candidates are proposals only; accepted evidence must use Mathlib analytic predicates.",
+    "Not advertised as Agent compute-live; Lean fragment only."
+  ],
+  "conformance": {
+    "suite": "MathEvidence/Checkers/AnalyticCalculus",
+    "status": "partial",
+    "requiredCases": [
+      "hasDerivAt_product_fragment",
+      "domain_conditioned_deriv",
+      "ode_residual_ic_bool"
+    ]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence core",
+      "role": "capability_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "Lean MathEvidence.Checkers.AnalyticCalculus fragment; not Agent compute-dispatched",
+    "conformanceVerified": false,
+    "backends": []
+  },
+  "compatibility": {
+    "policy": "semver_request_digest",
+    "minProtocolVersion": "0.1.0"
+  }
+}

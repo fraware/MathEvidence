@@ -2,47 +2,67 @@
   "id": "algebra.groebner_membership",
   "version": "0.1.0",
   "status": "experimental",
+  "lifecycle": "experimental",
   "domain": "algebra.polynomial_ideals",
-  "ownership": "federated",
+  "ownership": "owned",
+  "externalSearchEssential": true,
   "inputIR": {
-    "name": "OpaqueExternal",
-    "schema": "schemas/federation-opaque-ir.schema.json",
+    "name": "SparsePolynomialStub",
+    "schema": "schemas/ideal-membership-certificate.schema.json",
     "version": "0.1.0",
-    "leanPackage": "external"
+    "leanPackage": "MathEvidence.IR.Polynomial.Syntax"
   },
   "admissibility": {
-    "summary": "Federated Gröbner / ideal-membership certificates. MathEvidence records shared provenance and claim status; it does not own or replace domain Gröbner checkers.",
+    "summary": "Ideal-membership certificates whose witness identity f = sum_i q_i * g_i is checked by MathEvidence. External systems may search for multipliers, but their basis algorithms are not trusted by this capability.",
     "rejectedConstructs": [
-      "claiming_MathEvidence_as_authoritative_checker",
-      "universal_polynomial_AST"
+      "claiming_Groebner_basis_correctness",
+      "claiming_non_membership_or_radical_membership",
+      "claiming_ideal_equality_or_basis_minimality"
     ],
     "requiredAssumptions": [
-      "External project remains authoritative for certificate reconstruction"
+      "Certificate contains one sparse integer-polynomial multiplier for each generator",
+      "Lean checkMembership remains authoritative for the witness identity",
+      "Search completeness and Groebner-basis correctness remain backend-owned and untrusted"
     ]
   },
-  "claimClasses": ["witness", "soundResult", "candidate"],
-  "evidenceSchema": "schemas/federation-certificate.schema.json",
+  "claimClasses": [
+    "witness",
+    "soundResult",
+    "candidate"
+  ],
+  "evidenceSchema": "schemas/ideal-membership-certificate.schema.json",
   "requestSchema": "schemas/federation-request.schema.json",
   "checker": {
-    "package": "external:GroebnerCert",
+    "package": "MathEvidence.Checkers.IdealMembership.Check",
     "version": "0.0.0",
-    "assurance": "kernel_replay",
-    "soundnessStatus": "absent"
+    "assurance": "native_checked",
+    "soundnessStatus": "partial"
   },
-  "assuranceModes": ["kernel_replay"],
+  "assuranceModes": [
+    "native_checked"
+  ],
   "limits": {
     "maxWallTimeMs": 120000,
     "maxOutputBytes": 16777216
   },
   "knownLimitations": [
-    "MathEvidence does not verify Gröbner certificates itself in Milestone 4.",
-    "Interoperability is metadata + registry discovery only.",
-    "Completeness / optimality claims remain external-project-owned."
+    "MathEvidence checks only the witness identity f = sum_i q_i * g_i over sparse integer polynomials.",
+    "No Groebner-basis correctness, non-membership, radical-membership, ideal-equality, completeness, or optimality claim is made.",
+    "SymPy is the always-on witness proposer (Agent compute + benchmark harness).",
+    "Mathematica live witness generation requires MATHEVIDENCE_WOLFRAMSCRIPT; not advertised as live when unset (adapter + fixture conformance only).",
+    "Sage live witness generation requires sage/sagemath on PATH; not advertised when absent.",
+    "Univariate Mathlib Ideal.span Meta auto-bridge closes ordinary singleton and two-generator span goals; MvPolynomial Meta reification remains open (IR + CommRing pair theorem present).",
+    "Committed Mathematica/Sage offline fixtures share ≥2 requests accepted by checkMembership; live dual-backend differential blocked without wolframscript/sage on host."
   ],
   "conformance": {
-    "suite": "evidence/federation/examples",
+    "suite": "benchmarks/ideal_membership",
     "status": "partial",
-    "requiredCases": ["emit_metadata", "consume_metadata"]
+    "requiredCases": [
+      "checked_witness_identity",
+      "multiplier_arity",
+      "backend_honesty",
+      "fixture_dual_backend"
+    ]
   },
   "maintainers": [
     {
@@ -53,26 +73,36 @@
   ],
   "supportClaims": {
     "declared": true,
-    "installedHint": "External Gröbner/certificate project; see docs/architecture/collaboration-cslib-lean-auto-smt.md",
+    "installedHint": "python -m adapters.sympy (always); Mathematica/Sage offline fixtures committed; live only when MATHEVIDENCE_WOLFRAMSCRIPT / sage on PATH (not advertised when absent)",
     "conformanceVerified": false,
     "backends": [
       {
-        "id": "external.groebner",
-        "versions": ["0.1.0"],
+        "id": "sympy",
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "implemented"
+      },
+      {
+        "id": "mathematica",
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "declared"
+      },
+      {
+        "id": "sage",
+        "versions": [
+          "0.1.0"
+        ],
         "supportLevel": "declared"
       }
     ]
   },
-  "federation": {
-    "externalProject": "groebner-cert",
-    "checkerAuthority": "external:GroebnerCert",
-    "mathEvidenceRole": "metadata_interop",
-    "metadataSchema": "schemas/federation-metadata.schema.json",
-    "collaborationNote": "docs/architecture/collaboration-cslib-lean-auto-smt.md",
-    "relatedProjects": ["cslib", "mathlib"]
-  },
   "compatibility": {
     "policy": "federation_metadata_v0",
     "minProtocolVersion": "0.1.0"
-  }
+  },
+  "semanticReview": "absent",
+  "trustReview": "absent"
 }
