@@ -5,6 +5,7 @@ Authors: MathEvidence contributors
 -/
 import MathEvidence.Conjecture.Engine
 import MathEvidence.Conjecture.Precision
+import MathEvidence.Conjecture.Domains.FiniteGraph
 import MathEvidence.Checkers.Counterexample.Tests
 
 namespace MathEvidence.Conjecture.Tests
@@ -12,7 +13,8 @@ namespace MathEvidence.Conjecture.Tests
 open MathEvidence.IR.FinitePredicate
 open MathEvidence.Conjecture
 
-/-- Small nat family for Product 04 demos. -/
+/-- Small nat family for Product 04 **regression fixtures** (not the primary
+vertical — see `Domains.FiniteGraph`). -/
 def nat3Family : FinitePredicateFamily where
   id := "finite.nat_le_3"
   varNames := ["x"]
@@ -82,6 +84,11 @@ theorem campaign_precision_accounting :
 theorem campaign_has_open_and_theorem :
     (campaignDemo.episodes.map (·.state)).contains .formallyProved = true ∧
       (campaignDemo.episodes.map (·.state)).contains .open_ = true := by
+  native_decide
+
+/-- Primary vertical smoke: graph plugin falsification is reachable from Tests. -/
+theorem finite_graph_plugin_falsifies :
+    MathEvidence.Conjecture.Domains.FiniteGraph.campaignDemo.precisionAccounting.falsified = 1 := by
   native_decide
 
 end MathEvidence.Conjecture.Tests
