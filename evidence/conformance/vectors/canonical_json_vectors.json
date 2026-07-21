@@ -1,6 +1,7 @@
 {
-  "version": "0.1.0",
-  "profile": "docs/architecture/canonical-json.md",
+  "version": "0.2.0",
+  "profile": "mathevidence-jcs-0.2",
+  "profileDoc": "docs/architecture/canonical-json.md",
   "cases": [
     {
       "id": "object-key-order",
@@ -25,6 +26,72 @@
       },
       "canonical": "{\"a\":\"q\",\"z\":[1,{\"x\":null,\"y\":true}]}",
       "digest": "sha256:50eec61bff879f09b426688576e68cb27f5bb53ac50ae26d571ff233f1e8cab4"
+    },
+    {
+      "id": "empty-object",
+      "input": {},
+      "canonical": "{}",
+      "digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "id": "negative-int",
+      "input": {
+        "n": -42
+      },
+      "canonical": "{\"n\":-42}",
+      "digest": "sha256:fbd5ac2f42479228ed2d3b495816fbda98a9cb9d71d523869a37e784790e9f2c"
+    },
+    {
+      "id": "empty-array",
+      "input": [],
+      "canonical": "[]",
+      "digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "control-chars",
+      "input": {
+        "s": "a\nb\tc\rd"
+      },
+      "canonical": "{\"s\":\"a\\nb\\tc\\rd\"}",
+      "digest": "sha256:16b8bfcb27caa20b5a2a18aaa026091abf6423586abcc0e278537bef2a255b49"
+    },
+    {
+      "id": "non-bmp",
+      "input": {
+        "u": "𝄞"
+      },
+      "canonical": "{\"u\":\"𝄞\"}",
+      "digest": "sha256:68f551c1bafaf09bf207a1b4726b97eb4ef163f08306f4a1dec946115a5a7ec1"
+    },
+    {
+      "id": "euro-key-order",
+      "input": {
+        "€": 1,
+        "a": 2
+      },
+      "canonical": "{\"a\":2,\"€\":1}",
+      "digest": "sha256:83be37fa16453fb1dc3d9b05f6faaf7437827eafdbe3b6314b6be3bb669fd46a"
+    },
+    {
+      "id": "nested-empty",
+      "input": {
+        "a": {},
+        "b": []
+      },
+      "canonical": "{\"a\":{},\"b\":[]}",
+      "digest": "sha256:aeeba1e56a144077f89e26c930dad7cf933e9383cfb8e33ddff618233b29be76"
+    },
+    {
+      "id": "deep-nested",
+      "input": {
+        "z": {
+          "y": {
+            "x": [0, -1, 2]
+          }
+        }
+      },
+      "canonical": "{\"z\":{\"y\":{\"x\":[0,-1,2]}}}",
+      "digest": "sha256:fe94d65380c1e1634d85777e3bbd7fa278a994707985a269ee8c5cb387094bea"
     }
   ]
 }
