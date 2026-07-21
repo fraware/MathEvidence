@@ -9,7 +9,9 @@ import Mathlib.Tactic.Ring
 import MathEvidence.Checkers.RationalEquality.Decode
 import MathEvidence.Checkers.RationalEquality.OfflineFixtures
 import MathEvidence.Checkers.RationalEquality.Replay
+import MathEvidence.Checkers.RationalEquality.Wire
 import MathEvidence.Core.JsonCanonical
+import MathEvidence.Core.Digest.Types
 import MathEvidence.Tactic.ReifyRational
 import MathEvidence.Tactic.Status
 
@@ -29,73 +31,15 @@ open MathEvidence.Core
 open MathEvidence.Checkers.RationalEquality
 open MathEvidence.Checkers.RationalEquality.OfflineFixtures
 open MathEvidence.Checkers.RationalEquality.Decode
+open MathEvidence.Checkers.RationalEquality.Wire
 open MathEvidence.Tactic
 open MathEvidence.Tactic.ReifyRational
 
 abbrev RExpr := MathEvidence.IR.RationalExpr.Expr
 
-/-- Serialize IR expr to adapter wire JSON (name-based). -/
-partial def exprToWireJson (names : List String) : RExpr → Json
-  | .var i =>
-    let name := names.getD i s!"v{i}"
-    Json.mkObj [("tag", Json.str "var"), ("name", Json.str name)]
-  | .int n => Json.mkObj [("tag", Json.str "int"), ("value", Json.str (toString n))]
-  | .rat n d =>
-    Json.mkObj
-      [("tag", Json.str "rat"), ("num", Json.str (toString n)),
-       ("den", Json.str (toString d))]
-  | .neg e => Json.mkObj [("tag", Json.str "neg"), ("arg", exprToWireJson names e)]
-  | .add a b =>
-    Json.mkObj
-      [("tag", Json.str "add"), ("left", exprToWireJson names a),
-       ("right", exprToWireJson names b)]
-  | .sub a b =>
-    Json.mkObj
-      [("tag", Json.str "sub"), ("left", exprToWireJson names a),
-       ("right", exprToWireJson names b)]
-  | .mul a b =>
-    Json.mkObj
-      [("tag", Json.str "mul"), ("left", exprToWireJson names a),
-       ("right", exprToWireJson names b)]
-  | .pow b k =>
-    Json.mkObj
-      [("tag", Json.str "pow"), ("base", exprToWireJson names b), ("exp", Json.num k)]
-  | .div n d =>
-    Json.mkObj
-      [("tag", Json.str "div"), ("num", exprToWireJson names n),
-       ("den", exprToWireJson names d)]
-
-def varDeclJson (name : String) : Json :=
-  Json.mkObj [("name", Json.str name), ("type", Json.str "Rat")]
-
-/-- Build adapter request JSON (pre-digest) from a claim. -/
-def claimToRequestJson (c : Claim) : Json :=
-  Json.mkObj [
-    ("schemaVersion", Json.str "0.1.0"),
-    ("capability", Json.str "algebra.rational_equality"),
-    ("capabilityVersion", Json.str "0.1.0"),
-    ("variables", Json.arr (c.varNames.map varDeclJson).toArray),
-    ("lhs", exprToWireJson c.varNames c.lhs),
-    ("rhs", exprToWireJson c.varNames c.rhs),
-    ("knownAssumptions", Json.arr #[]),
-    ("requestedClaim", Json.str c.claimClass.toWire),
-    ("resourcePolicy",
-      Json.mkObj
-        [("maxWallTimeMs", Json.num (10000 : Nat)),
-         ("maxOutputBytes", Json.num (1048576 : Nat))])
-  ]
-
 /-- Bind `requestDigest` using Lean JCS (parity with Python). -/
-def bindRequestDigest (c : Claim) : Except String (Json × EvidenceId) := do
-  let j := claimToRequestJson c
-  let d ← match JsonCanonical.digestRequestBinding j with
-    | .ok d => pure d
-    | .error e => throw e.toString
-  let j' :=
-    match j with
-    | .obj m => Json.obj (m.insert compare "requestDigest" (Json.str d.value))
-    | other => other
-  pure (j', d)
+def bindRequestDigest (c : Claim) : Except String (Json × RequestDigest) :=
+  bindClaimDigest c
 
 def discoveryEnabled : IO Bool := do
   match ← IO.getEnv "MATHEVIDENCE_DISCOVERY" with
@@ -319,8 +263,10 @@ bundle with scripts/mathevidence_cli.py discover then `mathevidence replay`.\n\
           match decodeCertificateString certText c.varNames with
           | .error e => throwError "certificate decode failed: {e}"
           | .ok cert =>
-            let req := { Request.ofClaim c with requestDigest := cert.requestDigest }
-            unless checkBool req cert do
+            let expectedReq := Request.ofClaim c
+            unless cert.requestDigest == expectedReq.requestDigest do
+              throwError "live discovery: certificate requestDigest does not match Lean-derived request"
+            unless checkBool expectedReq cert do
               throwError "live discovery: Lean checker rejected certificate"
             let conds := cert.denomFactors.map fun e => reprStr e
             let closed ← tryCloseRationalEquality
@@ -335,15 +281,15 @@ bundle with scripts/mathevidence_cli.py discover then `mathevidence replay`.\n\
                   conds.map fun d => s!"nonzero: {d}"
                 else remaining)
               (if closed then
-                "discovery(live): adapter spawned; certificate checked; \
-closed under explicit denom hyps via field_simp[*]/ring"
+                "discovery(live): adapter spawned; checker accepted certificate; \
+remaining side conditions closed"
                else
-                "discovery(live): adapter spawned; certificate checked; \
-finish remaining nonzero/equality goals (field_simp[*]/ring); no claim at poles")
+                "discovery(live): adapter spawned; checker accepted certificate; \
+finish remaining side-condition goals; no claim at poles")
             logInfo m!"{report.format}"
             unless closed do
               throwError
-                "mathevidence discovery(live): certificate accepted; finish remaining \
-nonzero/equality goals (field_simp[*]/ring).\n{report.format}"
+                "mathevidence discovery(live): checker accepted certificate; finish remaining \
+side-condition goals.\n{report.format}"
 
 end MathEvidence.Tactic.Discovery

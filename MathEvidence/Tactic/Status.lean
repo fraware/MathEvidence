@@ -288,10 +288,10 @@ an adapter out-of-process and then `replayStatus`. Prefer
 `MathEvidence.Tactic.Discovery.runDiscoveryOrchestration` for Meta-reify +
 offline fixture match / env-gated live discovery (rational equality).
 
-For linearAlgebra / finiteCounterexample: Lean Meta discovery is not available
-yet — use `mathevidence replay <BundleId>` offline, or generate SymPy evidence
-via `python scripts/mathevidence_cli.py discover --backend sympy --request …`
-then commit + replay. -/
+`ReifierRegistry.liveKinds` lists compile-time live Meta reifiers: rational,
+matrix, counterexample, and ideal. Bare `discoveryStatus` remains the rational
+unsupported stub; use `mathevidence_linear_algebra` / counterexample / ideal
+tactics for those goals, or CLI discover + replay. -/
 def discoveryStatus (backend : Backend := .none) (claim : ClaimClass := .soundResult) :
     StatusReport :=
   { operation := .rationalEquality
@@ -306,12 +306,11 @@ def discoveryStatus (backend : Backend := .none) (claim : ClaimClass := .soundRe
     evidenceBundle := ""
     remainingGoals :=
       ["reify Rat equality goal, or provide evidence bundle and switch to replay mode",
-       "LA/CEX: mathevidence replay .laInverse2x2 / .cexSimpleFalseUniversal (offline)",
+       "LA/CEX/ideal: live Meta reifiers — see ReifierRegistry.liveKinds",
        "LA/CEX SymPy generate: mathevidence_cli.py discover --backend sympy"]
     detail :=
       "discovery: rational_equality Meta-reify path recognized; use Discovery \
 orchestration (offline fixture match or MATHEVIDENCE_DISCOVERY=1). \
-linearAlgebra / finiteCounterexample: Lean Meta discovery not available — \
-`mathevidence replay` with BundleId, or SymPy CLI discover then commit bundles." }
+ReifierRegistry marks matrix/counterexample/ideal live via dedicated tactics." }
 
 end MathEvidence.Tactic
