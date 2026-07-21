@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/ideal-membership-certificate-v0.json",
+  "title": "algebra.groebner_membership certificate (untrusted witness)",
+  "description": "Sparse integer-polynomial witness for f = sum_i q_i * g_i. MathEvidence checks this identity; no Groebner basis, non-membership, radical-membership, ideal-equality, completeness, or optimality claim is encoded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capability",
+    "capabilityVersion",
+    "claimClass",
+    "target",
+    "generators",
+    "multipliers",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "capability": { "type": "string", "const": "algebra.groebner_membership" },
+    "capabilityVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "claimClass": { "enum": ["candidate", "witness", "soundResult"] },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Optional binding to the request digest when emitted via Agent/bundle write."
+    },
+    "target": { "$ref": "#/$defs/sparsePoly" },
+    "generators": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": { "$ref": "#/$defs/sparsePoly" }
+    },
+    "multipliers": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 256,
+      "items": { "$ref": "#/$defs/sparsePoly" },
+      "description": "Must have the same length as generators when non-empty. Empty when a backend is absent or cannot propose; JSON Schema cannot express arity equality in draft 2020-12; the Lean/Python checker enforces it."
+    },
+    "variables": {
+      "type": "array",
+      "maxItems": 256,
+      "items": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" }
+    },
+    "termOrder": {
+      "type": "string",
+      "default": "lex",
+      "maxLength": 32
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 2048 }
+    },
+    "pythonMirrorAccepts": {
+      "type": "boolean",
+      "description": "Adapter-local diagnostic only; never trusted as a proof result."
+    },
+    "liveDetection": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Host-local live backend presence; never a trust claim.",
+      "properties": {
+        "sageExecutablePresent": { "type": "boolean" },
+        "wolframscriptEnvPresent": { "type": "boolean" }
+      }
+    },
+    "backend": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$",
+      "maxLength": 64
+    },
+    "skipped": { "type": "boolean" },
+    "skipReason": { "type": "string", "maxLength": 2048 },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backendId", "adapterVersion"],
+      "properties": {
+        "backendId": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$",
+          "maxLength": 64
+        },
+        "backendVersion": { "type": "string", "maxLength": 128 },
+        "adapterVersion": { "type": "string", "maxLength": 64 },
+        "generatedAt": { "type": "string", "maxLength": 64 },
+        "deterministic": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "sparsePoly": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["varCount", "terms"],
+      "properties": {
+        "varCount": { "type": "integer", "minimum": 0, "maximum": 256 },
+        "terms": {
+          "type": "array",
+          "maxItems": 4096,
+          "items": { "$ref": "#/$defs/term" }
+        }
+      }
+    },
+    "term": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coefficient", "exponents"],
+      "properties": {
+        "coefficient": { "type": "integer" },
+        "exponents": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "type": "integer", "minimum": 0 }
+        }
+      }
+    }
+  }
+}
