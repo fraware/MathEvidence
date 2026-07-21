@@ -37,6 +37,8 @@ Thumbs.db
 .env.*
 !.env.example
 *.pem
+*.key
+!dev/receipt-keys/README.md
 credentials.json
 
 # Evidence / artifacts (large generated; committed examples stay under evidence/)
