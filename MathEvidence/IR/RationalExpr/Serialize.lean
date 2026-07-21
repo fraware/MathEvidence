@@ -5,6 +5,7 @@ Authors: MathEvidence contributors
 -/
 import MathEvidence.Core.CanonicalJson
 import MathEvidence.Core.Digest
+import MathEvidence.Core.Digest.Types
 import MathEvidence.IR.RationalExpr.Syntax
 
 -- `CanonicalJson.digest` is provided by `Digest.lean`.
@@ -63,7 +64,7 @@ def RequestPayload.toCanonicalJson (r : RequestPayload) : String :=
   ]
 
 /-- Request digest: SHA-256 of canonical JSON. -/
-def RequestPayload.digest (r : RequestPayload) : MathEvidence.Core.EvidenceId :=
-  MathEvidence.Core.CanonicalJson.digest r.toCanonicalJson
+def RequestPayload.digest (r : RequestPayload) : MathEvidence.Core.RequestDigest :=
+  ⟨(MathEvidence.Core.CanonicalJson.digest r.toCanonicalJson).value⟩
 
 end MathEvidence.IR.RationalExpr

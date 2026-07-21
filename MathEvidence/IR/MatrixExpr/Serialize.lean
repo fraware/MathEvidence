@@ -5,6 +5,7 @@ Authors: MathEvidence contributors
 -/
 import MathEvidence.Core.CanonicalJson
 import MathEvidence.Core.Digest
+import MathEvidence.Core.Digest.Types
 import MathEvidence.IR.MatrixExpr.Syntax
 
 namespace MathEvidence.IR.MatrixExpr
@@ -57,7 +58,7 @@ def RequestPayload.toCanonicalJson (r : RequestPayload) : String :=
     ("rhs", r.rhs.toCanonicalJson)
   ]
 
-def RequestPayload.digest (r : RequestPayload) : MathEvidence.Core.EvidenceId :=
-  MathEvidence.Core.CanonicalJson.digest r.toCanonicalJson
+def RequestPayload.digest (r : RequestPayload) : MathEvidence.Core.RequestDigest :=
+  ⟨(MathEvidence.Core.CanonicalJson.digest r.toCanonicalJson).value⟩
 
 end MathEvidence.IR.MatrixExpr
