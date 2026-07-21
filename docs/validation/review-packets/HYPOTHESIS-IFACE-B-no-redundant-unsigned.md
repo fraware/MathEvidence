@@ -1,7 +1,7 @@
 # Review packet slot — Hypothesis interface B (OPEN)
 
 **Status:** OPEN for human expert review. Do not invent signatures.  
-**Board:** [`../p2-blocker-status.md`](../p2-blocker-status.md)
+**Status tracking:** [`../remaining-spec-matrix.md`](../remaining-spec-matrix.md) · [`../../STATUS.md`](../../STATUS.md)
 
 ## How to sign
 

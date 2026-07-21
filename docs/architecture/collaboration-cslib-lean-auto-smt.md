@@ -60,8 +60,8 @@ process adapters. Live adapters land only after maintainer agreement.
 
 **Current integration mode: `fixture_only`.** Upgrade checklist:
 `evidence/federation/examples/UPGRADE_PATH.md`. Agreements ledger (empty until
-real): `docs/architecture/federation-agreements.md`. Readiness board:
-`docs/validation/p4-blocker-status.md`. Outreach: Emails 6–8 in
+real): `docs/architecture/federation-agreements.md`. Live agreements remain
+OPEN (`docs/STATUS.md`). Outreach: Emails 6–8 in
 `docs/validation/outreach-email-templates.md`. Harness:
 
 ```text

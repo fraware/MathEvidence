@@ -1,8 +1,7 @@
 # Formal rational calculus — algorithm contract (Product 06)
 
 Independent specification of the owned reference algorithm for
-`algebra.formal_rational_calculus`, the transitional registry ID for the planned
-`algebra.formal_rational_calculus` rename. Lean checker:
+`algebra.formal_rational_calculus`. Lean checker:
 `MathEvidence.Assurance.Calculus`.
 
 ## Assurance level

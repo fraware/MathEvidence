@@ -16,7 +16,7 @@ affiliations.
 
 **Outreach process:** `docs/validation/outreach-checklist.md` (do not invent
 entries). Expert statement reviews use `docs/validation/expert-review-rubric.md`.
-G1 board: `docs/validation/g1-blocker-status.md` (A4 = `BLOCKED_WAITING` until
+Status: see `docs/STATUS.md` / `KNOWN_TRUST_GAPS.md` (0 confirmations until
 real consent).
 
 **Owner:** outreach lead (human). Engineering packaging does not close this
@@ -94,7 +94,7 @@ Partial notes, internal demos, and CI green builds do **not** count.
 | --- | --- |
 | Confirmations completed | 0 / 3 |
 | Milestone 0 user-confirmation exit | **open** (template + outreach checklist committed; outreach pending) |
-| Capability JSON `stable` | **not applied** (see `stable-promotion-draft.md`) |
+| Capability JSON `stable` | **not applied** (see `stable-capability-checklist.md`) |
 
 Outreach is intentionally outside the engineering skeleton. Filling this log is
 required to close Milestone 0 product validation even after Phase 0 toolchain

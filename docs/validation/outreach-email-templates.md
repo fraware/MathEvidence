@@ -1,18 +1,18 @@
 # Outreach email templates (copy/paste)
 
-Use with [`outreach-checklist.md`](outreach-checklist.md) and the G1 board
-[`g1-blocker-status.md`](g1-blocker-status.md). Replace bracketed fields.
-Do **not** invent replies into the logs — wait for real consent.
+Use with [`outreach-checklist.md`](outreach-checklist.md). Replace bracketed
+fields. Do **not** invent replies into the logs — wait for real consent.
+Project status: [`../STATUS.md`](../STATUS.md).
 
-| G1 step | Template |
+| Ask | Template |
 | --- | --- |
-| A2 Problem confirmation (≥3) | Email 1 |
-| A3 Workflow win (≥1) | Email 2 |
-| B Domain packet | Email 3 |
-| (P1 Studio; not G1) | Email 4 |
-| (M2 adoption; not G1) | Email 5 |
-| (P4 federation CSLib) | Email 6 |
-| (P4 federation lean-smt) | Email 7 |
+| Problem confirmation (≥3) | Email 1 |
+| Workflow win (≥1) | Email 2 |
+| Domain packet | Email 3 |
+| Studio usability | Email 4 |
+| Adoption | Email 5 |
+| Federation CSLib | Email 6 |
+| Federation lean-smt | Email 7 |
 | (P4 federation lean-auto; optional) | Email 8 |
 
 ---
@@ -94,7 +94,8 @@ Materials:
 - Packet start (copy, drop `-unsigned` from the new filename):
   `docs/validation/review-packets/SAMPLE-rational-equality-unsigned.md`
 - Blank template: `docs/validation/review-packets/TEMPLATE.md`
-- Signing steps: `docs/validation/human-gates-one-sitting.md` § G1-B
+- Signing steps: copy an unsigned packet, drop `-unsigned`, complete rubric
+  scores, and record a real dated signature (see `expert-review-rubric.md`)
 
 We need a real reviewer identity (or consented anonymize), rubric scores meeting
 the pass bar, and a dated signature — not a rubber stamp for `stable`.
@@ -159,7 +160,7 @@ Contract sketch:
 - Notes: `docs/architecture/collaboration-cslib-lean-auto-smt.md`
 - Fixture consume example: `evidence/federation/examples/cslib_consume.json`
 - Ledger (empty until real agreement): `docs/architecture/federation-agreements.md`
-- Board: `docs/validation/p4-blocker-status.md`
+- Status: live federation remains OPEN (`docs/STATUS.md`)
 
 We are **not** asking to replace CSLib checkers or expand Lean TCB.
 

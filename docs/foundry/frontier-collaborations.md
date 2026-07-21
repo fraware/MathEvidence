@@ -5,7 +5,7 @@ Status: **engineering scaffolding and collaboration notes**. This document does
 
 See also: `docs/architecture/collaboration-cslib-lean-auto-smt.md`,
 `docs/foundry/library-contribution-template.md`,
-`docs/foundry/exit-gate-status.md`.
+`docs/STATUS.md`, `KNOWN_TRUST_GAPS.md`.
 
 ## Purpose
 
