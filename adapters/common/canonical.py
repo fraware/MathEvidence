@@ -1,4 +1,7 @@
-"""Canonical JSON profile for digest binding (docs/architecture/canonical-json.md)."""
+"""Canonical JSON profile for digest binding (docs/architecture/canonical-json.md).
+
+Profile version: mathevidence-jcs-0.2
+"""
 
 from __future__ import annotations
 
@@ -6,6 +9,8 @@ import hashlib
 import json
 import math
 from typing import Any
+
+CANONICALIZATION_PROFILE = "mathevidence-jcs-0.2"
 
 
 class CanonicalJsonError(ValueError):

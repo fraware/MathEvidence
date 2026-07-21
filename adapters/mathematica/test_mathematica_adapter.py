@@ -155,7 +155,7 @@ def test_calculus_fixture_mode_unavailable(monkeypatch) -> None:
     req = bind_request_digest(
         {
             "schemaVersion": "0.1.0",
-            "capability": "analysis.symbolic_calculus",
+            "capability": "algebra.formal_rational_calculus",
             "capabilityVersion": "0.1.0",
             "operation": "derivative_candidate",
             "variables": [{"name": "x", "type": "Rat"}],
@@ -188,7 +188,7 @@ def test_calculus_certificate_from_wl_payload() -> None:
     req = bind_request_digest(
         {
             "schemaVersion": "0.1.0",
-            "capability": "analysis.symbolic_calculus",
+            "capability": "algebra.formal_rational_calculus",
             "capabilityVersion": "0.1.0",
             "operation": "derivative_candidate",
             "variables": [{"name": "x", "type": "Rat"}],

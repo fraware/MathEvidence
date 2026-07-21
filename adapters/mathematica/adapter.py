@@ -46,7 +46,7 @@ RATIONAL_EQUALITY_CAPABILITY = CapabilityDescriptor(
 )
 
 SYMBOLIC_CALCULUS_CAPABILITY = CapabilityDescriptor(
-    id="analysis.symbolic_calculus",
+    id="algebra.formal_rational_calculus",
     version="0.1.0",
     claim_classes=["candidate", "soundResult", "witness"],
     request_schema="symbolic-calculus-request.schema.json",
@@ -85,11 +85,26 @@ FINITE_COUNTEREXAMPLE_CAPABILITY = CapabilityDescriptor(
     ],
 )
 
+IDEAL_MEMBERSHIP_CAPABILITY = CapabilityDescriptor(
+    id="algebra.groebner_membership",
+    version="0.1.0",
+    claim_classes=["witness", "soundResult", "candidate"],
+    request_schema="federation-request.schema.json",
+    evidence_schema="ideal-membership-certificate.schema.json",
+    deterministic=True,
+    notes=[
+        "Live path: MATHEVIDENCE_WOLFRAMSCRIPT → PolynomialReduce; else fixture/unavailable.",
+        "Same certificate schema as SymPy; Lean checkMembership owns acceptance.",
+        "Not advertised as live in registry when wolframscript env is absent.",
+    ],
+)
+
 MATHEMATICA_CAPABILITIES = [
     RATIONAL_EQUALITY_CAPABILITY,
     LINEAR_ALGEBRA_CAPABILITY,
     FINITE_COUNTEREXAMPLE_CAPABILITY,
     SYMBOLIC_CALCULUS_CAPABILITY,
+    IDEAL_MEMBERSHIP_CAPABILITY,
 ]
 
 
@@ -929,7 +944,7 @@ def check_support(params: dict[str, Any], tracker: ResourceTracker) -> HandlerRe
     if isinstance(request, dict):
         cap = request.get("capability", CAPABILITY_ID)
         if cap in (
-            "analysis.symbolic_calculus",
+            "algebra.formal_rational_calculus",
             "algebra.linear_algebra",
             "logic.finite_counterexample",
         ):
@@ -944,7 +959,7 @@ def check_support(params: dict[str, Any], tracker: ResourceTracker) -> HandlerRe
                     }
                 )
             notes = {
-                "analysis.symbolic_calculus": (
+                "algebra.formal_rational_calculus": (
                     "candidate≠completeness; derivative/antiderivative live"
                 ),
                 "algebra.linear_algebra": (
@@ -1005,7 +1020,7 @@ def calculus_certificate_from_wl_payload(
     domain = list(request.get("domainConditions") or [])
     return {
         "schemaVersion": "0.1.0",
-        "capability": "analysis.symbolic_calculus",
+        "capability": "algebra.formal_rational_calculus",
         "capabilityVersion": "0.1.0",
         "requestDigest": digest,
         "operation": op,
@@ -1052,7 +1067,7 @@ def compute_symbolic_calculus(
             details={
                 "mode": rt.mode,
                 "detail": rt.detail,
-                "capability": "analysis.symbolic_calculus",
+                "capability": "algebra.formal_rational_calculus",
             },
         )
 
@@ -1118,7 +1133,7 @@ def compute_symbolic_calculus(
 
     return HandlerResult(
         {
-            "capability": "analysis.symbolic_calculus",
+            "capability": "algebra.formal_rational_calculus",
             "capabilityVersion": "0.1.0",
             "requestDigest": digest,
             "candidate": {"reportedOk": True, "expr": candidate},
@@ -1135,10 +1150,37 @@ def compute_handler(params: dict[str, Any], tracker: ResourceTracker) -> Handler
     if not isinstance(request, dict):
         raise stable_error("malformed_evidence", "compute.params.request must be an object")
     cap = request.get("capability", CAPABILITY_ID)
-    if cap == "analysis.symbolic_calculus":
+    if cap == "algebra.formal_rational_calculus":
         return compute_symbolic_calculus(request, tracker)
     if cap == "algebra.linear_algebra":
         return compute_linear_algebra(request, tracker)
     if cap == "logic.finite_counterexample":
         return compute_finite_counterexample(request, tracker)
+    if cap == "algebra.groebner_membership":
+        from adapters.common.ideal_membership import (
+            compute_ideal_membership_certificate,
+            wolframscript_executable,
+        )
+
+        tracker.check()
+        rt = discover_runtime()
+        if wolframscript_executable() is None or not rt.available:
+            raise stable_error(
+                "backend_unavailable",
+                "ideal membership Mathematica live path requires "
+                "MATHEVIDENCE_WOLFRAMSCRIPT; fixture hosts must not advertise live",
+                details={"mode": rt.mode, "detail": rt.detail},
+            )
+        try:
+            result = compute_ideal_membership_certificate(request, backend="mathematica")
+        except ValueError as exc:
+            raise stable_error("malformed_evidence", str(exc)) from exc
+        if not (result.get("candidate") or {}).get("reportedOk"):
+            raise stable_error(
+                "backend_unavailable",
+                "Mathematica ideal-membership produce no ZZ witness",
+                details={"notes": (result.get("certificate") or {}).get("notes")},
+            )
+        tracker.ensure_output_size(len(str(result).encode("utf-8")))
+        return HandlerResult(result, resource_usage=tracker.usage())
     return compute_rational_equality(request, tracker)

@@ -63,7 +63,7 @@ FINITE_COUNTEREXAMPLE_CAPABILITY = CapabilityDescriptor(
 )
 
 SYMBOLIC_CALCULUS_CAPABILITY = CapabilityDescriptor(
-    id="analysis.symbolic_calculus",
+    id="algebra.formal_rational_calculus",
     version="0.1.0",
     claim_classes=["candidate", "soundResult", "witness"],
     request_schema="symbolic-calculus-request.schema.json",
@@ -75,11 +75,25 @@ SYMBOLIC_CALCULUS_CAPABILITY = CapabilityDescriptor(
     ],
 )
 
+IDEAL_MEMBERSHIP_CAPABILITY = CapabilityDescriptor(
+    id="algebra.groebner_membership",
+    version="0.1.0",
+    claim_classes=["witness", "soundResult", "candidate"],
+    request_schema="federation-request.schema.json",
+    evidence_schema="ideal-membership-certificate.schema.json",
+    deterministic=True,
+    notes=[
+        "SymPy proposes sparse multipliers; Lean checkMembership owns acceptance.",
+        "No Gröbner-basis correctness or non-membership claims.",
+    ],
+)
+
 SYMPY_CAPABILITIES = [
     RATIONAL_EQUALITY_CAPABILITY,
     LINEAR_ALGEBRA_CAPABILITY,
     FINITE_COUNTEREXAMPLE_CAPABILITY,
     SYMBOLIC_CALCULUS_CAPABILITY,
+    IDEAL_MEMBERSHIP_CAPABILITY,
 ]
 
 
@@ -549,7 +563,7 @@ def compute_symbolic_calculus(request: dict[str, Any], tracker: ResourceTracker)
 
     cert: dict[str, Any] = {
         "schemaVersion": "0.1.0",
-        "capability": "analysis.symbolic_calculus",
+        "capability": "algebra.formal_rational_calculus",
         "capabilityVersion": "0.1.0",
         "requestDigest": digest,
         "operation": op,
@@ -568,7 +582,7 @@ def compute_symbolic_calculus(request: dict[str, Any], tracker: ResourceTracker)
     _ = bind_request_digest
     return HandlerResult(
         {
-            "capability": "analysis.symbolic_calculus",
+            "capability": "algebra.formal_rational_calculus",
             "capabilityVersion": "0.1.0",
             "requestDigest": digest,
             "candidate": {"reportedOk": True, "expr": candidate},
@@ -600,7 +614,8 @@ def check_support(params: dict[str, Any], tracker: ResourceTracker) -> HandlerRe
         if cap in (
             "algebra.linear_algebra",
             "logic.finite_counterexample",
-            "analysis.symbolic_calculus",
+            "algebra.formal_rational_calculus",
+            "algebra.groebner_membership",
         ):
             return HandlerResult({"supported": True, "capability": cap})
     cap = params.get("capability", CAPABILITY_ID)
@@ -625,8 +640,18 @@ def compute_handler(params: dict[str, Any], tracker: ResourceTracker) -> Handler
         return compute_linear_algebra(request, tracker)
     if cap == "logic.finite_counterexample":
         return compute_finite_counterexample(request, tracker)
-    if cap == "analysis.symbolic_calculus":
+    if cap == "algebra.formal_rational_calculus":
         return compute_symbolic_calculus(request, tracker)
+    if cap == "algebra.groebner_membership":
+        from adapters.common.ideal_membership import compute_ideal_membership_certificate
+
+        tracker.check()
+        try:
+            result = compute_ideal_membership_certificate(request, backend="sympy")
+        except ValueError as exc:
+            raise stable_error("malformed_evidence", str(exc)) from exc
+        tracker.ensure_output_size(len(str(result).encode("utf-8")))
+        return HandlerResult(result, resource_usage=tracker.usage())
     return compute_rational_equality(request, tracker)
 
 
