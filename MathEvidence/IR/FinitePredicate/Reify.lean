@@ -32,8 +32,8 @@ def acceptReified (r : Reified) (sizeLimit : Nat := defaultSizeLimit) :
     Except Reject Reified :=
   if r.varNames.length ≠ r.domains.length then
     .error (.illFormed "varNames/domains length mismatch")
-  else if !r.domains.all Domain.wellFormed then
-    .error (.unboundedDomain "nat/int domains require an explicit bound")
+  else if !domainsWellFormed r.domains then
+    .error (.unboundedDomain "nat/int domains require explicit constant or prior-binder bounds")
   else if !r.pred.wellFormed r.domains then
     .error (.illFormed "predicate variable index out of range")
   else if r.pred.maxVarIdx > r.domains.length then

@@ -29,6 +29,8 @@ def contract : AlgorithmContract where
   outputRelation := "Witness assignment falsifies the claimed universal predicate"
   soundness := "check_sound / checkBool implies isCounterexample"
   completeness := none
+  soundnessDecl := "MathEvidence.Checkers.Counterexample.checkBool_sound"
+  checkerDecl := "MathEvidence.Checkers.Counterexample.checkBool"
 
 def referenceCheck (req : Request) (cert : Certificate) : Bool :=
   checkBool req cert
@@ -48,5 +50,6 @@ theorem referenceCheck_sound (req : Request) (cert : Certificate)
 
 example : contract.claimsCompleteness = false := by native_decide
 example : contract.assuranceLevel = .verifiedReferenceAlgorithm := by native_decide
+example : contract.linksDecls = true := by native_decide
 
 end MathEvidence.Assurance.Counterexample

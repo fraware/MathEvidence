@@ -5,6 +5,7 @@ Authors: MathEvidence contributors
 -/
 import MathEvidence.Core.CanonicalJson
 import MathEvidence.Core.Digest
+import MathEvidence.Core.Digest.Types
 import MathEvidence.IR.FinitePredicate.Syntax
 
 namespace MathEvidence.IR.FinitePredicate
@@ -21,15 +22,6 @@ def Val.toCanonicalJson : Val → String
   | .nat n => object [("tag", ofString "nat"), ("v", ofNat n)]
   | .int i => object [("tag", ofString "int"), ("v", ofInt i)]
 
-def Domain.toCanonicalJson (d : Domain) : String :=
-  object [
-    ("bound",
-      match d.bound with
-      | none => "null"
-      | some b => ofNat b),
-    ("ty", ofString d.ty.toWire)
-  ]
-
 partial def Term.toCanonicalJson : Term → String
   | .var i => object [("idx", ofNat i), ("tag", ofString "var")]
   | .lit v => object [("tag", ofString "lit"), ("v", v.toCanonicalJson)]
@@ -40,6 +32,23 @@ partial def Term.toCanonicalJson : Term → String
     object [("left", a.toCanonicalJson), ("right", b.toCanonicalJson), ("tag", ofString "sub")]
   | .mul a b =>
     object [("left", a.toCanonicalJson), ("right", b.toCanonicalJson), ("tag", ofString "mul")]
+
+def Domain.toCanonicalJson (d : Domain) : String :=
+  object [
+    ("bound",
+      match d.bound with
+      | none => "null"
+      | some b => ofNat b),
+    ("lowerBound",
+      match d.lowerBound with
+      | none => "null"
+      | some t => t.toCanonicalJson),
+    ("ty", ofString d.ty.toWire),
+    ("upperBound",
+      match d.upperBound with
+      | none => "null"
+      | some t => t.toCanonicalJson)
+  ]
 
 partial def Pred.toCanonicalJson : Pred → String
   | .eq a b =>
@@ -75,7 +84,7 @@ def RequestPayload.toCanonicalJson (r : RequestPayload) : String :=
     ("varNames", array (r.varNames.map ofString))
   ]
 
-def RequestPayload.digest (r : RequestPayload) : MathEvidence.Core.EvidenceId :=
-  MathEvidence.Core.CanonicalJson.digest r.toCanonicalJson
+def RequestPayload.digest (r : RequestPayload) : MathEvidence.Core.RequestDigest :=
+  ⟨(MathEvidence.Core.CanonicalJson.digest r.toCanonicalJson).value⟩
 
 end MathEvidence.IR.FinitePredicate
