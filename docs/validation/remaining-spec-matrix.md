@@ -1,20 +1,29 @@
-# Remaining spec matrix (honesty freeze)
+# Remaining spec matrix (honesty freeze — engineering closure)
 
 Maps every [PROJECT_SPEC §21](../PROJECT_SPEC.md) DoD row and every
 [DELIVERY_ROADMAP](../DELIVERY_ROADMAP.md) milestone exit criterion to an
 in-repo artifact path or `OPEN`.
 
+**Authority:** the engineering-closure audit and [`KNOWN_TRUST_GAPS.md`](../../KNOWN_TRUST_GAPS.md)
+supersede optimistic `MET` labels below when they conflict. Many rows are
+**reopened** until failing-then-passing forensic tests and immutable CI evidence
+exist on the candidate commit.
+
 **Rules**
 
-- `MET` — engineering artifact exists and matches the row as written (no
-  invented human confirmations).
-- `PARTIAL` — some required artifact exists; gaps listed.
+- `MET` — engineering artifact exists **and** matches the row as written under
+  closure audit criteria (no invented human confirmations; no P0 trust bypass).
+- `PARTIAL` — some required artifact exists; gaps listed (including P0 reopen).
 - `OPEN` — no qualifying artifact yet (often human/external).
+- `FAILING` — forensic regression demonstrates the defect is still present.
 - Capabilities remain `"status": "experimental"` until
   [stable-capability-checklist.md](stable-capability-checklist.md) is fully
-  checked. Do not treat this matrix as a promotion to `stable`.
+  checked **after** P0 trust repair. Do not treat this matrix as a promotion
+  to `stable`.
 
-**Baseline gate:** `just check` on branch `implement/master-plan`.
+**Baseline:** audit commit `f17ab395`. Local `just check` ≠ authoritative CI
+evidence. Immutable workflow run links are required before any engineering gate
+is called complete.
 
 ---
 
@@ -22,16 +31,16 @@ in-repo artifact path or `OPEN`.
 
 | Row | Criterion | Status | Artifact path or OPEN |
 | --- | --- | --- | --- |
-| §21.1 | Rational-function equality works end to end through Mathematica and one open backend | MET (engineering) | Open: SymPy live — `adapters/sympy/`, `scripts/mathevidence_cli.py`. Mathematica: full live RationalExpr generator via `wolframscript` when `MATHEVIDENCE_WOLFRAMSCRIPT` set (`adapters/mathematica/`); else fixture/offline. Differential: `scripts/run_differential_backends.py`, `benchmarks/differential/`. LeanLink not TCB (`docs/architecture/leanlink-adapter-review.md`). Capability status remains **experimental** (governance → R2). |
-| §21.2 | Same Lean checker accepts both evidence formats after adapter normalization | MET | Checker: `MathEvidence/Checkers/RationalEquality/`. Dual fixtures: `evidence/examples/rational_equality_basic/`, `evidence/examples/rational_equality_mathematica_offline/`. Conformance: `evidence/conformance/rfc0001/`. |
-| §21.3 | All side conditions are explicit | MET | RFC: `docs/rfcs/0001-rational-function-equality.md`. Schema: `schemas/rational-equality-certificate.schema.json`. Capability admissibility: `registry/capabilities/algebra.rational_equality.json`. |
-| §21.4 | Every example rechecks offline with backends unavailable | MET | `scripts/offline_replay_python.py`, `just replay`; Lean offline: `MathEvidence/Checkers/RationalEquality/OfflineFixtures.lean`, `scripts/generate_lean_offline_fixtures.py`. |
-| §21.5 | Request/certificate mismatch and malformed evidence are rejected | MET | Conformance `hash_mismatch`: `evidence/conformance/rfc0001/hash_mismatch/`. Adversarial seed: `benchmarks/adversarial/seed/` (e.g. `wrong_request_hash.json`, `truncated_certificate.json`). Executable malformed/resource cases: `scripts/run_adversarial_executable.py` (`just adversarial-exec`, `security.yml`). |
-| §21.6 | Lean package contains no forbidden axioms or incomplete proofs | MET | `just sorry-audit` / `scripts/check_sorry_axioms.py` (wired in `justfile`). |
-| §21.7 | Capability discoverable through registry and Agent API | MET | `registry/capabilities/algebra.rational_equality.json` (`experimental`), `registry/catalog.json`, `agent/api/`, `just agent-held-out`. |
-| §21.8 | Benchmark includes real and adversarial tasks | MET | Adversarial: `benchmarks/adversarial/seed/manifest.json` + executable runner. Real-world: `benchmarks/real_world/` (≥10 obligations from `docs/validation/bottlenecks.md`; `just real-world`). |
-| §21.9 | User can invoke one stable tactic and receive precise status reporting | PARTIAL | Tactic + status: `MathEvidence/Tactic/Mathevidence.lean`, `Discovery.lean`, `Status.lean` (ops: `.rationalEquality`, `.linearAlgebra`, `.finiteCounterexample`), examples under `MathEvidence/Tactic/`. Capability status is still **experimental** (not registry `stable`). |
-| §21.10 | At least one external Lean contributor or project confirms a real workflow problem | OPEN | **Owner: outreach lead.** Template: `docs/validation/workflow-win-log.md` (0 entries). Process: `docs/validation/outreach-checklist.md`. May overlap a Milestone 0 user-confirmation entry if explicitly scoped. Do not invent. |
+| §21.1 | Rational-function equality works end to end through Mathematica and one open backend | PARTIAL — protocol reference only | Dual adapters exist (`adapters/sympy/`, `adapters/mathematica/`). **Not** a proof of indispensable external search (`externalSearchEssential: false`). P0 digest/replay/coverage gaps: `KNOWN_TRUST_GAPS.md`. Capability **experimental**. |
+| §21.2 | Same Lean checker accepts both evidence formats after adapter normalization | PARTIAL | Checker: `MathEvidence/Checkers/RationalEquality/`. Fixtures exist. Request-binding bypass still P0 (`Discovery.lean:322`). |
+| §21.3 | All side conditions are explicit | PARTIAL | RFC/schemas present; coverage⇒Defined soundness bridge still open (P0-4). |
+| §21.4 | Every example rechecks offline with backends unavailable | PARTIAL / FAILING | Offline packaging exists; Lean does not independently recompute request digests from payload (P0-2). Forensic: `tests/forensic/test_joint_forgery.py`. |
+| §21.5 | Request/certificate mismatch and malformed evidence are rejected | PARTIAL / FAILING | Conformance `hash_mismatch` exists; live digest substitution and joint forgery remain open (P0-1, P0-2). |
+| §21.6 | Lean package contains no forbidden axioms or incomplete proofs | PARTIAL | Regex audits only (`scripts/audit_sorry_axioms.py`); compiled axiom/import audits required (ME-010). |
+| §21.7 | Capability discoverable through registry and Agent API | PARTIAL | Registry + Agent list capabilities; path jail and registry-driven dispatch open (P0-5, P0-9). |
+| §21.8 | Benchmark includes real and adversarial tasks | PARTIAL | Suites exist; trust forensic suite under `tests/forensic/` added at freeze. |
+| §21.9 | User can invoke one stable tactic and receive precise status reporting | FAILING | Replay is status-only (`True` / `True.intro`) — P0-3. Tactic remains experimental. |
+| §21.10 | At least one external Lean contributor or project confirms a real workflow problem | OPEN | **Owner: outreach lead.** Template: `docs/validation/workflow-win-log.md` (0 entries). Do not invent. |
 
 ---
 
@@ -129,7 +138,7 @@ in-repo artifact path or `OPEN`.
 | Exit criterion | Status | Artifact path or OPEN |
 | --- | --- | --- |
 | Repeated evidence patterns support several results | PARTIAL | Conformance: `evidence/conformance/symbolic_calculus/`; examples under `evidence/examples/calculus_*`. SymPy live; Mathematica live derivative/antiderivative via wolframscript when `MATHEVIDENCE_WOLFRAMSCRIPT` set (same R1a ToIR patterns); CI offline fixtures when Wolfram absent. Capability status remains **experimental**. |
-| Branch and singularity conditions are explicit | MET | `registry/capabilities/analysis.symbolic_calculus.json` admissibility; schemas under `schemas/*calculus*`. |
+| Branch and singularity conditions are explicit | MET | `registry/capabilities/algebra.formal_rational_calculus.json` admissibility; schemas under `schemas/*calculus*`. |
 | Candidate validity remains separate from completeness | MET | Capability `knownLimitations` and claim classes; checker package `MathEvidence/Checkers/Calculus/`; Mathematica notes enforce candidate≠completeness. |
 
 ---
@@ -151,7 +160,7 @@ in-repo artifact path or `OPEN`.
 | `algebra.rational_equality` | `conformance_verified` (live) | `live_generator_complete` (wolframscript when env set; CI offline/fixture otherwise) | `declared` / backend `placeholder` |
 | `algebra.linear_algebra` | `conformance_verified` (live + offline fixtures) | `live_generator_complete` (wolframscript when env set; CI offline/fixture + differential skip otherwise) | `live_generator_complete` (when sage available; CI fixture otherwise) |
 | `logic.finite_counterexample` | `conformance_verified` (live + offline fixtures) | `live_generator_complete` (bounded enum gated by wolframscript live mode; CI fixture otherwise) | `live_generator_complete` (bounded enum gated by sage availability; CI fixture otherwise) |
-| `analysis.symbolic_calculus` | `conformance_verified` (live) | `live_generator_complete` (derivative/antiderivative via wolframscript; CI offline fixtures; candidate≠completeness) | n/a |
+| `algebra.formal_rational_calculus` | `conformance_verified` (live) | `live_generator_complete` (derivative/antiderivative via wolframscript; CI offline fixtures; candidate≠completeness) | n/a |
 
 LeanLink: scaffold until review checkboxes close — not claimed as integrated Mathematica transport.
 Supported Mathematica live transport: `MATHEVIDENCE_WOLFRAMSCRIPT` → wolframscript.

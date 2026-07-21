@@ -19,8 +19,13 @@ Status vocabulary:
 | `READY_FOR_HUMAN` | Templates, paths, and instructions exist; a human must fill them |
 | `BLOCKED_WAITING` | Waiting on a prior human artifact or external response |
 | `ENGINEERING_READY` | Re-confirm only; no new engineering work for G1 |
+| `ENGINEERING_INCOMPLETE` | P0 trust / CI evidence gaps block treating engineering as done |
+| `CI_EVIDENCE_ABSENT` | Workflow definitions exist; immutable green runs on baseline absent |
 
-Last packaging pass: 2026-07-16 (engineering only; no human artifacts invented).
+Last packaging pass: 2026-07-21 (ME-001 audit freeze; P0 trust gaps reopened).
+
+**Engineering note:** G1-D is `ENGINEERING_INCOMPLETE` / `CI_EVIDENCE_ABSENT` until
+trust-repair PRs close and immutable CI links exist. See `KNOWN_TRUST_GAPS.md`.
 
 ---
 
@@ -68,9 +73,9 @@ Invite email: [`outreach-email-templates.md`](outreach-email-templates.md) Email
 
 | Step | Status | Exact path(s) / command | Notes |
 | --- | --- | --- | --- |
-| Local gate | `ENGINEERING_READY` | From repo root: `just check` | Recipe in `justfile` (`check:`). Re-confirm before promotion sitting. |
-| CI workflows | `ENGINEERING_READY` | `.github/workflows/lean.yml`, `adapter-conformance.yml`, `offline-replay.yml`, `adversarial.yml` | Must be green on branch; index `.github/workflows/README.md` |
-| Checklist eng boxes | `ENGINEERING_READY` | [`stable-capability-checklist.md`](stable-capability-checklist.md) Prerequisites section | Already `[x]` — do not re-litigate |
+| Local gate | `ENGINEERING_INCOMPLETE` | From repo root: `just check` + `pytest tests/forensic` | P0 trust gaps reopen engineering completion (`KNOWN_TRUST_GAPS.md`). |
+| CI workflows | `CI_EVIDENCE_ABSENT` | `.github/workflows/*.yml` | Definitions exist; immutable green runs on audit baseline not attested. |
+| Checklist eng boxes | `ENGINEERING_INCOMPLETE` | [`stable-capability-checklist.md`](stable-capability-checklist.md) Prerequisites | Unchecked at ME-001 freeze — do not re-tick without evidence |
 
 **Exit when:** human re-confirms green `just check` / CI on the sitting day. Does
 **not** authorize `"status": "stable"`.

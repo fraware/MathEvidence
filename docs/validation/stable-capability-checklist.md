@@ -11,38 +11,32 @@ Do **not** flip `stable` from documentation alone (`registry/README.md`,
 remains `"experimental"` until every box below is checked with real human
 artifacts and a separate governance PR lands.
 
-## Prerequisites (engineering — evidenced by CI / `just check`)
+> **BLOCKED BANNER:** Do not flip `status: stable` while ME-401–408 remain
+> OPEN in [`human-gates-status.md`](human-gates-status.md) (0 confirmations).
+> Engineering packaging is not human confirmation.
+
+## Prerequisites (engineering — BLOCKED until P0 trust repair + immutable CI)
 
 Local gate: `just check` (see `justfile`). Public workflows under
 `.github/workflows/` (index: `.github/workflows/README.md`).
 
-- [x] Conformance suite `evidence/conformance/rfc0001` passing in CI
-      (`adapter-conformance.yml` → `python scripts/run_adapter_conformance.py`;
-      local: `just conformance`)
-- [x] Checker soundness theorems present
-      (`MathEvidence/Checkers/RationalEquality/Soundness.lean`; module
-      `MathEvidence.Checkers.RationalEquality.Soundness`; built by
-      `just lean-build` / `lean.yml` → `lake build`)
-- [x] Offline replay green for SymPy and Mathematica committed bundles
-      (`offline-replay.yml` → `scripts/offline_replay_python.py` +
-      `lake build MathEvidence.Checkers.RationalEquality.OfflineFixtures`;
-      local: `just replay`)
-- [x] Adversarial seed validation green
-      (`adversarial.yml` → `scripts/validate_adversarial_seed.py`;
-      local: `just adversarial`)
-- [x] Import-boundary + sorry/axiom audit green
-      (`lean.yml` → `scripts/check_import_boundaries.py`,
-      `scripts/audit_sorry_axioms.py`; local: `just import-boundary`,
-      `just sorry-audit`)
-- [x] Agent API lists the capability; registry schemas validate
-      (`adapter-conformance.yml` → `scripts/validate_registry.py` +
-      `pytest adapters agent`; Agent
-      `list_capabilities` includes `algebra.rational_equality`
-      (`agent/test_agent_api.py`); local: `just registry-validate`,
-      `just test`, `just agent-held-out`)
-- [x] Meta reification + discovery offline path documented and tested
-      (`MathEvidence/Tactic/Examples.lean` → `MathEvidence.Tactic.Examples`;
-      built in `offline-replay.yml` and `just replay-lean`)
+**Freeze (ME-001):** engineering boxes below are **unchecked**. Prior ticks
+assumed local/`just check` evidence without immutable CI links on the audited
+commit and ignored P0 trust defects in `KNOWN_TRUST_GAPS.md`. Do not re-tick
+until each item has a forensic-green fix and an immutable workflow URL.
+
+- [ ] Conformance suite `evidence/conformance/rfc0001` passing in **immutable CI**
+      on the candidate commit (not only local `just conformance`)
+- [ ] Checker soundness with coverage⇒Defined bridge
+      (`KNOWN_TRUST_GAPS.md` P0-4 closed)
+- [ ] Offline replay with Lean-recomputed request digests
+      (`KNOWN_TRUST_GAPS.md` P0-2 closed; theorem replay not status-only)
+- [ ] Adversarial + forensic suites green (`tests/forensic/`)
+- [ ] Compiled axiom + import-graph audits (ME-010), not regex-only
+- [ ] Agent path jail + registry-driven dispatch (P0-5, P0-9)
+- [ ] Live request-digest binding (P0-1); no `field_simp; ring` independent closer
+      after certificate accept as the sole closing authority
+- [ ] Typed digests / receipts present (P0-6, P0-8)
 
 ## Governance gates (human — required for `stable`; still OPEN)
 

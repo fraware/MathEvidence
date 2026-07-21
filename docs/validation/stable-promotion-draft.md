@@ -1,25 +1,29 @@
 # Draft: stable promotion note for `algebra.rational_equality`
 
-**Status of this document:** draft packaging only.  
+**Status of this document:** DISABLED / draft packaging only.  
 **Capability JSON today:** `"status": "experimental"`.  
-**This file does not change the registry.** Do not merge a `stable` flip until
-every human box in `stable-capability-checklist.md` has real artifacts.
+**This file does not change the registry.** Do not merge a `stable` flip.
 
-**G3 status:** `BLOCKED_WAITING` on G1 — see [`g3-blocker-status.md`](g3-blocker-status.md).
-G2 (wolframscript ADR) is engineering-complete; it does **not** authorize the
-JSON flip without G1.
+**PROMOTION AUTOMATION DISABLED (ME-001):** engineering packaging is **not**
+ready. P0 trust defects in [`KNOWN_TRUST_GAPS.md`](../../KNOWN_TRUST_GAPS.md)
+remain open. Immutable CI evidence on the audited baseline is absent. Treat any
+prior “engineering-complete” language as superseded by the closure audit.
 
-## Engineering packaging (ready)
+**G3 status:** `BLOCKED` on P0 trust repair **and** G1 human gates — see
+[`g3-blocker-status.md`](g3-blocker-status.md).
 
-Engineering prerequisites on the checklist are ticked with CI / `just check`
-evidence (see that file). Reviewers can re-verify with:
+## Engineering packaging (NOT ready)
+
+Engineering prerequisites on the checklist are **unchecked**. Re-verify only
+after trust-repair release `v0.1.1-trust-repair`:
 
 ```text
 just check
+pytest tests/forensic -q
 ```
 
-Required public workflows: `lean.yml`, `adapter-conformance.yml`,
-`offline-replay.yml`, `adversarial.yml` (see `.github/workflows/README.md`).
+Required public workflows must show immutable green runs on the exact candidate
+commit SHA before any packaging language returns to “ready”.
 
 ## Remaining human gates (still OPEN)
 
@@ -38,6 +42,8 @@ G1 readiness board: `docs/validation/g1-blocker-status.md`.
 ## Exact JSON change for a later PR (do not apply now)
 
 File: `registry/capabilities/algebra.rational_equality.json`
+
+Do **not** apply until acceptance matrix + ME-401–408 close.
 
 ### 1. Status field
 

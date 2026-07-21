@@ -25,4 +25,14 @@ uv lock --native-tls
 uv sync --extra dev --extra sympy
 ```
 
+If a temporary pip snapshot is needed while `uv lock` is blocked, run:
+
+```text
+python scripts/freeze_requirements.py
+```
+
+This writes `requirements-freeze.txt` from the active interpreter. Treat it as
+diagnostic input for maintainers, not as a replacement for a committed
+`uv.lock`.
+
 Do not claim a lockfile exists until that succeeds and the file is committed.

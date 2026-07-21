@@ -21,7 +21,7 @@
 | `docs/assurance/rational-equality.md` | algebra.rational_equality |
 | `docs/assurance/linear-algebra.md` | algebra.linear_algebra |
 | `docs/assurance/finite-counterexample.md` | logic.finite_counterexample |
-| `docs/assurance/symbolic-calculus.md` | analysis.symbolic_calculus |
+| `docs/assurance/symbolic-calculus.md` | algebra.formal_rational_calculus |
 
 ## Overall engineering gate
 
