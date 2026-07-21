@@ -18,14 +18,14 @@ outside the kernel certificate path.
 
 abbrev Env (α : Type*) := MathEvidence.IR.RationalExpr.Env α
 
-def eval {α : Type*} [Field α] [DecidableEq α] (env : Env α) (e : Expr) : Option α :=
+def eval {α : Type*} [Field α] [CharZero α] [DecidableEq α] (env : Env α) (e : Expr) : Option α :=
   MathEvidence.IR.RationalExpr.eval env e
 
-def Defined {α : Type*} [Field α] [DecidableEq α] (env : Env α) (e : Expr) : Prop :=
+def Defined {α : Type*} [Field α] [CharZero α] [DecidableEq α] (env : Env α) (e : Expr) : Prop :=
   MathEvidence.IR.RationalExpr.Defined env e
 
 /-- Domain conditions hold: each listed expression is defined and nonzero. -/
-def domainHolds {α : Type*} [Field α] [DecidableEq α]
+def domainHolds {α : Type*} [Field α] [CharZero α] [DecidableEq α]
     (env : Env α) (conds : List Expr) : Prop :=
   MathEvidence.IR.RationalExpr.conditionsHold env conds
 

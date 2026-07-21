@@ -22,7 +22,7 @@ inductive CheckResult where
   deriving DecidableEq, Repr, Inhabited
 
 def digestOk (req : Request) (cert : Certificate) : Bool :=
-  digestsEqual cert.requestDigest req.requestDigest &&
+  cert.requestDigest == req.requestDigest &&
     decide (cert.operation = req.claim.operation)
 
 /-- Every expression well-formed relative to `varNames`. -/

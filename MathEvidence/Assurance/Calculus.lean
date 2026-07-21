@@ -22,11 +22,13 @@ def contract : AlgorithmContract where
   id := "assurance.symbolic_calculus.reference"
   version := "0.1.0"
   assuranceLevel := .verifiedReferenceAlgorithm
-  capabilityId := "analysis.symbolic_calculus"
+  capabilityId := "algebra.formal_rational_calculus"
   inputDomain := "CalculusExpr over RationalExpr with explicit domainConditions"
   outputRelation := "Formal candidate identity (deriv / antideriv / recurrence / ODE+IC)"
   soundness := "check_sound / checkBool implies Claim.proposition (opHolds)"
   completeness := none
+  soundnessDecl := "MathEvidence.Checkers.Calculus.checkBool_sound"
+  checkerDecl := "MathEvidence.Checkers.Calculus.checkBool"
 
 def referenceCheck (req : Request) (cert : Certificate) : Bool :=
   checkBool req cert
@@ -41,5 +43,6 @@ theorem referenceCheck_sound (req : Request) (cert : Certificate)
 
 example : contract.claimsCompleteness = false := by native_decide
 example : contract.assuranceLevel = .verifiedReferenceAlgorithm := by native_decide
+example : contract.linksDecls = true := by native_decide
 
 end MathEvidence.Assurance.Calculus

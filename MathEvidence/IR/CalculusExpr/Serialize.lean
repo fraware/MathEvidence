@@ -5,6 +5,7 @@ Authors: MathEvidence contributors
 -/
 import MathEvidence.Core.CanonicalJson
 import MathEvidence.Core.Digest
+import MathEvidence.Core.Digest.Types
 import MathEvidence.IR.RationalExpr.Serialize
 import MathEvidence.IR.CalculusExpr.Syntax
 
@@ -21,7 +22,7 @@ def InitialCondition.toCanonicalJson (ic : InitialCondition) : String :=
 
 /-- Lean-side request payload for digest binding (index-based exprs). -/
 structure RequestPayload where
-  capabilityId : String := "analysis.symbolic_calculus"
+  capabilityId : String := "algebra.formal_rational_calculus"
   capabilityVersion : String := "0.1.0"
   operation : Operation
   varNames : List String
@@ -59,7 +60,7 @@ def RequestPayload.toCanonicalJson (r : RequestPayload) : String :=
     ("varNames", array (r.varNames.map ofString))
   ]
 
-def RequestPayload.digest (r : RequestPayload) : MathEvidence.Core.EvidenceId :=
-  MathEvidence.Core.CanonicalJson.digest r.toCanonicalJson
+def RequestPayload.digest (r : RequestPayload) : MathEvidence.Core.RequestDigest :=
+  ⟨(MathEvidence.Core.CanonicalJson.digest r.toCanonicalJson).value⟩
 
 end MathEvidence.IR.CalculusExpr
