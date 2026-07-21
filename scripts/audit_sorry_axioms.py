@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Fail closed on project `sorry` or project-specific `axiom` in MathEvidence/."""
+"""Supplemental regex-only scan for project `sorry` / `axiom` patterns.
+
+The authoritative gate is the compiled Lake executable
+`mathevidence-axiom-report` when it is available. This script remains as a
+portable fallback and does not inspect the Lean environment.
+"""
 
 from __future__ import annotations
 
@@ -25,7 +30,8 @@ ROOT_FILES = [
     ROOT / "MathEvidence" / "Testing.lean",
 ]
 
-# Match standalone `sorry` / `axiom` commands (not in comments/strings best-effort).
+# Match standalone `sorry` / `axiom` commands
+# (not in comments/strings best-effort).
 SORRY = re.compile(r"(?m)^\s*sorry\b")
 AXIOM = re.compile(r"(?m)^\s*axiom\s+\w+")
 
@@ -67,7 +73,10 @@ def main() -> int:
         for v in violations:
             print(f"  {v}", file=sys.stderr)
         return 1
-    print(f"sorry/axiom audit ok ({len(lean_files())} files, 0 sorry, 0 axiom)")
+    print(
+        f"sorry/axiom audit ok "
+        f"({len(lean_files())} files, 0 sorry, 0 axiom)"
+    )
     return 0
 
 

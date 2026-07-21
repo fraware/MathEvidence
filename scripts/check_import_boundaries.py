@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Fail closed if Core / IR / Checkers Lean sources import forbidden modules."""
+"""Supplemental regex-only import-boundary scan.
+
+The authoritative gate is the compiled Lake executable
+`mathevidence-import-graph` when it is available. This script remains as a
+portable fallback and does not build a Lean import environment.
+"""
 
 from __future__ import annotations
 
@@ -47,9 +52,14 @@ def main() -> int:
         text = path.read_text(encoding="utf-8")
         rel = path.relative_to(ROOT).as_posix()
         if FORBIDDEN.search(text):
-            violations.append(f"{rel}: forbidden import of Tactic/Registry/Testing/adapters")
+            violations.append(
+                f"{rel}: forbidden import of "
+                "Tactic/Registry/Testing/adapters"
+            )
         if FORBIDDEN_TEXT.search(text):
-            violations.append(f"{rel}: forbidden process/network/adapter reference")
+            violations.append(
+                f"{rel}: forbidden process/network/adapter reference"
+            )
     if violations:
         print("import-boundary check FAILED:", file=sys.stderr)
         for v in violations:
