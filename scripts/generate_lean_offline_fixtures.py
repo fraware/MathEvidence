@@ -13,7 +13,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "MathEvidence" / "Checkers" / "RationalEquality" / "OfflineFixtures.lean"
 
-# Bundles that must accept (poly + cover + digest).
+# Bundles that must accept (poly + cover + digest). For these fixtures, generated
+# Lean also recomputes `Request.ofClaim` and proves that the stored wire digest is
+# exactly the canonical request digest.
 ACCEPT = [
     ("basic_sympy", ROOT / "evidence" / "examples" / "rational_equality_basic"),
     (
@@ -87,9 +89,20 @@ def emit_expr(node: dict, names: list[str]) -> str:
 
 
 def load_bundle(path: Path) -> tuple[dict, dict]:
-    req = json.loads((path / "request.json").read_text(encoding="utf-8"))
-    cert = json.loads((path / "certificate.json").read_text(encoding="utf-8"))
-    return req, cert
+    def _load(stem: str) -> dict:
+        cjson = path / f"{stem}.cjson"
+        json_path = path / f"{stem}.json"
+        if cjson.is_file():
+            data = json.loads(cjson.read_text(encoding="utf-8"))
+        elif json_path.is_file():
+            data = json.loads(json_path.read_text(encoding="utf-8"))
+        else:
+            raise FileNotFoundError(f"missing {stem}.cjson/{stem}.json under {path}")
+        if not isinstance(data, dict):
+            raise ValueError(f"{stem} must be a JSON object in {path}")
+        return data
+
+    return _load("request"), _load("certificate")
 
 
 def emit_claim(req: dict) -> str:
@@ -97,15 +110,24 @@ def emit_claim(req: dict) -> str:
     names_lit = ", ".join(f'"{n}"' for n in names)
     lhs = emit_expr(req["lhs"], names)
     rhs = emit_expr(req["rhs"], names)
-    return "\n".join(
-        [
-            "  {",
-            f"    varNames := [{names_lit}]",
-            f"    lhs := {lhs}",
-            f"    rhs := {rhs}",
-            "  }",
-        ]
-    )
+    assumptions = req.get("knownAssumptions") or []
+    assumption_exprs: list[str] = []
+    for item in assumptions:
+        if isinstance(item, dict) and "expr" in item:
+            assumption_exprs.append(emit_expr(item["expr"], names))
+        elif isinstance(item, dict) and "tag" in item:
+            assumption_exprs.append(emit_expr(item, names))
+    known_lit = ", ".join(assumption_exprs)
+    lines = [
+        "  {",
+        f"    varNames := [{names_lit}]",
+        f"    lhs := {lhs}",
+        f"    rhs := {rhs}",
+    ]
+    if assumption_exprs:
+        lines.append(f"    knownAssumptions := [{known_lit}]")
+    lines.append("  }")
+    return "\n".join(lines)
 
 
 def emit_factors(cert: dict, names: list[str]) -> str:
@@ -123,9 +145,11 @@ def emit_fixture(ident: str, path: Path, expect_accept: bool) -> str:
     names = [v["name"] for v in req["variables"]]
     digest = req["requestDigest"]
     cert_digest = cert["requestDigest"]
-    # Lean checks request↔certificate binding. The committed hash_mismatch
-    # fixture uses a shared bogus digest (Python detects payload recompute
-    # failure); force a Lean-visible mismatch for the shared checker.
+    # Lean offline replay binds cert.requestDigest to the Lean wire digest from
+    # `Request.ofClaim` (parity with Python bind_request_digest). Honest fixtures
+    # prove stored digest = recomputed digest via native_decide.
+    # hash_mismatch keeps a forged wire digest and proves mismatch.
+    force_literal_request = ident == "hash_mismatch"
     if ident == "hash_mismatch":
         cert_digest = (
             "sha256:0000000000000000000000000000000000000000000000000000000000000000"
@@ -137,8 +161,22 @@ def emit_fixture(ident: str, path: Path, expect_accept: bool) -> str:
         f"def claim_{ident} : Claim :=",
         claim,
         f"def digest_{ident} : RequestDigest := ⟨\"{digest}\"⟩",
+        (
+            f"theorem digest_matches_ofClaim_{ident} :"
+            if not force_literal_request
+            else f"theorem digest_differs_from_ofClaim_{ident} :"
+        ),
+        (
+            f"    (Request.ofClaim claim_{ident}).requestDigest = digest_{ident} := by native_decide"
+            if not force_literal_request
+            else f"    ((Request.ofClaim claim_{ident}).requestDigest == digest_{ident}) = false := by native_decide"
+        ),
         f"def req_{ident} : Request :=",
-        "  { claim := claim_" + ident + ", requestDigest := digest_" + ident + " }",
+        (
+            f"  Request.ofClaim claim_{ident}"
+            if not force_literal_request
+            else f"  {{ claim := claim_{ident}, requestDigest := digest_{ident} }}"
+        ),
         f"def cert_{ident} : Certificate where",
         f"  requestDigest := ⟨\"{cert_digest}\"⟩",
         f"  denomFactors := {factors}",
@@ -153,7 +191,7 @@ def emit_fixture(ident: str, path: Path, expect_accept: bool) -> str:
             f"theorem replay_report_{ident} :",
             f"    (replay bundle_{ident}).accepted = true := by native_decide",
             f"theorem sound_{ident} :",
-            f"    Claim.proposition claim_{ident} cert_{ident}.denomFactors :=",
+            f"    Claim.proposition req_{ident}.claim cert_{ident}.denomFactors :=",
             f"  checkBool_sound req_{ident} cert_{ident} replay_{ident}",
         ]
     else:
@@ -176,6 +214,7 @@ def main() -> int:
         "import MathEvidence.Checkers.RationalEquality.Check",
         "import MathEvidence.Checkers.RationalEquality.Replay",
         "import MathEvidence.Checkers.RationalEquality.Soundness",
+        "import MathEvidence.Checkers.RationalEquality.Wire",
         "import MathEvidence.IR.RationalExpr.Syntax",
         "",
         "/-",
