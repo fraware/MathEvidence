@@ -7,7 +7,8 @@ import MathEvidence.Core.Digest
 import MathEvidence.Core.ErrorCode
 import MathEvidence.Checkers.RationalEquality.Certificate
 import MathEvidence.Checkers.RationalEquality.Spec
-import MathEvidence.IR.RationalExpr.Poly
+import MathEvidence.Checkers.RationalEquality.Wire
+import MathEvidence.IR.RationalExpr.PolyCompute
 import MathEvidence.IR.RationalExpr.Syntax
 
 namespace MathEvidence.Checkers.RationalEquality
@@ -24,7 +25,7 @@ def denomsCovered (e : Expr) (factors : List Expr) : Bool :=
   e.denominators.all fun d => factors.contains d
 
 def digestOk (req : Request) (cert : Certificate) : Bool :=
-  digestsEqual cert.requestDigest req.requestDigest
+  cert.requestDigest == req.requestDigest
 
 def wellFormedOk (req : Request) (cert : Certificate) : Bool :=
   req.claim.lhs.wellFormed req.claim.varNames.length &&

@@ -7,6 +7,7 @@ import Lean.Data.Json
 import MathEvidence.Checkers.RationalEquality.Certificate
 import MathEvidence.Checkers.RationalEquality.Spec
 import MathEvidence.Core.ClaimClass
+import MathEvidence.Core.Digest.Types
 import MathEvidence.Core.EvidenceId
 import MathEvidence.IR.RationalExpr.Wire
 
@@ -52,7 +53,7 @@ def decodeRequest (j : Json) : Except DecodeError Request := do
   let digestStr ← match j.getObjValAs? String "requestDigest" with
     | .ok s => pure s
     | .error m => .error (.json m)
-  let digest ← match EvidenceId.ofWire? digestStr with
+  let digest ← match RequestDigest.ofWire? digestStr with
     | some d => pure d
     | none => .error (.json s!"invalid requestDigest {digestStr}")
   pure { claim := claim, requestDigest := digest }
@@ -61,7 +62,7 @@ def decodeCertificate (j : Json) (varNames : List String) : Except DecodeError C
   let digestStr ← match j.getObjValAs? String "requestDigest" with
     | .ok s => pure s
     | .error m => .error (.json m)
-  let digest ← match EvidenceId.ofWire? digestStr with
+  let digest ← match RequestDigest.ofWire? digestStr with
     | some d => pure d
     | none => .error (.json s!"invalid certificate requestDigest {digestStr}")
   let factorsJ ← match j.getObjVal? "denominatorFactors" with
