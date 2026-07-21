@@ -11,9 +11,11 @@ from foundry.pipelines.quality import tier_composition
 from foundry.pipelines.validate import validate_corpus_episode, validate_corpus_release
 
 KNOWN_BIASES = [
-    "Sample slice dominated by small algebra / calculus fixtures from evidence/examples.",
-    "Q3/Q4 tiers require human semantic review; this release has none auto-assigned.",
+    "Corpus mixes evidence/examples, conformance fixtures, and FiniteGraph generated refutations.",
+    "Q3/Q4 tiers require human semantic review; unlabeled review_queue packets are not Q3.",
     "Synthetic negatives are labeled and excluded from eval contamination.",
+    "Splits are source-family based (not random); see splits.json bySourceFamily.",
+    "FiniteGraph precision metrics are campaign-local — not field-level performance.",
     "No live frontier formalization sessions are included.",
 ]
 
@@ -50,10 +52,11 @@ def package_release(
         "schemaVersion": "0.1.0",
         "releaseId": release_id,
         "version": version,
-        "title": "MathEvidence Foundry certified tool-use corpus (sample)",
+        "title": "MathEvidence Foundry certified tool-use corpus (v0.1 scaled)",
         "description": (
-            "Public sample corpus of verification-aware tool-use episodes built from "
-            "committed evidence and synthetic negatives. Does not influence theorem acceptance."
+            "Public corpus of verification-aware tool-use episodes built from "
+            "committed evidence, conformance fixtures, FiniteGraph certified "
+            "refutations, and synthetic negatives. Does not influence theorem acceptance."
         ),
         "license": "Apache-2.0",
         "acceptanceInfluence": False,
@@ -62,9 +65,11 @@ def package_release(
         "tierComposition": tier_composition(episodes),
         "splits": {
             "immutable": True,
+            "policy": splits.get("policy") or "source_family",
             "train": list(splits.get("train") or []),
             "eval": list(splits.get("eval") or []),
             "held_out": list(splits.get("held_out") or []),
+            "bySourceFamily": dict(splits.get("bySourceFamily") or {}),
         },
         "episodes": rel_paths,
         "benchmarkExclusions": [

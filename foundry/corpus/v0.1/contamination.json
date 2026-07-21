@@ -7,10 +7,23 @@
     "notes": "Immutable splits; eval/held_out excluded from train. Synthetic negatives marked benchmarkExclusion."
   },
   "benchmarkExclusions": [
-    "481c337f-cfbb-577f-b6bc-c6c0be1545f3",
-    "6eeb163c-f77a-5a23-a493-626d381f7b59",
-    "f435fe85-65f7-550e-8a62-8b486c3e8634",
-    "67e53e02-774e-5a5a-814b-4ab425ac0cd7"
+    "c1ebfaef-12e6-5830-ab83-2b7bc2e41ee7",
+    "a6e00aae-a74b-5bea-af92-ace3f3021fa9",
+    "0c68787b-e3af-55b4-b995-4e74812537a8",
+    "934c7cdb-c505-5e08-86d9-11d222778986",
+    "d8810174-4519-5906-bc85-fad4903fd237",
+    "f7661003-ce95-5145-94b0-e32e6b2602c8",
+    "d42fd677-8951-535b-b14b-f825ec620ac9",
+    "d8a121fd-cc08-533a-8a3f-c104234c147f",
+    "f2898a08-1412-5f0e-a164-ea1230bb8e04",
+    "f949754c-1342-5841-9033-341de867ef4e",
+    "36bb385c-8fec-55bf-820f-b90b5bc9b897",
+    "037b6b6f-6983-5db2-8c07-2c3a4fc3e475",
+    "6f778b6a-fc7a-5743-9379-8e1a8ca17ce3",
+    "1e756b7c-5537-5134-9a54-ef7a2b8d8522",
+    "690001ce-cc83-59fd-bef4-3b62b1668cbc",
+    "bd3fa2e7-9d4f-5cdd-83ff-c7ca35f66203",
+    "79e8d32e-d331-532b-a520-53cb73c7a8b6"
   ],
   "immutableSplits": true
 }

@@ -6,16 +6,52 @@ from typing import Any
 
 from adapters.common.schema_validate import SchemaStore
 from foundry.pipelines.common import SCHEMA_DIR
+from foundry.pipelines.quality import enforce_tier_claims, refuse_q1_as_verified_positive
 
 
 def schema_store() -> SchemaStore:
     return SchemaStore(SCHEMA_DIR)
 
 
+def validate_tier_enforcement(episode: dict[str, Any]) -> dict[str, Any]:
+    """Apply Q2/Q3 tier rules; refuse Q1 as a positive verified example.
+
+    Raises ValueError when an episode *claims* Q2 without replayable evidence.
+    Unlabeled Q3/Q4 claims are demoted (not hard-failed) via ``enforce_tier_claims``.
+    """
+    claimed = episode.get("qualityTier") or "Q0_raw"
+    outcome = episode.get("outcome") or {}
+
+    if claimed == "Q2_formally_verified":
+        if outcome.get("negative"):
+            raise ValueError(
+                f"{episode.get('episodeId', '<missing>')}: Q2_formally_verified refused for negatives"
+            )
+        if not outcome.get("replayable"):
+            raise ValueError(
+                f"{episode.get('episodeId', '<missing>')}: Q2_formally_verified requires replayable=true"
+            )
+
+    ep = enforce_tier_claims(episode)
+    refuse_q1_as_verified_positive(ep)
+
+    tier = ep.get("qualityTier") or "Q0_raw"
+    out = ep.get("outcome") or {}
+
+    if tier == "Q2_formally_verified":
+        if out.get("negative") or not out.get("replayable"):
+            raise ValueError(
+                f"{ep.get('episodeId', '<missing>')}: Q2_formally_verified requires replayable=true"
+            )
+
+    return ep
+
+
 def validate_corpus_episode(episode: dict[str, Any], store: SchemaStore | None = None) -> None:
     s = store or schema_store()
     if episode.get("acceptanceInfluence") is not False:
         raise ValueError("acceptanceInfluence must be false")
+    validate_tier_enforcement(episode)
     s.validate("corpus-episode.schema.json", episode)
 
 

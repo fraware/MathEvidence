@@ -30,6 +30,7 @@ def _neg(
         "provenance": {
             "sourceKind": "synthetic",
             "sourcePath": f"foundry/pipelines/negatives:{slug}",
+            "sourceFamily": "synthetic_negative",
             "license": "Apache-2.0",
             "publicationAllowed": True,
             "userConsent": "not_applicable",
@@ -38,7 +39,7 @@ def _neg(
         "contamination": {
             "inPublicLibrary": False,
             "publicLibraryRefs": [],
-            "trainEvalSeparation": "train",
+            "trainEvalSeparation": "held_out",
             "duplicateOf": None,
             "contentDigest": content_digest(core),
             "benchmarkExclusion": True,
@@ -81,8 +82,8 @@ def synthetic_negatives() -> list[dict[str, Any]]:
         ),
         _neg(
             slug="claim_overreach",
-            selected="analysis.symbolic_calculus",
-            correct="analysis.symbolic_calculus",
+            selected="algebra.formal_rational_calculus",
+            correct="algebra.formal_rational_calculus",
             rationale="Requested completeness for a derivative candidate claim.",
             negative_kind="claim_strength_mismatch",
         ),
