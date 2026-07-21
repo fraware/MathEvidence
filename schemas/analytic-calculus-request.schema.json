@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/analytic-calculus-request-v0.json",
+  "title": "Analytic calculus request (experimental fragment)",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schemaVersion", "capability", "capabilityVersion"],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "capability": {
+      "const": "analysis.analytic_calculus"
+    },
+    "capabilityVersion": { "type": "string" },
+    "source": { "type": "object" },
+    "claimedDeriv": { "type": "object" },
+    "domainConditions": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "requestedClaim": { "type": "string" },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}
