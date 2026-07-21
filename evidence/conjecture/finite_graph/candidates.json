@@ -1,0 +1,264 @@
+{
+  "generatorVersion": "finite_graph.v0.2.0",
+  "familyId": "finite.simple_graph_fin3",
+  "candidates": [
+    {
+      "id": "fin3_has_edge",
+      "kind": "false_universal",
+      "pred": {
+        "tag": "or",
+        "left": {
+          "tag": "or",
+          "left": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 0
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          },
+          "right": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 1
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 2
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "expected": "falsified",
+      "rationale": "Empty graph is a Lean-certified counterexample for n=3."
+    },
+    {
+      "id": "fin3_edge0_always",
+      "kind": "false_universal",
+      "pred": {
+        "tag": "eq",
+        "left": {
+          "tag": "var",
+          "idx": 0
+        },
+        "right": {
+          "tag": "lit",
+          "v": {
+            "tag": "bool",
+            "v": true
+          }
+        }
+      },
+      "expected": "falsified",
+      "rationale": "Any assignment with e0=false falsifies."
+    },
+    {
+      "id": "fin3_complete",
+      "kind": "false_universal",
+      "pred": {
+        "tag": "and",
+        "left": {
+          "tag": "and",
+          "left": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 0
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          },
+          "right": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 1
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 2
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "expected": "falsified",
+      "rationale": "Any missing edge falsifies completeness."
+    },
+    {
+      "id": "fin3_edge0_and_edge1",
+      "kind": "false_universal",
+      "pred": {
+        "tag": "and",
+        "left": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 0
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 1
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "expected": "falsified",
+      "rationale": "Empty or single-edge graphs falsify."
+    },
+    {
+      "id": "fin3_edge0_or_edge1",
+      "kind": "false_universal",
+      "pred": {
+        "tag": "or",
+        "left": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 0
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 1
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "expected": "falsified",
+      "rationale": "Graph with only the last edge falsifies for n=3."
+    },
+    {
+      "id": "fin3_edge0_refl",
+      "kind": "tautology",
+      "pred": {
+        "tag": "eq",
+        "left": {
+          "tag": "var",
+          "idx": 0
+        },
+        "right": {
+          "tag": "var",
+          "idx": 0
+        }
+      },
+      "expected": "formally_proved",
+      "theoremRef": "edge_var_refl_fin3",
+      "rationale": "Reflexive equality on a Bool edge variable."
+    },
+    {
+      "id": "fin3_excluded_middle_edge0",
+      "kind": "bounded_survivor",
+      "pred": {
+        "tag": "or",
+        "left": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 0
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": false
+            }
+          }
+        },
+        "right": {
+          "tag": "eq",
+          "left": {
+            "tag": "var",
+            "idx": 0
+          },
+          "right": {
+            "tag": "lit",
+            "v": {
+              "tag": "bool",
+              "v": true
+            }
+          }
+        }
+      },
+      "expected": "bounded_verified",
+      "searchBound": 8,
+      "rationale": "Holds on the finite family; not lifted as an unbounded theorem here."
+    }
+  ]
+}

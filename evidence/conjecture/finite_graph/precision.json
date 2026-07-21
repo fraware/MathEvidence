@@ -1,0 +1,16 @@
+{
+  "familyId": "finite.simple_graph_fin3",
+  "proposed": 7,
+  "falsified": 5,
+  "boundedVerified": 0,
+  "formallyProved": 1,
+  "openProblems": 1,
+  "precisionRate": 0.7142857142857143,
+  "notes": [
+    "precisionRate = falsified/proposed among campaign candidates.",
+    "bounded_verified and open are not unbounded theorems.",
+    "formally_proved requires an explicit reusable theorem reference.",
+    "Precision is campaign-local; do not claim field-level performance from tiny batches.",
+    "generatorVersion=finite_graph.v0.2.0"
+  ]
+}

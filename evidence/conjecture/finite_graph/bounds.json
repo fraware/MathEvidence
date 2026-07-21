@@ -1,0 +1,6 @@
+{
+  "generatorVersion": "finite_graph.v0.2.0",
+  "enumerateBound": 8,
+  "n": 3,
+  "searchNotes": "Finite Fin-n edge-bit family; bounded_verified \u2260 unbounded theorem."
+}

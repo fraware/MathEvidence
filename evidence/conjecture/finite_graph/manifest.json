@@ -1,0 +1,26 @@
+{
+  "generatorVersion": "finite_graph.v0.2.0",
+  "instanceCount": 1252,
+  "nonduplicatePolicy": "graph6_atlas_isomorphism_collapse",
+  "invariantNames": [
+    "n",
+    "edge_count",
+    "density",
+    "degree_sequence",
+    "triangle_count",
+    "connected_components",
+    "diameter",
+    "is_bipartite"
+  ],
+  "invariantCount": 8,
+  "byN": {
+    "1": 1,
+    "2": 2,
+    "3": 4,
+    "4": 11,
+    "5": 34,
+    "6": 156,
+    "7": 1044
+  },
+  "atlasRel": "evidence/conjecture/finite_graph/atlas_n7.g6"
+}

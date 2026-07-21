@@ -1,0 +1,7 @@
+{
+  "generatorVersion": "finite_graph.v0.2.0",
+  "episodeCount": 525,
+  "qualityTier": "Q2_formally_verified",
+  "sourceFamily": "finite_graph_conjecture",
+  "note": "Replayable Lean-mirror certified refutations for Foundry ingest."
+}

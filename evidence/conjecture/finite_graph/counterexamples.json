@@ -1,0 +1,483 @@
+{
+  "generatorVersion": "finite_graph.v0.2.0",
+  "authorityStatus": "lean_checker_mirror",
+  "counterexamples": [
+    {
+      "candidateId": "fin3_has_edge",
+      "request": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "predicate": {
+          "varNames": [
+            "e01",
+            "e02",
+            "e12"
+          ],
+          "domains": [
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            }
+          ],
+          "pred": {
+            "tag": "or",
+            "left": {
+              "tag": "or",
+              "left": {
+                "tag": "eq",
+                "left": {
+                  "tag": "var",
+                  "idx": 0
+                },
+                "right": {
+                  "tag": "lit",
+                  "v": {
+                    "tag": "bool",
+                    "v": true
+                  }
+                }
+              },
+              "right": {
+                "tag": "eq",
+                "left": {
+                  "tag": "var",
+                  "idx": 1
+                },
+                "right": {
+                  "tag": "lit",
+                  "v": {
+                    "tag": "bool",
+                    "v": true
+                  }
+                }
+              }
+            },
+            "right": {
+              "tag": "eq",
+              "left": {
+                "tag": "var",
+                "idx": 2
+              },
+              "right": {
+                "tag": "lit",
+                "v": {
+                  "tag": "bool",
+                  "v": true
+                }
+              }
+            }
+          }
+        },
+        "requestedClaim": "refutation",
+        "resourcePolicy": {
+          "maxWallTimeMs": 60000,
+          "maxOutputBytes": 1048576
+        },
+        "requestDigest": "sha256:420304a0cd9122772b4d250efb312059f5ce1828cb0807dad14c2a6a4292745b"
+      },
+      "certificate": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "requestDigest": "sha256:420304a0cd9122772b4d250efb312059f5ce1828cb0807dad14c2a6a4292745b",
+        "witness": {
+          "assignment": [
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            }
+          ]
+        },
+        "provenance": {
+          "backendId": "agent.enumerate",
+          "adapterVersion": "0.1.0",
+          "deterministic": true
+        }
+      },
+      "mirrorAccepted": true,
+      "authorityStatus": "lean_checker_mirror"
+    },
+    {
+      "candidateId": "fin3_edge0_always",
+      "request": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "predicate": {
+          "varNames": [
+            "e01",
+            "e02",
+            "e12"
+          ],
+          "domains": [
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            }
+          ],
+          "pred": {
+            "tag": "eq",
+            "left": {
+              "tag": "var",
+              "idx": 0
+            },
+            "right": {
+              "tag": "lit",
+              "v": {
+                "tag": "bool",
+                "v": true
+              }
+            }
+          }
+        },
+        "requestedClaim": "refutation",
+        "resourcePolicy": {
+          "maxWallTimeMs": 60000,
+          "maxOutputBytes": 1048576
+        },
+        "requestDigest": "sha256:75c6e8429a958c868846a2560d529f641227e46a700084e04e91bdc2da1a96ac"
+      },
+      "certificate": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "requestDigest": "sha256:75c6e8429a958c868846a2560d529f641227e46a700084e04e91bdc2da1a96ac",
+        "witness": {
+          "assignment": [
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            }
+          ]
+        },
+        "provenance": {
+          "backendId": "agent.enumerate",
+          "adapterVersion": "0.1.0",
+          "deterministic": true
+        }
+      },
+      "mirrorAccepted": true,
+      "authorityStatus": "lean_checker_mirror"
+    },
+    {
+      "candidateId": "fin3_complete",
+      "request": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "predicate": {
+          "varNames": [
+            "e01",
+            "e02",
+            "e12"
+          ],
+          "domains": [
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            }
+          ],
+          "pred": {
+            "tag": "and",
+            "left": {
+              "tag": "and",
+              "left": {
+                "tag": "eq",
+                "left": {
+                  "tag": "var",
+                  "idx": 0
+                },
+                "right": {
+                  "tag": "lit",
+                  "v": {
+                    "tag": "bool",
+                    "v": true
+                  }
+                }
+              },
+              "right": {
+                "tag": "eq",
+                "left": {
+                  "tag": "var",
+                  "idx": 1
+                },
+                "right": {
+                  "tag": "lit",
+                  "v": {
+                    "tag": "bool",
+                    "v": true
+                  }
+                }
+              }
+            },
+            "right": {
+              "tag": "eq",
+              "left": {
+                "tag": "var",
+                "idx": 2
+              },
+              "right": {
+                "tag": "lit",
+                "v": {
+                  "tag": "bool",
+                  "v": true
+                }
+              }
+            }
+          }
+        },
+        "requestedClaim": "refutation",
+        "resourcePolicy": {
+          "maxWallTimeMs": 60000,
+          "maxOutputBytes": 1048576
+        },
+        "requestDigest": "sha256:eab4602a59a4ca78e26ffec900d006ca68e91e26528ecd663ddb614ff3f16033"
+      },
+      "certificate": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "requestDigest": "sha256:eab4602a59a4ca78e26ffec900d006ca68e91e26528ecd663ddb614ff3f16033",
+        "witness": {
+          "assignment": [
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            }
+          ]
+        },
+        "provenance": {
+          "backendId": "agent.enumerate",
+          "adapterVersion": "0.1.0",
+          "deterministic": true
+        }
+      },
+      "mirrorAccepted": true,
+      "authorityStatus": "lean_checker_mirror"
+    },
+    {
+      "candidateId": "fin3_edge0_and_edge1",
+      "request": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "predicate": {
+          "varNames": [
+            "e01",
+            "e02",
+            "e12"
+          ],
+          "domains": [
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            }
+          ],
+          "pred": {
+            "tag": "and",
+            "left": {
+              "tag": "eq",
+              "left": {
+                "tag": "var",
+                "idx": 0
+              },
+              "right": {
+                "tag": "lit",
+                "v": {
+                  "tag": "bool",
+                  "v": true
+                }
+              }
+            },
+            "right": {
+              "tag": "eq",
+              "left": {
+                "tag": "var",
+                "idx": 1
+              },
+              "right": {
+                "tag": "lit",
+                "v": {
+                  "tag": "bool",
+                  "v": true
+                }
+              }
+            }
+          }
+        },
+        "requestedClaim": "refutation",
+        "resourcePolicy": {
+          "maxWallTimeMs": 60000,
+          "maxOutputBytes": 1048576
+        },
+        "requestDigest": "sha256:ed23e9c296c8aaf0b761735b2098baad6252ee163c428a35e6099af121e539b3"
+      },
+      "certificate": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "requestDigest": "sha256:ed23e9c296c8aaf0b761735b2098baad6252ee163c428a35e6099af121e539b3",
+        "witness": {
+          "assignment": [
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            }
+          ]
+        },
+        "provenance": {
+          "backendId": "agent.enumerate",
+          "adapterVersion": "0.1.0",
+          "deterministic": true
+        }
+      },
+      "mirrorAccepted": true,
+      "authorityStatus": "lean_checker_mirror"
+    },
+    {
+      "candidateId": "fin3_edge0_or_edge1",
+      "request": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "predicate": {
+          "varNames": [
+            "e01",
+            "e02",
+            "e12"
+          ],
+          "domains": [
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            },
+            {
+              "ty": "bool"
+            }
+          ],
+          "pred": {
+            "tag": "or",
+            "left": {
+              "tag": "eq",
+              "left": {
+                "tag": "var",
+                "idx": 0
+              },
+              "right": {
+                "tag": "lit",
+                "v": {
+                  "tag": "bool",
+                  "v": true
+                }
+              }
+            },
+            "right": {
+              "tag": "eq",
+              "left": {
+                "tag": "var",
+                "idx": 1
+              },
+              "right": {
+                "tag": "lit",
+                "v": {
+                  "tag": "bool",
+                  "v": true
+                }
+              }
+            }
+          }
+        },
+        "requestedClaim": "refutation",
+        "resourcePolicy": {
+          "maxWallTimeMs": 60000,
+          "maxOutputBytes": 1048576
+        },
+        "requestDigest": "sha256:f12f6163c9f066077ee0bbc7235e363e0d7ff460c42ffb2b4dd88e6094464356"
+      },
+      "certificate": {
+        "schemaVersion": "0.1.0",
+        "capability": "logic.finite_counterexample",
+        "capabilityVersion": "0.1.0",
+        "requestDigest": "sha256:f12f6163c9f066077ee0bbc7235e363e0d7ff460c42ffb2b4dd88e6094464356",
+        "witness": {
+          "assignment": [
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            },
+            {
+              "tag": "bool",
+              "v": false
+            }
+          ]
+        },
+        "provenance": {
+          "backendId": "agent.enumerate",
+          "adapterVersion": "0.1.0",
+          "deterministic": true
+        }
+      },
+      "mirrorAccepted": true,
+      "authorityStatus": "lean_checker_mirror"
+    }
+  ]
+}
