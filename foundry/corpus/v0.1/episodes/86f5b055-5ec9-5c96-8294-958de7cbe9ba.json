@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "86f5b055-5ec9-5c96-8294-958de7cbe9ba",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-21T11:08:39Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q2_formally_verified",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/conformance/rfc0001/valid_identity/bundle",
+    "sourceFamily": "conformance_ideal",
+    "sourceDate": "2026-07-16T12:22:27Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "sympy",
+    "backendVersion": "1.14.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "algebra.rational_equality",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance. Ingested from evidence/conformance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "train",
+    "duplicateOf": null,
+    "contentDigest": "sha256:2c95084a8a79ab33dacca8468fa9e31b8fd75c79f4fe23723f619fda493feb41",
+    "benchmarkExclusion": false,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "algebra.formal_rational_calculus"
+    ],
+    "selectedCapability": "algebra.rational_equality",
+    "requestedClaim": "soundResult",
+    "backendId": "sympy",
+    "selectionRationale": "Committed example for capability algebra.rational_equality."
+  },
+  "outcome": {
+    "resultStatus": "computed",
+    "claimClass": "candidate",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423",
+    "replayable": true,
+    "negative": false,
+    "negativeKind": "none",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/conformance/rfc0001/valid_identity/bundle"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.1.0",
+  "episodeId": "037b6b6f-6983-5db2-8c07-2c3a4fc3e475",
+  "kind": "evidence_bundle",
+  "capturedAt": "2026-07-21T11:08:39Z",
+  "acceptanceInfluence": false,
+  "qualityTier": "Q1_schema_valid",
+  "provenance": {
+    "sourceKind": "committed_evidence",
+    "sourcePath": "evidence/conformance/finite_counterexample/out_of_domain_rejected/bundle",
+    "sourceFamily": "conformance_finite_cex",
+    "sourceDate": "2026-07-16T00:00:00Z",
+    "license": "Apache-2.0",
+    "publicationAllowed": true,
+    "userConsent": "not_applicable",
+    "backendId": "fixture",
+    "backendVersion": "0.1.0",
+    "adapterVersion": "0.1.0",
+    "checkerPackage": "logic.finite_counterexample",
+    "notes": "Ingested from committed evidence; never consulted by Lean acceptance. Ingested from evidence/conformance."
+  },
+  "contamination": {
+    "inPublicLibrary": false,
+    "publicLibraryRefs": [],
+    "trainEvalSeparation": "held_out",
+    "duplicateOf": null,
+    "contentDigest": "sha256:6e0f0386adad59b56952d0b1a6267c0c6473db3527f22b389739c7d7d65cbdcb",
+    "benchmarkExclusion": true,
+    "notes": "Split assignment applied by foundry.pipelines.split."
+  },
+  "toolUse": {
+    "capabilityCandidates": [
+      "algebra.rational_equality",
+      "algebra.linear_algebra",
+      "algebra.groebner_membership",
+      "logic.finite_counterexample",
+      "logic.sat_unsat",
+      "logic.pseudo_boolean",
+      "logic.smt",
+      "algebra.formal_rational_calculus"
+    ],
+    "selectedCapability": "logic.finite_counterexample",
+    "requestedClaim": "refutation",
+    "backendId": "fixture",
+    "selectionRationale": "Committed example for capability logic.finite_counterexample."
+  },
+  "outcome": {
+    "resultStatus": "rejected",
+    "claimClass": "refutation",
+    "assuranceMode": "kernel_replay",
+    "requestDigest": "sha256:b833c4deea06cf0afb21e98df142c8e7687284209b60bac3da588bff63681c57",
+    "replayable": true,
+    "negative": true,
+    "negativeKind": "rejected_certificate",
+    "errorCodes": [],
+    "humanReviewLabels": []
+  },
+  "artifactRefs": [
+    "evidence/conformance/finite_counterexample/out_of_domain_rejected/bundle"
+  ],
+  "payload": {
+    "manifestKeys": [
+      "assuranceMode",
+      "bundleVersion",
+      "capability",
+      "claimClass",
+      "files",
+      "provenance",
+      "requestDigest",
+      "resultStatus"
+    ],
+    "hasCertificate": true,
+    "hasCandidate": true
+  },
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+}

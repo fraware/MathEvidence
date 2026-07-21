@@ -2,12 +2,13 @@
   "schemaVersion": "0.1.0",
   "episodeId": "a5b518f3-b284-5150-9130-d0691a7902df",
   "kind": "evidence_bundle",
-  "capturedAt": "2026-07-16T14:35:09Z",
+  "capturedAt": "2026-07-21T11:08:39Z",
   "acceptanceInfluence": false,
   "qualityTier": "Q2_formally_verified",
   "provenance": {
     "sourceKind": "committed_evidence",
     "sourcePath": "evidence/examples/calculus_derivative_x2",
+    "sourceFamily": "evidence_examples",
     "sourceDate": "2026-07-16T14:23:42Z",
     "license": "Apache-2.0",
     "publicationAllowed": true,
@@ -15,7 +16,7 @@
     "backendId": "sympy",
     "backendVersion": "1.14.0",
     "adapterVersion": "0.1.0",
-    "checkerPackage": "analysis.symbolic_calculus",
+    "checkerPackage": "algebra.formal_rational_calculus",
     "notes": "Ingested from committed evidence; never consulted by Lean acceptance."
   },
   "contamination": {
@@ -23,7 +24,7 @@
     "publicLibraryRefs": [],
     "trainEvalSeparation": "train",
     "duplicateOf": null,
-    "contentDigest": "sha256:5fd9f90d3ef40c3093c29b4eec2cb1d2005a0ea69b7b5c2c37f04e5bc896c424",
+    "contentDigest": "sha256:0e9904a72a5894a2f9830483d168ef7c2dc4afeb046839270698bec78d643596",
     "benchmarkExclusion": false,
     "notes": "Split assignment applied by foundry.pipelines.split."
   },
@@ -36,19 +37,19 @@
       "logic.sat_unsat",
       "logic.pseudo_boolean",
       "logic.smt",
-      "analysis.symbolic_calculus"
+      "algebra.formal_rational_calculus"
     ],
-    "selectedCapability": "analysis.symbolic_calculus",
+    "selectedCapability": "algebra.formal_rational_calculus",
     "selectedOperation": "derivative_candidate",
     "requestedClaim": "candidate",
     "backendId": "sympy",
-    "selectionRationale": "Committed example for capability analysis.symbolic_calculus."
+    "selectionRationale": "Committed example for capability algebra.formal_rational_calculus."
   },
   "outcome": {
     "resultStatus": "computed",
     "claimClass": "candidate",
     "assuranceMode": "kernel_replay",
-    "requestDigest": "sha256:547a610da59158efd852768ed6c2257af3f17feed5ededdf3c8b03f47419feb0",
+    "requestDigest": "sha256:f24f7d18c92b96e3b3027aeabb2da39615bab8cdc61c390e1deeb16498330349",
     "replayable": true,
     "negative": false,
     "negativeKind": "none",
