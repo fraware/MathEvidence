@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
 from adapters.common.schema_validate import SchemaStore  # noqa: E402
 
 EXAMPLES = ROOT / "evidence" / "federation" / "examples"
+AGREEMENTS = ROOT / "evidence" / "federation" / "agreements"
 
 # Exit gate (fixture coverage): ≥2 distinct external projects emit or consume
 # shared metadata. This does NOT claim live maintainer integration.
@@ -115,12 +116,38 @@ def main() -> int:
         print(f"FAIL missing upgrade path doc: {upgrade}", file=sys.stderr)
         errors += 1
 
+    # Fixture peer agreements (≥2) with federationLevel=fixture — not live.
+    agreement_files = sorted(AGREEMENTS.glob("fixture-*.json"))
+    if len(agreement_files) < 2:
+        print(
+            f"FAIL need ≥2 fixture federation agreements under {AGREEMENTS}",
+            file=sys.stderr,
+        )
+        errors += 1
+    else:
+        for path in agreement_files:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            try:
+                store.validate("federation-agreement.schema.json", data)
+                if data.get("federationLevel") != "fixture":
+                    raise ValueError(
+                        f"expected federationLevel=fixture, got {data.get('federationLevel')}"
+                    )
+                if data.get("humanAgreementStatus") == "agreed":
+                    raise ValueError(
+                        "fixture agreements must not claim humanAgreementStatus=agreed"
+                    )
+                print(f"ok agreement {path.name} (fixture)")
+            except Exception as exc:  # noqa: BLE001
+                print(f"FAIL agreement {path.name}: {exc}", file=sys.stderr)
+                errors += 1
+
     if errors:
         return 1
     print(
         f"federation-validate ok "
         f"(integrationMode={INTEGRATION_MODE}; {len(meta_files)} files; "
-        f"projects={sorted(projects)})"
+        f"agreements={len(agreement_files)}; projects={sorted(projects)})"
     )
     print(
         "NOTE: fixture_only - live external emit/consume remains OPEN "

@@ -3,14 +3,17 @@
 Records **real** maintainer agreements for live metadata emit/consume.
 Engineering fixtures alone do **not** close Milestone 4 live exits.
 
+**Fixture peer records (not live):** [`../../evidence/federation/agreements/`](../../evidence/federation/agreements/)
+(`federationLevel: fixture`; validated by `scripts/validate_federation.py`).
+
 **Readiness board:** [`../validation/p4-blocker-status.md`](../validation/p4-blocker-status.md)  
 **Upgrade checklist:** [`../../evidence/federation/examples/UPGRADE_PATH.md`](../../evidence/federation/examples/UPGRADE_PATH.md)  
 **Outreach copy:** [`../validation/outreach-email-templates.md`](../validation/outreach-email-templates.md) Emails 6–8
 
 | project_id | role | status | contact | agreed_at | notes |
 | --- | --- | --- | --- | --- | --- |
-| lean-smt | emitter | **OPEN** | — | — | Fixture emit only (`evidence/federation/examples/lean_smt_emit.json`). Send Email 7; fill on consent. |
-| cslib | consumer | **OPEN** | — | — | Fixture consume only (`evidence/federation/examples/cslib_consume.json`). Send Email 6; fill on consent. |
+| lean-smt | emitter | **OPEN** | — | — | Fixture emit + fixture agreement JSON. Send Email 7; fill on consent. |
+| cslib | consumer | **OPEN** | — | — | Fixture consume + fixture agreement JSON. Send Email 6; fill on consent. |
 
 Status values: `OPEN` | `proposed` | `agreed` | `live_smoke`.
 
