@@ -5,6 +5,7 @@ Authors: MathEvidence contributors
 -/
 import MathEvidence.Checkers.Shared.Basic
 import MathEvidence.Checkers.RationalEquality.Spec
+import MathEvidence.Checkers.RationalEquality.SpecProp
 import MathEvidence.Checkers.RationalEquality.Certificate
 import MathEvidence.Checkers.RationalEquality.Check
 import MathEvidence.Checkers.RationalEquality.Soundness
@@ -30,11 +31,15 @@ import MathEvidence.Checkers.Calculus.Check
 import MathEvidence.Checkers.Calculus.Soundness
 import MathEvidence.Checkers.Calculus.Replay
 import MathEvidence.Checkers.Calculus.Tests
+import MathEvidence.Checkers.IdealMembership.Check
+import MathEvidence.Checkers.AnalyticCalculus.Basic
+import MathEvidence.Encoding
 
 /-!
 # MathEvidence.Checkers
 
 Candidate and certificate structures, executable checkers, and soundness theorems.
 
-Checkers MUST NOT invoke external processes.
+Checkers MUST NOT invoke external processes. Encoding theorems are the visible
+home for IR↔Mathlib interpretation bridges (master closure spec §5).
 -/
