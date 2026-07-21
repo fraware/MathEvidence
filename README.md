@@ -1,163 +1,129 @@
-# MathEvidence
+```text
+        __  __       _   _     _____       _     _
+       |  \/  | __ _| |_| |__ | ____|_   _(_) __| | ___ _ __   ___ ___
+       | |\/| |/ _` | __| '_ \|  _| \ \ / / |/ _` |/ _ \ '_ \ / __/ _ \
+       | |  | | (_| | |_| | | | |___ \ V /| | (_| |  __/ | | | (_|  __/
+       |_|  |_|\__,_|\__|_| |_|_____| \_/ |_|\__,_|\___|_| |_|\___\___|
+```
 
-**Open computational evidence infrastructure for Lean.**
+<p align="center"><strong>External computation in. Lean theorems out.</strong></p>
 
-MathEvidence lets Lean users, mathematical AI agents, and research tools
-delegate expensive mathematical search or computation to external systems while
-keeping Lean as the sole authority for theorem acceptance.
+<p align="center">
+  <a href="docs/STATUS.md"><img src="https://img.shields.io/badge/status-experimental-orange" alt="Experimental" /></a>
+  <a href="https://leanprover.github.io/"><img src="https://img.shields.io/badge/Lean-4-purple" alt="Lean 4" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="Apache 2.0" /></a>
+</p>
 
-The repository is a monorepo: solver-independent protocol, typed semantic
-encodings, verified evidence checkers, backend adapters, an AI-facing Agent API,
-notebook and editor integrations, a capability registry, a training-data
-foundry, benchmarks, and governance docs.
+MathEvidence turns results from external solvers into **Lean-checked evidence**:
+adapters propose; Lean decides. SymPy and Mathematica adapters, an Agent API,
+and Studio surfaces share one idea — use powerful external tools without
+trusting them inside the theorem prover.
 
-**Public preview:** experimental research platform. No capability is stable.
-See [`docs/STATUS.md`](docs/STATUS.md) and
-[`docs/security/KNOWN_TRUST_GAPS.md`](docs/security/KNOWN_TRUST_GAPS.md).
+**Experimental** research preview: no capability is stable. See
+[known limitations](docs/security/KNOWN_TRUST_GAPS.md) before relying on results.
 
-## Problem
+## Why it exists
 
-Formal developments repeatedly need capabilities mature external systems
-already provide — exact algebra, optimization, finite search, symbolic
-calculus, recurrence solving, scientific computation. Integrations are usually
-bespoke: each reinvents expression translation, side conditions, trust
-boundaries, evidence formats, solver invocation, failure reporting, and replay.
+Formal work often needs exact algebra, search, or symbolic computation that
+mature external systems already do well. One-off bridges reinvent translation
+and trust boundaries — and can smuggle unchecked solver answers into proofs.
 
-That fragmentation creates four costs:
+MathEvidence offers a shared path: an explicit semantic contract, checkable
+evidence, and a reusable Lean theorem.
 
-1. External results are hard to admit without expanding the trusted computing base.
-2. Semantic mistakes at the translation boundary can yield formally checked
-   statements that do not match the intended mathematics.
-3. Integrations do not reuse across backends, domains, projects, or agents.
-4. Tool-use trajectories are not captured as structured data for future systems.
+**Do not trust the solver. Lean checks the evidence.**
 
-## North star
+## Quick start
 
-> Every external computation that contributes to a formal mathematical
-> conclusion crosses into Lean through an explicit semantic contract and
-> independently checkable evidence, producing a reusable theorem without
-> trusting the external solver.
-
-## Non-negotiable invariants
-
-- External backends are untrusted.
-- The original Lean proposition is authoritative.
-- Types, assumptions, domains, branches, and claim strength are explicit.
-- A backend Boolean answer is never sufficient evidence.
-- Every accepted result is bound to the exact request by a cryptographic digest.
-- Rechecking committed evidence requires only open Lean code and stored artifacts.
-- Mathlib-facing packages never depend on Mathematica, SageMath, SymPy, Python,
-  notebooks, or network services.
-- Witness validity, soundness, completeness, optimality, and approximation are
-  distinct claim classes.
-- Release artifacts contain no `sorry`, project-specific axioms, or hidden
-  solver dependencies.
-- Existing domain projects remain authoritative; MathEvidence integrates them
-  instead of replacing them.
-
-## Documentation
-
-| Doc | Role |
-| --- | --- |
-| [`docs/README.md`](docs/README.md) | Documentation landing / table of contents |
-| [`docs/getting-started/`](docs/getting-started/) | Install, check, Agent API, first replay |
-| [`docs/STATUS.md`](docs/STATUS.md) | Public-preview status |
-| [`docs/security/KNOWN_TRUST_GAPS.md`](docs/security/KNOWN_TRUST_GAPS.md) | Known limitations |
-| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Delivery order |
-| [`docs/SPEC_INDEX.md`](docs/SPEC_INDEX.md) | Full specification map |
-
-## Repository map
-
-- `MathEvidence/` — Lean semantics, protocol types, encodings, checkers,
-  tactics, registry interfaces, tests
-- `adapters/` — untrusted solver adapters (Mathematica via `wolframscript` or
-  offline fixtures; SageMath/SymPy open references; LeanLink scaffold until
-  [`docs/architecture/leanlink-adapter-review.md`](docs/architecture/leanlink-adapter-review.md)
-  closes)
-- `agent/` — AI-facing operation API and SDKs (public bundle access by
-  **`bundleId` only**)
-- `studio/` — Mathematica notebook and editor experiences
-- `foundry/` — schemas and pipelines for certified tool-use episodes
-- `registry/` — machine-readable capability and backend declarations
-  (capabilities stay `experimental` until governance gates pass)
-- `benchmarks/` — real-world, adversarial, and conformance suites
-- `evidence/` — committed Evidence Bundle trees (schema **v0.2** `.cjson`)
-- `docs/` — specifications, products, RFCs, ADRs, trust model, status
-
-## First implementation wedge
-
-Version 0 develops three capability tracks (honest status):
-
-1. **Rational-function equality** — protocol / semantic-boundary **reference**
-   (`role: protocol_reference`, `externalSearchEssential: false`). Lean can
-   close many identities via `field_simp; ring` independently of backend output;
-   this does **not** prove indispensable external computation.
-2. **Exact linear algebra** — custom MatrixExpr IR witness checkers today;
-   Mathlib `Matrix` goal reification remains open.
-3. **Finite counterexamples** — custom FinitePredicate IR today; Mathlib goal
-   reification remains open.
-
-**Calculus:** `algebra.formal_rational_calculus` is **formal rational calculus**
-only. It does not establish Mathlib `HasDerivAt` / analytic ODE theorems.
-Analytic fragments live under the separate experimental id
-`analysis.analytic_calculus`.
-
-**Dual-backend evidence:** `algebra.rational_equality` has SymPy live generation
-plus Mathematica live generation via `wolframscript` when
-`MATHEVIDENCE_WOLFRAMSCRIPT` is set (public CI without Wolfram uses committed
-offline fixtures). Sage rational support is **declared/placeholder only**.
-Linear algebra and finite counterexample have SymPy `conformance_verified`.
-See `registry/` and [`docs/STATUS.md`](docs/STATUS.md).
-
-The architectural target is that each capability support Mathematica and at
-least one open backend while using one shared Lean checker per claim type.
-
-## Build and test
-
-Prerequisites: Lean toolchain matching `lean-toolchain`, Python 3 with the repo
-requirements files, and [`just`](https://github.com/casey/just).
+**Needs:** Lean matching [`lean-toolchain`](lean-toolchain), Python 3 with the
+repo requirements, and [`just`](https://github.com/casey/just).
 
 ```text
+git clone https://github.com/fraware/MathEvidence.git
+cd MathEvidence
 just check
 ```
 
-Focused trust subset:
+That runs the local build and test gate. Full walkthrough:
+[`docs/getting-started/`](docs/getting-started/).
+
+Optional: SymPy for open backends; `wolframscript` (set
+`MATHEVIDENCE_WOLFRAMSCRIPT`) for live Mathematica. Bundles under `evidence/`
+replay offline without a live CAS.
+
+## Try one example
+
+Open the committed rational-equality example
+`(x^2 - 1)/(x - 1) = x + 1` (with an explicit denominator condition):
 
 ```text
-pytest tests/forensic -q
+evidence/examples/rational_equality_basic/
 ```
 
-Agent API (local):
+Inspect `request.cjson`, `certificate.cjson`, and `theorem.lean`. Lean owns
+acceptance; the adapter is untrusted. Then follow
+[`docs/getting-started/`](docs/getting-started/) for offline replay, or start
+the local Agent API:
 
 ```text
 python -m agent.api.server --host 127.0.0.1 --port 8787
 ```
 
-See [`docs/getting-started/`](docs/getting-started/) and
-[`agent/README.md`](agent/README.md). Open/inspect/replay take opaque `bundleId`
-values from the content-addressed store — not filesystem paths.
+Health check: `GET http://127.0.0.1:8787/v1/health`. Public open / inspect /
+replay take opaque `bundleId` values — not filesystem paths. See
+[`agent/README.md`](agent/README.md).
 
-**CI honesty:** workflow definitions exist under `.github/workflows/`. Immutable
-green runs on a release commit are not attested in-repo. Do not treat local
-`just check` as promotion evidence.
+## Repository map
 
-## Not yet
+| Path | Role |
+| --- | --- |
+| `MathEvidence/` | Lean protocol types, encodings, checkers, tactics |
+| `adapters/` | Untrusted backends (SymPy, Mathematica, and related) |
+| `agent/` | AI-facing Agent API and SDKs |
+| `studio/` | Notebook and editor surfaces |
+| `registry/` | Capability declarations (all experimental today) |
+| `evidence/` | Committed Evidence Bundles (schema v0.2 `.cjson`) |
+| `foundry/` | Schemas and pipelines for certified tool-use episodes |
+| `benchmarks/` | Conformance, adversarial, and real-world suites |
+| `docs/` | Specs, status, trust model, getting started |
 
-- Live federation with external projects (fixtures only).
-- Completed human gates (external confirmations, dual-area stable review,
-  Studio usability results).
-- Lean toolchain bump beyond the committed pin.
-- Any capability marked `"stable"`.
-- Production receipt PKI (dev-only crypto under `dev/receipt-keys/`).
+## Contribute
 
-## Delivery rule
+Contributions are welcome. Keep backends untrusted and Lean authoritative.
 
-The project does not generalize the protocol in anticipation of future domains.
-New abstractions are admitted only after two independent domain implementations
-demonstrate the common requirement.
+1. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/STATUS.md`](docs/STATUS.md).
+2. Prefer a focused change with tests (positive, negative, and replay when relevant).
+3. Run `just check` before opening a PR.
+4. Do not flip capabilities to `"stable"` from a single PR — promotion follows a
+   documented checklist with real human review.
 
-See [`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md) for the normative
-specification, [`docs/REPOSITORY_ARCHITECTURE.md`](docs/REPOSITORY_ARCHITECTURE.md)
-for monorepo design, [`docs/STATUS.md`](docs/STATUS.md) for preview status, and
-[`docs/release/RELEASE_NOTES_DRAFT.md`](docs/release/RELEASE_NOTES_DRAFT.md)
-for the public-preview notes draft.
+Protocol-wide changes belong in an RFC under `docs/rfcs/`.
+
+## Documentation
+
+| Doc | Purpose |
+| --- | --- |
+| [`docs/README.md`](docs/README.md) | Documentation landing |
+| [`docs/getting-started/`](docs/getting-started/) | Install, check, Agent API, first replay |
+| [`docs/STATUS.md`](docs/STATUS.md) | Public-preview status |
+| [`docs/security/KNOWN_TRUST_GAPS.md`](docs/security/KNOWN_TRUST_GAPS.md) | Known limitations |
+
+Also: [`docs/SPEC_INDEX.md`](docs/SPEC_INDEX.md),
+[`docs/ROADMAP.md`](docs/ROADMAP.md),
+[`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md).
+
+## What to expect
+
+- Everything in the registry is still **experimental**.
+- A green local `just check` is useful feedback — not attested release CI or
+  completed human review.
+- Receipt crypto under `dev/receipt-keys/` is **dev-only**, not production PKI.
+
+When unsure, trust Lean’s checkers and the written limitations — not a backend
+status code.
+
+---
+
+**License** [`LICENSE`](LICENSE) (Apache-2.0) ·
+**Security** [`SECURITY.md`](SECURITY.md) ·
+**Contributing** [`CONTRIBUTING.md`](CONTRIBUTING.md)
