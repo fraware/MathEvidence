@@ -198,4 +198,73 @@ def build_certification_surface(
         "certifiedAffordanceIndex": next(
             i for i, t in enumerate(transcript) if t["section"] == "epistemicLabel"
         ),
+        "receiptVerified": False,
     }
+
+
+def verify_checker_receipt(
+    receipt: dict[str, Any] | None,
+    *,
+    expected_request_digest: str | None = None,
+) -> dict[str, Any]:
+    """Shared Studio/Agent receipt gate (ME-307).
+
+    Certified must not be derived from manifest/`leanStatus` alone when a receipt
+    object is in play — require structural receipt fields and digest match.
+    When a content digest or signature is present, verify via
+    ``adapters.common.receipt_crypto`` (dev HMAC/Ed25519 only; not production PKI).
+    """
+    if not isinstance(receipt, dict):
+        return {
+            "ok": False,
+            "allowCertified": False,
+            "detail": "checker receipt missing",
+        }
+    req = receipt.get("requestDigest")
+    status = normalize_status(receipt.get("resultStatus"))
+    established = receipt.get("claimEstablished")
+    if not isinstance(req, str) or not req.startswith("sha256:"):
+        return {
+            "ok": False,
+            "allowCertified": False,
+            "detail": "receipt.requestDigest missing or malformed",
+        }
+    if expected_request_digest and req != expected_request_digest:
+        return {
+            "ok": False,
+            "allowCertified": False,
+            "detail": "receipt.requestDigest does not match expected request",
+        }
+
+    crypto_gate: dict[str, Any] | None = None
+    if receipt.get("receiptDigest") or receipt.get("contentDigest") or receipt.get(
+        "signatureAlg"
+    ):
+        from adapters.common.receipt_crypto import verify_receipt_signature_if_present
+
+        crypto_gate = verify_receipt_signature_if_present(receipt)
+        if not crypto_gate.get("ok"):
+            return {
+                "ok": False,
+                "allowCertified": False,
+                "detail": crypto_gate.get("detail", "receipt crypto verification failed"),
+                "crypto": crypto_gate,
+            }
+
+    if status not in LEAN_OK_STATUSES or established in (None, "", False):
+        out = {
+            "ok": True,
+            "allowCertified": False,
+            "detail": "receipt present but does not establish a certified claim",
+        }
+        if crypto_gate is not None:
+            out["crypto"] = crypto_gate
+        return out
+    out = {
+        "ok": True,
+        "allowCertified": True,
+        "detail": "checker receipt structurally verifies claimEstablished",
+    }
+    if crypto_gate is not None:
+        out["crypto"] = crypto_gate
+    return out
