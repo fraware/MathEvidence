@@ -1,14 +1,14 @@
 # Code ownership for MathEvidence.
 #
-# ME-405 / governance: nine responsibility areas (closure spec 19).
-# GitHub teams do not exist yet on the publishing org — all paths still
-# route to @fraware as a single-owner incubation stub.
+# GitHub teams for the nine maintainer areas do not exist yet — all paths
+# still route to @fraware as a single-owner incubation stub.
 #
 # HONESTY: this is NOT multi-area governance. Stable promotion remains
 # blocked until real teams exist and dual-area review is enforceable for
 # trust/checker changes. Do not treat @fraware-everywhere as staffing.
+# See GOVERNANCE.md and KNOWN_TRUST_GAPS.md.
 #
-# Target team handles (create before PR-Candidate-Promotion):
+# Target team handles (create before multi-area enforcement):
 #   @core-maintainers
 #   @trust-maintainers
 #   @semantics-maintainers
