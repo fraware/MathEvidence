@@ -1,0 +1,6 @@
+# Text files under evidence must stay LF so content digests match Linux CI.
+evidence/**/*.lean text eol=lf
+evidence/**/*.md text eol=lf
+evidence/**/*.cjson text eol=lf
+evidence/**/*.json text eol=lf
+*.lean text eol=lf

@@ -42,16 +42,21 @@ def file_digest(path: Path) -> str:
     return "sha256:" + sha256_hex(data)
 
 
+def write_text_lf(path: Path, text: str) -> None:
+    """Write UTF-8 text with LF newlines only (platform-stable content digests)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    path.write_bytes(normalized.encode("utf-8"))
+
+
 def write_json(path: Path, obj: Any) -> None:
     """Pretty JSON for non-binding / human renderings only."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    write_text_lf(path, json.dumps(obj, indent=2, ensure_ascii=False) + "\n")
 
 
 def write_cjson(path: Path, obj: Any) -> None:
     """Canonical JSON bytes (mathevidence-jcs-0.2) for theorem-binding files."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(canonical_dumps(obj), encoding="utf-8")
+    write_text_lf(path, canonical_dumps(obj))
 
 
 def find_role_path(bundle_dir: Path, stem: str) -> Path | None:
@@ -190,7 +195,7 @@ def write_bundle(
         capability=str(cap),
         request_digest=str(request.get("requestDigest", "")),
     )
-    (bundle_dir / "theorem.lean").write_text(thm, encoding="utf-8")
+    write_text_lf(bundle_dir / "theorem.lean", thm)
 
     if checker_receipt is not None:
         write_cjson(bundle_dir / "checker-receipt.cjson", checker_receipt)
@@ -202,7 +207,7 @@ def write_bundle(
             "Adapter output is untrusted; Lean checkers own theorem acceptance.\n"
             "Legacy pretty `.json` bundles remain readable via dual-path verify.\n"
         )
-    (bundle_dir / "README.md").write_text(readme, encoding="utf-8")
+    write_text_lf(bundle_dir / "README.md", readme)
 
     relative_files = [
         "request.cjson",
