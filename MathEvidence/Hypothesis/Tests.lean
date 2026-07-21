@@ -34,6 +34,44 @@ theorem sufficient_minimal :
 theorem insufficient_empty :
     isSufficient req_basic ([] : List Expr) = false := by native_decide
 
+/-- Boolean projection of typed proveSufficient for `native_decide` tests. -/
+def proveSufficientProvedOk
+    (req : MathEvidence.Checkers.RationalEquality.Request) (conds : List Expr) : Bool :=
+  match proveSufficient req conds with
+  | .proved e =>
+      e.theoremDecl == "MathEvidence.Hypothesis.sufficient_implies_proposition" &&
+        e.checkerDecl == "MathEvidence.Checkers.RationalEquality.checkBool" &&
+        e.detail == "checkBool_accept"
+  | _ => false
+
+def proveSufficientFailedDetail
+    (req : MathEvidence.Checkers.RationalEquality.Request) (conds : List Expr) : String :=
+  match proveSufficient req conds with
+  | .failed e => e.detail
+  | .proved e => e.detail
+  | .unknown e => e.detail
+
+/-- `proveSufficient` returns typed `proved` with theorem/checker decl citations. -/
+theorem prove_sufficient_proved_shape :
+    proveSufficientProvedOk req_basic [cond_x_minus_1] = true := by
+  native_decide
+
+/-- Empty conditions fail with an explicit coverage reject detail. -/
+theorem prove_sufficient_failed_empty :
+    proveSufficientFailedDetail req_basic ([] : List Expr) =
+      "denom_coverage_incomplete" := by
+  native_decide
+
+/-- Denom coverage alone is not sufficiency: false identity with covered denoms. -/
+theorem denom_coverage_alone_not_sufficient :
+    let req := MathEvidence.Checkers.RationalEquality.OfflineFixtures.req_false_identity
+    let conds := [Expr.var 0]
+    denomCoverageOnly req conds = true ∧
+      polyIdentityOnly req = false ∧
+      isSufficient req conds = false ∧
+      proveSufficientFailedDetail req conds = "poly_identity_failed" := by
+  native_decide
+
 theorem delete_redundant_extra :
     deleteHypothesis req_basic [cond_x_minus_1, cond_redundant] cond_redundant =
       .redundant [cond_x_minus_1] := by native_decide
