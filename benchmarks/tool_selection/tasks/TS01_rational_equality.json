@@ -5,7 +5,7 @@
   "capabilityCandidates": [
     "algebra.rational_equality",
     "algebra.linear_algebra",
-    "analysis.symbolic_calculus",
+    "algebra.formal_rational_calculus",
     "system.shell"
   ],
   "expect": {

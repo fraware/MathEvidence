@@ -1,9 +1,9 @@
 {
   "id": "T07_discover_calculus",
-  "summary": "Discover analysis.symbolic_calculus via list_capabilities",
+  "summary": "Discover algebra.formal_rational_calculus via list_capabilities",
   "operation": "list_capabilities",
   "input": {},
   "expect": {
-    "containsCapability": "analysis.symbolic_calculus"
+    "containsCapability": "algebra.formal_rational_calculus"
   }
 }

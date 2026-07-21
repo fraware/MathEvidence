@@ -18,7 +18,7 @@
       "violations": []
     },
     {
-      "capability": "analysis.symbolic_calculus",
+      "capability": "algebra.formal_rational_calculus",
       "measured": {},
       "violations": [],
       "status": "budgets_declared_unmeasured"
