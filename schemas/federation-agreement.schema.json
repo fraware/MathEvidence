@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/federation-agreement-v0.json",
+  "title": "MathEvidence federation agreement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "agreementId",
+    "producer",
+    "consumer",
+    "federationLevel",
+    "requestSemantics",
+    "evidenceFormat",
+    "digestBinding",
+    "checkerOwner",
+    "versioning",
+    "contacts",
+    "conformanceCorpus",
+    "releasePolicy"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "agreementId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["projectId", "role"],
+      "properties": {
+        "projectId": { "type": "string", "minLength": 1 },
+        "role": { "enum": ["emitter", "consumer", "bidirectional"] }
+      }
+    },
+    "consumer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["projectId", "role"],
+      "properties": {
+        "projectId": { "type": "string", "minLength": 1 },
+        "role": { "enum": ["emitter", "consumer", "bidirectional"] }
+      }
+    },
+    "federationLevel": {
+      "enum": ["none", "fixture", "live"],
+      "description": "fixture = engineering harness only; live requires human maintainer agreement"
+    },
+    "requestSemantics": { "type": "string", "minLength": 1 },
+    "evidenceFormat": { "type": "string", "minLength": 1 },
+    "digestBinding": { "type": "string", "minLength": 1 },
+    "checkerOwner": { "type": "string", "minLength": 1 },
+    "versioning": { "type": "string", "minLength": 1 },
+    "contacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["support", "security"],
+      "properties": {
+        "support": { "type": "string" },
+        "security": { "type": "string" }
+      }
+    },
+    "conformanceCorpus": { "type": "string", "minLength": 1 },
+    "releasePolicy": { "type": "string", "minLength": 1 },
+    "notes": { "type": "string" },
+    "humanAgreementStatus": {
+      "enum": ["open", "proposed", "agreed", "live_smoke"],
+      "description": "Must remain open/proposed until a real maintainer consent artifact exists"
+    }
+  }
+}

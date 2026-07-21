@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://mathevidence.org/schemas/calculus-expr-v0.json",
   "title": "MathEvidence CalculusExpr (JSON encoding)",
-  "description": "Named-variable RationalExpr trees used by analysis.symbolic_calculus.",
+  "description": "Named-variable RationalExpr trees used by algebra.formal_rational_calculus.",
   "$defs": {
     "Expr": {
       "$ref": "https://mathevidence.org/schemas/rational-expr-v0.json#/$defs/RationalExpr"

@@ -34,6 +34,49 @@
     "status": {
       "enum": ["experimental", "candidate", "stable", "deprecated"]
     },
+    "lifecycle": {
+      "enum": ["draft", "experimental", "candidate", "stable", "deprecated"],
+      "description": "Multidimensional lifecycle (closure registry fields). Keep experimental until trust + human gates close."
+    },
+    "role": {
+      "enum": [
+        "protocol_reference",
+        "value_capability",
+        "formal_calculus",
+        "custom_ir_checker",
+        "federated_metadata",
+        "research_product"
+      ],
+      "description": "How this capability should be interpreted externally"
+    },
+    "externalSearchEssential": {
+      "type": "boolean",
+      "description": "True only when expensive external search is required for the capability's value claim"
+    },
+    "implementationLevel": {
+      "enum": ["stub", "custom_ir", "mathlib_bridge", "e2e_theorem"],
+      "description": "How far the Lean bridge has progressed"
+    },
+    "adoptionLevel": {
+      "enum": ["none", "internal", "pilot", "external"],
+      "description": "External adoption evidence level"
+    },
+    "federationLevel": {
+      "enum": ["none", "fixture", "live"],
+      "description": "Federation evidence level"
+    },
+    "semanticReview": {
+      "enum": ["absent", "pending", "passed"],
+      "description": "Human semantic review gate evidence (ME-408 adjacent)"
+    },
+    "trustReview": {
+      "enum": ["absent", "pending", "passed"],
+      "description": "Human trust review gate evidence (ME-408)"
+    },
+    "renameNote": {
+      "type": "string",
+      "description": "Planned ID/domain rename (honesty during freeze)"
+    },
     "domain": {
       "type": "string",
       "minLength": 1

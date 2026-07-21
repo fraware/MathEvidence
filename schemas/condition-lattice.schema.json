@@ -82,6 +82,29 @@
       "type": "string",
       "enum": ["lean_checker_mirror", "lean_kernel"],
       "description": "Acceptance authority for sufficiency/deletion/CEX fields. Heuristics alone are forbidden."
+    },
+    "sufficiencyPreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional typed prove_sufficient outcome attached to the lattice build.",
+      "properties": {
+        "outcome": {
+          "type": "string",
+          "enum": ["proved", "failed", "unknown"]
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "theoremDecl": { "type": "string" },
+            "checkerDecl": { "type": "string" },
+            "receiptId": { "type": "string" },
+            "axiomReportId": { "type": "string" },
+            "requestDigest": { "type": "string" },
+            "detail": { "type": "string" }
+          }
+        }
+      }
     }
   },
   "$defs": {

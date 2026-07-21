@@ -17,7 +17,8 @@
   "properties": {
     "bundleVersion": {
       "type": "string",
-      "const": "0.1.0"
+      "enum": ["0.1.0", "0.2.0"],
+      "description": "0.2.0 uses canonical .cjson theorem-binding roles; 0.1.0 legacy pretty .json remains readable."
     },
     "capability": {
       "type": "object",
