@@ -1,12 +1,15 @@
-```text
-         __  __       _   _     _____       _     _
-        |  \/  | __ _| |_| |__ | ____|_   _(_) __| | ___ _ __   ___ ___
-        | |\/| |/ _` | __| '_ \|  _| \ \ / / |/ _` |/ _ \ '_ \ / __/ _ \
-        | |  | | (_| | |_| | | | |___ \ V /| | (_| |  __/ | | | (_|  __/
-        |_|  |_|\__,_|\__|_| |_|_____| \_/ |_|\__,_|\___|_| |_|\___\___|
-```
+<p align="center">
+  ```text
+           __  __       _   _     _____       _     _
+          |  \/  | __ _| |_| |__ | ____|_   _(_) __| | ___ _ __   ___ ___
+          | |\/| |/ _` | __| '_ \|  _| \ \ / / |/ _` |/ _ \ '_ \ / __/ _ \
+          | |  | | (_| | |_| | | | |___ \ V /| | (_| |  __/ | | | (_|  __/
+          |_|  |_|\__,_|\__|_| |_|_____| \_/ |_|\__,_|\___|_| |_|\___\___|
+  ```
+  
+  <strong>External computation in. Lean theorems out.</strong>
 
-<p align="center"><strong>External computation in. Lean theorems out.</strong></p>
+</p>
 
 <p align="center">
   <a href="docs/STATUS.md"><img src="https://img.shields.io/badge/status-experimental-orange" alt="Experimental" /></a>
