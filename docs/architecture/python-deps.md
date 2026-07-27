@@ -1,38 +1,37 @@
-# Dependency lock status
+# Dependency lock status (ME-RV-070)
 
-`uv.lock` is **not** committed yet. Local/CI attempts to run `uv lock` fail with:
+## Authoritative path
+
+Committed `uv.lock` + `uv sync --frozen` in CI is required.
+
+```text
+uv lock
+uv sync --frozen --extra dev --extra sympy
+```
+
+Workflow: `.github/workflows/uv-lock.yml` (ubuntu-latest, SHA-pinned
+`astral-sh/setup-uv`). Lean, release, offline-replay, adapter, adversarial,
+security, and benchmarks workflows all require `uv.lock` and run
+`uv sync --frozen`.
+
+## Local Windows TLS gap
+
+On some maintainer Windows environments `uv lock` fails with:
 
 ```text
 invalid peer certificate: UnknownIssuer
 ```
 
-even with `uv lock --native-tls` on this Windows environment.
+even with `uv lock --native-tls`. That does **not** waive the lockfile
+requirement. Generate `uv.lock` from CI (`workflow_dispatch` on `uv-lock.yml`,
+download the `uv-lock` artifact) or from a Linux/macOS machine with working
+PyPI TLS, then place it at the repository root.
 
-## Robust install path (authoritative for `just check`)
-
-```text
-python -m pip install -r requirements.txt -r requirements-dev.txt
-python -m pip install -e .
-just check
-```
-
-Pinned minimums live in `requirements.txt` / `requirements-dev.txt` and
-`pyproject.toml`. Prefer generating and committing `uv.lock` once PyPI TLS
-works on the maintainer machine or in CI:
-
-```text
-uv lock --native-tls
-uv sync --extra dev --extra sympy
-```
-
-If a temporary pip snapshot is needed while `uv lock` is blocked, run:
+## Compatibility freeze
 
 ```text
 python scripts/freeze_requirements.py
 ```
 
-This writes `requirements-freeze.txt` from the active interpreter. Treat it as
-diagnostic input for maintainers, not as a replacement for a committed
-`uv.lock`.
-
-Do not claim a lockfile exists until that succeeds and the file is committed.
+writes `requirements-freeze.txt` from the active interpreter for diagnostic
+compatibility only. It is **not** a substitute for committed `uv.lock`.
