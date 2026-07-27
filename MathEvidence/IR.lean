@@ -25,6 +25,9 @@ import MathEvidence.IR.FinitePredicate.Soundness
 import MathEvidence.IR.FinitePredicate.Serialize
 import MathEvidence.IR.FormalRationalCalculus
 import MathEvidence.IR.AnalyticExpr.Syntax
+import MathEvidence.IR.AnalyticExpr.Domain
+import MathEvidence.IR.AnalyticExpr.Interpret
+import MathEvidence.IR.AnalyticExpr.DerivativeRules
 import MathEvidence.IR.Polynomial.Syntax
 
 /-!
@@ -39,6 +42,6 @@ Domain IRs:
 * `FinitePredicate` (finite counterexamples, Milestone 2)
 * `FormalRationalCalculus` (formal rational differentiation/substitution identities,
   formerly `CalculusExpr`; not analytic semantics)
-* `AnalyticExpr` (analytic-calculus syntax scaffold, ME-105)
+* `AnalyticExpr` (analytic calculus IR + interpretation, ME-RV-050)
 * `Polynomial` (sparse polynomial syntax for ideal-membership federation scaffolding)
 -/

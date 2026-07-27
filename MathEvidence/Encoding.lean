@@ -7,6 +7,7 @@ import MathEvidence.Encoding.Rat
 import MathEvidence.Encoding.Matrix
 import MathEvidence.Encoding.Finite
 import MathEvidence.Encoding.Polynomial
+import MathEvidence.Encoding.Analytic
 import MathEvidence.Encoding.Examples
 
 /-!
