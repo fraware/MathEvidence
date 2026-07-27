@@ -6,7 +6,7 @@
     "version": "0.1.0-sim",
     "contact": "simulated-for-milestone-4"
   },
-  "capabilityId": "algebra.groebner_membership",
+  "capabilityId": "algebra.ideal_membership_witness",
   "claimClass": "witness",
   "resultStatus": "witness_verified",
   "assuranceMode": "kernel_replay",

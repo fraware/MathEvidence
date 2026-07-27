@@ -1,0 +1,1 @@
+{"backend":{"adapterVersion":"0.1.0","backendId":"sympy","deterministic":true},"checkerVersion":"0.1.0","leanVersion":"4.x-pending","legacySourceDigest":"sha256:0517d825ba581ce8a4d05b4fe567ad517c7496edc6f38b785171fd3170687203","legacySourcePath":"evidence/store/sha256/b3/728da504fd93582e2d6bd02f75e51669100e44f557e40a46a2028ba18e99cb","libraryRevision":"workspace"}
