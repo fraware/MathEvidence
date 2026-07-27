@@ -1,5 +1,5 @@
 {
-  "id": "algebra.groebner_membership",
+  "id": "algebra.ideal_membership_witness",
   "version": "0.1.0",
   "status": "experimental",
   "lifecycle": "experimental",
@@ -36,23 +36,25 @@
     "package": "MathEvidence.Checkers.IdealMembership.Check",
     "version": "0.0.0",
     "assurance": "native_checked",
-    "soundnessStatus": "partial"
+    "soundnessStatus": "proved_checkBool_sound"
   },
   "assuranceModes": [
-    "native_checked"
+    "native_checked",
+    "kernel_replay"
   ],
   "limits": {
     "maxWallTimeMs": 120000,
     "maxOutputBytes": 16777216
   },
   "knownLimitations": [
-    "MathEvidence checks only the witness identity f = sum_i q_i * g_i over sparse integer polynomials.",
+    "MathEvidence checks the witness identity f = sum_i q_i * g_i over fixed-arity sparse integer polynomials (ME-RV-030..032).",
     "No Groebner-basis correctness, non-membership, radical-membership, ideal-equality, completeness, or optimality claim is made.",
+    "Capability id is algebra.ideal_membership_witness (not groebner).",
     "SymPy is the always-on witness proposer (Agent compute + benchmark harness).",
-    "Mathematica live witness generation requires MATHEVIDENCE_WOLFRAMSCRIPT; not advertised as live when unset (adapter + fixture conformance only).",
+    "lean_reference_search is the in-Lean baseline backend; never masquerades as SymPy/Mathematica.",
+    "Mathematica live witness generation requires MATHEVIDENCE_WOLFRAMSCRIPT; not advertised as live when unset.",
     "Sage live witness generation requires sage/sagemath on PATH; not advertised when absent.",
-    "Univariate Mathlib Ideal.span Meta auto-bridge closes ordinary singleton and two-generator span goals; MvPolynomial Meta reification remains open (IR + CommRing pair theorem present).",
-    "Committed Mathematica/Sage offline fixtures share ≥2 requests accepted by checkMembership; live dual-backend differential blocked without wolframscript/sage on host."
+    "Kernel replay / Certification Record emission depends on Lake+Mathlib availability."
   ],
   "conformance": {
     "suite": "benchmarks/ideal_membership",

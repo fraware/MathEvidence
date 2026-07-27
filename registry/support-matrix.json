@@ -56,7 +56,7 @@
       "descriptorPath": "registry/capabilities/algebra.formal_rational_calculus.json"
     },
     {
-      "id": "algebra.groebner_membership",
+      "id": "algebra.ideal_membership_witness",
       "version": "0.1.0",
       "lifecycle": "experimental",
       "implementationLevel": null,
@@ -110,7 +110,7 @@
         ]
       },
       "descriptorDigest": "sha256:94c0a35e83930aed4927bb74930dcfbc53266f47da9d8ea62e427e06087ca9a1",
-      "descriptorPath": "registry/capabilities/algebra.groebner_membership.json"
+      "descriptorPath": "registry/capabilities/algebra.ideal_membership_witness.json"
     },
     {
       "id": "algebra.linear_algebra",
@@ -240,17 +240,18 @@
         "suiteExists": true,
         "artifactCount": 1,
         "requiredCases": [
-          "hasDerivAt_product_fragment",
-          "domain_conditioned_deriv",
-          "ode_residual_ic_bool"
+          "checkDeriv_product",
+          "checkDeriv_domain_obligations",
+          "checkDeriv_sound_hasDerivAt",
+          "checkODE_residual_ic_propositions"
         ]
       },
       "supportClaims": {
         "declared": true,
         "conformanceVerifiedDeclared": false,
         "conformanceVerifiedEvidence": false,
-        "installedHint": "Lean MathEvidence.Checkers.AnalyticCalculus fragment; not Agent compute-dispatched",
-        "backends": []
+        "installedHint": "Lean MathEvidence.Checkers.AnalyticCalculus; Python mirror adapters/common/analytic_calculus.py",
+        "backends": ["sympy"]
       },
       "descriptorDigest": "sha256:d62efb21ae22d60bd1c361a7fd3c56a6d6569890bca433f03aae748c9de8d23d",
       "descriptorPath": "registry/capabilities/analysis.analytic_calculus.json"

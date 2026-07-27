@@ -4,7 +4,7 @@
   "capabilities": [
     "capabilities/algebra.rational_equality.json",
     "capabilities/algebra.linear_algebra.json",
-    "capabilities/algebra.groebner_membership.json",
+    "capabilities/algebra.ideal_membership_witness.json",
     "capabilities/logic.finite_counterexample.json",
     "capabilities/logic.sat_unsat.json",
     "capabilities/logic.pseudo_boolean.json",

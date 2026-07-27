@@ -1,5 +1,5 @@
 {
-  "id": "external.groebner",
+  "id": "external.ideal_membership",
   "version": "0.1.0",
   "adapterVersion": "0.1.0",
   "status": "experimental",
@@ -11,7 +11,7 @@
   },
   "supportedCapabilities": [
     {
-      "id": "algebra.groebner_membership",
+      "id": "algebra.ideal_membership_witness",
       "versions": ["0.1.0"],
       "deterministic": true,
       "supportLevel": "declared"
