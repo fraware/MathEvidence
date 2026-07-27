@@ -21,7 +21,7 @@ def contract : AlgorithmContract where
   id := "assurance.ideal_membership.reference"
   version := "0.1.0"
   assuranceLevel := .verifiedReferenceAlgorithm
-  capabilityId := "algebra.groebner_membership"
+  capabilityId := "algebra.ideal_membership_witness"
   inputDomain := "Sparse integer polynomials (target, generators, multipliers)"
   outputRelation := "Witness identity f = sum_i q_i * g_i after like-term normalization"
   soundness := "checkMembership / MembershipWitness.check reconstruct the linear combination; membership_from_witness_* close Ideal.span"
