@@ -16,6 +16,9 @@ import MathEvidence.IR.RationalExpr.Syntax
 Python `bind_request_digest` hashes (schemaVersion, variables[{name,type}],
 name-based exprs, resourcePolicy, …) — not the older capabilityId/varNames IR
 fragment.
+
+Wave 2 / ME-RV-022: `Request.ofClaim` returns `Except` and never fabricates an
+all-zero digest.
 -/
 
 namespace MathEvidence.Checkers.RationalEquality.Wire
@@ -65,6 +68,19 @@ def defaultResourcePolicy : Json :=
     [("maxWallTimeMs", Json.num (10000 : Nat)),
      ("maxOutputBytes", Json.num (1048576 : Nat))]
 
+/-- Extended Lean-side bounds (enforced by `checkBool`; wire schema MAY list these
+without changing the historical two-field digest-binding defaults above). -/
+def extendedResourcePolicyJson : Json :=
+  Json.mkObj
+    [("maxWallTimeMs", Json.num (10000 : Nat)),
+     ("maxOutputBytes", Json.num (1048576 : Nat)),
+     ("maxVariableCount", Json.num (64 : Nat)),
+     ("maxExprNodes", Json.num (4096 : Nat)),
+     ("maxExponent", Json.num (64 : Nat)),
+     ("maxIntegerDigits", Json.num (4096 : Nat)),
+     ("maxDenominatorFactors", Json.num (1024 : Nat)),
+     ("maxNormalizedTermCount", Json.num (8192 : Nat))]
+
 /-- Build adapter request JSON (pre-digest) from a claim. -/
 def claimToRequestJson (c : Claim) : Json :=
   let assumptions :=
@@ -106,13 +122,17 @@ namespace MathEvidence.Checkers.RationalEquality
 
 open MathEvidence.Checkers.RationalEquality.Wire
 
-/-- Build a request whose digest is the Lean wire binding (Python parity). -/
-def Request.ofClaim (c : Claim) : Request :=
-  match digestOfClaim c with
-  | .ok d => { claim := c, requestDigest := d }
-  | .error _ =>
-    -- Unreachable for well-formed claims; keep a deterministic fallback wire form.
-    { claim := c,
-      requestDigest := ⟨"sha256:0000000000000000000000000000000000000000000000000000000000000000"⟩ }
+/-- Build a request whose digest is the Lean wire binding (Python parity).
+
+Never fabricates an all-zero digest (ME-RV-022). -/
+def Request.ofClaim (c : Claim) : Except String Request := do
+  let d ← digestOfClaim c
+  pure { claim := c, requestDigest := d }
+
+/-- Partial helper for fixtures: well-formed claims always succeed. -/
+def Request.ofClaim! (c : Claim) : Request :=
+  match Request.ofClaim c with
+  | .ok r => r
+  | .error e => panic! s!"Request.ofClaim failed: {e}"
 
 end MathEvidence.Checkers.RationalEquality

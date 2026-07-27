@@ -24,7 +24,7 @@ def claim_add0 : Claim where
   lhs := .add (.var 0) (.int 0)
   rhs := .var 0
 
-def req_add0 : Request := Request.ofClaim claim_add0
+def req_add0 : Request := Request.ofClaim! claim_add0
 
 def cert_add0 : Certificate where
   requestDigest := req_add0.requestDigest
@@ -36,7 +36,7 @@ def claim_cancel : Claim where
   lhs := .div (.mul (.var 0) (.var 1)) (.var 1)
   rhs := .var 0
 
-def req_cancel : Request := Request.ofClaim claim_cancel
+def req_cancel : Request := Request.ofClaim! claim_cancel
 
 def cert_cancel : Certificate where
   requestDigest := req_cancel.requestDigest
@@ -48,7 +48,7 @@ def claim_sub_self : Claim where
   lhs := .sub (.div (.int 1) (.var 0)) (.div (.int 1) (.var 0))
   rhs := .int 0
 
-def req_sub_self : Request := Request.ofClaim claim_sub_self
+def req_sub_self : Request := Request.ofClaim! claim_sub_self
 
 def cert_sub_self : Certificate where
   requestDigest := req_sub_self.requestDigest
@@ -60,7 +60,7 @@ def claim_false : Claim where
   lhs := .var 0
   rhs := .add (.var 0) (.int 1)
 
-def req_false : Request := Request.ofClaim claim_false
+def req_false : Request := Request.ofClaim! claim_false
 
 def cert_false : Certificate where
   requestDigest := req_false.requestDigest
