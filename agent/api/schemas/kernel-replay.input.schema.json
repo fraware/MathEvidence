@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/agent/kernel-replay.input.schema.json",
+  "title": "kernel_replay input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["bundleId"],
+  "properties": {
+    "bundleId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque Candidate Bundle id (sha256_… or store id)."
+    },
+    "declarationName": {
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_']*$"
+    },
+    "requireLean": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
