@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "0.1.0",
+  "wave": "0",
+  "issue": "ME-RV-002",
+  "bundlesMigrated": 35,
+  "actions": {
+    "evidence/examples/calculus_antiderivative_x2": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/examples/calculus_derivative_mathematica_offline": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/examples/calculus_derivative_x2": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/examples/calculus_ode_y_eq_x": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/examples/calculus_recurrence_n": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/examples/finite_counterexample_nat_eq0": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/examples/ideal_membership_mathematica_offline_x2m1": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "rewrote manifest"
+    ],
+    "evidence/examples/ideal_membership_mathematica_offline_xy": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "rewrote manifest"
+    ],
+    "evidence/examples/ideal_membership_sage_offline_x2m1": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "rewrote manifest"
+    ],
+    "evidence/examples/ideal_membership_sage_offline_xy": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "rewrote manifest"
+    ],
+    "evidence/examples/linear_algebra_inverse_2x2": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/examples/rational_equality_basic": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "removed overclaiming checker-receipt.cjson (status=soundness_verified, mode=kernel_replay)",
+      "downgraded resultStatus to computed",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/examples/rational_equality_mathematica_offline": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/finite_counterexample/hash_mismatch/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/finite_counterexample/out_of_domain_rejected/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/finite_counterexample/simple_false_universal/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/finite_counterexample/witness_type_mismatch/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/linear_algebra/det_identity/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/linear_algebra/exact_system_solution/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/linear_algebra/hash_mismatch/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/linear_algebra/inverse_witness_2x2/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/linear_algebra/kernel_vector/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/linear_algebra/singular_inverse_rejected/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/rfc0001/false_identity/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/rfc0001/hash_mismatch/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/rfc0001/large_coeffs/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/rfc0001/missing_condition/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/rfc0001/redundant_condition/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/rfc0001/valid_identity/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/rfc0001/variable_permutation/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/symbolic_calculus/calculus_antiderivative_x2/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/symbolic_calculus/calculus_derivative_x2/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/symbolic_calculus/calculus_ode_y_eq_x/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "evidence/conformance/symbolic_calculus/calculus_recurrence_n/bundle": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ],
+    "agent/store/bundles/ideal_membership_agent_smoke": [
+      "removed placeholder theorem.lean",
+      "removed placeholder axiom-report.cjson",
+      "downgraded assuranceMode to native_checked",
+      "rewrote manifest"
+    ]
+  }
+}

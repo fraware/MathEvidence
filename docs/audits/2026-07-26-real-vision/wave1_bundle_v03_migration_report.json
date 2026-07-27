@@ -1,0 +1,346 @@
+{
+  "bundleVersion": "0.3.0",
+  "count": 36,
+  "dryRun": false,
+  "migrated": 36,
+  "migration": "bundles_v03",
+  "records": [
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:6a4d83f3ca8548e5e5c68f0a74d183f8504675855e27b01180ca3b6cdef4e36e",
+      "bundleVersion": "0.3.0",
+      "discarded": [
+        "candidate.json",
+        "certificate.json",
+        "manifest.json",
+        "request.json"
+      ],
+      "error": null,
+      "legacySourceDigest": "sha256:e62ce7996007023cf7329c16a3fbc3ec398308b3cc2094cf05c242fa44db92ca",
+      "path": "agent/store/bundles/ideal_membership_agent_smoke"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:92017349efbc9bad16882c4b134583652054c5f02c6a5240b8a0ccf816613329",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:73b3b483535488fcacee91d7186eaa9e923c7b3b0b3ab50cbe6fe6913a494792",
+      "path": "evidence/conformance/finite_counterexample/hash_mismatch/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:1a230be5d913d651de4b49c5ce97be7c804518a1c762ca41de9c8ffd085ab97c",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:71014415ebe7fa7bef86d5f8b8b5ed32647cecd0e84e3a8d08b5a69b3ee6661b",
+      "path": "evidence/conformance/finite_counterexample/out_of_domain_rejected/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:b3304840fbce8c0a6ca790f27e3e194b3554871525a56b150878686710d9e32c",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:d4215617ba4ee7886d3d0188e1f374f766063a7f16f7ea4121f2ca4ffa479ebb",
+      "path": "evidence/conformance/finite_counterexample/simple_false_universal/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:d77268f8fcfa59f6c82148bd9cac48bd90273cfbebf60b7ddc3d3bad21c35813",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:c91e834e681fde9f1c52f9ae32c12e75135c389b6d0f81341bb786ee81678384",
+      "path": "evidence/conformance/finite_counterexample/witness_type_mismatch/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:2cf7b21ff5168c6609aa8087c10c5823087dca1bb4ffc797e91df5ba54fa9c5f",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:0d8896fd1e190263950649b97f6fff73e9b3da96b935d1f24ab26da6b261a815",
+      "path": "evidence/conformance/linear_algebra/det_identity/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:5c3c77a03417dd002b78e3646cb5b14573b1f68093ccde1953cb6a469fbb0d13",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:6fdf90da243936c26a4d434dbb63c7e839ec14d54ed1fc63864cd144da521d08",
+      "path": "evidence/conformance/linear_algebra/exact_system_solution/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:9b836b589fedf0e2f33acec012f0932e5e39e9b03d859672b8fc8c31063a5735",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:843649cad74f012e336e84f49bca4e6b4a2136af5588aba4c2d87c49d5229b5b",
+      "path": "evidence/conformance/linear_algebra/hash_mismatch/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:f9ee9b612a4c35936aab3f99eaab4de7defc2f794be3f6c84a5dc99df958e692",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:04bf30d6294535296e8a195956b739038f34551047f37aca9c9383c26a7cfa03",
+      "path": "evidence/conformance/linear_algebra/inverse_witness_2x2/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:f3f1231a8706562b2488cbc3c6a306d9213e0fe8c88a1c38933153e77d5ac3dd",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:67b0f3ceb38c39c05125169fa51bd497c06f4b91cdc72d3de5b6f04ed1951033",
+      "path": "evidence/conformance/linear_algebra/kernel_vector/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:28d7cf8ce37ca8446d03e167021d95ae97ea9aec8668e12710f6f24108018175",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:038685f2996e2b27ee40ef2d7acd35b7e6269d9d7400bc3519f99499596a46a3",
+      "path": "evidence/conformance/linear_algebra/singular_inverse_rejected/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:8a2f890ebf7ccf6636e0d54b0a13ba804d8cd8d0d677907f7ac24c740b4e507c",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:fecb937441ca258f0ce520940873b819ad1b3b50cd923559acb47454a2434ca3",
+      "path": "evidence/conformance/rfc0001/false_identity/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:4d27876916b5bab1b00ea4c594ce4b32ff1127c5659b8cc0274ddd741c16ba07",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:f53384de1e84589124fbba56aea02488ad6993daf29b256eb68ea768649a8535",
+      "path": "evidence/conformance/rfc0001/hash_mismatch/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:f4ca2712b29b69d17a416bfd9debaedb65dd87ed7eac2ab26282bc3a1d318bd4",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:162410ec7a2cd1fb92974e4f8e102e5ca40d31c13195ba3333842648916de895",
+      "path": "evidence/conformance/rfc0001/large_coeffs/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:d11733cf8309a4baeea6750b3faa60b1014d7c08310018fa51983241a5434aad",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:2fdae64c8bdfa802415bea096354795c5b2fba6c8a172fa3111c42514bc2bbc3",
+      "path": "evidence/conformance/rfc0001/missing_condition/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:a2717d532e75c48e67b36109aeefef0fdb4c65167add44726a10e5edaa466851",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:9e130409a42f204cf9d5fb72b409f8b125b22155258bedbea121b3319162a089",
+      "path": "evidence/conformance/rfc0001/redundant_condition/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:901cd9fb3e2b1c0a392a43967661aef2047a846a9d38dec0698e2837c1237e63",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:f53ceada9b56e7e850977ead81d78121d4e295875f6848c381c0f11b2224f426",
+      "path": "evidence/conformance/rfc0001/valid_identity/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:595a825c5a408764e42ac081e052ac0ebacb201e8ade2e9e6cef0ff8a85316e6",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:791b354eff4d7e96e1c6c8c3a8b1d3acd763facc21eb39cbc6bd667e23a44244",
+      "path": "evidence/conformance/rfc0001/variable_permutation/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:236b7e78c6c0a3e35fa91d47c68538226d86f6cd12385f8d6ec15ed272207b67",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:cd5364ca324f1be2df10da619ee5aff2f534a48d854ed6720084ef911946c378",
+      "path": "evidence/conformance/symbolic_calculus/calculus_antiderivative_x2/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:2752db2eded5e526f16581eb32e3a9b4fd95ab3e29f313e2644638f7f01050e3",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:c90257c719dff07a40fa78e90714381af280616a96423344eb369ac92308351e",
+      "path": "evidence/conformance/symbolic_calculus/calculus_derivative_x2/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:8d3948b370ed0f2859ce41a83f87df818c36e65bc989c502440c7c23c2eddcdb",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:812a03d1ea3b759c5e6fba86e62d0f37238cf4b35ab44381f4464f1f4d0561cf",
+      "path": "evidence/conformance/symbolic_calculus/calculus_ode_y_eq_x/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:60e3a15693c9dbe311f36c518c6682a235504a77eb8bbb09c633374bbab53b7f",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:baf8aa93f865251b24ec9a80a35e832fb20156deb0dd8d6a4465025389bb859e",
+      "path": "evidence/conformance/symbolic_calculus/calculus_recurrence_n/bundle"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:e28f54fa4631b9b70fc596190572546ecf547475680372b46d0fdcaff544ce80",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:cd5364ca324f1be2df10da619ee5aff2f534a48d854ed6720084ef911946c378",
+      "path": "evidence/examples/calculus_antiderivative_x2"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:c2dd9c0aaccffcf8ca59f83570d7e6e3fafc17c29e69d519f612846e6e98c5a5",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:c916c4d8cdfc12066c7ad358054c971347c7828c0a899278b0d6f296f6b963a3",
+      "path": "evidence/examples/calculus_derivative_mathematica_offline"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:265d414f20ddad5d921f8d234494d333a88d78856456d633e66e6d8434e90f04",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:c90257c719dff07a40fa78e90714381af280616a96423344eb369ac92308351e",
+      "path": "evidence/examples/calculus_derivative_x2"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:1c33ca47b2ebba2c8ce1079e52fc67f744bee35999f77199270d15c6401a1198",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:812a03d1ea3b759c5e6fba86e62d0f37238cf4b35ab44381f4464f1f4d0561cf",
+      "path": "evidence/examples/calculus_ode_y_eq_x"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:f4ddb35db79a637bb29cfbcab13ed49a2b916cfbeaee32922a8ff42e0995644f",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:baf8aa93f865251b24ec9a80a35e832fb20156deb0dd8d6a4465025389bb859e",
+      "path": "evidence/examples/calculus_recurrence_n"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:bdaad69915f13715ba702100a5f65ffb716260abe8ef378ef3d2a722006f9509",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:d4215617ba4ee7886d3d0188e1f374f766063a7f16f7ea4121f2ca4ffa479ebb",
+      "path": "evidence/examples/finite_counterexample_nat_eq0"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:4e9b35f69f8488e4f2678cdc81c96d619a143cbe1c037bbda11a789d69a2f742",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:f58497a5fe2d86f9670c842fadd2281dcc6271d677d43d1f0a9d99de030bc88d",
+      "path": "evidence/examples/ideal_membership_mathematica_offline_x2m1"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:e3e15b7a9a2c486d643d459124d88ca504dfb407358bddd8979c557f690758a1",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:0aa7c3cb76a644e3cfd184f7a687655c512110bb64e9756e7f5146eada767322",
+      "path": "evidence/examples/ideal_membership_mathematica_offline_xy"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:7f15ce0b9a4a039e6986946ae79d94e6c4f7c8fa25ceb6d41a81655b4796af2a",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:003ef0dc07d3f6410743d25a22af2af9504db7f9a9ea6a90252e59fabe323f1f",
+      "path": "evidence/examples/ideal_membership_sage_offline_x2m1"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:e34713ffdbae9c36cfa538032ed49cd9f44316402f4fdbc8321c3843d487e432",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:d6b906cb4b5592b31abcef89fea8257f18dbb3c5116cbbbae935cee9a1755674",
+      "path": "evidence/examples/ideal_membership_sage_offline_xy"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:64850d85399116e16c224e05dc8a186010d74b30ab5bae3940d29e6881dda4cc",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:04bf30d6294535296e8a195956b739038f34551047f37aca9c9383c26a7cfa03",
+      "path": "evidence/examples/linear_algebra_inverse_2x2"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:863415f0d7aaadb049ac92c27b9aab28451dabb0f7f9105406d5597dc0d27c4c",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:25d75de70fb490e272b92cf6886f0b1a92ebc5ca4f16d8aa504b84ce642c49ff",
+      "path": "evidence/examples/rational_equality_basic"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:80c5e7e060162580116dad69fd75d362679e85d6cd4eb024bfa0b415122dc711",
+      "bundleVersion": "0.3.0",
+      "discarded": [],
+      "error": null,
+      "legacySourceDigest": "sha256:14ba019ae62c6d12a3402ec60523252e642745bb8475016e74732ca4d6bb027e",
+      "path": "evidence/examples/rational_equality_mathematica_offline"
+    },
+    {
+      "action": "migrated",
+      "bundleDigest": "sha256:483bfe11ff11523d23b2f1914277776c6aae655cc58adefbc8d58ce28b252f73",
+      "bundleVersion": "0.3.0",
+      "discarded": [
+        "candidate.json",
+        "certificate.json",
+        "manifest.json",
+        "request.json"
+      ],
+      "error": null,
+      "legacySourceDigest": "sha256:0517d825ba581ce8a4d05b4fe567ad517c7496edc6f38b785171fd3170687203",
+      "path": "evidence/store/sha256/b3/728da504fd93582e2d6bd02f75e51669100e44f557e40a46a2028ba18e99cb"
+    }
+  ],
+  "refused": 0,
+  "schemaVersion": "0.3.0",
+  "verifyFailed": 0
+}
