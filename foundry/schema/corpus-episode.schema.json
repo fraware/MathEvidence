@@ -43,10 +43,12 @@
       "enum": [
         "Q0_raw",
         "Q1_schema_valid",
+        "Q1_checker_preview",
         "Q2_formally_verified",
         "Q3_semantically_reviewed",
         "Q4_library_grade"
-      ]
+      ],
+      "description": "Q2_formally_verified requires Certification Record + theorem identity + environment lock (ME-RV-080). Checker-only replay is Q1_checker_preview."
     },
     "provenance": {
       "type": "object",
@@ -135,6 +137,22 @@
         "claimClass": { "type": "string", "maxLength": 128 },
         "assuranceMode": { "type": "string", "maxLength": 128 },
         "requestDigest": { "type": "string", "maxLength": 128 },
+        "candidateBundleId": { "type": "string", "maxLength": 256 },
+        "certificationRecordId": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Required for Q2_formally_verified."
+        },
+        "theoremDeclaration": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Exact theorem/refutation declaration name for Q2."
+        },
+        "environmentLockDigest": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Environment lock digest for Q2."
+        },
         "replayable": { "type": "boolean" },
         "negative": {
           "type": "boolean",

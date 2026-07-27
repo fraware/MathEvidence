@@ -54,7 +54,7 @@ def write_review_queue(
     target: int = 100,
     require_replayable: bool = True,
 ) -> dict[str, Any]:
-    """Persist ≥target review packets from best Q2 candidates; leave Q3 count at 0."""
+    """Persist ≥target review packets from best preview/Q2 candidates; leave Q3 count at 0."""
     dest = out_dir or (DEFAULT_CORPUS_DIR / "review_queue")
     if dest.is_dir():
         for stale in dest.glob("*.json"):
@@ -62,10 +62,12 @@ def write_review_queue(
                 stale.unlink()
     dest.mkdir(parents=True, exist_ok=True)
 
+    # Prefer true Q2; fall back to Q1_checker_preview (post ME-RV-080 corpus honesty).
     candidates = [
         ep
         for ep in episodes
-        if ep.get("qualityTier") == "Q2_formally_verified"
+        if ep.get("qualityTier")
+        in {"Q2_formally_verified", "Q1_checker_preview"}
         and (not require_replayable or (ep.get("outcome") or {}).get("replayable"))
         and not (ep.get("outcome") or {}).get("negative")
     ]

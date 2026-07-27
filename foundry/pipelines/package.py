@@ -13,11 +13,39 @@ from foundry.pipelines.validate import validate_corpus_episode, validate_corpus_
 KNOWN_BIASES = [
     "Corpus mixes evidence/examples, conformance fixtures, and FiniteGraph generated refutations.",
     "Q3/Q4 tiers require human semantic review; unlabeled review_queue packets are not Q3.",
+    "Q2_formally_verified requires Certification Record + theorem identity + environment lock (ME-RV-080).",
+    "Replayable checker-only episodes are Q1_checker_preview, not Q2.",
     "Synthetic negatives are labeled and excluded from eval contamination.",
     "Splits are source-family based (not random); see splits.json bySourceFamily.",
     "FiniteGraph precision metrics are campaign-local — not field-level performance.",
     "No live frontier formalization sessions are included.",
 ]
+
+
+def _resolve_source_commit(explicit: str | None) -> str:
+    """Published releases MUST use an immutable Git SHA (never ``workspace``)."""
+    if explicit and explicit != "workspace":
+        if len(explicit) == 40 and all(c in "0123456789abcdef" for c in explicit):
+            return explicit
+        raise ValueError(f"invalid sourceCommit {explicit!r}; need 40-char Git SHA")
+    import subprocess
+
+    try:
+        out = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=Path(__file__).resolve().parents[2],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+        sha = out.strip()
+        if len(sha) == 40:
+            return sha
+    except (OSError, subprocess.CalledProcessError):
+        pass
+    raise ValueError(
+        "sourceCommit: workspace is forbidden; provide an immutable Git SHA "
+        "or run from a git checkout (ME-RV-080)"
+    )
 
 
 def package_release(
@@ -61,7 +89,7 @@ def package_release(
         "license": "Apache-2.0",
         "acceptanceInfluence": False,
         "createdAt": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "sourceCommit": source_commit or "workspace",
+        "sourceCommit": _resolve_source_commit(source_commit),
         "tierComposition": tier_composition(episodes),
         "splits": {
             "immutable": True,

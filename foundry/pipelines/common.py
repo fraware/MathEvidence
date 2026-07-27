@@ -19,7 +19,7 @@ CAPTURE_DIR = FOUNDRY_ROOT / "episodes"
 KNOWN_CAPABILITIES = [
     "algebra.rational_equality",
     "algebra.linear_algebra",
-    "algebra.groebner_membership",
+    "algebra.ideal_membership_witness",
     "logic.finite_counterexample",
     "logic.sat_unsat",
     "logic.pseudo_boolean",

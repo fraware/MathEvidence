@@ -75,7 +75,7 @@ def ingest_conformance_bundles(
             "algebra.linear_algebra": "conformance_linear_algebra",
             "logic.finite_counterexample": "conformance_finite_cex",
             "algebra.formal_rational_calculus": "conformance_calculus",
-            "algebra.groebner_membership": "conformance_ideal",
+            "algebra.ideal_membership_witness": "conformance_ideal",
         }.get(cap, "conformance_other")
         if "symbolic_calculus" in str(prov.get("sourcePath") or ""):
             family = "conformance_calculus"

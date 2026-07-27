@@ -49,3 +49,19 @@ just tool-selection
 See `docs/foundry/` for frontier collaboration notes, contribution tracking,
 and maintenance/ownership plan. Honest open exits: `docs/STATUS.md` and
 `docs/security/KNOWN_TRUST_GAPS.md`.
+
+## Quality tiers (ME-RV-080)
+
+| Tier | Meaning |
+| --- | --- |
+| Q0_raw | unreviewed |
+| Q1_schema_valid | schema-valid / metadata complete |
+| Q1_checker_preview | checker/offline replay without Certification Record |
+| Q2_formally_verified | Certification Record + theorem identity + environment lock |
+| Q3_semantically_reviewed | human semantic review (not auto-assigned) |
+| Q4_library_grade | library-integrated (not auto-assigned) |
+
+The v0.1 sample corpus was reclassified: historical `Q2_formally_verified` without
+Certification Records are `Q1_checker_preview`. Use family-normalized metrics
+(`scripts/metrics/foundry_corpus_quality.py`); do not treat FiniteGraph volume as
+independent-domain coverage. `sourceCommit: workspace` is forbidden on releases.

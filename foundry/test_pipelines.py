@@ -18,6 +18,12 @@ def test_evidence_ingest_never_accepts(tmp_path: Path) -> None:
     for ep in episodes:
         assert ep["acceptanceInfluence"] is False
         validate_corpus_episode(ep)
+        # Offline bundles without Certification Record are preview, not Q2.
+        assert ep["qualityTier"] in {
+            "Q0_raw",
+            "Q1_schema_valid",
+            "Q1_checker_preview",
+        }
 
 
 def test_synthetic_negatives_labeled() -> None:
@@ -94,33 +100,48 @@ def test_quality_q3_requires_human_labels() -> None:
             "claims": [{"kind": "q3_auto"}],
         }
     )
-    assert stripped["qualityTier"] == "Q2_formally_verified"
+    assert stripped["qualityTier"] == "Q1_checker_preview"
     assert all(c.get("kind") != "q3_auto" for c in stripped["claims"])
 
 
-def test_quality_q2_allowed_when_replayable() -> None:
+def test_quality_q2_requires_certification_record() -> None:
     from foundry.pipelines.quality import score_episode
 
-    ep = score_episode(
+    preview = score_episode(
         {
             "outcome": {
                 "replayable": True,
+                "negative": False,
                 "humanReviewLabels": ["formally_verified"],
             }
         }
     )
-    assert ep["qualityTier"] == "Q2_formally_verified"
+    assert preview["qualityTier"] == "Q1_checker_preview"
+
+    q2 = score_episode(
+        {
+            "outcome": {
+                "replayable": True,
+                "negative": False,
+                "certificationRecordId": "sha256:" + "a" * 64,
+                "theoremDeclaration": "MathEvidence.Example.thm",
+                "environmentLockDigest": "sha256:" + "b" * 64,
+                "humanReviewLabels": [],
+            }
+        }
+    )
+    assert q2["qualityTier"] == "Q2_formally_verified"
 
 
-def test_quality_q2_requires_replayable_in_validate() -> None:
+def test_quality_q2_requires_cert_in_validate() -> None:
     from foundry.pipelines.validate import validate_tier_enforcement
 
-    with pytest.raises(ValueError, match="replayable"):
+    with pytest.raises(ValueError, match="certificationRecordId"):
         validate_tier_enforcement(
             {
                 "episodeId": "bad-q2",
                 "qualityTier": "Q2_formally_verified",
-                "outcome": {"replayable": False, "negative": False, "humanReviewLabels": []},
+                "outcome": {"replayable": True, "negative": False, "humanReviewLabels": []},
                 "acceptanceInfluence": False,
             }
         )
@@ -160,7 +181,7 @@ def test_refuse_q1_as_positive_verified() -> None:
 def test_quality_q3_validate_requires_labels() -> None:
     from foundry.pipelines.validate import validate_tier_enforcement
 
-    # enforce_tier_claims demotes unlabeled Q3 → Q2 when replayable.
+    # enforce_tier_claims demotes unlabeled Q3 → Q1_checker_preview when replayable.
     demoted = validate_tier_enforcement(
         {
             "episodeId": "q3-demote",
@@ -169,7 +190,7 @@ def test_quality_q3_validate_requires_labels() -> None:
             "acceptanceInfluence": False,
         }
     )
-    assert demoted["qualityTier"] == "Q2_formally_verified"
+    assert demoted["qualityTier"] == "Q1_checker_preview"
 
     ok = validate_tier_enforcement(
         {
@@ -184,3 +205,36 @@ def test_quality_q3_validate_requires_labels() -> None:
         }
     )
     assert ok["qualityTier"] == "Q3_semantically_reviewed"
+
+
+def test_release_rejects_workspace_source_commit() -> None:
+    from foundry.pipelines.validate import validate_corpus_release
+
+    with pytest.raises(ValueError, match="sourceCommit"):
+        validate_corpus_release(
+            {
+                "schemaVersion": "0.1.0",
+                "releaseId": "x",
+                "version": "0.1.0",
+                "license": "Apache-2.0",
+                "acceptanceInfluence": False,
+                "sourceCommit": "workspace",
+                "tierComposition": {
+                    "Q0_raw": 0,
+                    "Q1_schema_valid": 0,
+                    "Q1_checker_preview": 1,
+                    "Q2_formally_verified": 0,
+                    "Q3_semantically_reviewed": 0,
+                    "Q4_library_grade": 0,
+                },
+                "splits": {
+                    "immutable": True,
+                    "train": [],
+                    "eval": [],
+                    "held_out": [],
+                },
+                "episodes": ["episodes/a.json"],
+                "datasheet": "DATASHEET.md",
+                "knownBiases": ["bias"],
+            }
+        )

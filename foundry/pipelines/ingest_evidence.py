@@ -55,8 +55,8 @@ def ingest_evidence_bundle(bundle_dir: Path, *, repo_root: Path | None = None) -
     has_cert = find_role_path(bundle_dir, "certificate") is not None
     replayable = has_cert and bool(request_digest)
 
-    # Committed offline examples that replay in CI are Q2; others stay Q1.
-    quality = "Q2_formally_verified" if replayable else "Q1_schema_valid"
+    # Offline checker replay without Certification Record is preview, not Q2 (ME-RV-080).
+    quality = "Q1_checker_preview" if replayable else "Q1_schema_valid"
 
     core = {
         "capability": capability,

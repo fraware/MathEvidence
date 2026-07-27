@@ -29,13 +29,18 @@
       "const": false
     },
     "createdAt": { "type": "string", "maxLength": 64 },
-    "sourceCommit": { "type": "string", "maxLength": 128 },
+    "sourceCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "Immutable Git SHA. sourceCommit: workspace is forbidden (ME-RV-080)."
+    },
     "tierComposition": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "Q0_raw",
         "Q1_schema_valid",
+        "Q1_checker_preview",
         "Q2_formally_verified",
         "Q3_semantically_reviewed",
         "Q4_library_grade"
@@ -43,6 +48,7 @@
       "properties": {
         "Q0_raw": { "type": "integer", "minimum": 0 },
         "Q1_schema_valid": { "type": "integer", "minimum": 0 },
+        "Q1_checker_preview": { "type": "integer", "minimum": 0 },
         "Q2_formally_verified": { "type": "integer", "minimum": 0 },
         "Q3_semantically_reviewed": { "type": "integer", "minimum": 0 },
         "Q4_library_grade": { "type": "integer", "minimum": 0 }
