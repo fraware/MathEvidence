@@ -152,13 +152,17 @@ declared.
 
 ### `security.yml`
 
-Runs dependency review, static analysis, secret scanning, executable adversarial
+Runs static analysis, secret scanning, executable adversarial
 resource cases, and cancel→kill isolation tests.
+
+Dependency review runs on pull requests with `continue-on-error` while
+Dependency graph is unavailable; soft-fail does not mean graph review is enabled.
 
 ### `supply-chain.yml`
 
-Runs a blocking gitleaks secret scan with immutable action pins. Dependency
-review remains in `security.yml`.
+Runs a blocking gitleaks secret scan with immutable action pins. The optional
+dependency-review step lives in `security.yml` (advisory until Dependency graph
+is enabled).
 
 ### `release.yml`
 

@@ -36,7 +36,7 @@
     "package": "MathEvidence.Checkers.IdealMembership.Check",
     "version": "0.0.0",
     "assurance": "native_checked",
-    "soundnessStatus": "proved_checkBool_sound"
+    "soundnessStatus": "partial"
   },
   "assuranceModes": [
     "native_checked",
