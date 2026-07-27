@@ -3,7 +3,7 @@
   "operation": "open_bundle",
   "seedExample": "evidence/examples/rational_equality_basic",
   "input": {
-    "bundleId": "sha256_354adca7a9f55584f929033ae67b739c3543ca3defcc47e7ee862a3aaca77423"
+    "bundleId": "sha256_863415f0d7aaadb049ac92c27b9aab28451dabb0f7f9105406d5597dc0d27c4c"
   },
   "expect": {
     "resultStatusIn": ["computed", "tested", "soundness_verified", "witness_verified"],
