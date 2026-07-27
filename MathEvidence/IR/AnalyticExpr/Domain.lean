@@ -8,53 +8,41 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.Set.Basic
 
 /-!
-# Domain conditions for analytic expressions
+# Domain obligations for analytic expressions (ME-RV-050)
 
-The analytic vertical records domain obligations as typed propositions at the
-Mathlib boundary. String labels may describe obligations for reports, but they
-are not evidence by themselves.
+Certificates may *list* obligations. Callers supply proofs that the obligations
+hold at the evaluation point. The checker never accepts caller-trusted Booleans
+as evidence that a domain condition is true.
 -/
 
-namespace MathEvidence.IR.AnalyticExpr.Domain
+namespace MathEvidence.IR.AnalyticExpr
 
-/-- Human-readable label paired with a typed Mathlib-side proposition. -/
-structure Condition where
-  description : String
-  statement : Prop := True
+/-- Explicit domain for membership obligations (initially `Set ℝ`). -/
+abbrev Domain := Set ℝ
 
-instance : Inhabited Condition where
-  default := { description := "true", statement := True }
+/-- Inductive domain obligation attached to a derivation / ODE certificate. -/
+inductive DomainObligation where
+  | nonzero (expr : Expr)
+  | positive (expr : Expr)
+  | member (domain : Domain) (expr : Expr)
+  deriving Inhabited
 
-/-- Point membership condition used by derivative-within-domain certificates. -/
-def pointInDomain (s : Set ℝ) (x : ℝ) : Condition where
-  description := "point_in_domain"
-  statement := x ∈ s
+/-- Structural obligations implied by expression constructors (for reports).
 
-/-- Denominator nonzero condition used before quotient / inverse rules. -/
-def denominatorNonzero (g : ℝ → ℝ) (x : ℝ) : Condition where
-  description := "denominator_nonzero"
-  statement := g x ≠ 0
-
-/-- Logarithm argument positivity. -/
-def logArgumentPositive (g : ℝ → ℝ) (x : ℝ) : Condition where
-  description := "log_argument_positive"
-  statement := 0 < g x
-
-/-- No accepted analytic certificate may claim solution-family completeness. -/
-def noCompletenessClaim : Condition where
-  description := "no_completeness_claim"
-  statement := True
-
-/-- Structural domain obligations collected from expression constructors. -/
-def domainConditions : MathEvidence.IR.AnalyticExpr.Expr → List Condition
+These are *hints* for adapters; acceptance still requires certificate-listed
+obligations plus caller proofs of `SatisfiesObligations`.
+-/
+def Expr.structuralObligations : Expr → List DomainObligation
   | .variable _ | .const _ => []
-  | .add a b | .sub a b | .mul a b => domainConditions a ++ domainConditions b
+  | .add a b | .sub a b | .mul a b =>
+      a.structuralObligations ++ b.structuralObligations
   | .div n d =>
-      domainConditions n ++ domainConditions d ++
-        [{ description := "denominator_nonzero_structural", statement := True }]
-  | .neg a | .sin a | .exp a | .pow a _ => domainConditions a
+      n.structuralObligations ++ d.structuralObligations ++ [.nonzero d]
+  | .inv a =>
+      a.structuralObligations ++ [.nonzero a]
+  | .neg a | .sin a | .cos a | .exp a | .pow a _ =>
+      a.structuralObligations
   | .log a =>
-      domainConditions a ++
-        [{ description := "log_argument_positive_structural", statement := True }]
+      a.structuralObligations ++ [.positive a]
 
-end MathEvidence.IR.AnalyticExpr.Domain
+end MathEvidence.IR.AnalyticExpr

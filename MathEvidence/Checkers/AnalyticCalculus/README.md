@@ -1,16 +1,40 @@
-# AnalyticCalculus checker scaffold
+# AnalyticCalculus checker (ME-RV-050..054)
 
-This directory reserves documentation for the future analytic-calculus vertical
-(ME-105). No full analytic checker or proof-producing implementation is added in
-this pass.
+Experimental Mathlib analytic vertical. Checker acceptance plus explicit domain
+hypotheses yields `HasDerivAt`, `HasDerivWithinAt`, or
+`CandidateSolvesFirstOrderODE`. Completeness / uniqueness / maximal interval
+claims are rejected.
 
-## Required theorem shape
+## Modules
 
-Analytic-calculus evidence must ultimately establish Lean analytic statements
-such as `HasDerivAt`, `DifferentiableAt`, or explicitly equivalent theorem
-forms over the interpreted analytic expression. It must not conclude only a
-`RationalExpr.polyEqual` or similar polynomial identity.
+| File | Role |
+| --- | --- |
+| `Spec.lean` | Claim / request / ODE proposition |
+| `Certificate.lean` | Inductive `DerivProof`, deriv / ODE certificates |
+| `Check.lean` | `reconstructDeriv`, `checkDeriv`, `checkODE` |
+| `Soundness.lean` | `checkDeriv_sound`, `checkODE_sound` |
+| `Tests.lean` | Native-decide shape tests |
+| `OfflineFixtures.lean` | Backend-free replay fixtures |
+| `Wire.lean` | Adapter tag helpers |
+| `Basic.lean` | Barrel import |
 
-Polynomial equalities may be useful subgoals after a sound reduction, but they
-are not the top-level analytic claim. Domain, differentiability, and side
-condition handling must be explicit before any future checker claims success.
+IR interpretation: `MathEvidence.IR.AnalyticExpr.{Syntax,Domain,Interpret}`.
+
+Restricted Meta reifier: `MathEvidence.Tactic.ReifyAnalytic`.
+
+Python proposal mirror: `adapters/common/analytic_calculus.py` (never theorem authority).
+
+## Required theorem shapes
+
+```lean
+theorem checkDeriv_sound
+    (hcheck : checkDeriv cert = true)
+    (hdom : SatisfiesObligations cert.obligations x) :
+    HasDerivAt cert.source.interpret (cert.derivative.interpret x) x
+
+theorem checkODE_sound ... :
+    CandidateSolvesFirstOrderODE solution.interpret rhs.interpret domain ics
+```
+
+Domain obligations are inductive (`nonzero` / `positive` / `member`). Caller
+Booleans are never trusted as domain evidence.

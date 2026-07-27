@@ -6,28 +6,34 @@ Authors: MathEvidence contributors
 import MathEvidence.IR.AnalyticExpr.Syntax
 
 /-!
-# Verified derivative rule table
+# Verified derivative rule identifiers
 
-CAS proposes candidates; Lean builds proofs from these rules. No completeness.
+Human-readable labels for adapter provenance. The authoritative certificate
+shape is the inductive `DerivProof` tree in
+`MathEvidence.Checkers.AnalyticCalculus.Certificate`.
 -/
 
 namespace MathEvidence.IR.AnalyticExpr.DerivativeRules
 
 inductive RuleId where
+  | variable
   | const
   | add
   | sub
   | mul
   | div
+  | inv
   | neg
   | pow
   | sin
+  | cos
   | exp
   | log
   deriving DecidableEq, Repr, Inhabited
 
-/-- Which rules are in scope for the analytic vertical fragment. -/
+/-- Which rule labels are in scope for the analytic vertical fragment. -/
 def supported : List RuleId :=
-  [.const, .add, .sub, .mul, .div, .neg, .pow, .sin, .exp, .log]
+  [.variable, .const, .add, .sub, .mul, .div, .inv, .neg, .pow, .sin, .cos, .exp,
+    .log]
 
 end MathEvidence.IR.AnalyticExpr.DerivativeRules
