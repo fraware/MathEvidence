@@ -1,12 +1,11 @@
 "use strict";
 
 /**
- * Map ResultStatus / manifest fields to Product 09 epistemic UI states.
- * Color alone is insufficient — always pair with text.
+ * Map ResultStatus / Agent certification fields to Product 09 epistemic UI states.
  *
- * HARD RULE (Product 09): never present Certified without Lean status.
- * Surface rule: Lean proposition + assumptions always precede Certified affordance
- * (see buildCertificationSurface).
+ * HARD RULE (Wave 2 / ME-RV-024): Certified only when Agent returns
+ * certificationVerified + certificationId + claimEstablished + theoremTypeDigest.
+ * Never from leanStatus or a raw receipt alone.
  */
 
 const LEAN_OK_STATUSES = [
@@ -28,35 +27,88 @@ function leanStatusAllowsCertified(leanStatus) {
 }
 
 /**
- * @param {string|undefined} resultStatus
- * @param {string|undefined|null} leanStatus
- * @returns {{ label: "Computed"|"Tested"|"Certified"|"Ambiguous", detail: string, allowCertified: boolean }}
+ * @param {object} opts
+ * @returns {{ label: string, detail: string, allowCertified: boolean }}
  */
-function epistemicFromResultStatus(resultStatus, leanStatus) {
-  const s = (resultStatus || "").toLowerCase();
-  const leanOk = leanStatusAllowsCertified(leanStatus);
+function certificationGate(opts = {}) {
+  const {
+    certificationVerified,
+    certificationId,
+    claimEstablished,
+    theoremTypeDigest,
+    resultStatus,
+  } = opts;
+  const verified = certificationVerified === true;
+  const certIdOk =
+    typeof certificationId === "string" && certificationId.trim().length > 0;
+  const claimOk =
+    typeof claimEstablished === "string" && claimEstablished.trim().length > 0;
+  const theoremOk =
+    typeof theoremTypeDigest === "string" &&
+    theoremTypeDigest.startsWith("sha256:");
+  const status = (resultStatus || "").toLowerCase();
+  const statusOk = !status || LEAN_OK_STATUSES.includes(status);
 
-  if (leanOk) {
+  if (verified && certIdOk && claimOk && theoremOk && statusOk) {
     return {
       label: "Certified",
-      detail: `Lean status present: ${leanStatus}.`,
+      detail: `Certification Record verified (${certificationId}); claimEstablished=${claimEstablished}.`,
       allowCertified: true,
     };
   }
+  const missing = [];
+  if (!verified) missing.push("certificationVerified");
+  if (!certIdOk) missing.push("certificationId");
+  if (!claimOk) missing.push("claimEstablished");
+  if (!theoremOk) missing.push("theoremTypeDigest");
+  return {
+    label: LEAN_OK_STATUSES.includes(status) ? "Ambiguous" : "Tested",
+    detail:
+      "Certified requires Agent certificationVerified + certificationId + claimEstablished + theoremTypeDigest (missing: " +
+      (missing.join(", ") || "none") +
+      ").",
+    allowCertified: false,
+  };
+}
 
-  if (LEAN_OK_STATUSES.includes(s)) {
+/**
+ * @param {string|undefined} resultStatus
+ * @param {string|undefined|null} leanStatus
+ * @param {object} [certFields]
+ * @returns {{ label: "Computed"|"Tested"|"Certified"|"Ambiguous", detail: string, allowCertified: boolean }}
+ */
+function epistemicFromResultStatus(resultStatus, leanStatus, certFields) {
+  const fields = certFields || {};
+  const hasCertField =
+    (fields.certificationVerified !== undefined &&
+      fields.certificationVerified !== null) ||
+    (typeof fields.certificationId === "string" && fields.certificationId) ||
+    (typeof fields.theoremTypeDigest === "string" && fields.theoremTypeDigest);
+  if (hasCertField) {
+    return certificationGate({
+      certificationVerified: fields.certificationVerified,
+      certificationId: fields.certificationId,
+      claimEstablished: fields.claimEstablished,
+      theoremTypeDigest: fields.theoremTypeDigest,
+      resultStatus: resultStatus || leanStatus,
+    });
+  }
+
+  const s = (resultStatus || "").toLowerCase();
+
+  if (leanStatusAllowsCertified(leanStatus) || LEAN_OK_STATUSES.includes(s)) {
     return {
       label: "Ambiguous",
       detail:
-        "Manifest claims a verified status, but Lean status is missing. Not labeled Certified.",
+        "Manifest/Lean status alone is insufficient for Certified; open_certification must return certificationVerified=true.",
       allowCertified: false,
     };
   }
-  if (s === "tested") {
+  if (s === "tested" || s === "checker_accepted") {
     return {
       label: "Tested",
       detail:
-        "Offline schema/digest checks succeeded; Lean certification not asserted.",
+        "Offline schema/digest checks and/or operational checkBool succeeded; theorem Certified requires a Certification Record (not verify-bundle).",
       allowCertified: false,
     };
   }
@@ -104,12 +156,7 @@ function extractAssumptions(request) {
  * @returns {string}
  */
 function extractLeanProposition(opts = {}) {
-  const {
-    leanProposition,
-    theoremPreview,
-    request,
-    manifest,
-  } = opts;
+  const { leanProposition, theoremPreview, request, manifest } = opts;
   const candidates = [
     leanProposition,
     theoremPreview,
@@ -129,8 +176,6 @@ function extractLeanProposition(opts = {}) {
 
 /**
  * Ordered certification surface: proposition → assumptions → epistemic label.
- * Certified affordance only after proposition + assumptions sections.
- * If Lean would allow Certified but proposition text is missing → Ambiguous.
  *
  * @param {object} opts
  * @returns {object}
@@ -144,6 +189,10 @@ function buildCertificationSurface(opts = {}) {
     request,
     manifest,
     assumptions,
+    certificationVerified,
+    certificationId,
+    claimEstablished,
+    theoremTypeDigest,
   } = opts;
 
   const proposition = extractLeanProposition({
@@ -157,12 +206,17 @@ function buildCertificationSurface(opts = {}) {
       ? assumptions.slice()
       : extractAssumptions(request);
 
-  let epi = epistemicFromResultStatus(resultStatus, leanStatus);
+  let epi = epistemicFromResultStatus(resultStatus, leanStatus, {
+    certificationVerified,
+    certificationId,
+    claimEstablished,
+    theoremTypeDigest,
+  });
   if (epi.allowCertified && !proposition) {
     epi = {
       label: "Ambiguous",
       detail:
-        "Lean status is present, but the exact Lean proposition is not available yet. Not labeled Certified.",
+        "Certification Record is present, but the exact Lean proposition is not available yet. Not labeled Certified.",
       allowCertified: false,
     };
   }
@@ -199,12 +253,14 @@ function buildCertificationSurface(opts = {}) {
     certifiedAffordanceIndex: transcript.findIndex(
       (t) => t.section === "epistemicLabel"
     ),
+    certificationVerified: certificationVerified === true,
   };
 }
 
 module.exports = {
   LEAN_OK_STATUSES,
   leanStatusAllowsCertified,
+  certificationGate,
   epistemicFromResultStatus,
   extractAssumptions,
   extractLeanProposition,

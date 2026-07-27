@@ -1,7 +1,7 @@
 {
   "id": "witness_verified_with_lean",
   "surface": "both",
-  "description": "witness_verified Lean status + proposition → Certified.",
+  "description": "Lean witness_verified alone is Ambiguous; Certified needs Certification Record fields.",
   "input": {
     "resultStatus": "computed",
     "leanStatus": "witness_verified",
@@ -13,8 +13,8 @@
     }
   },
   "expected": {
-    "label": "Certified",
-    "allowCertified": true,
+    "label": "Ambiguous",
+    "allowCertified": false,
     "transcriptOrder": ["leanProposition", "assumptions", "epistemicLabel"]
   }
 }
