@@ -70,5 +70,6 @@
   "skipReason": "total degree search space exceeds current exact-linear coefficient budget",
   "baselineNotes": [
     "Honest skip: generator does not claim a witness for this degree."
-  ]
+  ],
+  "stratum": "adversarial"
 }

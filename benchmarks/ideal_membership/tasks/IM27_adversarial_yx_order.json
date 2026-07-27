@@ -1,7 +1,7 @@
 {
   "id": "IM27_adversarial_yx_order",
   "family": "ideal_membership",
-  "description": "f = yx \u2208 \u27e8y, x\u27e9 multipliers (x, 0) \u2014 variable-order adversarial.",
+  "description": "f = yx ∈ ⟨y, x⟩ multipliers (x, 0) — variable-order adversarial.",
   "claimClass": "membership",
   "variables": [
     "y",
@@ -66,5 +66,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "adversarial"
 }

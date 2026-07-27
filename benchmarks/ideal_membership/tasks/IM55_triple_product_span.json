@@ -1,7 +1,7 @@
 {
   "id": "IM55_triple_product_span",
   "family": "ideal_membership",
-  "description": "f = 2xyz \u2208 \u27e8xy, z\u27e9 with q=(2z, 0).",
+  "description": "f = 2xyz ∈ ⟨xy, z⟩ with q=(2z, 0).",
   "claimClass": "membership",
   "variables": [
     "x",
@@ -71,5 +71,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "held_out"
 }

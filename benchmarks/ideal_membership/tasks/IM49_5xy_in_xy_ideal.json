@@ -1,7 +1,7 @@
 {
   "id": "IM49_5xy_in_xy_ideal",
   "family": "ideal_membership",
-  "description": "f = 5xy \u2208 \u27e8xy\u27e9 with multiplier 5.",
+  "description": "f = 5xy ∈ ⟨xy⟩ with multiplier 5.",
   "claimClass": "membership",
   "variables": [
     "x",
@@ -50,5 +50,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "held_out"
 }

@@ -1,7 +1,7 @@
 {
   "id": "IM38_ax_plus_by_family",
   "family": "ideal_membership",
-  "description": "f = 8*(3x+1y) \u2208 \u27e83x+1y\u27e9.",
+  "description": "f = 8*(3x+1y) ∈ ⟨3x+1y⟩.",
   "claimClass": "membership",
   "variables": [
     "x",
@@ -64,5 +64,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "scale"
 }

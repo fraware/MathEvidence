@@ -1,7 +1,7 @@
 {
   "id": "IM51_false_membership_xfail",
   "family": "ideal_membership",
-  "description": "f = x \u2209 \u27e8x^2, y^2\u27e9; false membership xfail.",
+  "description": "f = x ∉ ⟨x^2, y^2⟩; false membership xfail.",
   "claimClass": "membership",
   "variables": [
     "x",
@@ -49,6 +49,7 @@
   "expectedStatus": "xfail",
   "xfailReason": "false membership; no witness expected",
   "baselineNotes": [
-    "Target overridden to x^5; with gens \u27e8x^2,y^2\u27e9 this is false membership."
-  ]
+    "Target overridden to x^5; with gens ⟨x^2,y^2⟩ this is false membership."
+  ],
+  "stratum": "adversarial"
 }

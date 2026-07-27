@@ -1,7 +1,7 @@
 {
   "id": "IM21_xy_plus_xz",
   "family": "ideal_membership",
-  "description": "f = xy + xz \u2208 \u27e8y+z, x\u27e9 with multipliers (x, 0).",
+  "description": "f = xy + xz ∈ ⟨y+z, x⟩ with multipliers (x, 0).",
   "claimClass": "membership",
   "variables": [
     "x",
@@ -87,5 +87,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "unit"
 }

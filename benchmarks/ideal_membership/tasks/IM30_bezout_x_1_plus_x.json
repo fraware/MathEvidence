@@ -1,7 +1,7 @@
 {
   "id": "IM30_bezout_x_1_plus_x",
   "family": "ideal_membership",
-  "description": "f = 1 \u2208 \u27e8x, 1+x\u27e9 with multipliers (-1, 1).",
+  "description": "f = 1 ∈ ⟨x, 1+x⟩ with multipliers (-1, 1).",
   "claimClass": "membership",
   "variables": [
     "x"
@@ -74,5 +74,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "unit"
 }

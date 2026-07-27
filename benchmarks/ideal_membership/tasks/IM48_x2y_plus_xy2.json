@@ -1,7 +1,7 @@
 {
   "id": "IM48_x2y_plus_xy2",
   "family": "ideal_membership",
-  "description": "f = x^2 y + x y^2 \u2208 \u27e8x+y\u27e9 with q = xy.",
+  "description": "f = x^2 y + x y^2 ∈ ⟨x+y⟩ with q = xy.",
   "claimClass": "membership",
   "variables": [
     "x",
@@ -64,5 +64,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "held_out"
 }

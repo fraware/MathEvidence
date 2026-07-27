@@ -1,7 +1,7 @@
 {
   "id": "IM24_three_gen_linear",
   "family": "ideal_membership",
-  "description": "f = 2x + 3y - z \u2208 \u27e8x,y,z\u27e9 with constant multipliers.",
+  "description": "f = 2x + 3y - z ∈ ⟨x,y,z⟩ with constant multipliers.",
   "claimClass": "membership",
   "variables": [
     "x",
@@ -122,5 +122,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "unit"
 }

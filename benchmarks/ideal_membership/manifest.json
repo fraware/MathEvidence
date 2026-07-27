@@ -59,15 +59,16 @@
     "tasks/IM55_triple_product_span.json"
   ],
   "baselines": [
-    "native_lean_search",
-    "external_groebner",
-    "mathematica_manual",
-    "mathevidence_backends"
+    "lean_reference_search",
+    "sympy",
+    "sage",
+    "mathematica",
+    "ring_native_where_applicable"
   ],
   "taskCount": 55,
   "passTasks": 53,
   "skipTasks": 1,
   "xfailTasks": 1,
-  "valueGate": "ADVANCED: 55 tasks (53 pass with expected witnesses, 1 honest skip, 1 false-membership xfail). Numeric >=50 gate met; live dual-backend + Mathlib Ideal.span bridge still open.",
-  "honestyNote": "Task set size 55 meets the numeric >=50 gate. Lean checkMembership is authoritative for f = sum_i q_i * g_i. Skip/xfail rows are honest for unsupported degree and false membership."
+  "valueGate": "Wave3: score backend-proposed witnesses (not expectedMultipliers). Stratified unit/adversarial/scale/held_out via task.stratum; byStratum reported in runner output.",
+  "honestyNote": "ME-RV-035/P0-F: candidate tier = propose ∧ decode ∧ checkMembership(proposed) and MUST NOT claim soundness_verified. release tier = candidate gates + OfflineFixtures kernel_replay Certification Record (fixture-backed subset). expectedMultipliers is oracle-only. In-repo held_out stratum is synthetic; ME-RV-081 external library-derived held-out remains BLOCKED(human)."
 }
