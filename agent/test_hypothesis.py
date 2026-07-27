@@ -7,6 +7,10 @@ from pathlib import Path
 import pytest
 
 from adapters.common.bundle import write_candidate_bundle, write_certification_record
+from adapters.common.theorem_identity import (
+    default_rational_environment_lock,
+    environment_lock_digest,
+)
 from adapters.common.canonical import bind_request_digest, sha256_digest
 from adapters.common.hypothesis_util import find_counterexample, propose_conditions_from_request
 from adapters.common.lean_mirrors import check_finite_counterexample, check_linear_algebra
@@ -83,6 +87,7 @@ def _write_verified_cert(tmp_path: Path, request: dict) -> Path:
         certificate=_minimal_certificate(request["requestDigest"]),
     )
     d = sha256_digest({"k": "wave6"})
+    env_lock = environment_lock_digest(default_rational_environment_lock())
     cert_path = next(
         e["digest"] for e in cand_manifest["files"] if e["path"] == "certificate.cjson"
     )
@@ -96,7 +101,7 @@ def _write_verified_cert(tmp_path: Path, request: dict) -> Path:
         "theoremTypeDigest": d,
         "proofDeclarationDigest": d,
         "axiomReportDigest": d,
-        "environmentLockDigest": d,
+        "environmentLockDigest": env_lock,
         "capability": {"id": "algebra.rational_equality", "version": "0.1.0"},
         "checker": {
             "package": "MathEvidence.Checkers.RationalEquality",
@@ -137,7 +142,7 @@ def _write_verified_cert(tmp_path: Path, request: dict) -> Path:
             "schemaVersion": "0.3.0",
             "theoremTypeDigest": d,
             "proofDeclarationDigest": d,
-            "environmentLockDigest": d,
+            "environmentLockDigest": env_lock,
         },
         axiom_report={
             "schemaVersion": "0.3.0",

@@ -7,6 +7,10 @@ from pathlib import Path
 import pytest
 
 from adapters.common.bundle import write_candidate_bundle, write_certification_record
+from adapters.common.theorem_identity import (
+    default_rational_environment_lock,
+    environment_lock_digest,
+)
 from adapters.common.canonical import bind_request_digest, sha256_digest
 from adapters.common.schema_validate import SchemaStore
 from agent.trace_to_plan import (
@@ -64,6 +68,7 @@ def _write_verified_cert(tmp_path: Path) -> Path:
         certificate=_minimal_certificate(request["requestDigest"]),
     )
     d = _digest()
+    env_lock = environment_lock_digest(default_rational_environment_lock())
     cert_path = next(
         e["digest"] for e in cand_manifest["files"] if e["path"] == "certificate.cjson"
     )
@@ -77,7 +82,7 @@ def _write_verified_cert(tmp_path: Path) -> Path:
         "theoremTypeDigest": d,
         "proofDeclarationDigest": d,
         "axiomReportDigest": d,
-        "environmentLockDigest": d,
+        "environmentLockDigest": env_lock,
         "capability": {"id": "algebra.rational_equality", "version": "0.1.0"},
         "checker": {
             "package": "MathEvidence.Checkers.RationalEquality",
@@ -118,7 +123,7 @@ def _write_verified_cert(tmp_path: Path) -> Path:
             "schemaVersion": "0.3.0",
             "theoremTypeDigest": d,
             "proofDeclarationDigest": d,
-            "environmentLockDigest": d,
+            "environmentLockDigest": env_lock,
         },
         axiom_report={
             "schemaVersion": "0.3.0",
@@ -246,6 +251,7 @@ def test_direct_step_without_theorem_digest_cannot_advance() -> None:
 
 def test_direct_step_with_full_evidence_advances() -> None:
     d = _digest()
+    env_lock = environment_lock_digest(default_rational_environment_lock())
     recon = {
         "method": "existing_declaration",
         "resultStatus": "kernel_certified",
