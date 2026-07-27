@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "0.1.0",
+  "recordKind": "ci_truth_wave7_scaffold",
+  "issues": ["ME-RV-070", "ME-RV-071", "ME-RV-072", "ME-RV-073", "ME-RV-074"],
+  "recordedAt": "2026-07-26T15:00:00Z",
+  "supersededBy": "docs/validation/ci/2026-07-26_closure_ci_truth.json",
+  "repository": "fraware/MathEvidence",
+  "branch": "main",
+  "notes": [
+    "HISTORICAL Wave 7 scaffold snapshot. Superseded by 2026-07-26_closure_ci_truth.json.",
+    "At scaffold time: uv.lock missing, branch protection absent, elan from master, teams absent."
+  ],
+  "branchProtection": {
+    "endpoint": "GET /repos/fraware/MathEvidence/branches/main/protection",
+    "httpStatus": 404,
+    "message": "Branch not protected (historical)"
+  },
+  "frozenDeps": {
+    "uvLockCommitted": false,
+    "ciUsesFrozenWhenPresent": true,
+    "optionalLockLanguageRemoved": true
+  }
+}

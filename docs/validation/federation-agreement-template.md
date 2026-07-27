@@ -4,6 +4,10 @@ Use this template before updating
 `docs/architecture/federation-agreements.md`. Do not fill the ledger from
 assumptions, fixture runs, or inferred maintainer interest.
 
+**Live peer acceptance (ME-RV-082/083):** complete
+[`federation-live-checklist.md`](federation-live-checklist.md) in addition to
+this agreement record. Peers remain `fixture_only` until that checklist is true.
+
 ## Agreement Record
 
 | Field | Value |

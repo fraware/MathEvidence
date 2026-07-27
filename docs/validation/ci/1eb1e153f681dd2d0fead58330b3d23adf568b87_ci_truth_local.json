@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "0.1.0",
+  "recordKind": "ci_truth_post_commit_local",
+  "issues": ["ME-RV-070", "P0-G"],
+  "recordedAt": "2026-07-27T08:54:12Z",
+  "repository": "fraware/MathEvidence",
+  "branch": "main",
+  "localCommit": {
+    "sha": "1eb1e153f681dd2d0fead58330b3d23adf568b87",
+    "shortSha": "1eb1e15",
+    "subject": "Lock real-vision closure and frozen uv deps into history.",
+    "uvLockCommitted": true,
+    "pushed": false
+  },
+  "status": "awaiting push + Actions green on protected main",
+  "notes": [
+    "Local closure commit 1eb1e153f681dd2d0fead58330b3d23adf568b87 locks the real-vision tree and uv.lock into git history (ME-RV-070 lock-in-history MET locally).",
+    "P0-G remains PARTIAL until this SHA is pushed and required GitHub Actions checks are green on protected main.",
+    "Do not claim attested CI from this stub alone. After push, capture Actions run IDs into docs/validation/ci/<sha>_ci_truth.json (see POST_PUSH_CI_ATTESTATION_TEMPLATE.json)."
+  ],
+  "localVerification": {
+    "lakeBuild": {
+      "targets": [
+        "MathEvidence.Checkers.RationalEquality.Bridge",
+        "MathEvidence.Checkers.IdealMembership.OfflineFixtures",
+        "MathEvidence.Checkers.LinearAlgebra.BridgeDet"
+      ],
+      "result": "success"
+    },
+    "pytestForensic": {
+      "path": "tests/forensic",
+      "result": "83 passed"
+    },
+    "smokeIdealMembership": {
+      "script": "scripts/smoke_ideal_membership.py",
+      "result": "ok"
+    },
+    "smokeExe": {
+      "script": "scripts/smoke_exe.py",
+      "result": "ok (positive/negative/kernel-replay self-tests)"
+    },
+    "justCheck": "not run (too heavy for A6 focused gate)"
+  },
+  "nextSteps": [
+    "Push 1eb1e153f681dd2d0fead58330b3d23adf568b87 when maintainer requests",
+    "Confirm required checks green on protected main",
+    "Write attested docs/validation/ci/1eb1e153f681dd2d0fead58330b3d23adf568b87_ci_truth.json with Actions run IDs"
+  ]
+}

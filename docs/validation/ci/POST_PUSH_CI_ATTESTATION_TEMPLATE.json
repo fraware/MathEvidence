@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "0.1.0",
+  "recordKind": "ci_truth_post_push_attestation",
+  "issues": ["P0-G", "ME-RV-073"],
+  "status": "AWAITING_PUSH",
+  "recordedAt": null,
+  "repository": "fraware/MathEvidence",
+  "branch": "main",
+  "localCommit": {
+    "sha": "1eb1e153f681dd2d0fead58330b3d23adf568b87",
+    "tipSha": "c1c3303f440049ec369f984f2686b1c2dad1afd5",
+    "note": "Closure lock commit 1eb1e15 (+ CI truth stub tip c1c3303). Do not invent Actions run IDs before push."
+  },
+  "notes": [
+    "Template prepared by Tier B (close-remaining-gaps). ME-RV-070 lock-in-history MET locally at 1eb1e15. Full Actions capture awaits push to origin.",
+    "P0-G remains PARTIAL until this file is filled with real run IDs and required checks are green on protected main.",
+    "Do not treat local just check as stable-promotion evidence."
+  ],
+  "requiredChecks": {
+    "source": "docs/validation/ci/branch_protection_recommended.json",
+    "contexts": [
+      "lean / lean",
+      "offline-replay / offline-replay",
+      "adapter-conformance / sympy-conformance",
+      "adversarial / adversarial-seed",
+      "security / security",
+      "supply-chain / gitleaks"
+    ],
+    "obligationsCoveredByRequiredContexts": {
+      "lean_build": {
+        "context": "lean / lean",
+        "workflowStep": "Lake build (verify-bundle + kernel-replay + audit drivers)"
+      },
+      "kernel_replay_self_tests": {
+        "context": "lean / lean",
+        "workflowSteps": [
+          "Kernel-replay self-test (Linux link attestation)",
+          "Kernel-replay analytic self-test"
+        ]
+      },
+      "forensic": {
+        "context": "lean / lean",
+        "workflowStep": "Forensic trust suite (pytest tests/forensic)"
+      },
+      "environment_audits": {
+        "context": "lean / lean",
+        "workflowStep": "Environment import/axiom audits (Lean.Environment)"
+      },
+      "frozen_uv_sync": {
+        "contexts": [
+          "lean / lean",
+          "offline-replay / offline-replay",
+          "adapter-conformance / sympy-conformance",
+          "adversarial / adversarial-seed",
+          "security / security"
+        ],
+        "workflowStep": "uv sync --frozen (requires committed uv.lock)"
+      }
+    }
+  },
+  "postPushCapture": {
+    "instructions": [
+      "1. After push: gh run list --branch main --commit <sha> --limit 20",
+      "2. For each required context, record conclusion + databaseId into actionRuns below",
+      "3. Confirm branch protection still lists the required contexts",
+      "4. Copy this file to docs/validation/ci/<sha7>_ci_truth.json and set status to CAPTURED",
+      "5. Update recordedAt to ISO-8601 UTC"
+    ],
+    "commands": {
+      "listRuns": "gh run list --repo fraware/MathEvidence --branch main --commit REPLACE_SHA --limit 20",
+      "protection": "gh api repos/fraware/MathEvidence/branches/main/protection --jq '.required_status_checks'",
+      "runView": "gh run view <run_id> --repo fraware/MathEvidence --json conclusion,name,databaseId,url,headSha"
+    }
+  },
+  "actionRuns": {
+    "lean": { "databaseId": null, "conclusion": null, "url": null },
+    "offline-replay": { "databaseId": null, "conclusion": null, "url": null },
+    "adapter-conformance": { "databaseId": null, "conclusion": null, "url": null },
+    "adversarial": { "databaseId": null, "conclusion": null, "url": null },
+    "security": { "databaseId": null, "conclusion": null, "url": null },
+    "supply-chain": { "databaseId": null, "conclusion": null, "url": null }
+  },
+  "branchProtection": {
+    "endpoint": "GET /repos/fraware/MathEvidence/branches/main/protection",
+    "httpStatus": null,
+    "message": "Re-fetch after push; prior closure snapshot in 2026-07-26_closure_ci_truth.json"
+  }
+}
