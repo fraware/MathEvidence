@@ -53,11 +53,16 @@ def test_invariants_cover_five_plus() -> None:
 def test_calibrated_batch_falsifies_with_mirror() -> None:
     batch = run_falsification_batch(n=3)
     assert batch["generatorVersion"] == GENERATOR_VERSION
-    assert batch["precisionAccounting"]["falsified"] >= 1
+    # Mirror acceptance is preview-only; falsified requires Certification Record.
+    assert batch["precisionAccounting"]["mirrorAcceptedPreview"] >= 1
+    assert batch["precisionAccounting"]["falsified"] == 0
+    assert "refutationRate" in batch["precisionAccounting"]
     assert batch["counterexamples"], "expected at least one certified refutation"
     for cex in batch["counterexamples"]:
         assert check_finite_counterexample(cex["request"], cex["certificate"])
         assert cex["mirrorAccepted"] is True
+        assert cex["refutationPreview"] == "mirror_accepted"
+        assert cex["episodeState"] == "candidate_statement"
 
 
 def test_empty_graph_falsifies_has_edge_like_lean() -> None:
@@ -65,7 +70,8 @@ def test_empty_graph_falsifies_has_edge_like_lean() -> None:
     cands = [c for c in calibrated_candidates(3) if c["id"] == "fin3_has_edge"]
     assert len(cands) == 1
     batch = run_falsification_batch(n=3, candidates=cands)
-    assert batch["precisionAccounting"]["falsified"] == 1
+    assert batch["precisionAccounting"]["mirrorAcceptedPreview"] == 1
+    assert batch["precisionAccounting"]["falsified"] == 0
     cex = batch["counterexamples"][0]
     witness = cex["certificate"]["witness"]["assignment"]
     assert witness == [
@@ -79,11 +85,13 @@ def test_expanded_variants_are_falsifiable() -> None:
     variants = expand_falsification_variants(3, limit=16)
     assert len(variants) == 7  # Fin-3 has 2^3-1 nonempty edge subsets
     batch = run_falsification_batch(n=3, candidates=variants)
-    assert batch["precisionAccounting"]["falsified"] == 7
+    assert batch["precisionAccounting"]["mirrorAcceptedPreview"] == 7
+    assert batch["precisionAccounting"]["falsified"] == 0
     big = expand_falsification_variants(5, limit=32)
     assert len(big) == 32
     batch5 = run_falsification_batch(n=5, candidates=big[:8])
-    assert batch5["precisionAccounting"]["falsified"] == 8
+    assert batch5["precisionAccounting"]["mirrorAcceptedPreview"] == 8
+    assert batch5["precisionAccounting"]["falsified"] == 0
 
 
 def test_family_request_digest_bound() -> None:

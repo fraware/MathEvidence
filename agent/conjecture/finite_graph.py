@@ -399,7 +399,36 @@ def run_falsification_batch(
         ep = to_candidate(new_episode(family_id=f"{FAMILY_ID}_fin{n}", pred=pred))
         expected = cand.get("expected")
         if expected == "formally_proved":
-            ep = mark_formally_proved(ep, str(cand.get("theoremRef") or "unspecified"))
+            # Bare theoremRef strings cannot set formally_proved (ME-RV-061).
+            if cand.get("certificationRecordDir") or cand.get("sourceProofRecord"):
+                try:
+                    ep = mark_formally_proved(
+                        ep,
+                        theorem_declaration=str(
+                            cand.get("theoremDeclaration")
+                            or cand.get("theoremRef")
+                            or ""
+                        ),
+                        theorem_type_digest=str(cand.get("theoremTypeDigest") or ""),
+                        environment_lock_digest=str(
+                            cand.get("environmentLockDigest") or ""
+                        ),
+                        conjecture_type_digest=cand.get("conjectureTypeDigest"),
+                        certification_record_dir=cand.get("certificationRecordDir"),
+                        candidate_dir=cand.get("candidateDir"),
+                        source_proof_record=cand.get("sourceProofRecord"),
+                        axiom_policy_ok=bool(cand.get("axiomPolicyOk")),
+                    )
+                except (TypeError, ValueError) as exc:
+                    ep = mark_open_problem(
+                        ep, f"formally_proved refused without certification: {exc}"
+                    )
+            else:
+                ep = mark_open_problem(
+                    ep,
+                    "formally_proved requires Certification Record or validated "
+                    f"source proof (theoremRef={cand.get('theoremRef')!r} insufficient).",
+                )
         elif expected == "bounded_verified":
             ep = mark_open_problem(
                 mark_bounded_verified(ep, int(cand.get("searchBound") or 0)),
@@ -409,11 +438,14 @@ def run_falsification_batch(
             cert = find_counterexample(req)
             if cert is not None:
                 ok = check_finite_counterexample(req, cert)
+                # Mirror path only — falsified requires Certification Record.
                 ep = certify_refutation(
                     ep,
                     request=req,
                     certificate=cert,
                     refutation_id=str(cand.get("id") or "cex"),
+                    certification_record_dir=cand.get("certificationRecordDir"),
+                    candidate_dir=cand.get("candidateDir"),
                 )
                 counterexamples.append(
                     {
@@ -421,7 +453,10 @@ def run_falsification_batch(
                         "request": req,
                         "certificate": cert,
                         "mirrorAccepted": ok,
-                        "authorityStatus": "lean_checker_mirror",
+                        "authorityStatus": "python_checker_mirror",
+                        "episodeState": ep.get("state"),
+                        "refutationPreview": ep.get("refutationPreview"),
+                        "witnessStatus": ep.get("witnessStatus"),
                     }
                 )
             else:
@@ -444,7 +479,7 @@ def run_falsification_batch(
         "episodes": episodes,
         "counterexamples": counterexamples,
         "precisionAccounting": accounting,
-        "authorityStatus": "lean_checker_mirror",
+        "authorityStatus": "mirror_accepted",
     }
 
 

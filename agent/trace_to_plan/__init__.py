@@ -3,17 +3,23 @@
 Converts untrusted computational traces / hints into a proof-plan DAG.
 Only reconstructible step kinds may advance formal proof status.
 ``reconstructible_computation`` advances only when reconstruction carries a
-verified checker receipt gate (see ``reconstruct_from_receipt``).
+verified Certification Record gate (see ``reconstruct_from_receipt``).
+``direct_proof_step`` advances only with theorem digest / env / axiom evidence.
 """
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
+
+from agent.epistemic_states import PRODUCT_STATES
 
 __all__ = [
     "ADVANCEABLE_KINDS",
     "STEP_KINDS",
+    "check_plan_soundness",
     "classify_trace_item",
+    "direct_proof_evidence_ok",
     "hints_never_advance",
     "plan_from_traces",
     "reconstruct_from_receipt",
@@ -30,6 +36,17 @@ STEP_KINDS = (
 )
 
 ADVANCEABLE_KINDS = frozenset({"direct_proof_step", "reconstructible_computation"})
+
+# Plan-local statuses plus shared product states.
+PLAN_STATUSES = frozenset(
+    {
+        *PRODUCT_STATES,
+        "checkable",
+        "blocked",
+        # Legacy alias retained in schema for transitional fixtures.
+        "proved",
+    }
+)
 
 _RAW_KIND_MAP: dict[str, str] = {
     "proof_step": "direct_proof_step",
@@ -66,35 +83,67 @@ def classify_trace_item(item: dict[str, Any]) -> str:
 
 
 def reconstruction_has_verified_receipt(recon: dict[str, Any] | None) -> bool:
-    """True when reconstruction was gated by a verified checker receipt."""
+    """True when reconstruction was gated by a verified Certification Record."""
     if not isinstance(recon, dict):
         return False
-    gate = recon.get("receiptGate")
+    gate = recon.get("certificationGate") or recon.get("receiptGate")
     if not isinstance(gate, dict):
         return False
-    return bool(gate.get("ok")) and bool(gate.get("allowCertified"))
+    if not gate.get("ok"):
+        return False
+    # Studio structural allowCertified is never sufficient (ME-RV-024/062).
+    return bool(
+        gate.get("certificationVerified")
+        or gate.get("verified")
+        or gate.get("authoritative")
+    )
+
+
+def direct_proof_evidence_ok(recon: dict[str, Any] | None) -> bool:
+    """``direct_proof_step`` may advance only with theorem/env/axiom evidence."""
+    if not isinstance(recon, dict):
+        return False
+    th_decl = recon.get("theoremDeclaration")
+    th_digest = recon.get("theoremTypeDigest")
+    env = recon.get("environmentLockDigest")
+    if not isinstance(th_decl, str) or not th_decl.strip():
+        return False
+    if not isinstance(th_digest, str) or not th_digest.startswith("sha256:"):
+        return False
+    if not isinstance(env, str) or not env.startswith("sha256:"):
+        return False
+    axiom = recon.get("axiomReport") or recon.get("axiomReportDigest")
+    provenance = recon.get("proofProvenance") or recon.get("importedProofProvenance")
+    if axiom:
+        return True
+    if isinstance(provenance, dict) and provenance.get("validated") is True:
+        return True
+    if isinstance(provenance, str) and provenance.strip():
+        return True
+    return False
 
 
 def _verified_status(recon: dict[str, Any]) -> bool:
-    return str(recon.get("resultStatus", "")).endswith("verified") or recon.get(
-        "resultStatus"
-    ) in {"proved", "soundness_verified", "witness_verified"}
+    if reconstruction_has_verified_receipt(recon):
+        return True
+    return str(recon.get("resultStatus", "")) in {
+        "kernel_certified",
+        "soundness_verified",
+        "witness_verified",
+    }
 
 
 def _advances(kind: str, status: str, *, recon: dict[str, Any] | None = None) -> bool:
-    """Only reconstructible categories with verified status advance proof status.
-
-    ``reconstructible_computation`` additionally requires a receipt gate from
-    ``reconstruct_from_receipt`` (or equivalent ``receiptGate`` payload).
-    ``direct_proof_step`` may advance on proved|checkable without a receipt.
-    """
+    """Only reconstructible categories with verified evidence advance proof status."""
     if kind not in ADVANCEABLE_KINDS:
         return False
-    if status not in {"proved", "checkable"}:
+    if status not in {"kernel_certified", "proved", "checkable"}:
         return False
     if kind == "reconstructible_computation":
         return reconstruction_has_verified_receipt(recon)
-    return True
+    if kind == "direct_proof_step":
+        return direct_proof_evidence_ok(recon)
+    return False
 
 
 def plan_from_traces(
@@ -105,10 +154,11 @@ def plan_from_traces(
 ) -> dict[str, Any]:
     """Build a proof-plan DAG from untrusted traces.
 
-    ``reconstructions`` maps trace ids to optional reconstruction records
-    ``{method, resultStatus, bundleRef, receiptGate?}``. Hints without
-    reconstruction stay ``proposed`` and never set ``advancesProofStatus``.
-    Reconstructible nodes advance only when ``receiptGate.allowCertified``.
+    ``reconstructions`` maps trace ids to optional reconstruction records.
+    Hints without reconstruction stay ``proposed`` and never set
+    ``advancesProofStatus``. Reconstructible nodes advance only when a
+    Certification Record gate is verified. Direct steps need theorem digest
+    evidence.
     """
     reconstructions = reconstructions or {}
     nodes: list[dict[str, Any]] = []
@@ -144,14 +194,19 @@ def plan_from_traces(
         recon = reconstructions.get(tid)
         if kind in ADVANCEABLE_KINDS and recon is not None:
             status = "checkable"
-            if _verified_status(recon):
-                status = "proved"
-            # Reconstructible without receipt stays proposed for advance purposes
-            # but may still record checkable/proved method status for audits.
-            if kind == "reconstructible_computation" and not reconstruction_has_verified_receipt(
-                recon
-            ):
-                # Keep status for diagnostics; do not treat as advance-ready.
+            if kind == "reconstructible_computation":
+                if reconstruction_has_verified_receipt(recon):
+                    status = "kernel_certified"
+                else:
+                    unresolved.append(tid)
+            elif kind == "direct_proof_step":
+                if direct_proof_evidence_ok(recon):
+                    status = "kernel_certified"
+                else:
+                    unresolved.append(tid)
+            elif _verified_status(recon):
+                # Non-authoritative verified strings stay checkable only.
+                status = "checkable"
                 unresolved.append(tid)
         elif kind in ADVANCEABLE_KINDS:
             status = "proposed"
@@ -200,41 +255,68 @@ def plan_from_traces(
         "notes": [
             "Traces are untrusted until reconstructed.",
             "search_hint and diagnostic_metadata never advance proof status.",
-            "Only direct_proof_step with proved|checkable, or reconstructible_computation "
-            "with a verified checker receipt, may advance proof status.",
+            "Only direct_proof_step with theorem/env/axiom evidence, or "
+            "reconstructible_computation with a verified Certification Record, "
+            "may advance proof status.",
         ],
     }
     validate_plan_invariants(plan)
+    check_plan_soundness(plan)
     return plan
 
 
 def reconstruct_from_receipt(
     *,
     trace_id: str,
-    receipt: dict[str, Any],
-    method: str = "CheckerReceipt.verify",
+    certification_record_dir: Path | str | None = None,
+    candidate_dir: Path | str | None = None,
+    receipt: dict[str, Any] | None = None,
+    method: str = "verify_certification_record",
 ) -> dict[str, Any] | None:
-    """Build a typed reconstruction record from a Studio/Agent checker receipt.
+    """Build a typed reconstruction from an authoritative Certification Record.
 
-    Returns None when the receipt does not structurally allow certified status.
-    Never invents proved status from manifest fields alone.
+    Studio's structural receipt checker cannot authorize proof advancement
+    (ME-RV-062). A bare ``receipt`` dict is diagnostic only and returns None
+    for advancement purposes. Pass ``certification_record_dir`` to invoke
+    ``verify_certification_record``.
     """
-    from studio.epistemic_contract import verify_checker_receipt
-
-    gate = verify_checker_receipt(receipt)
-    if not gate.get("ok"):
+    del receipt  # Structural receipts never authorize advancement.
+    if certification_record_dir is None:
         return None
-    status = "checkable"
-    if gate.get("allowCertified"):
-        status = "proved"
+
+    from agent.api.receipt import verify_certification_record
+
+    record_path = Path(certification_record_dir)
+    cand_path = Path(candidate_dir) if candidate_dir is not None else None
+    try:
+        verification = verify_certification_record(record_path, candidate_dir=cand_path)
+    except Exception:  # noqa: BLE001 — incomplete records never authorize
+        return None
+    if not verification.verified:
+        return None
+
+    gate = {
+        "ok": True,
+        "certificationVerified": True,
+        "verified": True,
+        "authoritative": True,
+        "allowCertified": True,
+        "detail": "verified Certification Record",
+        "certificationRecordDigest": verification.certification_record_digest,
+        "assuranceMode": verification.assurance_mode,
+        "resultStatus": verification.result_status,
+    }
     return {
         "method": method,
-        "resultStatus": (
-            "soundness_verified" if status == "proved" else "checkable"
-        ),
-        "bundleRef": receipt.get("bundleDigest") or receipt.get("bundleId"),
-        "requestDigest": receipt.get("requestDigest"),
+        "resultStatus": "kernel_certified",
+        "bundleRef": verification.candidate_bundle_digest,
+        "requestDigest": verification.request_digest,
         "traceId": trace_id,
+        "theoremTypeDigest": verification.theorem_type_digest,
+        "proofDeclarationDigest": verification.proof_declaration_digest,
+        "environmentLockDigest": verification.environment_lock_digest,
+        "axiomReportDigest": verification.axiom_report_digest,
+        "certificationGate": gate,
         "receiptGate": gate,
     }
 
@@ -248,6 +330,66 @@ def hints_never_advance(plan: dict[str, Any]) -> bool:
     return True
 
 
+def check_plan_soundness(plan: dict[str, Any]) -> None:
+    """Final plan soundness check (ME-RV-062 DAG semantics)."""
+    nodes = {n["id"]: n for n in plan.get("nodes", [])}
+    depends: dict[str, list[str]] = {nid: [] for nid in nodes}
+    for edge in plan.get("edges", []):
+        kind = edge.get("kind") or "depends_on"
+        # Suggestion edges never imply proof dependency.
+        if kind == "suggests":
+            continue
+        if kind in ("depends_on", "reconstructs"):
+            depends[edge["to"]].append(edge["from"])
+
+    for node in nodes.values():
+        status = node.get("status")
+        advances = bool(node.get("advancesProofStatus"))
+        if status in {"kernel_certified", "proved"} or advances:
+            kind = node.get("stepKind")
+            recon = node.get("reconstruction")
+            if kind == "reconstructible_computation":
+                if not reconstruction_has_verified_receipt(recon):
+                    raise ValueError(
+                        f"node {node['id']}: proved reconstructible lacks "
+                        "verified Certification Record evidence"
+                    )
+            elif kind == "direct_proof_step":
+                if not direct_proof_evidence_ok(recon):
+                    raise ValueError(
+                        f"node {node['id']}: direct_proof_step lacks theorem "
+                        "digest/env/axiom evidence"
+                    )
+            elif kind == "lemma_candidate" and node["id"] == "target":
+                # Target proved only when all required incoming deps are proved
+                # and a reconstruction theorem exists.
+                incoming = depends.get(node["id"], [])
+                required = [
+                    nodes[src]
+                    for src in incoming
+                    if nodes[src].get("advancesProofStatus")
+                    or nodes[src].get("stepKind") in ADVANCEABLE_KINDS
+                ]
+                if status in {"kernel_certified", "proved"}:
+                    if not required:
+                        raise ValueError(
+                            "target proved without proved incoming dependencies"
+                        )
+                    for dep in required:
+                        if dep.get("status") not in {"kernel_certified", "proved"}:
+                            raise ValueError(
+                                f"target depends on unproved node {dep['id']}"
+                            )
+                    if not any(
+                        reconstruction_has_verified_receipt(d.get("reconstruction"))
+                        or direct_proof_evidence_ok(d.get("reconstruction"))
+                        for d in required
+                    ):
+                        raise ValueError(
+                            "target proved without reconstruction theorem evidence"
+                        )
+
+
 def validate_plan_invariants(plan: dict[str, Any]) -> None:
     """Raise ValueError if plan violates Product 05 status rules or has cycles."""
     if not hints_never_advance(plan):
@@ -258,10 +400,12 @@ def validate_plan_invariants(plan: dict[str, Any]) -> None:
         if edge["from"] not in nodes or edge["to"] not in nodes:
             raise ValueError(f"edge references missing node: {edge}")
 
-    # Cycle detection (Kahn)
+    # Cycle detection (Kahn) over depends_on / reconstructs only.
     indeg: dict[str, int] = {nid: 0 for nid in nodes}
     adj: dict[str, list[str]] = {nid: [] for nid in nodes}
     for edge in plan.get("edges", []):
+        if edge.get("kind") == "suggests":
+            continue
         adj[edge["from"]].append(edge["to"])
         indeg[edge["to"]] += 1
     queue = [nid for nid, d in indeg.items() if d == 0]
@@ -280,13 +424,24 @@ def validate_plan_invariants(plan: dict[str, Any]) -> None:
         kind = node["stepKind"]
         advances = bool(node.get("advancesProofStatus"))
         status = node.get("status")
+        if status not in PLAN_STATUSES:
+            raise ValueError(f"node {node['id']}: unsupported status {status!r}")
         if advances and kind not in ADVANCEABLE_KINDS:
             raise ValueError(f"node {node['id']}: non-reconstructible cannot advance")
-        if advances and status not in {"proved", "checkable"}:
-            raise ValueError(f"node {node['id']}: advances requires proved|checkable")
+        if advances and status not in {"kernel_certified", "proved", "checkable"}:
+            raise ValueError(
+                f"node {node['id']}: advances requires kernel_certified|proved|checkable"
+            )
         if advances and kind == "reconstructible_computation":
             if not reconstruction_has_verified_receipt(node.get("reconstruction")):
                 raise ValueError(
                     f"node {node['id']}: reconstructible_computation advances only with "
-                    "verified receiptGate"
+                    "verified Certification Record gate"
                 )
+        if advances and kind == "direct_proof_step":
+            if not direct_proof_evidence_ok(node.get("reconstruction")):
+                raise ValueError(
+                    f"node {node['id']}: direct_proof_step advances only with "
+                    "theorem digest/env/axiom evidence"
+                )
+

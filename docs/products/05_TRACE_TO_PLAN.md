@@ -18,7 +18,12 @@ Every trace item is classified as one of:
 - `search_hint` — substitution, decomposition, ordering, or strategy suggestion;
 - `diagnostic_metadata` — performance or backend-internal information.
 
-Only the first two categories can automatically advance formal proof status.
+Only the first two categories can automatically advance formal proof status, and only with:
+
+- verified Certification Record evidence (`reconstruct_from_receipt`), or
+- `direct_proof_step` theorem declaration + type digest + environment lock + axiom/provenance evidence.
+
+A status string or Studio structural receipt alone is insufficient.
 
 ## 4. Proof-plan DAG
 
@@ -32,7 +37,7 @@ The output is a directed acyclic graph containing:
 - confidence and status;
 - and unresolved nodes.
 
-Each node is either proved, checkable, proposed, rejected, or blocked.
+Each node is either `kernel_certified`, `checkable`, `proposed`, `rejected`, `blocked`, or a shared product preview state (`mirror_accepted`, etc.). Only `kernel_certified` carries a theorem claim.
 
 ## 5. Inputs
 

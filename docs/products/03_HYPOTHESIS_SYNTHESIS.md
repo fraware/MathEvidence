@@ -16,8 +16,9 @@ It records:
 
 - original assumptions;
 - backend-proposed conditions;
-- sufficient condition sets proved in Lean;
-- redundant conditions proved removable;
+- sufficient condition set previews (`mirror_accepted` via Python checker mirror);
+- `sufficientSetsCertified` only after a verified Certification Record;
+- redundant conditions removable under mirror sufficiency;
 - weakened variants tested;
 - certified counterexamples;
 - unresolved necessity questions;
