@@ -3,8 +3,7 @@
 *.olean
 *.ilean
 *.trace
-# lake-manifest.json is committed when dependencies exist; ignored while empty/local-only
-lake-manifest.json
+# lake-manifest.json is committed (pins Mathlib + transitive Lake deps).
 
 # Python
 __pycache__/
