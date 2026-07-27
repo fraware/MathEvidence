@@ -112,4 +112,4 @@ def test_joint_forgery_hard_fails_in_verify_bundle_offline() -> None:
                 f"(warnings={warnings})"
             )
         msg = str(excinfo.value).lower()
-        assert "digest" in msg or "mismatch" in msg or "forged" in msg or True
+        assert "digest" in msg or "mismatch" in msg or "forged" in msg

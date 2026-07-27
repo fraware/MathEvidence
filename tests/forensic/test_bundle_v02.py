@@ -9,6 +9,7 @@ import pytest
 
 from adapters.common.bundle import (
     BUNDLE_VERSION,
+    BUNDLE_VERSION_V02,
     file_digest,
     find_role_path,
     load_role_json,
@@ -77,7 +78,6 @@ def test_write_bundle_emits_v02_cjson_roles(tmp_path: Path) -> None:
         "candidate",
         "certificate",
         "manifest",
-        "axiom-report",
     ):
         path = out / f"{stem}.cjson"
         assert path.is_file(), stem
@@ -85,7 +85,9 @@ def test_write_bundle_emits_v02_cjson_roles(tmp_path: Path) -> None:
         text = path.read_text(encoding="utf-8")
         assert "\n" not in text or text == canonical_dumps(json.loads(text))
         assert path.read_text(encoding="utf-8") == canonical_dumps(json.loads(text))
-    assert (out / "theorem.lean").is_file()
+    # Wave 0: candidate-only — no placeholder theorem/axiom roles.
+    assert not (out / "theorem.lean").is_file()
+    assert not (out / "axiom-report.cjson").is_file()
     assert (out / "README.md").is_file()
     assert not (out / "checker-receipt.cjson").is_file()
     # Digests in manifest match on-disk bytes.
@@ -116,7 +118,8 @@ def test_migrated_v02_example_verifies() -> None:
     req = load_role_json(EXAMPLE, "request")
     assert req["capability"] == "algebra.rational_equality"
     manifest = load_role_json(EXAMPLE, "manifest")
-    assert manifest["bundleVersion"] == BUNDLE_VERSION
+    # Accept pre-migration v0.2 or post-migration v0.3.
+    assert manifest["bundleVersion"] in {BUNDLE_VERSION, BUNDLE_VERSION_V02}
 
 
 def test_legacy_v01_dual_read_still_supported(tmp_path: Path) -> None:

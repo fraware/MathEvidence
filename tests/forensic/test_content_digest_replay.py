@@ -68,10 +68,14 @@ def test_run_lean_replay_rejects_tampered_bundle() -> None:
 def test_content_addressed_bundle_id_resolves() -> None:
     store = BundleStore.default(ROOT)
     manifest = load_role_json(EXAMPLE, "manifest")
-    digest = manifest["requestDigest"]
+    digest = manifest["bundleDigest"]
     assert digest.startswith("sha256:")
     opaque = store.allocate_content_addressed_bundle_id(digest)
-    dest, bid = store.commit_content_addressed(EXAMPLE, request_digest=digest)
+    dest, bid = store.commit_content_addressed(
+        EXAMPLE,
+        request_digest=manifest["requestDigest"],
+        bundle_digest=digest,
+    )
     assert bid == opaque
     assert dest.is_dir()
     assert find_role_path(dest, "manifest") is not None
@@ -87,6 +91,7 @@ def test_content_addressed_bundle_id_resolves() -> None:
         opened.get("error") is None
     )
     assert opened.get("claimEstablished") is None
+    assert opened["resultStatus"] == "computed"
     if dest.exists():
         shutil.rmtree(dest)
 
