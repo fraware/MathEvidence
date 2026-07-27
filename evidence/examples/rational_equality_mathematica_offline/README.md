@@ -1,4 +1,4 @@
-# Example: Mathematica offline evidence
+# Candidate Bundle (v0.3)
 
-Committed evidence for closed-backend replay without Mathematica installed.
-Live generation is optional; see adapters/mathematica/README.md.
+Untrusted adapter output for `algebra.rational_equality`.
+Status is always `computed`. Verification requires a separate Certification Record from kernel replay.

@@ -1,5 +1,4 @@
-# Ideal membership offline fixture (mathematica)
+# Candidate Bundle (v0.3)
 
-Committed mathematica certificate for the same request as the dual-backend differential.
-Lean/Python checkMembership is authoritative. Live Mathematica/Sage generation is
-blocked on this host (no wolframscript/sage); do not advertise live support.
+Untrusted adapter output for `algebra.ideal_membership_witness`.
+Status is always `computed`. Verification requires a separate Certification Record from kernel replay.

@@ -1,0 +1,1 @@
+{"backend":{"adapterVersion":"0.1.0","backendId":"sympy","backendVersion":"1.14.0","deterministic":true,"generatedAt":"2026-07-16T14:23:43Z"},"checkerVersion":"0.1.0","leanVersion":"4.x-pending","legacySourceDigest":"sha256:baf8aa93f865251b24ec9a80a35e832fb20156deb0dd8d6a4465025389bb859e","legacySourcePath":"evidence/examples/calculus_recurrence_n","libraryRevision":"workspace"}
