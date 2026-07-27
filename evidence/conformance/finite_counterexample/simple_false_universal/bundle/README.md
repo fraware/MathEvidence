@@ -1,3 +1,4 @@
-# Example: finite counterexample
+# Candidate Bundle (v0.3)
 
-Predicate `x = 0` over `nat ≤ 3` falsified by a nonzero witness.
+Untrusted adapter output for `logic.finite_counterexample`.
+Status is always `computed`. Verification requires a separate Certification Record from kernel replay.

@@ -1,3 +1,4 @@
-# Example: 2x2 inverse witness
+# Candidate Bundle (v0.3)
 
-Diagonal matrix inverse over ℚ. SymPy generates; Lean owns accept.
+Untrusted adapter output for `algebra.linear_algebra`.
+Status is always `computed`. Verification requires a separate Certification Record from kernel replay.

@@ -1,3 +1,4 @@
-# Antiderivative candidate
+# Candidate Bundle (v0.3)
 
-`F'=f` for `F=x^2`, `f=2x`. Completeness not claimed.
+Untrusted adapter output for `algebra.formal_rational_calculus`.
+Status is always `computed`. Verification requires a separate Certification Record from kernel replay.
