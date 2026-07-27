@@ -16,18 +16,28 @@ ROOT = Path(__file__).resolve().parents[1]
 SCAN_ROOTS = [
     ROOT / "MathEvidence" / "Core",
     ROOT / "MathEvidence" / "IR",
+    ROOT / "MathEvidence" / "Encoding",
     ROOT / "MathEvidence" / "Checkers",
     ROOT / "MathEvidence" / "Tactic",
     ROOT / "MathEvidence" / "Registry",
     ROOT / "MathEvidence" / "Testing",
+    ROOT / "MathEvidence" / "Hypothesis",
+    ROOT / "MathEvidence" / "Conjecture",
+    ROOT / "MathEvidence" / "TraceToPlan",
+    ROOT / "MathEvidence" / "Assurance",
 ]
 ROOT_FILES = [
     ROOT / "MathEvidence" / "Core.lean",
     ROOT / "MathEvidence" / "IR.lean",
+    ROOT / "MathEvidence" / "Encoding.lean",
     ROOT / "MathEvidence" / "Checkers.lean",
     ROOT / "MathEvidence" / "Tactic.lean",
     ROOT / "MathEvidence" / "Registry.lean",
     ROOT / "MathEvidence" / "Testing.lean",
+    ROOT / "MathEvidence" / "Hypothesis.lean",
+    ROOT / "MathEvidence" / "Conjecture.lean",
+    ROOT / "MathEvidence" / "TraceToPlan.lean",
+    ROOT / "MathEvidence" / "Assurance.lean",
 ]
 
 # Match standalone `sorry` / `axiom` commands

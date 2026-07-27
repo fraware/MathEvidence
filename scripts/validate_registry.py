@@ -16,6 +16,8 @@ from adapters.common.schema_validate import SchemaStore  # noqa: E402
 CAP_DIR = ROOT / "registry" / "capabilities"
 BACKEND_DIR = ROOT / "registry" / "backends"
 CATALOG = ROOT / "registry" / "catalog.json"
+PROMOTION_DIR = ROOT / "registry" / "promotions"
+_GIT_SHA = __import__("re").compile(r"^[0-9a-f]{40}$")
 
 
 def _validate_schema_refs(data: dict, path: Path) -> None:
@@ -34,6 +36,47 @@ def _validate_schema_refs(data: dict, path: Path) -> None:
                 raise FileNotFoundError(f"{path.name}: inputIR.schema missing: {ir_schema}")
 
 
+def _load_promotion_record(capability_id: str, version: str) -> dict:
+    """Stable capabilities MUST ship a schema-valid signed promotion record (ME-RV-087)."""
+    if not PROMOTION_DIR.is_dir():
+        raise FileNotFoundError(
+            f"stable {capability_id}: missing registry/promotions/ "
+            "(promotion-record.schema.json required)"
+        )
+    candidates = sorted(PROMOTION_DIR.glob(f"{capability_id}@*.json"))
+    # Prefer exact version match; else any file whose capabilityId matches.
+    store = SchemaStore()
+    matched: dict | None = None
+    for path in candidates:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        store.validate("promotion-record.schema.json", data)
+        if data.get("capabilityId") != capability_id:
+            raise ValueError(f"{path.name}: capabilityId mismatch for filename")
+        if data.get("capabilityVersion") == version:
+            matched = data
+            break
+        if matched is None:
+            matched = data
+    if matched is None:
+        # Also allow capability_id.json without @version suffix.
+        plain = PROMOTION_DIR / f"{capability_id}.json"
+        if plain.is_file():
+            matched = json.loads(plain.read_text(encoding="utf-8"))
+            store.validate("promotion-record.schema.json", matched)
+        else:
+            raise FileNotFoundError(
+                f"stable {capability_id}: no promotion record under registry/promotions/"
+            )
+    if matched.get("capabilityId") != capability_id:
+        raise ValueError(f"promotion record capabilityId != {capability_id}")
+    commit = matched.get("releaseCommit")
+    if not isinstance(commit, str) or not _GIT_SHA.match(commit):
+        raise ValueError(f"stable {capability_id}: promotion releaseCommit must be 40-char SHA")
+    if commit == "workspace":
+        raise ValueError(f"stable {capability_id}: promotion releaseCommit must not be workspace")
+    return matched
+
+
 def _validate_stable_gate(data: dict, path: Path) -> None:
     if data.get("status") != "stable":
         return
@@ -46,6 +89,12 @@ def _validate_stable_gate(data: dict, path: Path) -> None:
         raise ValueError(f"{path.name}: stable requires conformance.status=passing")
     if checker.get("soundnessStatus") != "present":
         raise ValueError(f"{path.name}: stable requires checker.soundnessStatus=present")
+    version = str(data.get("version") or data.get("capabilityVersion") or "0.1.0")
+    promo = _load_promotion_record(str(data["id"]), version)
+    # Mechanically impossible to be stable without signed promotion fields.
+    if not promo.get("signatures"):
+        raise ValueError(f"{path.name}: promotion record missing signatures")
+    print(f"ok promotion record for stable {data['id']}")
 
 
 def _validate_federation(data: dict, path: Path) -> None:
