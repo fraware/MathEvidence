@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/environment-lock-v0.json",
+  "title": "MathEvidence Environment Lock v0.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "leanVersion",
+    "lakeVersion",
+    "mathlibRevision",
+    "imports"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["0.3.0"]
+    },
+    "leanVersion": { "type": "string", "minLength": 1 },
+    "lakeVersion": { "type": "string", "minLength": 1 },
+    "mathlibRevision": { "type": "string", "minLength": 1 },
+    "imports": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "toolchainDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

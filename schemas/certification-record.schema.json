@@ -1,34 +1,46 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://mathevidence.org/schemas/evidence-bundle-v0.json",
-  "title": "MathEvidence Evidence Bundle Manifest",
+  "$id": "https://mathevidence.org/schemas/certification-record-v0.json",
+  "title": "MathEvidence Certification Record Manifest",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "bundleVersion",
+    "artifactKind",
+    "candidateBundleDigest",
     "capability",
     "requestDigest",
     "claimClass",
     "resultStatus",
     "assuranceMode",
     "files",
-    "provenance"
+    "provenance",
+    "certificationDigest"
   ],
   "properties": {
     "bundleVersion": {
       "type": "string",
-      "enum": ["0.1.0", "0.2.0", "0.3.0"],
-      "description": "0.3.0 Candidate Bundle; 0.2.0 canonical .cjson; 0.1.0 legacy pretty .json."
+      "enum": ["0.3.0"]
+    },
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["0.3.0"]
     },
     "artifactKind": {
+      "const": "certification"
+    },
+    "candidateBundleDigest": {
       "type": "string",
-      "enum": ["candidate", "certification"],
-      "description": "Required for v0.3; defaults to candidate when absent on legacy manifests."
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "certificationDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
     },
     "bundleDigest": {
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$",
-      "description": "SHA256(JCS(manifestBindingPayload)); required for v0.3 Candidate Bundles."
+      "description": "Alias of certificationDigest for store addressing."
     },
     "capability": {
       "type": "object",
@@ -48,17 +60,13 @@
     "assuranceMode": {
       "enum": ["kernel_replay", "verified_reflection", "native_checked"]
     },
-    "resourcePolicyDigest": {
-      "type": ["string", "null"],
-      "pattern": "^sha256:[0-9a-f]{64}$"
-    },
     "files": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 5,
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["path", "digest", "mediaType"],
+        "required": ["path", "digest", "mediaType", "role"],
         "properties": {
           "path": {
             "type": "string",
@@ -72,10 +80,6 @@
           "role": {
             "type": "string",
             "enum": [
-              "request",
-              "candidate",
-              "certificate",
-              "provenance",
               "replay-target",
               "checker-evaluation",
               "theorem-identity",
@@ -99,11 +103,6 @@
         "checkerVersion": { "type": "string" },
         "backend": {
           "type": ["object", "null"]
-        },
-        "legacySourcePath": { "type": "string" },
-        "legacySourceDigest": {
-          "type": "string",
-          "pattern": "^sha256:[0-9a-f]{64}$"
         }
       }
     }

@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/promotion-record-v0.json",
+  "title": "Stable capability promotion record",
+  "description": "Signed governance artifact required before registry status may be stable. Documentation checkboxes alone are insufficient (ME-RV-087).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "capabilityId",
+    "capabilityVersion",
+    "releaseCommit",
+    "ciAttestation",
+    "checkerSoundnessTheorem",
+    "kernelReplayExamples",
+    "conformanceDigest",
+    "domainReview",
+    "trustReview",
+    "securityReview",
+    "userConfirmations",
+    "externalWorkflowWin",
+    "externalAdoption",
+    "ownerTeams",
+    "deprecationPolicy",
+    "knownLimitations",
+    "signedAt",
+    "signatures"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "capabilityId": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "capabilityVersion": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "releaseCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "Immutable 40-char Git SHA. MUST NOT be workspace."
+    },
+    "ciAttestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workflowRunIds", "requiredChecksGreen", "branchProtected"],
+      "properties": {
+        "workflowRunIds": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1 },
+          "minItems": 1
+        },
+        "requiredChecksGreen": { "type": "boolean", "const": true },
+        "branchProtected": { "type": "boolean", "const": true },
+        "reportPath": { "type": "string", "maxLength": 1024 }
+      }
+    },
+    "checkerSoundnessTheorem": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "kernelReplayExamples": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 1024 },
+      "minItems": 1
+    },
+    "conformanceDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "domainReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer", "packetPath", "approved"],
+      "properties": {
+        "reviewer": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "packetPath": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "approved": { "type": "boolean", "const": true }
+      }
+    },
+    "trustReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer", "packetPath", "approved", "area"],
+      "properties": {
+        "reviewer": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "packetPath": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "approved": { "type": "boolean", "const": true },
+        "area": { "type": "string", "minLength": 1, "maxLength": 128 }
+      }
+    },
+    "securityReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer", "packetPath", "approved"],
+      "properties": {
+        "reviewer": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "packetPath": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "approved": { "type": "boolean", "const": true }
+      }
+    },
+    "userConfirmations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["entryPath", "nonMaintainer"],
+        "properties": {
+          "entryPath": { "type": "string", "minLength": 1, "maxLength": 1024 },
+          "nonMaintainer": { "type": "boolean", "const": true }
+        }
+      },
+      "minItems": 3
+    },
+    "externalWorkflowWin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logPath", "description"],
+      "properties": {
+        "logPath": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      }
+    },
+    "externalAdoption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project", "maintainerContact", "replayWithoutBackend"],
+      "properties": {
+        "project": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "maintainerContact": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "replayWithoutBackend": { "type": "boolean", "const": true },
+        "notesPath": { "type": "string", "maxLength": 1024 }
+      }
+    },
+    "ownerTeams": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+      "minItems": 2,
+      "uniqueItems": true
+    },
+    "deprecationPolicy": { "type": "string", "minLength": 1, "maxLength": 4096 },
+    "knownLimitations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 1024 },
+      "minItems": 1
+    },
+    "signedAt": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "identity", "method"],
+        "properties": {
+          "role": {
+            "enum": ["domain", "trust", "security", "release"]
+          },
+          "identity": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "method": {
+            "enum": ["gpg", "ssh", "github_attestation", "manual_recorded"]
+          },
+          "artifactDigest": { "type": "string", "maxLength": 128 }
+        }
+      },
+      "minItems": 2
+    }
+  }
+}

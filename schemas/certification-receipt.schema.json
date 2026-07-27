@@ -1,15 +1,20 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://mathevidence.org/schemas/checker-receipt-v0.json",
-  "title": "MathEvidence Checker Receipt",
+  "$id": "https://mathevidence.org/schemas/certification-receipt-v0.json",
+  "title": "MathEvidence Certification Receipt v0.3",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schemaVersion",
+    "candidateBundleDigest",
+    "certificationRecordDigest",
     "requestDigest",
-    "bundleDigest",
-    "theoremDigest",
-    "axiomDigests",
+    "certificateContentDigest",
+    "replayTargetDigest",
+    "theoremTypeDigest",
+    "proofDeclarationDigest",
+    "axiomReportDigest",
+    "environmentLockDigest",
     "capability",
     "checker",
     "claimRequested",
@@ -22,23 +27,17 @@
   "properties": {
     "schemaVersion": {
       "type": "string",
-      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+      "enum": ["0.3.0"]
     },
-    "receiptDigest": { "$ref": "#/$defs/sha256Digest" },
+    "candidateBundleDigest": { "$ref": "#/$defs/sha256Digest" },
+    "certificationRecordDigest": { "$ref": "#/$defs/sha256Digest" },
     "requestDigest": { "$ref": "#/$defs/sha256Digest" },
-    "bundleDigest": { "$ref": "#/$defs/sha256Digest" },
-    "theoremDigest": {
-      "description": "Elaborated theorem type digest when present; empty/null for operational-only checker evaluations (Wave 0 verify-bundle).",
-      "anyOf": [
-        { "$ref": "#/$defs/sha256Digest" },
-        { "type": "string", "maxLength": 0 },
-        { "type": "null" }
-      ]
-    },
-    "axiomDigests": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/sha256Digest" }
-    },
+    "certificateContentDigest": { "$ref": "#/$defs/sha256Digest" },
+    "replayTargetDigest": { "$ref": "#/$defs/sha256Digest" },
+    "theoremTypeDigest": { "$ref": "#/$defs/sha256Digest" },
+    "proofDeclarationDigest": { "$ref": "#/$defs/sha256Digest" },
+    "axiomReportDigest": { "$ref": "#/$defs/sha256Digest" },
+    "environmentLockDigest": { "$ref": "#/$defs/sha256Digest" },
     "capability": {
       "type": "object",
       "additionalProperties": false,
@@ -66,6 +65,7 @@
         "soundnessTheorem": { "type": "string", "minLength": 1 }
       }
     },
+    "soundnessTheorem": { "type": "string", "minLength": 1 },
     "claimRequested": { "$ref": "#/$defs/claimClass" },
     "claimEstablished": {
       "anyOf": [{ "$ref": "#/$defs/claimClass" }, { "type": "null" }]
@@ -85,26 +85,6 @@
     "assuranceMode": {
       "enum": ["kernel_replay", "verified_reflection", "native_checked"]
     },
-    "operationalBase": {
-      "type": "object",
-      "description": "Required when assuranceMode is native_checked: records the enlarged operational base and the linked small-instance kernel replay.",
-      "additionalProperties": false,
-      "required": ["enlargedOps", "kernelReplayBundleId"],
-      "properties": {
-        "enlargedOps": {
-          "type": "array",
-          "minItems": 1,
-          "items": { "type": "string", "minLength": 1 },
-          "description": "Native/ops declared as trusted for this receipt (never silent)."
-        },
-        "kernelReplayBundleId": {
-          "type": "string",
-          "minLength": 1,
-          "description": "Opaque id of a deterministic small-instance kernel_replay bundle validating the checker."
-        },
-        "notes": { "type": "string" }
-      }
-    },
     "resultStatus": {
       "enum": [
         "computed",
@@ -121,7 +101,6 @@
         "ambiguous"
       ]
     },
-    "contentDigestsVerified": { "type": "boolean" },
     "toolchain": {
       "type": "object",
       "additionalProperties": false,
@@ -133,17 +112,7 @@
         "platform": { "type": "string" }
       }
     },
-    "detail": { "type": "string" },
-    "contentDigest": { "$ref": "#/$defs/sha256Digest" },
-    "signatureAlg": {
-      "type": "string",
-      "enum": ["hmac-sha256", "ed25519"]
-    },
-    "signatureKeyId": { "type": "string", "minLength": 1 },
-    "signature": {
-      "type": "string",
-      "pattern": "^hex:[0-9a-f]+$"
-    }
+    "detail": { "type": "string" }
   },
   "$defs": {
     "sha256Digest": {
