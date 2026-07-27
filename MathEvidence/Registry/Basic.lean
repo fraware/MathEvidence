@@ -48,9 +48,9 @@ def symbolicCalculus : CapabilityPointer where
 
 /-- Federated: external checker authority; MathEvidence metadata only. -/
 def groebnerMembership : CapabilityPointer where
-  id := "algebra.groebner_membership"
+  id := "algebra.ideal_membership_witness"
   version := "0.1.0"
-  registryPath := "registry/capabilities/algebra.groebner_membership.json"
+  registryPath := "registry/capabilities/algebra.ideal_membership_witness.json"
   leanIRPackage := "external"
   leanCheckerPackage := "external:GroebnerCert"
 

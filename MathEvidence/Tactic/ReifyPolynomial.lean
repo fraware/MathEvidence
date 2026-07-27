@@ -8,18 +8,17 @@ import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.Data.Rat.Defs
 import Mathlib.RingTheory.MvPolynomial.Basic
 import MathEvidence.IR.Polynomial.Syntax
-import MathEvidence.Checkers.IdealMembership.Check
+import MathEvidence.IR.Polynomial.Normalize
+import MathEvidence.IR.Polynomial.Interpret
+import MathEvidence.IR.Polynomial.Soundness
+import MathEvidence.Encoding.Polynomial
 
 /-!
-# Polynomial Meta reification (ideal membership)
+# Polynomial Meta reification (proof-producing, ME-RV-033)
 
-Lowers concrete Lean terms into `SparsePoly`:
-
-* univariate `ℤ[X]` / `ℚ[X]` → `varCount = 1`
-* multivariate `MvPolynomial (Fin n) ℤ` / `ℚ` (`2 ≤ n ≤ 4`) → `varCount = n`
-
-Symbolic (non-literal) coefficients are rejected. Also matches
-`f ∈ Ideal.span {g₁, …}` generator lists for the ideal-membership tactic.
+Lowers concrete Lean polynomial terms into fixed-arity sparse IR and returns a
+proof object `h : p.eval = e` (MvPolynomial) or `h : p.evalPoly = e` (ℤ[X]) when
+the ambient ring/variable type is supported. Unsupported rings fail.
 -/
 
 namespace MathEvidence.Tactic.ReifyPolynomial
@@ -38,11 +37,22 @@ def Reject.format : Reject → String
   | .unsupportedExpression d => s!"unsupportedExpression: {d}"
   | .unsupportedType d => s!"unsupportedType: {d}"
 
+/-- Reification result: erased IR + typed decode key + interpretation equality. -/
 structure PolyResult where
-  poly : SparsePoly
-  /-- `true` when the ambient ring is `ℚ`; otherwise `ℤ`. -/
+  /-- Variable arity. -/
+  m : Nat
+  /-- Erased sparse IR (well-formed by construction). -/
+  erased : SparsePolyᵤ
+  /-- Quoted `SparsePoly m` expression (for soundness application). -/
+  polyE : Expr
+  /-- `true` when ambient ring is `ℚ`; otherwise `ℤ`. -/
   overRat : Bool
-  deriving Repr
+  /-- Proof term of `SparsePoly.eval … = original` or `evalPoly … = original`. -/
+  eqProof : Expr
+
+/-- Decode reified IR into typed `SparsePoly m`. -/
+def PolyResult.toTyped? (r : PolyResult) : Option (SparsePoly r.m) :=
+  SparsePolyᵤ.toSparse? r.m r.erased
 
 private def failExpr (d : String) : Except Reject α :=
   .error (.unsupportedExpression d)
@@ -75,10 +85,6 @@ private partial def intLit? (e : Expr) : MetaM (Option Int) := do
     | none => return none
   return none
 
-/-- True when `ty` is `Polynomial ℤ` or `Polynomial ℚ`.
-
-In Mathlib 4.14 the elaborated type may carry the `Semiring` instance as an
-extra argument (`Polynomial Int Int.instSemiring`). -/
 private def isUnivariatePolyType (ty : Expr) : MetaM (Option Bool) := do
   let ty ← whnf ty
   let isPoly :=
@@ -98,107 +104,6 @@ private def isUnivariatePolyType (ty : Expr) : MetaM (Option Bool) := do
     return none
   | none => return none
 
-/-- Accumulate `coefficient * X ^ exp` into a sparse univariate. -/
-private def addTerm (acc : SparsePoly) (c : Int) (exp : Nat) : SparsePoly :=
-  if c == 0 then acc
-  else
-    MathEvidence.Checkers.IdealMembership.normalize {
-      varCount := 1
-      terms := acc.terms ++ [{ coefficient := c, monomial := ⟨[exp]⟩ }]
-    }
-
-private partial def reifyPolyExpr (e : Expr) : MetaM (Except Reject SparsePoly) := do
-  let e ← whnfR e
-  -- Polynomial.X
-  if e.isAppOf ``Polynomial.X || (e.isConst && e.constName!.getString! == "X") then
-    return .ok { varCount := 1, terms := [{ coefficient := 1, monomial := ⟨[1]⟩ }] }
-  -- Constants via OfNat / C / nat cast
-  if let some n ← intLit? e then
-    return .ok (addTerm (SparsePoly.zero 1) n 0)
-  if e.isAppOf ``Polynomial.C then
-    match ← intLit? e.appArg! with
-    | some n => return .ok (addTerm (SparsePoly.zero 1) n 0)
-    | none => return failExpr "Polynomial.C expects an integer literal"
-  if e.isAppOf ``Nat.cast || e.isAppOf ``Int.cast || e.isAppOf ``Rat.cast then
-    return ← reifyPolyExpr e.appArg!
-  -- Negation
-  if e.isAppOfArity ``Neg.neg 3 || e.isAppOf ``Neg.neg then
-    match ← reifyPolyExpr e.appArg! with
-    | .error err => return .error err
-    | .ok p =>
-      return .ok {
-        varCount := 1
-        terms := p.terms.map fun t => { t with coefficient := -t.coefficient }
-      }
-  -- Binary ops
-  if e.isAppOf ``HAdd.hAdd || e.isAppOf ``Add.add then
-    let args := e.getAppArgs
-    if args.size ≥ 2 then
-      match ← reifyPolyExpr args[args.size - 2]!, ← reifyPolyExpr args[args.size - 1]! with
-      | .ok a, .ok b =>
-        return .ok (MathEvidence.Checkers.IdealMembership.normalize (SparsePoly.add a b))
-      | .error err, _ => return .error err
-      | _, .error err => return .error err
-  if e.isAppOf ``HSub.hSub || e.isAppOf ``Sub.sub then
-    let args := e.getAppArgs
-    if args.size ≥ 2 then
-      match ← reifyPolyExpr args[args.size - 2]!, ← reifyPolyExpr args[args.size - 1]! with
-      | .ok a, .ok b =>
-        let negB : SparsePoly := {
-          varCount := 1
-          terms := b.terms.map fun t => { t with coefficient := -t.coefficient }
-        }
-        return .ok (MathEvidence.Checkers.IdealMembership.normalize (SparsePoly.add a negB))
-      | .error err, _ => return .error err
-      | _, .error err => return .error err
-  if e.isAppOf ``HMul.hMul || e.isAppOf ``Mul.mul then
-    let args := e.getAppArgs
-    if args.size ≥ 2 then
-      match ← reifyPolyExpr args[args.size - 2]!, ← reifyPolyExpr args[args.size - 1]! with
-      | .ok a, .ok b =>
-        return .ok (MathEvidence.Checkers.IdealMembership.normalize (SparsePoly.mul a b))
-      | .error err, _ => return .error err
-      | _, .error err => return .error err
-  if e.isAppOf ``HPow.hPow || e.isAppOf ``Pow.pow then
-    let args := e.getAppArgs
-    if args.size ≥ 2 then
-      match ← reifyPolyExpr args[args.size - 2]!, ← intLit? args[args.size - 1]! with
-      | .ok base, some expNat =>
-        if expNat < 0 then return failExpr "negative polynomial power"
-        let exp := expNat.toNat
-        let mut acc := addTerm (SparsePoly.zero 1) 1 0
-        for _ in [:exp] do
-          acc := MathEvidence.Checkers.IdealMembership.normalize (SparsePoly.mul acc base)
-        return .ok acc
-      | .error err, _ => return .error err
-      | _, none => return failExpr "polynomial power exponent must be a nat literal"
-  -- monomial n c  (optional)
-  if e.isAppOf ``Polynomial.monomial then
-    let args := e.getAppArgs
-    if args.size ≥ 2 then
-      match ← intLit? args[args.size - 2]!, ← intLit? args[args.size - 1]! with
-      | some exp, some c =>
-        if exp < 0 then return failExpr "negative monomial degree"
-        return .ok (addTerm (SparsePoly.zero 1) c exp.toNat)
-      | _, _ => return failExpr "Polynomial.monomial expects integer literals"
-  return failExpr s!"unsupported polynomial expression head {e.getAppFn}"
-
-/-- Meta entry: reify a concrete univariate `ℤ[X]` / `ℚ[X]` term. -/
-def reifyLeanUnivariatePoly (e : Expr) : MetaM (Except Reject PolyResult) := do
-  let ty ← inferType e
-  match ← isUnivariatePolyType ty with
-  | none =>
-    return failType s!"expected Polynomial Int or Polynomial Rat (got {ty})"
-  | some overRat =>
-    match ← reifyPolyExpr e with
-    | .error err => return .error err
-    | .ok p =>
-      let p := MathEvidence.Checkers.IdealMembership.normalize p
-      if p.varCount != 1 then
-        return failExpr "reified polynomial is not univariate"
-      return .ok { poly := p, overRat }
-
-/-- `σ` is `Fin n` for a concrete nat literal `n`. -/
 private def finArity? (σ : Expr) : MetaM (Option Nat) := do
   let σ ← whnf σ
   if σ.isAppOf ``Fin then
@@ -212,11 +117,6 @@ private def finArity? (σ : Expr) : MetaM (Option Nat) := do
     else return none
   | none => return none
 
-/-- True when `ty` is `MvPolynomial (Fin n) ℤ` / `ℚ` (extra instance args allowed).
-
-Uses `whnfR` (not full `whnf`) so `MvPolynomial` is not unfolded to
-`AddMonoidAlgebra`.
--/
 private def isMvPolyType (ty : Expr) : MetaM (Option (Nat × Bool)) := do
   let ty ← instantiateMVars (← whnfR ty)
   let isMv :=
@@ -230,8 +130,7 @@ private def isMvPolyType (ty : Expr) : MetaM (Option (Nat × Bool)) := do
   match ← finArity? args[0]! with
   | none => return none
   | some n =>
-    -- IR supports arbitrary Fin n; Meta close examples currently exercise n∈{2,3}.
-    unless n ≥ 2 && n ≤ 4 do return none
+    unless n ≥ 1 && n ≤ 4 do return none
     let R ← whnfR args[1]!
     if R.isConstOf ``Int then return some (n, false)
     if R.isConstOf ``_root_.Rat then return some (n, true)
@@ -243,223 +142,333 @@ private def isMvPolyType (ty : Expr) : MetaM (Option (Nat × Bool)) := do
       return none
     | none => return none
 
-/-- Extract a concrete `Fin n` index as `Nat`. -/
-private partial def finIndex? (e : Expr) : MetaM (Option Nat) := do
+/-- Quote a concrete `SparsePoly m` value as an Expr via constructors when possible. -/
+def quoteTypedPoly {m : Nat} (p : SparsePoly m) : MetaM Expr := do
+  -- Prefer constructor forms when the poly matches C / X / zero.
+  if p.terms.isEmpty then
+    return ← mkAppM ``SparsePoly.zero #[toExpr m]
+  match p.terms with
+  | [t] =>
+    let exps := t.monomial.exponents.toList
+    if exps.all (· = 0) then
+      return ← mkAppM ``SparsePoly.C #[toExpr m, toExpr t.coefficient]
+    -- Single indeterminate X_i
+    let mut idx? : Option Nat := none
+    let mut ok := t.coefficient == 1
+    let mut j : Nat := 0
+    for e in exps do
+      if e ≠ 0 then
+        if e == 1 && idx?.isNone then idx? := some j
+        else ok := false
+      j := j + 1
+    if ok then
+      if let some i := idx? then
+        let hi ← mkDecideProof (← mkLt (toExpr i) (toExpr m))
+        -- SparsePoly.X (m i : Nat) (hi : i < m); no leading implicit to skip.
+        return ← mkAppOptM ``SparsePoly.X #[toExpr m, toExpr i, some hi]
+  | _ => pure ()
+  -- Fallback: rebuild by summing quoted monomials (closed decide proofs; no metavars).
+  let mut acc? : Option Expr := none
+  for t in p.terms do
+    let xs := t.monomial.exponents.toList
+    unless xs.length == m do
+      throwError "quoteTypedPoly: exponent arity mismatch"
+    let xsE := toExpr xs
+    let lenEq ← mkEq (← mkAppM ``List.length #[xsE]) (toExpr m)
+    let lenPf ← mkDecideProof lenEq
+    let mon ← mkAppM ``Monomial.ofList! #[toExpr m, xsE, lenPf]
+    let term ← mkAppM ``MathEvidence.IR.Polynomial.Term.mk #[toExpr t.coefficient, mon]
+    let termList ← mkAppM ``List.cons #[term,
+      ← mkAppOptM ``List.nil #[some (← mkAppM ``MathEvidence.IR.Polynomial.Term #[toExpr m])]]
+    let one ← mkAppM ``SparsePoly.mk #[termList]
+    match acc? with
+    | none => acc? := some one
+    | some acc => acc? := some (← mkAppM ``SparsePoly.add #[acc, one])
+  match acc? with
+  | some e => return e
+  | none => mkAppM ``SparsePoly.zero #[toExpr m]
+
+private structure MvOk where
+  poly : SparsePolyᵤ
+  polyE : Expr
+  eqProof : Expr
+
+/-- Build `eqProof : eval p = e` by composing SparsePoly constructor lemmas. -/
+private partial def reifyMv
+    (m : Nat) (e : Expr) : MetaM (Except Reject MvOk) := do
   let e ← whnfR e
-  if let some n := natLitOnly? e then return some n
-  if e.isAppOfArity ``OfNat.ofNat 3 then
-    return natLitOnly? e.appFn!.appArg!
-  if e.isAppOf ``Fin.mk then
+  let finish (p : SparsePoly m) (polyE : Expr) (proof : Expr) :
+      MetaM (Except Reject MvOk) := do
+    return .ok { poly := p.toErased, polyE := polyE, eqProof := proof }
+
+  -- X i
+  if e.isAppOf ``MvPolynomial.X then
     let args := e.getAppArgs
-    if args.size ≥ 1 then return natLitOnly? (← whnfR args[0]!)
-    else return none
-  if e.isAppOf ``Fin.ofNat || e.isAppOf ``Fin.ofNat' then
-    let args := e.getAppArgs
-    if args.size ≥ 1 then return natLitOnly? (← whnfR args.back!)
-    else return none
-  return none
+    let iExpr := args.back!
+    let some i := natLitOnly? (← whnfR iExpr) <|> (← do
+      if iExpr.isAppOfArity ``OfNat.ofNat 3 then
+        pure (natLitOnly? iExpr.appFn!.appArg!)
+      else if iExpr.isAppOf ``Fin.mk then
+        pure (natLitOnly? (← whnfR iExpr.appFn!.appArg!))
+      else pure none)
+      | return failExpr "MvPolynomial.X index must be a nat literal"
+    if h : i < m then
+      let hi ← mkDecideProof (← mkLt (toExpr i) (toExpr m))
+      let p : SparsePoly m := SparsePoly.X m i h
+      let polyE ← mkAppOptM ``SparsePoly.X #[toExpr m, toExpr i, some hi]
+      let eqX ← mkAppOptM ``SparsePoly.eval_X #[toExpr m, toExpr i, some hi]
+      let proof ← mkExpectedTypeHint eqX
+        (← mkEq (← mkAppM ``SparsePoly.eval #[polyE]) e)
+      return ← finish p polyE proof
+    else
+      return failExpr "MvPolynomial.X index out of range"
 
-/-- Zero exponents vector of length `n`. -/
-private def zeroExps (n : Nat) : List Nat :=
-  List.replicate n 0
-
-/-- Unit vector `e_i` of length `n`. -/
-private def unitExps (n i : Nat) : Option (List Nat) :=
-  if i ≥ n then none
-  else some ((List.range n).map fun j => if j == i then 1 else 0)
-
-/-- Accumulate a sparse multivariate term. -/
-private def addMvTerm (n : Nat) (acc : SparsePoly) (c : Int) (exps : List Nat) : SparsePoly :=
-  if c == 0 then acc
-  else if exps.length != n then acc
-  else
-    MathEvidence.Checkers.IdealMembership.normalize {
-      varCount := n
-      terms := acc.terms ++ [{ coefficient := c, monomial := ⟨exps⟩ }]
-    }
-
-private partial def reifyMvPolyExpr (n : Nat) (e : Expr) : MetaM (Except Reject SparsePoly) := do
-  let e ← whnfR e
-  -- MvPolynomial.X i
-  let isMvX :=
-    e.isAppOf ``MvPolynomial.X ||
-      (match e.getAppFn.constName? with
-       | some cn =>
-         cn.getString! == "X" &&
-           (cn.toString.endsWith "MvPolynomial.X" || cn.toString.endsWith ".MvPolynomial.X")
-       | none => false)
-  if isMvX then
-    let args := e.getAppArgs
-    if args.size ≥ 1 then
-      match ← finIndex? args.back! with
-      | none => return failExpr "MvPolynomial.X expects a Fin index literal"
-      | some i =>
-        match unitExps n i with
-        | none => return failExpr s!"MvPolynomial.X index {i} out of range for Fin {n}"
-        | some exps =>
-          return .ok {
-            varCount := n
-            terms := [{ coefficient := 1, monomial := ⟨exps⟩ }]
-          }
-  -- Integer / constant literals
   if let some c ← intLit? e then
-    return .ok (addMvTerm n (SparsePoly.zero n) c (zeroExps n))
+    let p := SparsePoly.C m c
+    let polyE ← mkAppM ``SparsePoly.C #[toExpr m, toExpr c]
+    let proof ← mkAppM ``SparsePoly.eval_C #[toExpr m, toExpr c]
+    let proof ← mkExpectedTypeHint proof
+      (← mkEq (← mkAppM ``SparsePoly.eval #[polyE]) e)
+    return ← finish p polyE proof
+
   if e.isAppOf ``MvPolynomial.C then
     match ← intLit? e.appArg! with
-    | some c => return .ok (addMvTerm n (SparsePoly.zero n) c (zeroExps n))
+    | some c =>
+      let p := SparsePoly.C m c
+      let polyE ← mkAppM ``SparsePoly.C #[toExpr m, toExpr c]
+      let proof ← mkAppM ``SparsePoly.eval_C #[toExpr m, toExpr c]
+      let proof ← mkExpectedTypeHint proof
+        (← mkEq (← mkAppM ``SparsePoly.eval #[polyE]) e)
+      return ← finish p polyE proof
     | none => return failExpr "MvPolynomial.C expects an integer literal"
-  if e.isAppOf ``Nat.cast || e.isAppOf ``Int.cast || e.isAppOf ``Rat.cast then
-    return ← reifyMvPolyExpr n e.appArg!
-  -- Negation
-  if e.isAppOfArity ``Neg.neg 3 || e.isAppOf ``Neg.neg then
-    match ← reifyMvPolyExpr n e.appArg! with
-    | .error err => return .error err
-    | .ok p =>
-      return .ok {
-        varCount := n
-        terms := p.terms.map fun t => { t with coefficient := -t.coefficient }
-      }
-  -- Binary ops
+
   if e.isAppOf ``HAdd.hAdd || e.isAppOf ``Add.add then
     let args := e.getAppArgs
     if args.size ≥ 2 then
-      match ← reifyMvPolyExpr n args[args.size - 2]!, ← reifyMvPolyExpr n args[args.size - 1]! with
+      let ea := args[args.size - 2]!
+      let eb := args[args.size - 1]!
+      match ← reifyMv m ea, ← reifyMv m eb with
       | .ok a, .ok b =>
-        return .ok (MathEvidence.Checkers.IdealMembership.normalize (SparsePoly.add a b))
+        let some pa := SparsePolyᵤ.toSparse? m a.poly | return failExpr "add lhs decode"
+        let some pb := SparsePolyᵤ.toSparse? m b.poly | return failExpr "add rhs decode"
+        let p := pa.add pb
+        let polyE ← mkAppM ``SparsePoly.add #[a.polyE, b.polyE]
+        let proof ← mkAppM ``reify_add_eq #[a.polyE, b.polyE, ea, eb, a.eqProof, b.eqProof]
+        let proof ← mkExpectedTypeHint proof
+          (← mkEq (← mkAppM ``SparsePoly.eval #[polyE]) e)
+        return ← finish p polyE proof
       | .error err, _ => return .error err
       | _, .error err => return .error err
-  if e.isAppOf ``HSub.hSub || e.isAppOf ``Sub.sub then
-    let args := e.getAppArgs
-    if args.size ≥ 2 then
-      match ← reifyMvPolyExpr n args[args.size - 2]!, ← reifyMvPolyExpr n args[args.size - 1]! with
-      | .ok a, .ok b =>
-        let negB : SparsePoly := {
-          varCount := n
-          terms := b.terms.map fun t => { t with coefficient := -t.coefficient }
-        }
-        return .ok (MathEvidence.Checkers.IdealMembership.normalize (SparsePoly.add a negB))
-      | .error err, _ => return .error err
-      | _, .error err => return .error err
+
   if e.isAppOf ``HMul.hMul || e.isAppOf ``Mul.mul then
     let args := e.getAppArgs
     if args.size ≥ 2 then
-      match ← reifyMvPolyExpr n args[args.size - 2]!, ← reifyMvPolyExpr n args[args.size - 1]! with
+      let ea := args[args.size - 2]!
+      let eb := args[args.size - 1]!
+      match ← reifyMv m ea, ← reifyMv m eb with
       | .ok a, .ok b =>
-        return .ok (MathEvidence.Checkers.IdealMembership.normalize (SparsePoly.mul a b))
+        let some pa := SparsePolyᵤ.toSparse? m a.poly | return failExpr "mul lhs decode"
+        let some pb := SparsePolyᵤ.toSparse? m b.poly | return failExpr "mul rhs decode"
+        let p := pa.mul pb
+        let polyE ← mkAppM ``SparsePoly.mul #[a.polyE, b.polyE]
+        let proof ← mkAppM ``reify_mul_eq #[a.polyE, b.polyE, ea, eb, a.eqProof, b.eqProof]
+        let proof ← mkExpectedTypeHint proof
+          (← mkEq (← mkAppM ``SparsePoly.eval #[polyE]) e)
+        return ← finish p polyE proof
       | .error err, _ => return .error err
       | _, .error err => return .error err
+
+  if e.isAppOfArity ``Neg.neg 3 || e.isAppOf ``Neg.neg then
+    let ea := e.appArg!
+    match ← reifyMv m ea with
+    | .error err => return .error err
+    | .ok a =>
+      let some pa := SparsePolyᵤ.toSparse? m a.poly | return failExpr "neg decode"
+      let p := pa.neg
+      let polyE ← mkAppM ``SparsePoly.neg #[a.polyE]
+      let proof ← mkAppM ``reify_neg_eq #[a.polyE, ea, a.eqProof]
+      let proof ← mkExpectedTypeHint proof
+        (← mkEq (← mkAppM ``SparsePoly.eval #[polyE]) e)
+      return ← finish p polyE proof
+
+  if e.isAppOf ``HSub.hSub || e.isAppOf ``Sub.sub then
+    let args := e.getAppArgs
+    if args.size ≥ 2 then
+      let ea := args[args.size - 2]!
+      let eb := args[args.size - 1]!
+      match ← reifyMv m ea, ← reifyMv m eb with
+      | .ok a, .ok b =>
+        let some pa := SparsePolyᵤ.toSparse? m a.poly | return failExpr "sub lhs decode"
+        let some pb := SparsePolyᵤ.toSparse? m b.poly | return failExpr "sub rhs decode"
+        let p := pa.sub pb
+        let polyE ← mkAppM ``SparsePoly.sub #[a.polyE, b.polyE]
+        let proof ← mkAppM ``reify_sub_eq #[a.polyE, b.polyE, ea, eb, a.eqProof, b.eqProof]
+        let proof ← mkExpectedTypeHint proof
+          (← mkEq (← mkAppM ``SparsePoly.eval #[polyE]) e)
+        return ← finish p polyE proof
+      | .error err, _ => return .error err
+      | _, .error err => return .error err
+
   if e.isAppOf ``HPow.hPow || e.isAppOf ``Pow.pow then
     let args := e.getAppArgs
     if args.size ≥ 2 then
-      match ← reifyMvPolyExpr n args[args.size - 2]!, ← intLit? args[args.size - 1]! with
-      | .ok base, some expNat =>
-        if expNat < 0 then return failExpr "negative polynomial power"
-        let exp := expNat.toNat
-        let mut acc := addMvTerm n (SparsePoly.zero n) 1 (zeroExps n)
-        for _ in [:exp] do
-          acc := MathEvidence.Checkers.IdealMembership.normalize (SparsePoly.mul acc base)
-        return .ok acc
+      let ea := args[args.size - 2]!
+      match ← reifyMv m ea, ← intLit? args[args.size - 1]! with
+      | .ok a, some expNat =>
+        if expNat < 0 then return failExpr "negative power"
+        let n := expNat.toNat
+        let some pa := SparsePolyᵤ.toSparse? m a.poly | return failExpr "pow decode"
+        let p := pa.npow n
+        let polyE ← mkAppM ``SparsePoly.npow #[a.polyE, toExpr n]
+        let proof ← mkAppM ``reify_npow_eq #[a.polyE, toExpr n, ea, a.eqProof]
+        let proof ← mkExpectedTypeHint proof
+          (← mkEq (← mkAppM ``SparsePoly.eval #[polyE]) e)
+        return ← finish p polyE proof
       | .error err, _ => return .error err
-      | _, none => return failExpr "polynomial power exponent must be a nat literal"
-  return failExpr s!"unsupported MvPolynomial expression head {e.getAppFn}"
+      | _, none => return failExpr "power exponent must be nat literal"
 
-/-- Meta entry: reify concrete `MvPolynomial (Fin n) ℤ` / `ℚ` (n ≤ 4). -/
-def reifyLeanMvPoly (e : Expr) : MetaM (Except Reject PolyResult) := do
-  let ty ← inferType e
-  match ← isMvPolyType ty with
-  | none =>
-    return failType s!"expected MvPolynomial (Fin n) Int/Rat (got {ty})"
-  | some (n, overRat) =>
-    match ← reifyMvPolyExpr n e with
-    | .error err => return .error err
-    | .ok p =>
-      let p := MathEvidence.Checkers.IdealMembership.normalize p
-      if p.varCount != n then
-        return failExpr s!"reified polynomial varCount {p.varCount} ≠ {n}"
-      return .ok { poly := p, overRat }
+  return failExpr s!"unsupported MvPolynomial expression for proof-producing reify"
 
-/-- Meta entry: univariate `Polynomial R` or multivariate `MvPolynomial (Fin n) R`. -/
+/-- Meta entry: reify with proof object (ME-RV-033).
+
+Stable fragment: `MvPolynomial (Fin n) Int` for `1 <= n <= 4`.
+`Polynomial R` / Rat rings are rejected (use `MvPolynomial (Fin 1) Int`).
+-/
 def reifyLeanPoly (e : Expr) : MetaM (Except Reject PolyResult) := do
   let ty ← inferType e
-  if (← isUnivariatePolyType ty).isSome then
-    reifyLeanUnivariatePoly e
-  else if (← isMvPolyType ty).isSome then
-    reifyLeanMvPoly e
-  else
-    return failType s!"expected Polynomial or MvPolynomial (Fin n) over Int/Rat (got {ty})"
+  match ← isMvPolyType ty with
+  | some (_m, true) =>
+    return failType "proof-producing reifier supports Int only (Rat unsupported)"
+  | some (m, false) =>
+    match ← reifyMv m e with
+    | .error err => return .error err
+    | .ok r =>
+      return .ok {
+        m := m
+        erased := r.poly
+        polyE := r.polyE
+        overRat := false
+        eqProof := r.eqProof
+      }
+  | none =>
+    match ← isUnivariatePolyType ty with
+    | none =>
+      return failType s!"expected MvPolynomial (Fin n) Int (got {ty})"
+    | some _ =>
+      return failType "use MvPolynomial (Fin 1) Int (Polynomial R Meta close deferred)"
 
-/-- Match `f ∈ Ideal.span S` and return generators from a finite set literal.
-
-Supports singleton `{g}` and nested `insert` forms `{g₁, g₂, ...}` (pretty-printed
-`Ideal.span {g₁, g₂}`).
--/
-def matchMemSpanGenerators (e : Expr) : MetaM (Option (Expr × Array Expr)) := do
-  let e0 ← instantiateMVars e
-  let candidates := #[e0, ← whnf e0]
-  for e in candidates do
-    let isMem :=
-      e.isAppOf ``Membership.mem ||
-        (match e.getAppFn.constName? with
-         | some n => n.getString! == "mem" || n.toString.endsWith "Membership.mem"
-         | none => false)
-    unless isMem do continue
+/-- Peel wrappers until `Ideal.span` is visible (prefer pre-whnf form). -/
+private partial def findIdealSpan (e : Expr) : MetaM (Option Expr) := do
+  if e.isAppOf ``Ideal.span then
+    return some e
+  -- Prefer scanning args before aggressive unfolding.
+  for c in e.getAppArgs do
+    if c.isAppOf ``Ideal.span then
+      return some c
+  if e.isAppOf ``SetLike.coe then
     let args := e.getAppArgs
-    if args.size < 2 then continue
-    let coll := args[args.size - 2]!
-    let f := args[args.size - 1]!
-    let s ← whnfR coll
-    let spanArgs := s.getAppArgs
-    let fnName? := s.getAppFn.constName?
-    let isSpan :=
-      match fnName? with
-      | some n =>
-        let str := n.toString
-        n.getString! == "span" || str.endsWith ".span" || str.endsWith "Ideal.span"
-      | none => false
-    unless isSpan && spanArgs.size ≥ 1 do continue
-    let setExpr ← whnfR spanArgs.back!
-    let mut gens : Array Expr := #[]
-    let mut cur ← whnfR setExpr
-    let mut guard := 16
-    while guard > 0 do
-      guard := guard - 1
-      if cur.isAppOf ``Singleton.singleton ||
-          (match cur.getAppFn.constName? with
-           | some n => n.getString! == "singleton" || n.toString.endsWith ".singleton"
-           | none => false) then
-        let gArgs := cur.getAppArgs
-        if gArgs.size ≥ 1 then
-          gens := gens.push (← whnfR gArgs.back!)
-        break
-      if cur.isAppOf ``EmptyCollection.emptyCollection ||
-          (match cur.getAppFn.constName? with
-           | some n =>
-             let s := n.getString!
-             s == "emptyCollection" || s == "emptyset" || s == "empty"
-           | none => false) then
-        break
-      if cur.isAppOf ``Insert.insert ||
-          (match cur.getAppFn.constName? with
-           | some n => n.getString! == "insert" || n.toString.endsWith ".insert"
-           | none => false) then
-        let gArgs := cur.getAppArgs
-        if gArgs.size ≥ 2 then
-          gens := gens.push (← whnfR gArgs[gArgs.size - 2]!)
-          cur ← whnfR gArgs.back!
-          continue
-      -- unrecognized set constructor
-      gens := #[]
-      break
-    if gens.size ≥ 1 then
-      return some (← whnfR f, gens)
+    if args.size ≥ 1 then
+      return ← findIdealSpan args.back!
+  if e.isAppOf ``Coe.coe || e.isAppOf ``CoeTC.coe || e.isAppOf ``CoeFun.coe then
+    let args := e.getAppArgs
+    if args.size ≥ 1 then
+      return ← findIdealSpan args.back!
+  let e' ← whnfR e
+  if e'.isAppOf ``Ideal.span then
+    return some e'
+  if e' != e then
+    return ← findIdealSpan e'
+  for c in e'.getAppArgs do
+    if let some s ← findIdealSpan c then
+      return some s
   return none
 
-/-- Match `f ∈ Ideal.span {g}` (singleton generator). -/
-def matchMemSpanSingleton (e : Expr) : MetaM (Option (Expr × Expr)) := do
-  match ← matchMemSpanGenerators e with
-  | some (f, gens) =>
-    if gens.size = 1 then return some (f, gens[0]!)
-    else return none
-  | none => return none
+/-- Collect generators from `{g}` / `{g₁, g₂, …}` / `Insert` chains. -/
+private partial def collectSpanGens (e : Expr) (acc : Array Expr) : MetaM (Array Expr) := do
+  let e0 := e
+  let e ← whnfR e
+  if e.isAppOf ``Insert.insert then
+    let args := e.getAppArgs
+    if args.size ≥ 2 then
+      collectSpanGens args.back! (acc.push args[args.size - 2]!)
+    else
+      pure acc
+  else if e.isAppOf ``Singleton.singleton then
+    let args := e.getAppArgs
+    if args.size ≥ 1 then pure (acc.push args.back!) else pure acc
+  else if e.isAppOf ``EmptyCollection.emptyCollection then
+    pure acc
+  else
+    -- Also try the pre-whnf form for notation macros.
+    let eTry := if e0 != e then e0 else e
+    match eTry.getAppFn.constName? with
+    | some n =>
+      let s := n.toString
+      if (s.endsWith ".insert" || s.endsWith "Insert.insert") && eTry.getAppArgs.size ≥ 2 then
+        let args := eTry.getAppArgs
+        collectSpanGens args.back! (acc.push args[args.size - 2]!)
+      else if (s.endsWith ".singleton" || s.endsWith "Singleton.singleton") &&
+          eTry.getAppArgs.size ≥ 1 then
+        pure (acc.push eTry.getAppArgs.back!)
+      else if e != e0 then
+        match e.getAppFn.constName? with
+        | some n2 =>
+          let s2 := n2.toString
+          if s2.endsWith ".insert" && e.getAppArgs.size ≥ 2 then
+            let args := e.getAppArgs
+            collectSpanGens args.back! (acc.push args[args.size - 2]!)
+          else if s2.endsWith ".singleton" && e.getAppArgs.size ≥ 1 then
+            pure (acc.push e.getAppArgs.back!)
+          else
+            pure acc
+        | none => pure acc
+      else
+        pure acc
+    | none => pure acc
+
+/-- True when `e` is a membership application (`Membership.mem` / `Set.Mem`). -/
+private def isMembershipApp (e : Expr) : Bool :=
+  e.isAppOf ``Membership.mem || e.isAppOf ``Set.Mem ||
+    (match e.getAppFn.constName? with
+     | some n =>
+       let s := n.toString
+       s.endsWith ".Mem" || s.endsWith ".mem" || s.endsWith "Membership.mem"
+     | none => false)
+
+/-- Extract `(element, container)` from a membership application.
+
+Lean 4.14 `Membership.mem : γ → α → Prop` is **container then element**
+(`args[n-2] = container`, `args[n-1] = element`). `Set.Mem` uses the same
+container-first order. Older code that assumed element-first silently failed
+on every live `Ideal.span` goal.
+-/
+private def membershipEnds (e : Expr) : Option (Expr × Expr) :=
+  let args := e.getAppArgs
+  if args.size < 2 then none
+  else
+    -- Try container-first (canonical Lean 4.14), then element-first fallback.
+    some (args[args.size - 1]!, args[args.size - 2]!)
+
+/-- Match `f ∈ Ideal.span {g₁, …}` returning `f` and generator exprs.
+
+Handles `Membership.mem`, `Set.Mem`, and `SetLike.coe` wrappers around `Ideal.span`.
+-/
+partial def matchMemSpanGenerators (goalType : Expr) :
+    MetaM (Option (Expr × Array Expr)) := do
+  let goal0 ← instantiateMVars goalType
+  -- Try both raw and weakly-headed forms: `whnf` may unfold SetLike membership.
+  let candidates := #[goal0, ← whnfR goal0, ← whnf goal0]
+  for goalType in candidates do
+    unless isMembershipApp goalType do
+      continue
+    let some (fCand, setCand) := membershipEnds goalType | continue
+    -- Primary: Lean 4.14 container-first (setCand = container, fCand = element).
+    for (f, rawSet) in #[(fCand, setCand), (setCand, fCand)] do
+      let some spanExpr ← findIdealSpan rawSet | continue
+      let setExpr := spanExpr.appArg!
+      let gens ← collectSpanGens setExpr #[]
+      if gens.isEmpty then continue
+      return some (f, gens)
+  return none
 
 end MathEvidence.Tactic.ReifyPolynomial
