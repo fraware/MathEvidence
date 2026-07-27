@@ -4,7 +4,7 @@
   "kind": "evidence_bundle",
   "capturedAt": "2026-07-21T11:08:39Z",
   "acceptanceInfluence": false,
-  "qualityTier": "Q2_formally_verified",
+  "qualityTier": "Q1_checker_preview",
   "provenance": {
     "sourceKind": "committed_evidence",
     "sourcePath": "evidence/conformance/rfc0001/redundant_condition/bundle",
@@ -32,7 +32,7 @@
     "capabilityCandidates": [
       "algebra.rational_equality",
       "algebra.linear_algebra",
-      "algebra.groebner_membership",
+      "algebra.ideal_membership_witness",
       "logic.finite_counterexample",
       "logic.sat_unsat",
       "logic.pseudo_boolean",
@@ -72,5 +72,5 @@
     "hasCertificate": true,
     "hasCandidate": true
   },
-  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false. ME-RV-080: downgraded from Q2_formally_verified \u2014 lacks Certification Record / theorem identity / environment lock (checker-preview only)."
 }

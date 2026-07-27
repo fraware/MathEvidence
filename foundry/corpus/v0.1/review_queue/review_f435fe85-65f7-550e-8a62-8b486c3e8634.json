@@ -5,7 +5,7 @@
   "status": "awaiting_human_review",
   "createdAt": "2026-07-21T11:08:43Z",
   "sourceFamily": "evidence_examples",
-  "qualityTierAtQueue": "Q2_formally_verified",
+  "qualityTierAtQueue": "Q1_checker_preview",
   "requestedReview": "semantically_reviewed",
   "humanReviewLabels": [],
   "checklist": [
@@ -17,6 +17,6 @@
   "artifactRefs": [
     "evidence/examples/calculus_ode_y_eq_x"
   ],
-  "notes": "Unlabeled queue item. Do NOT count as Q3 until a human adds humanReviewLabels including semantically_reviewed.",
+  "notes": "Unlabeled queue item. Do NOT count as Q3 until a human adds humanReviewLabels including semantically_reviewed. ME-RV-080: queue tier downgraded with corpus Q2 redefinition.",
   "acceptanceInfluence": false
 }

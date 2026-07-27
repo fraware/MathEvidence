@@ -7,11 +7,12 @@
   "license": "Apache-2.0",
   "acceptanceInfluence": false,
   "createdAt": "2026-07-21T11:08:43Z",
-  "sourceCommit": "workspace",
+  "sourceCommit": "c7040e6c60979bc0a05334ce5011e5ac7bcf4b03",
   "tierComposition": {
     "Q0_raw": 0,
     "Q1_schema_valid": 8,
-    "Q2_formally_verified": 554,
+    "Q1_checker_preview": 554,
+    "Q2_formally_verified": 0,
     "Q3_semantically_reviewed": 0,
     "Q4_library_grade": 0
   },
@@ -1213,8 +1214,9 @@
     "Q3/Q4 tiers require human semantic review; unlabeled review_queue packets are not Q3.",
     "Synthetic negatives are labeled and excluded from eval contamination.",
     "Splits are source-family based (not random); see splits.json bySourceFamily.",
-    "FiniteGraph precision metrics are campaign-local — not field-level performance.",
-    "No live frontier formalization sessions are included."
+    "FiniteGraph precision metrics are campaign-local \u2014 not field-level performance.",
+    "No live frontier formalization sessions are included.",
+    "ME-RV-080/081: v0.1 sample corpus reclassified \u2014 Q2 requires Certification Record; historical replayable-only episodes are Q1_checker_preview. Not a live federation or stable promotion artifact."
   ],
   "contaminationSummary": {
     "duplicateCount": 0,
