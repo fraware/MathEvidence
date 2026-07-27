@@ -31,6 +31,7 @@ jobs:
           set -euo pipefail
           test -f uv.lock
           uv sync --frozen --extra dev --extra sympy
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
 
       - name: Import-boundary check (trust boundary)
         run: python scripts/check_import_boundaries.py

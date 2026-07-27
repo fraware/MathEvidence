@@ -37,6 +37,7 @@ jobs:
           set -euo pipefail
           test -f uv.lock
           uv sync --frozen --extra dev --extra sympy
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
 
       - name: Validate schemas, registry, audits
         run: |
