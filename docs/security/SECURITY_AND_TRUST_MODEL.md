@@ -79,7 +79,7 @@ LeanLink remains outside theorem acceptance unless a result is separately checke
 - Release workflows use least-privilege tokens.
 - Artifacts include build provenance.
 - Generated releases are signed.
-- Public CI runs secret scanning, dependency review, and static analysis.
+- Public CI runs secret scanning and static analysis. Dependency review is attempted on pull requests but soft-fails when Dependency graph is not enabled for the repository (not evidence that graph review is active).
 
 ## 9. Privacy and licensing
 

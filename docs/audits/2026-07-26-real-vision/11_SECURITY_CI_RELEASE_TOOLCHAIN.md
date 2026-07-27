@@ -31,7 +31,7 @@ Required checks:
 - ideal membership smoke;
 - adversarial suite;
 - supply-chain scan;
-- dependency review;
+- dependency review (soft-fail on PRs until Dependency graph is enabled; not claimed active);
 - release provenance dry run.
 
 ## Reproducible dependencies

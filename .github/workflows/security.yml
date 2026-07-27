@@ -85,6 +85,11 @@ jobs:
       - name: Cancel → kill isolation tests
         run: python -m pytest adapters/common/test_isolation.py -q
 
+      # Soft-fail: Dependency graph is not enabled for this repository, so
+      # dependency-review-action errors on PRs ("not supported"). Keep the step
+      # advisory until graph is enabled in settings/security_analysis. Soft-fail
+      # is not a claim that Dependency graph review is active.
       - name: Dependency review
         if: github.event_name == 'pull_request'
+        continue-on-error: true
         uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4

@@ -17,7 +17,7 @@
     "backends/mathematica.json",
     "backends/sage.json",
     "backends/external.lean_smt.json",
-    "backends/external.groebner.json",
+    "backends/external.ideal_membership.json",
     "backends/external.sat.json",
     "backends/external.pseudo_boolean.json"
   ]

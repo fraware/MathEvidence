@@ -46,7 +46,7 @@
     "package": "MathEvidence.Checkers.AnalyticCalculus",
     "version": "0.1.0",
     "assurance": "kernel_replay",
-    "soundnessStatus": "theorem_stated"
+    "soundnessStatus": "partial"
   },
   "assuranceModes": [
     "kernel_replay"
@@ -84,7 +84,15 @@
     "declared": true,
     "installedHint": "Lean MathEvidence.Checkers.AnalyticCalculus; Python mirror adapters/common/analytic_calculus.py",
     "conformanceVerified": false,
-    "backends": ["sympy"]
+    "backends": [
+      {
+        "id": "sympy",
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "declared"
+      }
+    ]
   },
   "compatibility": {
     "policy": "semver_request_digest",
