@@ -59,3 +59,10 @@ foundry/episodes/*.json
 
 # Differential harness regenerates this each run
 benchmarks/differential/manifest.json
+
+# Local runtime evidence store (content-addressed). Tracked fixture digests under
+# evidence/store remain versioned; new untracked store output stays local.
+# Do not ignore evidence/examples/ or other committed fixture trees.
+/evidence/store/bundles/sha256/
+/evidence/store/index/by-request/
+/evidence/store/sha256/
