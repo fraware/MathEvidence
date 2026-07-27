@@ -9,29 +9,26 @@ import MathEvidence.Checkers.RationalEquality.Decode
 import MathEvidence.Checkers.RationalEquality.Spec
 import MathEvidence.Checkers.RationalEquality.Wire
 import MathEvidence.Core.AssuranceMode
-import MathEvidence.Core.ClaimClass
 import MathEvidence.Core.Digest
 import MathEvidence.Core.Digest.Types
 import MathEvidence.Core.JsonCanonical
 import MathEvidence.Core.ResultStatus
 
 /-!
-# `mathevidence-replay`
+# `mathevidence-verify-bundle`
 
-Offline theorem-producing replay for content-addressed evidence bundles.
+Operational bundle verifier (Wave 0 / ME-RV-001).
 
-Pipeline (hard-fail before any `claimEstablished`):
+This executable verifies content digests, recomputes the request digest, and
+runs the Lean rational `checkBool` checker. It does **not** elaborate or
+kernel-check a theorem for the original proposition.
 
-1. Resolve bundle path / content-addressed id
-2. Verify manifest file content digests
-3. Decode request + certificate (`.cjson` preferred, `.json` accepted)
-4. Recompute request digest via Lean wire (`Request.ofClaim`)
-5. Run rational `checkBool` (checker authority)
-6. Match optional `--goal-file` claim to the request claim
-7. Emit a structural checker receipt with `claimEstablished` only on full success
+Maximum assurance: `native_checked`.
+Positive result: `checker_accepted`.
+It MUST NOT emit `kernel_replay`, `soundness_verified`, or a non-null
+`claimEstablished`.
 
-Python packaging remains preview/`tested` only; this exe is the Lean authority
-Agent/Studio must consult for verified status on rational equality reference cases.
+Temporary Lake alias: `mathevidence-replay` (same root).
 -/
 
 open Lean
@@ -41,7 +38,7 @@ open MathEvidence.Checkers.RationalEquality
 open MathEvidence.Checkers.RationalEquality.Decode
 
 def usage : String :=
-  "usage: mathevidence-replay --bundle <path-or-store-id> [--goal-file <file>] [--store-root <dir>]"
+  "usage: mathevidence-verify-bundle --bundle <path-or-store-id> [--goal-file <file>] [--store-root <dir>]"
 
 partial def getFlag (name : String) : List String → Option String
   | [] => none
@@ -74,8 +71,18 @@ def resolveBundlePath (bundleArg : String) (storeRoot : System.FilePath) :
   | none =>
     throw <| IO.userError s!"bundle_not_found: {bundleArg}"
 
-def contentDigestOfFile (path : System.FilePath) : IO String := do
+/-- Soft cap for any single role file read by verify-bundle (ME-RV-021 resource taxonomy). -/
+def maxRoleFileBytes : Nat := 4 * 1024 * 1024
+
+def readBinFileBounded (path : System.FilePath) : IO ByteArray := do
   let bytes ← IO.FS.readBinFile path
+  if bytes.size > maxRoleFileBytes then
+    throw <| IO.userError
+      s!"resource_limit_exceeded: file {path} is {bytes.size} bytes (max {maxRoleFileBytes})"
+  pure bytes
+
+def contentDigestOfFile (path : System.FilePath) : IO String := do
+  let bytes ← readBinFileBounded path
   pure (sha256Bytes bytes).value
 
 /-- First existing relative role path under the bundle (v0.2 `.cjson` then v0.1 `.json`). -/
@@ -126,7 +133,7 @@ def claimsMatch (a b : Claim) : Bool :=
   a.varNames == b.varNames && a.lhs == b.lhs && a.rhs == b.rhs
 
 def failExit (code : UInt32) (msg : String) : IO UInt32 := do
-  IO.eprintln s!"mathevidence-replay: {msg}"
+  IO.eprintln s!"mathevidence-verify-bundle: {msg}"
   pure code
 
 def exitForError (err : String) : UInt32 :=
@@ -141,16 +148,16 @@ def exitForError (err : String) : UInt32 :=
   else if err.startsWith "capability_version_unsupported" then 10
   else 1
 
-def receiptJson
+/-- Operational checker evaluation only — never theorem-level status. -/
+def checkerEvaluationJson
     (req : Request)
     (bundleDig : String)
-    (theoremDig : String)
     (detail : String) : Json :=
   Json.mkObj [
     ("schemaVersion", Json.str "0.2.0"),
     ("requestDigest", Json.str req.requestDigest.value),
     ("bundleDigest", Json.str bundleDig),
-    ("theoremDigest", Json.str theoremDig),
+    ("theoremDigest", Json.str ""),
     ("axiomDigests", Json.arr #[]),
     ("capability", Json.mkObj [
       ("id", Json.str req.capability.id.id),
@@ -164,10 +171,19 @@ def receiptJson
       ("soundnessTheorem", Json.str "checkBool_sound")
     ]),
     ("claimRequested", Json.str req.claim.claimClass.toWire),
-    ("claimEstablished", Json.str ClaimClass.soundResult.toWire),
+    ("claimEstablished", Json.null),
     ("unresolvedObligations", Json.arr #[]),
-    ("assuranceMode", Json.str AssuranceMode.kernelReplay.toWire),
-    ("resultStatus", Json.str ResultStatus.soundnessVerified.toWire),
+    ("assuranceMode", Json.str AssuranceMode.nativeChecked.toWire),
+    ("resultStatus", Json.str ResultStatus.checkerAccepted.toWire),
+    ("operationalBase", Json.mkObj [
+      ("enlargedOps", Json.arr #[
+        Json.str "MathEvidence.Checkers.RationalEquality.Check.checkBool",
+        Json.str "mathevidence-verify-bundle"
+      ]),
+      ("kernelReplayBundleId", Json.str "none_wave0_operational_verifier_only"),
+      ("notes", Json.str
+        "Wave 0: checkBool operational acceptance only; no theorem kernel replay.")
+    ]),
     ("toolchain", Json.mkObj [
       ("leanVersion", Json.str "leanprover/lean4:v4.14.0"),
       ("lakeVersion", Json.str "lake"),
@@ -188,8 +204,8 @@ def decodeGoalClaim (goalRaw : String) : Except String Claim := do
       | .ok c => pure c
       | .error e => throw s!"cannot decode goal claim: {e}"
 
-/-- Digests + decode + check + optional goal match; emit receipt only on full success. -/
-def theoremReplayRational
+/-- Digests + decode + check + optional goal match; emit operational evaluation only. -/
+def verifyRationalBundle
     (bundle : System.FilePath)
     (manifest : Json)
     (goalFile : Option System.FilePath)
@@ -221,59 +237,82 @@ def theoremReplayRational
           failExit (exitForError "certificate_decode_failed")
             s!"certificate_decode_failed: certificate: {e}"
         | .ok cert =>
-          let expected := Request.ofClaim req.claim
-          if req.requestDigest != expected.requestDigest then
+          match Request.ofClaim req.claim with
+          | .error e =>
             failExit (exitForError "request_digest_mismatch")
-              s!"request_digest_mismatch: wire={req.requestDigest.value} recomputed={expected.requestDigest.value}"
-          else if cert.requestDigest != expected.requestDigest then
-            failExit (exitForError "request_digest_mismatch")
-              "request_digest_mismatch: certificate.requestDigest != recomputed request digest"
-          else
-            let manDig := requestDigestOf manifest
-            if !(manDig == expected.requestDigest.value || manDig.isEmpty) then
+              s!"request_digest_mismatch: ofClaim failed: {e}"
+          | .ok expected =>
+            if req.requestDigest != expected.requestDigest then
               failExit (exitForError "request_digest_mismatch")
-                "request_digest_mismatch: manifest.requestDigest != recomputed request digest"
-            else if !checkBool expected cert then
-              failExit (exitForError "certificate_rejected")
-                "certificate_rejected: rational checkBool failed"
+                s!"request_digest_mismatch: wire={req.requestDigest.value} recomputed={expected.requestDigest.value}"
+            else if cert.requestDigest != expected.requestDigest then
+              failExit (exitForError "request_digest_mismatch")
+                "request_digest_mismatch: certificate.requestDigest != recomputed request digest"
             else
-              let goalOk : IO (Except String Unit) := do
-                match goalFile with
-                | none => pure (.ok ())
-                | some gf =>
-                  if !(← gf.pathExists) then
-                    pure (.error s!"goal_mismatch: missing goal file {gf}")
-                  else
-                    let goalRaw ← IO.FS.readFile gf
-                    match decodeGoalClaim goalRaw with
-                    | .error e => pure (.error s!"goal_mismatch: {e}")
-                    | .ok goalClaim =>
-                      if claimsMatch goalClaim expected.claim then
-                        pure (.ok ())
-                      else
-                        pure (.error
-                          "goal_mismatch: goal claim does not match committed request claim")
-              match ← goalOk with
-              | .error e => failExit (exitForError e) e
-              | .ok () =>
-                let manPath ← do
-                  match ← findRoleFile bundle "manifest" with
-                  | some p => pure p
-                  | none => pure (bundle / "manifest.json")
-                let bundleDig ← contentDigestOfFile manPath
-                let theoremDig := expected.requestDigest.value
-                let detail :=
-                  s!"theorem replay accepted for rational equality bundle {bundleArg}; filesVerified={nFiles}"
-                let receipt := receiptJson expected bundleDig theoremDig detail
-                match canonicalString receipt with
-                | .error e =>
-                  failExit 1 s!"checker_receipt_invalid: canonicalization failed: {e}"
-                | .ok receiptText =>
-                  IO.FS.writeFile (bundle / "checker-receipt.cjson") receiptText
-                  IO.println receiptText
-                  IO.eprintln
-                    "mathevidence-replay: soundness_verified; claimEstablished=soundResult (Lean checker authority)"
-                  pure 0
+              let manDig := requestDigestOf manifest
+              if !(manDig == expected.requestDigest.value || manDig.isEmpty) then
+                failExit (exitForError "request_digest_mismatch")
+                  "request_digest_mismatch: manifest.requestDigest != recomputed request digest"
+              else if !checkBool expected cert then
+                failExit (exitForError "certificate_rejected")
+                  "certificate_rejected: rational checkBool failed"
+              else
+                let goalOk : IO (Except String Unit) := do
+                  match goalFile with
+                  | none => pure (.ok ())
+                  | some gf =>
+                    if !(← gf.pathExists) then
+                      pure (.error s!"goal_mismatch: missing goal file {gf}")
+                    else
+                      let goalRaw ← IO.FS.readFile gf
+                      match decodeGoalClaim goalRaw with
+                      | .error e => pure (.error s!"goal_mismatch: {e}")
+                      | .ok goalClaim =>
+                        if claimsMatch goalClaim expected.claim then
+                          pure (.ok ())
+                        else
+                          pure (.error
+                            "goal_mismatch: goal claim does not match committed request claim")
+                match ← goalOk with
+                | .error e => failExit (exitForError e) e
+                | .ok () =>
+                  let manPath ← do
+                    match ← findRoleFile bundle "manifest" with
+                    | some p => pure p
+                    | none => pure (bundle / "manifest.json")
+                  -- Prefer the declared v0.3 bundleDigest (binding identity).
+                  -- NEVER substitute the request digest or hash the manifest file
+                  -- (manifest bytes include the digest field itself).
+                  let bundleDig :=
+                    match manifest.getObjValAs? String "bundleDigest" with
+                    | .ok d => d
+                    | .error _ => ""
+                  let detail :=
+                    s!"operational checker_accepted for rational equality bundle {bundleArg}; filesVerified={nFiles}; manifest={manPath}"
+                  let receipt := checkerEvaluationJson expected bundleDig detail
+                  match canonicalString receipt with
+                  | .error e =>
+                    failExit 1 s!"checker_receipt_invalid: canonicalization failed: {e}"
+                  | .ok receiptText =>
+                    -- Emit evaluation to stdout only — never mutate Candidate Bundle.
+                    IO.println receiptText
+                    IO.eprintln
+                      "mathevidence-verify-bundle: checker_accepted (native_checked); claimEstablished=null"
+                    pure 0
+
+/-- Map an IO exception message to a stable verify-bundle error (no catch-all). -/
+def classifyIoError (msg : String) : String :=
+  if msg.startsWith "bundle_not_found" then msg
+  else if msg.startsWith "manifest_schema_invalid" then msg
+  else if msg.startsWith "content_digest_mismatch" then msg
+  else if msg.startsWith "bundle_path_forbidden" then msg
+  else if msg.startsWith "request_digest_mismatch" then msg
+  else if msg.startsWith "certificate_decode_failed" then msg
+  else if msg.startsWith "certificate_rejected" then msg
+  else if msg.startsWith "goal_mismatch" then msg
+  else if msg.startsWith "capability_version_unsupported" then msg
+  else if msg.startsWith "resource_limit_exceeded" then msg
+  else s!"manifest_schema_invalid: unexpected IO error: {msg}"
 
 def main (args : List String) : IO UInt32 := do
   match getFlag "--bundle" args with
@@ -292,6 +331,9 @@ def main (args : List String) : IO UInt32 := do
         failExit 2 s!"bundle_not_found: missing manifest under {bundle}"
       | some manifestPath =>
         let raw ← IO.FS.readFile manifestPath
+        if raw.toUTF8.size > maxRoleFileBytes then
+          throw <| IO.userError
+            s!"resource_limit_exceeded: manifest {manifestPath} is {raw.toUTF8.size} bytes (max {maxRoleFileBytes})"
         match Json.parse raw with
         | .error err =>
           failExit 3 s!"manifest_schema_invalid: {err}"
@@ -312,7 +354,7 @@ def main (args : List String) : IO UInt32 := do
                 | .error _ => ""
               | .error _ => ""
             if capId == "algebra.rational_equality" || capId.isEmpty then
-              theoremReplayRational bundle manifest goal bundleArg nFiles
+              verifyRationalBundle bundle manifest goal bundleArg nFiles
             else
               let reqDig := requestDigestOf manifest
               let tested :=
@@ -322,22 +364,19 @@ def main (args : List String) : IO UInt32 := do
                   ("contentDigestsVerified", Json.bool true),
                   ("filesVerified", Json.num nFiles),
                   ("requestDigest", Json.str reqDig),
-                  ("bundlePath", Json.str bundle.toString),
                   ("bundleId", Json.str bundleArg),
                   ("claimEstablished", Json.null),
+                  ("assuranceMode", Json.str AssuranceMode.nativeChecked.toWire),
                   ("detail", Json.str
-                    "content digests verified; theorem-producing replay supports algebra.rational_equality")
+                    "content digests verified; theorem-producing kernel replay not available for this capability")
                 ]
               match canonicalString tested with
               | .ok s =>
                 IO.println s
-                IO.eprintln "mathevidence-replay: content digests ok (non-rational; tested only)"
+                IO.eprintln "mathevidence-verify-bundle: content digests ok (non-rational; tested only)"
                 pure 0
               | .error e =>
                 failExit 1 s!"checker_receipt_invalid: {e}"
     catch e =>
-      let msg := toString e
-      if msg.startsWith "bundle_not_found" then
-        failExit 2 msg
-      else
-        failExit 2 s!"bundle_not_found: {e}"
+      let classified := classifyIoError (toString e)
+      failExit (exitForError classified) classified
