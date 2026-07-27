@@ -25,7 +25,7 @@ theorem check_sound (req : Request) (cand : Candidate) (cert : Certificate)
     Claim.proposition req.claim cert.inverse cert.vector := by
   exact checkBool_sound req cert ((check_accept_iff req cand cert).1 h)
 
-private theorem singletonColumns_eq {xs ys : List ℚ}
+theorem singletonColumns_eq {xs ys : List ℚ}
     (h : xs.map (fun t => [t]) = ys.map (fun t => [t])) : xs = ys := by
   revert ys
   induction xs with

@@ -219,6 +219,29 @@ theorem densifyVector_interpret_quote {n : Nat} (v : Fin n → ℚ) :
   simp only [quoteVector]
   rw [evalVector_ofFn, Option.getD_some, densifyVector_ofFn]
 
+/-- IR identity list equals nested `List.ofFn` of Mathlib `1`. -/
+theorem identityRats_eq_ofFn (n : Nat) :
+    identityRats n =
+      List.ofFn fun i : Fin n =>
+        List.ofFn fun j : Fin n => (1 : _root_.Matrix (Fin n) (Fin n) ℚ) i j := by
+  refine List.ext_getElem ?_ ?_
+  · simp [identityRats, List.length_ofFn, List.length_range, List.length_map]
+  · intro i hi hi'
+    have hiFin : i < n := by simpa [identityRats, List.length_range, List.length_map] using hi
+    simp only [identityRats, List.getElem_map, List.getElem_range, List.getElem_ofFn,
+      Matrix.one_apply]
+    refine List.ext_getElem ?_ ?_
+    · simp [List.length_map, List.length_range, List.length_ofFn]
+    · intro j hj hj'
+      have hjFin : j < n := by simpa [List.length_range, List.length_map] using hj
+      simp [List.getElem_map, List.getElem_range, List.getElem_ofFn, Matrix.one_apply,
+        Fin.ext_iff]
+
+/-- Densify of the IR identity list is Mathlib `1`. -/
+theorem densify_identityRats (n : Nat) :
+    densifyMatrix (identityRats n) = (1 : _root_.Matrix (Fin n) (Fin n) ℚ) := by
+  rw [identityRats_eq_ofFn, densify_ofFn]
+
 /-- Concrete 2×2 identity used by LA examples. -/
 theorem densify_interpret_quote_I2 :
     let I2 : _root_.Matrix (Fin 2) (Fin 2) ℚ := fun i j => if i = j then 1 else 0

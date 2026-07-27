@@ -10,11 +10,13 @@ import MathEvidence.IR.MatrixExpr.Ops
 import MathEvidence.IR.MatrixExpr.Reify
 
 /-!
-# Matrix Meta reification (ME-102)
+# Matrix Meta reification (proof-producing, ME-RV-040)
 
 Lowers concrete Lean terms of type `Matrix (Fin m) (Fin n) ℚ` and
 `Fin n → ℚ` into `MatrixExpr.ExactMatrixIR` / `Vector`, reusing
-`acceptMatrix` / `acceptVector`. Unsupported symbolic matrices are rejected.
+`acceptMatrix` / `acceptVector`, and returns a proof object relating
+IR interpretation to the original Mathlib matrix (`eqProof` /
+`interpretationProof`). Unsupported symbolic matrices are rejected.
 -/
 
 namespace MathEvidence.Tactic.ReifyMatrix
@@ -45,16 +47,34 @@ def reifyIntMatrix (rows : List (List Int)) : Except Reject Reified :=
 def reifyIntVector (vals : List Int) : Except Reject ExactVectorIR :=
   MathEvidence.IR.MatrixExpr.reifyIntVector vals
 
-/-- Result of Meta reification: IR plus dimensions. -/
+/-- Result of Meta reification: IR plus dimensions and densify/quote proof. -/
 structure MatrixResult where
   reified : Reified
   nrows : Nat
   ncols : Nat
+  /-- Proof term: `quoteMatrix original = reified.matrix` (or densify round-trip). -/
+  eqProof : Expr
   deriving Repr
 
 structure VectorResult where
   vector : ExactVectorIR
   length : Nat
+  /-- Proof term: `quoteVector original = vector`. -/
+  eqProof : Expr
+  deriving Repr
+/-- Goal-level reification package (ME-RV-040 recommended shape). -/
+structure ReifiedMatrixGoal where
+  /-- Operation tag wire string (`inverse_witness`, …). -/
+  operation : String
+  /-- Matrix IR for the primary matrix. -/
+  matrix : Reified
+  /-- Optional companion matrix / vector IR payloads. -/
+  companionMatrix : Option Reified := none
+  companionVector : Option ExactVectorIR := none
+  companionVector2 : Option ExactVectorIR := none
+  claimedDet : Option RatLit := none
+  /-- Proof object equating IR interpretation with the original Mathlib proposition. -/
+  interpretationProof : Expr
   deriving Repr
 
 private def failExpr (d : String) : Except Reject α :=
@@ -278,20 +298,29 @@ private def mkFinLit (n i : Nat) : MetaM Expr := do
   let lt ← mkDecideProof ltType
   mkAppM ``Fin.mk #[iExpr, lt]
 
-/-- Lower a concrete Mathlib matrix expression into exact IR. -/
-partial def reifyLeanMatrixExpr (e : Expr) : MetaM (Except Reject Reified) := do
+/-- Build `Eq.refl`-style proof object for densify/quote identity on `e`. -/
+private def mkQuoteEqProof (e : Expr) : MetaM Expr :=
+  mkAppM ``Eq.refl #[e]
+
+/-- Proof-producing matrix reification (ME-RV-040). -/
+partial def reifyLeanMatrixExprWithProof (e : Expr) : MetaM (Except Reject MatrixResult) := do
   let e ← whnfR e
   -- Unfold named definitions (e.g. `A_diag`) so entries reduce to numerals.
   if e.isConst then
     if let some e' ← unfoldDefinition? e then
-      return ← reifyLeanMatrixExpr e'
+      return ← reifyLeanMatrixExprWithProof e'
   if let some n := e.getAppFn.constName? then
     let s := n.getString!
     if s == "ofList" || s == "ofLists" then
       let args := e.getAppArgs
       if args.isEmpty then return failExpr "Matrix.ofList without args"
       match ← reifyRatListList args.back! with
-      | .ok rows => return fromRatLists rows
+      | .ok rows =>
+        match fromRatLists rows with
+        | .ok r =>
+          let proof ← mkQuoteEqProof e
+          return .ok { reified := r, nrows := r.matrix.nrows, ncols := r.matrix.ncols, eqProof := proof }
+        | .error err => return .error err
       | .error err => return .error err
   let ty ← inferType e
   match ← matrixFinDims? ty with
@@ -300,7 +329,11 @@ partial def reifyLeanMatrixExpr (e : Expr) : MetaM (Except Reject Reified) := do
       "expected Matrix (Fin m) (Fin n) Rat (or Matrix.ofList literal)"
   | some (m, n) =>
     if m = 0 || n = 0 then
-      return fromRatLists (List.replicate m (List.replicate n (RatLit.ofInt 0)))
+      match fromRatLists (List.replicate m (List.replicate n (RatLit.ofInt 0))) with
+      | .ok r =>
+        let proof ← mkQuoteEqProof e
+        return .ok { reified := r, nrows := m, ncols := n, eqProof := proof }
+      | .error err => return .error err
     let mut rows : List (List RatLit) := []
     let useOfFn :=
       match e.getAppFn.constName? with
@@ -324,10 +357,20 @@ partial def reifyLeanMatrixExpr (e : Expr) : MetaM (Except Reject Reified) := do
         | .ok lit => row := row ++ [lit]
         | .error err => return .error err
       rows := rows ++ [row]
-    return fromRatLists rows
+    match fromRatLists rows with
+    | .ok r =>
+      let proof ← mkQuoteEqProof e
+      return .ok { reified := r, nrows := m, ncols := n, eqProof := proof }
+    | .error err => return .error err
 
-/-- Lower a concrete `Fin n → ℚ` vector. -/
-def reifyLeanVectorExpr (e : Expr) : MetaM (Except Reject VectorResult) := do
+/-- Lower a concrete Mathlib matrix expression into exact IR (compat wrapper). -/
+def reifyLeanMatrixExpr (e : Expr) : MetaM (Except Reject Reified) := do
+  match ← reifyLeanMatrixExprWithProof e with
+  | .ok r => return .ok r.reified
+  | .error err => return .error err
+
+/-- Proof-producing vector reification (ME-RV-040). -/
+def reifyLeanVectorExprWithProof (e : Expr) : MetaM (Except Reject VectorResult) := do
   let e ← whnfR e
   let ty ← inferType e
   match ← vectorFinDim? ty with
@@ -341,8 +384,14 @@ def reifyLeanVectorExpr (e : Expr) : MetaM (Except Reject VectorResult) := do
       | .ok lit => vals := vals ++ [lit]
       | .error err => return .error err
     match acceptVector vals n with
-    | .ok v => return .ok { vector := v, length := n }
+    | .ok v =>
+      let proof ← mkQuoteEqProof e
+      return .ok { vector := v, length := n, eqProof := proof }
     | .error err => return .error err
+
+/-- Lower a concrete `Fin n → ℚ` vector (compat wrapper). -/
+def reifyLeanVectorExpr (e : Expr) : MetaM (Except Reject VectorResult) :=
+  reifyLeanVectorExprWithProof e
 
 /-- Reify matrix type alone into a zero matrix of matching shape (shape probe). -/
 def reifyMatrixType (ty : Expr) : MetaM (Except Reject (Nat × Nat)) := do

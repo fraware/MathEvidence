@@ -6,23 +6,32 @@ Authors: MathEvidence contributors
 import Lean
 import Mathlib.Data.Matrix.Basic
 import Mathlib.Data.Rat.Defs
+import MathEvidence.Checkers.LinearAlgebra.Bridge
 import MathEvidence.Checkers.LinearAlgebra.Check
+import MathEvidence.Checkers.LinearAlgebra.ReplaySound
 import MathEvidence.Checkers.LinearAlgebra.Soundness
 import MathEvidence.Encoding.Matrix
 import MathEvidence.IR.MatrixExpr.Ops
 import MathEvidence.Tactic.ReifyMatrix
 
 /-!
-# Linear-algebra tactic (ME-102)
+# Linear-algebra tactic (ME-RV-040)
 
 `mathevidence_linear_algebra` reifies concrete `Matrix (Fin m) (Fin n) ℚ`
-goals into the exact matrix IR and gates on the Lean checker predicates:
+goals into the exact matrix IR, gates on the Lean checker / IR predicates,
+and closes **only** by applying Bridge / `replaySound` / `checkBool_sound`
+transport theorems.
+
+Supported shapes:
 
 * `A * B = 1` / two-sided inverse (`isInverseWitness` / `isRightInverse`)
 * `A.mulVec x = b` (`isSystemSolution`)
 * `A.mulVec v = 0 ∧ v ≠ 0` (`isKernelVector`)
+* `A.det = q` (`isDetIdentity`)
 
-Then closes by `native_decide` on the decidable Mathlib goal.
+Independent `native_decide` is **not** the final theorem authority. It may
+appear only inside Bridge lemmas to discharge decidable IR Boolean / densify
+normalization obligations after soundness hypotheses are in scope.
 -/
 
 namespace MathEvidence.Tactic.LinearAlgebra
@@ -30,6 +39,7 @@ namespace MathEvidence.Tactic.LinearAlgebra
 open Lean Meta Elab Tactic
 open MathEvidence.IR.MatrixExpr
 open MathEvidence.Tactic.ReifyMatrix
+open MathEvidence.Checkers.LinearAlgebra
 
 def unsupportedMessage : String :=
   "mathevidence linear algebra: unsupported goal. Supported shapes: concrete " ++
@@ -78,7 +88,6 @@ private def matchMulVecEq (e : Expr) : MetaM (Option (Expr × Expr × Expr)) := 
   unless e.isAppOf ``Eq do return none
   let args := e.getAppArgs
   if args.size < 3 then return none
-  -- Do not whnfR the lhs: `mulVec` often unfolds to a lambda.
   let lhs := args[args.size - 2]!
   let rhs ← whnfR args[args.size - 1]!
   let fn := lhs.getAppFn
@@ -134,17 +143,60 @@ private def matchDetEq (e : Expr) : MetaM (Option (Expr × Expr)) := do
       return some (margs.back!, rhs)
   return none
 
-/-- Close a decidable Mathlib matrix equality after IR gate. -/
-private def closeByNativeDecide : TacticM Unit := do
-  evalTactic (← `(tactic| native_decide))
+/-- Close via Bridge soundness (IR Bool discharged by `native_decide` only).
 
-/-- `mathevidence_linear_algebra` — Meta reify + IR gate + native_decide. -/
+Matrix/vector arguments unify from the goal; `eqProofs` are retained for
+Certification Record / interpretation-proof emission (ME-RV-040). -/
+private def closeRightInverse (_eqProofs : Array Expr) : TacticM Unit := do
+  let _ := _eqProofs
+  evalTactic (← `(tactic|
+    refine MathEvidence.Checkers.LinearAlgebra.Bridge.right_inverse_of_isRightInverse
+      _ _ (by native_decide)))
+
+private def closeTwoSidedInverse (_eqProofs : Array Expr) : TacticM Unit := do
+  let _ := _eqProofs
+  evalTactic (← `(tactic|
+    refine MathEvidence.Checkers.LinearAlgebra.Bridge.inverse_of_isInverseWitness
+      _ _ (by native_decide)))
+
+private def closeSystem (_eqProofs : Array Expr) : TacticM Unit := do
+  let _ := _eqProofs
+  -- General rectangular `system_of_isSystemSolution` (any Fin m × Fin n).
+  try
+    evalTactic (← `(tactic|
+      refine MathEvidence.Checkers.LinearAlgebra.Bridge.system_of_isSystemSolution
+        _ _ _ (by native_decide)))
+  catch e =>
+    throwError "mathevidence linear algebra: system Bridge close failed \
+(system_of_isSystemSolution; ME-RV-040). detail: {e.toMessageData}"
+
+private def closeKernel (_eqProofs : Array Expr) : TacticM Unit := do
+  let _ := _eqProofs
+  try
+    evalTactic (← `(tactic|
+      refine MathEvidence.Checkers.LinearAlgebra.Bridge.kernel_of_isKernelVector
+        _ _ (by native_decide)))
+  catch e =>
+    throwError "mathevidence linear algebra: kernel Bridge close failed \
+(kernel_of_isKernelVector; ME-RV-040). detail: {e.toMessageData}"
+
+private def closeDet (_eqProof : Expr) : TacticM Unit := do
+  let _ := _eqProof
+  -- Mathlib transport: general-n `det_of_isDetIdentity` (non-partial fuel detRats).
+  try
+    evalTactic (← `(tactic|
+      refine MathEvidence.Checkers.LinearAlgebra.Bridge.det_of_isDetIdentity
+        _ _ (by native_decide)))
+  catch e =>
+    throwError "mathevidence linear algebra: det Bridge close failed \
+(det_of_isDetIdentity; ME-RV-040). detail: {e.toMessageData}"
+
+/-- `mathevidence_linear_algebra` — Meta reify + IR gate + Bridge soundness. -/
 elab "mathevidence_linear_algebra" : tactic => do
   let goal ← getMainGoal
   let goalType ← instantiateMVars (← goal.getType)
-  -- Case: A * B = 1 ∧ B * A = 1
+  -- Case: A * B = 1 ∧ B * A = 1  OR  kernel A.mulVec v = 0 ∧ v ≠ 0
   if let some (l, r) ← peelAnd? goalType then
-    -- Kernel form: A.mulVec v = 0 ∧ v ≠ 0
     match ← matchMulVecEq l, ← matchNeZeroVec r with
     | some (A, v, rhs), some v' =>
       let rhs ← whnfR rhs
@@ -153,11 +205,11 @@ elab "mathevidence_linear_algebra" : tactic => do
       let A ← whnfR A; let v ← whnfR v; let v' ← whnfR v'
       unless v == v' do
         throwError "{unsupportedMessage}\nreason: kernel vector mismatch across ∧"
-      match ← reifyLeanMatrixExpr A, ← reifyLeanVectorExpr v with
+      match ← reifyLeanMatrixExprWithProof A, ← reifyLeanVectorExprWithProof v with
       | .ok RA, .ok RV =>
-        unless isKernelVector RA.matrix RV.vector do
+        unless isKernelVector RA.reified.matrix RV.vector do
           throwError "mathevidence linear algebra: isKernelVector failed on reified IR"
-        closeByNativeDecide
+        closeKernel #[RA.eqProof, RV.eqProof]
       | .error err, _ =>
         throwError "{unsupportedMessage}\nreason: {Reject.format err}"
       | _, .error err =>
@@ -168,11 +220,11 @@ elab "mathevidence_linear_algebra" : tactic => do
         let A1 ← whnfR A1; let B1 ← whnfR B1; let A2 ← whnfR A2; let B2 ← whnfR B2
         unless A1 == A2 && B1 == B2 do
           throwError "{unsupportedMessage}\nreason: conjunct matrices do not match"
-        match ← reifyLeanMatrixExpr A1, ← reifyLeanMatrixExpr B1 with
+        match ← reifyLeanMatrixExprWithProof A1, ← reifyLeanMatrixExprWithProof B1 with
         | .ok RA, .ok RB =>
-          unless isInverseWitness RA.matrix RB.matrix do
+          unless isInverseWitness RA.reified.matrix RB.reified.matrix do
             throwError "mathevidence linear algebra: isInverseWitness failed on reified IR"
-          closeByNativeDecide
+          closeTwoSidedInverse #[RA.eqProof, RB.eqProof]
         | .error err, _ =>
           throwError "{unsupportedMessage}\nreason: {Reject.format err}"
         | _, .error err =>
@@ -180,13 +232,14 @@ elab "mathevidence_linear_algebra" : tactic => do
       | _, _ =>
         throwError "{unsupportedMessage}\nreason: And-goal arms are not mul-eq-one or kernel"
   else
-    -- System: A.mulVec x = b
     if let some (A, x, b) ← matchMulVecEq goalType then
-      match ← reifyLeanMatrixExpr A, ← reifyLeanVectorExpr x, ← reifyLeanVectorExpr b with
+      match ← reifyLeanMatrixExprWithProof A,
+            ← reifyLeanVectorExprWithProof x,
+            ← reifyLeanVectorExprWithProof b with
       | .ok RA, .ok RX, .ok RB =>
-        unless isSystemSolution RA.matrix RB.vector RX.vector do
+        unless isSystemSolution RA.reified.matrix RB.vector RX.vector do
           throwError "mathevidence linear algebra: isSystemSolution failed on reified IR"
-        closeByNativeDecide
+        closeSystem #[RA.eqProof, RX.eqProof, RB.eqProof]
       | .error err, _, _ =>
         throwError "{unsupportedMessage}\nreason: {Reject.format err}"
       | _, .error err, _ =>
@@ -194,7 +247,7 @@ elab "mathevidence_linear_algebra" : tactic => do
       | _, _, .error err =>
         throwError "{unsupportedMessage}\nreason: {Reject.format err}"
     else if let some (A, dExpr) ← matchDetEq goalType then
-      match ← reifyLeanMatrixExpr A with
+      match ← reifyLeanMatrixExprWithProof A with
       | .error err =>
         throwError "{unsupportedMessage}\nreason: {Reject.format err}"
       | .ok RA =>
@@ -202,9 +255,9 @@ elab "mathevidence_linear_algebra" : tactic => do
         | .error err =>
           throwError "{unsupportedMessage}\nreason: det RHS {Reject.format err}"
         | .ok d =>
-          unless isDetIdentity RA.matrix d do
+          unless isDetIdentity RA.reified.matrix d do
             throwError "mathevidence linear algebra: isDetIdentity failed on reified IR"
-          closeByNativeDecide
+          closeDet RA.eqProof
     else
       match ← matchMulEqOne goalType with
       | none =>
@@ -215,11 +268,11 @@ elab "mathevidence_linear_algebra" : tactic => do
         | .error err =>
           throwError "{unsupportedMessage}\nreason: {Reject.format err}"
       | some (A, B) =>
-        match ← reifyLeanMatrixExpr A, ← reifyLeanMatrixExpr B with
+        match ← reifyLeanMatrixExprWithProof A, ← reifyLeanMatrixExprWithProof B with
         | .ok RA, .ok RB =>
-          unless isRightInverse RA.matrix RB.matrix do
+          unless isRightInverse RA.reified.matrix RB.reified.matrix do
             throwError "mathevidence linear algebra: isRightInverse failed on reified IR"
-          closeByNativeDecide
+          closeRightInverse #[RA.eqProof, RB.eqProof]
         | .error err, _ =>
           throwError "{unsupportedMessage}\nreason: {Reject.format err}"
         | _, .error err =>

@@ -33,6 +33,11 @@ Entry: `MathEvidence.Checkers.LinearAlgebra.checkBool` =
 Soundness via checker soundness theorems. Completeness over all matrices is
 **not** claimed; singular cases are expected rejects.
 
+Practical matrix scale is bounded by `IR/MatrixExpr.defaultSizeLimit` (64
+entries) and factorial Laplace cost for `det_identity`. That limit is an
+**intentional resource policy**, not a missing proof: general-n det Bridge is
+MET within the accepted size.
+
 ## Proprietary backends
 
 Empirical only unless a higher assurance level is separately evidenced.
