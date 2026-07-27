@@ -1,0 +1,8 @@
+{
+  "id": "adv-021",
+  "category": "ideal_wrong_capability",
+  "expect": "reject",
+  "summary": "Certificate labeled algebra.rational_equality presented for ideal membership claim",
+  "capability": "algebra.ideal_membership_witness",
+  "notes": "ME-RV-035 adversarial seed; capability mismatch must hard-fail."
+}

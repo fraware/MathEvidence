@@ -1,0 +1,8 @@
+{
+  "id": "adv-022",
+  "category": "ideal_malformed_sparse",
+  "expect": "reject",
+  "summary": "Malformed SparsePoly JSON (missing exponents / wrong varCount)",
+  "capability": "algebra.ideal_membership_witness",
+  "notes": "ME-RV-035 adversarial seed; arity decoder must reject."
+}

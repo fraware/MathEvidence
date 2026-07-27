@@ -1,0 +1,8 @@
+{
+  "id": "adv-024",
+  "category": "ideal_swapped_gens",
+  "expect": "reject",
+  "summary": "Swapped generator/multiplier order that fails checkMembership",
+  "capability": "algebra.ideal_membership_witness",
+  "notes": "ME-RV-035 adversarial seed; Lean/Python checker reject."
+}

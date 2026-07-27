@@ -97,6 +97,31 @@
       "id": "adv-019",
       "category": "wrong_capability_certificate",
       "path": "wrong_capability_certificate.json"
+    },
+    {
+      "id": "adv-020",
+      "category": "ideal_arity_mismatch",
+      "path": "ideal_arity_mismatch.json"
+    },
+    {
+      "id": "adv-021",
+      "category": "ideal_wrong_capability",
+      "path": "ideal_wrong_capability.json"
+    },
+    {
+      "id": "adv-022",
+      "category": "ideal_malformed_sparse",
+      "path": "ideal_malformed_sparse.json"
+    },
+    {
+      "id": "adv-023",
+      "category": "ideal_oversized_exponent",
+      "path": "ideal_oversized_exponent.json"
+    },
+    {
+      "id": "adv-024",
+      "category": "ideal_swapped_gens",
+      "path": "ideal_swapped_gens.json"
     }
   ]
 }

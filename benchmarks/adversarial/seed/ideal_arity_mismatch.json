@@ -1,0 +1,8 @@
+{
+  "id": "adv-020",
+  "category": "ideal_arity_mismatch",
+  "expect": "reject",
+  "summary": "Ideal-membership certificate with multiplier arity unequal to generator arity",
+  "capability": "algebra.ideal_membership_witness",
+  "notes": "ME-RV-035 adversarial seed; decoder/checker must hard-fail."
+}
