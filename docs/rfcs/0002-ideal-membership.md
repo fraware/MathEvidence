@@ -1,8 +1,8 @@
 # RFC 0002 — Ideal Membership Certificates
 
-Status: draft; native witness checker partial  
+Status: Wave 3 flagship — fixed-arity IR + `checkMembership_sound` authority  
 Owner: MathEvidence federation / algebra maintainers  
-Capability: `algebra.groebner_membership`
+Capability: `algebra.ideal_membership_witness` (renamed from `algebra.groebner_membership`; no Gröbner certificate is checked)
 
 ## Summary
 
@@ -45,7 +45,7 @@ checker lives at `MathEvidence.Checkers.IdealMembership.Check`.
 Existing Lean Gröbner projects remain authoritative for proof reconstruction.
 MathEvidence provides:
 
-- registry discovery for `algebra.groebner_membership`;
+- registry discovery for `algebra.ideal_membership_witness`;
 - shared provenance metadata using `schemas/federation-metadata.schema.json`;
 - sparse-polynomial syntax scaffolding for future interop;
 - fixture-only examples until maintainers opt into live emit/consume.

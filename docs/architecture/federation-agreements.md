@@ -10,7 +10,8 @@ Engineering fixtures alone do **not** close Milestone 4 live exits.
 [`../STATUS.md`](../STATUS.md) and [`../security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md).  
 **Upgrade checklist:** [`../../evidence/federation/examples/UPGRADE_PATH.md`](../../evidence/federation/examples/UPGRADE_PATH.md)  
 **Outreach copy:** [`../validation/outreach-email-templates.md`](../validation/outreach-email-templates.md) Emails 6–8  
-**Agreement form:** [`../validation/federation-agreement-template.md`](../validation/federation-agreement-template.md)
+**Agreement form:** [`../validation/federation-agreement-template.md`](../validation/federation-agreement-template.md)  
+**Live peer checklist (ME-RV-082/083):** [`../validation/federation-live-checklist.md`](../validation/federation-live-checklist.md) (**0/2**, BLOCKED)
 
 | project_id | role | status | contact | agreed_at | notes |
 | --- | --- | --- | --- | --- | --- |

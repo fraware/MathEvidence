@@ -30,7 +30,7 @@ A frontier collaboration candidate SHOULD:
 | Analytic / formal calculus libraries | Derivative / antiderivative / ODE candidates with domains | `algebra.formal_rational_calculus` with candidate ≠ completeness | Outreach not started |
 | Finite combinatorial falsification | Bounded counterexamples | `logic.finite_counterexample` typed witnesses | Outreach not started |
 | SMT-backed developments | Reconstruction authority elsewhere | Federated `logic.smt` metadata only | Align with Lean-SMT maintainers |
-| Gröbner / ideal membership stacks | Specialized checkers | Federated `algebra.groebner_membership` metadata | Align with external owners |
+| Gröbner / ideal membership stacks | Specialized checkers | Federated `algebra.ideal_membership_witness` metadata | Align with external owners |
 
 ## Collaboration protocol
 
