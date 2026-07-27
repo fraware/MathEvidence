@@ -4,15 +4,24 @@
   "precisionAccounting": {
     "familyId": "finite.simple_graph_fin5",
     "proposed": 64,
-    "falsified": 64,
+    "falsified": 0,
     "boundedVerified": 0,
     "formallyProved": 0,
     "openProblems": 0,
-    "precisionRate": 1.0,
+    "mirrorAcceptedPreview": 64,
+    "candidateStatements": 64,
+    "refutationRate": 0.0,
+    "candidateValidityRate": 1.0,
+    "theoremConversionRate": 0.0,
+    "openRate": 0.0,
+    "boundedOnlyRate": 0.0,
+    "falsePositiveRate": null,
     "notes": [
-      "precisionRate = falsified/proposed among campaign candidates.",
+      "refutationRate = falsified/proposed (kernel-certified refutations only).",
+      "mirror_accepted preview does not count as falsified.",
       "bounded_verified and open are not unbounded theorems.",
-      "formally_proved requires an explicit reusable theorem reference.",
+      "formally_proved requires Certification Record or validated source proof.",
+      "falsePositiveRate requires expert review (unset until then).",
       "Precision is campaign-local; do not claim field-level performance from tiny batches.",
       "generatorVersion=finite_graph.v0.2.0"
     ]
