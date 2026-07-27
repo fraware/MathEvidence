@@ -14,13 +14,17 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-CAPABILITY_ID = "algebra.groebner_membership"
+CAPABILITY_ID = "algebra.ideal_membership_witness"
 CAPABILITY_VERSION = "0.1.0"
 SCHEMA_VERSION = "0.1.0"
 
 # Exact linear search budget (number of unknown coefficients).
 _MAX_LINEAR_UNKNOWNS = 96
 _MAX_TOTAL_DEGREE = 6
+
+
+class ArityError(ValueError):
+    """Exponent vector length differs from declared ``varCount`` (ME-RV-030)."""
 
 
 def _term(coefficient: int, exponents: list[int]) -> dict[str, Any]:
@@ -40,17 +44,61 @@ def _infer_var_count(target: dict[str, Any], generators: list[dict[str, Any]]) -
     return 0
 
 
+def _require_exponent_arity(poly: dict[str, Any], nvars: int, *, label: str) -> None:
+    """Reject any term whose exponent array length differs from ``nvars``.
+
+    ME-RV-030: no zip truncation — length mismatch is a hard decode error.
+    """
+    vc = poly.get("varCount")
+    if vc is not None and int(vc) != nvars:
+        raise ArityError(
+            f"{label}: varCount {vc} differs from expected arity {nvars}"
+        )
+    for i, term in enumerate(poly.get("terms") or []):
+        exps = term.get("exponents")
+        if exps is None:
+            raise ArityError(f"{label}: term {i} missing exponents")
+        if len(exps) != nvars:
+            raise ArityError(
+                f"{label}: term {i} exponents length {len(exps)} != varCount {nvars}"
+            )
+        for e in exps:
+            if int(e) < 0:
+                raise ArityError(f"{label}: term {i} has negative exponent {e}")
+
+
+def validate_sparse_poly(poly: dict[str, Any], *, label: str = "poly") -> dict[str, Any]:
+    """Decode/validate a sparse poly; reject arity errors."""
+    if not isinstance(poly, dict):
+        raise ArityError(f"{label}: expected object")
+    nvars = int(poly.get("varCount", -1))
+    if nvars < 0:
+        terms = poly.get("terms") or []
+        if not terms:
+            raise ArityError(f"{label}: missing varCount")
+        nvars = len((terms[0].get("exponents") or []))
+    _require_exponent_arity(poly, nvars, label=label)
+    return {"varCount": nvars, "terms": list(poly.get("terms") or [])}
+
+
 def _poly_from_dict(p: dict[str, Any], nvars: int) -> dict[str, Any]:
-    return {
+    out = {
         "varCount": int(p.get("varCount", nvars)),
         "terms": list(p.get("terms") or []),
     }
+    _require_exponent_arity(out, nvars, label="sparsePoly")
+    return out
 
 
-def _normalize_terms(terms: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _normalize_terms(terms: list[dict[str, Any]], nvars: int) -> list[dict[str, Any]]:
     acc: dict[tuple[int, ...], int] = {}
     for t in terms:
-        key = tuple(int(e) for e in t.get("exponents") or [])
+        exps = t.get("exponents") or []
+        if len(exps) != nvars:
+            raise ArityError(
+                f"normalize: exponents length {len(exps)} != varCount {nvars}"
+            )
+        key = tuple(int(e) for e in exps)
         acc[key] = acc.get(key, 0) + int(t.get("coefficient") or 0)
     return [
         _term(c, list(exps))
@@ -59,32 +107,46 @@ def _normalize_terms(terms: list[dict[str, Any]]) -> list[dict[str, Any]]:
     ]
 
 
+def _add_exponents(a: list[int], b: list[int], nvars: int) -> list[int]:
+    """Componentwise exponent add; rejects length ≠ nvars (no zip truncation)."""
+    if len(a) != nvars or len(b) != nvars:
+        raise ArityError(
+            f"exponent add: lengths {len(a)}, {len(b)} must equal varCount {nvars}"
+        )
+    return [int(x) + int(y) for x, y in zip(a, b, strict=True)]
+
+
 def check_membership_python(
     target: dict[str, Any],
     generators: list[dict[str, Any]],
     multipliers: list[dict[str, Any]],
 ) -> bool:
-    """Python mirror of Lean ``checkMembership`` (normalize then compare)."""
+    """Python mirror of Lean ``checkMembership`` (normalize then compare).
+
+    Raises ``ArityError`` when any exponent vector length ≠ ``varCount``.
+    """
     if len(generators) != len(multipliers):
         return False
     nvars = _infer_var_count(target, generators)
+    target = _poly_from_dict(target, nvars)
     combo: dict[tuple[int, ...], int] = {}
-    for g, q in zip(generators, multipliers):
+    for g, q in zip(generators, multipliers, strict=True):
         g = _poly_from_dict(g, nvars)
         q = _poly_from_dict(q, nvars)
         for tg in g.get("terms") or []:
             for tq in q.get("terms") or []:
-                exps = [
-                    int(a) + int(b)
-                    for a, b in zip(tg.get("exponents") or [], tq.get("exponents") or [])
-                ]
+                exps = _add_exponents(
+                    list(tg.get("exponents") or []),
+                    list(tq.get("exponents") or []),
+                    nvars,
+                )
                 key = tuple(exps)
                 combo[key] = combo.get(key, 0) + int(tg.get("coefficient") or 0) * int(
                     tq.get("coefficient") or 0
                 )
     target_norm = {
-        tuple(int(e) for e in t.get("exponents") or []): int(t.get("coefficient") or 0)
-        for t in _normalize_terms(list(target.get("terms") or []))
+        tuple(int(e) for e in t["exponents"]): int(t["coefficient"])
+        for t in _normalize_terms(list(target.get("terms") or []), nvars)
     }
     combo_norm = {k: v for k, v in combo.items() if v != 0}
     return combo_norm == {k: v for k, v in target_norm.items() if v != 0}
@@ -144,8 +206,11 @@ def _expr_to_sparse(poly: Any, xs: tuple[Any, ...], nvars: int) -> dict[str, Any
     for mon, c in Poly(poly, *xs, domain="QQ").terms():
         if getattr(c, "q", 1) != 1:
             return None
-        terms.append(_term(int(c), list(mon)))
-    return {"varCount": nvars, "terms": _normalize_terms(terms)}
+        exps = list(mon)
+        if len(exps) != nvars:
+            return None
+        terms.append(_term(int(c), exps))
+    return {"varCount": nvars, "terms": _normalize_terms(terms, nvars)}
 
 
 def _exact_linear_witness(
@@ -273,7 +338,7 @@ def _sympy_multipliers(
                 else []
             )
             return [
-                {"varCount": nvars, "terms": _normalize_terms(first)},
+                {"varCount": nvars, "terms": _normalize_terms(first, nvars)},
                 {"varCount": nvars, "terms": []},
             ]
 
@@ -532,8 +597,11 @@ def propose_membership_witness(
     """Return an untrusted candidate certificate payload.
 
     Lean ``checkMembership`` / ``MembershipWitness.check`` is authoritative.
+    Raises ``ArityError`` when any exponent array length ≠ ``varCount``.
     """
     nvars = _infer_var_count(target, generators)
+    target = _poly_from_dict(target, nvars)
+    generators = [_poly_from_dict(g, nvars) for g in generators]
     multipliers: list[dict[str, Any]] = []
     notes: list[str] = []
     resolved_backend = backend

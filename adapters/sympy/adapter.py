@@ -76,7 +76,7 @@ SYMBOLIC_CALCULUS_CAPABILITY = CapabilityDescriptor(
 )
 
 IDEAL_MEMBERSHIP_CAPABILITY = CapabilityDescriptor(
-    id="algebra.groebner_membership",
+    id="algebra.ideal_membership_witness",
     version="0.1.0",
     claim_classes=["witness", "soundResult", "candidate"],
     request_schema="federation-request.schema.json",
@@ -88,12 +88,26 @@ IDEAL_MEMBERSHIP_CAPABILITY = CapabilityDescriptor(
     ],
 )
 
+ANALYTIC_CALCULUS_CAPABILITY = CapabilityDescriptor(
+    id="analysis.analytic_calculus",
+    version="0.1.0",
+    claim_classes=["candidate", "soundResult", "witness"],
+    request_schema="analytic-calculus-request.schema.json",
+    evidence_schema="analytic-calculus-certificate.schema.json",
+    deterministic=True,
+    notes=[
+        "Proposes AnalyticExpr DerivProof trees; Lean checkDeriv_sound owns HasDerivAt.",
+        "Never trusts caller Booleans for domain conditions; never claims completeness.",
+    ],
+)
+
 SYMPY_CAPABILITIES = [
     RATIONAL_EQUALITY_CAPABILITY,
     LINEAR_ALGEBRA_CAPABILITY,
     FINITE_COUNTEREXAMPLE_CAPABILITY,
     SYMBOLIC_CALCULUS_CAPABILITY,
     IDEAL_MEMBERSHIP_CAPABILITY,
+    ANALYTIC_CALCULUS_CAPABILITY,
 ]
 
 
@@ -615,7 +629,8 @@ def check_support(params: dict[str, Any], tracker: ResourceTracker) -> HandlerRe
             "algebra.linear_algebra",
             "logic.finite_counterexample",
             "algebra.formal_rational_calculus",
-            "algebra.groebner_membership",
+            "algebra.ideal_membership_witness",
+            "analysis.analytic_calculus",
         ):
             return HandlerResult({"supported": True, "capability": cap})
     cap = params.get("capability", CAPABILITY_ID)
@@ -642,7 +657,7 @@ def compute_handler(params: dict[str, Any], tracker: ResourceTracker) -> Handler
         return compute_finite_counterexample(request, tracker)
     if cap == "algebra.formal_rational_calculus":
         return compute_symbolic_calculus(request, tracker)
-    if cap == "algebra.groebner_membership":
+    if cap == "algebra.ideal_membership_witness":
         from adapters.common.ideal_membership import compute_ideal_membership_certificate
 
         tracker.check()
@@ -652,6 +667,38 @@ def compute_handler(params: dict[str, Any], tracker: ResourceTracker) -> Handler
             raise stable_error("malformed_evidence", str(exc)) from exc
         tracker.ensure_output_size(len(str(result).encode("utf-8")))
         return HandlerResult(result, resource_usage=tracker.usage())
+    if cap == "analysis.analytic_calculus":
+        from adapters.common.analytic_calculus import (
+            AnalyticError,
+            propose_deriv_certificate,
+            propose_ode_certificate,
+        )
+
+        tracker.check()
+        kind = request.get("kind", "derivative")
+        try:
+            if kind == "odeCandidate":
+                cert = propose_ode_certificate(
+                    request["source"],
+                    initial_conditions=list(request.get("initialConditions") or []),
+                )
+            else:
+                cert = propose_deriv_certificate(request["source"])
+        except (AnalyticError, KeyError, TypeError, ValueError) as exc:
+            raise stable_error("malformed_evidence", str(exc)) from exc
+        digest = request.get("requestDigest", "")
+        if digest:
+            cert["requestDigest"] = digest
+        out = {
+            "capability": "analysis.analytic_calculus",
+            "capabilityVersion": "0.1.0",
+            "requestDigest": digest,
+            "candidate": {"reportedOk": True},
+            "certificate": cert,
+            "resultHint": "candidate",
+        }
+        tracker.ensure_output_size(len(str(out).encode("utf-8")))
+        return HandlerResult(out, resource_usage=tracker.usage())
     return compute_rational_equality(request, tracker)
 
 

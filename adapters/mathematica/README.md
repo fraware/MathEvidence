@@ -3,7 +3,7 @@
 Closed v0 backend for `algebra.rational_equality` (RFC 0001),
 `algebra.linear_algebra`, `logic.finite_counterexample`, live
 `algebra.formal_rational_calculus` derivative/antiderivative candidates, and
-`algebra.groebner_membership` (PolynomialReduce → sparse multipliers when
+`algebra.ideal_membership_witness` (PolynomialReduce → sparse multipliers when
 `MATHEVIDENCE_WOLFRAMSCRIPT` is set; otherwise fixture/`backend_unavailable`,
 not advertised as live in the registry). Evidence contracts match the SymPy
 adapter — never a trusted Boolean. Candidate calculus results never imply

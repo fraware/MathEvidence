@@ -43,6 +43,7 @@ STABLE_CODES: dict[str, ErrorCategory] = {
     "certificate_decode_failed": ErrorCategory.EVIDENCE,
     "completeness_not_established": ErrorCategory.EVIDENCE,
     "approximation_bound_missing": ErrorCategory.EVIDENCE,
+    "content_address_collision": ErrorCategory.EVIDENCE,
     "bundle_not_found": ErrorCategory.EVIDENCE,
     "bundle_path_forbidden": ErrorCategory.EVIDENCE,
     "bundle_path_rejected": ErrorCategory.EVIDENCE,
