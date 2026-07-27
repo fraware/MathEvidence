@@ -1,4 +1,14 @@
-"""Quality tier scoring (auditable heuristics; Q3/Q4 require human review)."""
+"""Quality tier scoring (auditable heuristics; Q3/Q4 require human review).
+
+ME-RV-080 Q2 definition (normative):
+  immutable candidate bundle
+  + verified certification record
+  + exact theorem/refutation identity
+  + environment lock
+  + passing axiom policy
+
+Replayable checker-only / Python-mirror episodes are at most Q1_checker_preview.
+"""
 
 from __future__ import annotations
 
@@ -7,6 +17,7 @@ from typing import Any
 TIERS = (
     "Q0_raw",
     "Q1_schema_valid",
+    "Q1_checker_preview",
     "Q2_formally_verified",
     "Q3_semantically_reviewed",
     "Q4_library_grade",
@@ -22,10 +33,19 @@ VERIFIED_POSITIVE_TIERS = frozenset(
 )
 
 
+def has_certification_record(outcome: dict[str, Any]) -> bool:
+    """True when outcome carries Certification Record identity fields."""
+    return bool(
+        outcome.get("certificationRecordId")
+        and outcome.get("theoremDeclaration")
+        and outcome.get("environmentLockDigest")
+    )
+
+
 def score_episode(episode: dict[str, Any]) -> dict[str, Any]:
     """Assign or confirm quality tier without claiming Q3/Q4 without labels."""
     ep = dict(episode)
-    outcome = ep.get("outcome") or {}
+    outcome = dict(ep.get("outcome") or {})
     labels = set(outcome.get("humanReviewLabels") or [])
     tier = ep.get("qualityTier") or "Q0_raw"
 
@@ -33,10 +53,12 @@ def score_episode(episode: dict[str, Any]) -> dict[str, Any]:
         tier = "Q4_library_grade"
     elif "semantically_reviewed" in labels or "Q3_semantically_reviewed" in labels:
         tier = "Q3_semantically_reviewed"
-    elif outcome.get("replayable") and not outcome.get("negative"):
+    elif has_certification_record(outcome) and not outcome.get("negative"):
         tier = "Q2_formally_verified"
+    elif outcome.get("replayable") and not outcome.get("negative"):
+        # Checker / offline replay without Certification Record.
+        tier = "Q1_checker_preview"
     elif ep.get("schemaVersion") and ep.get("episodeId"):
-        # Schema-valid after pipeline validation.
         if tier in {"Q0_raw"}:
             tier = "Q1_schema_valid"
 
@@ -48,15 +70,25 @@ def score_episode(episode: dict[str, Any]) -> dict[str, Any]:
         "Q3_semantically_reviewed",
     }
     if tier in {"Q3_semantically_reviewed", "Q4_library_grade"} and not (labels & reviewed):
-        tier = "Q2_formally_verified" if outcome.get("replayable") else "Q1_schema_valid"
+        if has_certification_record(outcome) and not outcome.get("negative"):
+            tier = "Q2_formally_verified"
+        elif outcome.get("replayable"):
+            tier = "Q1_checker_preview"
+        else:
+            tier = "Q1_schema_valid"
 
-    # Q2 requires replayable positive outcome.
+    # Q2 requires Certification Record fields (not merely replayable).
     if tier == "Q2_formally_verified" and (
-        not outcome.get("replayable") or outcome.get("negative")
+        outcome.get("negative") or not has_certification_record(outcome)
     ):
-        tier = "Q1_schema_valid"
+        tier = (
+            "Q1_checker_preview"
+            if outcome.get("replayable") and not outcome.get("negative")
+            else "Q1_schema_valid"
+        )
 
     ep["qualityTier"] = tier
+    ep["outcome"] = outcome
     return ep
 
 
@@ -78,7 +110,7 @@ def refuse_q1_as_verified_positive(episode: dict[str, Any]) -> None:
     """Raise if Q1 (or below) is presented as a positive verified example.
 
     Detects explicit verified-positive claims on schema-only episodes, and
-    refuses treating ``resultStatus`` soundness without replay elevation.
+    refuses treating ``resultStatus`` soundness without certification elevation.
     """
     ep = episode
     tier = ep.get("qualityTier") or "Q0_raw"
@@ -95,23 +127,26 @@ def refuse_q1_as_verified_positive(episode: dict[str, Any]) -> None:
         isinstance(c, dict) and str(c.get("kind", "")) in verified_claim_kinds for c in claims
     )
 
-    if tier in {"Q0_raw", "Q1_schema_valid"}:
+    if tier in {"Q0_raw", "Q1_schema_valid", "Q1_checker_preview"}:
         if has_verified_claim:
             raise ValueError(
                 f"{ep.get('episodeId', '<missing>')}: refuse Q1 as positive verified example "
                 f"(tier={tier})"
             )
-        # Soundness-looking statuses on non-replayable Q1 must not be treated as verified.
-        status = str(outcome.get("resultStatus") or "")
-        if (
-            status in {"soundness_verified", "witness_verified", "proved"}
-            and not outcome.get("replayable")
-            and not outcome.get("negative")
-        ):
-            raise ValueError(
-                f"{ep.get('episodeId', '<missing>')}: refuse Q1 soundness status as "
-                "positive verified without replayable elevation"
-            )
+        # Schema-only tiers must not carry theorem-level statuses. Preview tier may
+        # retain historical resultStatus strings after ME-RV-080 demotion; the tier
+        # itself forbids treating them as Q2.
+        if tier in {"Q0_raw", "Q1_schema_valid"}:
+            status = str(outcome.get("resultStatus") or "")
+            if (
+                status in {"soundness_verified", "witness_verified", "proved"}
+                and not has_certification_record(outcome)
+                and not outcome.get("negative")
+            ):
+                raise ValueError(
+                    f"{ep.get('episodeId', '<missing>')}: refuse Q1 soundness status as "
+                    "positive verified without Certification Record"
+                )
 
 
 def enforce_tier_claims(episode: dict[str, Any]) -> dict[str, Any]:
@@ -124,7 +159,6 @@ def enforce_tier_claims(episode: dict[str, Any]) -> dict[str, Any]:
             continue
         kind = str(claim.get("kind", ""))
         if kind in {"uplift", "q3_auto", "q4_auto"}:
-            # Release-blocking if asserted without human labels.
             continue
         cleaned.append(claim)
     ep["claims"] = cleaned
@@ -137,11 +171,13 @@ def enforce_tier_claims(episode: dict[str, Any]) -> dict[str, Any]:
             "Q3_semantically_reviewed",
         }
         if not (labels & reviewed):
-            ep["qualityTier"] = (
-                "Q2_formally_verified"
-                if (ep.get("outcome") or {}).get("replayable")
-                else "Q1_schema_valid"
-            )
+            out = ep.get("outcome") or {}
+            if has_certification_record(out) and not out.get("negative"):
+                ep["qualityTier"] = "Q2_formally_verified"
+            elif out.get("replayable"):
+                ep["qualityTier"] = "Q1_checker_preview"
+            else:
+                ep["qualityTier"] = "Q1_schema_valid"
             ep.setdefault("notes", [])
             if isinstance(ep["notes"], list):
                 ep["notes"].append("Q3/Q4 require humanReviewLabels; auto-uplift stripped.")

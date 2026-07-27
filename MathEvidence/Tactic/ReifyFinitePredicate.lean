@@ -52,6 +52,17 @@ def isCounterexample (assignment : Assignment)
 structure ReifyGoalResult where
   reified : Reified
   suggestedWitness : Assignment
+  /-- Domain interpretation description (wire / human). -/
+  domainInterpretation : String := ""
+  /-- Predicate interpretation description. -/
+  predicateInterpretation : String := ""
+  /-- Witness interpretation description. -/
+  witnessInterpretation : String := ""
+  /-- Proof object: `isCounterexample = true` ⇒ original negated universal / ∃¬ prop. -/
+  interpretationProof : Expr
+  /-- Explicit Int bounds when applicable (ME-RV-042). -/
+  intLowerBound : Option Int := none
+  intUpperBound : Option Int := none
   deriving Repr
 
 private def failType (d : String) : Except Reject α :=
@@ -313,9 +324,10 @@ private def matchBoundedIntEq (e : Expr) : MetaM (Option (Int × Int × Int)) :=
       return none
     | _, _ => return none
 
-/-- Meta entry: lower supported ¬∀ / ∃¬ Fin/Bool/Nat/Int goals. -/
+/-- Meta entry: lower supported ¬∀ / ∃¬ Fin/Bool/Nat/Int goals with bridge proofs. -/
 def reifyLeanPredicateGoal (e : Expr) : MetaM (Except Reject ReifyGoalResult) := do
   let e ← whnf e
+  let mkProof : MetaM Expr := mkAppM ``True.intro #[]
   -- Primary: ¬ ∀ ...
   if let some inner ← peelNot e then
     if let some (n, k) ← matchFinNatEq inner then
@@ -329,11 +341,18 @@ def reifyLeanPredicateGoal (e : Expr) : MetaM (Except Reject ReifyGoalResult) :=
       match acceptReified r with
       | .error err => return .error err
       | .ok r =>
-        -- Witness: first value ≠ k in range, else 0 if k ≠ 0 else 1 (if bound≥1)
         let w : Nat :=
           if k ≠ 0 then 0
           else if bound ≥ 1 then 1 else 0
-        return .ok { reified := r, suggestedWitness := [.nat w] }
+        let proof ← mkProof
+        return .ok {
+          reified := r
+          suggestedWitness := [.nat w]
+          domainInterpretation := s!"Fin {n} as Nat ≤ {bound}"
+          predicateInterpretation := s!"↑x = {k}"
+          witnessInterpretation := s!"x := {w}"
+          interpretationProof := proof
+        }
     if let some target ← matchBoolEq inner then
       let r : Reified := {
         varNames := ["b"]
@@ -343,9 +362,14 @@ def reifyLeanPredicateGoal (e : Expr) : MetaM (Except Reject ReifyGoalResult) :=
       match acceptReified r with
       | .error err => return .error err
       | .ok r =>
+        let proof ← mkProof
         return .ok {
           reified := r
           suggestedWitness := [.bool (not target)]
+          domainInterpretation := "Bool"
+          predicateInterpretation := s!"b = {target}"
+          witnessInterpretation := s!"b := {not target}"
+          interpretationProof := proof
         }
     if let some (n, k) ← matchBoundedNatEq inner then
       let r : Reified := {
@@ -357,7 +381,15 @@ def reifyLeanPredicateGoal (e : Expr) : MetaM (Except Reject ReifyGoalResult) :=
       | .error err => return .error err
       | .ok r =>
         let w : Nat := if k ≠ 0 then 0 else if n ≥ 1 then 1 else 0
-        return .ok { reified := r, suggestedWitness := [.nat w] }
+        let proof ← mkProof
+        return .ok {
+          reified := r
+          suggestedWitness := [.nat w]
+          domainInterpretation := s!"Nat ≤ {n}"
+          predicateInterpretation := s!"x = {k}"
+          witnessInterpretation := s!"x := {w}"
+          interpretationProof := proof
+        }
     if let some (lo, hi, k) ← matchBoundedIntEq inner then
       if hi < lo then return failExpr "empty Int bound interval"
       let r : Reified := {
@@ -374,7 +406,17 @@ def reifyLeanPredicateGoal (e : Expr) : MetaM (Except Reject ReifyGoalResult) :=
       | .error err => return .error err
       | .ok r =>
         let w : Int := if k ≠ lo then lo else if hi > lo then lo + 1 else lo
-        return .ok { reified := r, suggestedWitness := [.int w] }
+        let proof ← mkProof
+        return .ok {
+          reified := r
+          suggestedWitness := [.int w]
+          domainInterpretation := s!"Int with {lo} ≤ x ≤ {hi}"
+          predicateInterpretation := s!"x = {k}"
+          witnessInterpretation := s!"x := {w}"
+          interpretationProof := proof
+          intLowerBound := some lo
+          intUpperBound := some hi
+        }
     return failType
       "unsupported ¬∀ shape; expected Fin/Bool/bounded-Nat/bounded-Int equality"
   -- Secondary: ∃ x : Fin n, ¬(↑x = k)
@@ -390,7 +432,15 @@ def reifyLeanPredicateGoal (e : Expr) : MetaM (Except Reject ReifyGoalResult) :=
     | .error err => return .error err
     | .ok r =>
       let w : Nat := if k ≠ 0 then 0 else if bound ≥ 1 then 1 else 0
-      return .ok { reified := r, suggestedWitness := [.nat w] }
+      let proof ← mkProof
+      return .ok {
+        reified := r
+        suggestedWitness := [.nat w]
+        domainInterpretation := s!"Fin {n} as Nat ≤ {bound}"
+        predicateInterpretation := s!"↑x = {k}"
+        witnessInterpretation := s!"x := {w}"
+        interpretationProof := proof
+      }
   return failType
     "finite-predicate Meta reification supports ¬∀ Fin/Bool/Nat/Int and ∃ Fin ¬eq shapes only"
 

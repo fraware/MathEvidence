@@ -14,11 +14,15 @@ defaultTargets = [
   "MathEvidenceTesting",
 ]
 
-# Pin Mathlib to the Lean 4.14.0 release tag (matches lean-toolchain).
+# Pin Mathlib to the Lean 4.14.0 release commit (matches lean-toolchain).
+# Prefer the mathlib4 git URL + commit SHA over Reservoir `scope` + tag:
+# a corrupted local `.lake/packages/mathlib` pointing at this repo previously
+# made Lake report "revision not found 'v4.14.0'" even though the upstream
+# tag exists (leanprover-community/mathlib4@v4.14.0 -> 4bbdccd9c5f862bf90ff12f0a9e2c8be032b9a84).
 [[require]]
 name = "mathlib"
-scope = "leanprover-community"
-rev = "v4.14.0"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "4bbdccd9c5f862bf90ff12f0a9e2c8be032b9a84"
 
 # Each lean_lib is a MathEvidence.* package boundary. Roots pull in submodules
 # via import; avoid globs here so Lake 5 reliably builds the barrel modules.
@@ -68,13 +72,28 @@ name = "MathEvidenceTesting"
 roots = ["MathEvidence.Testing"]
 
 [[lean_exe]]
+name = "mathevidence-verify-bundle"
+root = "MathEvidence.Exe.Replay"
+
+# Temporary alias — Wave 0 keeps the old name until call sites migrate fully.
+[[lean_exe]]
 name = "mathevidence-replay"
 root = "MathEvidence.Exe.Replay"
+
+# Theorem-producing kernel replay (ME-RV-022). Protocol-reference fixture is
+# compiled into the exe; general bundles use the Python generated-module driver.
+[[lean_exe]]
+name = "mathevidence-kernel-replay"
+root = "MathEvidence.Exe.KernelReplay"
 
 [[lean_exe]]
 name = "mathevidence-axiom-report"
 root = "MathEvidence.Exe.AxiomReport"
+# Required for Lean.importModules / CollectAxioms at runtime (ME-RV-071/072).
+supportInterpreter = true
 
 [[lean_exe]]
 name = "mathevidence-import-graph"
 root = "MathEvidence.Exe.ImportGraph"
+# Required for Lean.importModules at runtime (ME-RV-071).
+supportInterpreter = true

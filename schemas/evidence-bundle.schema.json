@@ -17,41 +17,40 @@
   "properties": {
     "bundleVersion": {
       "type": "string",
-      "enum": ["0.1.0", "0.2.0"],
-      "description": "0.2.0 uses canonical .cjson theorem-binding roles; 0.1.0 legacy pretty .json remains readable."
+      "enum": ["0.1.0", "0.2.0", "0.3.0"],
+      "description": "0.3.0 Candidate Bundle; 0.2.0 canonical .cjson; 0.1.0 legacy pretty .json."
+    },
+    "artifactKind": {
+      "type": "string",
+      "enum": ["candidate", "certification"],
+      "description": "Required for v0.3; defaults to candidate when absent on legacy manifests."
+    },
+    "bundleDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA256(JCS(manifestBindingPayload)); required for v0.3 Candidate Bundles."
     },
     "capability": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "id",
-        "version"
-      ],
+      "required": ["id", "version"],
       "properties": {
-        "id": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        }
+        "id": { "type": "string" },
+        "version": { "type": "string" }
       }
     },
     "requestDigest": {
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$"
     },
-    "claimClass": {
-      "type": "string"
-    },
-    "resultStatus": {
-      "type": "string"
-    },
+    "claimClass": { "type": "string" },
+    "resultStatus": { "type": "string" },
     "assuranceMode": {
-      "enum": [
-        "kernel_replay",
-        "verified_reflection",
-        "native_checked"
-      ]
+      "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+    },
+    "resourcePolicyDigest": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[0-9a-f]{64}$"
     },
     "files": {
       "type": "array",
@@ -59,11 +58,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "path",
-          "digest",
-          "mediaType"
-        ],
+        "required": ["path", "digest", "mediaType"],
         "properties": {
           "path": {
             "type": "string",
@@ -73,8 +68,23 @@
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$"
           },
-          "mediaType": {
-            "type": "string"
+          "mediaType": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": [
+              "request",
+              "candidate",
+              "certificate",
+              "provenance",
+              "replay-target",
+              "checker-evaluation",
+              "theorem-identity",
+              "axiom-report",
+              "certification-receipt",
+              "signature",
+              "readme",
+              "other"
+            ]
           }
         }
       }
@@ -82,26 +92,18 @@
     "provenance": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "leanVersion",
-        "libraryRevision",
-        "checkerVersion"
-      ],
+      "required": ["leanVersion", "libraryRevision", "checkerVersion"],
       "properties": {
-        "leanVersion": {
-          "type": "string"
-        },
-        "libraryRevision": {
-          "type": "string"
-        },
-        "checkerVersion": {
-          "type": "string"
-        },
+        "leanVersion": { "type": "string" },
+        "libraryRevision": { "type": "string" },
+        "checkerVersion": { "type": "string" },
         "backend": {
-          "type": [
-            "object",
-            "null"
-          ]
+          "type": ["object", "null"]
+        },
+        "legacySourcePath": { "type": "string" },
+        "legacySourceDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
         }
       }
     }

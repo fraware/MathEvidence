@@ -26,7 +26,7 @@
       "supportLevel": "implemented"
     },
     {
-      "id": "algebra.groebner_membership",
+      "id": "algebra.ideal_membership_witness",
       "versions": ["0.1.0"],
       "deterministic": true,
       "supportLevel": "implemented"

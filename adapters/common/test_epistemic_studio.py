@@ -47,6 +47,10 @@ def _run_node_surface(case_input: dict) -> dict:
             "request": case_input.get("request"),
             "manifest": case_input.get("manifest"),
             "theoremPreview": case_input.get("theoremPreview"),
+            "certificationVerified": case_input.get("certificationVerified"),
+            "certificationId": case_input.get("certificationId"),
+            "claimEstablished": case_input.get("claimEstablished"),
+            "theoremTypeDigest": case_input.get("theoremTypeDigest"),
         }
     )
     epi_path = EPI_JS.resolve().as_posix()
@@ -54,7 +58,12 @@ def _run_node_surface(case_input: dict) -> dict:
 const {{ buildCertificationSurface, epistemicFromResultStatus }} = require({epi_path!r});
 const input = {payload};
 const surface = buildCertificationSurface(input);
-const gate = epistemicFromResultStatus(input.resultStatus, input.leanStatus);
+const gate = epistemicFromResultStatus(input.resultStatus, input.leanStatus, {{
+  certificationVerified: input.certificationVerified,
+  certificationId: input.certificationId,
+  claimEstablished: input.claimEstablished,
+  theoremTypeDigest: input.theoremTypeDigest,
+}});
 process.stdout.write(JSON.stringify({{ surface, gate }}));
 """
     proc = subprocess.run(
@@ -73,20 +82,29 @@ def test_epistemic_js_module_exists() -> None:
     assert CONTRACT.is_file()
 
 
-def test_epistemic_certified_requires_lean_gate_only() -> None:
-    """Hard rule: epistemicFromResultStatus Certified ⇔ Lean status."""
+def test_epistemic_certified_requires_certification_record_gate() -> None:
+    """Hard rule ME-RV-024: Certified ⇔ Agent certificationVerified + ids."""
     a = epistemic_from_result_status("soundness_verified")
     b = epistemic_from_result_status("soundness_verified", "soundness_verified")
     c = epistemic_from_result_status("computed")
     assert a["label"] == "Ambiguous" and not a["allowCertified"]
-    assert b["label"] == "Certified" and b["allowCertified"]
+    assert b["label"] == "Ambiguous" and not b["allowCertified"]
     assert c["label"] == "Computed" and not c["allowCertified"]
+    gated = epistemic_from_result_status(
+        "soundness_verified",
+        "soundness_verified",
+        certification_verified=True,
+        certification_id="cert_sha256_" + ("c" * 64),
+        claim_established="soundResult",
+        theorem_type_digest="sha256:" + ("d" * 64),
+    )
+    assert gated["label"] == "Certified" and gated["allowCertified"]
     assert lean_status_allows_certified("witness_verified")
     assert not lean_status_allows_certified("")
     assert not lean_status_allows_certified(None)
 
 
-def test_node_parity_certified_requires_lean() -> None:
+def test_node_parity_certified_requires_record() -> None:
     assert EPI_JS.is_file()
     epi_path = EPI_JS.resolve().as_posix()
     script = f"""
@@ -94,9 +112,16 @@ const {{ epistemicFromResultStatus }} = require({epi_path!r});
 const a = epistemicFromResultStatus('soundness_verified');
 const b = epistemicFromResultStatus('soundness_verified', 'soundness_verified');
 const c = epistemicFromResultStatus('computed');
+const d = epistemicFromResultStatus('soundness_verified', 'soundness_verified', {{
+  certificationVerified: true,
+  certificationId: 'cert_sha256_' + 'c'.repeat(64),
+  claimEstablished: 'soundResult',
+  theoremTypeDigest: 'sha256:' + 'd'.repeat(64),
+}});
 if (a.label !== 'Ambiguous' || a.allowCertified) {{ console.error(JSON.stringify(a)); process.exit(1); }}
-if (b.label !== 'Certified' || !b.allowCertified) {{ console.error(JSON.stringify(b)); process.exit(2); }}
+if (b.label !== 'Ambiguous' || b.allowCertified) {{ console.error(JSON.stringify(b)); process.exit(2); }}
 if (c.label !== 'Computed') {{ console.error(JSON.stringify(c)); process.exit(3); }}
+if (d.label !== 'Certified' || !d.allowCertified) {{ console.error(JSON.stringify(d)); process.exit(4); }}
 console.log('ok');
 """
     proc = subprocess.run(
@@ -122,6 +147,10 @@ def test_golden_python_surface(case: dict) -> None:
         request=inp.get("request"),
         manifest=inp.get("manifest"),
         assumptions=inp.get("assumptions"),
+        certification_verified=inp.get("certificationVerified"),
+        certification_id=inp.get("certificationId"),
+        claim_established=inp.get("claimEstablished"),
+        theorem_type_digest=inp.get("theoremTypeDigest"),
     )
     assert surface["transcriptOrder"] == exp["transcriptOrder"]
     assert surface["epistemic"]["label"] == exp["label"]
@@ -175,12 +204,11 @@ def test_python_node_label_parity_matrix() -> None:
 
 
 def test_wolfram_package_documents_certified_gate() -> None:
-    """Wolfram surface ships the same Certified-iff-Lean contract (no Mathematica required)."""
+    """Wolfram surface ships Certified gate docs (no Mathematica required)."""
     wl = (ROOT / "studio" / "wolfram" / "MathEvidenceStudio.wl").read_text(
         encoding="utf-8"
     )
     assert "AllowCertified" in wl
-    assert "never present Certified without" in wl or "never labels Certified without" in wl
     assert "CertificationSurface" in wl
     assert "ShowLeanProposition" in wl
     assert '"leanProposition"' in wl or "leanProposition" in wl

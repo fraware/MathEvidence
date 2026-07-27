@@ -4,12 +4,14 @@ Studio is a client of Lean/IR/Agent APIs only — no unique mathematical
 semantics live here. This module mirrors the Certified gate used by
 ``studio/vscode/epistemic.js`` and ``studio/wolfram/MathEvidenceStudio.wl``.
 
-Hard rules
-----------
-1. Certified ⇔ leanStatus ∈ LEAN_OK_STATUSES
+Hard rules (Wave 2 / ME-RV-024)
+-------------------------------
+1. Certified ⇔ Agent ``certificationVerified: true`` PLUS certification record id
+   PLUS claim/theorem identity fields — never from a raw receipt object alone.
 2. Lean proposition + assumptions are always rendered *before* any
-   Certified affordance in the certification surface transcript
-3. Manifest-only verified statuses without Lean → Ambiguous
+   Certified affordance in the certification surface transcript.
+3. Manifest-only verified statuses without Certification Record → Ambiguous/Tested.
+4. Operational verify-bundle (``native_checked`` / ``checker_accepted``) never Certified.
 """
 
 from __future__ import annotations
@@ -37,39 +39,101 @@ def normalize_status(value: Any) -> str:
 
 
 def lean_status_allows_certified(lean_status: Any) -> bool:
+    """Legacy helper — insufficient alone for Certified (ME-RV-024)."""
     return normalize_status(lean_status) in LEAN_OK_STATUSES
+
+
+def certification_gate(
+    *,
+    certification_verified: Any = None,
+    certification_id: Any = None,
+    claim_established: Any = None,
+    theorem_type_digest: Any = None,
+    result_status: Any = None,
+) -> dict[str, Any]:
+    """Wave 2 Certified gate: Agent certificationVerified + record id + claim/theorem."""
+    verified = certification_verified is True
+    cert_id_ok = isinstance(certification_id, str) and bool(certification_id.strip())
+    claim_ok = isinstance(claim_established, str) and bool(claim_established.strip())
+    theorem_ok = (
+        isinstance(theorem_type_digest, str)
+        and theorem_type_digest.startswith("sha256:")
+    )
+    status = normalize_status(result_status)
+    status_ok = status in LEAN_OK_STATUSES or status == ""
+
+    if verified and cert_id_ok and claim_ok and theorem_ok and status_ok:
+        return {
+            "label": "Certified",
+            "detail": (
+                f"Certification Record verified ({certification_id}); "
+                f"claimEstablished={claim_established}."
+            ),
+            "allowCertified": True,
+        }
+    missing: list[str] = []
+    if not verified:
+        missing.append("certificationVerified")
+    if not cert_id_ok:
+        missing.append("certificationId")
+    if not claim_ok:
+        missing.append("claimEstablished")
+    if not theorem_ok:
+        missing.append("theoremTypeDigest")
+    return {
+        "label": "Ambiguous" if status in LEAN_OK_STATUSES else "Tested",
+        "detail": (
+            "Certified requires Agent certificationVerified + certificationId + "
+            f"claimEstablished + theoremTypeDigest (missing: {', '.join(missing) or 'none'})."
+        ),
+        "allowCertified": False,
+    }
 
 
 def epistemic_from_result_status(
     result_status: Any,
     lean_status: Any = None,
+    *,
+    certification_verified: Any = None,
+    certification_id: Any = None,
+    claim_established: Any = None,
+    theorem_type_digest: Any = None,
 ) -> dict[str, Any]:
-    """Map machine resultStatus + Lean status → UI label/detail/AllowCertified."""
+    """Map machine resultStatus + certification gate → UI label/detail/AllowCertified."""
+    # Prefer explicit Certification Record gate when any certification field is present.
+    if (
+        certification_verified is not None
+        or (isinstance(certification_id, str) and certification_id)
+        or (isinstance(theorem_type_digest, str) and theorem_type_digest)
+    ):
+        return certification_gate(
+            certification_verified=certification_verified,
+            certification_id=certification_id,
+            claim_established=claim_established,
+            theorem_type_digest=theorem_type_digest,
+            result_status=result_status or lean_status,
+        )
+
     s = normalize_status(result_status)
     lean = lean_status
     lean_norm = normalize_status(lean)
 
-    if lean_status_allows_certified(lean):
-        return {
-            "label": "Certified",
-            "detail": f"Lean status present: {lean}.",
-            "allowCertified": True,
-        }
-
-    if s in LEAN_OK_STATUSES:
+    # Raw leanStatus alone must not grant Certified (ME-RV-024).
+    if lean_status_allows_certified(lean) or s in LEAN_OK_STATUSES:
         return {
             "label": "Ambiguous",
             "detail": (
-                "Manifest claims a verified status, but Lean status is missing. "
-                "Not labeled Certified."
+                "Manifest/Lean status alone is insufficient for Certified; "
+                "open_certification must return certificationVerified=true."
             ),
             "allowCertified": False,
         }
-    if s == "tested":
+    if s in ("tested", "checker_accepted"):
         return {
             "label": "Tested",
             "detail": (
-                "Offline schema/digest checks succeeded; Lean certification not asserted."
+                "Offline schema/digest checks and/or operational checkBool succeeded; "
+                "theorem Certified requires a Certification Record (not verify-bundle)."
             ),
             "allowCertified": False,
         }
@@ -136,13 +200,12 @@ def build_certification_surface(
     request: dict[str, Any] | None = None,
     manifest: dict[str, Any] | None = None,
     assumptions: list[Any] | None = None,
+    certification_verified: Any = None,
+    certification_id: Any = None,
+    claim_established: Any = None,
+    theorem_type_digest: Any = None,
 ) -> dict[str, Any]:
-    """Ordered certification surface: proposition → assumptions → epistemic.
-
-    The Certified affordance appears only after proposition and assumptions
-    sections. If Lean would allow Certified but the exact Lean proposition
-    string is missing, the UI remains Ambiguous (Product 09 §5 / acceptance #4).
-    """
+    """Ordered certification surface: proposition → assumptions → epistemic."""
     proposition = extract_lean_proposition(
         lean_proposition=lean_proposition,
         theorem_preview=theorem_preview,
@@ -154,14 +217,21 @@ def build_certification_surface(
         if assumptions is not None
         else extract_assumptions(request)
     )
-    epi = epistemic_from_result_status(result_status, lean_status)
+    epi = epistemic_from_result_status(
+        result_status,
+        lean_status,
+        certification_verified=certification_verified,
+        certification_id=certification_id,
+        claim_established=claim_established,
+        theorem_type_digest=theorem_type_digest,
+    )
 
     # Exact Lean proposition must be available before Certified labeling.
     if epi["allowCertified"] and not proposition:
         epi = {
             "label": "Ambiguous",
             "detail": (
-                "Lean status is present, but the exact Lean proposition is not "
+                "Certification Record is present, but the exact Lean proposition is not "
                 "available yet. Not labeled Certified."
             ),
             "allowCertified": False,
@@ -199,6 +269,7 @@ def build_certification_surface(
             i for i, t in enumerate(transcript) if t["section"] == "epistemicLabel"
         ),
         "receiptVerified": False,
+        "certificationVerified": bool(certification_verified is True),
     }
 
 
@@ -207,12 +278,10 @@ def verify_checker_receipt(
     *,
     expected_request_digest: str | None = None,
 ) -> dict[str, Any]:
-    """Shared Studio/Agent receipt gate (ME-307).
+    """Structural receipt checks are diagnostic only — never grant Certified.
 
-    Certified must not be derived from manifest/`leanStatus` alone when a receipt
-    object is in play — require structural receipt fields and digest match.
-    When a content digest or signature is present, verify via
-    ``adapters.common.receipt_crypto`` (dev HMAC/Ed25519 only; not production PKI).
+    ME-RV-024: Certified requires ``certification_gate`` / Agent
+    ``open_certification`` with ``certificationVerified: true``.
     """
     if not isinstance(receipt, dict):
         return {
@@ -222,7 +291,6 @@ def verify_checker_receipt(
         }
     req = receipt.get("requestDigest")
     status = normalize_status(receipt.get("resultStatus"))
-    established = receipt.get("claimEstablished")
     if not isinstance(req, str) or not req.startswith("sha256:"):
         return {
             "ok": False,
@@ -251,20 +319,19 @@ def verify_checker_receipt(
                 "crypto": crypto_gate,
             }
 
-    if status not in LEAN_OK_STATUSES or established in (None, "", False):
-        out = {
-            "ok": True,
-            "allowCertified": False,
-            "detail": "receipt present but does not establish a certified claim",
-        }
-        if crypto_gate is not None:
-            out["crypto"] = crypto_gate
-        return out
     out = {
         "ok": True,
-        "allowCertified": True,
-        "detail": "checker receipt structurally verifies claimEstablished",
+        "allowCertified": False,
+        "detail": (
+            "receipt structurally present (diagnostic only); "
+            "Certified requires open_certification / certificationVerified"
+        ),
     }
     if crypto_gate is not None:
         out["crypto"] = crypto_gate
+    if status in LEAN_OK_STATUSES:
+        out["detail"] = (
+            "receipt advertises verified status but Studio refuses Certified "
+            "without Agent certificationVerified + record id + theorem fields"
+        )
     return out

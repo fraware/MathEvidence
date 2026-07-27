@@ -7,9 +7,9 @@
    Epistemic UI states (text + detail required; color alone is insufficient):
      Computed | Tested | Certified | Ambiguous
 
-   HARD RULE: never present Certified without an explicit Lean status of
-   witness_verified | soundness_verified | completeness_verified |
-   optimality_verified | approximation_certified | native_verified.
+   HARD RULE (ME-RV-024): Certified requires Agent certificationVerified=true
+   PLUS certificationId PLUS claimEstablished PLUS theoremTypeDigest.
+   leanStatus / resultStatus alone MUST NEVER grant Certified.
 
    Surface rule: Lean proposition + assumptions always appear before the
    Certified affordance (CertificationSurface transcript order).
@@ -19,10 +19,10 @@ BeginPackage["MathEvidenceStudio`"];
 
 MathEvidenceStudio::usage = "MathEvidenceStudio is the Wolfram Studio entry namespace.";
 $MathEvidenceAgentBase::usage = "Base URL for the local Agent API (default http://127.0.0.1:8787).";
-$MathEvidenceLeanStatus::usage = "Optional Lean replay status string; required for Certified.";
+$MathEvidenceLeanStatus::usage = "Optional Lean replay status string; insufficient alone for Certified.";
 
 EpistemicFromResultStatus::usage =
-  "EpistemicFromResultStatus[resultStatus, leanStatus] → <|Label, Detail, AllowCertified|>.";
+  "EpistemicFromResultStatus[resultStatus, leanStatus, certFields] → <|Label, Detail, AllowCertified|>.";
 StudioStateBadge::usage = "StudioStateBadge[epistemic] formats a text+detail badge.";
 ShowLeanProposition::usage =
   "ShowLeanProposition[assoc] displays the exact proposed Lean proposition (Agent/Lean field only).";
@@ -32,7 +32,7 @@ CertificationSurface::usage =
 ProposeCalculusRequest::usage =
   "ProposeCalculusRequest[op, expr, opts] builds an algebra.formal_rational_calculus request skeleton.";
 CertifyInLean::usage =
-  "CertifyInLean[bundleOrRequest] runs Agent API compute/replay; never labels Certified without Lean.";
+  "CertifyInLean[bundleOrRequest] runs Agent API compute/replay; Certified only with certificationVerified.";
 InspectBundle::usage = "InspectBundle[bundleDir] displays epistemic state and assumptions.";
 ExportTheoremAndBundle::usage =
   "ExportTheoremAndBundle[path, theoremText, bundleAssoc] writes theorem + evidence paths.";
@@ -48,30 +48,55 @@ $LeanOkStatuses = {
   "optimality_verified", "approximation_certified", "native_verified"
 };
 
-Clear[EpistemicFromResultStatus];
-EpistemicFromResultStatus[resultStatus_String, leanStatus_: None] := Module[
-  {s = ToLowerCase[resultStatus], lean = Replace[leanStatus, None -> ""], leanOk},
+Clear[CertificationGate, EpistemicFromResultStatus];
+CertificationGate[certFields_Association] := Module[
+  {verified, certId, claim, thDig, status, missing},
+  verified = TrueQ[Lookup[certFields, "certificationVerified", False]];
+  certId = Lookup[certFields, "certificationId", ""];
+  claim = Lookup[certFields, "claimEstablished", ""];
+  thDig = Lookup[certFields, "theoremTypeDigest", ""];
+  status = ToLowerCase[ToString[Lookup[certFields, "resultStatus", ""]]];
+  missing = {};
+  If[!verified, AppendTo[missing, "certificationVerified"]];
+  If[!StringQ[certId] || StringTrim[certId] === "", AppendTo[missing, "certificationId"]];
+  If[!StringQ[claim] || StringTrim[ToString[claim]] === "", AppendTo[missing, "claimEstablished"]];
+  If[!StringQ[thDig] || !StringStartsQ[ToString[thDig], "sha256:"],
+    AppendTo[missing, "theoremTypeDigest"]];
+  If[verified && missing === {} && (status === "" || MemberQ[$LeanOkStatuses, status]),
+    <|
+      "Label" -> "Certified",
+      "Detail" -> "Certification Record verified (" <> ToString[certId] <> ").",
+      "AllowCertified" -> True
+    |>,
+    <|
+      "Label" -> "Ambiguous",
+      "Detail" ->
+        "Certified requires Agent certificationVerified + certificationId + claimEstablished + theoremTypeDigest (missing: " <>
+        StringRiffle[missing, ", "] <> ").",
+      "AllowCertified" -> False
+    |>
+  ]
+];
+
+EpistemicFromResultStatus[resultStatus_String, leanStatus_: None, certFields_: <||>] := Module[
+  {s = ToLowerCase[resultStatus], lean = Replace[leanStatus, None -> ""], gate, leanOk},
+  If[AssociationQ[certFields] && KeyExistsQ[certFields, "certificationVerified"],
+    gate = CertificationGate[Join[certFields, <|"resultStatus" -> resultStatus|>]];
+    If[TrueQ[gate["AllowCertified"]], Return[gate]];
+  ];
   leanOk = MemberQ[$LeanOkStatuses, ToLowerCase[ToString[lean]]];
   Which[
-    leanOk,
-      <|
-        "Label" -> "Certified",
-        "Detail" -> "Lean kernel/replay status present: " <> ToString[lean],
-        "AllowCertified" -> True
-      |>,
-    MemberQ[$LeanOkStatuses, s],
-      (* Manifest claims verified, but Studio refuses Certified without Lean field. *)
+    leanOk || MemberQ[$LeanOkStatuses, s],
       <|
         "Label" -> "Ambiguous",
         "Detail" ->
-          "Manifest claims verified status '" <> s <>
-          "' but Lean status is missing. Not labeled Certified.",
+          "Manifest/Lean status alone is insufficient for Certified; open_certification must return certificationVerified=true.",
         "AllowCertified" -> False
       |>,
-    s === "tested",
+    s === "tested" || s === "checker_accepted",
       <|
         "Label" -> "Tested",
-        "Detail" -> "Offline schema/digest checks succeeded; Lean certification not asserted.",
+        "Detail" -> "Offline/operational checks succeeded; Lean certification not asserted.",
         "AllowCertified" -> False
       |>,
     s === "computed",
@@ -159,12 +184,22 @@ CertificationSurface[payload_Association] := Module[
     payload["request"], payload]];
   If[assumps === {} && KeyExistsQ[result, "domainConditions"],
     assumps = Lookup[result, "domainConditions", {}]];
-  epi = EpistemicFromResultStatus[status, lean];
+  epi = EpistemicFromResultStatus[status, lean, <|
+    "certificationVerified" -> Lookup[result, "certificationVerified",
+      Lookup[payload, "certificationVerified", False]],
+    "certificationId" -> Lookup[result, "certificationId",
+      Lookup[payload, "certificationId", ""]],
+    "claimEstablished" -> Lookup[result, "claimEstablished",
+      Lookup[payload, "claimEstablished", ""]],
+    "theoremTypeDigest" -> Lookup[result, "theoremTypeDigest",
+      Lookup[payload, "theoremTypeDigest", ""]],
+    "resultStatus" -> status
+  |>];
   If[TrueQ[epi["AllowCertified"]] && prop === "",
     epi = <|
       "Label" -> "Ambiguous",
       "Detail" ->
-        "Lean status is present, but the exact Lean proposition is not available yet. Not labeled Certified.",
+        "Certification fields present, but the exact Lean proposition is not available yet. Not labeled Certified.",
       "AllowCertified" -> False
     |>
   ];

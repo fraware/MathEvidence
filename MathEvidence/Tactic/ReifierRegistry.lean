@@ -57,7 +57,7 @@ def entries : List Entry := [
   { kind := .ideal
     status := .live
     moduleName := "MathEvidence.Tactic.ReifyPolynomial"
-    capabilityId := "algebra.ideal_membership"
+    capabilityId := "algebra.ideal_membership_witness"
     note := "Meta reification for univariate Ideal.span and MvPolynomial Fin 2/3/4." }
 ]
 

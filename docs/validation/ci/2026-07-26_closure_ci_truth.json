@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "0.1.0",
+  "recordKind": "ci_truth_wave7_closure",
+  "issues": ["ME-RV-070", "ME-RV-071", "ME-RV-072", "ME-RV-073", "ME-RV-074", "ME-RV-084"],
+  "recordedAt": "2026-07-26T15:30:00Z",
+  "repository": "fraware/MathEvidence",
+  "branch": "main",
+  "notes": [
+    "Branch protection ENABLED on main via PUT /repos/fraware/MathEvidence/branches/main/protection (HTTP 200).",
+    "uv.lock present in working tree (downloaded from uv-lock workflow_dispatch run 30207532462); commit still required by maintainer.",
+    "elan installers replaced with scripts/ci/install-elan-pinned.sh (elan v4.2.3 linux amd64 sha256 df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2).",
+    "Mathlib pin: leanprover-community/mathlib4 @ 4bbdccd9c5f862bf90ff12f0a9e2c8be032b9a84 (tag v4.14.0). Local lake build MathEvidenceCore + mathevidence-verify-bundle succeeded after removing corrupted .lake/packages/mathlib that pointed at this repo.",
+    "Org teams (ME-RV-084): blocked — token lacks admin:org; see docs/validation/ci/github_teams_me_rv084.md.",
+    "Signed 0.x release: provenance+SBOM+digests+cosign hooks wired; human prerelease publish remains gated."
+  ],
+  "branchProtection": {
+    "endpoint": "GET /repos/fraware/MathEvidence/branches/main/protection",
+    "httpStatus": 200,
+    "message": "protected",
+    "requiredStatusChecks": {
+      "strict": true,
+      "contexts": [
+        "lean / lean",
+        "offline-replay / offline-replay",
+        "adapter-conformance / sympy-conformance",
+        "adversarial / adversarial-seed",
+        "security / security",
+        "supply-chain / gitleaks"
+      ]
+    },
+    "requiredPullRequestReviews": {
+      "requiredApprovingReviewCount": 1,
+      "requireCodeOwnerReviews": true,
+      "dismissStaleReviews": true
+    },
+    "enforceAdmins": true,
+    "requiredConversationResolution": true,
+    "allowForcePushes": false,
+    "allowDeletions": false,
+    "recommendedSettingsPath": "docs/validation/ci/branch_protection_recommended.json"
+  },
+  "actionPins": {
+    "actions/checkout": "11d5960a326750d5838078e36cf38b85af677262",
+    "actions/setup-python": "a26af69be951a213d495a4c3e4e4022e16d87065",
+    "actions/upload-artifact": "ea165f8d65b6e75b540449e92b4886f43607fa02",
+    "astral-sh/setup-uv": "d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86"
+  },
+  "elanPin": {
+    "version": "v4.2.3",
+    "asset": "elan-x86_64-unknown-linux-gnu.tar.gz",
+    "sha256": "df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2",
+    "checksumSource": "Computed 2026-07-26 from GitHub release asset bytes via Get-FileHash SHA256",
+    "installScript": "scripts/ci/install-elan-pinned.sh"
+  },
+  "mathlibPin": {
+    "leanToolchain": "leanprover/lean4:v4.14.0",
+    "url": "https://github.com/leanprover-community/mathlib4.git",
+    "rev": "4bbdccd9c5f862bf90ff12f0a9e2c8be032b9a84",
+    "tag": "v4.14.0",
+    "localBuild": {
+      "MathEvidenceCore": "success",
+      "mathevidence-verify-bundle": "success",
+      "mathevidence-import-graph": "success",
+      "mathevidence-axiom-report": "success"
+    }
+  },
+  "frozenDeps": {
+    "uvLockInWorkingTree": true,
+    "uvLockCommitted": false,
+    "ciRequiresFrozenSync": true,
+    "optionalLockLanguageRemoved": true,
+    "sourceArtifact": "gh run download 30207532462 --name uv-lock"
+  },
+  "orgTeams": {
+    "created": false,
+    "blocker": "admin:org scope required",
+    "doc": "docs/validation/ci/github_teams_me_rv084.md"
+  }
+}

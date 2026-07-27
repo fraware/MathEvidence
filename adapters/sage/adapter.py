@@ -69,7 +69,7 @@ FINITE_COUNTEREXAMPLE_CAPABILITY = CapabilityDescriptor(
 )
 
 IDEAL_MEMBERSHIP_CAPABILITY = CapabilityDescriptor(
-    id="algebra.groebner_membership",
+    id="algebra.ideal_membership_witness",
     version="0.1.0",
     claim_classes=["witness", "soundResult", "candidate"],
     request_schema="federation-request.schema.json",
@@ -620,7 +620,7 @@ def compute_handler(params: dict[str, Any], tracker: ResourceTracker) -> Handler
         return compute_linear_algebra(request, tracker)
     if cap == "logic.finite_counterexample":
         return compute_finite_counterexample(request, tracker)
-    if cap == "algebra.groebner_membership":
+    if cap == "algebra.ideal_membership_witness":
         from adapters.common.ideal_membership import (
             compute_ideal_membership_certificate,
             sage_executable,

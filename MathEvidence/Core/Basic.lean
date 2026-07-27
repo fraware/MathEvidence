@@ -7,15 +7,21 @@ import MathEvidence.Core.AssuranceMode
 import MathEvidence.Core.Bundle
 import MathEvidence.Core.CanonicalJson
 import MathEvidence.Core.CapabilityId
+import MathEvidence.Core.CertificationRecord
 import MathEvidence.Core.ClaimClass
 import MathEvidence.Core.Digest
+import MathEvidence.Core.EnvironmentLock
 import MathEvidence.Core.ErrorCode
 import MathEvidence.Core.EvidenceId
+import MathEvidence.Core.ExprSerialize
+import MathEvidence.Core.ExprSerializeTests
 import MathEvidence.Core.JsonCanonical
 import MathEvidence.Core.JsonCanonicalTests
 import MathEvidence.Core.Provenance
 import MathEvidence.Core.Receipt
+import MathEvidence.Core.ReplayTarget
 import MathEvidence.Core.ResultStatus
+import MathEvidence.Core.TheoremIdentity
 
 /-!
 # MathEvidence.Core

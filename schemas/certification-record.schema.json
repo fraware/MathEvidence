@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/certification-record-v0.json",
+  "title": "MathEvidence Certification Record Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundleVersion",
+    "artifactKind",
+    "candidateBundleDigest",
+    "capability",
+    "requestDigest",
+    "claimClass",
+    "resultStatus",
+    "assuranceMode",
+    "files",
+    "provenance",
+    "certificationDigest"
+  ],
+  "properties": {
+    "bundleVersion": {
+      "type": "string",
+      "enum": ["0.3.0"]
+    },
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["0.3.0"]
+    },
+    "artifactKind": {
+      "const": "certification"
+    },
+    "candidateBundleDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "certificationDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "bundleDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Alias of certificationDigest for store addressing."
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "claimClass": { "type": "string" },
+    "resultStatus": { "type": "string" },
+    "assuranceMode": {
+      "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+    },
+    "files": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "digest", "mediaType", "role"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._/-]+$"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "mediaType": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": [
+              "replay-target",
+              "checker-evaluation",
+              "theorem-identity",
+              "axiom-report",
+              "certification-receipt",
+              "signature",
+              "readme",
+              "other"
+            ]
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["leanVersion", "libraryRevision", "checkerVersion"],
+      "properties": {
+        "leanVersion": { "type": "string" },
+        "libraryRevision": { "type": "string" },
+        "checkerVersion": { "type": "string" },
+        "backend": {
+          "type": ["object", "null"]
+        }
+      }
+    }
+  }
+}

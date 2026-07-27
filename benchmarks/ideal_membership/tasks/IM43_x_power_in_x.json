@@ -1,7 +1,7 @@
 {
   "id": "IM43_x_power_in_x",
   "family": "ideal_membership",
-  "description": "f = x^4 \u2208 \u27e8x\u27e9 with multiplier x^3.",
+  "description": "f = x^4 ∈ ⟨x⟩ with multiplier x^3.",
   "claimClass": "membership",
   "variables": [
     "x"
@@ -46,5 +46,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "scale"
 }

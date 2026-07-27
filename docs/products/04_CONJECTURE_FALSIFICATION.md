@@ -36,12 +36,16 @@ A domain integration defines:
 
 - `observed_pattern`
 - `candidate_statement`
-- `falsified`
+- `falsified` (requires verified Certification Record)
 - `bounded_verified`
-- `formally_proved`
+- `formally_proved` (requires theorem identity + Certification Record or validated source proof)
 - `open`
 
+Shared product preview states include `mirror_accepted` (Python checker mirror only).
+Mirror acceptance sets `refutationPreview = mirror_accepted` and does **not** set `falsified`.
+
 Bounded verification is never presented as a theorem over the unbounded family.
+Campaign accounting uses `refutationRate` (formerly `precisionRate`).
 
 ## 6. Initial domains
 

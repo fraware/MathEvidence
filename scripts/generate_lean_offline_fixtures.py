@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "MathEvidence" / "Checkers" / "RationalEquality" / "OfflineFixtures.lean"
 
 # Bundles that must accept (poly + cover + digest). For these fixtures, generated
-# Lean also recomputes `Request.ofClaim` and proves that the stored wire digest is
+# Lean also recomputes `Request.ofClaim!` and proves that the stored wire digest is
 # exactly the canonical request digest.
 ACCEPT = [
     ("basic_sympy", ROOT / "evidence" / "examples" / "rational_equality_basic"),
@@ -146,7 +146,7 @@ def emit_fixture(ident: str, path: Path, expect_accept: bool) -> str:
     digest = req["requestDigest"]
     cert_digest = cert["requestDigest"]
     # Lean offline replay binds cert.requestDigest to the Lean wire digest from
-    # `Request.ofClaim` (parity with Python bind_request_digest). Honest fixtures
+    # `Request.ofClaim!` (parity with Python bind_request_digest). Honest fixtures
     # prove stored digest = recomputed digest via native_decide.
     # hash_mismatch keeps a forged wire digest and proves mismatch.
     force_literal_request = ident == "hash_mismatch"
@@ -167,13 +167,13 @@ def emit_fixture(ident: str, path: Path, expect_accept: bool) -> str:
             else f"theorem digest_differs_from_ofClaim_{ident} :"
         ),
         (
-            f"    (Request.ofClaim claim_{ident}).requestDigest = digest_{ident} := by native_decide"
+            f"    (Request.ofClaim! claim_{ident}).requestDigest = digest_{ident} := by native_decide"
             if not force_literal_request
-            else f"    ((Request.ofClaim claim_{ident}).requestDigest == digest_{ident}) = false := by native_decide"
+            else f"    ((Request.ofClaim! claim_{ident}).requestDigest == digest_{ident}) = false := by native_decide"
         ),
         f"def req_{ident} : Request :=",
         (
-            f"  Request.ofClaim claim_{ident}"
+            f"  Request.ofClaim! claim_{ident}"
             if not force_literal_request
             else f"  {{ claim := claim_{ident}, requestDigest := digest_{ident} }}"
         ),

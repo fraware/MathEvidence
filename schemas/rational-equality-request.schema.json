@@ -99,6 +99,36 @@
           "type": "integer",
           "minimum": 1048576,
           "maximum": 8589934592
+        },
+        "maxVariableCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 256
+        },
+        "maxExprNodes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        },
+        "maxExponent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1024
+        },
+        "maxIntegerDigits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        },
+        "maxDenominatorFactors": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "maxNormalizedTermCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
         }
       }
     },

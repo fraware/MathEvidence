@@ -1,0 +1,66 @@
+name: External user validation session
+description: Structured interview for ME-RV-085 (do not fake completion)
+title: "External validation: <project or anonymized role>"
+labels: ["me-rv", "wave-8", "adoption"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for **real** non-maintainer Lean-user interviews.
+        Do not check acceptance boxes without a completed session artifact.
+        Normative: `docs/audits/2026-07-26-real-vision/12_REGISTRY_GOVERNANCE_ADOPTION.md`.
+  - type: input
+    id: project
+    attributes:
+      label: Project and role
+      placeholder: e.g. Mathlib contributor / SciLean user / industry formalization
+    validations:
+      required: true
+  - type: textarea
+    id: bottleneck
+    attributes:
+      label: Current computational bottleneck
+    validations:
+      required: true
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Existing workaround
+    validations:
+      required: true
+  - type: input
+    id: capability
+    attributes:
+      label: Exact MathEvidence capability used (or N/A if interview-only)
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Time or proof-complexity impact
+    validations:
+      required: true
+  - type: textarea
+    id: concerns
+    attributes:
+      label: Semantic or trust concerns
+    validations:
+      required: true
+  - type: dropdown
+    id: consent
+    attributes:
+      label: Consent to quote
+      options:
+        - anonymize_only
+        - quote_with_attribution
+        - denied
+    validations:
+      required: true
+  - type: checkboxes
+    id: acceptance
+    attributes:
+      label: Acceptance checklist (leave unchecked until true)
+      options:
+        - label: Non-maintainer participant confirmed
+        - label: Notes filed under docs/validation/ (or linked artifact)
+        - label: No fabricated workflow win claimed from this interview alone

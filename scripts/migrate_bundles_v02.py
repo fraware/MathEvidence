@@ -131,25 +131,37 @@ def migrate_one(bundle_dir: Path) -> None:
     theorem_lean = None
     theorem_path = bundle_dir / "theorem.lean"
     if theorem_path.is_file():
-        theorem_lean = theorem_path.read_text(encoding="utf-8")
+        text = theorem_path.read_text(encoding="utf-8")
+        if "mathevidence_bundle_theorem_placeholder" not in text:
+            theorem_lean = text
 
     axiom_report = None
     if find_role_path(bundle_dir, "axiom-report") is not None:
-        axiom_report = load_role_json(bundle_dir, "axiom-report")
+        axiom = load_role_json(bundle_dir, "axiom-report")
+        if axiom.get("status") != "pending_compiled_audit":
+            axiom_report = axiom
 
     checker_receipt = None
     if find_role_path(bundle_dir, "checker-receipt") is not None:
         checker_receipt = load_role_json(bundle_dir, "checker-receipt")
-        # Lean replay may have written a receipt after a prior migrate; honor it.
+        # Honor only real theorem-level receipts; operational checker_accepted does not promote.
         established = checker_receipt.get("claimEstablished")
         receipt_status = checker_receipt.get("resultStatus")
+        receipt_mode = checker_receipt.get("assuranceMode")
         if (
             established
             and isinstance(receipt_status, str)
             and receipt_status in VERIFIED_RESULT_STATUSES
+            and receipt_mode == "kernel_replay"
         ):
             result_status = receipt_status
             claim_class = str(established)
+        elif receipt_mode == "native_checked" or receipt_status == "checker_accepted":
+            # Keep candidate-only statuses when migrating Wave 0 operational receipts.
+            if result_status in VERIFIED_RESULT_STATUSES:
+                result_status = "computed"
+            if assurance_mode == "kernel_replay":
+                assurance_mode = "native_checked"
 
     write_bundle(
         bundle_dir,

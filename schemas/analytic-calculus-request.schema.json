@@ -4,20 +4,27 @@
   "title": "Analytic calculus request (experimental fragment)",
   "type": "object",
   "additionalProperties": true,
-  "required": ["schemaVersion", "capability", "capabilityVersion"],
+  "required": ["schemaVersion", "capability", "capabilityVersion", "kind", "source", "target"],
   "properties": {
     "schemaVersion": { "type": "string" },
     "capability": {
       "const": "analysis.analytic_calculus"
     },
     "capabilityVersion": { "type": "string" },
+    "kind": {
+      "type": "string",
+      "enum": ["derivative", "antiderivative", "odeCandidate"]
+    },
     "source": { "type": "object" },
-    "claimedDeriv": { "type": "object" },
+    "target": { "type": "object" },
+    "initialConditions": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
     "domainConditions": {
       "type": "array",
       "items": { "type": "object" }
     },
-    "requestedClaim": { "type": "string" },
     "requestDigest": {
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$"

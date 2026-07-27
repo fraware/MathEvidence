@@ -15,6 +15,33 @@ from adapters.common.ideal_membership import (
 import pytest
 
 
+def test_arity_mismatch_rejected() -> None:
+    from adapters.common.ideal_membership import ArityError
+
+    target = {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1]}]}  # len 1 ≠ 2
+    gens = [{"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 0]}]}]
+    with pytest.raises(ArityError):
+        check_membership_python(target, gens, gens)
+
+
+def test_zip_truncation_no_longer_silent() -> None:
+    """Previously zip truncated [1,1]+[1] → [2]; must reject."""
+    from adapters.common.ideal_membership import ArityError
+
+    target = {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 1]}]}
+    gens = [{"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 0]}]}]
+    bad_q = [{"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1]}]}]
+    with pytest.raises(ArityError):
+        check_membership_python(target, gens, bad_q)
+
+
+def test_capability_renamed() -> None:
+    from adapters.common.ideal_membership import CAPABILITY_ID
+
+    assert CAPABILITY_ID == "algebra.ideal_membership_witness"
+    assert "groebner" not in CAPABILITY_ID
+
+
 def test_im01_heuristic_certificate() -> None:
     target = {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 1]}]}
     gens = [
@@ -264,3 +291,131 @@ def test_benchmark_manifest_meets_fifty() -> None:
     )
     assert manifest["taskCount"] >= 50
     assert len(manifest["tasks"]) == manifest["taskCount"]
+
+
+def test_ideal_kernel_replay_profile() -> None:
+    from adapters.common.canonical import bind_request_digest
+    from adapters.common.kernel_replay import _capability_replay_profile
+
+    req = bind_request_digest(
+        {
+            "schemaVersion": "0.1.0",
+            "capability": "algebra.ideal_membership_witness",
+            "capabilityVersion": "0.1.0",
+            "target": {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 1]}]},
+            "generators": [
+                {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 0]}]},
+                {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [0, 1]}]},
+            ],
+            "requestedClaim": "witness",
+        }
+    )
+    profile = _capability_replay_profile(req)
+    assert profile["capability_id"] == "algebra.ideal_membership_witness"
+    assert profile["fixture"] == "xy"
+    assert profile["soundness_theorem"] == "replaySound"
+
+    req1 = bind_request_digest(
+        {
+            "schemaVersion": "0.1.0",
+            "capability": "algebra.ideal_membership_witness",
+            "capabilityVersion": "0.1.0",
+            "target": {
+                "varCount": 1,
+                "terms": [
+                    {"coefficient": 1, "exponents": [2]},
+                    {"coefficient": -1, "exponents": [0]},
+                ],
+            },
+            "generators": [
+                {
+                    "varCount": 1,
+                    "terms": [
+                        {"coefficient": 1, "exponents": [1]},
+                        {"coefficient": -1, "exponents": [0]},
+                    ],
+                }
+            ],
+            "requestedClaim": "witness",
+        }
+    )
+    assert _capability_replay_profile(req1)["fixture"] == "x2m1"
+
+
+def test_candidate_tier_never_soundness_verified(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Candidate / smoke path must not mint theorem-level status."""
+    import scripts.run_ideal_membership_benchmark as bench
+
+    monkeypatch.setenv("MATHEVIDENCE_IDEAL_BENCH_TIER", "candidate")
+    task = json.loads(
+        (
+            Path(__file__).resolve().parents[2]
+            / "benchmarks"
+            / "ideal_membership"
+            / "tasks"
+            / "IM01_linear_combination_xy.json"
+        ).read_text(encoding="utf-8")
+    )
+    row = bench._score_task(task, backend="stub", tier="candidate")
+    assert row["status"] == "pass"
+    lean = row["lean"]
+    assert lean.get("resultStatus") is None
+    assert lean.get("assuranceClaim") in {None, "native_checked_candidate_only"}
+    assert lean.get("kernelReplayStatus") != "ok"
+
+
+def test_release_tier_cli_defaults_and_fixture_map() -> None:
+    import scripts.run_ideal_membership_benchmark as bench
+
+    assert bench._resolve_tier(None) == "candidate"
+    assert bench.RELEASE_FIXTURE_TASKS["IM01_linear_combination_xy"] == "xy"
+    assert bench.RELEASE_FIXTURE_TASKS["IM02_x2_minus_1"] == "x2m1"
+
+
+def test_ideal_kernel_replay_refuses_without_lean(tmp_path: Path) -> None:
+    """Missing Lean must not invent soundness_verified (ME-RV-035 honesty)."""
+    import scripts.run_ideal_membership_benchmark as bench
+    from adapters.common.kernel_replay import run_kernel_replay
+
+    task = json.loads(
+        (
+            Path(__file__).resolve().parents[2]
+            / "benchmarks"
+            / "ideal_membership"
+            / "tasks"
+            / "IM01_linear_combination_xy.json"
+        ).read_text(encoding="utf-8")
+    )
+    proposed = [
+        {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [0, 1]}]},
+        {"varCount": 2, "terms": []},
+    ]
+    bundle_dir = tmp_path / "bundle"
+    bench._build_temp_bundle(
+        task=task, proposed=proposed, backend="stub", bundle_dir=bundle_dir
+    )
+    try:
+        out = run_kernel_replay(
+            bundle_dir=bundle_dir,
+            require_lean=False,
+            out_record_dir=tmp_path / "ideal_cert",
+        )
+    except Exception as exc:  # noqa: BLE001
+        msg = str(exc).lower()
+        assert any(
+            k in msg
+            for k in (
+                "theorem_elaboration",
+                "kernel_rejected",
+                "lake not found",
+                "refusing",
+                "soundness_verified",
+                "content_digest",
+            )
+        ), msg
+        return
+    assert out["ok"] is True
+    assert out["capability"] == "algebra.ideal_membership_witness"
+    assert out["resultStatus"] == "soundness_verified"
+    assert out.get("leanOk") is True
+    assert Path(out["recordDir"]).is_dir()

@@ -4,7 +4,7 @@
   "kind": "evidence_bundle",
   "capturedAt": "2026-07-21T11:08:39Z",
   "acceptanceInfluence": false,
-  "qualityTier": "Q2_formally_verified",
+  "qualityTier": "Q1_checker_preview",
   "provenance": {
     "sourceKind": "committed_evidence",
     "sourcePath": "evidence/examples/ideal_membership_mathematica_offline_x2m1",
@@ -16,7 +16,7 @@
     "backendId": "mathematica",
     "backendVersion": "fixture",
     "adapterVersion": "0.1.0",
-    "checkerPackage": "algebra.groebner_membership",
+    "checkerPackage": "algebra.ideal_membership_witness",
     "notes": "Ingested from committed evidence; never consulted by Lean acceptance."
   },
   "contamination": {
@@ -32,17 +32,17 @@
     "capabilityCandidates": [
       "algebra.rational_equality",
       "algebra.linear_algebra",
-      "algebra.groebner_membership",
+      "algebra.ideal_membership_witness",
       "logic.finite_counterexample",
       "logic.sat_unsat",
       "logic.pseudo_boolean",
       "logic.smt",
       "algebra.formal_rational_calculus"
     ],
-    "selectedCapability": "algebra.groebner_membership",
+    "selectedCapability": "algebra.ideal_membership_witness",
     "requestedClaim": "candidate",
     "backendId": "mathematica",
-    "selectionRationale": "Committed example for capability algebra.groebner_membership."
+    "selectionRationale": "Committed example for capability algebra.ideal_membership_witness."
   },
   "outcome": {
     "resultStatus": "computed",
@@ -72,5 +72,5 @@
     "hasCertificate": true,
     "hasCandidate": true
   },
-  "notes": "Corpus episode built from evidence; acceptanceInfluence=false."
+  "notes": "Corpus episode built from evidence; acceptanceInfluence=false. ME-RV-080: downgraded from Q2_formally_verified \u2014 lacks Certification Record / theorem identity / environment lock (checker-preview only)."
 }

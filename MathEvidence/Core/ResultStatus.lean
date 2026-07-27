@@ -12,6 +12,7 @@ silently promote. -/
 inductive ResultStatus where
   | computed
   | tested
+  | checkerAccepted
   | witnessVerified
   | soundnessVerified
   | completenessVerified
@@ -26,6 +27,7 @@ inductive ResultStatus where
 def ResultStatus.toWire : ResultStatus → String
   | .computed => "computed"
   | .tested => "tested"
+  | .checkerAccepted => "checker_accepted"
   | .witnessVerified => "witness_verified"
   | .soundnessVerified => "soundness_verified"
   | .completenessVerified => "completeness_verified"
@@ -39,6 +41,7 @@ def ResultStatus.toWire : ResultStatus → String
 def ResultStatus.ofWire? : String → Option ResultStatus
   | "computed" => some .computed
   | "tested" => some .tested
+  | "checker_accepted" => some .checkerAccepted
   | "witness_verified" => some .witnessVerified
   | "soundness_verified" => some .soundnessVerified
   | "completeness_verified" => some .completenessVerified

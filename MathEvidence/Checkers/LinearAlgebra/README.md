@@ -19,11 +19,20 @@ Establishes **witness-strength** exact linear-algebra facts over `ℚ`
 
 ## Current E2E status
 
-The checker currently operates on MathEvidence's custom exact matrix IR
-(`MathEvidence.IR.MatrixExpr.ExactMatrixIR`, an alias for the local
-`MatrixExpr.Matrix` type). End-to-end Meta reification from Lean/mathlib
-`Matrix (Fin m) (Fin n) ℚ` goals is scaffolded in `MathEvidence.Tactic`, but it
-is not implemented in this pass and must not be described as complete.
+Wave 4 (ME-RV-040/041): Meta reification returns proof objects; the
+`mathevidence_linear_algebra` tactic closes via Bridge /
+`replaySound` / `checkBool_sound`. Determinant Mathlib transport is
+general-n (`det_of_isDetIdentity`). Independent `native_decide` is not the
+final theorem authority. Kernel-replay Certification Records are produced by
+`adapters/common/kernel_replay.py` for LA capabilities.
+
+### Practical det size limit (intentional resource policy)
+
+`MathEvidence.IR.MatrixExpr.defaultSizeLimit` is **64 entries**. Combined with
+factorial Laplace expansion cost in the det witness path, this bounds practical
+matrix order. That bound is an **intentional resource / DoS policy**, not a
+missing soundness theorem: Bridge proves `det_of_isDetIdentity` for all
+`Fin n` within the accepted size. Oversized inputs are rejected before replay.
 
 ## Explicitly out of scope
 

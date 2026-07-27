@@ -1,4 +1,8 @@
-"""Forensic: mathevidence-replay theorem-produces for rational equality."""
+"""Forensic: Wave 0 operational verify-bundle (ME-RV-001).
+
+Formerly asserted theorem-producing `claimEstablished` / `soundness_verified`.
+That overclaim is removed; see `test_verify_bundle_no_theorem_status.py`.
+"""
 
 from __future__ import annotations
 
@@ -8,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from adapters.common.replay import find_replay_exe, run_lean_replay
+from adapters.common.replay import THEOREM_LEVEL_STATUSES, find_replay_exe, run_lean_replay
 
 ROOT = Path(__file__).resolve().parents[2]
 EXAMPLE = ROOT / "evidence" / "examples" / "rational_equality_basic"
@@ -16,11 +20,15 @@ EXAMPLE = ROOT / "evidence" / "examples" / "rational_equality_basic"
 
 @pytest.mark.skipif(
     find_replay_exe(ROOT) is None,
-    reason="mathevidence-replay not built; run lake build mathevidence-replay",
+    reason="mathevidence-verify-bundle not built; run lake build mathevidence-verify-bundle",
 )
-def test_lean_replay_emits_claim_established_for_rational_example(tmp_path: Path) -> None:
+def test_lean_verify_emits_checker_accepted_not_theorem_status(tmp_path: Path) -> None:
     dest = tmp_path / "bundle"
     shutil.copytree(EXAMPLE, dest)
+    for name in ("checker-receipt.cjson", "checker-receipt.json"):
+        p = dest / name
+        if p.is_file():
+            p.unlink()
     out = run_lean_replay(
         bundle_dir=dest,
         repo_root=ROOT,
@@ -28,26 +36,27 @@ def test_lean_replay_emits_claim_established_for_rational_example(tmp_path: Path
         goal_file=dest / "request.cjson",
     )
     assert out["ok"] is True, out.get("stderr")
-    assert out["authority"] == "lean_exe"
-    assert out["claimEstablished"] == "soundResult"
-    assert out.get("resultStatus") == "soundness_verified"
-    receipt_path = dest / "checker-receipt.cjson"
-    assert receipt_path.is_file()
-    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    assert receipt["claimEstablished"] == "soundResult"
-    assert receipt["resultStatus"] == "soundness_verified"
-    assert receipt.get("contentDigestsVerified") is True
+    assert out["authority"] == "lean_operational"
+    assert out["claimEstablished"] is None
+    assert out.get("resultStatus") == "checker_accepted"
+    assert out.get("resultStatus") not in THEOREM_LEVEL_STATUSES
+    # Wave 0: stdout-only evaluation — never mutate the Candidate Bundle.
+    assert not (dest / "checker-receipt.cjson").is_file()
+    assert not (dest / "checker-receipt.json").is_file()
+    receipt = out.get("envelope") or json.loads(out.get("stdout") or "{}")
+    assert receipt.get("claimEstablished") is None
+    assert receipt.get("resultStatus") == "checker_accepted"
+    assert receipt.get("assuranceMode") == "native_checked"
 
 
 @pytest.mark.skipif(
     find_replay_exe(ROOT) is None,
-    reason="mathevidence-replay not built; run lake build mathevidence-replay",
+    reason="mathevidence-verify-bundle not built; run lake build mathevidence-verify-bundle",
 )
 def test_lean_replay_hard_fails_goal_mismatch(tmp_path: Path) -> None:
     dest = tmp_path / "bundle"
     shutil.copytree(EXAMPLE, dest)
     bad_goal = tmp_path / "bad_goal.json"
-    # Different claim: x = 0 vs example identity.
     bad_goal.write_text(
         json.dumps(
             {

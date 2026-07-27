@@ -1,0 +1,30 @@
+name: Held-out external benchmark
+description: Track ME-RV-081 held-out eval set (permissions + provenance required)
+title: "Held-out benchmark: <source family>"
+labels: ["me-rv", "wave-8"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Create an external-project held-out set with explicit permissions and
+        provenance. Do not claim adoption from copied examples.
+  - type: dropdown
+    id: family
+    attributes:
+      label: Obligation family
+      options:
+        - Mathlib-derived algebra
+        - SciLean / Physlib analytic
+        - CSLib / finite structures
+        - Independent contributor problem
+    validations:
+      required: true
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Acceptance checklist
+      options:
+        - label: Explicit redistribution / evaluation permission recorded
+        - label: Provenance fields complete (source family, license, commit)
+        - label: Not duplicated from train/eval contamination
+        - label: Linked from benchmarks/ or foundry held_out split

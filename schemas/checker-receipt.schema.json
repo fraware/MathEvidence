@@ -27,7 +27,14 @@
     "receiptDigest": { "$ref": "#/$defs/sha256Digest" },
     "requestDigest": { "$ref": "#/$defs/sha256Digest" },
     "bundleDigest": { "$ref": "#/$defs/sha256Digest" },
-    "theoremDigest": { "$ref": "#/$defs/sha256Digest" },
+    "theoremDigest": {
+      "description": "Elaborated theorem type digest when present; empty/null for operational-only checker evaluations (Wave 0 verify-bundle).",
+      "anyOf": [
+        { "$ref": "#/$defs/sha256Digest" },
+        { "type": "string", "maxLength": 0 },
+        { "type": "null" }
+      ]
+    },
     "axiomDigests": {
       "type": "array",
       "items": { "$ref": "#/$defs/sha256Digest" }
@@ -102,6 +109,7 @@
       "enum": [
         "computed",
         "tested",
+        "checker_accepted",
         "witness_verified",
         "soundness_verified",
         "completeness_verified",
@@ -113,6 +121,7 @@
         "ambiguous"
       ]
     },
+    "contentDigestsVerified": { "type": "boolean" },
     "toolchain": {
       "type": "object",
       "additionalProperties": false,

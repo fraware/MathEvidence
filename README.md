@@ -51,6 +51,13 @@ just check
 That runs the local build and test gate. Full walkthrough:
 [`docs/getting-started/`](docs/getting-started/).
 
+**Windows kernel-replay:** Lean 4.14 Lake may fail to link
+`mathevidence-kernel-replay` (CreateProcess 206). The **required** local path
+is `python scripts/link_exe_via_rsp.py mathevidence-kernel-replay` (also
+attempted by `just exe-smoke` / `scripts/smoke_exe.py`). Linux CI remains
+authoritative — see
+[`docs/audits/2026-07-26-real-vision/KERNEL_REPLAY_PLATFORM.md`](docs/audits/2026-07-26-real-vision/KERNEL_REPLAY_PLATFORM.md).
+
 Optional: SymPy for open backends; `wolframscript` (set
 `MATHEVIDENCE_WOLFRAMSCRIPT`) for live Mathematica. Bundles under `evidence/`
 replay offline without a live CAS.

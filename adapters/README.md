@@ -13,19 +13,15 @@ Untrusted backend adapters. Protocol: JSON-RPC over stdio (ADR 0003).
 
 ## Install
 
-Prefer uv when TLS/network works:
+Committed `uv.lock` is required. Prefer:
 
 ```text
-uv lock
-uv sync --extra dev --extra sympy
+uv sync --frozen --extra dev --extra sympy
 ```
 
-If `uv.lock` is missing due to TLS failures (`UnknownIssuer`), use pip:
-
-```text
-python -m pip install -r requirements-dev.txt
-python -m pip install -e .
-```
+On Windows TLS failures (`UnknownIssuer`), download the `uv-lock` artifact from
+`.github/workflows/uv-lock.yml` (or generate on Linux/macOS) into the repo root.
+Pip from `requirements*.txt` is diagnostic-only and is **not** used by CI.
 
 ## Run SymPy adapter (JSON-RPC NDJSON on stdio)
 

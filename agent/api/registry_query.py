@@ -55,7 +55,7 @@ _COMPUTE_CAPABILITIES = frozenset(
         "algebra.linear_algebra",
         "logic.finite_counterexample",
         "algebra.formal_rational_calculus",
-        "algebra.groebner_membership",
+        "algebra.ideal_membership_witness",
     }
 )
 

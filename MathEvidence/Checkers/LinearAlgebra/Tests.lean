@@ -206,6 +206,81 @@ theorem reject_zero_kernel :
 theorem reject_kernel_dim_mismatch :
     checkBool req_ker cert_ker_short = false := by native_decide
 
+/-- Left-only inverse (right fails) must be rejected as two-sided witness. -/
+def B_left_only : Matrix :=
+  { nrows := 2, ncols := 2
+    entries :=
+      [[RatLit.ofInt 2, RatLit.ofInt 0],
+       [RatLit.ofInt 0, RatLit.ofInt 0]] }
+
+def cert_inv_left_only : Certificate where
+  requestDigest := req_inv.requestDigest
+  inverse := some B_left_only
+
+theorem reject_left_only_inverse :
+    checkBool req_inv cert_inv_left_only = false := by native_decide
+
+/-- Wrong RHS system solution rejected. -/
+def cert_sys_wrong_rhs : Certificate where
+  requestDigest := req_sys.requestDigest
+  vector := some [RatLit.ofInt 0, RatLit.ofInt 0]
+
+theorem reject_system_wrong_solution :
+    checkBool req_sys cert_sys_wrong_rhs = false := by native_decide
+
+/-- Determinant sign error rejected. -/
+def claim_det_sign_error : Claim where
+  operation := .detIdentity
+  matrix := A_det
+  claimedDet := some (RatLit.ofInt 2)
+  claimClass := .soundResult
+
+def req_det_sign_error : Request := Request.ofClaim claim_det_sign_error
+
+def cert_det_sign_error : Certificate where
+  requestDigest := req_det_sign_error.requestDigest
+
+theorem reject_det_sign_error :
+    checkBool req_det_sign_error cert_det_sign_error = false := by native_decide
+
+/-- Zero denominator in matrix rejects well-formedness. -/
+def A_zero_den : Matrix :=
+  { nrows := 1, ncols := 1
+    entries := [[⟨1, 0⟩]] }
+
+def claim_zero_den : Claim where
+  operation := .detIdentity
+  matrix := A_zero_den
+  claimedDet := some (RatLit.ofInt 1)
+  claimClass := .soundResult
+
+def req_zero_den : Request := Request.ofClaim claim_zero_den
+
+def cert_zero_den : Certificate where
+  requestDigest := req_zero_den.requestDigest
+
+theorem reject_zero_denominator :
+    checkBool req_zero_den cert_zero_den = false := by native_decide
+
+/-- Oversized matrix hits resource / size limit. -/
+def A_too_big : Matrix :=
+  { nrows := 16, ncols := 16
+    entries := List.replicate 16 (List.replicate 16 (RatLit.ofInt 1)) }
+
+def claim_too_big : Claim where
+  operation := .detIdentity
+  matrix := A_too_big
+  claimedDet := some (RatLit.ofInt 0)
+  claimClass := .soundResult
+
+def req_too_big : Request := Request.ofClaim claim_too_big
+
+def cert_too_big : Certificate where
+  requestDigest := req_too_big.requestDigest
+
+theorem reject_resource_limit :
+    checkBool req_too_big cert_too_big = false := by native_decide
+
 theorem replay_report_inv :
     (replay { request := req_inv, certificate := cert_inv }).accepted = true := by
   native_decide

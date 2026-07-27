@@ -1,0 +1,110 @@
+{
+  "id": "algebra.ideal_membership_witness",
+  "version": "0.1.0",
+  "status": "experimental",
+  "lifecycle": "experimental",
+  "domain": "algebra.polynomial_ideals",
+  "ownership": "owned",
+  "externalSearchEssential": true,
+  "inputIR": {
+    "name": "SparsePolynomialStub",
+    "schema": "schemas/ideal-membership-certificate.schema.json",
+    "version": "0.1.0",
+    "leanPackage": "MathEvidence.IR.Polynomial.Syntax"
+  },
+  "admissibility": {
+    "summary": "Ideal-membership certificates whose witness identity f = sum_i q_i * g_i is checked by MathEvidence. External systems may search for multipliers, but their basis algorithms are not trusted by this capability.",
+    "rejectedConstructs": [
+      "claiming_Groebner_basis_correctness",
+      "claiming_non_membership_or_radical_membership",
+      "claiming_ideal_equality_or_basis_minimality"
+    ],
+    "requiredAssumptions": [
+      "Certificate contains one sparse integer-polynomial multiplier for each generator",
+      "Lean checkMembership remains authoritative for the witness identity",
+      "Search completeness and Groebner-basis correctness remain backend-owned and untrusted"
+    ]
+  },
+  "claimClasses": [
+    "witness",
+    "soundResult",
+    "candidate"
+  ],
+  "evidenceSchema": "schemas/ideal-membership-certificate.schema.json",
+  "requestSchema": "schemas/federation-request.schema.json",
+  "checker": {
+    "package": "MathEvidence.Checkers.IdealMembership.Check",
+    "version": "0.0.0",
+    "assurance": "native_checked",
+    "soundnessStatus": "proved_checkBool_sound"
+  },
+  "assuranceModes": [
+    "native_checked",
+    "kernel_replay"
+  ],
+  "limits": {
+    "maxWallTimeMs": 120000,
+    "maxOutputBytes": 16777216
+  },
+  "knownLimitations": [
+    "MathEvidence checks the witness identity f = sum_i q_i * g_i over fixed-arity sparse integer polynomials (ME-RV-030..032).",
+    "No Groebner-basis correctness, non-membership, radical-membership, ideal-equality, completeness, or optimality claim is made.",
+    "Capability id is algebra.ideal_membership_witness (not groebner).",
+    "SymPy is the always-on witness proposer (Agent compute + benchmark harness).",
+    "lean_reference_search is the in-Lean baseline backend; never masquerades as SymPy/Mathematica.",
+    "Mathematica live witness generation requires MATHEVIDENCE_WOLFRAMSCRIPT; not advertised as live when unset.",
+    "Sage live witness generation requires sage/sagemath on PATH; not advertised when absent.",
+    "Kernel replay / Certification Record emission depends on Lake+Mathlib availability."
+  ],
+  "conformance": {
+    "suite": "benchmarks/ideal_membership",
+    "status": "partial",
+    "requiredCases": [
+      "checked_witness_identity",
+      "multiplier_arity",
+      "backend_honesty",
+      "fixture_dual_backend"
+    ]
+  },
+  "maintainers": [
+    {
+      "name": "MathEvidence federation",
+      "role": "metadata_owner",
+      "contact": "see SUPPORT.md"
+    }
+  ],
+  "supportClaims": {
+    "declared": true,
+    "installedHint": "python -m adapters.sympy (always); Mathematica/Sage offline fixtures committed; live only when MATHEVIDENCE_WOLFRAMSCRIPT / sage on PATH (not advertised when absent)",
+    "conformanceVerified": false,
+    "backends": [
+      {
+        "id": "sympy",
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "implemented"
+      },
+      {
+        "id": "mathematica",
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "declared"
+      },
+      {
+        "id": "sage",
+        "versions": [
+          "0.1.0"
+        ],
+        "supportLevel": "declared"
+      }
+    ]
+  },
+  "compatibility": {
+    "policy": "federation_metadata_v0",
+    "minProtocolVersion": "0.1.0"
+  },
+  "semanticReview": "absent",
+  "trustReview": "absent"
+}

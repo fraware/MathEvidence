@@ -34,10 +34,11 @@ def Matrix.mulVecEval? (A : Matrix) (v : Vector) : Option (List ℚ) := do
   let x ← v.eval?
   mulRatsVec a x
 
-/-- Determinant of a square matrix. -/
+/-- Determinant of a square matrix (non-partial `detRats` for all `n`). -/
 def Matrix.detEval? (A : Matrix) : Option ℚ := do
   let a ← A.eval?
-  if A.nrows ≠ A.ncols then none else detRats a
+  if A.nrows ≠ A.ncols then none
+  else detRats a
 
 /-- True when `A * B` equals the `n×n` identity. -/
 def isRightInverse (A B : Matrix) : Bool :=

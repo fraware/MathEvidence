@@ -11,6 +11,10 @@ log is a **human/outreach** gate (same discipline as R2 user confirmations).
 entry may overlap a workflow win if the same project both adopts a component
 and confirms a concrete workflow improvement.
 
+**ME-RV-086 integration checklist:**
+[`external-adoption-checklist.md`](external-adoption-checklist.md)
+(status **0**, BLOCKED). Index: [`human-gates-runbook.md`](human-gates-runbook.md).
+
 ## What counts
 
 An adoption entry counts only if:

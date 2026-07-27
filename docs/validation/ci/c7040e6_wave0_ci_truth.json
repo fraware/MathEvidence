@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "0.1.0",
+  "recordKind": "ci_truth_wave0",
+  "issue": "ME-RV-003",
+  "recordedAt": "2026-07-26T14:15:00Z",
+  "repository": "fraware/MathEvidence",
+  "branch": "main",
+  "headSha": "c7040e6c60979bc0a05334ce5011e5ac7bcf4b03",
+  "notes": [
+    "Combined commit status API returned state=pending with total_count=0 statuses (no classic status contexts attached to this SHA).",
+    "Check-runs / workflow runs for this SHA were retrieved via the Actions API; conclusions below are from those runs.",
+    "Branch protection API for main returned HTTP 404 Branch not protected — no required checks / PR requirement is configured on main as of this record.",
+    "Rulesets API for branches/main returned an empty list.",
+    "Stable promotion remains blocked per docs/STATUS.md and docs/validation/stable-capability-checklist.md pending real-vision acceptance matrix closure."
+  ],
+  "commitStatusApi": {
+    "endpoint": "GET /repos/fraware/MathEvidence/commits/c7040e6c60979bc0a05334ce5011e5ac7bcf4b03/status",
+    "state": "pending",
+    "total_count": 0,
+    "statuses": [],
+    "interpretation": "No attested combined status set for this head; do not treat as green release attestation."
+  },
+  "branchProtection": {
+    "endpoint": "GET /repos/fraware/MathEvidence/branches/main/protection",
+    "httpStatus": 404,
+    "message": "Branch not protected",
+    "requiredPullRequestReviews": null,
+    "requiredStatusChecks": null,
+    "enforceAdmins": null
+  },
+  "workflowRunsForHead": [
+    {
+      "id": 29912563452,
+      "name": "lean",
+      "event": "push",
+      "conclusion": "success",
+      "html_url": "https://github.com/fraware/MathEvidence/actions/runs/29912563452"
+    },
+    {
+      "id": 29912563534,
+      "name": "offline-replay",
+      "event": "push",
+      "conclusion": "success",
+      "html_url": "https://github.com/fraware/MathEvidence/actions/runs/29912563534"
+    },
+    {
+      "id": 29912563407,
+      "name": "security",
+      "event": "push",
+      "conclusion": "success",
+      "html_url": "https://github.com/fraware/MathEvidence/actions/runs/29912563407"
+    },
+    {
+      "id": 29912563548,
+      "name": "adapter-conformance",
+      "event": "push",
+      "conclusion": "success",
+      "html_url": "https://github.com/fraware/MathEvidence/actions/runs/29912563548"
+    },
+    {
+      "id": 29912563537,
+      "name": "supply-chain",
+      "event": "push",
+      "conclusion": "success",
+      "html_url": "https://github.com/fraware/MathEvidence/actions/runs/29912563537"
+    },
+    {
+      "id": 29912563450,
+      "name": "adversarial",
+      "event": "push",
+      "conclusion": "success",
+      "html_url": "https://github.com/fraware/MathEvidence/actions/runs/29912563450"
+    },
+    {
+      "id": 30194070846,
+      "name": "benchmarks",
+      "event": "schedule",
+      "conclusion": "success",
+      "html_url": "https://github.com/fraware/MathEvidence/actions/runs/30194070846",
+      "note": "Scheduled benchmarks also list this head_sha; not a push gate."
+    }
+  ],
+  "releaseAttestation": {
+    "exactCommitHasCompleteGreenRequiredChecks": false,
+    "reason": "main has no branch protection / required checks configured; combined status API is empty; workflow successes exist but are not attested as required release gates."
+  },
+  "stablePromotion": {
+    "blocked": true,
+    "pointer": "docs/audits/2026-07-26-real-vision/15_ACCEPTANCE_MATRIX.md"
+  }
+}

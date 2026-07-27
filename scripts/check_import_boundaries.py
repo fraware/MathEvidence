@@ -16,12 +16,14 @@ ROOT = Path(__file__).resolve().parents[1]
 TRUSTED = [
     ROOT / "MathEvidence" / "Core",
     ROOT / "MathEvidence" / "IR",
+    ROOT / "MathEvidence" / "Encoding",
     ROOT / "MathEvidence" / "Checkers",
 ]
 # Also scan root module files for those packages.
 TRUSTED_ROOT_FILES = [
     ROOT / "MathEvidence" / "Core.lean",
     ROOT / "MathEvidence" / "IR.lean",
+    ROOT / "MathEvidence" / "Encoding.lean",
     ROOT / "MathEvidence" / "Checkers.lean",
 ]
 

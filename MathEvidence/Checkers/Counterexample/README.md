@@ -14,11 +14,12 @@ Establishes a **refutation** of a finite predicate at a typed witness
 
 ## Current E2E status
 
-The checker currently operates on MathEvidence's custom
-`MathEvidence.IR.FinitePredicate` representation plus explicit finite witness
-assignments. End-to-end Meta reification from arbitrary Lean predicates and
-witness extraction is scaffolded in `MathEvidence.Tactic`, but it is not
-implemented in this pass and must not be described as complete.
+Wave 4 (ME-RV-042/043): Meta reification returns domain/predicate/witness
+interpretation plus bridge proof objects; `mathevidence_counterexample`
+closes via Bridge / `replaySound` / `checkBool_sound`. Bounded Int bridges
+carry explicit `lo`/`hi`. Agent conjecture mirrors may only set
+`candidate_witness` / `mirror_accepted`; `falsified` requires a Certification
+Record.
 
 ## Explicitly out of scope
 

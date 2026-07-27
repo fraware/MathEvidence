@@ -8,9 +8,14 @@ artifact or CI-green evidence. Capability JSON remains `"experimental"` until
 every box below is checked with real human artifacts and a separate governance
 PR lands.
 
-> **BLOCKED:** Do not flip `status: stable` while the human gates in
-> [`docs/security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md) remain open (0 external
-> confirmations today). Engineering packaging is not human confirmation.
+> **BLOCKED (Wave 0 / ME-RV-003):** Do not flip `status: stable` while the
+> real-vision acceptance matrix
+> ([`docs/audits/2026-07-26-real-vision/15_ACCEPTANCE_MATRIX.md`](../audits/2026-07-26-real-vision/15_ACCEPTANCE_MATRIX.md))
+> remains open, or while human gates in
+> [`docs/security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md) remain open
+> (0 external confirmations today). Engineering packaging is not human
+> confirmation. CI truth for audited head `c7040e6` is recorded under
+> [`docs/validation/ci/`](ci/) — `main` is not branch-protected.
 > Ownership reality: [`.github/CODEOWNERS`](../../.github/CODEOWNERS) is still a
 > single-owner stub — see [`GOVERNANCE.md`](../../GOVERNANCE.md).
 
@@ -25,16 +30,20 @@ candidate commit plus forensic-green evidence under `tests/forensic/`.
 - [ ] Conformance suite `evidence/conformance/rfc0001` passing in **immutable CI**
       on the candidate commit (not only local `just conformance`)
 - [ ] Checker soundness with coverage⇒Defined bridge (ℚ)
-- [ ] Offline replay with Lean-recomputed request digests and theorem-producing
-      rational replay (not status-only)
+- [ ] Offline **kernel** replay with Lean-recomputed request digests and
+      theorem-producing Certification Record (Wave 0 `mathevidence-verify-bundle`
+      is operational `checker_accepted` only — does **not** close this box)
 - [ ] Adversarial + forensic suites green (`tests/forensic/`)
 - [ ] Compiled axiom + import-graph audits preferred over regex-only
 - [ ] Agent `bundleId`-only public surface + registry-driven dispatch
 - [ ] Live request-digest binding; checker theorem remains closing authority
 - [ ] Typed digests / receipts present
-
+- [ ] Branch protection with required checks on the release branch (see CI truth)
 ## Governance gates (human — required for `stable`; still OPEN)
 
+- [ ] Signed promotion record under `registry/promotions/` matching
+      `schemas/promotion-record.schema.json` (enforced by
+      `scripts/validate_registry.py` — docs checkboxes alone are insufficient)
 - [ ] **Domain review:** independent mathematical review using
       `docs/validation/expert-review-rubric.md` (completed packet under
       `docs/validation/review-packets/`, real reviewer identity). Start from

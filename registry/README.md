@@ -43,7 +43,7 @@ fixtures / differential `skip`/`fixture`). LeanLink remains scaffold
 | `algebra.linear_algebra` | owned | experimental | SymPy conformance-verified; Mathematica/Sage live_generator_complete (CI fixture without Wolfram/Sage) |
 | `logic.finite_counterexample` | owned | experimental | SymPy conformance-verified; Mathematica/Sage live_generator_complete (CI fixture without Wolfram/Sage) |
 | `algebra.formal_rational_calculus` | owned | experimental | Transitional ID for planned `algebra.formal_rational_calculus`; formal rational identities only, not analytic semantics |
-| `algebra.groebner_membership` | owned | experimental | Native sparse witness identity checker; SymPy simple witness generation; ≥50 value gate still open |
+| `algebra.ideal_membership_witness` | owned | experimental | Native sparse witness identity checker; SymPy simple witness generation; ≥50 value gate still open |
 | `logic.sat_unsat` | federated | experimental | Metadata only; external checker |
 | `logic.pseudo_boolean` | federated | experimental | Metadata only; external checker |
 | `logic.smt` | federated | experimental | Metadata only; Lean-SMT authority |

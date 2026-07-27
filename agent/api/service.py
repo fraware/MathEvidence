@@ -10,9 +10,13 @@ from adapters.common.bundle import find_role_path, verify_bundle_offline, write_
 from adapters.common.errors import AdapterError, stable_error
 from adapters.common.limits import ResourceLimits, ResourceTracker
 from adapters.common.schema_validate import SchemaStore
-from agent.api.bundle_store import BundlePathError, BundleStore
+from agent.api.bundle_store import BundlePathError, BundleStore, ContentAddressCollision
 from agent.api.operations import ALLOWED_BACKENDS, PROTOCOL_VERSION, list_operations
-from agent.api.receipt import VERIFIED_STATUSES, trusted_status_from_receipt
+from agent.api.receipt import (
+    VERIFIED_STATUSES,
+    trusted_status_from_receipt,
+    verify_certification_record,
+)
 from agent.api.registry_query import (
     REPO_ROOT,
     capability_public_summary,
@@ -391,16 +395,37 @@ def op_compute_evidence(body: dict[str, Any]) -> dict[str, Any]:
         store_id = out_bundle_id
         try:
             store_path, store_id = store.commit_content_addressed(
-                out_dir, request_digest=manifest["requestDigest"]
+                out_dir,
+                request_digest=manifest["requestDigest"],
+                bundle_digest=manifest.get("bundleDigest"),
+                kind="candidate",
+            )
+        except ContentAddressCollision as exc:
+            return _agent_result(
+                operation_id="compute_evidence",
+                result_status="rejected",
+                claim_class="candidate",
+                error={
+                    "code": "content_address_collision",
+                    "message": str(exc),
+                    "category": "evidence",
+                },
+                unresolved=[
+                    {
+                        "id": "content_address_collision",
+                        "kind": "schema",
+                        "message": str(exc),
+                    }
+                ],
             )
         except BundlePathError:
             # Keep agent-store write; content-addressed commit is best-effort
             # when digest shape is unexpected.
             pass
         bundle_ref = {
-            "path": str(store_path),
             "bundleId": store_id or out_bundle_id,
             "requestDigest": manifest["requestDigest"],
+            "bundleDigest": manifest.get("bundleDigest"),
             "capability": capability_id,
             "capabilityVersion": cap["version"],
             "contentAddressed": store_id is not None
@@ -506,48 +531,69 @@ def op_open_bundle(body: dict[str, Any]) -> dict[str, Any]:
             },
         )
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    try:
-        status, trust, trust_notes = _safe_manifest_status(
-            manifest, _read_checker_receipt(path), bundle_dir=path
+    # Candidate Bundles (v0.3) always report computed — never elevate via receipt.
+    artifact_kind = manifest.get("artifactKind", "candidate")
+    if (
+        artifact_kind == "candidate"
+        or (
+            manifest.get("bundleVersion") == "0.3.0"
+            and "candidateBundleDigest" not in manifest
         )
-    except Exception as exc:  # noqa: BLE001
-        return _agent_result(
-            operation_id="open_bundle",
-            result_status="rejected",
-            error={
-                "code": "malformed_evidence",
-                "message": str(exc),
-                "category": "evidence",
-            },
-        )
+    ):
+        status = "computed"
+        trust: dict[str, Any] = {
+            "previewAccepted": False,
+            "claimEstablished": None,
+            "certificationVerified": False,
+        }
+        trust_notes = [
+            "Candidate Bundle opened; status is computed until Certification Record verifies.",
+        ]
+    else:
+        try:
+            status, trust, trust_notes = _safe_manifest_status(
+                manifest, _read_checker_receipt(path), bundle_dir=path
+            )
+        except Exception as exc:  # noqa: BLE001
+            return _agent_result(
+                operation_id="open_bundle",
+                result_status="rejected",
+                error={
+                    "code": "malformed_evidence",
+                    "message": str(exc),
+                    "category": "evidence",
+                },
+            )
     return _agent_result(
         operation_id="open_bundle",
         result_status=status,
         claim_class=manifest.get("claimClass", "candidate"),
         bundle_ref={
-            "path": str(path),
-            "bundleId": body.get("bundleId") if isinstance(body.get("bundleId"), str) else None,
+            "bundleId": body.get("bundleId")
+            if isinstance(body.get("bundleId"), str)
+            else None,
             "requestDigest": manifest.get("requestDigest"),
+            "bundleDigest": manifest.get("bundleDigest"),
             "capability": (manifest.get("capability") or {}).get("id"),
             "capabilityVersion": (manifest.get("capability") or {}).get("version"),
         },
         notes=[
-            "Opened committed bundle; use replay_bundle for full digest verification.",
-            "claimEstablished requires a checker receipt with verified content digests.",
-            "Studio Certified label requires Lean kernel replay, not this summary alone.",
+            "Opened committed Candidate Bundle; use open_certification for verified status.",
+            "claimEstablished / Certified require a Certification Record from kernel replay.",
             *trust_notes,
         ],
         extra={"manifest": manifest, **trust},
     )
 
 
-def op_replay_bundle(body: dict[str, Any]) -> dict[str, Any]:
+def op_open_certification(body: dict[str, Any]) -> dict[str, Any]:
+    """Open and verify a Certification Record (returns verified only on full check)."""
     store = SchemaStore(REPO_ROOT / "agent" / "api" / "schemas")
     try:
-        store.validate("replay-bundle.input.schema.json", body)
+        store.validate("open-certification.input.schema.json", body)
     except AdapterError as exc:
         return _agent_result(
-            operation_id="replay_bundle",
+            operation_id="open_certification",
             result_status="rejected",
             error={
                 "code": "bundle_path_forbidden"
@@ -559,18 +605,108 @@ def op_replay_bundle(body: dict[str, Any]) -> dict[str, Any]:
         )
     if "path" in body:
         return _path_error_result(
-            "replay_bundle",
+            "open_certification",
+            BundlePathError("public Agent API rejects raw path; use bundleId"),
+        )
+    cert_id = body.get("bundleId") or body.get("certificationId")
+    if not isinstance(cert_id, str) or not cert_id:
+        return _agent_result(
+            operation_id="open_certification",
+            result_status="rejected",
+            error={
+                "code": "malformed_evidence",
+                "message": "certificationId / bundleId required",
+                "category": "evidence",
+            },
+        )
+    try:
+        path = _bundle_store().path_for_bundle_id(cert_id)
+    except BundlePathError as exc:
+        return _path_error_result("open_certification", exc)
+    try:
+        verification = verify_certification_record(path)
+    except Exception as exc:  # noqa: BLE001
+        return _agent_result(
+            operation_id="open_certification",
+            result_status="rejected",
+            error={
+                "code": "malformed_evidence",
+                "message": str(exc),
+                "category": "evidence",
+            },
+        )
+    status = verification.result_status if verification.verified else "tested"
+    if not verification.verified and verification.result_status == "computed":
+        status = "computed"
+    if not verification.verified and verification.result_status in VERIFIED_STATUSES:
+        status = "tested"
+    return _agent_result(
+        operation_id="open_certification",
+        result_status=status if verification.verified else status,
+        claim_class="soundResult" if verification.claim_established else "candidate",
+        bundle_ref={
+            "certificationId": cert_id,
+            "candidateBundleDigest": verification.candidate_bundle_digest,
+            "certificationRecordDigest": verification.certification_record_digest,
+            "requestDigest": verification.request_digest,
+        },
+        notes=[
+            "Certification Record verification complete."
+            if verification.verified
+            else "Certification Record present but not theorem-verified.",
+        ],
+        extra={
+            "certificationVerified": verification.verified,
+            "claimEstablished": verification.claim_established
+            if verification.verified
+            else None,
+            "previewAccepted": verification.preview_accepted,
+            "assuranceMode": verification.assurance_mode,
+            "theoremTypeDigest": verification.theorem_type_digest,
+            "proofDeclarationDigest": verification.proof_declaration_digest,
+        },
+    )
+
+
+def op_replay_bundle(body: dict[str, Any]) -> dict[str, Any]:
+    return _op_verify_bundle_impl(body, operation_id="replay_bundle")
+
+
+def op_verify_bundle(body: dict[str, Any]) -> dict[str, Any]:
+    """Operational Candidate Bundle verification (Wave 2 / ME-RV-024)."""
+    return _op_verify_bundle_impl(body, operation_id="verify_bundle")
+
+
+def _op_verify_bundle_impl(body: dict[str, Any], *, operation_id: str) -> dict[str, Any]:
+    store = SchemaStore(REPO_ROOT / "agent" / "api" / "schemas")
+    try:
+        store.validate("replay-bundle.input.schema.json", body)
+    except AdapterError as exc:
+        return _agent_result(
+            operation_id=operation_id,
+            result_status="rejected",
+            error={
+                "code": "bundle_path_forbidden"
+                if "path" in str(body)
+                else exc.code,
+                "message": exc.message,
+                "category": "evidence",
+            },
+        )
+    if "path" in body:
+        return _path_error_result(
+            operation_id,
             BundlePathError("public Agent API rejects raw path; use bundleId"),
         )
     try:
         path = _bundle_store().resolve_ref(body)
     except BundlePathError as exc:
-        return _path_error_result("replay_bundle", exc)
+        return _path_error_result(operation_id, exc)
     try:
         warnings = verify_bundle_offline(path)
     except Exception as exc:  # noqa: BLE001
         return _agent_result(
-            operation_id="replay_bundle",
+            operation_id=operation_id,
             result_status="rejected",
             error={
                 "code": "malformed_evidence",
@@ -585,7 +721,7 @@ def op_replay_bundle(body: dict[str, Any]) -> dict[str, Any]:
                 }
             ],
         )
-    # Prefer Lean mathevidence-replay authority (digest + checker + goal match).
+    # Prefer Lean mathevidence-verify-bundle (operational checkBool only; ME-RV-001).
     lean_packaging: dict[str, Any] = {}
     try:
         from adapters.common.replay import run_lean_replay
@@ -609,100 +745,195 @@ def op_replay_bundle(body: dict[str, Any]) -> dict[str, Any]:
             elif "certificate_decode_failed" in stderr:
                 code = "certificate_decode_failed"
             return _agent_result(
-                operation_id="replay_bundle",
+                operation_id=operation_id,
                 result_status="rejected",
                 error={
                     "code": code,
-                    "message": stderr or "mathevidence-replay failed",
+                    "message": stderr or "mathevidence-verify-bundle failed",
                     "category": "evidence",
                 },
+                unresolved=[
+                    {
+                        "id": "lean_verify_failed",
+                        "kind": "schema",
+                        "message": stderr or "verify-bundle failed",
+                    }
+                ],
+                extra={"leanPackaging": lean_packaging, "warnings": warnings},
             )
-        warnings = list(warnings) + list(lean_packaging.get("warnings") or [])
     except Exception as exc:  # noqa: BLE001
-        return _agent_result(
-            operation_id="replay_bundle",
-            result_status="rejected",
-            error={
-                "code": "malformed_evidence",
-                "message": str(exc),
-                "category": "evidence",
-            },
-        )
-    manifest_path = find_role_path(path, "manifest")
-    if manifest_path is None:
-        return _agent_result(
-            operation_id="replay_bundle",
-            result_status="rejected",
-            error={
-                "code": "malformed_evidence",
-                "message": f"missing manifest under {path}",
-                "category": "evidence",
-            },
-        )
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    # Lean-written receipt (if any) takes precedence for trust status.
-    receipt_payload = _read_checker_receipt(path)
-    if receipt_payload is None and isinstance(lean_packaging.get("envelope"), dict):
-        env = lean_packaging["envelope"]
-        if env.get("claimEstablished") is not None:
-            receipt_payload = env
-    try:
-        status, trust, trust_notes = _safe_manifest_status(
-            manifest, receipt_payload, bundle_dir=path
-        )
-    except Exception as exc:  # noqa: BLE001
-        return _agent_result(
-            operation_id="replay_bundle",
-            result_status="rejected",
-            error={
-                "code": "malformed_evidence",
-                "message": str(exc),
-                "category": "evidence",
-            },
-        )
-    notes = ["Python offline schema+digest replay succeeded."]
-    notes.extend(warnings)
-    notes.extend(trust_notes)
-    authority = lean_packaging.get("authority", "python_preview")
-    if authority == "lean_exe" and lean_packaging.get("claimEstablished"):
-        notes.append(
-            "Lean mathevidence-replay established claimEstablished (checker+goal authority)."
-        )
-        # Prefer Lean-reported verified status when content digests bind.
-        lean_status = lean_packaging.get("resultStatus")
-        if (
-            isinstance(lean_status, str)
-            and lean_status in VERIFIED_STATUSES
-            and trust.get("claimEstablished") is not None
-        ):
-            status = lean_status
-            trust["claimEstablished"] = lean_packaging.get("claimEstablished")
-            trust["previewAccepted"] = True
-    else:
-        notes.append(
-            "Python packaging path is preview/tested only; Lean exe missing or non-verified."
-        )
-    result_status = status if trust.get("claimEstablished") is not None else "tested"
-    if trust.get("claimEstablished") is not None and status in VERIFIED_STATUSES:
-        result_status = status
+        lean_packaging = {
+            "ok": False,
+            "error": str(exc),
+            "leanExeMissing": True,
+        }
+
+    # Strip path fields from public response (ID-only).
+    lean_public = {
+        k: v
+        for k, v in lean_packaging.items()
+        if k not in ("bundlePath", "stdout") and not str(k).lower().endswith("path")
+    }
+    result_status = "checker_accepted"
+    if lean_packaging.get("leanExeMissing"):
+        result_status = "tested"
+    if isinstance(lean_packaging.get("resultStatus"), str):
+        rs = lean_packaging["resultStatus"]
+        if rs in VERIFIED_STATUSES:
+            result_status = "checker_accepted"
+        elif rs in ("checker_accepted", "tested", "computed"):
+            result_status = rs
+
     return _agent_result(
-        operation_id="replay_bundle",
+        operation_id=operation_id,
         result_status=result_status,
-        claim_class=manifest.get("claimClass", "candidate"),
+        claim_class="replay",
         bundle_ref={
-            "path": str(path),
-            "bundleId": body.get("bundleId") if isinstance(body.get("bundleId"), str) else None,
-            "requestDigest": manifest.get("requestDigest"),
-            "capability": (manifest.get("capability") or {}).get("id"),
-            "capabilityVersion": (manifest.get("capability") or {}).get("version"),
+            "bundleId": body.get("bundleId")
+            if isinstance(body.get("bundleId"), str)
+            else None,
         },
-        notes=notes,
+        notes=[
+            "Operational verify_bundle only (native_checked / checker_accepted at most).",
+            "Theorem Certified requires kernel_replay + open_certification.",
+            *warnings,
+        ],
         extra={
-            "warnings": warnings,
-            "contentDigestsVerified": True,
-            "replayAuthority": authority,
-            "replayLink": f"mathevidence://replay?bundle={path}",
-            **trust,
+            "certificationVerified": False,
+            "claimEstablished": None,
+            "assuranceMode": "native_checked",
+            "leanPackaging": lean_public,
+        },
+    )
+
+
+def op_kernel_replay(body: dict[str, Any]) -> dict[str, Any]:
+    """Theorem-producing kernel replay (Wave 2 / ME-RV-022 / ME-RV-024)."""
+    store = SchemaStore(REPO_ROOT / "agent" / "api" / "schemas")
+    try:
+        store.validate("kernel-replay.input.schema.json", body)
+    except AdapterError as exc:
+        return _agent_result(
+            operation_id="kernel_replay",
+            result_status="rejected",
+            error={"code": exc.code, "message": exc.message, "category": "evidence"},
+        )
+    if "path" in body:
+        return _path_error_result(
+            "kernel_replay",
+            BundlePathError("public Agent API rejects raw path; use bundleId"),
+        )
+    try:
+        path = _bundle_store().resolve_ref(body)
+    except BundlePathError as exc:
+        return _path_error_result("kernel_replay", exc)
+
+    from adapters.common.errors import AdapterError as _AE
+    from adapters.common.kernel_replay import run_kernel_replay
+
+    require_lean = body.get("requireLean", True)
+    if not isinstance(require_lean, bool):
+        require_lean = True
+    decl = body.get("declarationName")
+    if not isinstance(decl, str) or not decl:
+        decl = "certified_rational_replay"
+    try:
+        result = run_kernel_replay(
+            bundle_dir=path,
+            repo_root=REPO_ROOT,
+            declaration_name=decl,
+            require_lean=require_lean,
+        )
+    except _AE as exc:
+        return _agent_result(
+            operation_id="kernel_replay",
+            result_status="rejected",
+            error={
+                "code": exc.code,
+                "message": exc.message,
+                "category": exc.category.value,
+            },
+            unresolved=[
+                {
+                    "id": (exc.details or {}).get("kernelCode", exc.code)
+                    if isinstance(exc.details, dict)
+                    else exc.code,
+                    "kind": "schema",
+                    "message": exc.message,
+                }
+            ],
+        )
+    except Exception as exc:  # noqa: BLE001
+        return _agent_result(
+            operation_id="kernel_replay",
+            result_status="rejected",
+            error={
+                "code": "malformed_evidence",
+                "message": str(exc),
+                "category": "evidence",
+            },
+        )
+
+    # Commit certification into content-addressed store when present.
+    cert_id = result.get("certificationId")
+    record_dir = result.get("recordDir")
+    if isinstance(record_dir, str) and Path(record_dir).is_dir():
+        try:
+            _store_path, opaque = _bundle_store().commit_content_addressed(
+                Path(record_dir),
+                kind="certification",
+                verify=True,
+            )
+            cert_id = opaque
+        except Exception:  # noqa: BLE001
+            pass
+
+    return _agent_result(
+        operation_id="kernel_replay",
+        result_status="computed",
+        claim_class="soundResult",
+        bundle_ref={
+            "bundleId": body.get("bundleId")
+            if isinstance(body.get("bundleId"), str)
+            else None,
+            "certificationId": cert_id,
+            "candidateBundleDigest": result.get("candidateBundleDigest"),
+            "certificationRecordDigest": result.get("certificationRecordDigest"),
+            "requestDigest": None,
+        },
+        notes=[
+            "Kernel replay produced a Certification Record.",
+            "Call open_certification with certificationId before Certified labeling.",
+        ],
+        extra={
+            "certificationVerified": False,
+            "declarationName": result.get("declarationName"),
+            "theoremTypeDigest": result.get("theoremTypeDigest"),
+            "leanOk": result.get("leanOk"),
+            "axioms": result.get("axioms"),
+        },
+    )
+
+
+def op_list_certifications_for_request(body: dict[str, Any]) -> dict[str, Any]:
+    store = SchemaStore(REPO_ROOT / "agent" / "api" / "schemas")
+    try:
+        store.validate("list-certifications.input.schema.json", body)
+    except AdapterError as exc:
+        return _agent_result(
+            operation_id="list_certifications_for_request",
+            result_status="rejected",
+            error={"code": exc.code, "message": exc.message, "category": "evidence"},
+        )
+    request_digest = body["requestDigest"]
+    ids = _bundle_store().list_certifications_for_request(request_digest)
+    return _agent_result(
+        operation_id="list_certifications_for_request",
+        result_status="computed",
+        claim_class="discovery",
+        extra={
+            "requestDigest": request_digest,
+            "certificationIds": ids,
         },
     )
 
@@ -772,8 +1003,10 @@ def op_prove_sufficient(body: dict[str, Any]) -> dict[str, Any]:
         receipt_ref=body.get("receiptRef") if isinstance(body.get("receiptRef"), dict) else None,
         axiom_report_id=body.get("axiomReportId") if isinstance(body.get("axiomReportId"), str) else None,
     )
-    outcome = preview.get("outcome") or ("proved" if preview.get("sufficient") else "failed")
-    if outcome == "proved":
+    outcome = preview.get("outcome") or (
+        "mirror_accepted" if preview.get("mirrorSufficient") or preview.get("sufficient") else "rejected"
+    )
+    if outcome == "mirror_accepted":
         status = "computed"
     elif outcome == "unknown":
         status = "ambiguous"
@@ -789,6 +1022,7 @@ def op_prove_sufficient(body: dict[str, Any]) -> dict[str, Any]:
             "outcome": outcome,
             "authorityStatus": preview.get("authorityStatus"),
             "evidence": preview.get("evidence"),
+            "mirrorSufficient": preview.get("mirrorSufficient"),
         },
     )
 
@@ -926,7 +1160,8 @@ def op_build_condition_lattice(body: dict[str, Any]) -> dict[str, Any]:
         claim_class="candidate",
         notes=[
             "Condition lattice artifact ready for expert review.",
-            "Sufficiency/deletion/CEX status from Lean checkBool mirrors only.",
+            "Sufficiency/deletion/CEX status from Python checkBool mirrors only (mirror_accepted).",
+            "sufficientSetsCertified requires verified Certification Record.",
             "claimsMinimal is false unless necessity proofs cover recommendations.",
         ],
         extra={
@@ -959,9 +1194,9 @@ def op_conjecture_campaign(body: dict[str, Any]) -> dict[str, Any]:
             result_status="computed",
             claim_class="candidate",
             notes=[
-                "Formal family campaign with precision accounting.",
+                "Formal family campaign with refutationRate accounting.",
                 "bounded_verified / open are not unbounded theorems.",
-                "Falsification status from Lean checkBool mirrors only.",
+                "Mirror acceptance sets refutationPreview only; falsified requires Certification Record.",
             ],
             extra={
                 "campaign": campaign,
@@ -1013,9 +1248,10 @@ def op_conjecture_campaign(body: dict[str, Any]) -> dict[str, Any]:
         claim_class="refutation" if ep.get("state") == "falsified" else "candidate",
         notes=[
             "Candidates vs certified refutations only.",
+            "Mirror acceptance sets refutationPreview=mirror_accepted; falsified requires Certification Record.",
             "bounded_verified is not a theorem over the unbounded family.",
             "Training episodes never influence acceptance.",
-            "authorityStatus=lean_checker_mirror for falsification.",
+            "authorityStatus=python_checker_mirror for mirror preview.",
         ],
         extra={
             "episode": ep,

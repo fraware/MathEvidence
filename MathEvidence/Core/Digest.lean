@@ -127,11 +127,17 @@ def hash (msg : ByteArray) : ByteArray :=
 
 end SHA256
 
-/-- SHA-256 of raw bytes as `EvidenceId`. -/
+/-- SHA-256 of raw bytes as `EvidenceId`.
+
+`SHA256.hash` always returns 32 bytes, so formatting cannot fail. We refuse a
+fabricated all-zero fallback (ME-RV trust-path hardening).
+-/
 def sha256Bytes (msg : ByteArray) : EvidenceId :=
   match formatSha256Digest (SHA256.hash msg) with
   | some d => d
-  | none => ⟨"sha256:0000000000000000000000000000000000000000000000000000000000000000"⟩
+  | none =>
+    -- Unreachable for a correct 32-byte SHA-256 output; panic rather than forge.
+    panic! "sha256Bytes: SHA256.hash produced a non-32-byte digest"
 
 /-- SHA-256 of a Lean `String` interpreted as UTF-8 bytes via `toUTF8`. -/
 def sha256String (s : String) : EvidenceId :=

@@ -1,0 +1,32 @@
+name: Live federation peer
+description: Track ME-RV-082/083 live federation (fixtures are not enough)
+title: "Federation peer: <project>"
+labels: ["me-rv", "wave-8", "federation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fixture metadata remains `fixture_only`. Live federation requires a
+        signed agreement and real emit/consume in CI or recorded conformance.
+        Normative: `docs/audits/2026-07-26-real-vision/10_FOUNDRY_BENCHMARKS_AND_FEDERATION.md`.
+  - type: input
+    id: peer
+    attributes:
+      label: External peer project
+    validations:
+      required: true
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Live federation acceptance (do not fake)
+      options:
+        - label: Signed agreement recorded
+        - label: Capability/version pinned
+        - label: Exact emitted/consumed roles documented
+        - label: Status mapping documented
+        - label: Digest algorithm agreed
+        - label: Threat model documented
+        - label: Maintainer contacts listed
+        - label: Conformance suite green (CI or independent record)
+        - label: Revocation procedure documented
+        - label: Not fixture_only metadata

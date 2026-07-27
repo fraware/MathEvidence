@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/replay-target-v0.json",
+  "title": "MathEvidence Replay Target v0.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "moduleName",
+    "declarationName",
+    "theoremTypeCanonical",
+    "theoremTypeDigest",
+    "sourceRevision",
+    "sourceFile",
+    "sourceSpan",
+    "environmentLockDigest",
+    "capability",
+    "requestDigest"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["0.3.0"]
+    },
+    "moduleName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "declarationName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "theoremTypeCanonical": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Elaborated structural serialization; pretty-printed source alone is insufficient."
+    },
+    "theoremTypeDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "sourceRevision": {
+      "type": "string"
+    },
+    "sourceFile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceSpan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["startLine", "startCol", "endLine", "endCol"],
+      "properties": {
+        "startLine": { "type": "integer", "minimum": 0 },
+        "startCol": { "type": "integer", "minimum": 0 },
+        "endLine": { "type": "integer", "minimum": 0 },
+        "endCol": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "environmentLockDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    },
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "candidateBundleDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

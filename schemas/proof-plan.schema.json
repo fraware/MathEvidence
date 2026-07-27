@@ -76,11 +76,22 @@
           ]
         },
         "status": {
-          "enum": ["proved", "checkable", "proposed", "rejected", "blocked"]
+          "enum": [
+            "proposed",
+            "mirror_accepted",
+            "checker_accepted",
+            "kernel_certified",
+            "rejected",
+            "unknown",
+            "checkable",
+            "blocked",
+            "proved"
+          ],
+          "description": "proved retained as legacy alias of kernel_certified."
         },
         "advancesProofStatus": {
           "type": "boolean",
-          "description": "True only for reconstructible categories when independently verified"
+          "description": "True only with verified Certification Record or direct theorem evidence"
         },
         "suggestedCapability": { "type": ["string", "null"] },
         "suggestedTactic": { "type": ["string", "null"] },
@@ -95,19 +106,32 @@
         },
         "reconstruction": {
           "type": ["object", "null"],
-          "additionalProperties": false,
+          "additionalProperties": true,
           "properties": {
             "method": { "type": "string" },
             "resultStatus": { "type": "string" },
             "bundleRef": { "type": ["string", "null"] },
             "requestDigest": { "type": ["string", "null"] },
             "traceId": { "type": ["string", "null"] },
+            "theoremDeclaration": { "type": ["string", "null"] },
+            "theoremTypeDigest": { "type": ["string", "null"] },
+            "environmentLockDigest": { "type": ["string", "null"] },
+            "axiomReportDigest": { "type": ["string", "null"] },
+            "axiomReport": { "type": ["object", "string", "null"] },
+            "proofProvenance": { "type": ["object", "string", "null"] },
+            "importedProofProvenance": { "type": ["object", "string", "null"] },
+            "certificationGate": {
+              "type": ["object", "null"],
+              "additionalProperties": true
+            },
             "receiptGate": {
               "type": ["object", "null"],
               "additionalProperties": true,
               "properties": {
                 "ok": { "type": "boolean" },
                 "allowCertified": { "type": "boolean" },
+                "certificationVerified": { "type": "boolean" },
+                "verified": { "type": "boolean" },
                 "detail": { "type": "string" }
               }
             }

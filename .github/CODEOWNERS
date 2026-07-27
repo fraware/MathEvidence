@@ -1,45 +1,58 @@
 # Code ownership for MathEvidence.
 #
-# GitHub teams for the nine maintainer areas do not exist yet — all paths
-# still route to @fraware as a single-owner incubation stub.
+# Real org teams require `admin:org` (see docs/validation/ci/github_teams_me_rv084.md).
+# Until teams exist, all paths route to @fraware as a single-owner incubation stub.
+# HONESTY: this is NOT multi-area governance. Stable promotion remains blocked.
 #
-# HONESTY: this is NOT multi-area governance. Stable promotion remains
-# blocked until real teams exist and dual-area review is enforceable for
-# trust/checker changes. Do not treat @fraware-everywhere as staffing.
-# See GOVERNANCE.md and docs/security/KNOWN_TRUST_GAPS.md.
-#
-# Target team handles (create before multi-area enforcement):
-#   @core-maintainers
-#   @trust-maintainers
-#   @semantics-maintainers
-#   @adapter-maintainers
-#   @agent-maintainers
-#   @studio-maintainers
-#   @foundry-maintainers
-#   @ci-release-maintainers
-#   @docs-governance-maintainers
+# When teams are created, replace @fraware below with the team slugs listed in each
+# section header (CODEOWNERS already uses the path layout).
 
 *                              @fraware
 
-# Area stubs (still @fraware until teams exist)
+# Core / trust  ->  @fraware/core-trust
 /MathEvidence/Core/            @fraware
+/MathEvidence/Exe/             @fraware
+/schemas/                      @fraware
+/tools/jcs/                    @fraware
+/SECURITY.md                   @fraware
+/docs/security/                @fraware
+
+# Semantic IR / encoding  ->  @fraware/semantic-ir-encoding
 /MathEvidence/IR/              @fraware
 /MathEvidence/Encoding/        @fraware
+
+# Domain checkers + tactics  ->  @fraware/domain-checkers
 /MathEvidence/Checkers/        @fraware
 /MathEvidence/Tactic/          @fraware
-/adapters/mathematica/         @fraware
-/adapters/sage/                @fraware
-/adapters/sympy/               @fraware
-/adapters/common/              @fraware
+/MathEvidence/Assurance/       @fraware
+
+# Adapters  ->  @fraware/adapters
+/adapters/                     @fraware
+
+# Agent / Studio  ->  @fraware/agent-studio
 /agent/                        @fraware
 /studio/                       @fraware
+/MathEvidence/Hypothesis/      @fraware
+/MathEvidence/Conjecture/      @fraware
+/MathEvidence/TraceToPlan/     @fraware
+
+# Foundry / benchmarks  ->  @fraware/foundry-benchmarks
 /foundry/                      @fraware
-/registry/                     @fraware
+/benchmarks/                   @fraware
+/scripts/metrics/              @fraware
+
+# Security / release / CI  ->  @fraware/security-release
 /.github/workflows/            @fraware
+/scripts/audit_sorry_axioms.py @fraware
+/scripts/check_import_boundaries.py @fraware
+/scripts/scaffold_env_audits.py @fraware
+/scripts/ci/                   @fraware
+/docs/validation/ci/           @fraware
+
+# Docs / governance / registry  ->  @fraware/docs-governance
+/docs/                         @fraware
+/GOVERNANCE.md                 @fraware
+/registry/                     @fraware
 /docs/PROJECT_SPEC.md          @fraware
-/docs/security/                @fraware
 /docs/validation/              @fraware
-/SECURITY.md                   @fraware
-/tools/jcs/                    @fraware
-/schemas/                      @fraware
 /evidence/federation/          @fraware

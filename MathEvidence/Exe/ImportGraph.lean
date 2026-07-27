@@ -1,19 +1,22 @@
-import Std
-
 /-
 Copyright (c) 2026 MathEvidence contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: MathEvidence contributors
 -/
+import Lean
 
 /-!
-# `mathevidence-import-graph`
+# `mathevidence-import-graph` (ME-RV-071)
 
-Compiled Lake driver for trusted-package import boundary checks. It walks
-`MathEvidence/Core`, `MathEvidence/IR`, `MathEvidence/Encoding` when present,
-and `MathEvidence/Checkers`, parses Lean `import` lines, and emits a JSON
-allowlist/denylist report.
+Environment-level import audit: loads trusted MathEvidence package roots via
+`Lean.importModules`, walks each module's `ModuleData.imports` from the
+elaborated `Environment`, and checks a denylist.
+
+A secondary source-line scan remains as defense-in-depth for string references
+(`IO.Process`, etc.) that may not appear as module imports.
 -/
+
+open Lean
 
 structure Violation where
   file : String
@@ -51,6 +54,79 @@ partial def joinWith (sep : String) : List String → String
   | [x] => x
   | x :: xs => x ++ sep ++ joinWith sep xs
 
+/-- Trusted package entry modules (olean-backed; avoid barrel roots that may lag). -/
+def trustedRoots : Array Name := #[
+  `MathEvidence.Core.Basic,
+  `MathEvidence.IR.MatrixExpr.Ops,
+  `MathEvidence.Encoding.Matrix,
+  `MathEvidence.Checkers.LinearAlgebra.Bridge,
+  `MathEvidence.Checkers.RationalEquality.Soundness,
+  `MathEvidence.Checkers.IdealMembership.Soundness,
+  `MathEvidence.Checkers.Counterexample.Soundness
+]
+
+def isForbiddenModule (moduleName : String) : Option String :=
+  if moduleName == "MathEvidence.Tactic" || moduleName.startsWith "MathEvidence.Tactic." then
+    some "trusted packages must not import tactic-facing code"
+  else if moduleName == "IO" || moduleName.startsWith "IO." || containsSubstr moduleName ".IO." then
+    some "trusted packages must not import IO-facing modules"
+  else if moduleName == "MathEvidence.Agent" || moduleName.startsWith "MathEvidence.Agent." ||
+      moduleName == "Agent" || moduleName.startsWith "Agent." then
+    some "trusted packages must not import agent orchestration"
+  else if moduleName == "adapters" || moduleName.startsWith "adapters." ||
+      moduleName == "Adapters" || moduleName.startsWith "Adapters." ||
+      moduleName == "MathEvidence.Adapters" || moduleName.startsWith "MathEvidence.Adapters." then
+    some "trusted packages must not import adapters"
+  else if moduleName == "Network" || moduleName.startsWith "Network." ||
+      moduleName == "MathEvidence.Network" || moduleName.startsWith "MathEvidence.Network." then
+    some "trusted packages must not import network modules"
+  else if moduleName == "Process" || moduleName.startsWith "Process." ||
+      moduleName == "MathEvidence.Process" || moduleName.startsWith "MathEvidence.Process." then
+    some "trusted packages must not import process modules"
+  else if moduleName == "Studio" || moduleName.startsWith "Studio." ||
+      moduleName == "MathEvidence.Studio" || moduleName.startsWith "MathEvidence.Studio." then
+    some "trusted packages must not import Studio"
+  else if moduleName == "Foundry" || moduleName.startsWith "Foundry." ||
+      moduleName == "MathEvidence.Foundry" || moduleName.startsWith "MathEvidence.Foundry." then
+    some "trusted packages must not import Foundry"
+  else
+    none
+
+def isTrustedModuleName (n : Name) : Bool :=
+  let s := n.toString
+  s == "MathEvidence.Core" || s.startsWith "MathEvidence.Core." ||
+    s == "MathEvidence.IR" || s.startsWith "MathEvidence.IR." ||
+    s == "MathEvidence.Encoding" || s.startsWith "MathEvidence.Encoding." ||
+    s == "MathEvidence.Checkers" || s.startsWith "MathEvidence.Checkers."
+
+/-- Environment-level import violations from `ModuleData.imports`. -/
+def envImportViolations (env : Environment) : List Violation × Array (Name × Array Name) :=
+  Id.run do
+    let mut violations : List Violation := []
+    let mut graph : Array (Name × Array Name) := #[]
+    let modNames := env.header.moduleNames
+    let modData := env.header.moduleData
+    for i in [:modNames.size] do
+      let modName := modNames[i]!
+      if isTrustedModuleName modName then
+        let data := modData[i]!
+        let imports := data.imports.map (·.module)
+        graph := graph.push (modName, imports)
+        for imp in data.imports do
+          let impS := imp.module.toString
+          match isForbiddenModule impS with
+          | some reason =>
+            violations := violations ++ [{
+              file := modName.toString
+              line := 0
+              kind := "forbidden_env_import"
+              moduleOrPattern := impS
+              reason
+            }]
+          | none => pure ()
+    pure (violations, graph)
+
+/-- Defense-in-depth source scan for non-import API references. -/
 partial def stripBlockCommentsAux : List Char → Nat → List Char
   | [], _ => []
   | '/' :: '-' :: rest, depth =>
@@ -100,10 +176,8 @@ def isLeanFile (path : System.FilePath) : Bool :=
 
 partial def collectLeanFiles (dir : System.FilePath) : IO (List System.FilePath) := do
   let entries ←
-    try
-      dir.readDir
-    catch _ =>
-      pure #[]
+    try dir.readDir
+    catch _ => pure #[]
   let mut files : List System.FilePath := []
   for entry in entries do
     if ← entry.path.isDir then
@@ -111,47 +185,6 @@ partial def collectLeanFiles (dir : System.FilePath) : IO (List System.FilePath)
     else if isLeanFile entry.path then
       files := files ++ [entry.path]
   pure files
-
-def trustedRootFiles : List System.FilePath :=
-  ["MathEvidence/Core.lean", "MathEvidence/IR.lean", "MathEvidence/Encoding.lean", "MathEvidence/Checkers.lean"]
-
-def trustedDirs : List System.FilePath :=
-  ["MathEvidence/Core", "MathEvidence/IR", "MathEvidence/Encoding", "MathEvidence/Checkers"]
-
-def existingFile? (path : System.FilePath) : IO (Option System.FilePath) := do
-  let pathExists ← path.pathExists
-  pure (if pathExists then some path else none)
-
-def collectTrustedFiles : IO (List System.FilePath) := do
-  let mut files : List System.FilePath := []
-  for dir in trustedDirs do
-    files := files ++ (← collectLeanFiles dir)
-  for file in trustedRootFiles do
-    let file? ← existingFile? file
-    match file? with
-    | some path => files := files ++ [path]
-    | none => pure ()
-  pure files
-
-def isForbiddenModule (moduleName : String) : Option String :=
-  if moduleName == "MathEvidence.Tactic" || moduleName.startsWith "MathEvidence.Tactic." then
-    some "trusted packages must not import tactic-facing code"
-  else if moduleName == "IO" || moduleName.startsWith "IO." || containsSubstr moduleName ".IO." then
-    some "trusted packages must not import IO-facing modules"
-  else if moduleName == "MathEvidence.Agent" || moduleName.startsWith "MathEvidence.Agent." || moduleName == "Agent" || moduleName.startsWith "Agent." then
-    some "trusted packages must not import agent orchestration"
-  else if moduleName == "adapters" || moduleName.startsWith "adapters." || moduleName == "Adapters" || moduleName.startsWith "Adapters." || moduleName == "MathEvidence.Adapters" || moduleName.startsWith "MathEvidence.Adapters." then
-    some "trusted packages must not import adapters"
-  else if moduleName == "Network" || moduleName.startsWith "Network." || moduleName == "MathEvidence.Network" || moduleName.startsWith "MathEvidence.Network." then
-    some "trusted packages must not import network modules"
-  else if moduleName == "Process" || moduleName.startsWith "Process." || moduleName == "MathEvidence.Process" || moduleName.startsWith "MathEvidence.Process." then
-    some "trusted packages must not import process modules"
-  else if moduleName == "Studio" || moduleName.startsWith "Studio." || moduleName == "MathEvidence.Studio" || moduleName.startsWith "MathEvidence.Studio." then
-    some "trusted packages must not import Studio"
-  else if moduleName == "Foundry" || moduleName.startsWith "Foundry." || moduleName == "MathEvidence.Foundry" || moduleName.startsWith "MathEvidence.Foundry." then
-    some "trusted packages must not import Foundry"
-  else
-    none
 
 def forbiddenReferencePatterns : List (String × String) :=
   [
@@ -161,44 +194,23 @@ def forbiddenReferencePatterns : List (String × String) :=
     ("adapters.", "trusted packages must not reference adapters")
   ]
 
-def importModulesFromLine (line : String) : List String :=
-  let trimmed := line.trim
-  if trimmed.startsWith "import " then
-    (trimmed.drop "import ".length).splitOn " " |>.filter (fun part => !part.trim.isEmpty)
-  else
-    []
-
-def scanLine (file : String) (lineNumber : Nat) (line : String) : List Violation :=
-  let importViolations :=
-    (importModulesFromLine line).filterMap fun moduleName =>
-      match isForbiddenModule moduleName with
-      | some reason =>
-        some {
-          file,
-          line := lineNumber,
-          kind := "forbidden_import",
-          moduleOrPattern := moduleName,
-          reason
-        }
-      | none => none
-  let referenceViolations :=
-    forbiddenReferencePatterns.filterMap fun (pattern, reason) =>
-      if containsSubstr line pattern then
-        some {
-          file,
-          line := lineNumber,
-          kind := "forbidden_reference",
-          moduleOrPattern := pattern,
-          reason
-        }
-      else
-        none
-  importViolations ++ referenceViolations
+def scanSourceRefs (file : String) (lineNumber : Nat) (line : String) : List Violation :=
+  forbiddenReferencePatterns.filterMap fun (pattern, reason) =>
+    if containsSubstr line pattern then
+      some {
+        file,
+        line := lineNumber,
+        kind := "forbidden_reference",
+        moduleOrPattern := pattern,
+        reason
+      }
+    else
+      none
 
 partial def scanLines (file : String) : List String → Nat → List Violation
   | [], _ => []
   | line :: rest, lineNumber =>
-      scanLine file lineNumber line ++ scanLines file rest (lineNumber + 1)
+      scanSourceRefs file lineNumber line ++ scanLines file rest (lineNumber + 1)
 
 def violationJson (violation : Violation) : String :=
   "{" ++ joinWith "," [
@@ -209,15 +221,27 @@ def violationJson (violation : Violation) : String :=
     "\"reason\":" ++ jsonString violation.reason
   ] ++ "}"
 
-def reportJson (filesScanned : Nat) (violations : List Violation) : String :=
+def graphEdgeJson (mod : Name) (imports : Array Name) : String :=
+  "{" ++ joinWith "," [
+    "\"module\":" ++ jsonString mod.toString,
+    "\"imports\":[" ++ joinWith "," (imports.toList.map fun n => jsonString n.toString) ++ "]"
+  ] ++ "}"
+
+def reportJson
+    (modulesLoaded : Nat)
+    (envEdges : Array (Name × Array Name))
+    (violations : List Violation) : String :=
   "{" ++ joinWith "," [
     "\"tool\":\"mathevidence-import-graph\"",
     "\"status\":" ++ jsonString (if violations.isEmpty then "pass" else "fail"),
-    "\"scanMode\":\"compiled Lean driver + import/source-boundary scan\"",
-    "\"scanRoots\":[\"MathEvidence/Core\",\"MathEvidence/IR\",\"MathEvidence/Encoding\",\"MathEvidence/Checkers\"]",
+    "\"scanMode\":\"Lean.Environment importModules + ModuleData.imports\"",
+    "\"environmentLevel\":true",
+    "\"scanRoots\":[\"MathEvidence.Core\",\"MathEvidence.IR\",\"MathEvidence.Encoding\",\"MathEvidence.Checkers\"]",
+    "\"modulesLoaded\":" ++ toString modulesLoaded,
+    "\"importedModulesPerTrustedRoot\":[" ++
+      joinWith "," (envEdges.toList.map fun (m, imps) => graphEdgeJson m imps) ++ "]",
     "\"allowlist\":{\"trustedPackages\":[\"Core\",\"IR\",\"Encoding\",\"Checkers\"],\"allowedImports\":\"Lean/Std/Mathlib and MathEvidence trusted layers unless denied below\"}",
-    "\"denylist\":[\"MathEvidence.Tactic\",\"IO\",\"Agent\",\"adapters\",\"Network\",\"Process\",\"Studio\",\"Foundry\",\"IO.Process\",\"Socket\" ]",
-    "\"filesScanned\":" ++ toString filesScanned,
+    "\"denylist\":[\"MathEvidence.Tactic\",\"IO\",\"Agent\",\"adapters\",\"Network\",\"Process\",\"Studio\",\"Foundry\",\"IO.Process\",\"Socket\"]",
     "\"violations\":[" ++ joinWith "," (violations.map violationJson) ++ "]"
   ] ++ "}"
 
@@ -245,14 +269,29 @@ def main (args : List String) : IO UInt32 := do
       IO.eprintln usage
       pure 2
   | Except.ok output? =>
-      let files ← collectTrustedFiles
-      let mut violations : List Violation := []
-      for path in files do
-        let text ← IO.FS.readFile path
-        let file := normalizePath path.toString
-        violations := violations ++ scanLines file (cleanedLines text) 1
-      let json := reportJson files.length violations
-      match output? with
-      | some output => IO.FS.writeFile output json
-      | none => IO.println json
-      pure (if violations.isEmpty then 0 else 1)
+      try
+        let sysroot ← findSysroot
+        initSearchPath sysroot
+        let imports := trustedRoots.map fun m => { module := m : Import }
+        let env ← importModules imports {} 0
+        let (envViolations, edges) := envImportViolations env
+        -- Defense-in-depth source reference scan on trusted dirs.
+        let dirs : List System.FilePath :=
+          ["MathEvidence/Core", "MathEvidence/IR", "MathEvidence/Encoding", "MathEvidence/Checkers"]
+        let mut srcViolations : List Violation := []
+        for dir in dirs do
+          let files ← collectLeanFiles dir
+          for path in files do
+            let text ← IO.FS.readFile path
+            let file := normalizePath path.toString
+            srcViolations := srcViolations ++ scanLines file (cleanedLines text) 1
+        let violations := envViolations ++ srcViolations
+        let json := reportJson env.header.moduleNames.size edges violations
+        match output? with
+        | some output => IO.FS.writeFile output json
+        | none => IO.println json
+        pure (if violations.isEmpty then 0 else 1)
+      catch e =>
+        IO.eprintln s!"environment import audit failed: {e}"
+        IO.eprintln "hint: run via `lake exe mathevidence-import-graph` after `lake build`"
+        pure 3

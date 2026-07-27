@@ -101,10 +101,20 @@ class AgentAPIHandler(BaseHTTPRequestHandler):
                 return _json_response(self, 200, service.op_compute_evidence(body))
             if path == "/v1/bundles/open":
                 return _json_response(self, 200, service.op_open_bundle(body))
+            if path == "/v1/certifications/open":
+                return _json_response(self, 200, service.op_open_certification(body))
             if path == "/v1/bundles/inspect":
                 return _json_response(self, 200, service.op_inspect_bundle(body))
             if path == "/v1/bundles/replay":
                 return _json_response(self, 200, service.op_replay_bundle(body))
+            if path == "/v1/bundles/verify":
+                return _json_response(self, 200, service.op_verify_bundle(body))
+            if path == "/v1/bundles/kernel-replay":
+                return _json_response(self, 200, service.op_kernel_replay(body))
+            if path == "/v1/certifications/list-for-request":
+                return _json_response(
+                    self, 200, service.op_list_certifications_for_request(body)
+                )
             if path == "/v1/ttp/build-proof-plan":
                 return _json_response(self, 200, service.op_build_proof_plan(body))
             if path == "/v1/ttp/reconstruct-plan":

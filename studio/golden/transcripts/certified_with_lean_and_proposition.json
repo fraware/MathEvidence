@@ -1,12 +1,16 @@
 {
   "id": "certified_with_lean_and_proposition",
   "surface": "both",
-  "description": "Lean status + exact proposition → Certified; transcript order enforced.",
+  "description": "Agent certificationVerified + record id + theorem digest + proposition → Certified.",
   "input": {
     "resultStatus": "soundness_verified",
     "leanStatus": "soundness_verified",
     "leanProposition": "∀ (x : ℚ), x ≠ 1 → (x^2 - 1) / (x - 1) = x + 1",
-    "assumptions": ["x ≠ 1"]
+    "assumptions": ["x ≠ 1"],
+    "certificationVerified": true,
+    "certificationId": "cert_sha256_cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "claimEstablished": "soundResult",
+    "theoremTypeDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
   },
   "expected": {
     "label": "Certified",

@@ -3,144 +3,167 @@ Copyright (c) 2026 MathEvidence contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: MathEvidence contributors
 -/
-import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.Algebra.MvPolynomial.CommRing
 import Mathlib.RingTheory.Ideal.Span
 import Mathlib.RingTheory.MvPolynomial.Basic
 import MathEvidence.Checkers.IdealMembership.Check
+import MathEvidence.Checkers.IdealMembership.Soundness
+import MathEvidence.IR.Polynomial.Normalize
+import MathEvidence.IR.Polynomial.Soundness
 import MathEvidence.Tactic.IdealMembership
 
 /-!
-# Ordinary Ideal.span theorems via Meta reify + witness gate + ring
+# Ideal membership examples (ME-RV-033/034)
 
-Supported Meta shapes (this session):
-
-* Univariate `Polynomial ℤ` / `ℚ`: singleton and two-generator `Ideal.span`
-* Multivariate `MvPolynomial (Fin 2)` / `(Fin 3)` / `(Fin 4) ℤ` / `ℚ`:
-  - monomial-generator spans
-  - non-monomial principal generators via grevlex exact division when `f` is an
-    exact multiple of `g` over ℤ (e.g. `X₀²−X₁ ∈ ⟨X₀²−X₁⟩`,
-    `X₀³−X₀X₁ ∈ ⟨X₀²−X₁⟩`)
-  - two-generator spans when pair search + exact division finds a witness
-    (including when one generator is non-monomial, e.g.
-    `X₀³−X₀X₁ ∈ ⟨X₀²−X₁, X₁⟩`)
-
-Not claimed: Gröbner completeness, non-membership, `n > 4`.
+Authority is `checkMembership_sound` / `mem_span_*_of_check` and reifier
+congruence lemmas. Independent `ring` is not the theorem authority.
 -/
 
 namespace MathEvidence.Tactic.Examples.IdealMembership
 
-open Polynomial
+open MvPolynomial
+open MathEvidence.IR.Polynomial
 open MathEvidence.Checkers.IdealMembership
 
 set_option maxHeartbeats 800000
 
-/-- Ordinary Mathlib theorem: `X² − 1 ∈ ⟨X − 1⟩` closed by Meta auto-bridge. -/
-theorem x2_minus_1_in_span_X_minus_1 :
-    ((X : ℤ[X]) ^ 2 - 1) ∈ Ideal.span {(X : ℤ[X]) - 1} := by
-  mathevidence_ideal_membership
+private def fX2m1 : SparsePoly 1 :=
+  (SparsePoly.X 1 0).npow 2 |>.sub (SparsePoly.C 1 1)
 
-/-- Ordinary Mathlib theorem: `X² ∈ ⟨X⟩` closed by Meta auto-bridge. -/
-theorem x2_in_span_X :
-    ((X : ℤ[X]) ^ 2) ∈ Ideal.span {(X : ℤ[X])} := by
-  mathevidence_ideal_membership
+private def gXm1 : SparsePoly 1 :=
+  (SparsePoly.X 1 0).sub (SparsePoly.C 1 1)
 
-/-- Ordinary Mathlib theorem over ℚ: `X³ − X ∈ ⟨X² − 1⟩`. -/
-theorem x3_minus_x_in_span_x2_minus_1 :
-    ((X : ℚ[X]) ^ 3 - X) ∈ Ideal.span {((X : ℚ[X]) ^ 2 - 1)} := by
-  mathevidence_ideal_membership
+private def qXp1 : SparsePoly 1 :=
+  (SparsePoly.X 1 0).add (SparsePoly.C 1 1)
 
-/-- Ordinary two-generator Meta bridge: `2X ∈ ⟨X+1, X−1⟩` with witness `(1,1)`. -/
-theorem two_x_in_span_pair_meta :
-    (2 * (X : ℤ[X])) ∈ Ideal.span {(X : ℤ[X]) + 1, (X : ℤ[X]) - 1} := by
-  mathevidence_ideal_membership
+/-- IR authority: accepted witness => span membership (no independent ring). -/
+theorem ir_x2_minus_1_span :
+    fX2m1.eval ∈
+      Ideal.span (Set.range fun i : Fin 1 => (#[gXm1][i]).eval) :=
+  checkMembership_sound fX2m1 #[gXm1] #[qXp1] (by native_decide)
 
-/-- Ordinary two-generator Meta bridge: `1 ∈ ⟨X, 1+X⟩` (Bézout). -/
-theorem one_in_span_x_one_plus_x_meta :
-    (1 : ℤ[X]) ∈ Ideal.span {(X : ℤ[X]), (1 : ℤ[X]) + X} := by
-  mathevidence_ideal_membership
+/-- Reifier congruence lemmas are real interpretation equalities (ME-RV-033). -/
+theorem reify_add_mul_X_sample :
+    ((SparsePoly.X (m := 2) 0).mul (SparsePoly.X (m := 2) 1)).eval =
+      (X (0 : Fin 2) : MvPolynomial (Fin 2) ℤ) * X (1 : Fin 2) :=
+  reify_mul_eq _ _ _ _
+    (SparsePoly.eval_X 2 0 (by decide))
+    (SparsePoly.eval_X 2 1 (by decide))
 
-/-- MvPolynomial Meta: `X₀·X₁ ∈ ⟨X₀, X₁⟩` over `MvPolynomial (Fin 2) ℚ`. -/
-theorem mv_xy_in_span_x_y_meta :
-    ((MvPolynomial.X (0 : Fin 2) * MvPolynomial.X (1 : Fin 2) : MvPolynomial (Fin 2) ℚ) ∈
-      Ideal.span
-        {MvPolynomial.X (0 : Fin 2), MvPolynomial.X (1 : Fin 2)}) := by
-  mathevidence_ideal_membership
+theorem reify_npow_X_sample :
+    ((SparsePoly.X (m := 1) 0).npow 2).eval =
+      (X (0 : Fin 1) : MvPolynomial (Fin 1) ℤ) ^ 2 :=
+  reify_npow_eq _ 2 _ (SparsePoly.eval_X 1 0 (by decide))
 
-/-- MvPolynomial Meta (non-monomial target): `X₀² + X₀·X₁ ∈ ⟨X₀, X₁⟩`. -/
-theorem mv_x2_plus_xy_in_span_x_y_meta :
-    (((MvPolynomial.X (0 : Fin 2)) ^ 2 +
-        MvPolynomial.X (0 : Fin 2) * MvPolynomial.X (1 : Fin 2) :
-          MvPolynomial (Fin 2) ℚ) ∈
-      Ideal.span
-        {MvPolynomial.X (0 : Fin 2), MvPolynomial.X (1 : Fin 2)}) := by
-  mathevidence_ideal_membership
+theorem reify_add_eq_sample :
+    ((SparsePoly.X (m := 1) 0).add (SparsePoly.C 1 1)).eval =
+      (X (0 : Fin 1) : MvPolynomial (Fin 1) ℤ) + MvPolynomial.C 1 :=
+  reify_add_eq _ _ _ _
+    (SparsePoly.eval_X 1 0 (by decide))
+    (SparsePoly.eval_C 1 1)
 
-/-- MvPolynomial Meta over ℤ: `X₀·X₁ ∈ ⟨X₀, X₁⟩`. -/
-theorem mv_xy_in_span_x_y_meta_int :
-    ((MvPolynomial.X (0 : Fin 2) * MvPolynomial.X (1 : Fin 2) : MvPolynomial (Fin 2) ℤ) ∈
-      Ideal.span
-        {MvPolynomial.X (0 : Fin 2), MvPolynomial.X (1 : Fin 2)}) := by
-  mathevidence_ideal_membership
-
-/-- Non-monomial generator (trivial): `X₀² − X₁ ∈ ⟨X₀² − X₁⟩`. -/
-theorem mv_x2_minus_y_in_own_span_meta :
-    (((MvPolynomial.X (0 : Fin 2)) ^ 2 - MvPolynomial.X (1 : Fin 2) :
-          MvPolynomial (Fin 2) ℚ) ∈
-      Ideal.span
-        {((MvPolynomial.X (0 : Fin 2)) ^ 2 - MvPolynomial.X (1 : Fin 2) :
-            MvPolynomial (Fin 2) ℚ)}) := by
-  mathevidence_ideal_membership
-
-/-- Non-monomial generator (non-trivial): `X₀³ − X₀·X₁ ∈ ⟨X₀² − X₁⟩`. -/
-theorem mv_x3_minus_xy_in_span_x2_minus_y_meta :
-    (((MvPolynomial.X (0 : Fin 2)) ^ 3 -
-        MvPolynomial.X (0 : Fin 2) * MvPolynomial.X (1 : Fin 2) :
-          MvPolynomial (Fin 2) ℚ) ∈
-      Ideal.span
-        {((MvPolynomial.X (0 : Fin 2)) ^ 2 - MvPolynomial.X (1 : Fin 2) :
-            MvPolynomial (Fin 2) ℚ)}) := by
-  mathevidence_ideal_membership
-
-/-- Two-generator Meta with one non-monomial generator:
-`X₀³ − X₀·X₁ ∈ ⟨X₀² − X₁, X₁⟩` (pair search recovers `(X₀, 0)`). -/
-theorem mv_x3_minus_xy_in_span_x2_minus_y_and_y_meta :
-    (((MvPolynomial.X (0 : Fin 2)) ^ 3 -
-        MvPolynomial.X (0 : Fin 2) * MvPolynomial.X (1 : Fin 2) :
-          MvPolynomial (Fin 2) ℚ) ∈
-      Ideal.span
-        {((MvPolynomial.X (0 : Fin 2)) ^ 2 - MvPolynomial.X (1 : Fin 2) :
-            MvPolynomial (Fin 2) ℚ),
-          MvPolynomial.X (1 : Fin 2)}) := by
-  mathevidence_ideal_membership
-
-/-- Fin 3 Meta: `X₀·X₁·X₂ ∈ ⟨X₀⟩` over `MvPolynomial (Fin 3) ℚ`. -/
-theorem mv3_xyz_in_span_x_meta :
-    ((MvPolynomial.X (0 : Fin 3) * MvPolynomial.X (1 : Fin 3) * MvPolynomial.X (2 : Fin 3) :
-          MvPolynomial (Fin 3) ℚ) ∈
-      Ideal.span {MvPolynomial.X (0 : Fin 3)}) := by
-  mathevidence_ideal_membership
-
-/-- Fin 4 Meta: `X₀·X₁·X₂·X₃ ∈ ⟨X₀⟩` over `MvPolynomial (Fin 4) ℚ`. -/
-theorem mv4_xyzw_in_span_x_meta :
-    ((MvPolynomial.X (0 : Fin 4) * MvPolynomial.X (1 : Fin 4) *
-        MvPolynomial.X (2 : Fin 4) * MvPolynomial.X (3 : Fin 4) :
-          MvPolynomial (Fin 4) ℚ) ∈
-      Ideal.span {MvPolynomial.X (0 : Fin 4)}) := by
-  mathevidence_ideal_membership
-
-/-- Checker still owns the IR Boolean gate used by the Meta path. -/theorem ir_x2_minus_1_accepts :
+theorem ir_x2m1_accepts :
     MathEvidence.Checkers.IdealMembership.example_x2_minus_1.check = true :=
   MathEvidence.Checkers.IdealMembership.example_x2_minus_1_accepts
 
-/-- IR multivariate `xy` package still accepts. -/
-theorem ir_xy_accepts :
-    MathEvidence.Checkers.IdealMembership.example_xy.check = true :=
-  MathEvidence.Checkers.IdealMembership.example_xy_accepts
+/-- Mathlib singleton span via transport theorem (no independent ring). -/
+theorem mathlib_x2_minus_1_span :
+    ((SparsePoly.X (m := 1) 0).npow 2 |>.sub (SparsePoly.C 1 1)).eval ∈
+      Ideal.span {((SparsePoly.X (m := 1) 0).sub (SparsePoly.C 1 1)).eval} :=
+  mem_span_singleton_of_check fX2m1 gXm1 qXp1 _ _
+    rfl rfl (by native_decide)
 
-/-- IR non-monomial principal package accepts. -/
-theorem ir_mv_x3_minus_xy_accepts :
-    MathEvidence.Checkers.IdealMembership.example_mv_x3_minus_xy.check = true :=
-  MathEvidence.Checkers.IdealMembership.example_mv_x3_minus_xy_accepts
+/-- Mathlib two-generator span via transport theorem. -/
+theorem mathlib_xy_span :
+    ((SparsePoly.X (m := 2) 0).mul (SparsePoly.X (m := 2) 1)).eval ∈
+      Ideal.span
+        { (SparsePoly.X (m := 2) 0).eval
+        , (SparsePoly.X (m := 2) 1).eval } :=
+  mem_span_pair_of_check
+    ((SparsePoly.X (m := 2) 0).mul (SparsePoly.X (m := 2) 1))
+    (SparsePoly.X 2 0) (SparsePoly.X 2 1)
+    (SparsePoly.X 2 1) (SparsePoly.zero 2)
+    _ _ _
+    rfl rfl rfl (by native_decide)
+
+/-- Adversarial: wrong multipliers are rejected by the checker (not by ring). -/
+theorem adversarial_wrong_multiplier_rejected :
+    checkMembership fX2m1 #[gXm1] #[SparsePoly.C 1 1] = false := by
+  native_decide
+
+/-- Adversarial: arity mismatch is rejected. -/
+theorem adversarial_arity_mismatch_rejected :
+    checkMembership fX2m1 #[gXm1, gXm1] #[qXp1] = false := by
+  native_decide
+
+/-- Adversarial: swapped generators without matching multipliers rejected. -/
+theorem adversarial_swapped_gens_rejected :
+    checkMembership
+        ((SparsePoly.X (m := 2) 0).mul (SparsePoly.X (m := 2) 1))
+        #[SparsePoly.X 2 0, SparsePoly.X 2 1]
+        #[SparsePoly.C 2 0, SparsePoly.C 2 1] = false := by
+  native_decide
+
+/-! ## Live Meta matcher (ME-RV-034)
+
+Ordinary Mathlib goals closed by `mathevidence_ideal` via Meta matching +
+`checkMembership_sound` / `mem_span_*_of_check` + reifier transport.
+-/
+
+/-- Live: `X^2 - 1 ∈ Ideal.span {X - 1}` via Meta + checker authority. -/
+theorem live_x2_minus_1_span :
+    ((X (0 : Fin 1) : MvPolynomial (Fin 1) ℤ) ^ 2 - 1) ∈
+      Ideal.span {(X (0 : Fin 1) : MvPolynomial (Fin 1) ℤ) - 1} := by
+  mathevidence_ideal
+
+/-- Live: `X * Y ∈ Ideal.span {X, Y}` via Meta + checker authority. -/
+theorem live_xy_span :
+    ((X (0 : Fin 2) : MvPolynomial (Fin 2) ℤ) * X (1 : Fin 2)) ∈
+      Ideal.span
+        { (X (0 : Fin 2) : MvPolynomial (Fin 2) ℤ)
+        , (X (1 : Fin 2) : MvPolynomial (Fin 2) ℤ) } := by
+  mathevidence_ideal
+
+/-- Live Fin-3: `X*Y*Z ∈ Ideal.span {X, Y, Z}` via Meta + `mem_span_triple_of_check`. -/
+theorem live_xyz_span :
+    ((X (0 : Fin 3) : MvPolynomial (Fin 3) ℤ) * X (1 : Fin 3) * X (2 : Fin 3)) ∈
+      Ideal.span
+        { (X (0 : Fin 3) : MvPolynomial (Fin 3) ℤ)
+        , (X (1 : Fin 3) : MvPolynomial (Fin 3) ℤ)
+        , (X (2 : Fin 3) : MvPolynomial (Fin 3) ℤ) } := by
+  mathevidence_ideal
+
+/-- Fin-4 IR authority: product in four-generator `Set.range` span (ME-RV-034). -/
+theorem ir_four_var_product_span :
+    ((SparsePoly.X (m := 4) 0).mul (SparsePoly.X 4 1) |>.mul (SparsePoly.X 4 2)).eval ∈
+      Ideal.span
+        (Set.range fun i : Fin 4 =>
+          (#[SparsePoly.X 4 0, SparsePoly.X 4 1, SparsePoly.X 4 2, SparsePoly.X 4 3][i]).eval) :=
+  checkMembership_sound
+    ((SparsePoly.X (m := 4) 0).mul (SparsePoly.X 4 1) |>.mul (SparsePoly.X 4 2))
+    #[SparsePoly.X 4 0, SparsePoly.X 4 1, SparsePoly.X 4 2, SparsePoly.X 4 3]
+    #[(SparsePoly.X 4 1).mul (SparsePoly.X 4 2), SparsePoly.zero 4, SparsePoly.zero 4,
+      SparsePoly.zero 4]
+    (by native_decide)
+
+/-- Adversarial: X+1 is not a generator witness for X^2-1 (checker reject). -/
+theorem adversarial_x_plus_1_rejected :
+    checkMembership fX2m1
+      #[(SparsePoly.X (m := 1) 0).add (SparsePoly.C 1 1)]
+      #[qXp1] = false := by
+  native_decide
+
+/-- Adversarial: oversized / arity-mismatched multiplier list rejected. -/
+theorem adversarial_empty_multipliers_rejected :
+    checkMembership fX2m1 #[gXm1] (#[] : Array (SparsePoly 1)) = false := by
+  native_decide
+
+/-- Adversarial: Fin-3 wrong witness for xyz membership. -/
+theorem adversarial_xyz_wrong_mult_rejected :
+    checkMembership
+        ((SparsePoly.X (m := 3) 0).mul (SparsePoly.X 3 1) |>.mul (SparsePoly.X 3 2))
+        #[SparsePoly.X 3 0, SparsePoly.X 3 1, SparsePoly.X 3 2]
+        #[SparsePoly.C 3 1, SparsePoly.C 3 1, SparsePoly.C 3 1] = false := by
+  native_decide
 
 end MathEvidence.Tactic.Examples.IdealMembership

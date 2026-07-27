@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/agent/list-certifications.input.schema.json",
+  "title": "list_certifications_for_request input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["requestDigest"],
+  "properties": {
+    "requestDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

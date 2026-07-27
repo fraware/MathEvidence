@@ -1,4 +1,6 @@
-# Release provenance: evidence digests + Lean toolchain / lake commit pins.
+# Release provenance toward signed 0.x experimental prerelease (ME-RV-074).
+# Honest gaps: long-term release key + human prerelease publish approval.
+# See docs/validation/ci/signed_0x_prerelease.md
 name: release
 
 on:
@@ -9,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   release-provenance:
@@ -16,56 +19,135 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Install elan
-        run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
-          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Install elan (checksum-pinned release asset)
+        run: bash scripts/ci/install-elan-pinned.sh
+
+      - name: Install uv (SHA-pinned)
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        with:
+          enable-cache: true
 
       - name: Setup Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
+      - name: Install dependencies (frozen lock required)
         run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install -e . || pip install jsonschema
+          set -euo pipefail
+          test -f uv.lock
+          uv sync --frozen --extra dev --extra sympy
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
 
-      - name: Validate schemas and build Lean
+      - name: Validate schemas, registry, audits
         run: |
           python scripts/validate_schemas.py
+          python scripts/validate_registry.py
           python scripts/check_import_boundaries.py
-          lake build
+          python scripts/audit_sorry_axioms.py
+          python scripts/scaffold_env_audits.py
 
-      - name: Offline replay smoke
+      - name: Lake build (verify-bundle + kernel-replay + audit drivers)
+        run: |
+          lake build mathevidence-verify-bundle mathevidence-kernel-replay mathevidence-import-graph mathevidence-axiom-report
+
+      - name: Offline replay + exe smoke
         env:
           MATHEVIDENCE_ADAPTER_MODE: fixture
-        run: python scripts/offline_replay_python.py
-
-      - name: Generate provenance manifest
+          MATHEVIDENCE_REQUIRE_EXE_SMOKE: "1"
         run: |
-          mkdir -p dist/provenance
+          python scripts/offline_replay_python.py
+          python scripts/smoke_exe.py
+          python scripts/smoke_ideal_membership.py
+
+      - name: Generate provenance + SBOM + digests
+        run: |
+          mkdir -p dist/provenance dist/sbom dist/signed
           python scripts/generate_release_provenance.py dist/provenance
           test -f dist/provenance/provenance-manifest.json
+          python scripts/generate_sbom.py dist/sbom
+          test -f dist/sbom/sbom.json || test -n "$(ls -A dist/sbom 2>/dev/null)"
+          (
+            cd dist
+            find . -type f -print0 | sort -z | xargs -0 sha256sum > provenance/artifact-digests.sha256
+          )
           python - <<'PY'
           import json
           from pathlib import Path
           m = json.loads(Path("dist/provenance/provenance-manifest.json").read_text(encoding="utf-8"))
           assert m.get("leanToolchain"), "missing leanToolchain pin"
           assert m.get("gitCommit"), "missing gitCommit"
+          assert m.get("gitCommit") != "workspace", "gitCommit must not be workspace"
           lake = m.get("lake") or {}
           assert lake.get("packages"), "missing lake package pins"
           print("provenance ok:", m["leanToolchain"], "files=", len(m.get("evidenceAndBenchmarkFiles") or []))
           PY
 
-      - name: Upload provenance artifact
+      - name: Sign artifacts with cosign (keyless when identity available)
+        env:
+          COSIGN_YES: "true"
+        run: |
+          set -euo pipefail
+          # Install cosign from a pinned GitHub release when missing.
+          if ! command -v cosign >/dev/null 2>&1; then
+            COSIGN_VERSION=v2.4.3
+            COSIGN_URL="https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}/cosign-linux-amd64"
+            curl -fsSL "$COSIGN_URL" -o /tmp/cosign
+            chmod +x /tmp/cosign
+            sudo mv /tmp/cosign /usr/local/bin/cosign
+          fi
+          cosign version
+          # Keyless OIDC signing via GitHub Actions identity token.
+          # This signs digests + SBOM; human publish approval is still required.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "push" ]; then
+            cosign sign-blob --yes \
+              --bundle dist/signed/artifact-digests.cosign.bundle \
+              dist/provenance/artifact-digests.sha256 \
+              || {
+                echo "::warning title=ME-RV-074::cosign sign-blob soft-failed; digests remain unsigned until identity/key is configured"
+                echo "cosign_soft_fail" > dist/signed/STATUS.txt
+              }
+            if [ -f dist/sbom/sbom.json ]; then
+              cosign sign-blob --yes \
+                --bundle dist/signed/sbom.cosign.bundle \
+                dist/sbom/sbom.json \
+                || echo "::warning title=ME-RV-074::SBOM cosign soft-failed"
+            fi
+          fi
+          if [ ! -f dist/signed/STATUS.txt ]; then
+            echo "cosign_attempted" > dist/signed/STATUS.txt
+          fi
+
+      - name: Upload release artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: release-provenance
-          path: dist/provenance/provenance-manifest.json
+          path: |
+            dist/provenance/
+            dist/sbom/
+            dist/signed/
 
-      - name: Release notes reminder
+      - name: Experimental prerelease publish gate (manual)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          PUBLISH_PRERELEASE: ${{ vars.PUBLISH_EXPERIMENTAL_PRERELEASE || 'false' }}
         run: |
-          echo "release.yml: provenance manifest generated (evidence digests + Lean/lake pins)."
-          echo "Signing / publish remain a later governance step."
+          set -euo pipefail
+          echo "=== ME-RV-074 experimental 0.x prerelease gate ==="
+          echo "Branch protection on main: ENABLED (required PR + checks)."
+          echo "This job does NOT auto-publish a GitHub Release."
+          echo "Manual steps for a maintainer:"
+          echo "  1. Tag an experimental commit: git tag v0.1.0-experimental.<sha7>"
+          echo "  2. Push the tag OR run workflow_dispatch after checks are green."
+          echo "  3. Download the release-provenance artifact."
+          echo "  4. Verify cosign bundles (keyless) or sign with the org Ed25519 release key:"
+          echo "       cosign verify-blob --bundle dist/signed/artifact-digests.cosign.bundle \\"
+          echo "         dist/provenance/artifact-digests.sha256"
+          echo "  5. Create a GitHub *prerelease* only after human review:"
+          echo "       gh release create <tag> --prerelease --title '0.x experimental' \\"
+          echo "         dist/provenance/* dist/sbom/* dist/signed/*"
+          echo "  6. Set repo variable PUBLISH_EXPERIMENTAL_PRERELEASE=true only when automating step 5."
+          if [ "${PUBLISH_PRERELEASE}" = "true" ]; then
+            echo "::warning::PUBLISH_EXPERIMENTAL_PRERELEASE=true but auto-publish is intentionally not wired; use gh release create."
+          fi
+          echo "release.yml: provenance+SBOM+digests+cosign hooks ready; publish remains human-gated."

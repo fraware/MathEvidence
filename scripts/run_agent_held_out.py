@@ -26,11 +26,17 @@ MANIFEST = ROOT / "benchmarks" / "agent" / "held_out" / "manifest.json"
 def _seed_example_bundle(rel: str) -> str:
     """Commit a repo example into the content-addressed store; return opaque bundleId."""
     example = ROOT / rel
-    digest = load_role_json(example, "manifest")["requestDigest"]
-    if not isinstance(digest, str):
+    manifest = load_role_json(example, "manifest")
+    request_digest = manifest.get("requestDigest")
+    bundle_digest = manifest.get("bundleDigest")
+    if not isinstance(request_digest, str):
         raise ValueError(f"{rel}: missing requestDigest")
     store = BundleStore.default(ROOT)
-    _, bid = store.commit_content_addressed(example, request_digest=digest)
+    _, bid = store.commit_content_addressed(
+        example,
+        request_digest=request_digest,
+        bundle_digest=bundle_digest if isinstance(bundle_digest, str) else None,
+    )
     return bid
 
 

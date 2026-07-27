@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/theorem-identity-v0.json",
+  "title": "MathEvidence Theorem Identity v0.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "serializerVersion",
+    "declarationName",
+    "theoremTypeDigest",
+    "proofDeclarationDigest",
+    "environmentLockDigest"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["0.3.0"]
+    },
+    "serializerVersion": {
+      "type": "string",
+      "const": "mathevidence-theorem-identity-0.3"
+    },
+    "declarationName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "theoremTypeDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "proofDeclarationDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "environmentLockDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "elaboratedSerialization": {
+      "type": "string",
+      "description": "Optional structural snapshot used to recompute theoremTypeDigest."
+    },
+    "universeParams": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "binders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "kind", "typeSerialization"],
+        "properties": {
+          "name": { "type": "string" },
+          "kind": {
+            "enum": ["default", "implicit", "strictImplicit", "instImplicit"]
+          },
+          "typeSerialization": { "type": "string" }
+        }
+      }
+    },
+    "constantNames": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

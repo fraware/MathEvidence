@@ -1,7 +1,7 @@
 {
   "id": "IM36_ax_plus_by_family",
   "family": "ideal_membership",
-  "description": "f = 6*(1x+4y) \u2208 \u27e81x+4y\u27e9.",
+  "description": "f = 6*(1x+4y) ∈ ⟨1x+4y⟩.",
   "claimClass": "membership",
   "variables": [
     "x",
@@ -64,5 +64,6 @@
   "expectedStatus": "pass",
   "baselineNotes": [
     "Constructed from known multipliers; Lean checkMembership is authoritative."
-  ]
+  ],
+  "stratum": "scale"
 }

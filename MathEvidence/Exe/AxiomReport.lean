@@ -1,21 +1,24 @@
-import Std
-
 /-
 Copyright (c) 2026 MathEvidence contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: MathEvidence contributors
 -/
+import Lean
 
 /-!
-# `mathevidence-axiom-report`
+# `mathevidence-axiom-report` (ME-RV-072)
 
-Compiled Lake driver for the PR trust audit gate. This pass walks committed Lean
-sources and performs a labeled source scan for `sorry`/`admit`/`sorryAx`, project
-`axiom` declarations, and unauthorized `unsafe` usage in trusted packages.
+Environment-level axiom audit: loads trusted MathEvidence package roots via
+`Lean.importModules`, then:
 
-This is intentionally reported as a compiled driver plus source scan. It is not
-yet a Lean environment audit over imported constants and transitive axioms.
+1. Flags any `ConstantInfo.axiomInfo` whose defining module is under
+   `MathEvidence.*` (project-specific axioms).
+2. Runs `CollectAxioms` on a fixed set of soundness / bridge theorems and
+   records transitive imported axioms (classical / propext / quot markers).
+3. Keeps a source scan for `sorry` / `admit` / `unsafe` as defense-in-depth.
 -/
+
+open Lean
 
 structure Finding where
   file : String
@@ -53,6 +56,102 @@ partial def joinWith (sep : String) : List String → String
   | [x] => x
   | x :: xs => x ++ sep ++ joinWith sep xs
 
+/-- Trusted package entry modules (olean-backed; avoid barrel roots that may lag). -/
+def trustedRoots : Array Name := #[
+  `MathEvidence.Core.Basic,
+  `MathEvidence.IR.MatrixExpr.Ops,
+  `MathEvidence.Encoding.Matrix,
+  `MathEvidence.Checkers.LinearAlgebra.Bridge,
+  `MathEvidence.Checkers.RationalEquality.Soundness,
+  `MathEvidence.Checkers.IdealMembership.Soundness,
+  `MathEvidence.Checkers.Counterexample.Soundness
+]
+
+/-- Soundness / bridge declarations whose transitive axioms are reported. -/
+def auditedDecls : Array Name := #[
+  `MathEvidence.Checkers.RationalEquality.Soundness.checkBool_sound,
+  `MathEvidence.Checkers.LinearAlgebra.Bridge.system_of_isSystemSolution,
+  `MathEvidence.Checkers.LinearAlgebra.Bridge.det_of_isDetIdentity,
+  `MathEvidence.Checkers.LinearAlgebra.Bridge.det_of_isDetIdentity_fin3,
+  `MathEvidence.Checkers.LinearAlgebra.Bridge.det_of_isDetIdentity_fin4,
+  `MathEvidence.Checkers.LinearAlgebra.Bridge.det_of_isDetIdentity_fin5,
+  `MathEvidence.Checkers.Counterexample.Soundness.checkBool_sound,
+  `MathEvidence.Checkers.IdealMembership.Soundness.checkBool_sound,
+  `MathEvidence.Checkers.IdealMembership.Soundness.mem_span_pair_of_check
+]
+
+def isMathEvidenceModule (n : Name) : Bool :=
+  let s := n.toString
+  s == "MathEvidence" || s.startsWith "MathEvidence."
+
+/-- Skip equation-compiler / specialization / hygiene axioms (not user `axiom`). -/
+def isGeneratedAxiomName (n : Name) : Bool :=
+  let s := n.toString
+  containsSubstr s "._at." || containsSubstr s "._hyg" || containsSubstr s "._spec_" ||
+    containsSubstr s "._aux_" || containsSubstr s "@" || s.startsWith "_private." ||
+    containsSubstr s ".proof_" || containsSubstr s "match_"
+
+def collectAxiomsOf (env : Environment) (constName : Name) : Array Name :=
+  let (_, s) := ((CollectAxioms.collect constName).run env).run {}
+  s.axioms
+
+/-- User-facing project axioms whose home module is under MathEvidence. -/
+def projectAxiomFindings (env : Environment) : List Finding :=
+  Id.run do
+    let mut out : List Finding := []
+    for (name, info) in env.constants.toList do
+      match info with
+      | .axiomInfo _ =>
+        if isGeneratedAxiomName name then
+          pure ()
+        else
+          match env.getModuleIdxFor? name with
+          | some idx =>
+            let mod := env.header.moduleNames[idx.toNat]!
+            if isMathEvidenceModule mod then
+              out := out ++ [{
+                file := mod.toString
+                line := 0
+                kind := "project_axiom_env"
+                pattern := name.toString
+                severity := "error"
+              }]
+          | none =>
+            pure ()
+      | _ => pure ()
+    pure out
+
+structure DeclAxiomReport where
+  declaration : String
+  importedAxioms : Array String
+  deriving Repr
+
+def declAxiomReports (env : Environment) : Array DeclAxiomReport × List Finding :=
+  Id.run do
+    let mut reports : Array DeclAxiomReport := #[]
+    let mut findings : List Finding := []
+    for decl in auditedDecls do
+      if env.contains decl then
+        let axs := collectAxiomsOf env decl
+        let axStrs := axs.map (·.toString)
+        reports := reports.push { declaration := decl.toString, importedAxioms := axStrs }
+        -- Fail if transitive axioms include sorryAx
+        if axStrs.any (fun s => containsSubstr s "sorryAx") then
+          findings := findings ++ [{
+            file := decl.toString
+            line := 0
+            kind := "sorryAx_env"
+            pattern := "sorryAx"
+            severity := "error"
+          }]
+      else
+        reports := reports.push {
+          declaration := decl.toString
+          importedAxioms := #["<declaration_not_in_environment>"]
+        }
+    pure (reports, findings)
+
+/-- Source-scan defense-in-depth (sorry/admit/unsafe). -/
 partial def stripBlockCommentsAux : List Char → Nat → List Char
   | [], _ => []
   | '/' :: '-' :: rest, depth =>
@@ -102,10 +201,8 @@ def isLeanFile (path : System.FilePath) : Bool :=
 
 partial def collectLeanFiles (dir : System.FilePath) : IO (List System.FilePath) := do
   let entries ←
-    try
-      dir.readDir
-    catch _ =>
-      pure #[]
+    try dir.readDir
+    catch _ => pure #[]
   let mut files : List System.FilePath := []
   for entry in entries do
     if ← entry.path.isDir then
@@ -171,15 +268,42 @@ def findingJson (finding : Finding) : String :=
     "\"severity\":" ++ jsonString finding.severity
   ] ++ "}"
 
-def reportJson (filesScanned : Nat) (findings : List Finding) : String :=
+def declReportJson (r : DeclAxiomReport) : String :=
+  "{" ++ joinWith "," [
+    "\"declaration\":" ++ jsonString r.declaration,
+    "\"importedAxioms\":[" ++
+      joinWith "," (r.importedAxioms.toList.map jsonString) ++ "]"
+  ] ++ "}"
+
+def classicalMarkers (reports : Array DeclAxiomReport) : Array String :=
+  Id.run do
+    let mut markers : Array String := #[]
+    for r in reports do
+      for a in r.importedAxioms do
+        if a == "propext" || a == "Classical.choice" || a == "Quot.sound" ||
+            containsSubstr a "propext" || containsSubstr a "Classical" ||
+            containsSubstr a "Quot.sound" then
+          if !markers.contains a then
+            markers := markers.push a
+    pure markers
+
+def reportJson
+    (modulesLoaded : Nat)
+    (declReports : Array DeclAxiomReport)
+    (findings : List Finding) : String :=
+  let markers := classicalMarkers declReports
   "{" ++ joinWith "," [
     "\"tool\":\"mathevidence-axiom-report\"",
     "\"status\":" ++ jsonString (if findings.isEmpty then "pass" else "fail"),
-    "\"scanMode\":\"compiled Lean driver + source scan\"",
-    "\"authority\":\"authoritative Lake executable for this gate when available; source-pattern scan until a true Lean environment audit exists\"",
-    "\"scanRoot\":\"MathEvidence\"",
-    "\"filesScanned\":" ++ toString filesScanned,
-    "\"policy\":{\"failOn\":[\"sorryAx\",\"sorry\",\"admit\",\"project_axiom\",\"unauthorized_unsafe_in_Core_IR_Encoding_Checkers\"]}",
+    "\"scanMode\":\"Lean.Environment importModules + CollectAxioms + source defense-in-depth\"",
+    "\"environmentLevel\":true",
+    "\"authority\":\"Lean Environment ConstantInfo / CollectAxioms over trusted roots\"",
+    "\"modulesLoaded\":" ++ toString modulesLoaded,
+    "\"declarationAxiomReports\":[" ++
+      joinWith "," (declReports.toList.map declReportJson) ++ "]",
+    "\"classicalPropextQuotientMarkers\":[" ++
+      joinWith "," (markers.toList.map jsonString) ++ "]",
+    "\"policy\":{\"failOn\":[\"sorryAx\",\"sorry\",\"admit\",\"project_axiom\",\"project_axiom_env\",\"unauthorized_unsafe_in_Core_IR_Encoding_Checkers\"]}",
     "\"violations\":[" ++ joinWith "," (findings.map findingJson) ++ "]"
   ] ++ "}"
 
@@ -207,14 +331,26 @@ def main (args : List String) : IO UInt32 := do
       IO.eprintln usage
       pure 2
   | Except.ok output? =>
-      let files ← collectLeanFiles "MathEvidence"
-      let mut findings : List Finding := []
-      for path in files do
-        let text ← IO.FS.readFile path
-        let file := normalizePath path.toString
-        findings := findings ++ scanLines file (cleanedLines text) 1
-      let json := reportJson files.length findings
-      match output? with
-      | some output => IO.FS.writeFile output json
-      | none => IO.println json
-      pure (if findings.isEmpty then 0 else 1)
+      try
+        let sysroot ← findSysroot
+        initSearchPath sysroot
+        let imports := trustedRoots.map fun m => { module := m : Import }
+        let env ← importModules imports {} 0
+        let projFindings := projectAxiomFindings env
+        let (declReports, declFindings) := declAxiomReports env
+        let files ← collectLeanFiles "MathEvidence"
+        let mut srcFindings : List Finding := []
+        for path in files do
+          let text ← IO.FS.readFile path
+          let file := normalizePath path.toString
+          srcFindings := srcFindings ++ scanLines file (cleanedLines text) 1
+        let findings := projFindings ++ declFindings ++ srcFindings
+        let json := reportJson env.header.moduleNames.size declReports findings
+        match output? with
+        | some output => IO.FS.writeFile output json
+        | none => IO.println json
+        pure (if findings.isEmpty then 0 else 1)
+      catch e =>
+        IO.eprintln s!"environment axiom audit failed: {e}"
+        IO.eprintln "hint: run via `lake exe mathevidence-axiom-report` after `lake build`"
+        pure 3

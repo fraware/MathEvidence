@@ -2,23 +2,24 @@
 
 Companion note for `MathEvidenceStudio.wl`.
 
-## Certified gate
+## Certified gate (ME-RV-024)
 
 ```text
-AllowCertified ⇔ leanStatus ∈ {
-  witness_verified,
-  soundness_verified,
-  completeness_verified,
-  optimality_verified,
-  approximation_certified,
-  native_verified
-}
-∧ leanProposition ≠ ""
+AllowCertified ⇔
+  certificationVerified === True
+  ∧ certificationId ≠ ""
+  ∧ claimEstablished ≠ ""
+  ∧ theoremTypeDigest startsWith "sha256:"
+  ∧ (resultStatus ∈ theorem-level set ∨ resultStatus = "")
 ```
 
-Manifest-only verified statuses without Lean are **Ambiguous**.
-Lean status without an exact Lean proposition string is also **Ambiguous**
-(Product 09: proposition available before certification).
+`leanStatus` / manifest `resultStatus` alone MUST NOT grant Certified —
+including `soundness_verified`. Operational verify-bundle
+(`native_checked` / `checker_accepted`) is never Certified.
+
+Manifest-only verified statuses without a verified Certification Record are
+**Ambiguous**. Lean status without an exact Lean proposition string is also
+**Ambiguous** (Product 09: proposition available before certification).
 
 ## Certification surface order
 

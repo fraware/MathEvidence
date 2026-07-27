@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/agent-open-certification-input-v0.json",
+  "title": "open_certification input",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "bundleId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Opaque certification id (cert_sha256_<hex>). Raw filesystem paths are not accepted."
+    },
+    "certificationId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Alias of bundleId for Certification Record references."
+    }
+  },
+  "anyOf": [
+    { "required": ["bundleId"] },
+    { "required": ["certificationId"] }
+  ]
+}

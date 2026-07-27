@@ -48,7 +48,7 @@ MathEvidence registry entries for federated capabilities use
 ## Gröbner / SAT / pseudo-Boolean projects
 
 Same rule as Lean-SMT: registry IDs
-`algebra.groebner_membership`, `logic.sat_unsat`, `logic.pseudo_boolean`
+`algebra.ideal_membership_witness`, `logic.sat_unsat`, `logic.pseudo_boolean`
 declare discovery + shared status vocabulary. Certificate checking stays with the
 specialized project.
 

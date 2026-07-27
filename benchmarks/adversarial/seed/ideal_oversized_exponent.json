@@ -1,0 +1,8 @@
+{
+  "id": "adv-023",
+  "category": "ideal_oversized_exponent",
+  "expect": "reject",
+  "summary": "SparsePoly with oversized exponent vector beyond resource policy",
+  "capability": "algebra.ideal_membership_witness",
+  "notes": "ME-RV-035 adversarial seed; resource_limit_exceeded expected."
+}

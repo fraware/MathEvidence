@@ -43,9 +43,15 @@ theorem acceptance, checker results, or `ResultStatus`.
 | --- | --- |
 | Q0_raw | unreviewed |
 | Q1_schema_valid | schema-valid / metadata complete |
-| Q2_formally_verified | replayable evidence / certified rejection |
+| Q1_checker_preview | replayable checker/offline evidence **without** Certification Record |
+| Q2_formally_verified | Candidate Bundle + Certification Record + theorem identity + env lock + axiom policy |
 | Q3_semantically_reviewed | human semantic review (not auto-assigned) |
 | Q4_library_grade | library-integrated (not auto-assigned) |
+
+Historical v0.1 sample episodes that only had `replayable=true` were
+reclassified to `Q1_checker_preview` (ME-RV-080). Do not cite raw episode
+counts as independent domains — use family-normalized metrics
+(`scripts/metrics/foundry_corpus_quality.py`).
 
 Q3 review-ready packets live in `review_queue/` with status
 `awaiting_human_review`. They are **not** counted as Q3 until humans add

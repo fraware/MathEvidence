@@ -1,0 +1,1 @@
+{"backend":{"adapterVersion":"0.1.0","backendId":"sympy","backendVersion":"1.14.0","deterministic":true,"generatedAt":"2026-07-16T14:23:42Z"},"checkerVersion":"0.1.0","leanVersion":"4.x-pending","legacySourceDigest":"sha256:c90257c719dff07a40fa78e90714381af280616a96423344eb369ac92308351e","legacySourcePath":"evidence/examples/calculus_derivative_x2","libraryRevision":"workspace"}

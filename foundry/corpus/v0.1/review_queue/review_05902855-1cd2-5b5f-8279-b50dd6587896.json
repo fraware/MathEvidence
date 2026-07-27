@@ -5,7 +5,7 @@
   "status": "awaiting_human_review",
   "createdAt": "2026-07-21T11:08:43Z",
   "sourceFamily": "finite_graph_conjecture",
-  "qualityTierAtQueue": "Q2_formally_verified",
+  "qualityTierAtQueue": "Q1_checker_preview",
   "requestedReview": "semantically_reviewed",
   "humanReviewLabels": [],
   "checklist": [
@@ -18,6 +18,6 @@
     "evidence/conjecture/finite_graph/foundry_episodes",
     "evidence/conjecture/finite_graph/counterexamples.json"
   ],
-  "notes": "Unlabeled queue item. Do NOT count as Q3 until a human adds humanReviewLabels including semantically_reviewed.",
+  "notes": "Unlabeled queue item. Do NOT count as Q3 until a human adds humanReviewLabels including semantically_reviewed. ME-RV-080: queue tier downgraded with corpus Q2 redefinition.",
   "acceptanceInfluence": false
 }

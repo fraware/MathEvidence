@@ -33,7 +33,8 @@ example (x : ℚ) (hx : x - 1 ≠ 0) :
 
 - Reifies the goal into `RationalExpr`
 - Matches `evidence/examples/rational_equality_basic` offline
-- Closes with `field_simp; ring` when denominator hypotheses are present
+- Closes via `replaySound` / Bridge (`eq_of_proposition`); `field_simp` may
+  discharge denominator side conditions only (never independent equality authority)
 
 ## Trust
 

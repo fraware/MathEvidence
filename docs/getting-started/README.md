@@ -31,6 +31,23 @@ just check
 schema/registry validation, Python tests, conformance, replay, and related
 harnesses.
 
+### Windows: kernel-replay rsp (required)
+
+On Windows with Lean **v4.14**, bare `lake build mathevidence-kernel-replay`
+often fails to link (CreateProcess error 206 / command line too long). The
+**required** local path is the response-file helper:
+
+```text
+python scripts/link_exe_via_rsp.py mathevidence-kernel-replay
+just exe-smoke
+```
+
+`just exe-smoke` / `scripts/smoke_exe.py` attempt rsp automatically and, if
+linking still fails, degrade with `replay_dependency_missing` (never fake
+Certified). **Linux CI** (`.github/workflows/lean.yml`) remains the
+authoritative linked-exe attestation (`--self-test` + `--self-test-analytic`).
+Details: [`../audits/2026-07-26-real-vision/KERNEL_REPLAY_PLATFORM.md`](../audits/2026-07-26-real-vision/KERNEL_REPLAY_PLATFORM.md).
+
 Focused trust subset:
 
 ```text
@@ -45,7 +62,9 @@ CI green on a release commit.
 
 Committed Evidence Bundle trees under `evidence/` use schema **v0.2** (`.cjson`)
 for full bundles. Prefer replaying through the documented CLI /
-`mathevidence-replay` paths for rational equality with content-bound receipts,
+`mathevidence-verify-bundle` (temporary alias `mathevidence-replay`) for
+rational equality emits operational `native_checked` / `checker_accepted`
+only — not theorem Certified / `kernel_replay`.
 or through the Agent API below.
 
 Do not treat backend status codes as theorems. Replay must recheck committed

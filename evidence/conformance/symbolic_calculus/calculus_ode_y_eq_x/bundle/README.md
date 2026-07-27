@@ -1,3 +1,4 @@
-# ODE candidate
+# Candidate Bundle (v0.3)
 
-`y'=1` with solution `y=x` and IC `y(0)=0`. Uniqueness not claimed.
+Untrusted adapter output for `algebra.formal_rational_calculus`.
+Status is always `computed`. Verification requires a separate Certification Record from kernel replay.

@@ -17,14 +17,14 @@ def test_list_capabilities_includes_placeholders() -> None:
     assert "algebra.linear_algebra" in ids
     assert "logic.finite_counterexample" in ids
     assert "algebra.formal_rational_calculus" in ids
-    assert "algebra.groebner_membership" in ids
+    assert "algebra.ideal_membership_witness" in ids
 
 
 def test_compute_ideal_membership_sympy_writes_content_addressed_bundle() -> None:
     """Registry-driven Agent compute for ideal membership + CA bundle store."""
     request = {
         "schemaVersion": "0.1.0",
-        "capability": "algebra.groebner_membership",
+        "capability": "algebra.ideal_membership_witness",
         "capabilityVersion": "0.1.0",
         "target": {
             "varCount": 1,
@@ -46,7 +46,7 @@ def test_compute_ideal_membership_sympy_writes_content_addressed_bundle() -> Non
     }
     out = service.op_compute_evidence(
         {
-            "capability": "algebra.groebner_membership",
+            "capability": "algebra.ideal_membership_witness",
             "backend": "sympy",
             "request": request,
             "bundleId": "ideal_membership_agent_smoke",
@@ -57,7 +57,7 @@ def test_compute_ideal_membership_sympy_writes_content_addressed_bundle() -> Non
     cert = out.get("certificate") or (out.get("extra") or {}).get("certificate") or {}
     assert cert.get("pythonMirrorAccepts") is True
     ref = out.get("bundleRef") or {}
-    assert ref.get("capability") == "algebra.groebner_membership"
+    assert ref.get("capability") == "algebra.ideal_membership_witness"
     assert ref.get("contentAddressed") is True or str(ref.get("bundleId", "")).startswith(
         "sha256_"
     )
@@ -89,27 +89,29 @@ def test_open_and_replay_example_bundle() -> None:
     root = Path(__file__).resolve().parents[1]
     example = root / "evidence" / "examples" / "rational_equality_basic"
     store = BundleStore.default(root)
-    digest = load_role_json(example, "manifest")["requestDigest"]
-    dest, bid = store.commit_content_addressed(example, request_digest=digest)
+    manifest = load_role_json(example, "manifest")
+    dest, bid = store.commit_content_addressed(
+        example,
+        request_digest=manifest["requestDigest"],
+        bundle_digest=manifest["bundleDigest"],
+    )
     try:
         opened = service.op_open_bundle({"bundleId": bid})
         assert opened.get("error") is None, opened
         assert opened["bundleRef"]["capability"] == "algebra.rational_equality"
-        assert "resultStatus" in opened
+        assert opened["resultStatus"] == "computed"
+        assert opened.get("claimEstablished") is None
         assert isinstance(opened["unresolvedObligations"], list)
+        # Public responses must not leak filesystem paths.
+        assert "path" not in (opened.get("bundleRef") or {})
         replayed = service.op_replay_bundle({"bundleId": bid})
         assert replayed.get("error") is None, replayed
-        # Without Lean exe: tested. With Lean exe on rational: may be soundness_verified.
+        # Wave 0/1: operational verify only — never theorem soundness_verified.
         assert replayed["resultStatus"] in {
             "tested",
             "computed",
-            "soundness_verified",
+            "checker_accepted",
         }
-        if replayed["resultStatus"] == "soundness_verified":
-            claim = replayed.get("claimEstablished") or (replayed.get("extra") or {}).get(
-                "claimEstablished"
-            )
-            assert claim == "soundResult"
     finally:
         if dest.exists():
             shutil.rmtree(dest)
@@ -144,11 +146,12 @@ def test_hypothesis_lattice_never_claims_minimal() -> None:
     assert out["resultStatus"] == "computed"
     lattice = out["lattice"]
     assert lattice["claimsMinimal"] is False
-    assert out.get("authorityStatus") == "lean_checker_mirror"
+    assert out.get("authorityStatus") == "python_checker_mirror"
     assert "c0" in lattice["recommendedInterface"] or lattice["sufficientSets"]
+    assert lattice["sufficientSetsCertified"] == []
 
 
-def test_conjecture_campaign_falsifies() -> None:
+def test_conjecture_campaign_mirror_preview_not_falsified() -> None:
     req = bind_request_digest(
         {
             "schemaVersion": "0.1.0",
@@ -169,7 +172,8 @@ def test_conjecture_campaign_falsifies() -> None:
     )
     out = service.op_conjecture_campaign({"request": req, "familyId": "finite.nat_le_3"})
     assert out["resultStatus"] == "computed"
-    assert out["episode"]["state"] == "falsified"
+    assert out["episode"]["state"] == "candidate_statement"
+    assert out["episode"]["refutationPreview"] == "mirror_accepted"
 
 
 def test_list_operations_includes_hypothesis() -> None:
