@@ -141,6 +141,54 @@ theorem reject_type_mismatch :
 theorem reject_bad_digest :
     checkBool req_nat_eq0 cert_bad_digest = false := by native_decide
 
+/-- Predicate variable index out of range rejects well-formedness. -/
+def claim_var_oor : Claim where
+  varNames := ["x"]
+  domains := [{ ty := .nat, bound := some 3 }]
+  pred := .eq (.var 9) (.lit (.nat 0))
+  claimClass := .refutation
+
+def req_var_oor : Request := Request.ofClaim claim_var_oor
+
+def cert_var_oor : Certificate where
+  requestDigest := req_var_oor.requestDigest
+  witness := [.nat 1]
+
+theorem reject_var_index_oor :
+    checkBool req_var_oor cert_var_oor = false := by native_decide
+
+/-- Bound omitted on Nat domain rejects. -/
+def claim_bound_omitted : Claim where
+  varNames := ["x"]
+  domains := [{ ty := .nat, bound := none }]
+  pred := .eq (.var 0) (.lit (.nat 0))
+  claimClass := .refutation
+
+def req_bound_omitted : Request := Request.ofClaim claim_bound_omitted
+
+def cert_bound_omitted : Certificate where
+  requestDigest := req_bound_omitted.requestDigest
+  witness := [.nat 0]
+
+theorem reject_bound_omitted :
+    checkBool req_bound_omitted cert_bound_omitted = false := by native_decide
+
+/-- Duplicate variable declarations (name/domain length mismatch) reject. -/
+def claim_dup_vars : Claim where
+  varNames := ["x", "x"]
+  domains := [{ ty := .nat, bound := some 3 }]
+  pred := .eq (.var 0) (.lit (.nat 0))
+  claimClass := .refutation
+
+def req_dup_vars : Request := Request.ofClaim claim_dup_vars
+
+def cert_dup_vars : Certificate where
+  requestDigest := req_dup_vars.requestDigest
+  witness := [.nat 1]
+
+theorem reject_duplicate_var_decls :
+    checkBool req_dup_vars cert_dup_vars = false := by native_decide
+
 theorem replay_report_bool :
     (replay { request := req_bool, certificate := cert_bool }).accepted = true := by
   native_decide
