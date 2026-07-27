@@ -8,7 +8,7 @@ default:
 # Full local gate assumed by CONTRIBUTING.md. It is intentionally heavy and
 # includes Ruff lint/format checks, mypy, pytest including tests/forensic, and
 # capability registry validation.
-check: lean-build import-boundary sorry-audit schema-validate registry-validate federation-validate assurance-validate python-check lint fmt mypy test forensic-test studio-test conformance differential replay adversarial adversarial-exec leanlink-fuzz property metamorphic perf-budgets real-world agent-held-out foundry-validate tool-selection foundry-metrics metrics registry-historical-replay trace-to-plan-demo
+check: lean-build import-boundary sorry-audit env-audit-scaffold schema-validate registry-validate federation-validate assurance-validate python-check lint fmt mypy test forensic-test studio-test conformance differential replay exe-smoke ideal-membership-smoke adversarial adversarial-exec leanlink-fuzz property metamorphic perf-budgets real-world agent-held-out foundry-validate tool-selection foundry-metrics metrics registry-historical-replay trace-to-plan-demo
     @echo "just check: ok"
 
 lean-build:
@@ -19,6 +19,41 @@ import-boundary:
 
 sorry-audit:
     python scripts/audit_sorry_axioms.py
+
+# Environment-level import/axiom audits (ME-RV-071/072). Requires lake build of drivers.
+env-audit-scaffold:
+    python scripts/scaffold_env_audits.py
+
+# Windows: smoke_exe attempts scripts/link_exe_via_rsp.py first, then degrades
+# with replay_dependency_missing (Linux CI remains authoritative).
+exe-smoke:
+    python scripts/smoke_exe.py
+
+kernel-replay-smoke:
+    python scripts/smoke_exe.py
+    @echo "kernel-replay-smoke: see smoke_exe.py (rsp required on Windows; olean degrade if link fails)"
+
+# Prefer smoke_exe (rsp + dual self-test). Standalone analytic path also tries rsp.
+kernel-replay-analytic:
+    python -c "from pathlib import Path; import subprocess, sys, os; root=Path('.'); name='mathevidence-kernel-replay'; cands=[root/'.lake'/'build'/'bin'/(name+('.exe' if sys.platform=='win32' else '')), root/'.lake'/'build'/'bin'/name]; p=next((c for c in cands if c.exists()), None);\
+\
+def try_rsp():\
+  link=root/'scripts'/'link_exe_via_rsp.py';\
+  if sys.platform!='win32' or not link.is_file(): return None;\
+  print('kernel-replay-analytic: attempting Windows rsp link'); r=subprocess.run([sys.executable,str(link),name],cwd=str(root));\
+  return next((c for c in cands if c.exists()), None) if r.returncode==0 else None;\
+\
+p=p or try_rsp();\
+if p is not None:\
+  r=subprocess.run([str(p),'--self-test-analytic'], capture_output=True, text=True); print(r.stdout); print(r.stderr, file=sys.stderr); raise SystemExit(r.returncode);\
+print('kernel-replay-analytic: replay_dependency_missing — exe not linked after rsp attempt (Linux CI authoritative; olean ReplaySound is local theorem authority)'); raise SystemExit(0)"
+
+ideal-membership-smoke:
+    python scripts/smoke_ideal_membership.py
+
+# Release-grade: propose + Lean OfflineFixtures + Certification Record (nightly).
+ideal-membership-release:
+    python scripts/run_ideal_membership_benchmark.py --tier release
 
 schema-validate:
     python scripts/validate_schemas.py

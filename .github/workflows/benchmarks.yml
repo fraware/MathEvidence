@@ -19,6 +19,11 @@ on:
       - "scripts/run_perf_budgets.py"
       - "scripts/run_differential_backends.py"
       - "scripts/run_leanlink_fuzz_stubs.py"
+      - "scripts/run_ideal_membership_benchmark.py"
+      - "scripts/smoke_ideal_membership.py"
+      - "MathEvidence/Checkers/IdealMembership/**"
+      - "adapters/common/ideal_membership.py"
+      - "adapters/common/kernel_replay.py"
       - ".github/workflows/benchmarks.yml"
 
 permissions:
@@ -46,12 +51,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
+      - name: Install uv (SHA-pinned)
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        with:
+          enable-cache: true
+
+      - name: Install dependencies (frozen lock required)
         run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
-          pip install -e ".[dev,sympy]" || pip install jsonschema pytest sympy hypothesis
+          set -euo pipefail
+          test -f uv.lock
+          uv sync --frozen --extra dev --extra sympy
 
       - name: Agent held-out suite
         run: python scripts/run_agent_held_out.py
@@ -79,3 +88,51 @@ jobs:
 
       - name: Tool-selection benchmark
         run: python scripts/run_tool_selection_benchmark.py
+
+  # ME-RV-035 / P0-F: release-grade ideal membership → Certification Record.
+  # Candidate smoke stays in lean.yml / just check; this job is nightly/PR on paths.
+  ideal-release-grade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install elan (checksum-pinned release asset)
+        run: bash scripts/ci/install-elan-pinned.sh
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv (SHA-pinned)
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        with:
+          enable-cache: true
+
+      - name: Install dependencies (frozen lock required)
+        run: |
+          set -euo pipefail
+          test -f uv.lock
+          uv sync --frozen --extra dev --extra sympy
+
+      - name: Lake build Ideal OfflineFixtures + kernel-replay deps
+        run: lake build MathEvidence.Checkers.IdealMembership.OfflineFixtures
+
+      - name: Ideal membership release-grade (Certification Record)
+        env:
+          MATHEVIDENCE_IDEAL_BENCH_TIER: release
+          MATHEVIDENCE_IDEAL_BACKEND: sympy
+        run: |
+          set -euo pipefail
+          python scripts/run_ideal_membership_benchmark.py --tier release | tee /tmp/ideal-release.json
+          python - <<'PY'
+          import json
+          p = json.load(open("/tmp/ideal-release.json", encoding="utf-8"))
+          assert p.get("tier") == "release", p.get("tier")
+          assert p.get("passed") == p.get("scoredTasks") and p.get("scoredTasks", 0) > 0
+          for t in p.get("tasks") or []:
+              lean = t.get("lean") or {}
+              assert lean.get("resultStatus") == "soundness_verified", (t.get("id"), lean)
+              assert lean.get("certificationRecordDigest"), t.get("id")
+          print("ideal release-grade OK:", p.get("passed"), "Certification Records")
+          PY

@@ -1,5 +1,5 @@
-# Generate uv.lock on ubuntu-latest where TLS to PyPI works.
-# Local Windows runners may hit UnknownIssuer; do not invent a lock file locally.
+# Generate and verify committed uv.lock (ME-RV-070).
+# Local Windows may hit UnknownIssuer TLS; ubuntu-latest is authoritative.
 name: uv-lock
 
 on:
@@ -8,11 +8,13 @@ on:
     branches: [main]
     paths:
       - "pyproject.toml"
+      - "uv.lock"
       - "requirements*.txt"
       - ".github/workflows/uv-lock.yml"
   pull_request:
     paths:
       - "pyproject.toml"
+      - "uv.lock"
       - "requirements*.txt"
       - ".github/workflows/uv-lock.yml"
 
@@ -25,33 +27,38 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
+      - name: Install uv (SHA-pinned)
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
         with:
           enable-cache: true
 
-      - name: Generate uv.lock (authoritative CI path)
+      - name: Generate or verify uv.lock
         run: |
-          if [ -f pyproject.toml ]; then
-            uv lock
-          else
-            echo "No pyproject.toml; skipping uv lock generation."
+          set -euo pipefail
+          if [ ! -f pyproject.toml ]; then
+            echo "No pyproject.toml; skipping."
             exit 0
           fi
+          test -f uv.lock
+          echo "Committed uv.lock present — sync frozen + lock drift check."
+          uv sync --frozen --extra dev --extra sympy
+          uv lock --check
 
       - name: Upload uv.lock artifact
         if: hashFiles('uv.lock') != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: uv-lock
           path: uv.lock
-          if-no-files-found: warn
+          if-no-files-found: error
 
       - name: Summarize
         run: |
           if [ -f uv.lock ]; then
-            echo "uv.lock generated on ubuntu-latest (authoritative TLS path)."
+            echo "uv.lock ready on ubuntu-latest (authoritative TLS path)."
             wc -l uv.lock
+            head -n 5 uv.lock
           else
-            echo "uv.lock not produced (missing project metadata or lock skipped)."
+            echo "uv.lock not produced"
+            exit 1
           fi

@@ -1,0 +1,40 @@
+name: External project adoption
+description: Track ME-RV-086 external adoption (do not fake completion)
+title: "Adoption: <external project>"
+labels: ["me-rv", "wave-8", "adoption"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Adoption requires an external project consuming a released package in
+        its own repository and replaying evidence without a backend.
+        Normative: `docs/audits/2026-07-26-real-vision/12_REGISTRY_GOVERNANCE_ADOPTION.md`.
+  - type: input
+    id: project
+    attributes:
+      label: External project (URL)
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Maintainer contact
+    validations:
+      required: true
+  - type: input
+    id: capability
+    attributes:
+      label: Capability used
+    validations:
+      required: true
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Acceptance checklist (unchecked = incomplete)
+      options:
+        - label: Consumes released MathEvidence package
+        - label: Uses capability in external repository (link PR/commit)
+        - label: Replays evidence without backend
+        - label: Integration feedback recorded
+        - label: Maintainer contact identified
+        - label: Not a copied in-tree example presented as adoption

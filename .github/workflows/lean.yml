@@ -15,21 +15,24 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Install elan
-        run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
-          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Install elan (checksum-pinned release asset)
+        run: bash scripts/ci/install-elan-pinned.sh
 
       - name: Setup Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
 
-      - name: Install Python dependencies
+      - name: Install uv (SHA-pinned)
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        with:
+          enable-cache: true
+
+      - name: Install Python dependencies (frozen lock required)
         run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install -e . || pip install jsonschema
+          set -euo pipefail
+          test -f uv.lock
+          uv sync --frozen --extra dev --extra sympy
 
       - name: Validate schemas
         run: python scripts/validate_schemas.py
@@ -40,8 +43,62 @@ jobs:
       - name: Sorry / axiom audit
         run: python scripts/audit_sorry_axioms.py
 
-      - name: Lake build
-        run: lake build
+      - name: Lake build (verify-bundle + kernel-replay + audit drivers)
+        run: lake build mathevidence-verify-bundle mathevidence-kernel-replay mathevidence-import-graph mathevidence-axiom-report
+
+      - name: Environment import/axiom audits (Lean.Environment)
+        run: |
+          set -euo pipefail
+          python scripts/scaffold_env_audits.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          b = json.loads(Path("docs/validation/ci/environment_audit_scaffold.json").read_text(encoding="utf-8"))
+          for key in ("importAudit", "axiomAudit"):
+              assert b[key].get("environmentLevel") is True, key
+              assert b[key].get("status") == "environment_audit_pass", (key, b[key].get("status"))
+          print("environment audits OK")
+          PY
+
+      - name: Kernel-replay self-test (Linux link attestation)
+        run: |
+          set -euo pipefail
+          BIN=".lake/build/bin/mathevidence-kernel-replay"
+          test -x "$BIN"
+          "$BIN" --self-test >/tmp/kernel-replay-cert.json
+          python - <<'PY'
+          import json
+          p = json.load(open("/tmp/kernel-replay-cert.json", encoding="utf-8"))
+          assert p.get("resultStatus") == "soundness_verified"
+          assert p.get("assuranceMode") == "kernel_replay"
+          assert "replaySound" in (p.get("soundnessTheorem") or "")
+          print("kernel-replay self-test OK")
+          PY
+
+      - name: Kernel-replay analytic self-test
+        run: |
+          set -euo pipefail
+          BIN=".lake/build/bin/mathevidence-kernel-replay"
+          test -x "$BIN"
+          "$BIN" --self-test-analytic >/tmp/kernel-replay-analytic.json
+          python - <<'PY'
+          import json
+          p = json.load(open("/tmp/kernel-replay-analytic.json", encoding="utf-8"))
+          assert p.get("resultStatus") == "soundness_verified"
+          assert p.get("assuranceMode") == "kernel_replay"
+          assert "analytic" in (p.get("capability") or "") or "analytic" in (p.get("detail") or "").lower()
+          print("kernel-replay analytic self-test OK")
+          PY
+
+      - name: Exe + ideal-membership smoke
+        env:
+          MATHEVIDENCE_REQUIRE_EXE_SMOKE: "1"
+        run: |
+          python scripts/smoke_exe.py
+          python scripts/smoke_ideal_membership.py
+
+      - name: Forensic trust suite
+        run: python -m pytest tests/forensic -q
 
       - name: Regenerate Lean offline fixtures (drift check)
         run: |
