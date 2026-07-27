@@ -8,7 +8,7 @@ import MathEvidence.IR.RationalExpr.Syntax
 /-!
 # Sparse polynomial *computation* (no Mathlib)
 
-Used by `checkBool` and `mathevidence-replay` so the Lake exe does not link
+Used by `checkBool` and `mathevidence-verify-bundle` so the Lake exe does not link
 Mathlib. Homomorphism / evaluation lemmas live in `Poly.lean`.
 -/
 

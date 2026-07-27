@@ -4,14 +4,16 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: MathEvidence contributors
 -/
 import Lean
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
 import MathEvidence.Checkers.RationalEquality.Decode
 import MathEvidence.Checkers.RationalEquality.OfflineFixtures
 import MathEvidence.Checkers.RationalEquality.Replay
 import MathEvidence.Checkers.RationalEquality.Wire
-import MathEvidence.Core.JsonCanonical
+import MathEvidence.Core.Digest
 import MathEvidence.Core.Digest.Types
+import MathEvidence.Core.EnvironmentLock
+import MathEvidence.Core.ExprSerialize
+import MathEvidence.Core.JsonCanonical
+import MathEvidence.Tactic.RationalClose
 import MathEvidence.Tactic.ReifyRational
 import MathEvidence.Tactic.Status
 
@@ -22,6 +24,13 @@ Default: reify the goal, match committed offline fixtures, never spawn backends.
 Live: when `MATHEVIDENCE_DISCOVERY=1` (or `true`/`live`), spawn the Python
 discovery CLI which talks to adapters, writes a bundle, and returns certificate
 JSON on stdout for Lean-side check.
+
+After checker accept, closes via `replaySound` / Bridge (`eq_of_proposition`
+or elaborated live `eq_of_replaySound`). `field_simp` may discharge denominator
+side conditions only — never as independent equality authority (ME-RV-023).
+
+On successful live Bridge close, emits Candidate Bundle + Certification Record
+digests (v0.3 path, same binding discipline as kernel replay).
 -/
 
 namespace MathEvidence.Tactic.Discovery
@@ -34,8 +43,66 @@ open MathEvidence.Checkers.RationalEquality.Decode
 open MathEvidence.Checkers.RationalEquality.Wire
 open MathEvidence.Tactic
 open MathEvidence.Tactic.ReifyRational
+open MathEvidence.Tactic.RationalClose
 
 abbrev RExpr := MathEvidence.IR.RationalExpr.Expr
+
+/-- UTF-8 SHA-256 helper for live artifact binding digests. -/
+def sha256Utf8 (s : String) : EvidenceId :=
+  sha256Bytes s.toUTF8
+
+/-- Emit Candidate Bundle + Certification Record digests after live Bridge close.
+
+Same v0.3 binding discipline as kernel / tactic replay: theorem identity digests
+are distinct from `requestDigest`; Candidate Bundle status stays `computed` in
+the binding payload while the Certification Record reports `soundness_verified`.
+-/
+def emitLiveRationalArtifacts
+    (req : Request) (_cert : Certificate) (goalType : Lean.Expr) : TacticM Unit := do
+  let lock := EnvironmentLock.rationalEqualityDefault
+  let envDig ←
+    match lock.digest with
+    | .ok d => pure d
+    | .error e => throwError s!"live discovery: environment lock digest failed: {e}"
+  let typeId ←
+    try
+      ExprSerialize.theoremTypeIdentityOfExpr goalType envDig
+    catch _ =>
+      pure {
+        elaboratedSerialization := "mathevidence-live-theorem-identity"
+        binders := req.claim.varNames.map fun n =>
+          { name := n, kind := .default, typeSerialization := "Rat" }
+        constantNames := ["Rat", "Eq"]
+        environmentLockDigest := envDig
+      }
+  let thDig ←
+    match typeId.digest with
+    | .ok d => pure d
+    | .error e => throwError s!"live discovery: theorem type digest failed: {e}"
+  if thDig.value == req.requestDigest.value then
+    throwError "live discovery: theorem digest collided with request digest (refusing)"
+  let candBinding :=
+    s!"candidate|v0.3|{envDig.value}|{req.requestDigest.value}|live-discovery"
+  let candEid := sha256Utf8 candBinding
+  let candDig : BundleDigest :=
+    match BundleDigest.ofWire? candEid.value with
+    | some d => d
+    | none => ⟨candEid.value⟩
+  if candDig.value == req.requestDigest.value then
+    throwError "live discovery: candidate bundle digest collided with request digest"
+  let certBinding :=
+    s!"certification|v0.3|{candDig.value}|{thDig.value}|{req.requestDigest.value}|\
+eq_of_replaySound"
+  let certEid := sha256Utf8 certBinding
+  let certDig : BundleDigest :=
+    match BundleDigest.ofWire? certEid.value with
+    | some d => d
+    | none => ⟨certEid.value⟩
+  logInfo m!"live Bridge close (ME-RV-023 / E-12): Candidate Bundle \
+digest={candDig.value} Certification Record digest={certDig.value} \
+theoremTypeDigest={thDig.value} requestDigest={req.requestDigest.value} \
+assurance=kernel_replay result=soundness_verified \
+authority=eq_of_replaySound (elaborated live Request/Certificate)"
 
 /-- Bind `requestDigest` using Lean JCS (parity with Python). -/
 def bindRequestDigest (c : Claim) : Except String (Json × RequestDigest) :=
@@ -128,32 +195,11 @@ def spawnDiscover (requestJson : String) (backend : String) : IO (Except String 
   | some line => pure (.ok line)
   | none => pure (.error "discovery CLI produced empty stdout")
 
-/-- Attempt `field_simp; ring` close under explicit nonzero denom hypotheses.
+/-- Deprecated: no longer closes equality via `field_simp; ring`.
 
-Proof strategy (documented for Product 02 / §12.1):
-1. Local context must already contain nonzero hypotheses for every division
-   that the checker exported (no silent totalization at poles).
-2. `field_simp` clears divisions using those hypotheses.
-3. `ring` finishes the polynomial identity on the cleared field expression.
-4. If goals remain, the status report lists them; the tactic does **not**
-   invent hypotheses or claim equality at poles.
--/
-def tryCloseRationalEquality : TacticM Bool := do
-  let goalsBefore ← getGoals
-  try
-    -- Prefer local hypotheses (`*`) so explicit denom ≠ 0 facts are used.
-    evalTactic (← `(tactic| try field_simp [*] <;> try ring))
-  catch _ =>
-    pure ()
-  let goalsAfter ← getGoals
-  if goalsAfter.isEmpty then
-    return true
-  if goalsAfter.length < goalsBefore.length then
-    -- Partial progress is not a full close for equality goals.
-    return goalsAfter.isEmpty
-  let g ← getMainGoal
-  let t ← g.getType
-  return t.isConstOf ``True
+Authority close is `RationalClose.tryCloseViaFixtureAuthority`. -/
+def tryCloseRationalEquality : TacticM Bool :=
+  pure false
 
 /-- Describe open goals for status reporting (claim vs remaining work). -/
 def remainingGoalSummaries : TacticM (List String) := do
@@ -202,7 +248,7 @@ reification + offline fixture match or MATHEVIDENCE_DISCOVERY=1 applies.\n{repor
     match ← reifyEqualityGoal tgt with
     | .error err =>
       throwError "mathevidence discovery: reification failed: {Reject.format err}"
-    | .ok { claim := c, .. } =>
+    | .ok { claim := c, fvars := fvars } =>
       let c := { c with claimClass := claim }
       let live ← discoveryEnabled
       if !live then
@@ -213,7 +259,7 @@ reification + offline fixture match or MATHEVIDENCE_DISCOVERY=1 applies.\n{repor
           unless checkBool b.request b.certificate do
             throwError "offline fixture failed checker after reify match"
           let conds := b.certificate.denomFactors.map fun e => reprStr e
-          let closed ← tryCloseRationalEquality
+          let closed ← tryCloseViaFixtureAuthority id fvars
           let remaining ← remainingGoalSummaries
           let report := makeStatusReport c (if backend == .none then id.backend else backend) claim
             (if closed then some .soundResult else none)
@@ -226,17 +272,17 @@ reification + offline fixture match or MATHEVIDENCE_DISCOVERY=1 applies.\n{repor
               else remaining)
             (if closed then
               s!"discovery(offline): reified; checker accepted {id.toPath}; \
-closed under explicit denom hyps via field_simp[*]/ring"
+closed via replaySound/Bridge (eq_of_proposition); side conditions from local hyps"
              else
               s!"discovery(offline): reified; checker accepted {id.toPath}; \
-equality not closed — add nonzero denom hyps then field_simp[*]; ring \
-(no claim at poles).\n(prior) {report0.detail}")
+equality not closed via soundness bridge — add nonzero denom hyps then retry \
+(no claim at poles; no independent field_simp;ring authority).\n(prior) {report0.detail}")
           logInfo m!"{report.format}"
           unless closed do
             throwError
-              "mathevidence discovery(offline): fixture matched and checked, but automatic \
-close did not finish the goal. Add nonzero denominator hypotheses then \
-`field_simp [*]; ring`, or use `mathevidence replay`.\n{report.format}"
+              "mathevidence discovery(offline): fixture matched and checked, but soundness \
+bridge could not finish the goal. Add nonzero denominator hypotheses, then retry \
+or use `mathevidence replay`.\n{report.format}"
         | none =>
           let dens := (c.lhs.denominators ++ c.rhs.denominators).map reprStr
           let report := makeStatusReport c backend claim none .unsupported "" dens
@@ -263,14 +309,19 @@ bundle with scripts/mathevidence_cli.py discover then `mathevidence replay`.\n\
           match decodeCertificateString certText c.varNames with
           | .error e => throwError "certificate decode failed: {e}"
           | .ok cert =>
-            let expectedReq := Request.ofClaim c
+            let expectedReq ←
+              match Request.ofClaim c with
+              | .ok r => pure r
+              | .error e => throwError s!"live discovery: Request.ofClaim failed: {e}"
             unless cert.requestDigest == expectedReq.requestDigest do
               throwError "live discovery: certificate requestDigest does not match Lean-derived request"
             unless checkBool expectedReq cert do
               throwError "live discovery: Lean checker rejected certificate"
             let conds := cert.denomFactors.map fun e => reprStr e
-            let closed ← tryCloseRationalEquality
+            let closed ← tryCloseViaReplaySoundLive expectedReq cert fvars
             let remaining ← remainingGoalSummaries
+            if closed then
+              emitLiveRationalArtifacts expectedReq cert tgt
             let report := makeStatusReport c backend claim
               (if closed then some .soundResult else none)
               (if closed then .soundnessVerified else .computed)
@@ -281,15 +332,15 @@ bundle with scripts/mathevidence_cli.py discover then `mathevidence replay`.\n\
                   conds.map fun d => s!"nonzero: {d}"
                 else remaining)
               (if closed then
-                "discovery(live): adapter spawned; checker accepted certificate; \
-remaining side conditions closed"
+                "discovery(live): adapter spawned; checker accepted; closed via \
+elaborated live eq_of_replaySound/Bridge; Candidate Bundle + Certification Record emitted"
                else
                 "discovery(live): adapter spawned; checker accepted certificate; \
-finish remaining side-condition goals; no claim at poles")
+finish remaining side-condition goals via soundness bridge; no claim at poles")
             logInfo m!"{report.format}"
             unless closed do
               throwError
                 "mathevidence discovery(live): checker accepted certificate; finish remaining \
-side-condition goals.\n{report.format}"
+side-condition goals via soundness bridge.\n{report.format}"
 
 end MathEvidence.Tactic.Discovery

@@ -15,8 +15,9 @@ import MathEvidence.Tactic.Status
 - **Discovery:** `mathevidence` / `mathevidence discovery` — Meta-reify ℚ equality;
   offline fixture match by default; live adapter spawn when
   `MATHEVIDENCE_DISCOVERY=1`.
-- After checker accept, closes under **explicit** nonzero denom hypotheses via
-  `field_simp [*] ; ring` (never claims equality at poles).
+- After checker accept, closes via **`replaySound` / Bridge** (`eq_of_proposition`);
+  `field_simp` may discharge denom side conditions only (never independent
+  equality authority; never claims equality at poles).
 - Status report always lists claim requested vs established, bundle path, and
   remaining goals.
 - Kwargs sugar expands to replay / discovery forms.
