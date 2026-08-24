@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Generate an exact ideal-membership Lean replay module.
 
-This generator is untrusted.  The generated module is compiled by Lean and its
+This generator is untrusted. The generated module is compiled by Lean and its
 resulting declaration is independently inspected from ``Lean.Environment``.
-Unlike the historical fixture generator, this module embeds the exact request
-claim in the theorem type and the exact request digest/multipliers in the proof.
+Unlike the historical fixture generator, this module embeds the exact semantic
+claim in the theorem type and reconstructs every checker-relevant request and
+certificate field in the proof.
 """
 
 from __future__ import annotations
@@ -14,6 +15,8 @@ import re
 from typing import Any
 
 CAPABILITY = "algebra.ideal_membership_witness"
+_SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
+_SEMVER_RE = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+$")
 
 
 def _safe_ident(name: str) -> str:
@@ -30,10 +33,24 @@ def _lean_string(value: str) -> str:
 def _as_int(value: Any, *, what: str) -> int:
     if isinstance(value, bool):
         raise ValueError(f"{what} must be an integer")
+    if isinstance(value, float) and not value.is_integer():
+        raise ValueError(f"{what} must be an integer: {value!r}")
     try:
         return int(value)
     except (TypeError, ValueError) as exc:
         raise ValueError(f"{what} must be an integer: {value!r}") from exc
+
+
+def _validate_digest(value: Any, *, what: str) -> str:
+    if not isinstance(value, str) or _SHA256_RE.fullmatch(value) is None:
+        raise ValueError(f"{what} must be a canonical sha256 digest")
+    return value
+
+
+def _validate_semver(value: Any, *, what: str) -> str:
+    if not isinstance(value, str) or _SEMVER_RE.fullmatch(value) is None:
+        raise ValueError(f"{what} must be a semantic version")
+    return value
 
 
 def _validate_poly(poly: dict[str, Any], *, expected: int | None = None) -> int:
@@ -54,8 +71,8 @@ def _validate_poly(poly: dict[str, Any], *, expected: int | None = None) -> int:
         exponents = term.get("exponents")
         if not isinstance(exponents, list) or len(exponents) != m:
             raise ValueError(f"term {index} exponent arity must equal {m}")
-        for e in exponents:
-            if _as_int(e, what=f"term {index} exponent") < 0:
+        for exponent in exponents:
+            if _as_int(exponent, what=f"term {index} exponent") < 0:
                 raise ValueError("exponents must be natural numbers")
     return m
 
@@ -65,7 +82,9 @@ def _lean_poly(poly: dict[str, Any], *, m: int) -> str:
     terms: list[str] = []
     for term in poly["terms"]:
         coefficient = _as_int(term["coefficient"], what="coefficient")
-        exponents = ", ".join(str(_as_int(e, what="exponent")) for e in term["exponents"])
+        exponents = ", ".join(
+            str(_as_int(exponent, what="exponent")) for exponent in term["exponents"]
+        )
         terms.append(
             "{ coefficient := "
             f"{coefficient}, monomial := Monomial.ofList! {m} [{exponents}] }}"
@@ -95,9 +114,16 @@ def generate_exact_ideal_membership_module(
     if certificate.get("capability", CAPABILITY) != CAPABILITY:
         raise ValueError("certificate capability does not match request")
 
-    request_digest = request.get("requestDigest")
-    if not isinstance(request_digest, str) or not request_digest.startswith("sha256:"):
-        raise ValueError("requestDigest missing or invalid")
+    _matching_copy(request, certificate, "schemaVersion")
+    _matching_copy(request, certificate, "capabilityVersion")
+    capability_version = _validate_semver(
+        request.get("capabilityVersion"), what="request capabilityVersion"
+    )
+    if certificate.get("capabilityVersion") != capability_version:
+        raise ValueError("certificate capabilityVersion does not match request")
+
+    request_digest = _validate_digest(request.get("requestDigest"), what="requestDigest")
+    _validate_digest(candidate_bundle_digest, what="candidateBundleDigest")
     if certificate.get("requestDigest") != request_digest:
         raise ValueError("certificate requestDigest does not match request")
 
@@ -154,7 +180,12 @@ open MathEvidence.Checkers.IdealMembership
 /-- Exact Candidate Bundle semantic claim. -/
 theorem {decl} : Claim.proposition {claim_expr} := by
   let req : Request {m} := {{
+    capability := {{
+      id := {_lean_string(CAPABILITY)}
+      version := {_lean_string(capability_version)}
+    }}
     claim := {claim_expr}
+    resourcePolicy := defaultResourcePolicy
     requestDigest := ⟨{_lean_string(request_digest)}⟩
   }}
   let cert : Certificate {m} := {{
