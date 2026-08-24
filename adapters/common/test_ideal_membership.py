@@ -18,14 +18,14 @@ import pytest
 def test_arity_mismatch_rejected() -> None:
     from adapters.common.ideal_membership import ArityError
 
-    target = {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1]}]}  # len 1 ≠ 2
+    target = {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1]}]}
     gens = [{"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 0]}]}]
     with pytest.raises(ArityError):
         check_membership_python(target, gens, gens)
 
 
 def test_zip_truncation_no_longer_silent() -> None:
-    """Previously zip truncated [1,1]+[1] → [2]; must reject."""
+    """Previously zip truncated [1,1]+[1] -> [2]; must reject."""
     from adapters.common.ideal_membership import ArityError
 
     target = {"varCount": 2, "terms": [{"coefficient": 1, "exponents": [1, 1]}]}
@@ -107,7 +107,7 @@ def test_sympy_generates_checked_witness_for_factorization() -> None:
 
 
 def test_sympy_nontrivial_degree_witness() -> None:
-    """Non-trivial q (degree ≥ 1), not only constant/q=1 cases."""
+    """Non-trivial q (degree >= 1), not only constant/q=1 cases."""
     pytest.importorskip("sympy")
     target = {"varCount": 1, "terms": [{"coefficient": 1, "exponents": [2]}]}
     gens = [{"varCount": 1, "terms": [{"coefficient": 1, "exponents": [1]}]}]
@@ -244,7 +244,7 @@ def test_wrong_generator_order_rejected() -> None:
 
 
 def test_fixture_dual_backend_certificates_accepted() -> None:
-    """Committed Mathematica/Sage fixtures for ≥2 shared requests; Lean mirror accepts."""
+    """Committed Mathematica/Sage fixtures for >=2 shared requests; Lean mirror accepts."""
     root = Path(__file__).resolve().parents[2] / "evidence" / "examples"
     pairs = [
         (
@@ -293,7 +293,7 @@ def test_benchmark_manifest_meets_fifty() -> None:
     assert len(manifest["tasks"]) == manifest["taskCount"]
 
 
-def test_ideal_kernel_replay_profile() -> None:
+def test_ideal_kernel_replay_profile_is_exact_not_fixture_selected() -> None:
     from adapters.common.canonical import bind_request_digest
     from adapters.common.kernel_replay import _capability_replay_profile
 
@@ -312,7 +312,8 @@ def test_ideal_kernel_replay_profile() -> None:
     )
     profile = _capability_replay_profile(req)
     assert profile["capability_id"] == "algebra.ideal_membership_witness"
-    assert profile["fixture"] == "xy"
+    assert profile["fixture"] is None
+    assert profile["declaration_default"] == "certified_ideal_membership_exact"
     assert profile["soundness_theorem"] == "replaySound"
 
     req1 = bind_request_digest(
@@ -339,7 +340,7 @@ def test_ideal_kernel_replay_profile() -> None:
             "requestedClaim": "witness",
         }
     )
-    assert _capability_replay_profile(req1)["fixture"] == "x2m1"
+    assert _capability_replay_profile(req1)["fixture"] is None
 
 
 def test_candidate_tier_never_soundness_verified(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -364,16 +365,17 @@ def test_candidate_tier_never_soundness_verified(monkeypatch: pytest.MonkeyPatch
     assert lean.get("kernelReplayStatus") != "ok"
 
 
-def test_release_tier_cli_defaults_and_fixture_map() -> None:
+def test_release_tier_cli_defaults_and_exact_subset() -> None:
     import scripts.run_ideal_membership_benchmark as bench
 
     assert bench._resolve_tier(None) == "candidate"
-    assert bench.RELEASE_FIXTURE_TASKS["IM01_linear_combination_xy"] == "xy"
-    assert bench.RELEASE_FIXTURE_TASKS["IM02_x2_minus_1"] == "x2m1"
+    assert bench.RELEASE_CERTIFICATION_TASKS == frozenset(
+        {"IM01_linear_combination_xy", "IM02_x2_minus_1"}
+    )
 
 
 def test_ideal_kernel_replay_refuses_without_lean(tmp_path: Path) -> None:
-    """Missing Lean must not invent soundness_verified (ME-RV-035 honesty)."""
+    """Missing Lean must not invent soundness_verified."""
     import scripts.run_ideal_membership_benchmark as bench
     from adapters.common.kernel_replay import run_kernel_replay
 
@@ -403,8 +405,8 @@ def test_ideal_kernel_replay_refuses_without_lean(tmp_path: Path) -> None:
     except Exception as exc:  # noqa: BLE001
         msg = str(exc).lower()
         assert any(
-            k in msg
-            for k in (
+            key in msg
+            for key in (
                 "theorem_elaboration",
                 "kernel_rejected",
                 "lake not found",
