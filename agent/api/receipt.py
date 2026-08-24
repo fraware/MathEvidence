@@ -86,8 +86,8 @@ def parse_receipt(payload: dict[str, Any]) -> CheckerReceipt:
             "native_checked must not report soundness_verified / verified status"
         )
     if assurance == "kernel_replay":
-        th = payload.get("theoremDigest") or payload.get("theoremTypeDigest")
-        if not isinstance(th, str) or not th.startswith("sha256:"):
+        theorem_digest = payload.get("theoremDigest") or payload.get("theoremTypeDigest")
+        if not isinstance(theorem_digest, str) or not theorem_digest.startswith("sha256:"):
             raise ValueError("kernel_replay requires theorem digest")
 
     if payload.get("receiptDigest") or payload.get("contentDigest") or payload.get(
@@ -159,9 +159,9 @@ def verify_receipt_content_digests(
             continue
         rel = str(entry.get("path", "")).replace("\\", "/")
         if rel in {"certificate.json", "certificate.cjson"}:
-            dig = entry.get("digest")
-            if isinstance(dig, str):
-                expected_from_manifest = dig
+            digest = entry.get("digest")
+            if isinstance(digest, str):
+                expected_from_manifest = digest
             break
 
     if expected_from_manifest is not None and actual != expected_from_manifest:
@@ -214,8 +214,10 @@ def trusted_status_from_receipt(
 def _candidate_store_path(candidate_digest: str) -> Path | None:
     if not candidate_digest.startswith("sha256:") or len(candidate_digest) != 71:
         return None
-    root = Path(__file__).resolve().parents[2]
     hex_body = candidate_digest[7:]
+    if any(char not in "0123456789abcdef" for char in hex_body):
+        return None
+    root = Path(__file__).resolve().parents[2]
     path = root / "evidence" / "store" / "bundles" / "sha256" / hex_body[:2] / hex_body[2:]
     return path if path.is_dir() else None
 
@@ -280,10 +282,10 @@ def verify_certification_record(
 ) -> CertificationVerification:
     """Verify record integrity and independently reproduce theorem-level claims.
 
-    `verified=True` now means more than internally coherent JSON: for a
-    theorem-level kernel-replay record the exact Candidate Bundle must be
-    available and a fresh exact replay must reproduce the stored theorem type,
-    proof-term digest, environment lock, claim, and candidate digest.
+    `verified=True` means more than internally coherent JSON: for a theorem-level
+    kernel-replay record the exact Candidate Bundle must be available and a fresh
+    exact replay must reproduce the stored theorem type, proof-term digest,
+    environment lock, claim, and candidate digest.
     """
     verify_bundle_offline(record_dir, schemas=schemas, strict=True)
     manifest = load_role_json(record_dir, "manifest")
@@ -318,9 +320,9 @@ def verify_certification_record(
         if not isinstance(entry, dict):
             continue
         role = entry.get("role") or role_from_path(str(entry.get("path", "")))
-        dig = entry.get("digest")
-        if isinstance(role, str) and isinstance(dig, str):
-            role_digests[role] = dig
+        digest = entry.get("digest")
+        if isinstance(role, str) and isinstance(digest, str):
+            role_digests[role] = digest
     for receipt_key, role in {
         "replayTargetDigest": "replay-target",
         "axiomReportDigest": "axiom-report",
@@ -332,12 +334,24 @@ def verify_certification_record(
 
     theorem_obj = load_role_json(record_dir, "theorem-identity")
     target_obj = load_role_json(record_dir, "replay-target")
+    store.validate("theorem-identity.schema.json", theorem_obj)
     for key in ("theoremTypeDigest", "proofDeclarationDigest", "environmentLockDigest"):
         declared = receipt.get(key)
         identity_val = theorem_obj.get(key)
         if isinstance(identity_val, str) and isinstance(declared, str):
             if identity_val != declared:
                 raise ValueError(f"receipt.{key} != theorem-identity.{key}")
+
+    embedded_lock = theorem_obj.get("environmentLock")
+    if isinstance(embedded_lock, dict):
+        store.validate("environment-lock.schema.json", embedded_lock)
+        from adapters.common.theorem_identity import environment_lock_digest
+
+        embedded_digest = environment_lock_digest(embedded_lock)
+        if embedded_digest != theorem_obj.get("environmentLockDigest"):
+            raise ValueError("embedded environment lock digest mismatch")
+        if target_obj.get("sourceRevision") != embedded_lock.get("projectRevision"):
+            raise ValueError("replay-target sourceRevision != environment projectRevision")
 
     candidate_digest = manifest.get("candidateBundleDigest")
     if not isinstance(candidate_digest, str):
@@ -360,8 +374,6 @@ def verify_certification_record(
     if target_obj.get("environmentLockDigest") != theorem_obj.get("environmentLockDigest"):
         raise ValueError("replay-target.environmentLockDigest != theorem identity environment")
 
-    # Recompute theorem type digest from the structural snapshot stored in the
-    # role. A producer cannot change the snapshot without changing the digest.
     if isinstance(theorem_obj.get("elaboratedSerialization"), str):
         from adapters.common.theorem_identity import theorem_type_digest
 
