@@ -106,12 +106,17 @@ def theorem_identity_payload(
     theorem_type_digest_value: str,
     proof_declaration_digest: str,
     environment_lock_digest_value: str,
-    environment_lock: dict[str, Any] | None = None,
+    environment_lock: dict[str, Any],
     elaborated_serialization: str | None = None,
     universe_params: list[str] | None = None,
     binders: list[dict[str, Any]] | None = None,
     constant_names: list[str] | None = None,
 ) -> dict[str, Any]:
+    actual_lock_digest = environment_lock_digest(environment_lock)
+    if actual_lock_digest != environment_lock_digest_value:
+        raise ValueError(
+            "environmentLockDigest does not match the supplied environment lock"
+        )
     out: dict[str, Any] = {
         "schemaVersion": THEOREM_IDENTITY_SCHEMA_VERSION,
         "serializerVersion": THEOREM_IDENTITY_SERIALIZER_VERSION,
@@ -119,9 +124,8 @@ def theorem_identity_payload(
         "theoremTypeDigest": theorem_type_digest_value,
         "proofDeclarationDigest": proof_declaration_digest,
         "environmentLockDigest": environment_lock_digest_value,
+        "environmentLock": dict(environment_lock),
     }
-    if environment_lock is not None:
-        out["environmentLock"] = dict(environment_lock)
     if elaborated_serialization is not None:
         out["elaboratedSerialization"] = elaborated_serialization
     if universe_params is not None:
