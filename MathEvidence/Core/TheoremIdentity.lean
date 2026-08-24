@@ -14,24 +14,29 @@ import MathEvidence.Core.JsonCanonical
 
 Digests the **elaborated** theorem type (not pretty-printed source alone).
 
-Serializer profile: **mathevidence-theorem-identity-0.3**
+Current serializer profile: **mathevidence-theorem-identity-0.4**
 
 The digest input includes:
 
 * fully elaborated expression serialization via kernel `Expr` / `Level` walk
   (`MathEvidence.Core.ExprSerialize`; not `ppExpr`);
 * universe level parameters;
-* local binder types and binder information;
+* top-level binder types and binder information serialized directly from the
+  closed declaration expression;
 * constant names referenced by the type;
 * imported environment lock digest.
 
+Version 0.4 makes closed kernel-expression binder serialization explicit. This
+is intentionally versioned separately from 0.3 rather than changing canonical
+digest semantics under an existing serializer identifier. Historical 0.3 role
+payloads remain an archival wire concern; new Lean-produced identities use 0.4.
+
 A future serializer change requires incrementing `theoremIdentitySerializerVersion`
-and the theorem-identity schema version.
+and `theoremIdentitySchemaVersion`.
 
 Proof-term digests use the same structural `ExprSerialize` walk when a
-declaration value is available (`proofTermDigestOfConst?`). Lean-internal
-`Expr.hash` across compiler revisions is still not claimed and must not be
-used for Certification Records.
+declaration value is available. Lean-internal `Expr.hash` across compiler
+revisions is not claimed and must not be used for Certification Records.
 -/
 
 namespace MathEvidence.Core
@@ -39,11 +44,11 @@ namespace MathEvidence.Core
 open Lean
 open MathEvidence.Core.JsonCanonical
 
-/-- Serializer profile version embedded in every theorem-identity digest. -/
-def theoremIdentitySerializerVersion : String := "mathevidence-theorem-identity-0.3"
+/-- Serializer profile version embedded in every newly produced theorem-identity digest. -/
+def theoremIdentitySerializerVersion : String := "mathevidence-theorem-identity-0.4"
 
-/-- Schema version for theorem-identity role payloads. -/
-def theoremIdentitySchemaVersion : String := "0.3.0"
+/-- Schema version for newly produced theorem-identity role payloads. -/
+def theoremIdentitySchemaVersion : String := "0.4.0"
 
 /-- Binder kind encoded into the structural serializer. -/
 inductive BinderKindWire where
@@ -59,7 +64,7 @@ def BinderKindWire.toWire : BinderKindWire → String
   | .strictImplicit => "strictImplicit"
   | .instImplicit => "instImplicit"
 
-/-- One binder in the elaborated telescope. -/
+/-- One binder in the elaborated closed telescope. -/
 structure TheoremBinder where
   name : String
   kind : BinderKindWire := .default
@@ -75,7 +80,7 @@ structure TheoremTypeIdentity where
   elaboratedSerialization : String
   universeParams : List String := []
   binders : List TheoremBinder := []
-  /-- Reducibility-normalized constant names referenced by the type. -/
+  /-- Sorted constant names referenced by the closed theorem type. -/
   constantNames : List String := []
   environmentLockDigest : ContentDigest
   deriving DecidableEq, Repr, Inhabited
@@ -129,6 +134,7 @@ def TheoremIdentity.toBindingJson (t : TheoremIdentity) : Json :=
     ("environmentLockDigest", Json.str t.environmentLockDigest.value)
   ]
 
+/-- Well-formedness for identities produced by the current serializer. -/
 def TheoremIdentity.wellFormed (t : TheoremIdentity) : Bool :=
   t.schemaVersion == theoremIdentitySchemaVersion &&
     t.serializerVersion == theoremIdentitySerializerVersion &&
