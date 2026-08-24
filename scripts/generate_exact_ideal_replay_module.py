@@ -31,14 +31,11 @@ def _lean_string(value: str) -> str:
 
 
 def _as_int(value: Any, *, what: str) -> int:
-    if isinstance(value, bool):
-        raise ValueError(f"{what} must be an integer")
-    if isinstance(value, float) and not value.is_integer():
+    # JSON Schema says integer. Do not coerce strings/floats into a different
+    # semantic value merely because Python's int(...) can parse them.
+    if isinstance(value, bool) or not isinstance(value, int):
         raise ValueError(f"{what} must be an integer: {value!r}")
-    try:
-        return int(value)
-    except (TypeError, ValueError) as exc:
-        raise ValueError(f"{what} must be an integer: {value!r}") from exc
+    return value
 
 
 def _validate_digest(value: Any, *, what: str) -> str:
