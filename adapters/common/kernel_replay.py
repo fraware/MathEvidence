@@ -1,6 +1,6 @@
 """Kernel replay driver (Wave 2 / exact-candidate trust repair).
 
-The generic theorem-producing path is fail-closed.  It currently supports only
+The generic theorem-producing path is fail-closed. It currently supports only
 ``algebra.ideal_membership_witness`` because that capability has an exact source
 generator. Other capability fixtures remain available to explicit self-tests,
 but are not accepted as Certification Record authority for arbitrary bundles.
@@ -12,17 +12,23 @@ Lean.Environment import -> declaration type/proof/axiom inspection -> strict
 Certification Record.
 
 Python never supplies the theorem type or proof digest written to the record.
+Generated replay files are transactional and candidate-namespaced; they are not
+persistent source inputs to later certifications.
 """
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
+import os
 import re
 import shutil
 import subprocess
+import time
+from contextlib import contextmanager
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
 
 from adapters.common.bundle import (
     compute_bundle_digest,
@@ -35,6 +41,7 @@ from adapters.common.bundle import (
 from adapters.common.environment_lock import current_capability_environment_lock
 from adapters.common.errors import AdapterError
 from adapters.common.theorem_identity import (
+    THEOREM_IDENTITY_SCHEMA_VERSION,
     THEOREM_IDENTITY_SERIALIZER_VERSION,
     build_replay_target,
     environment_lock_digest,
@@ -51,6 +58,7 @@ ALLOWED_AXIOMS_DEFAULT = (
 )
 
 EXACT_REPLAY_CAPABILITIES = frozenset({"algebra.ideal_membership_witness"})
+_SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 
 def _load_script(filename: str, module_name: str) -> Any:
@@ -182,7 +190,7 @@ def axiom_policy_ok(
     axioms: list[str], allowed: tuple[str, ...] = ALLOWED_AXIOMS_DEFAULT
 ) -> bool:
     allowed_set = set(allowed)
-    return all(a in allowed_set for a in axioms)
+    return all(axiom in allowed_set for axiom in axioms)
 
 
 def build_structural_theorem_type(
@@ -192,15 +200,15 @@ def build_structural_theorem_type(
     constant_names: list[str] | None = None,
     binder_type: str = "Rat",
 ) -> dict[str, Any]:
-    """Legacy vector helper; not Certification Record theorem authority."""
+    """Historical v0.3 vector helper; never Certification Record authority."""
     return {
         "schemaVersion": "0.3.0",
-        "serializerVersion": THEOREM_IDENTITY_SERIALIZER_VERSION,
+        "serializerVersion": "mathevidence-theorem-identity-0.3",
         "elaboratedSerialization": claim_preview,
         "universeParams": [],
         "binders": [
-            {"name": n, "kind": "default", "typeSerialization": binder_type}
-            for n in var_names
+            {"name": name, "kind": "default", "typeSerialization": binder_type}
+            for name in var_names
         ],
         "constantNames": constant_names or ["Rat", "Eq"],
     }
@@ -293,6 +301,14 @@ def _safe_ident(name: str) -> str:
     return cleaned
 
 
+def _candidate_declaration(base_name: str, candidate_digest: str) -> str:
+    """Stable candidate-namespaced declaration, idempotent across replays."""
+    base = _safe_ident(base_name)
+    suffix = candidate_digest[7:23]
+    marker = f"_{suffix}"
+    return base if base.endswith(marker) else f"{base}{marker}"
+
+
 def _source_revision(root: Path) -> str:
     try:
         proc = subprocess.run(
@@ -333,6 +349,42 @@ def _run_process(
         ) from exc
 
 
+@contextmanager
+def _module_lock(root: Path, module_name: str, timeout: float = 600.0) -> Iterator[None]:
+    """Cross-process lock for one deterministic generated replay module."""
+    lock_root = root / ".lake" / "build" / "mathevidence-replay-locks"
+    lock_root.mkdir(parents=True, exist_ok=True)
+    key = hashlib.sha256(module_name.encode("utf-8")).hexdigest()
+    lock_path = lock_root / f"{key}.lock"
+    deadline = time.monotonic() + timeout
+    while True:
+        try:
+            fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            try:
+                os.write(fd, f"pid={os.getpid()}\nmodule={module_name}\n".encode("utf-8"))
+            finally:
+                os.close(fd)
+            break
+        except FileExistsError:
+            try:
+                age = time.time() - lock_path.stat().st_mtime
+                if age > max(1800.0, timeout * 2):
+                    lock_path.unlink(missing_ok=True)
+                    continue
+            except FileNotFoundError:
+                continue
+            if time.monotonic() >= deadline:
+                raise _kr_error(
+                    "resource_limit_exceeded",
+                    f"timed out waiting for replay module lock: {module_name}",
+                )
+            time.sleep(0.05)
+    try:
+        yield
+    finally:
+        lock_path.unlink(missing_ok=True)
+
+
 def _parse_identity_report(stdout: str) -> dict[str, Any]:
     for line in reversed(stdout.splitlines()):
         line = line.strip()
@@ -362,63 +414,73 @@ def _compile_and_inspect(
 ) -> tuple[dict[str, Any], str, str]:
     module_parts = module_name.split(".")
     source_path = root.joinpath(*module_parts).with_suffix(".lean")
-    source_path.parent.mkdir(parents=True, exist_ok=True)
-    source_path.write_text(source_text, encoding="utf-8", newline="\n")
-
-    build = _run_process(
-        [str(lake), "build", "MathEvidenceCheckers", "mathevidence-declaration-identity"],
-        root=root,
-    )
-    if build.returncode != 0:
-        raise _kr_error(
-            "replay_dependency_missing",
-            f"failed to build replay dependencies (exit {build.returncode})",
-            stdout=(build.stdout or "")[-2000:],
-            stderr=(build.stderr or "")[-2000:],
-        )
-
     olean_path = root / ".lake" / "build" / "lib" / "lean"
     olean_path = olean_path.joinpath(*module_parts).with_suffix(".olean")
+    source_path.parent.mkdir(parents=True, exist_ok=True)
     olean_path.parent.mkdir(parents=True, exist_ok=True)
-    compile_proc = _run_process(
-        [str(lake), "env", "lean", "-o", str(olean_path), str(source_path)],
-        root=root,
-    )
-    if compile_proc.returncode != 0:
-        raise _kr_error(
-            "kernel_rejected",
-            f"lake env lean exit {compile_proc.returncode}; refusing theorem status",
-            stdout=(compile_proc.stdout or "")[-3000:],
-            stderr=(compile_proc.stderr or "")[-3000:],
-        )
 
-    inspect_proc = _run_process(
-        [
-            str(lake),
-            "exe",
-            "mathevidence-declaration-identity",
-            "--",
-            "--module",
-            module_name,
-            "--declaration",
-            declaration_name,
-            "--environment-lock-digest",
-            environment_lock_digest_value,
-        ],
-        root=root,
-    )
-    if inspect_proc.returncode != 0:
-        raise _kr_error(
-            "kernel_rejected",
-            f"declaration identity inspection exit {inspect_proc.returncode}",
-            stdout=(inspect_proc.stdout or "")[-3000:],
-            stderr=(inspect_proc.stderr or "")[-3000:],
-        )
-    return (
-        _parse_identity_report(inspect_proc.stdout or ""),
-        (compile_proc.stdout or "") + (inspect_proc.stdout or ""),
-        (compile_proc.stderr or "") + (inspect_proc.stderr or ""),
-    )
+    with _module_lock(root, module_name):
+        source_path.write_text(source_text, encoding="utf-8", newline="\n")
+        try:
+            build = _run_process(
+                [
+                    str(lake),
+                    "build",
+                    "MathEvidenceCheckers",
+                    "mathevidence-declaration-identity",
+                ],
+                root=root,
+            )
+            if build.returncode != 0:
+                raise _kr_error(
+                    "replay_dependency_missing",
+                    f"failed to build replay dependencies (exit {build.returncode})",
+                    stdout=(build.stdout or "")[-2000:],
+                    stderr=(build.stderr or "")[-2000:],
+                )
+
+            compile_proc = _run_process(
+                [str(lake), "env", "lean", "-o", str(olean_path), str(source_path)],
+                root=root,
+            )
+            if compile_proc.returncode != 0:
+                raise _kr_error(
+                    "kernel_rejected",
+                    f"lake env lean exit {compile_proc.returncode}; refusing theorem status",
+                    stdout=(compile_proc.stdout or "")[-3000:],
+                    stderr=(compile_proc.stderr or "")[-3000:],
+                )
+
+            inspect_proc = _run_process(
+                [
+                    str(lake),
+                    "exe",
+                    "mathevidence-declaration-identity",
+                    "--",
+                    "--module",
+                    module_name,
+                    "--declaration",
+                    declaration_name,
+                    "--environment-lock-digest",
+                    environment_lock_digest_value,
+                ],
+                root=root,
+            )
+            if inspect_proc.returncode != 0:
+                raise _kr_error(
+                    "kernel_rejected",
+                    f"declaration identity inspection exit {inspect_proc.returncode}",
+                    stdout=(inspect_proc.stdout or "")[-3000:],
+                    stderr=(inspect_proc.stderr or "")[-3000:],
+                )
+            return (
+                _parse_identity_report(inspect_proc.stdout or ""),
+                (compile_proc.stdout or "") + (inspect_proc.stdout or ""),
+                (compile_proc.stderr or "") + (inspect_proc.stderr or ""),
+            )
+        finally:
+            source_path.unlink(missing_ok=True)
+            olean_path.unlink(missing_ok=True)
 
 
 def run_kernel_replay(
@@ -457,8 +519,8 @@ def run_kernel_replay(
         raise _kr_error("certificate_decode_failed", "certificate role missing or invalid")
 
     request_digest = request.get("requestDigest")
-    if not isinstance(request_digest, str) or not request_digest.startswith("sha256:"):
-        raise _kr_error("request_digest_mismatch", "requestDigest missing")
+    if not isinstance(request_digest, str) or _SHA256_RE.fullmatch(request_digest) is None:
+        raise _kr_error("request_digest_mismatch", "requestDigest missing or non-canonical")
 
     profile = _capability_replay_profile(request)
     capability_id = str(profile["capability_id"])
@@ -476,8 +538,8 @@ def run_kernel_replay(
         raise _kr_error("bundle_not_found", "missing manifest")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     candidate_digest = manifest.get("bundleDigest") or compute_bundle_digest(manifest)
-    if not isinstance(candidate_digest, str) or not candidate_digest.startswith("sha256:"):
-        raise _kr_error("manifest_invalid", "candidate bundleDigest missing or invalid")
+    if not isinstance(candidate_digest, str) or _SHA256_RE.fullmatch(candidate_digest) is None:
+        raise _kr_error("manifest_invalid", "candidate bundleDigest missing or non-canonical")
 
     claim_class = str(profile["claim_class"])
     if claim_class not in {"witness", "soundResult"}:
@@ -486,7 +548,8 @@ def run_kernel_replay(
             f"requested claim {claim_class!r} is not theorem-producing for {capability_id}",
         )
 
-    decl = _safe_ident(declaration_name or str(profile["declaration_default"]))
+    base_declaration = declaration_name or str(profile["declaration_default"])
+    decl = _candidate_declaration(base_declaration, candidate_digest)
     module_name = f"MathEvidence.Generated.Replay.{decl}"
     try:
         source_text = _generate_exact_ideal(
@@ -504,6 +567,18 @@ def run_kernel_replay(
     except Exception as exc:  # noqa: BLE001
         raise _kr_error("environment_mismatch", str(exc)) from exc
     lock_digest = environment_lock_digest(lock)
+
+    locked_revision = str(lock.get("projectRevision") or "workspace")
+    if source_revision is not None and source_revision != locked_revision:
+        raise _kr_error(
+            "environment_mismatch",
+            "requested source revision disagrees with source-bound environment lock",
+            requestedRevision=source_revision,
+            lockedRevision=locked_revision,
+        )
+    source_rev = locked_revision
+    if source_rev == "workspace":
+        source_rev = _source_revision(root)
 
     lake = find_lake(root)
     if lake is None:
@@ -528,6 +603,10 @@ def run_kernel_replay(
     type_identity = identity_report.get("typeIdentity")
     if not isinstance(type_identity, dict):
         raise _kr_error("kernel_rejected", "Lean identity report missing typeIdentity")
+    if type_identity.get("schemaVersion") != THEOREM_IDENTITY_SCHEMA_VERSION:
+        raise _kr_error("kernel_rejected", "Lean theorem identity schema version mismatch")
+    if type_identity.get("serializerVersion") != THEOREM_IDENTITY_SERIALIZER_VERSION:
+        raise _kr_error("kernel_rejected", "Lean theorem identity serializer version mismatch")
     emitted_type_digest = identity_report.get("theoremTypeDigest")
     if theorem_type_digest(type_identity) != emitted_type_digest:
         raise _kr_error(
@@ -535,12 +614,13 @@ def run_kernel_replay(
             "Python recomputation of Lean-emitted theorem type identity disagrees",
         )
     proof_digest = identity_report.get("proofDeclarationDigest")
-    if not isinstance(proof_digest, str) or not proof_digest.startswith("sha256:"):
+    if not isinstance(proof_digest, str) or _SHA256_RE.fullmatch(proof_digest) is None:
         raise _kr_error("kernel_rejected", "Lean identity report missing proof digest")
 
-    axioms = identity_report.get("axioms")
-    if not isinstance(axioms, list) or not all(isinstance(a, str) for a in axioms):
+    axioms_raw = identity_report.get("axioms")
+    if not isinstance(axioms_raw, list) or not all(isinstance(a, str) for a in axioms_raw):
         raise _kr_error("kernel_rejected", "Lean identity report has invalid axiom set")
+    axioms = sorted(set(axioms_raw))
     if not axiom_policy_ok(axioms, allowed_axioms):
         raise _kr_error(
             "unexpected_axiom",
@@ -548,7 +628,6 @@ def run_kernel_replay(
         )
 
     type_dig = str(emitted_type_digest)
-    source_rev = source_revision or _source_revision(root)
     target = build_replay_target(
         module_name=module_name,
         declaration_name=decl,
@@ -568,6 +647,7 @@ def run_kernel_replay(
         theorem_type_digest_value=type_dig,
         proof_declaration_digest=proof_digest,
         environment_lock_digest_value=lock_digest,
+        environment_lock=lock,
         elaborated_serialization=str(type_identity["elaboratedSerialization"]),
         universe_params=list(type_identity.get("universeParams") or []),
         binders=list(type_identity.get("binders") or []),
