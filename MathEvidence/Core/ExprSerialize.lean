@@ -15,16 +15,14 @@ Structural walk of Lean 4 kernel `Expr` / `Level` constructors for digest
 inputs. This is **not** pretty-printing (`ppExpr`); binder kinds, universe
 levels, and constant names participate explicitly.
 
-Proof-term digests (ME-RV-020 remainder): when a declaration value is
-available, `proofTermDigestOfConst?` walks the same structural `serializeExpr`
-profile (not Lean-internal `Expr.hash`). Compiler-revision `Expr.hash`
-stability remains unclaimed and must not be used for Certification Records.
+The current serializer canonicalizes declaration identity from a **closed**
+kernel expression. Top-level binder types therefore retain their de-Bruijn
+representation instead of being replaced by elaborator-generated free-variable
+identifiers. Free variables, expression metavariables, and universe metavariables
+are rejected for Certification Record identity.
 
-The `*InEnv` / `*OfClosedExpr` helpers are deliberately pure over an already
-loaded `Lean.Environment`.  They are used by the certification driver after a
-generated replay module has been compiled and imported, so theorem/proof
-identity is derived from the declaration Lean actually accepted rather than
-from orchestration metadata describing what was intended.
+Proof-term digests use the same closed structural walk when a declaration value
+is available. Lean-internal `Expr.hash` stability is not claimed.
 -/
 
 namespace MathEvidence.Core.ExprSerialize
@@ -75,6 +73,32 @@ partial def serializeExpr : Expr → String
   | .mdata _ e => s!"(mdata {serializeExpr e})"
   | .proj typeName idx e => s!"(proj {typeName} {idx} {serializeExpr e})"
 
+/-- True when a universe level is not closed. -/
+partial def levelContainsMVar : Level → Bool
+  | .zero => false
+  | .succ u => levelContainsMVar u
+  | .max u v => levelContainsMVar u || levelContainsMVar v
+  | .imax u v => levelContainsMVar u || levelContainsMVar v
+  | .param _ => false
+  | .mvar _ => true
+
+/-- Reject elaborator-local identities from canonical declaration serialization.
+Bound variables are allowed because they are bound by surrounding lambdas/Pis. -/
+partial def exprContainsFreeOrMeta : Expr → Bool
+  | .bvar _ => false
+  | .fvar _ => true
+  | .mvar _ => true
+  | .sort u => levelContainsMVar u
+  | .const _ us => us.any levelContainsMVar
+  | .app f a => exprContainsFreeOrMeta f || exprContainsFreeOrMeta a
+  | .lam _ t b _ => exprContainsFreeOrMeta t || exprContainsFreeOrMeta b
+  | .forallE _ t b _ => exprContainsFreeOrMeta t || exprContainsFreeOrMeta b
+  | .letE _ t v b _ =>
+      exprContainsFreeOrMeta t || exprContainsFreeOrMeta v || exprContainsFreeOrMeta b
+  | .lit _ => false
+  | .mdata _ e => exprContainsFreeOrMeta e
+  | .proj _ _ e => exprContainsFreeOrMeta e
+
 /-- Collect universe parameter names appearing in an Expr. -/
 partial def collectUniverseParams (e : Expr) : List String :=
   let rec goLevel : Level → List String
@@ -102,8 +126,8 @@ def collectConstantNames (e : Expr) : List String :=
 
 /-- Top-level Pi binders of a closed declaration type, without introducing fvars.
 
-Binder types are serialized in the de-Bruijn context in which they occur.  This
-is intentionally a structural snapshot of the stored kernel expression.
+Binder types are serialized in the de-Bruijn context in which they occur. This
+is the canonical binder representation for serializer 0.4.
 -/
 partial def collectTopLevelBinders : Expr → List TheoremBinder
   | .forallE n t body bi =>
@@ -115,12 +139,12 @@ partial def collectTopLevelBinders : Expr → List TheoremBinder
   | _ => []
 
 /-- Build theorem identity directly from a closed declaration type in a loaded
-kernel environment.  No pretty printer and no caller-supplied theorem text is
+kernel environment. No pretty printer and no caller-supplied theorem text is
 involved. -/
 def theoremTypeIdentityOfClosedExpr
     (ty : Expr) (envLockDig : ContentDigest) : Except String TheoremTypeIdentity := do
-  if ty.hasMVar then
-    throw "mathevidence theorem identity: stored type contains metavariables"
+  if exprContainsFreeOrMeta ty then
+    throw "mathevidence theorem identity: declaration type is not closed"
   pure {
     elaboratedSerialization := serializeExpr ty
     universeParams := collectUniverseParams ty
@@ -135,37 +159,25 @@ def theoremTypeDigestOfClosedExpr
   let identity ← theoremTypeIdentityOfClosedExpr ty envLockDig
   identity.digest
 
-/-- Build `TheoremTypeIdentity` from an elaborated type Expr + env lock digest. -/
+/-- MetaM compatibility wrapper for a closed elaborated declaration type.
+
+After metavariable instantiation it delegates to the same closed-expression
+canonicalization used by the environment inspector. Open goal expressions with
+free variables are intentionally rejected as declaration identities.
+-/
 def theoremTypeIdentityOfExpr (ty : Expr) (envLockDig : ContentDigest) :
     MetaM TheoremTypeIdentity := do
   let ty ← instantiateMVars ty
-  -- Reject lingering metavariables in the type (not fully elaborated).
-  if ty.hasMVar then
-    throwError "mathevidence theorem identity: type still contains metavariables"
-  forallTelescope ty fun xs _body => do
-    let mut binders : Array TheoremBinder := #[]
-    for x in xs do
-      let ldecl ← x.fvarId!.getDecl
-      let tSer := serializeExpr (← instantiateMVars ldecl.type)
-      binders := binders.push {
-        name := ldecl.userName.toString
-        kind := binderKindOfInfo ldecl.binderInfo
-        typeSerialization := tSer
-      }
-    pure {
-      elaboratedSerialization := serializeExpr ty
-      universeParams := collectUniverseParams ty
-      binders := binders.toList
-      constantNames := collectConstantNames ty
-      environmentLockDigest := envLockDig
-    }
+  match theoremTypeIdentityOfClosedExpr ty envLockDig with
+  | .ok identity => pure identity
+  | .error e => throwError e
 
-/-- Digest an elaborated type Expr under an environment lock. -/
+/-- Digest a closed elaborated declaration type under an environment lock. -/
 def theoremTypeDigestOfExpr (ty : Expr) (envLockDig : ContentDigest) :
     MetaM TheoremDigest := do
-  let id ← theoremTypeIdentityOfExpr ty envLockDig
-  match id.digest with
-  | .ok d => pure d
+  let identity ← theoremTypeIdentityOfExpr ty envLockDig
+  match identity.digest with
+  | .ok digest => pure digest
   | .error e => throwError s!"mathevidence theorem identity: digest failed: {e}"
 
 /-- Stable proof-term serialization from an explicitly supplied environment.
@@ -177,10 +189,10 @@ def proofTermSerializationOfConstInEnv?
   | some info =>
     match info.value? with
     | none => pure none
-    | some v =>
-      if v.hasMVar then
-        throw "mathevidence theorem identity: stored proof term contains metavariables"
-      pure (some (serializeExpr v))
+    | some value =>
+      if exprContainsFreeOrMeta value then
+        throw "mathevidence theorem identity: stored proof term is not closed"
+      pure (some (serializeExpr value))
 
 /-- Digest a proof term from the declaration value actually present in `env`. -/
 def proofTermDigestOfConstInEnv?
@@ -188,58 +200,35 @@ def proofTermDigestOfConstInEnv?
     Except String (Option ContentDigest) := do
   match ← proofTermSerializationOfConstInEnv? env name with
   | none => pure none
-  | some ser =>
+  | some serialization =>
     let payload := Json.mkObj [
       ("schemaVersion", Json.str theoremIdentitySchemaVersion),
       ("serializerVersion", Json.str theoremIdentitySerializerVersion),
       ("kind", Json.str "proofTerm"),
       ("declarationName", Json.str name.toString),
-      ("elaboratedSerialization", Json.str ser),
+      ("elaboratedSerialization", Json.str serialization),
       ("environmentLockDigest", Json.str envLockDig.value)
     ]
     match JsonCanonical.digest payload with
-    | .ok eid =>
-      match EvidenceId.toContentDigest eid with
-      | some d => pure (some d)
+    | .ok evidenceId =>
+      match EvidenceId.toContentDigest evidenceId with
+      | some digest => pure (some digest)
       | none => throw "mathevidence proof-term digest wire form invalid"
     | .error e => throw s!"mathevidence proof-term digest failed: {e}"
 
-/-- Stable proof-term serialization via the same kernel Expr walk (not `Expr.hash`).
-
-Returns `none` when the constant has no stored value (e.g. axiom / opaque).
--/
+/-- Stable proof-term serialization via the same closed kernel Expr walk. -/
 def proofTermSerializationOfConst? (name : Name) : MetaM (Option String) := do
   let env ← getEnv
-  match env.find? name with
-  | none => pure none
-  | some info =>
-    match info.value? with
-    | none => pure none
-    | some v =>
-      let v ← instantiateMVars v
-      if v.hasMVar then
-        throwError "mathevidence theorem identity: proof term still contains metavariables"
-      pure (some (serializeExpr v))
+  match proofTermSerializationOfConstInEnv? env name with
+  | .ok value => pure value
+  | .error e => throwError e
 
-/-- Digest binding for a proof term under the theorem-identity serializer profile. -/
+/-- Digest binding for a proof term under the current theorem-identity serializer. -/
 def proofTermDigestOfConst? (name : Name) (envLockDig : ContentDigest) :
     MetaM (Option ContentDigest) := do
-  match ← proofTermSerializationOfConst? name with
-  | none => pure none
-  | some ser =>
-    let payload := Json.mkObj [
-      ("schemaVersion", Json.str theoremIdentitySchemaVersion),
-      ("serializerVersion", Json.str theoremIdentitySerializerVersion),
-      ("kind", Json.str "proofTerm"),
-      ("declarationName", Json.str name.toString),
-      ("elaboratedSerialization", Json.str ser),
-      ("environmentLockDigest", Json.str envLockDig.value)
-    ]
-    match JsonCanonical.digest payload with
-    | .ok eid =>
-      match EvidenceId.toContentDigest eid with
-      | some d => pure (some d)
-      | none => throwError "mathevidence proof-term digest wire form invalid"
-    | .error e => throwError s!"mathevidence proof-term digest failed: {e}"
+  let env ← getEnv
+  match proofTermDigestOfConstInEnv? env name envLockDig with
+  | .ok value => pure value
+  | .error e => throwError e
 
 end MathEvidence.Core.ExprSerialize
