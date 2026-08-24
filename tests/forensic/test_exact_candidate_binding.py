@@ -42,7 +42,7 @@ def _request_and_certificate() -> tuple[dict, dict]:
     certificate = {
         "schemaVersion": "0.1.0",
         "capability": request["capability"],
-        "capabilityVersion": "0.1.0",
+        "capabilityVersion": request["capabilityVersion"],
         "requestDigest": request["requestDigest"],
         "target": request["target"],
         "generators": request["generators"],
@@ -52,38 +52,36 @@ def _request_and_certificate() -> tuple[dict, dict]:
     return request, certificate
 
 
-def test_exact_ideal_generator_has_no_fixture_authority() -> None:
-    request, certificate = _request_and_certificate()
-    text = _generator().generate_exact_ideal_membership_module(
-        module_name="MathEvidence.Generated.Replay.exact_xy",
-        declaration_name="exact_xy",
+def _generate(request: dict, certificate: dict, *, name: str, digest_byte: str) -> str:
+    return _generator().generate_exact_ideal_membership_module(
+        module_name=f"MathEvidence.Generated.Replay.{name}",
+        declaration_name=name,
         request=request,
         certificate=certificate,
-        candidate_bundle_digest="sha256:" + ("34" * 32),
+        candidate_bundle_digest="sha256:" + (digest_byte * 64),
     )
+
+
+def test_exact_ideal_generator_has_no_fixture_authority() -> None:
+    request, certificate = _request_and_certificate()
+    text = _generate(request, certificate, name="exact_xy", digest_byte="3")
     assert "OfflineFixtures" not in text
     assert "req_xy" not in text
     assert "cert_xy" not in text
     assert "Claim.proposition" in text
     assert request["requestDigest"] in text
-    # Exact target xy and exact multiplier y occur in generated source.
+    assert f'version := "{request["capabilityVersion"]}"' in text
+    assert "resourcePolicy := defaultResourcePolicy" in text
     assert "Monomial.ofList! 2 [1, 1]" in text
     assert "Monomial.ofList! 2 [0, 1]" in text
 
 
 def test_same_profile_different_claim_changes_theorem_source() -> None:
     request_a, certificate_a = _request_and_certificate()
-    text_a = _generator().generate_exact_ideal_membership_module(
-        module_name="MathEvidence.Generated.Replay.claim_a",
-        declaration_name="claim_a",
-        request=request_a,
-        certificate=certificate_a,
-        candidate_bundle_digest="sha256:" + ("aa" * 32),
-    )
+    text_a = _generate(request_a, certificate_a, name="claim_a", digest_byte="a")
 
     request_b = json.loads(json.dumps(request_a))
     certificate_b = json.loads(json.dumps(certificate_a))
-    # Same capability and arity, different mathematical target: x instead of xy.
     request_b["target"] = _poly(2, 1, [1, 0])
     request_b["requestDigest"] = "sha256:" + ("56" * 32)
     certificate_b["target"] = request_b["target"]
@@ -92,13 +90,7 @@ def test_same_profile_different_claim_changes_theorem_source() -> None:
         _poly(2, 1, [0, 0]),
         {"varCount": 2, "terms": []},
     ]
-    text_b = _generator().generate_exact_ideal_membership_module(
-        module_name="MathEvidence.Generated.Replay.claim_b",
-        declaration_name="claim_b",
-        request=request_b,
-        certificate=certificate_b,
-        candidate_bundle_digest="sha256:" + ("bb" * 32),
-    )
+    text_b = _generate(request_b, certificate_b, name="claim_b", digest_byte="b")
 
     assert text_a != text_b
     assert "Monomial.ofList! 2 [1, 1]" in text_a
@@ -109,13 +101,34 @@ def test_certificate_semantic_copy_mismatch_rejected_before_lean() -> None:
     request, certificate = _request_and_certificate()
     certificate["target"] = _poly(2, 1, [0, 0])
     with pytest.raises(ValueError, match="certificate target"):
+        _generate(request, certificate, name="bad_copy", digest_byte="7")
+
+
+def test_cross_version_certificate_rejected_before_lean() -> None:
+    request, certificate = _request_and_certificate()
+    certificate["capabilityVersion"] = "0.2.0"
+    with pytest.raises(ValueError, match="capabilityVersion"):
+        _generate(request, certificate, name="bad_version", digest_byte="8")
+
+
+def test_noncanonical_bundle_digest_rejected_before_lean() -> None:
+    request, certificate = _request_and_certificate()
+    with pytest.raises(ValueError, match="candidateBundleDigest"):
         _generator().generate_exact_ideal_membership_module(
-            module_name="MathEvidence.Generated.Replay.bad_copy",
-            declaration_name="bad_copy",
+            module_name="MathEvidence.Generated.Replay.bad_digest",
+            declaration_name="bad_digest",
             request=request,
             certificate=certificate,
-            candidate_bundle_digest="sha256:" + ("78" * 32),
+            candidate_bundle_digest="sha256:not-a-digest",
         )
+
+
+def test_fractional_sparse_integer_rejected_before_lean() -> None:
+    request, certificate = _request_and_certificate()
+    request["target"]["terms"][0]["coefficient"] = 1.5
+    certificate["target"] = request["target"]
+    with pytest.raises(ValueError, match="must be an integer"):
+        _generate(request, certificate, name="fractional", digest_byte="9")
 
 
 def test_candidate_only_claim_cannot_be_promoted_to_theorem() -> None:
@@ -123,13 +136,7 @@ def test_candidate_only_claim_cannot_be_promoted_to_theorem() -> None:
     request["requestedClaim"] = "candidate"
     certificate["claimClass"] = "candidate"
     with pytest.raises(ValueError, match="requires requestedClaim"):
-        _generator().generate_exact_ideal_membership_module(
-            module_name="MathEvidence.Generated.Replay.candidate_only",
-            declaration_name="candidate_only",
-            request=request,
-            certificate=certificate,
-            candidate_bundle_digest="sha256:" + ("90" * 32),
-        )
+        _generate(request, certificate, name="candidate_only", digest_byte="9")
 
 
 def test_generic_rational_bundle_replay_fails_closed() -> None:
