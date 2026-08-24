@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://mathevidence.org/schemas/environment-lock-v0.json",
-  "title": "MathEvidence Environment Lock v0.3",
+  "title": "MathEvidence Environment Lock",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,10 +12,7 @@
     "imports"
   ],
   "properties": {
-    "schemaVersion": {
-      "type": "string",
-      "enum": ["0.3.0"]
-    },
+    "schemaVersion": { "type": "string" },
     "leanVersion": { "type": "string", "minLength": 1 },
     "lakeVersion": { "type": "string", "minLength": 1 },
     "mathlibRevision": { "type": "string", "minLength": 1 },
@@ -26,6 +23,36 @@
     "toolchainDigest": {
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "projectRevision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "projectSourceDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "dependencyLockDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
     }
-  }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "schemaVersion": { "const": "0.3.0" }
+      }
+    },
+    {
+      "properties": {
+        "schemaVersion": { "const": "0.4.0" }
+      },
+      "required": [
+        "projectRevision",
+        "projectSourceDigest",
+        "dependencyLockDigest"
+      ]
+    }
+  ]
 }
