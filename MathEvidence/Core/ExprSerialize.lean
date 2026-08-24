@@ -19,6 +19,12 @@ Proof-term digests (ME-RV-020 remainder): when a declaration value is
 available, `proofTermDigestOfConst?` walks the same structural `serializeExpr`
 profile (not Lean-internal `Expr.hash`). Compiler-revision `Expr.hash`
 stability remains unclaimed and must not be used for Certification Records.
+
+The `*InEnv` / `*OfClosedExpr` helpers are deliberately pure over an already
+loaded `Lean.Environment`.  They are used by the certification driver after a
+generated replay module has been compiled and imported, so theorem/proof
+identity is derived from the declaration Lean actually accepted rather than
+from orchestration metadata describing what was intended.
 -/
 
 namespace MathEvidence.Core.ExprSerialize
@@ -94,6 +100,41 @@ partial def collectUniverseParams (e : Expr) : List String :=
 def collectConstantNames (e : Expr) : List String :=
   (e.getUsedConstants.toList.map (·.toString)).toArray.qsort (· < ·) |>.toList
 
+/-- Top-level Pi binders of a closed declaration type, without introducing fvars.
+
+Binder types are serialized in the de-Bruijn context in which they occur.  This
+is intentionally a structural snapshot of the stored kernel expression.
+-/
+partial def collectTopLevelBinders : Expr → List TheoremBinder
+  | .forallE n t body bi =>
+      ({
+        name := n.toString
+        kind := binderKindOfInfo bi
+        typeSerialization := serializeExpr t
+      } : TheoremBinder) :: collectTopLevelBinders body
+  | _ => []
+
+/-- Build theorem identity directly from a closed declaration type in a loaded
+kernel environment.  No pretty printer and no caller-supplied theorem text is
+involved. -/
+def theoremTypeIdentityOfClosedExpr
+    (ty : Expr) (envLockDig : ContentDigest) : Except String TheoremTypeIdentity := do
+  if ty.hasMVar then
+    throw "mathevidence theorem identity: stored type contains metavariables"
+  pure {
+    elaboratedSerialization := serializeExpr ty
+    universeParams := collectUniverseParams ty
+    binders := collectTopLevelBinders ty
+    constantNames := collectConstantNames ty
+    environmentLockDigest := envLockDig
+  }
+
+/-- Digest the exact stored declaration type under an environment lock. -/
+def theoremTypeDigestOfClosedExpr
+    (ty : Expr) (envLockDig : ContentDigest) : Except String TheoremDigest := do
+  let identity ← theoremTypeIdentityOfClosedExpr ty envLockDig
+  identity.digest
+
 /-- Build `TheoremTypeIdentity` from an elaborated type Expr + env lock digest. -/
 def theoremTypeIdentityOfExpr (ty : Expr) (envLockDig : ContentDigest) :
     MetaM TheoremTypeIdentity := do
@@ -126,6 +167,42 @@ def theoremTypeDigestOfExpr (ty : Expr) (envLockDig : ContentDigest) :
   match id.digest with
   | .ok d => pure d
   | .error e => throwError s!"mathevidence theorem identity: digest failed: {e}"
+
+/-- Stable proof-term serialization from an explicitly supplied environment.
+Returns `none` when the declaration has no stored value. -/
+def proofTermSerializationOfConstInEnv?
+    (env : Environment) (name : Name) : Except String (Option String) := do
+  match env.find? name with
+  | none => pure none
+  | some info =>
+    match info.value? with
+    | none => pure none
+    | some v =>
+      if v.hasMVar then
+        throw "mathevidence theorem identity: stored proof term contains metavariables"
+      pure (some (serializeExpr v))
+
+/-- Digest a proof term from the declaration value actually present in `env`. -/
+def proofTermDigestOfConstInEnv?
+    (env : Environment) (name : Name) (envLockDig : ContentDigest) :
+    Except String (Option ContentDigest) := do
+  match ← proofTermSerializationOfConstInEnv? env name with
+  | none => pure none
+  | some ser =>
+    let payload := Json.mkObj [
+      ("schemaVersion", Json.str theoremIdentitySchemaVersion),
+      ("serializerVersion", Json.str theoremIdentitySerializerVersion),
+      ("kind", Json.str "proofTerm"),
+      ("declarationName", Json.str name.toString),
+      ("elaboratedSerialization", Json.str ser),
+      ("environmentLockDigest", Json.str envLockDig.value)
+    ]
+    match JsonCanonical.digest payload with
+    | .ok eid =>
+      match EvidenceId.toContentDigest eid with
+      | some d => pure (some d)
+      | none => throw "mathevidence proof-term digest wire form invalid"
+    | .error e => throw s!"mathevidence proof-term digest failed: {e}"
 
 /-- Stable proof-term serialization via the same kernel Expr walk (not `Expr.hash`).
 
