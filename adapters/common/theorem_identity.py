@@ -1,9 +1,10 @@
 """Theorem identity, environment lock, and replay-target digests (Wave 2 / ME-RV-020).
 
-Serializer profile: mathevidence-theorem-identity-0.3
+Current serializer profile: mathevidence-theorem-identity-0.4.
 
-Digests cover elaborated expression serialization + binders + environment lock,
-never pretty-printed source alone.
+New identities use closed kernel-expression binder serialization. Historical
+0.3 payloads remain recomputable because digest functions bind the version
+fields present in the payload instead of replacing them with current defaults.
 """
 
 from __future__ import annotations
@@ -12,8 +13,8 @@ from typing import Any
 
 from adapters.common.canonical import sha256_digest
 
-THEOREM_IDENTITY_SERIALIZER_VERSION = "mathevidence-theorem-identity-0.3"
-THEOREM_IDENTITY_SCHEMA_VERSION = "0.3.0"
+THEOREM_IDENTITY_SERIALIZER_VERSION = "mathevidence-theorem-identity-0.4"
+THEOREM_IDENTITY_SCHEMA_VERSION = "0.4.0"
 REPLAY_TARGET_SCHEMA_VERSION = "0.3.0"
 ENVIRONMENT_LOCK_SCHEMA_VERSION = "0.3.0"
 
@@ -54,7 +55,11 @@ def default_rational_environment_lock() -> dict[str, Any]:
 
 
 def theorem_type_binding(identity: dict[str, Any]) -> dict[str, Any]:
-    """Binding payload for theorem type digest (elaborated + binders + env lock)."""
+    """Binding payload for theorem type digest (elaborated + binders + env lock).
+
+    Version fields supplied by an archival payload are preserved exactly. The
+    current constants are defaults only for newly constructed identities.
+    """
     return {
         "schemaVersion": identity.get("schemaVersion", THEOREM_IDENTITY_SCHEMA_VERSION),
         "serializerVersion": identity.get(
@@ -64,11 +69,11 @@ def theorem_type_binding(identity: dict[str, Any]) -> dict[str, Any]:
         "universeParams": list(identity.get("universeParams") or []),
         "binders": [
             {
-                "name": b["name"],
-                "kind": b.get("kind", "default"),
-                "typeSerialization": b["typeSerialization"],
+                "name": binder["name"],
+                "kind": binder.get("kind", "default"),
+                "typeSerialization": binder["typeSerialization"],
             }
-            for b in (identity.get("binders") or [])
+            for binder in (identity.get("binders") or [])
         ],
         "constantNames": list(identity.get("constantNames") or []),
         "environmentLockDigest": identity["environmentLockDigest"],
@@ -131,9 +136,9 @@ def replay_target_binding(target: dict[str, Any]) -> dict[str, Any]:
         },
         "requestDigest": target["requestDigest"],
     }
-    cand = target.get("candidateBundleDigest")
-    if isinstance(cand, str):
-        out["candidateBundleDigest"] = cand
+    candidate = target.get("candidateBundleDigest")
+    if isinstance(candidate, str):
+        out["candidateBundleDigest"] = candidate
     return out
 
 
