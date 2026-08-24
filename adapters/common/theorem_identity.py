@@ -1,10 +1,10 @@
 """Theorem identity, environment lock, and replay-target digests (Wave 2 / ME-RV-020).
 
-Current serializer profile: mathevidence-theorem-identity-0.4.
+Current theorem serializer profile: mathevidence-theorem-identity-0.4.
 
-New identities use closed kernel-expression binder serialization. Historical
-0.3 payloads remain recomputable because digest functions bind the version
-fields present in the payload instead of replacing them with current defaults.
+Historical theorem/environment payloads remain recomputable because binding
+functions preserve version fields and optional fields already present in each
+payload instead of silently rewriting them to current defaults.
 """
 
 from __future__ import annotations
@@ -16,6 +16,8 @@ from adapters.common.canonical import sha256_digest
 THEOREM_IDENTITY_SERIALIZER_VERSION = "mathevidence-theorem-identity-0.4"
 THEOREM_IDENTITY_SCHEMA_VERSION = "0.4.0"
 REPLAY_TARGET_SCHEMA_VERSION = "0.3.0"
+# Legacy default used by historical rational-equality vectors. Exact replay
+# constructs current 0.4 locks in adapters.common.environment_lock.
 ENVIRONMENT_LOCK_SCHEMA_VERSION = "0.3.0"
 
 RATIONAL_EQUALITY_DEFAULT_IMPORTS: tuple[str, ...] = (
@@ -26,7 +28,12 @@ RATIONAL_EQUALITY_DEFAULT_IMPORTS: tuple[str, ...] = (
 
 
 def environment_lock_binding(lock: dict[str, Any]) -> dict[str, Any]:
-    """Canonical binding payload for an environment lock (excludes self-digest)."""
+    """Canonical binding payload for an environment lock (excludes self-digest).
+
+    v0.4 exact locks additionally bind project revision, trusted Lean source-tree
+    content, and the dependency lockfile. v0.3 payloads omit those fields and
+    therefore retain their historical digest.
+    """
     out: dict[str, Any] = {
         "schemaVersion": lock.get("schemaVersion", ENVIRONMENT_LOCK_SCHEMA_VERSION),
         "leanVersion": lock["leanVersion"],
@@ -34,9 +41,17 @@ def environment_lock_binding(lock: dict[str, Any]) -> dict[str, Any]:
         "mathlibRevision": lock["mathlibRevision"],
         "imports": list(lock.get("imports") or []),
     }
-    toolchain = lock.get("toolchainDigest")
-    if isinstance(toolchain, str):
-        out["toolchainDigest"] = toolchain
+    for key in (
+        "toolchainDigest",
+        "projectSourceDigest",
+        "dependencyLockDigest",
+    ):
+        value = lock.get(key)
+        if isinstance(value, str):
+            out[key] = value
+    project_revision = lock.get("projectRevision")
+    if isinstance(project_revision, str):
+        out["projectRevision"] = project_revision
     return out
 
 
@@ -45,8 +60,9 @@ def environment_lock_digest(lock: dict[str, Any]) -> str:
 
 
 def default_rational_environment_lock() -> dict[str, Any]:
+    """Historical v0.3 rational-equality lock retained for archival vectors."""
     return {
-        "schemaVersion": ENVIRONMENT_LOCK_SCHEMA_VERSION,
+        "schemaVersion": "0.3.0",
         "leanVersion": "leanprover/lean4:v4.14.0",
         "lakeVersion": "lake",
         "mathlibRevision": "v4.14.0",
