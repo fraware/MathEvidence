@@ -86,6 +86,14 @@ root = "MathEvidence.Exe.Replay"
 name = "mathevidence-kernel-replay"
 root = "MathEvidence.Exe.KernelReplay"
 
+# Post-elaboration declaration inspector. Certification orchestration calls this
+# after compiling a generated replay module; theorem/proof identity is derived
+# from the ConstantInfo stored in a freshly imported Lean.Environment.
+[[lean_exe]]
+name = "mathevidence-declaration-identity"
+root = "MathEvidence.Exe.DeclarationIdentity"
+supportInterpreter = true
+
 [[lean_exe]]
 name = "mathevidence-axiom-report"
 root = "MathEvidence.Exe.AxiomReport"
