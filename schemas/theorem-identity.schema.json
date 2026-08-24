@@ -13,36 +13,15 @@
     "environmentLockDigest"
   ],
   "properties": {
-    "schemaVersion": {
-      "type": "string"
-    },
-    "serializerVersion": {
-      "type": "string"
-    },
-    "declarationName": {
-      "type": "string",
-      "minLength": 1
-    },
-    "theoremTypeDigest": {
-      "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
-    },
-    "proofDeclarationDigest": {
-      "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
-    },
-    "environmentLockDigest": {
-      "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
-    },
-    "elaboratedSerialization": {
-      "type": "string",
-      "description": "Optional structural snapshot used to recompute theoremTypeDigest."
-    },
-    "universeParams": {
-      "type": "array",
-      "items": { "type": "string" }
-    },
+    "schemaVersion": { "type": "string" },
+    "serializerVersion": { "type": "string" },
+    "declarationName": { "type": "string", "minLength": 1 },
+    "theoremTypeDigest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "proofDeclarationDigest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "environmentLockDigest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "environmentLock": { "$ref": "environment-lock.schema.json" },
+    "elaboratedSerialization": { "type": "string" },
+    "universeParams": { "type": "array", "items": { "type": "string" } },
     "binders": {
       "type": "array",
       "items": {
@@ -51,17 +30,12 @@
         "required": ["name", "kind", "typeSerialization"],
         "properties": {
           "name": { "type": "string" },
-          "kind": {
-            "enum": ["default", "implicit", "strictImplicit", "instImplicit"]
-          },
+          "kind": { "enum": ["default", "implicit", "strictImplicit", "instImplicit"] },
           "typeSerialization": { "type": "string" }
         }
       }
     },
-    "constantNames": {
-      "type": "array",
-      "items": { "type": "string" }
-    }
+    "constantNames": { "type": "array", "items": { "type": "string" } }
   },
   "oneOf": [
     {
@@ -74,7 +48,8 @@
       "properties": {
         "schemaVersion": { "const": "0.4.0" },
         "serializerVersion": { "const": "mathevidence-theorem-identity-0.4" }
-      }
+      },
+      "required": ["environmentLock"]
     }
   ]
 }
