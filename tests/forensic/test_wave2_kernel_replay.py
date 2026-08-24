@@ -8,10 +8,16 @@ from pathlib import Path
 
 import pytest
 
-from adapters.common.bundle import write_candidate_bundle, write_certification_record
+from adapters.common.bundle import (
+    verify_bundle_offline,
+    write_candidate_bundle,
+)
+from adapters.common.canonical import bind_request_digest
 from adapters.common.kernel_replay import (
     KERNEL_REPLAY_CODES,
+    KernelReplayError,
     axiom_policy_ok,
+    find_lake,
     parse_print_axioms,
     run_kernel_replay,
 )
@@ -32,6 +38,62 @@ def _load_example_roles() -> tuple[dict, dict, dict]:
     cand = json.loads((EXAMPLE / "candidate.cjson").read_text(encoding="utf-8"))
     cert = json.loads((EXAMPLE / "certificate.cjson").read_text(encoding="utf-8"))
     return req, cand, cert
+
+
+def _ideal_poly(m: int, coefficient: int, exponents: list[int]) -> dict:
+    return {
+        "varCount": m,
+        "terms": [{"coefficient": coefficient, "exponents": exponents}],
+    }
+
+
+def _write_exact_ideal_bundle(bundle: Path) -> None:
+    target = _ideal_poly(2, 1, [1, 1])
+    generators = [_ideal_poly(2, 1, [1, 0]), _ideal_poly(2, 1, [0, 1])]
+    request = bind_request_digest(
+        {
+            "schemaVersion": "0.1.0",
+            "capability": "algebra.ideal_membership_witness",
+            "capabilityVersion": "0.1.0",
+            "target": target,
+            "generators": generators,
+            "requestedClaim": "witness",
+        }
+    )
+    certificate = {
+        "schemaVersion": "0.1.0",
+        "capability": request["capability"],
+        "capabilityVersion": "0.1.0",
+        "requestDigest": request["requestDigest"],
+        "target": target,
+        "generators": generators,
+        "multipliers": [
+            _ideal_poly(2, 1, [0, 1]),
+            {"varCount": 2, "terms": []},
+        ],
+        "claimClass": "witness",
+        "pythonMirrorAccepts": True,
+        "provenance": {
+            "adapterVersion": "forensic",
+            "backendId": "forensic_exact_witness",
+            "backendVersion": "test",
+            "deterministic": True,
+            "generatedAt": "forensic-test",
+        },
+    }
+    candidate = {
+        "reportedOk": True,
+        "multipliers": certificate["multipliers"],
+        "backend": "forensic_exact_witness",
+    }
+    write_candidate_bundle(
+        bundle,
+        request=request,
+        candidate=candidate,
+        certificate=certificate,
+        claim_class="candidate",
+        assurance_mode="native_checked",
+    )
 
 
 def test_kernel_replay_error_codes_documented() -> None:
@@ -77,8 +139,8 @@ def test_kernel_replay_missing_bundle(tmp_path: Path) -> None:
     assert "bundle_not_found" in str(exc.value).lower() or "bundle" in str(exc.value).lower()
 
 
-def test_kernel_replay_positive_without_lean(tmp_path: Path) -> None:
-    """Without Lean success, MUST NOT emit soundness_verified (ME-RV-022)."""
+def test_generic_rational_replay_fails_closed(tmp_path: Path) -> None:
+    """OfflineFixtures are no longer generic Certification Record authority."""
     req, cand, cert = _load_example_roles()
     bundle = tmp_path / "candidate"
     write_candidate_bundle(
@@ -89,43 +151,54 @@ def test_kernel_replay_positive_without_lean(tmp_path: Path) -> None:
         claim_class="soundResult",
         assurance_mode="native_checked",
     )
-    out = tmp_path / "cert_record"
-    # Force the no-lake path by monkeypatching find_lake when needed is heavy;
-    # require_lean=False must still refuse Certified if compile fails / lake missing.
-    # If lake is present and Mathlib builds the generated module, success is OK.
-    try:
-        result = run_kernel_replay(
+    with pytest.raises(KernelReplayError) as exc:
+        run_kernel_replay(
             bundle_dir=bundle,
             repo_root=ROOT,
-            declaration_name="forensic_positive",
+            declaration_name="forensic_rational_must_not_certify",
             require_lean=False,
-            out_record_dir=out,
+            out_record_dir=tmp_path / "cert_record",
         )
-    except Exception as exc:  # noqa: BLE001
-        msg = str(exc).lower()
-        assert any(
-            k in msg
-            for k in (
-                "theorem_elaboration",
-                "kernel_rejected",
-                "lake not found",
-                "refusing soundness_verified",
-            )
-        ), msg
-        assert not (out / "manifest.cjson").is_file()
-        return
+    assert "assurance_mode_unavailable" in str(exc.value)
+    assert not (tmp_path / "cert_record" / "manifest.cjson").is_file()
+
+
+@pytest.mark.skipif(
+    find_lake(ROOT) is None,
+    reason="lake unavailable; exact theorem-producing replay requires Lean",
+)
+def test_exact_ideal_kernel_replay_uses_lean_declaration_identity(tmp_path: Path) -> None:
+    bundle = tmp_path / "candidate"
+    _write_exact_ideal_bundle(bundle)
+    out = tmp_path / "cert_record"
+    result = run_kernel_replay(
+        bundle_dir=bundle,
+        repo_root=ROOT,
+        declaration_name="forensic_exact_ideal",
+        require_lean=True,
+        out_record_dir=out,
+    )
     assert result["ok"] is True
     assert result["resultStatus"] == "soundness_verified"
-    assert result.get("leanOk") is True
-    assert (out / "manifest.cjson").is_file()
-    assert (out / "replay-target.cjson").is_file()
-    assert (out / "theorem-identity.cjson").is_file()
-    assert (out / "axiom-report.cjson").is_file()
-    # Candidate bundle must not be mutated with certification roles.
-    assert not (bundle / "theorem-identity.cjson").exists()
-    assert not (bundle / "certification-receipt.cjson").exists()
-    axiom = json.loads((out / "axiom-report.cjson").read_text(encoding="utf-8"))
-    assert axiom.get("status") == "compiled"
+    assert result["claimEstablished"] == "witness"
+    assert result["identityAuthority"] == "Lean.Environment ConstantInfo"
+    assert result["leanOk"] is True
+    assert result["theoremTypeDigest"].startswith("sha256:")
+    assert result["proofDeclarationDigest"].startswith("sha256:")
+    verify_bundle_offline(out, strict=True)
+    theorem_identity = json.loads(
+        (out / "theorem-identity.cjson").read_text(encoding="utf-8")
+    )
+    assert theorem_identity["theoremTypeDigest"] == result["theoremTypeDigest"]
+    assert theorem_identity["proofDeclarationDigest"] == result["proofDeclarationDigest"]
+    assert "OfflineFixtures" not in (
+        ROOT
+        / "MathEvidence"
+        / "Generated"
+        / "Replay"
+        / "forensic_exact_ideal.lean"
+    ).read_text(encoding="utf-8")
+
 
 def test_kernel_replay_negative_tampered_certificate(tmp_path: Path) -> None:
     req, cand, cert = _load_example_roles()
@@ -138,7 +211,6 @@ def test_kernel_replay_negative_tampered_certificate(tmp_path: Path) -> None:
         claim_class="soundResult",
         assurance_mode="native_checked",
     )
-    # Tamper certificate bytes after manifest binding.
     cert_path = bundle / "certificate.cjson"
     data = json.loads(cert_path.read_text(encoding="utf-8"))
     data["denomFactors"] = data.get("denomFactors") or []
@@ -188,7 +260,6 @@ def test_studio_certifies_only_with_agent_certification_fields() -> None:
     )
     assert allowed["allowCertified"] is True
 
-    # leanStatus alone never Certified.
     epi = epistemic_from_result_status(
         "soundness_verified", lean_status="soundness_verified"
     )
