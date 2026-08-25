@@ -158,13 +158,19 @@ def test_candidate_only_claim_cannot_be_promoted_to_theorem() -> None:
         _generate(request, certificate, name="candidate_only", digest_byte="9")
 
 
-def test_generic_rational_bundle_replay_fails_closed() -> None:
-    """A capability-selected OfflineFixture may no longer mint a generic record."""
+def test_generic_rational_bundle_replay_never_uses_offline_fixtures() -> None:
+    """Exact generator is enabled; OfflineFixtures must never mint a CR."""
     example = ROOT / "evidence" / "examples" / "rational_equality_basic"
-    with pytest.raises(KernelReplayError) as exc:
-        run_kernel_replay(
+    try:
+        result = run_kernel_replay(
             bundle_dir=example,
             repo_root=ROOT,
+            declaration_name="forensic_exact_rational_binding",
             require_lean=False,
         )
-    assert "assurance_mode_unavailable" in str(exc.value)
+    except KernelReplayError as exc:
+        assert "OfflineFixtures" not in str(exc.message)
+        return
+    assert result["ok"] is True
+    assert "OfflineFixtures" not in (result.get("detail") or "")
+    assert result.get("identityAuthority") == "Lean.Environment ConstantInfo"

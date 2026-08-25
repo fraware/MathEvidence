@@ -1,15 +1,15 @@
 """Kernel replay driver (Wave 2 / exact-candidate trust repair).
 
-The generic theorem-producing path is fail-closed. It currently supports only
-``algebra.ideal_membership_witness`` because that capability has an exact source
-generator. Other capability fixtures remain available to explicit self-tests,
-but are not accepted as Certification Record authority for arbitrary bundles.
+The generic theorem-producing path is fail-closed and registry-driven (SPEC-02).
+Exact generation goes through ``adapters.common.exact_replay`` (SPEC-03). Other
+capability OfflineFixtures remain available to explicit self-tests only and are
+never Certification Record authority for arbitrary bundles.
 
 For an exact replay this module performs:
 
-Candidate Bundle -> exact generated Lean theorem -> compile to .olean -> fresh
-Lean.Environment import -> declaration type/proof/axiom inspection -> strict
-Certification Record.
+    Candidate Bundle -> exact generated Lean theorem -> compile to .olean -> fresh
+    Lean.Environment import -> declaration type/proof/axiom inspection -> strict
+    Certification Record.
 
 Python never supplies the theorem type or proof digest written to the record.
 Generated replay files are transactional and candidate-namespaced; they are not
@@ -30,7 +30,9 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Iterator
 
+from adapters.common.bounded_process import EXECUTION_POLICY_ID, run_bounded
 from adapters.common.bundle import (
+    NA_SENTINEL,
     compute_bundle_digest,
     file_digest,
     find_role_path,
@@ -40,6 +42,8 @@ from adapters.common.bundle import (
 )
 from adapters.common.environment_lock import current_capability_environment_lock
 from adapters.common.errors import AdapterError
+from adapters.common.exact_replay.pipeline import generate_module
+from adapters.common.limits import ResourceLimits
 from adapters.common.theorem_identity import (
     THEOREM_IDENTITY_SCHEMA_VERSION,
     THEOREM_IDENTITY_SERIALIZER_VERSION,
@@ -47,6 +51,12 @@ from adapters.common.theorem_identity import (
     environment_lock_digest,
     theorem_identity_payload,
     theorem_type_digest,
+)
+from agent.api.assurance_policy import (
+    decide_exact_kernel_replay,
+    exact_binding,
+    map_claim_to_outcome,
+    outcome_allowed,
 )
 
 ALLOWED_AXIOMS_DEFAULT = (
@@ -57,8 +67,19 @@ ALLOWED_AXIOMS_DEFAULT = (
     "Lean.trustCompiler",
 )
 
-EXACT_REPLAY_CAPABILITIES = frozenset({"algebra.ideal_membership_witness"})
+# Live authority is the registry; this set tracks capabilities with exactBinding.supported.
+EXACT_REPLAY_CAPABILITIES = frozenset(
+    {
+        "algebra.ideal_membership_witness",
+        "algebra.rational_equality",
+        "algebra.linear_algebra",
+        "logic.finite_counterexample",
+        "algebra.formal_rational_calculus",
+        "analysis.analytic_calculus",
+    }
+)
 _SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
+_EXECUTION_POLICY_ID = EXECUTION_POLICY_ID
 
 
 def _load_script(filename: str, module_name: str) -> Any:
@@ -78,24 +99,31 @@ def _generate_from_target(target: dict[str, Any]) -> str:
     ).generate_from_target(target)
 
 
-def _generate_exact_ideal(
+def _generate_exact_source(
     *,
+    capability_id: str,
     module_name: str,
     declaration_name: str,
     request: dict[str, Any],
     certificate: dict[str, Any],
     candidate_bundle_digest: str,
-) -> str:
-    mod = _load_script(
-        "generate_exact_ideal_replay_module.py", "generate_exact_ideal_replay_module"
-    )
-    return mod.generate_exact_ideal_membership_module(
-        module_name=module_name,
-        declaration_name=declaration_name,
+) -> tuple[str, dict[str, str]]:
+    """Render via SPEC-03 framework; return source text + generator metadata."""
+    module = generate_module(
+        capability_id=capability_id,
         request=request,
         certificate=certificate,
         candidate_bundle_digest=candidate_bundle_digest,
+        module_name=module_name,
+        declaration_name=declaration_name,
     )
+    meta = {
+        "generatorId": module.generator_id,
+        "generatorVersion": module.generator_version,
+        "grammarVersion": module.grammar_version,
+        "generatedSourceHash": module.source_hash,
+    }
+    return module.source_text, meta
 
 
 KERNEL_REPLAY_CODES = frozenset(
@@ -215,8 +243,23 @@ def build_structural_theorem_type(
 
 
 def _capability_replay_profile(request: dict[str, Any]) -> dict[str, Any]:
-    """Historical fixture/profile metadata plus exact capability defaults."""
-    cap = str(request.get("capability") or "algebra.rational_equality")
+    """Exact capability defaults for theorem-producing kernel replay.
+
+    Unknown or missing capability ids are preserved (not remapped) so
+    ``decide_exact_kernel_replay`` can fail closed on the real id.
+    """
+    raw_cap = request.get("capability")
+    cap = str(raw_cap) if isinstance(raw_cap, str) and raw_cap else ""
+    if cap == "algebra.rational_equality":
+        return {
+            "capability_id": cap,
+            "claim_class": "soundResult",
+            "checker_package": "MathEvidence.Checkers.RationalEquality",
+            "checker_module": "MathEvidence.Checkers.RationalEquality.ReplaySound",
+            "soundness_theorem": "replaySound",
+            "declaration_default": "certified_rational_replay",
+            "fixture": "basic_sympy",
+        }
     if cap == "algebra.linear_algebra":
         op = str(request.get("operation") or "inverse_witness")
         fixture = {
@@ -253,12 +296,14 @@ def _capability_replay_profile(request: dict[str, Any]) -> dict[str, Any]:
             "fixture": fixture,
         }
     if cap == "analysis.analytic_calculus":
+        # Exact generators invoke Soundness.checkDeriv*_sound / checkODE_sound,
+        # not OfflineFixtures.replaySound (fixture-only packaging).
         return {
             "capability_id": cap,
             "claim_class": "soundResult",
             "checker_package": "MathEvidence.Checkers.AnalyticCalculus",
-            "checker_module": "MathEvidence.Checkers.AnalyticCalculus.ReplaySound",
-            "soundness_theorem": "replaySound",
+            "checker_module": "MathEvidence.Checkers.AnalyticCalculus.Soundness",
+            "soundness_theorem": "checkDeriv_sound",
             "declaration_default": "certified_analytic_replay_product",
             "fixture": "cert_product",
         }
@@ -274,23 +319,25 @@ def _capability_replay_profile(request: dict[str, Any]) -> dict[str, Any]:
             "fixture": None,
         }
     if cap == "algebra.formal_rational_calculus":
+        requested = str(request.get("requestedClaim") or "soundResult")
         return {
             "capability_id": cap,
-            "claim_class": "candidate",
+            "claim_class": requested if requested in {"witness", "soundResult"} else "candidate",
             "checker_package": "MathEvidence.Checkers.Calculus",
-            "checker_module": "",
-            "soundness_theorem": "",
+            "checker_module": "MathEvidence.Checkers.Calculus.ReplaySound",
+            "soundness_theorem": "replaySound",
             "declaration_default": "certified_formal_rational_calculus",
             "fixture": None,
         }
+    # Preserve the caller-supplied id (or empty) so policy can fail closed honestly.
     return {
-        "capability_id": "algebra.rational_equality",
-        "claim_class": "soundResult",
-        "checker_package": "MathEvidence.Checkers.RationalEquality",
-        "checker_module": "MathEvidence.Checkers.RationalEquality.ReplaySound",
-        "soundness_theorem": "replaySound",
-        "declaration_default": "certified_rational_replay",
-        "fixture": "basic_sympy",
+        "capability_id": cap or "unknown",
+        "claim_class": "candidate",
+        "checker_package": "n/a",
+        "checker_module": "n/a",
+        "soundness_theorem": "n/a",
+        "declaration_default": "unconfigured_exact_replay",
+        "fixture": None,
     }
 
 
@@ -331,23 +378,42 @@ def _source_revision(root: Path) -> str:
 def _run_process(
     command: list[str], *, root: Path, timeout: float = 600.0
 ) -> subprocess.CompletedProcess[str]:
+    """Argv-only Lake/Lean invocation with SPEC-11 bounds (no shell)."""
+    limits = ResourceLimits(
+        max_wall_time_ms=int(timeout * 1000),
+        max_output_bytes=16_777_216,
+    )
     try:
-        return subprocess.run(
+        result = run_bounded(
             command,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            check=False,
-            cwd=str(root),
-            shell=False,
+            cwd=root,
+            limits=limits,
+            # Preserve host toolchain env for Lake/elan; still argv-only, no shell.
+            # Offline proxy/credential stripping remains in filter_environ for
+            # callers that opt into use_env_allowlist=True (SPEC-09/11 tests).
+            use_env_allowlist=False,
+            extra_env={"MATHEVIDENCE_OFFLINE": os.environ.get("MATHEVIDENCE_OFFLINE", "1")},
         )
-    except subprocess.TimeoutExpired as exc:
-        raise _kr_error(
-            "resource_limit_exceeded",
-            f"command exceeded {timeout}s wall timeout",
-            command=command[:3],
-        ) from exc
-
+    except AdapterError as exc:
+        if exc.code == "resource_limit_exceeded":
+            raise _kr_error(
+                "resource_limit_exceeded",
+                exc.message,
+                **(exc.details or {}),
+            ) from exc
+        if exc.code == "replay_dependency_missing":
+            raise _kr_error(
+                "replay_dependency_missing",
+                exc.message,
+                **(exc.details or {}),
+            ) from exc
+        raise _kr_error("kernel_rejected", exc.message, **(exc.details or {})) from exc
+    return subprocess.CompletedProcess(
+        args=command,
+        returncode=result.returncode,
+        stdout=result.stdout,
+        stderr=result.stderr,
+    )
 
 @contextmanager
 def _module_lock(root: Path, module_name: str, timeout: float = 600.0) -> Iterator[None]:
@@ -414,8 +480,14 @@ def _compile_and_inspect(
 ) -> tuple[dict[str, Any], str, str]:
     module_parts = module_name.split(".")
     source_path = root.joinpath(*module_parts).with_suffix(".lean")
-    olean_path = root / ".lake" / "build" / "lib" / "lean"
-    olean_path = olean_path.joinpath(*module_parts).with_suffix(".olean")
+    # Lake places package oleans under ``.lake/build/lib/<Module>/…`` (same root
+    # as MathEvidence.*). Never use a ``lean/`` subdirectory here: on
+    # case-insensitive filesystems that path shadows the toolchain ``Lean``
+    # module in ``LEAN_PATH`` and makes ``lake env lean`` fail with missing
+    # ``Lean.olean``.
+    olean_path = (root / ".lake" / "build" / "lib").joinpath(*module_parts).with_suffix(
+        ".olean"
+    )
     source_path.parent.mkdir(parents=True, exist_ok=True)
     olean_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -456,7 +528,9 @@ def _compile_and_inspect(
                     str(lake),
                     "exe",
                     "mathevidence-declaration-identity",
-                    "--",
+                    # Lake 5 / Lean 4.14 forwards a bare ``--`` into the exe argv.
+                    # DeclarationIdentity treats unknown flags as fatal (exit 2),
+                    # so pass program flags directly after the exe name.
                     "--module",
                     module_name,
                     "--declaration",
@@ -524,11 +598,11 @@ def run_kernel_replay(
 
     profile = _capability_replay_profile(request)
     capability_id = str(profile["capability_id"])
-    if capability_id not in EXACT_REPLAY_CAPABILITIES:
+    decision = decide_exact_kernel_replay(capability_id)
+    if not decision.ok:
         raise _kr_error(
-            "assurance_mode_unavailable",
-            "generic Certification Record replay is disabled for this capability until "
-            "an exact-candidate generator replaces OfflineFixtures substitution",
+            decision.code or "assurance_mode_unavailable",
+            decision.message,
             capability=capability_id,
             historicalFixture=profile.get("fixture"),
         )
@@ -542,7 +616,7 @@ def run_kernel_replay(
         raise _kr_error("manifest_invalid", "candidate bundleDigest missing or non-canonical")
 
     claim_class = str(profile["claim_class"])
-    if claim_class not in {"witness", "soundResult"}:
+    if claim_class not in {"witness", "soundResult", "refutation"}:
         raise _kr_error(
             "assurance_mode_unavailable",
             f"requested claim {claim_class!r} is not theorem-producing for {capability_id}",
@@ -552,7 +626,8 @@ def run_kernel_replay(
     decl = _candidate_declaration(base_declaration, candidate_digest)
     module_name = f"MathEvidence.Generated.Replay.{decl}"
     try:
-        source_text = _generate_exact_ideal(
+        source_text, generator_meta = _generate_exact_source(
+            capability_id=capability_id,
             module_name=module_name,
             declaration_name=decl,
             request=request,
@@ -561,6 +636,16 @@ def run_kernel_replay(
         )
     except Exception as exc:  # noqa: BLE001
         raise _kr_error("certificate_decode_failed", str(exc)) from exc
+    binding = exact_binding(decision.policy)
+    for key in ("generatorId", "generatorVersion", "grammarVersion"):
+        expected = binding.get(key)
+        if isinstance(expected, str) and generator_meta.get(key) != expected:
+            raise _kr_error(
+                "assurance_mode_unavailable",
+                f"generated {key} disagrees with registry exactBinding",
+                expected=expected,
+                actual=generator_meta.get(key),
+            )
 
     try:
         lock = current_capability_environment_lock(root, capability_id)
@@ -683,8 +768,14 @@ def run_kernel_replay(
     certificate_path = find_role_path(path, "certificate")
     if certificate_path is None:
         raise _kr_error("certificate_decode_failed", "candidate has no certificate role")
+    outcome = map_claim_to_outcome(claim_class=claim_class, claim_established=claim_class)
+    if outcome in {"proved", "refuted"} and not outcome_allowed(capability_id, outcome):
+        raise _kr_error(
+            "assurance_mode_unavailable",
+            f"outcome {outcome!r} is not in registry allowedOutcomes for {capability_id}",
+        )
     certification_receipt = {
-        "schemaVersion": "0.3.0",
+        "schemaVersion": "0.4.0",
         "requestDigest": request_digest,
         "candidateBundleDigest": candidate_digest,
         "certificateContentDigest": file_digest(certificate_path),
@@ -698,6 +789,7 @@ def run_kernel_replay(
         "claimEstablished": claim_class,
         "assuranceMode": "kernel_replay",
         "resultStatus": "soundness_verified",
+        "outcome": outcome,
         "theoremTypeDigest": type_dig,
         "proofDeclarationDigest": proof_digest,
         "environmentLockDigest": lock_digest,
@@ -707,6 +799,24 @@ def run_kernel_replay(
             "lakeVersion": lock["lakeVersion"],
             "mathlibVersion": lock["mathlibRevision"],
         },
+        "canonicalClaimHash": request_digest,
+        "candidateHash": candidate_digest,
+        "generatorId": generator_meta["generatorId"],
+        "generatorVersion": generator_meta["generatorVersion"],
+        "grammarVersion": generator_meta["grammarVersion"],
+        "generatedSourceHash": generator_meta["generatedSourceHash"],
+        "theoremOrDeclarationIdentity": decl,
+        "toolchainContractDigest": lock_digest,
+        "dependencyLockDigest": lock_digest,
+        "artifactHashes": {
+            "certificate.cjson": file_digest(certificate_path),
+            "theoremTypeDigest": type_dig,
+            "proofDeclarationDigest": proof_digest,
+            "generatedSourceHash": generator_meta["generatedSourceHash"],
+        },
+        "replayManifestHash": NA_SENTINEL,
+        "executionPolicyId": _EXECUTION_POLICY_ID,
+        "assuranceTier": "exact",
         "detail": "theorem/proof identity emitted by mathevidence-declaration-identity",
     }
 

@@ -139,8 +139,8 @@ def test_kernel_replay_missing_bundle(tmp_path: Path) -> None:
     assert "bundle_not_found" in str(exc.value).lower() or "bundle" in str(exc.value).lower()
 
 
-def test_generic_rational_replay_fails_closed(tmp_path: Path) -> None:
-    """OfflineFixtures are no longer generic Certification Record authority."""
+def test_generic_rational_replay_never_uses_offline_fixtures(tmp_path: Path) -> None:
+    """Exact binding enabled; OfflineFixtures are still not Certification Record authority."""
     req, cand, cert = _load_example_roles()
     bundle = tmp_path / "candidate"
     write_candidate_bundle(
@@ -151,16 +151,22 @@ def test_generic_rational_replay_fails_closed(tmp_path: Path) -> None:
         claim_class="soundResult",
         assurance_mode="native_checked",
     )
-    with pytest.raises(KernelReplayError) as exc:
-        run_kernel_replay(
+    try:
+        result = run_kernel_replay(
             bundle_dir=bundle,
             repo_root=ROOT,
-            declaration_name="forensic_rational_must_not_certify",
+            declaration_name="forensic_rational_exact",
             require_lean=False,
             out_record_dir=tmp_path / "cert_record",
         )
-    assert "assurance_mode_unavailable" in str(exc.value)
-    assert not (tmp_path / "cert_record" / "manifest.cjson").is_file()
+    except KernelReplayError as exc:
+        assert "OfflineFixtures" not in str(exc.message)
+        assert not (tmp_path / "cert_record" / "manifest.cjson").is_file()
+        return
+    assert result["ok"] is True
+    assert "OfflineFixtures" not in (result.get("detail") or "")
+    assert result.get("identityAuthority") == "Lean.Environment ConstantInfo"
+    assert (tmp_path / "cert_record" / "manifest.cjson").is_file()
 
 
 @pytest.mark.skipif(
@@ -203,7 +209,6 @@ def test_exact_ideal_kernel_replay_uses_lean_declaration_identity(tmp_path: Path
         / ".lake"
         / "build"
         / "lib"
-        / "lean"
         / "MathEvidence"
         / "Generated"
         / "Replay"
