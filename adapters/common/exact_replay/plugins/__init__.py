@@ -1,4 +1,4 @@
-﻿"""Built-in exact replay plugins."""
+"""Built-in exact replay plugins."""
 
 from __future__ import annotations
 
