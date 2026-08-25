@@ -43,12 +43,16 @@ that payload therefore cannot be reassigned to an adjacent structural field.
 def serializeStringAtom (s : String) : String :=
   s!"{s.length}:{s}"
 
-/-- Structural serialization of kernel `Name` constructors. -/
+/-- Structural serialization of kernel `Name` constructors.
+
+`prefix` is a Lean keyword (notation commands), so the parent `Name` binder
+cannot use that identifier.
+-/
 partial def serializeName : Name → String
   | .anonymous => "(nameAnon)"
-  | .str prefix value =>
-      s!"(nameStr {serializeName prefix} {serializeStringAtom value})"
-  | .num prefix value => s!"(nameNum {serializeName prefix} {value})"
+  | .str pre value =>
+      s!"(nameStr {serializeName pre} {serializeStringAtom value})"
+  | .num pre value => s!"(nameNum {serializeName pre} {value})"
 
 /-- Structural Level serialization (kernel constructors). -/
 partial def serializeLevel : Level → String

@@ -38,6 +38,7 @@ import MathEvidence.Checkers.Calculus.Certificate
 import MathEvidence.Checkers.Calculus.Check
 import MathEvidence.Checkers.Calculus.Soundness
 import MathEvidence.Checkers.Calculus.Replay
+import MathEvidence.Checkers.Calculus.ReplaySound
 import MathEvidence.Checkers.Calculus.Tests
 import MathEvidence.Checkers.IdealMembership.Spec
 import MathEvidence.Checkers.IdealMembership.Certificate
@@ -56,6 +57,7 @@ import MathEvidence.Checkers.AnalyticCalculus.Spec
 import MathEvidence.Checkers.AnalyticCalculus.Certificate
 import MathEvidence.Checkers.AnalyticCalculus.Check
 import MathEvidence.Checkers.AnalyticCalculus.Soundness
+import MathEvidence.Checkers.AnalyticCalculus.ReplaySound
 import MathEvidence.Checkers.AnalyticCalculus.Wire
 import MathEvidence.Checkers.AnalyticCalculus.Tests
 import MathEvidence.Checkers.AnalyticCalculus.OfflineFixtures
