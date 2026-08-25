@@ -1,4 +1,4 @@
-"""Offline exact-replay release bundle (SPEC-09).
+"""Offline exact-replay release bundle.
 
 A self-contained package that can be replayed after dependency materialization
 with network disabled. Absolute local paths are never semantic fields.
@@ -93,7 +93,7 @@ def _offline_error(
     details: dict[str, Any] | None = None,
     **extra: Any,
 ) -> AdapterError:
-    """Map SPEC-09 failure codes onto the stable AdapterError vocabulary."""
+    """Map offline-bundle failure codes onto the stable AdapterError vocabulary."""
     aliases = {
         "environment_mismatch": "assurance_mode_unavailable",
         "goal_claim_mismatch": "goal_mismatch",
@@ -210,7 +210,7 @@ def build_offline_exact_bundle(
     repo_root: Path | str | None = None,
     certification_receipt: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Materialize a SPEC-09 release-grade offline exact-replay bundle."""
+    """Materialize a release-grade offline exact-replay bundle."""
     root = Path(repo_root or Path(__file__).resolve().parents[3]).resolve()
     out = Path(bundle_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -769,7 +769,7 @@ def both_modes_agree(
     check_live_toolchain: bool = True,
     require_lean: bool = False,
 ) -> tuple[OfflineReplayResult, OfflineReplayResult]:
-    """Run both SPEC-09 modes; callers assert equal logical outcomes."""
+    """Run both offline modes; callers assert equal logical outcomes."""
     a = replay_offline_exact_bundle(
         bundle_dir,
         mode="regenerate-and-verify",
@@ -791,7 +791,7 @@ def mutate_bundle_for_tamper(
     *,
     case: str,
 ) -> None:
-    """Apply a single SPEC-09 tamper mutation in-place (test helper)."""
+    """Apply a single offline-bundle tamper mutation in-place (test helper)."""
     manifest_path = bundle_dir / "exact-replay-manifest.cjson"
     manifest = _load_json(manifest_path)
 

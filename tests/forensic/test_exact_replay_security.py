@@ -1,4 +1,4 @@
-"""SPEC-11 generated-replay adversarial security coverage (no Lake required)."""
+"""Generated-replay adversarial security coverage (no Lake required)."""
 
 from __future__ import annotations
 

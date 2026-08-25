@@ -70,7 +70,7 @@ It is **not**:
 | --- | --- |
 | Request binding / offline digest recompute | Engineering fixes present; guarded by `tests/forensic/` |
 | Bundle verification (Wave 0) | `mathevidence-verify-bundle` emits `native_checked` / `checker_accepted` only — **not** theorem Certified |
-| Kernel replay (Wave 2) | **PR #53 + Phases 0–4:** theorem CR path is fail-closed except registry `crEligible` capabilities with exact generators (ideal, rational equality, LA, CEX `refuted`, formal/analytic calculus). Rational/analytic OfflineFixtures `--self-test` executables remain **protocol fixtures only**, not Certification Record authority. Windows **required** path is `scripts/link_exe_via_rsp.py`; degrade with `replay_dependency_missing` — never fake Certified (see `KERNEL_REPLAY_PLATFORM.md`) |
+| Kernel replay (Wave 2) | **PR #53 + exact binding:** theorem CR path is fail-closed except registry `crEligible` capabilities with exact generators (ideal, rational equality, LA, CEX `refuted`, formal/analytic calculus). Rational/analytic OfflineFixtures `--self-test` executables remain **protocol fixtures only**, not Certification Record authority. Windows **required** path is `scripts/link_exe_via_rsp.py`; degrade with `replay_dependency_missing` — never fake Certified (see `KERNEL_REPLAY_PLATFORM.md`) |
 | Rational tactic (ME-RV-023) | Fixtures + live elaborated `eq_of_replaySound` Bridge close (`Tactic/Examples.olean` non-fixture + adversarial); not independent `field_simp; ring` |
 | Linear algebra det scale | **Historical:** general-n Bridge MET at the 2026-07-26 audit. Practical `n` bounded by intentional `IR/MatrixExpr.defaultSizeLimit` (64 entries) + Laplace cost — resource policy, not a missing proof. **Current:** exact-candidate generator + CR-eligible after Lean E2E for all four ops |
 | Agent API | **v0.1.0**; open/inspect/replay by opaque **`bundleId` only** (no public path API) |
@@ -121,7 +121,7 @@ promotion evidence.
 
 | Doc | Role |
 | --- | --- |
-| [`HANDOFF.md`](HANDOFF.md) | SPEC-12 engineering handoff / operational runbook |
+| [`HANDOFF.md`](HANDOFF.md) | Engineering handoff / operational runbook |
 | [`adr/0005-exact-candidate-binding.md`](adr/0005-exact-candidate-binding.md) | Exact-candidate-binding invariant (PR #53) |
 | [`validation/handoff-2026-08-25-delta.md`](validation/handoff-2026-08-25-delta.md) | Workspace SHA vs handoff pin + Lean CI diagnostic |
 | [`../registry/maturity-inventory.json`](../registry/maturity-inventory.json) | Machine-readable capability maturity / CR eligibility |

@@ -35,7 +35,7 @@ permissions:
   contents: read
 
 jobs:
-  # SPEC-10: mathematical/task benchmark behavior (not assurance policy).
+  # Mathematical/task benchmark behavior (not assurance policy).
   benchmark-task-suite:
     runs-on: ubuntu-latest
     steps:
@@ -128,7 +128,7 @@ jobs:
       - name: Build exact replay dependencies
         run: |
           set -euo pipefail
-          echo "::notice title=ideal-release-grade setup::Lake build of exact-replay deps. Failure here is setup/replay (SPEC-01), not benchmark scoring."
+          echo "::notice title=ideal-release-grade setup::Lake build of exact-replay deps. Failure here is setup/replay, not benchmark scoring."
           lake build MathEvidenceCheckers mathevidence-declaration-identity
 
       - name: Ideal membership release-grade (exact Certification Record)

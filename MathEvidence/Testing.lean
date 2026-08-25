@@ -9,5 +9,5 @@ import MathEvidence.Testing.Basic
 
 Reusable generators, adversarial fixtures, and conformance assertions.
 
-Phase 0: package stub. Production packages MUST NOT depend on heavy testing utilities.
+Package stub. Production packages MUST NOT depend on heavy testing utilities.
 -/

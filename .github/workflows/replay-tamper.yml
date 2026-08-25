@@ -1,4 +1,4 @@
-# SPEC-10: SPEC-09 tamper matrix for offline exact-replay bundles (no Lake).
+# Tamper matrix for offline exact-replay bundles (no Lake).
 name: replay-tamper
 
 on:

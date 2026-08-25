@@ -1,22 +1,22 @@
-# SPEC-00 delta — handoff 2026-08-25 vs live workspace
+# Exact-certification baseline delta — 2026-08-25 vs live workspace
 
-Handoff pin: `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` (PR #53,
+Baseline pin: `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` (PR #53,
 `fix/exact-certification-binding`, assessed 2026-08-25).
 
 This file records whether implementation began from that pin, what changed in
 CI, and the reproduced Lean exact-replay diagnostic. It does not rewrite dated
-audit evidence.
+audit evidence. For the dated handoff package archive, see
+[`MathEvidence_Engineering_Handoff_2026-08-25/`](../../MathEvidence_Engineering_Handoff_2026-08-25/).
 
 ## Workspace vs pin
 
 | Item | Value |
 | --- | --- |
-| Working branch (Phase 0 start) | `phase0/exact-certification-baseline` (from `origin/fix/exact-certification-binding`) |
-| Current working branch | `phase4/exact-certification-handoff` (Phases 0–4 + E2E; do **not** rebase onto `main`) |
-| HEAD at Phase 0 start / pin | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` |
-| Pin | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` |
-| SHA delta vs pin | none — HEAD **is** the pin; Phases 0–4 work is largely **uncommitted** on top |
-| Current `main` | `6d87c4d` (fixture substitution still present; **not** used) |
+| Baseline branch at assessment | `phase0/exact-certification-baseline` (from `origin/fix/exact-certification-binding`) |
+| Current working branch | `phase4/exact-certification-handoff` |
+| Pin (PR #53 head at assessment) | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` |
+| Relation to pin | Branch commits build on the pin (assurance registry, exact replay, CR v0.4, offline bundle, CI split) |
+| Current `main` | Fixture substitution still present; **not** used as this workstream baseline |
 
 The PR conversation mentioned synchronize SHA `7665010699728319eae48329550e63e31923c9cb`.
 That commit is an **ancestor** of the pin (`Build declaration identity authority in Lean CI`),
@@ -118,7 +118,7 @@ Forbidden non-fixes were not used: generated modules were not skipped, theorems
 were not weakened, sorry/axiom/import/declaration audits were not disabled, and
 exact replay was not converted back to fixture replay.
 
-## Local verification (Phase 0)
+## Local verification (baseline + Lean compile fixes)
 
 | Command | Result |
 | --- | --- |
@@ -131,9 +131,9 @@ exact replay was not converted back to fixture replay.
 | `lake build MathEvidence.Checkers.RationalEquality.OfflineFixtures MathEvidence.Tactic.Examples` | success (offline-replay Lean leg) |
 | `lake build MathEvidenceCheckers mathevidence-declaration-identity` | success (ideal-release-grade prerequisite) |
 
-## Post Phase-4 Lake E2E repair (release ladder)
+## Lake E2E repair (release ladder)
 
-Additional root causes found and fixed on the same pin (uncommitted program work):
+Additional root causes found and fixed on top of the pin:
 
 1. **Windows `Lean.olean` shadow:** `kernel_replay._compile_and_inspect` wrote oleans under
    `.lake/build/lib/lean/...`. On case-insensitive Windows that directory shadows the
@@ -156,9 +156,9 @@ defaults to `theorem_pending`; with `MATHEVIDENCE_OFFLINE_LEAN=1` /
 declaration-identity inspect (still not a CR mint). Online `kernel_replay`
 remains the primary promotion path.
 
-## Final polish pass (post Phase-4)
+## Fail-closed / honesty hardening
 
-Additional fail-closed / honesty hardening on the same pin (still uncommitted):
+Additional hardening on the same workstream:
 
 - Receipt polarity hard-equals claim mapping; registry `allowedOutcomes` enforced
   for `proved`/`refuted`
@@ -170,9 +170,10 @@ Additional fail-closed / honesty hardening on the same pin (still uncommitted):
 - Kernel profile no longer remaps unknown capabilities to rational equality
 - STATUS / HANDOFF / ADR 0005 / this delta aligned on CR v0.4 and eligibility
 
-## Phase 0 code delta relative to the pin
+## Code delta relative to the pin
 
-Phase 0 adds the SPEC-00 inventory/ADR/status rebaseline and the Lean compile
-fixes required for SPEC-01. Generated replay remains argv-only `lake env lean`
-(SPEC-11 slice unchanged). Later phases + the E2E repair above extend exact
-generators and enable CR only where ladders are green.
+Relative to the pin, this workstream adds the maturity inventory / ADR / status
+rebaseline, Lean compile fixes required for exact-replay CI, typed exact-replay
+generators, Certification Record v0.4 fields, offline release bundles, and
+argv-only bounded `lake env lean` execution. CR eligibility is enabled only
+where ladders are green.

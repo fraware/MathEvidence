@@ -1,4 +1,4 @@
-"""SPEC-02 assurance policy registry and fail-closed differential tests."""
+"""Assurance policy registry and fail-closed differential tests."""
 
 from __future__ import annotations
 

@@ -97,5 +97,5 @@ Partial notes, internal demos, and CI green builds do **not** count.
 | Capability JSON `stable` | **not applied** (see `stable-capability-checklist.md`) |
 
 Outreach is intentionally outside the engineering skeleton. Filling this log is
-required to close Milestone 0 product validation even after Phase 0 toolchain
+required to close Milestone 0 product validation even after the initial toolchain
 gates pass.

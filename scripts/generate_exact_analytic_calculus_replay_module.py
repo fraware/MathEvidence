@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thin SPEC-07 Track B wrapper around the exact analytic calculus plugin."""
+"""Thin wrapper around the exact analytic calculus plugin."""
 
 from __future__ import annotations
 

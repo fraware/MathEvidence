@@ -11,9 +11,9 @@ namespace MathEvidence.IR.RationalExpr
 /-!
 # Reification
 
-Phase 1 provides an explicit, kernel-checkable correspondence between named
+Provides an explicit, kernel-checkable correspondence between named
 rational terms and `Expr` syntax. Meta-level reification from arbitrary Lean
-Expr trees is owned by `MathEvidence.Tactic` (Phase 1H) and MUST reuse these
+Expr trees is owned by `MathEvidence.Tactic` and MUST reuse these
 definitions.
 -/
 

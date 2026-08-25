@@ -130,12 +130,12 @@ def _validate_federation(data: dict, path: Path) -> None:
 
 
 def _validate_assurance_policy(data: dict, path: Path, store: SchemaStore) -> None:
-    """SPEC-02: assurancePolicy is required authority for fail-closed exact replay."""
+    """assurancePolicy is required authority for fail-closed exact replay."""
     from agent.api.assurance_policy import validate_assurance_policy_object
 
     policy = data.get("assurancePolicy")
     if policy is None:
-        raise ValueError(f"{path.name}: missing required assurancePolicy (SPEC-02)")
+        raise ValueError(f"{path.name}: missing required assurancePolicy")
     if not isinstance(policy, dict):
         raise ValueError(f"{path.name}: assurancePolicy must be an object")
     store.validate("assurance-policy.schema.json", policy)
@@ -271,7 +271,7 @@ def main() -> int:
 
 
 def _run_maturity_inventory() -> int:
-    """SPEC-00: inventory + STATUS.md must agree; cr_eligible cannot outrun exact binding."""
+    """Inventory + STATUS.md must agree; cr_eligible cannot outrun exact binding."""
     path = ROOT / "scripts" / "validate_maturity_inventory.py"
     spec = importlib.util.spec_from_file_location(
         "mathevidence_validate_maturity_inventory", path

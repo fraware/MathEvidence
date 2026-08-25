@@ -1,4 +1,4 @@
-# LeanLink Adapter Design Review (Phase 0)
+# LeanLink Adapter Design Review
 
 Review target: Mathematica adapter via LeanLink (`adapters/mathematica`), per
 `docs/security/SECURITY_AND_TRUST_MODEL.md` §7 and ADR 0003 (JSON-RPC over stdio).
@@ -60,13 +60,13 @@ garbage evidence; it must not create Lean declarations in a trusted environment.
 
 Errors use Project Spec stable codes (semantic / backend / evidence / system).
 
-## Design decisions locked for Phase 1
+## Design decisions locked for implementation
 
 1. Same evidence contract as SymPy for rational equality (RFC 0001).
 2. Discovery may be self-hosted / optional in CI; replay is mandatory publicly.
 3. Paclet layered on LeanLink; no unique Studio semantics inside the adapter.
 
-## Open items (track into Phase 1G / 1H)
+## Open items
 
 - Exact LeanLink API surface and packaging (paclet vs Python supervisor).
 - WXF vs JSON for large certificates (binary only with versioned Lean decoder).
@@ -79,8 +79,8 @@ Errors use Project Spec stable codes (semantic / backend / evidence / system).
 
 ## Sign-off
 
-Phase 0 produces this review artifact. Implementation and fuzz harnesses are
-Phase 1; this document is the acceptance checklist for that work.
+This document is the design-review acceptance checklist for LeanLink work.
+Implementation and fuzz harnesses proceed from the decisions above.
 
 **No maintainer sign-off is claimed here.** Track execution below.
 

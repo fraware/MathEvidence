@@ -7,7 +7,7 @@ import MathEvidence.Checkers.Calculus.Soundness
 import MathEvidence.Checkers.Calculus.Spec
 
 /-!
-# Formal rational calculus kernel-replay soundness (SPEC-07 Track A)
+# Formal rational calculus kernel-replay soundness (formal/algebraic track)
 
 `replaySound` is the theorem-producing authority for formal/algebraic calculus
 identities. This is **not** analytic `HasDerivAt` / ODE semantics.

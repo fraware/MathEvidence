@@ -1,6 +1,6 @@
 """Certification Record verification and receipt coherence (Wave 1 / P0 repair).
 
-SPEC-08: Certification Record v0.4 with outcome polarity and exact-binding fields.
+Certification Record v0.4 with outcome polarity and exact-binding fields.
 Legacy v0.3 records parse under their original version and map to lower assurance;
 missing exact generator identity is never synthesized.
 """

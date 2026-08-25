@@ -1,4 +1,4 @@
-"""Exact linear-algebra plugin (SPEC-05).
+"""Exact linear-algebra plugin.
 
 Operations enabled independently via registry ``exactBinding.operations``.
 """

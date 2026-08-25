@@ -308,7 +308,7 @@
     },
     "assurancePolicy": {
       "$ref": "assurance-policy.schema.json",
-      "description": "SPEC-02 authority for theorem promotion and exact-candidate fail-closed decisions. Adapter discovery fields above are unchanged."
+      "description": "Authority for theorem promotion and exact-candidate fail-closed decisions. Adapter discovery fields above are unchanged."
     }
   }
 }

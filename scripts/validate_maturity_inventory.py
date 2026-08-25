@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the SPEC-00 assurance maturity inventory against catalog and docs.
+"""Validate the assurance maturity inventory against catalog and docs.
 
 Fails when:
 

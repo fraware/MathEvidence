@@ -195,11 +195,11 @@ def verify(
 ) -> VerificationResult:
     """Framework-level verify hook.
 
-    Lake/lean execution remains argv-only in ``kernel_replay`` (SPEC-11). This
+    Lake/lean execution remains argv-only in ``kernel_replay``. This
     function validates module metadata and optional contract digests without
     spawning processes, so plugins stay unit-testable offline.
     """
-    del toolchain_contract  # reserved for SPEC-09 offline bundle contracts
+    del toolchain_contract  # reserved for offline bundle contracts
     if not module.source_text.strip():
         return VerificationResult(ok=False, detail="empty generated source")
     if module.source_hash != _source_hash(module.source_text):

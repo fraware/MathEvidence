@@ -152,7 +152,7 @@
         "verifier": "mathevidence-declaration-identity"
       },
       "known_limitations": [
-        "SPEC-07 Track A: formal/algebraic only; not analytic HasDerivAt.",
+        "Formal/algebraic only; not analytic HasDerivAt.",
         "CR eligibility enabled after local Lean exact-replay E2E for derivative/antiderivative/recurrence/ODE with soundResult claims.",
         "Candidate-only requests remain evidence-only."
       ]
@@ -183,7 +183,7 @@
         "verifier": "mathevidence-declaration-identity"
       },
       "known_limitations": [
-        "SPEC-07 Track B whitelist only: checkDeriv_sound, checkDerivWithin_sound, checkAntideriv_sound, checkODE_sound.",
+        "Analytic calculus whitelist only: checkDeriv_sound, checkDerivWithin_sound, checkAntideriv_sound, checkODE_sound.",
         "CR eligibility enabled after local Lean exact-replay E2E for Deriv / DerivWithin / Antideriv / ODE (empty-obligation single-IC ODE).",
         "Exact ODE currently requires empty domain obligations and at most one initial condition; multi-IC / obligation-bearing ODE fail closed."
       ]

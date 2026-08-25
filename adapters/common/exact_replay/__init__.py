@@ -1,4 +1,4 @@
-"""Typed exact-candidate replay generator framework (SPEC-03).
+"""Typed exact-candidate replay generator framework.
 
 Pipeline:
 

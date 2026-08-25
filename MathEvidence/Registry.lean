@@ -9,5 +9,5 @@ import MathEvidence.Registry.Basic
 
 Lean-side capability lookup and validation of registry declarations.
 
-Phase 0: package stub. Distinguishes declared support from verified conformance.
+Phase stub: distinguishes declared support from verified conformance.
 -/

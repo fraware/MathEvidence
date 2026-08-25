@@ -1,4 +1,4 @@
-"""SPEC-09 offline exact-replay bundle + tamper matrix (no Lake required)."""
+"""Offline exact-replay bundle + tamper matrix (no Lake required)."""
 
 from __future__ import annotations
 

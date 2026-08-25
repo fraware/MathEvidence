@@ -1,17 +1,17 @@
 # MathEvidence engineering handoff
 
-Operator and onboarding runbook for the exact-candidate-binding program
-(SPEC-12). Use this document with repository-local specs alone; do not rely on
-PR discussion or maintainer memory for assurance semantics.
+Operator and onboarding runbook for exact candidate binding and theorem-level
+Certification Records. Use this document with repository-local specs alone; do
+not rely on PR discussion or maintainer memory for assurance semantics.
 
 **Related authority**
 
 | Doc | Role |
 | --- | --- |
 | [`adr/0005-exact-candidate-binding.md`](adr/0005-exact-candidate-binding.md) | Non-negotiable invariant |
-| [`validation/handoff-2026-08-25-delta.md`](validation/handoff-2026-08-25-delta.md) | SPEC-00 pin / CI delta |
-| [`../MathEvidence_Engineering_Handoff_2026-08-25/`](../MathEvidence_Engineering_Handoff_2026-08-25/) | Engineering handoff package (specs, architecture, acceptance) |
-| [`../MathEvidence_Engineering_Handoff_2026-08-25/03_ACCEPTANCE_MATRIX.md`](../MathEvidence_Engineering_Handoff_2026-08-25/03_ACCEPTANCE_MATRIX.md) | Program exit acceptance matrix |
+| [`validation/handoff-2026-08-25-delta.md`](validation/handoff-2026-08-25-delta.md) | Baseline pin / CI delta vs PR #53 |
+| [`../MathEvidence_Engineering_Handoff_2026-08-25/`](../MathEvidence_Engineering_Handoff_2026-08-25/) | Dated engineering handoff package (archive specs and architecture) |
+| [`../MathEvidence_Engineering_Handoff_2026-08-25/03_ACCEPTANCE_MATRIX.md`](../MathEvidence_Engineering_Handoff_2026-08-25/03_ACCEPTANCE_MATRIX.md) | Acceptance matrix from the dated handoff package |
 | [`../registry/maturity-inventory.json`](../registry/maturity-inventory.json) | Machine-readable maturity / `cr_eligible` |
 | [`STATUS.md`](STATUS.md) | Short public-preview status (registry-backed table) |
 
@@ -43,14 +43,14 @@ Consequences that must never be weakened in docs or code:
 | Item | Value |
 | --- | --- |
 | Upstream integration PR | [#53](https://github.com/fraware/MathEvidence/pull/53) (`fix/exact-certification-binding`) |
-| Handoff / program pin | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` |
-| Working branch | `phase4/exact-certification-handoff` (from `phase3/exact-certification-release`; do **not** rebase onto `main`) |
-| HEAD commit | `30522d70` (pin); Phases 0-4 program work is largely **uncommitted** on this branch |
-| Current `main` | Still fixture-substitution semantics — **not** this program's baseline |
+| Exact-certification baseline pin | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` |
+| Working branch | `phase4/exact-certification-handoff` (exact-certification workstream; keep history linear on this branch) |
+| Current `main` | Still fixture-substitution semantics — **not** this workstream's baseline |
 
-Phases 0-3 landed as working-tree changes on the pin (registry/assurance policy,
-typed exact_replay framework, CR v0.4, capability generators, offline bundle,
-CI dimension split, security adversarial coverage). Phase 4 is this runbook.
+This branch builds on the pin with assurance-policy registry work, the typed
+`exact_replay` framework, Certification Record v0.4, capability generators,
+offline bundles, CI dimension split, and security adversarial coverage. This
+runbook is the operator entry point.
 
 Do **not** claim theorem CR eligibility for capabilities that still have
 `crEligible=false`. Currently eligible after local Lean exact-replay E2E:
@@ -66,7 +66,7 @@ blocked. Offline theorem inspect defaults to `theorem_pending`; set
 
 ## 3. Architecture and trust boundary
 
-Adapted from the handoff package
+Adapted from the dated handoff package
 [`01_TARGET_ARCHITECTURE.md`](../MathEvidence_Engineering_Handoff_2026-08-25/01_TARGET_ARCHITECTURE.md).
 
 ### End-to-end data flow
@@ -233,7 +233,7 @@ Do not treat a partial Lake success as blanket enablement for federated or
 non-registered capabilities. Flip `crEligible` only after that capability's own
 compile/identity ladder is green.
 
-### Offline exact replay + tamper (SPEC-09; structure / regenerability)
+### Offline exact replay + tamper (structure / regenerability)
 
 ```text
 just replay-exact-offline
@@ -262,7 +262,7 @@ Local green is not promotion evidence and is not attested immutable CI green.
 
 ---
 
-## 6. CI gate map (Phase 3 split)
+## 6. CI gate map
 
 Normative workflow notes: [`.github/workflows/README.md`](../.github/workflows/README.md),
 [`TESTING_AND_CI.md`](TESTING_AND_CI.md).
@@ -278,7 +278,7 @@ Normative workflow notes: [`.github/workflows/README.md`](../.github/workflows/R
 | `ideal-release-grade` | `benchmarks.yml` | Ideal release-grade path (depends on Lake) | Setup/Lake failure is not benchmark logic failure |
 | `adapter-conformance` | `adapter-conformance.yml` | Adapter contracts | Exact binding / CR |
 | `supply-chain` | `supply-chain.yml` | Locks / vendor provenance | Assurance |
-| `lean` | `lean.yml` | Lake build + declaration-identity + audits | Must stay honest when red (SPEC-01) |
+| `lean` | `lean.yml` | Lake build + declaration-identity + audits | Must stay honest when red (do not skip Lean failures) |
 | Also | `adversarial.yml`, `release.yml`, `uv-lock.yml` | Seeded adversarial / release / lock | CR promotion |
 
 Triage: if `benchmark-task-suite` is green but `assurance-exact-replay` or
@@ -364,7 +364,7 @@ Rules:
 
 ## 9. Exact replay generation / offline lifecycle
 
-### Generator framework (SPEC-03)
+### Generator framework
 
 Package: [`adapters/common/exact_replay/`](../adapters/common/exact_replay/).
 
@@ -381,7 +381,7 @@ Plugins register per capability (ideal, rational equality, LA, CEX, formal /
 analytic calculus). Scripts under `scripts/generate_exact_*_replay_module.py`
 are thin entrypoints. Typed IR constructors only — no raw caller Lean fragments.
 
-### Offline release bundle (SPEC-09)
+### Offline release bundle
 
 Driver: [`scripts/offline_exact_replay.py`](../scripts/offline_exact_replay.py).
 
@@ -429,12 +429,12 @@ Lake E2E or CR minting is authorized (except where `cr_eligible` is true).
 
 | Limitation | Status |
 | --- | --- |
-| Lake / Lean exact-replay CI (SPEC-01) | Local lean.yml targets + exact E2E green for all six owned exact-bound capabilities after olean-path / declaration-identity argv / renderer / Checkers barrel ReplaySound imports. Remote Actions on the pin may still lag until this branch is pushed. |
+| Lake / Lean exact-replay CI | Local lean.yml targets + exact E2E green for all six owned exact-bound capabilities after olean-path / declaration-identity argv / renderer / Checkers barrel ReplaySound imports. Remote Actions may lag until this branch is fully attested on protected CI. |
 | `crEligible` | **true** for ideal, rational equality, LA (4 ops), CEX (`refuted`), formal rational calculus (4 ops), analytic calculus (Deriv/DerivWithin/Antideriv/ODE empty-obligation single-IC); federated false |
 | Analytic ODE IC constraints | Exact ODE whitelist: empty domain obligations + at most one initial condition; multi-IC / obligation-bearing ODE fail closed |
 | Offline exact theorem inspect | Defaults to `theorem_pending`; `MATHEVIDENCE_OFFLINE_LEAN=1` / `require_lean=True` can yield `theorem_proved` after identity inspect — still not a CR mint; online `kernel_replay` is promotion authority |
 | Formal vs analytic calculus | Separate IDs; formal is not `HasDerivAt` / analytic ODE |
-| Federated SAT / PB / SMT | Metadata only; never CR-eligible in this program |
+| Federated SAT / PB / SMT | Metadata only; never CR-eligible under exact binding |
 | Signing / third-party reproduction | Explicitly **deferred**; bundle format must stay usable later without hidden local state |
 | Historical `MET` / audit language | Dated records only — not current CR authority |
 | Windows Lake link | rsp path required for some exes; degrade honestly |
@@ -517,7 +517,7 @@ Registry increases of assurance are security-sensitive reviews.
 
 ---
 
-## Deferred (out of this program)
+## Deferred
 
 Independent third-party reproduction, human governance gates, and final
 release-signing / attestation policy remain deferred. Do not document them as

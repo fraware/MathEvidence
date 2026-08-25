@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://mathevidence.org/schemas/maturity-inventory-v0.json",
   "title": "MathEvidence Assurance Maturity Inventory",
-  "description": "Phase 0 (SPEC-00) machine-readable answer to: what can each adapter-exposed capability prove today, and may that result mint a Certification Record? Independent booleans are not implied by each other. cr_eligible never follows from checker or fixture existence.",
+  "description": "Machine-readable answer to: what can each adapter-exposed capability prove today, and may that result mint a Certification Record? Independent booleans are not implied by each other. cr_eligible never follows from checker or fixture existence.",
   "type": "object",
   "additionalProperties": false,
   "required": [

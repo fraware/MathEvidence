@@ -1,4 +1,4 @@
-"""Exact ideal-membership plugin (SPEC-03 migration of PR #53 generator).
+"""Exact ideal-membership plugin (migration of PR #53 generator).
 
 Mathematical obligation is unchanged: inline exact request/certificate wire
 semantics, ``replaySound``, and declaration-identity readback. No OfflineFixtures.

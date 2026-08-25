@@ -1,5 +1,5 @@
 # Dependency review, secret scan hooks, static checks, executable adversarial resource cases.
-# SPEC-10 job id: security-bounded-execution
+# Job id: security-bounded-execution
 name: security
 
 on:
@@ -86,7 +86,7 @@ jobs:
       - name: Cancel → kill isolation tests
         run: python -m pytest adapters/common/test_isolation.py -q
 
-      - name: Generated-replay security adversarial (SPEC-11)
+      - name: Generated-replay security adversarial
         run: python -m pytest tests/forensic/test_exact_replay_security.py -q
 
       # Soft-fail: Dependency graph is not enabled for this repository, so

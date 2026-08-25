@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate an exact ideal-membership Lean replay module.
 
-Thin SPEC-03 wrapper around ``adapters.common.exact_replay`` ideal plugin.
+Thin wrapper around ``adapters.common.exact_replay`` ideal plugin.
 This generator is untrusted. The generated module reconstructs the exact
 mathematical claim and witness; request identity is recomputed inside Lean
 from reconstructed wire-semantic fields before the checker can establish a

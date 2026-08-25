@@ -1,4 +1,4 @@
-"""SPEC-03 exact replay framework + ideal membership plugin tests."""
+"""Exact replay framework + ideal membership plugin tests."""
 
 from __future__ import annotations
 

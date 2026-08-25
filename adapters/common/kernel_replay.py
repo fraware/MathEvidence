@@ -1,7 +1,7 @@
 """Kernel replay driver (Wave 2 / exact-candidate trust repair).
 
-The generic theorem-producing path is fail-closed and registry-driven (SPEC-02).
-Exact generation goes through ``adapters.common.exact_replay`` (SPEC-03). Other
+The generic theorem-producing path is fail-closed and registry-driven.
+Exact generation goes through ``adapters.common.exact_replay``. Other
 capability OfflineFixtures remain available to explicit self-tests only and are
 never Certification Record authority for arbitrary bundles.
 
@@ -108,7 +108,7 @@ def _generate_exact_source(
     certificate: dict[str, Any],
     candidate_bundle_digest: str,
 ) -> tuple[str, dict[str, str]]:
-    """Render via SPEC-03 framework; return source text + generator metadata."""
+    """Render via exact_replay framework; return source text + generator metadata."""
     module = generate_module(
         capability_id=capability_id,
         request=request,
@@ -378,7 +378,7 @@ def _source_revision(root: Path) -> str:
 def _run_process(
     command: list[str], *, root: Path, timeout: float = 600.0
 ) -> subprocess.CompletedProcess[str]:
-    """Argv-only Lake/Lean invocation with SPEC-11 bounds (no shell)."""
+    """Argv-only Lake/Lean invocation with bounded execution (no shell)."""
     limits = ResourceLimits(
         max_wall_time_ms=int(timeout * 1000),
         max_output_bytes=16_777_216,
@@ -390,7 +390,7 @@ def _run_process(
             limits=limits,
             # Preserve host toolchain env for Lake/elan; still argv-only, no shell.
             # Offline proxy/credential stripping remains in filter_environ for
-            # callers that opt into use_env_allowlist=True (SPEC-09/11 tests).
+            # callers that opt into use_env_allowlist=True (offline/security tests).
             use_env_allowlist=False,
             extra_env={"MATHEVIDENCE_OFFLINE": os.environ.get("MATHEVIDENCE_OFFLINE", "1")},
         )

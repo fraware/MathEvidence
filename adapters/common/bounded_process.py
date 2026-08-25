@@ -1,4 +1,4 @@
-"""Bounded argv-only subprocess execution (SPEC-11).
+"""Bounded argv-only subprocess execution.
 
 Provides wall-clock timeout, process-group termination (POSIX ``start_new_session``
 + ``killpg``, Windows ``CREATE_NEW_PROCESS_GROUP``), output capture caps,

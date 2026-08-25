@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline exact-replay driver (SPEC-09).
+"""Offline exact-replay driver.
 
 Builds or replays an exact-certification release bundle with network disabled.
 Default replay verifies integrity + regenerability (``theorem_pending``).
@@ -209,7 +209,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     p_replay.set_defaults(func=cmd_replay)
 
-    p_tamper = sub.add_parser("tamper-selftest", help="Run SPEC-09 tamper matrix")
+    p_tamper = sub.add_parser("tamper-selftest", help="Run offline-bundle tamper matrix")
     p_tamper.add_argument("--skip-live-toolchain", action="store_true")
     p_tamper.set_defaults(func=cmd_tamper_selftest)
 

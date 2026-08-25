@@ -1,4 +1,4 @@
-"""Exact rational-equality plugin (SPEC-04)."""
+"""Exact rational-equality plugin."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Exact finite-counterexample / certified-refutation plugin (SPEC-06).
+"""Exact finite-counterexample / certified-refutation plugin.
 
 Valid witness => outcome polarity ``refuted`` (never ``proved``).
 """
@@ -176,7 +176,7 @@ def _validate_domain(domain: Any, *, what: str) -> dict[str, Any]:
         out["bound"] = bound
     else:
         out["bound"] = None
-    # Dependent bounds are out of the compact exact wire for Phase 2 fail-closed:
+    # Dependent bounds are out of the compact exact wire (fail closed):
     # schema currently only lists ty/bound; reject unexpected keys that would
     # silently drop binder terms.
     for key in domain:

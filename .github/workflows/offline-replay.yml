@@ -49,7 +49,7 @@ jobs:
           MATHEVIDENCE_ADAPTER_MODE: fixture
         run: python scripts/offline_replay_python.py
 
-      - name: Exact offline bundle structure (SPEC-09, network disabled)
+      - name: Exact offline bundle structure (network disabled)
         env:
           MATHEVIDENCE_OFFLINE: "1"
           MATHEVIDENCE_ADAPTER_MODE: fixture
@@ -68,6 +68,6 @@ jobs:
           MATHEVIDENCE_ADAPTER_MODE: fixture
         run: |
           set -euo pipefail
-          echo "::notice title=offline-replay Lean leg::Failure here is setup/Lean build (SPEC-01), not Python exact-bundle integrity."
+          echo "::notice title=offline-replay Lean leg::Failure here is setup/Lean build, not Python exact-bundle integrity."
           lake build MathEvidence.Checkers.RationalEquality.OfflineFixtures
           lake build MathEvidence.Tactic.Examples

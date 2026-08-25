@@ -1,4 +1,4 @@
-# SPEC-10: exact-candidate binding / regenerability (no Lake theorem minting).
+# Exact-candidate binding / regenerability (no Lake theorem minting).
 name: assurance-exact-replay
 
 on:
@@ -50,4 +50,4 @@ jobs:
 
       - name: Note Lake E2E status
         run: |
-          echo "::notice title=assurance-exact-replay::Python exact-binding gate green. Lean theorem E2E remains gated by lean.yml / SPEC-01; crEligible stays false until offline+tamper+E2E prove a capability."
+          echo "::notice title=assurance-exact-replay::Python exact-binding gate green. Lean theorem E2E remains gated by lean.yml; crEligible stays false until offline+tamper+E2E prove a capability."

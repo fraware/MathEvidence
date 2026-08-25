@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted (PR #53 / exact-candidate-binding program).
+Accepted (PR #53 / exact-candidate-binding workstream).
 
 ## Decision
 
@@ -36,20 +36,20 @@ Historical `MET` labels in dated audits and older status snapshots remain
 historical engineering-artifact records. They are not current theorem-level
 authority.
 
-## Policy at this decision (updated post Phase 0–4)
+## Policy at this decision
 
 At ADR acceptance (PR #53 pin), catalog capabilities started with
 `cr_eligible=false`. Ideal membership already claimed exact-candidate binding
 (`exactBinding.supported=true`) while promotion stayed blocked pending Lean
 exact-replay CI.
 
-**Current registry (Phases 0–4 + local Lean E2E on the pin):** owned exact-bound
-capabilities may set `cr_eligible=true` only after generator, declaration-identity,
-offline regenerability, and tamper gates — never from checker-only changes.
-Live `cr_eligible` / `allowedOutcomes` live in
+**Current registry (after exact-replay generators + local Lean E2E on the pin):**
+owned exact-bound capabilities may set `cr_eligible=true` only after generator,
+declaration-identity, offline regenerability, and tamper gates — never from
+checker-only changes. Live `cr_eligible` / `allowedOutcomes` live in
 [`registry/maturity-inventory.json`](../../registry/maturity-inventory.json) and
 each capability's `assurancePolicy`. Federated SAT / PB / SMT remain metadata
-only and are never CR-eligible in this program.
+only and are never CR-eligible under exact binding.
 
 Do not read this ADR's historical "all false" snapshot as current status.
 
@@ -57,5 +57,5 @@ Do not read this ADR's historical "all false" snapshot as current status.
 
 Revisit a capability's `cr_eligible` bit only after that capability has an exact
 generator, declaration-identity verification, offline replay, and tamper tests,
-and only via the assurance-policy registry work (SPEC-02 / later phases). A
-checker-only change must not flip `cr_eligible`.
+and only via the assurance-policy registry. A checker-only change must not flip
+`cr_eligible`.

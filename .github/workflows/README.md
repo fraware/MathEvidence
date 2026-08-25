@@ -1,4 +1,4 @@
-# Required workflows (SPEC-10 CI dimensions)
+# Required workflows (CI dimensions)
 
 Distinct job names / workflows map to independent maturity dimensions:
 
@@ -16,7 +16,7 @@ Distinct job names / workflows map to independent maturity dimensions:
 Also present: `release.yml`, `uv-lock.yml`.
 
 Normative behavior is specified in `docs/TESTING_AND_CI.md`.
-Operator CI triage map: `docs/HANDOFF.md` (SPEC-12).
+Operator CI triage map: `docs/HANDOFF.md`.
 
 These workflow definitions are present and their third-party actions are pinned
 to immutable commit SHAs with the intended action version kept as an inline

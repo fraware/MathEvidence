@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thin SPEC-04 wrapper around the exact rational-equality plugin."""
+"""Thin wrapper around the exact rational-equality plugin."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""SPEC-08 Certification Record v0.4 and legacy v0.3 mapping tests."""
+"""Certification Record v0.4 and legacy v0.3 mapping tests."""
 
 from __future__ import annotations
 

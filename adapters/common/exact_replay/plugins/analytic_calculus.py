@@ -1,4 +1,4 @@
-"""Exact analytic calculus plugin (SPEC-07 Track B) — whitelist only.
+"""Exact analytic calculus plugin — whitelist only.
 
 Supported theorem forms with existing Lean decls:
   checkDeriv_sound, checkDerivWithin_sound, checkAntideriv_sound, checkODE_sound.

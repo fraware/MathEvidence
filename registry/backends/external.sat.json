@@ -19,7 +19,7 @@
   ],
   "regeneration": {
     "status": "fixture_only",
-    "notes": "Simulated SAT metadata emitter for federation exit gate."
+    "notes": "Simulated SAT metadata emitter for federation integration gate."
   },
   "conformance": {
     "suite": "evidence/federation/examples",

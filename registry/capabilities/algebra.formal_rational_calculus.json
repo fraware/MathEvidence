@@ -152,7 +152,7 @@
       "offlineReplayExists": true
     },
     "limitations": [
-      "SPEC-07 Track A: formal/algebraic RationalExpr calculus only; not HasDerivAt / analytic ODE.",
+      "Formal/algebraic RationalExpr calculus only; not HasDerivAt / analytic ODE.",
       "CR eligibility enabled after local Lean exact-replay E2E for derivative/antiderivative/recurrence/ODE with soundResult claims.",
       "Candidate-only requests remain evidence-only and cannot mint theorems.",
       "Numerical calculus remains evidence-only."

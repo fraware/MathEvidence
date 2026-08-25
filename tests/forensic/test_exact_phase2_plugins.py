@@ -1,4 +1,4 @@
-"""SPEC-04..07 exact-replay plugin forensic tests (no Lake required)."""
+"""Exact-replay plugin forensic tests (no Lake required)."""
 
 from __future__ import annotations
 

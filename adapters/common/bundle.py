@@ -27,7 +27,7 @@ from adapters.common.schema_validate import SchemaStore
 BUNDLE_VERSION = "0.3.0"
 BUNDLE_VERSION_V02 = "0.2.0"
 BUNDLE_VERSION_LEGACY = "0.1.0"
-# Certification Records advance independently of Candidate Bundle version (SPEC-08).
+# Certification Records advance independently of Candidate Bundle version.
 CERTIFICATION_RECORD_VERSION = "0.4.0"
 CERTIFICATION_RECORD_VERSION_LEGACY = "0.3.0"
 NA_SENTINEL = "n/a"
@@ -438,7 +438,7 @@ def _fill_v04_exact_fields(
     request_digest: str,
     declaration_name: str | None,
 ) -> None:
-    """Populate SPEC-08 v0.4 fields. Never synthesize fake generator identity."""
+    """Populate Certification Record v0.4 fields. Never synthesize fake generator identity."""
     receipt.setdefault("outcome", _default_outcome(
         str(receipt.get("claimRequested") or ""),
         receipt.get("claimEstablished"),

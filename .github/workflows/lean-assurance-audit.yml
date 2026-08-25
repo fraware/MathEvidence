@@ -1,5 +1,5 @@
-# SPEC-10: Lean-side assurance audits that do not require a full Mathlib theorem mint.
-# Lake build / exact E2E remains in lean.yml (SPEC-01). This job stays green when
+# Lean-side assurance audits that do not require a full Mathlib theorem mint.
+# Lake build / exact E2E remains in lean.yml. This job stays green when
 # network-disabled Python assurance checks pass even if lake is red.
 name: lean-assurance-audit
 
@@ -57,7 +57,7 @@ jobs:
             --ignore=tests/forensic/test_verify_bundle_no_theorem_status.py \
             --ignore=tests/forensic/test_theorem_producing_replay.py
         # Lake-dependent E2E files stay in lean.yml. This gate distinguishes
-        # Python assurance from Lean setup failures (SPEC-01 / SPEC-10).
+        # Keep Python assurance independent of Lean setup failures.
 
       - name: Note
         run: |

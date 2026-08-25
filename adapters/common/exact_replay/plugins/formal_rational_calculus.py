@@ -1,4 +1,4 @@
-"""Exact formal rational calculus plugin (SPEC-07 Track A)."""
+"""Exact formal rational calculus plugin (formal/algebraic track)."""
 
 from __future__ import annotations
 

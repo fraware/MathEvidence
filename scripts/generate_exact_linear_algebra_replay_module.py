@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thin SPEC-05 wrapper around the exact linear-algebra plugin."""
+"""Thin wrapper around the exact linear-algebra plugin."""
 
 from __future__ import annotations
 

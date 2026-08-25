@@ -1,4 +1,4 @@
-"""Registry-backed assurance policy (SPEC-02).
+"""Registry-backed assurance policy.
 
 Policy embedded in ``registry/capabilities/*.json`` under ``assurancePolicy`` is
 the only authority for theorem promotion and exact-candidate fail-closed
@@ -172,13 +172,13 @@ def decide_exact_kernel_replay(capability_id: str) -> AssuranceDecision:
 def outcome_allowed(capability_id: str, outcome: str) -> bool:
     allowed = allowed_outcomes(capability_id)
     if not allowed:
-        # Conservative Phase 1: empty allowedOutcomes forbids theorem polarity minting.
+        # Conservative default: empty allowedOutcomes forbids theorem polarity minting.
         return False
     return outcome in allowed
 
 
 def map_claim_to_outcome(*, claim_class: str, claim_established: str | None) -> str:
-    """Map protocol claim class to CR outcome polarity (SPEC-08)."""
+    """Map protocol claim class to CR outcome polarity."""
     if claim_class == "refutation" and isinstance(claim_established, str) and claim_established:
         return OUTCOME_REFUTED
     if claim_established in {"witness", "soundResult", "completeSolution", "optimum"}:
@@ -258,7 +258,7 @@ def validate_assurance_policy_object(
 
 
 def historical_exact_replay_capabilities() -> frozenset[str]:
-    """Exact-binding capability set used for differential tests (SPEC-02/04–07)."""
+    """Exact-binding capability set used for differential tests."""
     return frozenset(
         {
             "algebra.ideal_membership_witness",

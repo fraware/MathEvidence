@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thin SPEC-06 wrapper around the exact finite-counterexample plugin."""
+"""Thin wrapper around the exact finite-counterexample plugin."""
 
 from __future__ import annotations
 

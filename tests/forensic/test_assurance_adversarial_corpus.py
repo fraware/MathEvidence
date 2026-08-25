@@ -1,4 +1,4 @@
-"""SPEC-10 assurance adversarial corpus for every exact-bound capability.
+"""Assurance adversarial corpus for every exact-bound capability.
 
 Covers candidate mismatch, fixture substitution, hash/source mutation, wrong
 capability/generator/declaration, unsupported exact mode, legacy-as-exact, and

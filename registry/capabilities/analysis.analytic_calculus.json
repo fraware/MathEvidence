@@ -129,7 +129,7 @@
       "offlineReplayExists": true
     },
     "limitations": [
-      "SPEC-07 Track B whitelist only: checkDeriv_sound, checkDerivWithin_sound, checkAntideriv_sound, checkODE_sound. Unsupported forms fail closed.",
+      "Analytic calculus whitelist only: checkDeriv_sound, checkDerivWithin_sound, checkAntideriv_sound, checkODE_sound. Unsupported forms fail closed.",
       "Every form binds hypotheses (domain/interval, differentiability, denominator nonzero, positivity). No float-to-exact coercion; no inferred hypotheses from numerical samples.",
       "CR eligibility enabled after local Lean exact-replay E2E for Deriv / DerivWithin / Antideriv / ODE (empty-obligation single-IC ODE).",
       "Numerical calculus remains evidence-only."

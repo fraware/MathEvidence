@@ -10,7 +10,7 @@ This tree is an **experimental** research platform. No registry capability is
 | Doc | Audience |
 | --- | --- |
 | [Getting started](getting-started/) | Install, `just check`, Agent API, first replay |
-| [HANDOFF.md](HANDOFF.md) | Engineering handoff / exact-certification runbook (SPEC-12) |
+| [HANDOFF.md](HANDOFF.md) | Engineering handoff / exact-certification runbook |
 | [STATUS.md](STATUS.md) | Short public-preview status |
 | [security/KNOWN_TRUST_GAPS.md](security/KNOWN_TRUST_GAPS.md) | Honest limitations and open gates |
 | [ROADMAP.md](ROADMAP.md) | Delivery order (points at normative roadmap) |

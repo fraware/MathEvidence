@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thin SPEC-07 Track A wrapper around the exact formal calculus plugin."""
+"""Thin wrapper around the exact formal calculus plugin."""
 
 from __future__ import annotations
 

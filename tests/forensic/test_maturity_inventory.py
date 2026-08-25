@@ -1,4 +1,4 @@
-"""SPEC-00 maturity inventory policy and STATUS.md drift tests."""
+"""Maturity inventory policy and STATUS.md drift tests."""
 
 from __future__ import annotations
 

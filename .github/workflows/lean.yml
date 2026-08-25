@@ -1,4 +1,4 @@
-# Phase 1: Lake build, import boundaries, sorry/axiom audit.
+# Lake build, import boundaries, sorry/axiom audit.
 name: lean
 
 on:

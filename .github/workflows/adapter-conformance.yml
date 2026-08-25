@@ -1,4 +1,4 @@
-# Phase 1: adapter-conformance for SymPy (+ Mathematica fixture mode).
+# Adapter-conformance for SymPy (+ Mathematica fixture mode).
 name: adapter-conformance
 
 on:

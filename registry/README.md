@@ -8,7 +8,7 @@ No capability may be marked `stable` from documentation alone.
 - `catalog.json` — discovery index of capability and backend files
 - `capabilities/` — validated against `schemas/capability.schema.json`
 - `backends/` — validated against `schemas/backend.schema.json`
-- `maturity-inventory.json` — SPEC-00 independent assurance-maturity booleans and
+- `maturity-inventory.json` — independent assurance-maturity booleans and
   Certification Record eligibility (validated against
   `schemas/maturity-inventory.schema.json`; `docs/STATUS.md` must match).
   Operator runbook: [`docs/HANDOFF.md`](../docs/HANDOFF.md).

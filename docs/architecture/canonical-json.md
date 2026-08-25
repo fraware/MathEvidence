@@ -2,7 +2,7 @@
 
 ## Status
 
-Phase 1 Core digest helpers implement SHA-256 binding and Lean-side canonical
+Core digest helpers implement SHA-256 binding and Lean-side canonical
 JSON fragments in `MathEvidence.Core.CanonicalJson` / `Digest`. Adapters must
 emit the same UTF-8 byte sequence before hashing.
 
