@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_serializer_version_pinned() -> None:
-    assert THEOREM_IDENTITY_SERIALIZER_VERSION == "mathevidence-theorem-identity-0.3"
+    assert THEOREM_IDENTITY_SERIALIZER_VERSION == "mathevidence-theorem-identity-0.4"
 
 
 def test_published_vectors_stable() -> None:
