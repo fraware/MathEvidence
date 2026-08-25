@@ -27,7 +27,13 @@ CI verifies cancel→kill so orphans cannot accumulate even when OS caps are sof
    process and `kill()`s if still alive after a short grace period.
 3. `RpcClient.close()` / context exit always waits then kills on timeout.
 
-Tests: `adapters/common/test_isolation.py`.
+Exact Lean replay (`adapters/common/bounded_process.py` / `kernel_replay`) uses
+argv-only invocation with wall timeout, output cap, environment allowlist, and
+process-group termination (`start_new_session` + `killpg` on POSIX;
+`CREATE_NEW_PROCESS_GROUP` on Windows).
+
+Tests: `adapters/common/test_isolation.py`,
+`tests/forensic/test_exact_replay_security.py`.
 
 ## Working directory and paths
 
