@@ -1,4 +1,4 @@
-# Exact-candidate binding / regenerability (no Lake theorem minting).
+# Exact-candidate binding / regenerability. Pinned Lean execution is required by lean.yml.
 name: assurance-exact-replay
 
 on:
@@ -48,6 +48,6 @@ jobs:
             tests/forensic/test_assurance_adversarial_corpus.py \
             -q
 
-      - name: Note Lake E2E status
+      - name: Cross-gate contract
         run: |
-          echo "::notice title=assurance-exact-replay::Python exact-binding gate green. Lean theorem E2E remains gated by lean.yml; crEligible stays false until offline+tamper+E2E prove a capability."
+          echo "::notice title=assurance-exact-replay::Candidate binding, deterministic generation, policy, CR, and adversarial tests are green here. Every CR-eligible capability must also pass production-generated candidate execution in the required lean workflow (scripts/ci/run_cr_exact_lean_e2e.py)."
