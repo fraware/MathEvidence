@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use MathEvidence in research, please cite this software and the exact release tag or commit used."
+title: "MathEvidence"
+type: software
+authors:
+  - name: "MathEvidence contributors"
+version: 0.1.0
+repository-code: "https://github.com/fraware/MathEvidence"
+url: "https://github.com/fraware/MathEvidence"
+license: Apache-2.0
+keywords:
+  - formal methods
+  - Lean 4
+  - computational evidence
+  - proof certificates
+  - reproducibility
+  - assurance
+abstract: >-
+  MathEvidence is an experimental computational-evidence platform for Lean 4.
+  Untrusted external adapters may propose candidates or evidence; theorem-level
+  Certification Records are restricted to explicitly supported exact
+  candidate-bound replay paths whose advertised proposition is checked by the
+  declared Lean trust path. Fixture replay, benchmark success, and numerical
+  agreement are not theorem certification.
