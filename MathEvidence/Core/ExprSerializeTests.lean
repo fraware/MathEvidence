@@ -12,7 +12,8 @@ import MathEvidence.Core.TheoremIdentity
 # ME-RV-020 Expr serialize tests
 
 Compile-time Meta checks that digests use kernel Expr walks (not `ppExpr`),
-that binders participate, and that distinct binder shapes yield distinct digests.
+that binders participate, that distinct binder shapes yield distinct digests,
+and that variable-width literal contents cannot create delimiter collisions.
 -/
 
 namespace MathEvidence.Core.ExprSerializeTests
@@ -59,6 +60,19 @@ elab "#test_theorem_identity_expr" : command => do
       | .error e => throwError e
     unless d1.value ≠ d2.value do
       throwError "expected distinct digests for default vs implicit Nat binders"
+    -- Regression: raw string interpolation allowed these distinct Expr trees to
+    -- serialize identically by shifting structural delimiter text between the
+    -- two literal payloads. Length-delimited atoms must keep them distinct.
+    let collisionA : Expr :=
+      .app (.lit (.strVal "a")) (.lit (.strVal "b) (litStr c"))
+    let collisionB : Expr :=
+      .app (.lit (.strVal "a) (litStr b")) (.lit (.strVal "c"))
+    unless collisionA != collisionB do
+      throwError "collision regression requires distinct kernel expressions"
+    let collisionASer := serializeExpr collisionA
+    let collisionBSer := serializeExpr collisionB
+    unless collisionASer != collisionBSer do
+      throwError s!"structural Expr serializer delimiter collision: {collisionASer}"
     -- Proof-term path: structural serializeExpr, never Expr.hash.
     let proofSer ← proofTermSerializationOfConst? ``Nat.add_zero
     match proofSer with
