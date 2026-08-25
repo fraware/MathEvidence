@@ -1,4 +1,4 @@
-# Lake build, import boundaries, sorry/axiom audit.
+# Lake build, exact-candidate execution, import boundaries, and sorry/axiom audit.
 name: lean
 
 on:
@@ -52,6 +52,11 @@ jobs:
             mathevidence-declaration-identity \
             mathevidence-import-graph \
             mathevidence-axiom-report
+
+      - name: CR-eligible exact candidate Lean E2E
+        run: |
+          set -euo pipefail
+          python scripts/ci/run_cr_exact_lean_e2e.py | tee /tmp/cr-exact-lean-e2e.jsonl
 
       - name: Environment import/axiom audits (Lean.Environment)
         run: |
