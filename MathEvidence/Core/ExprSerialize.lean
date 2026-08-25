@@ -21,6 +21,10 @@ representation instead of being replaced by elaborator-generated free-variable
 identifiers. Free variables, expression metavariables, and universe metavariables
 are rejected for Certification Record identity.
 
+Variable-width string atoms are length-delimited, and kernel `Name` values are
+serialized structurally. This prevents delimiter text inside identifiers or
+string literals from creating ambiguous structural serializations.
+
 Proof-term digests use the same closed structural walk when a declaration value
 is available. Lean-internal `Expr.hash` stability is not claimed.
 -/
@@ -31,14 +35,29 @@ open Lean Meta
 open MathEvidence.Core
 open MathEvidence.Core.JsonCanonical
 
+/-- Length-delimited string atom used inside the structural serialization.
+
+The decimal length precedes the raw string payload. Delimiter characters inside
+that payload therefore cannot be reassigned to an adjacent structural field.
+-/
+def serializeStringAtom (s : String) : String :=
+  s!"{s.length}:{s}"
+
+/-- Structural serialization of kernel `Name` constructors. -/
+partial def serializeName : Name → String
+  | .anonymous => "(nameAnon)"
+  | .str prefix value =>
+      s!"(nameStr {serializeName prefix} {serializeStringAtom value})"
+  | .num prefix value => s!"(nameNum {serializeName prefix} {value})"
+
 /-- Structural Level serialization (kernel constructors). -/
 partial def serializeLevel : Level → String
   | .zero => "0"
   | .succ u => s!"(succ {serializeLevel u})"
   | .max u v => s!"(max {serializeLevel u} {serializeLevel v})"
   | .imax u v => s!"(imax {serializeLevel u} {serializeLevel v})"
-  | .param n => s!"(param {n})"
-  | .mvar id => s!"(mvar {id.name})"
+  | .param n => s!"(param {serializeName n})"
+  | .mvar id => s!"(mvar {serializeName id.name})"
 
 def binderKindOfInfo : BinderInfo → BinderKindWire
   | .default => .default
@@ -55,23 +74,23 @@ def binderKindTag : BinderKindWire → String
 /-- Structural Expr serialization (kernel constructors + binders + universes). -/
 partial def serializeExpr : Expr → String
   | .bvar i => s!"(bvar {i})"
-  | .fvar fvarId => s!"(fvar {fvarId.name})"
-  | .mvar mvarId => s!"(mvar {mvarId.name})"
+  | .fvar fvarId => s!"(fvar {serializeName fvarId.name})"
+  | .mvar mvarId => s!"(mvar {serializeName mvarId.name})"
   | .sort u => s!"(sort {serializeLevel u})"
   | .const n us =>
     let usS := String.intercalate " " (us.map serializeLevel)
-    s!"(const {n} [{usS}])"
+    s!"(const {serializeName n} [{usS}])"
   | .app f a => s!"(app {serializeExpr f} {serializeExpr a})"
   | .lam n t b bi =>
-    s!"(lam {n} {binderKindTag (binderKindOfInfo bi)} {serializeExpr t} {serializeExpr b})"
+    s!"(lam {serializeName n} {binderKindTag (binderKindOfInfo bi)} {serializeExpr t} {serializeExpr b})"
   | .forallE n t b bi =>
-    s!"(forall {n} {binderKindTag (binderKindOfInfo bi)} {serializeExpr t} {serializeExpr b})"
+    s!"(forall {serializeName n} {binderKindTag (binderKindOfInfo bi)} {serializeExpr t} {serializeExpr b})"
   | .letE n t v b _ =>
-    s!"(let {n} {serializeExpr t} {serializeExpr v} {serializeExpr b})"
+    s!"(let {serializeName n} {serializeExpr t} {serializeExpr v} {serializeExpr b})"
   | .lit (.natVal n) => s!"(litNat {n})"
-  | .lit (.strVal s) => s!"(litStr {s})"
+  | .lit (.strVal s) => s!"(litStr {serializeStringAtom s})"
   | .mdata _ e => s!"(mdata {serializeExpr e})"
-  | .proj typeName idx e => s!"(proj {typeName} {idx} {serializeExpr e})"
+  | .proj typeName idx e => s!"(proj {serializeName typeName} {idx} {serializeExpr e})"
 
 /-- True when a universe level is not closed. -/
 partial def levelContainsMVar : Level → Bool
