@@ -10,7 +10,7 @@
 
 </pre>
   
-<strong>External computation in. Lean theorems out.</strong>
+<strong>External computation in. Explicit evidence. Lean decides.</strong>
 </div>
 
 <p align="center">
@@ -36,10 +36,30 @@ Formal work often needs exact algebra, search, or symbolic computation that
 mature external systems already do well. One-off bridges reinvent translation
 and trust boundaries — and can smuggle unchecked solver answers into proofs.
 
-MathEvidence offers a shared path: an explicit semantic contract, checkable
-evidence, and a reusable Lean theorem.
+MathEvidence offers a shared path: explicit semantic contracts, candidate-bound
+evidence, capability-specific checkers, and reproducible verification.
 
-**Do not trust the solver. Lean checks the evidence.**
+**Do not trust the solver. Trust only the proposition the declared checker
+actually establishes.**
+
+## Current exact scope
+
+The registry currently marks six owned capability fragments CR-eligible under
+exact candidate binding. These are narrow contracts, not generic automation
+claims.
+
+| Capability | Exact claim scope |
+| --- | --- |
+| `algebra.ideal_membership_witness` | Supplied witness establishes the supported polynomial ideal-membership identity; no Gröbner/non-membership/completeness claim |
+| `algebra.rational_equality` | Equality in the supported exact rational-expression grammar with explicit assumptions |
+| `algebra.linear_algebra` | Exact rational `inverse_witness`, `system_solution`, `kernel_vector`, and `det_identity` operations |
+| `logic.finite_counterexample` | Explicit finite witness establishes `refuted`; no-witness search does not prove universality |
+| `algebra.formal_rational_calculus` | Registered formal/algebraic grammar and exact `soundResult` operations only |
+| `analysis.analytic_calculus` | Strict registered theorem-form whitelist with explicit hypotheses; not arbitrary analysis |
+
+Federated SAT/PB/SMT metadata is not theorem-CR eligible in this repository.
+The authoritative machine-readable state is
+[`registry/maturity-inventory.json`](registry/maturity-inventory.json).
 
 ## Quick start
 
@@ -63,8 +83,11 @@ authoritative — see
 [`docs/audits/2026-07-26-real-vision/KERNEL_REPLAY_PLATFORM.md`](docs/audits/2026-07-26-real-vision/KERNEL_REPLAY_PLATFORM.md).
 
 Optional: SymPy for open backends; `wolframscript` (set
-`MATHEVIDENCE_WOLFRAMSCRIPT`) for live Mathematica. Bundles under `evidence/`
-replay offline without a live CAS.
+`MATHEVIDENCE_WOLFRAMSCRIPT`) for live Mathematica. Sealed exact replay bundles
+can be regenerated and integrity-checked without a live CAS after dependencies
+are materialized. This **offline bundle replay** is distinct from a required
+offline Lean/kernel theorem-execution guarantee; see
+[`docs/STATUS.md`](docs/STATUS.md).
 
 ## Try one example
 
@@ -75,10 +98,11 @@ Open the committed rational-equality example
 evidence/examples/rational_equality_basic/
 ```
 
-Inspect `request.cjson`, `certificate.cjson`, and `theorem.lean`. Lean owns
-acceptance; the adapter is untrusted. Then follow
-[`docs/getting-started/`](docs/getting-started/) for offline replay, or start
-the local Agent API:
+Inspect `request.cjson`, `certificate.cjson`, and `theorem.lean`. The adapter is
+untrusted. Checker/theorem authority is determined by the declared assurance
+path, not by the presence of those files alone. Then follow
+[`docs/getting-started/`](docs/getting-started/) for replay, or start the local
+Agent API:
 
 ```text
 python -m agent.api.server --host 127.0.0.1 --port 8787
@@ -88,29 +112,54 @@ Health check: `GET http://127.0.0.1:8787/v1/health`. Public open / inspect /
 replay take opaque `bundleId` values — not filesystem paths. See
 [`agent/README.md`](agent/README.md).
 
+## Assurance chain
+
+For an exact CR-eligible path, the intended chain is:
+
+```text
+submitted request + candidate/evidence
+  -> schema/canonical validation
+  -> capability-specific exact replay IR
+  -> deterministic generated Lean source
+  -> pinned Lean/checker execution
+  -> declaration/result identity
+  -> registry policy evaluation
+  -> Certification Record
+```
+
+Generation is not verification. Fixture replay is not candidate verification.
+Benchmark success is not theorem promotion. Unsupported exact modes fail closed.
+The required `lean` CI workflow executes production-generated exact candidates
+for every CR-eligible capability; structural generator tests alone do not
+satisfy that release gate.
+
 ## Repository map
 
 | Path | Role |
 | --- | --- |
 | `MathEvidence/` | Lean protocol types, encodings, checkers, tactics |
-| `adapters/` | Untrusted backends (SymPy, Mathematica, and related) |
+| `adapters/` | Untrusted backends and exact replay generation framework |
 | `agent/` | AI-facing Agent API and SDKs |
 | `studio/` | Notebook and editor surfaces |
-| `registry/` | Capability declarations (all experimental today) |
-| `evidence/` | Committed Evidence Bundles (schema v0.2 `.cjson`) |
-| `foundry/` | Schemas and pipelines for certified tool-use episodes |
-| `benchmarks/` | Conformance, adversarial, and real-world suites |
-| `docs/` | Specs, status, trust model, getting started |
+| `registry/` | Capability declarations and machine-readable assurance maturity |
+| `evidence/` | Committed Evidence Bundles and conformance artifacts |
+| `foundry/` | Schemas and pipelines for verified tool-use episodes |
+| `benchmarks/` | Frozen conformance/regression and evaluation suites |
+| `docs/` | Specs, status, trust model, getting started, release docs |
 
 ## Contribute
 
-Contributions are welcome. Keep backends untrusted and Lean authoritative.
+Contributions are welcome. Keep backends untrusted and checker authority
+explicit.
 
 1. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/STATUS.md`](docs/STATUS.md).
-2. Prefer a focused change with tests (positive, negative, and replay when relevant).
+2. Prefer a focused change with positive, negative, mutation, and replay tests
+   where relevant.
 3. Run `just check` before opening a PR.
-4. Do not flip capabilities to `"stable"` from a single PR — promotion follows a
-   documented checklist with real human review.
+4. Exact-capability changes must preserve candidate binding and fail-closed
+   policy; never substitute a fixture for the submitted candidate.
+5. Do not flip capabilities to `"stable"` from a single PR — promotion follows
+   the documented checklist with real human/domain/trust review.
 
 Protocol-wide changes belong in an RFC under `docs/rfcs/`.
 
@@ -122,7 +171,7 @@ Protocol-wide changes belong in an RFC under `docs/rfcs/`.
 | [`docs/getting-started/`](docs/getting-started/) | Install, check, Agent API, first replay |
 | [`docs/STATUS.md`](docs/STATUS.md) | Public-preview status and CR eligibility |
 | [`docs/HANDOFF.md`](docs/HANDOFF.md) | Exact-certification operator runbook |
-| [`docs/security/KNOWN_TRUST_GAPS.md`](docs/security/KNOWN_TRUST_GAPS.md) | Known limitations |
+| [`docs/security/KNOWN_TRUST_GAPS.md`](docs/security/KNOWN_TRUST_GAPS.md) | Known limitations and trust gaps |
 
 Also: [`docs/SPEC_INDEX.md`](docs/SPEC_INDEX.md),
 [`docs/ROADMAP.md`](docs/ROADMAP.md),
@@ -131,15 +180,21 @@ Also: [`docs/SPEC_INDEX.md`](docs/SPEC_INDEX.md),
 ## What to expect
 
 - Everything in the registry is still **experimental**.
-- Six owned capabilities are CR-eligible under exact binding (see STATUS); federated
-  logic is not. Offline exact inspect defaults to `theorem_pending`.
+- Six owned capability fragments are CR-eligible under exact candidate binding;
+  federated logic is not.
+- Offline **bundle** replay and offline **kernel** theorem replay are tracked as
+  distinct maturity properties; the stronger kernel property is not currently
+  claimed release-wide.
 - A green local `just check` is useful feedback — not attested release CI or
   completed human review.
+- The final release SHA must have the required remote assurance/security/replay
+  gates green. Checked-in CI configuration does not prove GitHub branch rules
+  are enabled.
 - Receipt crypto under `dev/receipt-keys/` is **dev-only**, not production PKI.
-  Signing / third-party attestation remains deferred.
+  Production signing / third-party attestation remains a separate explicit gate.
 
-When unsure, trust Lean’s checkers and the written limitations — not a backend
-status code.
+When unsure, follow the exact proposition, checker, registry policy, and current
+limitations — not a backend status code or historical completion label.
 
 ---
 
