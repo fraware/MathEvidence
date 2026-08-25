@@ -22,6 +22,21 @@ CAPABILITY_IMPORTS: dict[str, tuple[str, ...]] = {
     "algebra.ideal_membership_witness": (
         "MathEvidence.Checkers.IdealMembership.ReplaySound",
     ),
+    "algebra.rational_equality": (
+        "MathEvidence.Checkers.RationalEquality.ReplaySound",
+    ),
+    "algebra.linear_algebra": (
+        "MathEvidence.Checkers.LinearAlgebra.ReplaySound",
+    ),
+    "logic.finite_counterexample": (
+        "MathEvidence.Checkers.Counterexample.ReplaySound",
+    ),
+    "algebra.formal_rational_calculus": (
+        "MathEvidence.Checkers.Calculus.ReplaySound",
+    ),
+    "analysis.analytic_calculus": (
+        "MathEvidence.Checkers.AnalyticCalculus.ReplaySound",
+    ),
 }
 
 
