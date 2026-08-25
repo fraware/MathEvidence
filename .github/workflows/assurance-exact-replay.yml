@@ -1,0 +1,53 @@
+# SPEC-10: exact-candidate binding / regenerability (no Lake theorem minting).
+name: assurance-exact-replay
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  assurance-exact-replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv (SHA-pinned)
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        with:
+          enable-cache: true
+
+      - name: Install dependencies (frozen lock required)
+        run: |
+          set -euo pipefail
+          test -f uv.lock
+          uv sync --frozen --extra dev --extra sympy
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Registry + maturity inventory (crEligible gate)
+        run: |
+          python scripts/validate_registry.py
+          python scripts/validate_maturity_inventory.py
+
+      - name: Exact-replay framework + Phase-2 plugins
+        run: |
+          python -m pytest \
+            tests/forensic/test_exact_replay_framework.py \
+            tests/forensic/test_exact_phase2_plugins.py \
+            tests/forensic/test_assurance_policy.py \
+            tests/forensic/test_certification_record_v04.py \
+            tests/forensic/test_assurance_adversarial_corpus.py \
+            -q
+
+      - name: Note Lake E2E status
+        run: |
+          echo "::notice title=assurance-exact-replay::Python exact-binding gate green. Lean theorem E2E remains gated by lean.yml / SPEC-01; crEligible stays false until offline+tamper+E2E prove a capability."

@@ -1,4 +1,4 @@
-# Offline replay with backends unavailable (Python + Lean checker).
+# Offline replay with backends unavailable (Python + Lean checker + exact structure).
 name: offline-replay
 
 on:
@@ -49,6 +49,17 @@ jobs:
           MATHEVIDENCE_ADAPTER_MODE: fixture
         run: python scripts/offline_replay_python.py
 
+      - name: Exact offline bundle structure (SPEC-09, network disabled)
+        env:
+          MATHEVIDENCE_OFFLINE: "1"
+          MATHEVIDENCE_ADAPTER_MODE: fixture
+        run: |
+          set -euo pipefail
+          python -m pytest tests/forensic/test_offline_exact_replay.py -q
+          tmp=$(mktemp -d)
+          python scripts/offline_exact_replay.py build --out "$tmp/ideal-ref"
+          python scripts/offline_exact_replay.py replay --bundle "$tmp/ideal-ref" --both-modes
+
       - name: Install elan (checksum-pinned release asset)
         run: bash scripts/ci/install-elan-pinned.sh
 
@@ -56,5 +67,7 @@ jobs:
         env:
           MATHEVIDENCE_ADAPTER_MODE: fixture
         run: |
+          set -euo pipefail
+          echo "::notice title=offline-replay Lean leg::Failure here is setup/Lean build (SPEC-01), not Python exact-bundle integrity."
           lake build MathEvidence.Checkers.RationalEquality.OfflineFixtures
           lake build MathEvidence.Tactic.Examples

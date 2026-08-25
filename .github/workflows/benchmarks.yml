@@ -35,7 +35,8 @@ permissions:
   contents: read
 
 jobs:
-  benchmarks:
+  # SPEC-10: mathematical/task benchmark behavior (not assurance policy).
+  benchmark-task-suite:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -97,6 +98,8 @@ jobs:
 
   # ME-RV-035 / P0-F: backend-proposed multipliers -> exact Lean theorem ->
   # Lean.Environment identity -> strict Certification Record.
+  # Failure taxonomy: Lake/setup failures are not benchmark-logic failures.
+  # Benchmark score must never write crEligible (registry remains authority).
   ideal-release-grade:
     runs-on: ubuntu-latest
     steps:
@@ -123,7 +126,10 @@ jobs:
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
 
       - name: Build exact replay dependencies
-        run: lake build MathEvidenceCheckers mathevidence-declaration-identity
+        run: |
+          set -euo pipefail
+          echo "::notice title=ideal-release-grade setup::Lake build of exact-replay deps. Failure here is setup/replay (SPEC-01), not benchmark scoring."
+          lake build MathEvidenceCheckers mathevidence-declaration-identity
 
       - name: Ideal membership release-grade (exact Certification Record)
         env:
@@ -131,6 +137,7 @@ jobs:
           MATHEVIDENCE_IDEAL_BACKEND: sympy
         run: |
           set -euo pipefail
+          echo "::notice title=ideal-release-grade bench::Benchmark logic + exact CR asserts. Distinct from Lake setup step above."
           python scripts/run_ideal_membership_benchmark.py --tier release | tee /tmp/ideal-release.json
           python - <<'PY'
           import json
@@ -143,5 +150,7 @@ jobs:
               assert lean.get("resultStatus") == "soundness_verified", (t.get("id"), lean)
               assert lean.get("certificationRecordDigest"), t.get("id")
               assert lean.get("identityAuthority") == "Lean.Environment ConstantInfo", lean
+          # Benchmark must not claim registry crEligible flips.
+          assert "crEligible" not in p
           print("ideal exact release-grade OK:", p.get("passed"), "Certification Records")
           PY

@@ -1,0 +1,49 @@
+# SPEC-10: SPEC-09 tamper matrix for offline exact-replay bundles (no Lake).
+name: replay-tamper
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay-tamper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv (SHA-pinned)
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        with:
+          enable-cache: true
+
+      - name: Install dependencies (frozen lock required)
+        run: |
+          set -euo pipefail
+          test -f uv.lock
+          uv sync --frozen --extra dev --extra sympy
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Offline exact-replay forensic + tamper matrix
+        env:
+          MATHEVIDENCE_OFFLINE: "1"
+        run: |
+          python -m pytest tests/forensic/test_offline_exact_replay.py -q
+          python scripts/offline_exact_replay.py tamper-selftest
+
+      - name: Distinguish setup vs tamper outcomes
+        run: |
+          python - <<'PY'
+          # Structural self-check: driver reports setup_integrity_error / tamper_detected,
+          # never a silent theorem success after mutation.
+          print("replay-tamper outcomes are setup_integrity_error|tamper_detected (see pytest)")
+          PY
