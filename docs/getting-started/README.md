@@ -62,13 +62,17 @@ CI green on a release commit.
 
 Committed Evidence Bundle trees under `evidence/` use schema **v0.2** (`.cjson`)
 for full bundles. Prefer replaying through the documented CLI /
-`mathevidence-verify-bundle` (temporary alias `mathevidence-replay`) for
-rational equality emits operational `native_checked` / `checker_accepted`
-only — not theorem Certified / `kernel_replay`.
-or through the Agent API below.
+`mathevidence-verify-bundle` (temporary alias `mathevidence-replay`), or through
+the Agent API below.
 
-Do not treat backend status codes as theorems. Replay must recheck committed
-evidence without trusting the solver.
+For rational equality, the verifier emits operational `native_checked` /
+`checker_accepted` only — not theorem Certified / `kernel_replay`. Do not treat
+backend status codes as theorems. Replay must recheck committed evidence without
+trusting the solver.
+
+Theorem-level Certification Records require exact candidate binding and a
+registry `crEligible` capability — see [`../STATUS.md`](../STATUS.md) and
+[`../HANDOFF.md`](../HANDOFF.md).
 
 ## Agent API (local)
 
@@ -82,18 +86,23 @@ Public open / inspect / replay accept opaque **`bundleId`** values from the
 content-addressed store only — raw filesystem paths are rejected. See
 [`../../agent/README.md`](../../agent/README.md).
 
-## Formal rational calculus
+## Formal vs analytic calculus
 
-Registry id: `algebra.formal_rational_calculus` (formal rational-expression
-calculus only). It does not establish Mathlib `HasDerivAt` / analytic ODE
-theorems. Analytic fragments use the separate experimental id
-`analysis.analytic_calculus`.
+| Registry id | Scope |
+| --- | --- |
+| `algebra.formal_rational_calculus` | Formal rational-expression calculus only |
+| `analysis.analytic_calculus` | Analytic whitelist (Deriv / DerivWithin / Antideriv / ODE) |
+
+Formal calculus does not establish Mathlib `HasDerivAt` / analytic ODE theorems.
+Exact analytic ODE currently requires empty domain obligations and at most one
+initial condition; multi-IC / obligation-bearing ODE fail closed.
 
 ## Next reading
 
 | Doc | Why |
 | --- | --- |
-| [`../STATUS.md`](../STATUS.md) | Preview claims and non-claims |
+| [`../STATUS.md`](../STATUS.md) | Preview claims, CR eligibility, non-claims |
+| [`../HANDOFF.md`](../HANDOFF.md) | Exact-certification engineering runbook |
 | [`../security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md) | Trust gaps |
 | [`../products/README.md`](../products/README.md) | Product surface map |
 | [`../architecture/README.md`](../architecture/README.md) | Architecture notes |

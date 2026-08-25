@@ -1,4 +1,4 @@
-# Phase 1: Lake build, import boundaries, sorry/axiom audit.
+# Lake build, import boundaries, sorry/axiom audit.
 name: lean
 
 on:
@@ -44,8 +44,14 @@ jobs:
       - name: Sorry / axiom audit
         run: python scripts/audit_sorry_axioms.py
 
-      - name: Lake build (verify-bundle + kernel-replay + audit drivers)
-        run: lake build mathevidence-verify-bundle mathevidence-kernel-replay mathevidence-import-graph mathevidence-axiom-report
+      - name: Lake build (verification + declaration identity + audit drivers)
+        run: |
+          lake build \
+            mathevidence-verify-bundle \
+            mathevidence-kernel-replay \
+            mathevidence-declaration-identity \
+            mathevidence-import-graph \
+            mathevidence-axiom-report
 
       - name: Environment import/axiom audits (Lean.Environment)
         run: |
@@ -61,7 +67,7 @@ jobs:
           print("environment audits OK")
           PY
 
-      - name: Kernel-replay self-test (Linux link attestation)
+      - name: Fixed executable self-test (protocol fixture only)
         run: |
           set -euo pipefail
           BIN=".lake/build/bin/mathevidence-kernel-replay"
@@ -73,10 +79,10 @@ jobs:
           assert p.get("resultStatus") == "soundness_verified"
           assert p.get("assuranceMode") == "kernel_replay"
           assert "replaySound" in (p.get("soundnessTheorem") or "")
-          print("kernel-replay self-test OK")
+          print("fixed protocol self-test OK")
           PY
 
-      - name: Kernel-replay analytic self-test
+      - name: Fixed analytic executable self-test (protocol fixture only)
         run: |
           set -euo pipefail
           BIN=".lake/build/bin/mathevidence-kernel-replay"
@@ -88,7 +94,7 @@ jobs:
           assert p.get("resultStatus") == "soundness_verified"
           assert p.get("assuranceMode") == "kernel_replay"
           assert "analytic" in (p.get("capability") or "") or "analytic" in (p.get("detail") or "").lower()
-          print("kernel-replay analytic self-test OK")
+          print("fixed analytic protocol self-test OK")
           PY
 
       - name: Exe + ideal-membership smoke
@@ -98,7 +104,7 @@ jobs:
           python scripts/smoke_exe.py
           python scripts/smoke_ideal_membership.py
 
-      - name: Forensic trust suite
+      - name: Forensic trust suite (includes exact candidate replay)
         run: python -m pytest tests/forensic -q
 
       - name: Regenerate Lean offline fixtures (drift check)

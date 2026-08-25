@@ -13,7 +13,7 @@
     "capabilityVersion": { "type": "string" },
     "kind": {
       "type": "string",
-      "enum": ["derivative", "antiderivative", "odeCandidate"]
+      "enum": ["derivative", "derivativeWithin", "antiderivative", "odeCandidate"]
     },
     "source": { "type": "object" },
     "target": { "type": "object" },

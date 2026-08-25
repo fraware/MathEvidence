@@ -11,7 +11,6 @@ from adapters.common.theorem_identity import (
     environment_lock_digest,
     replay_target_digest,
     build_replay_target,
-    theorem_identity_payload,
     theorem_type_digest,
 )
 
@@ -101,16 +100,13 @@ DIGEST_VECTORS: list[dict] = [
     {
         "id": "theorem_identity_add0",
         "kind": "theorem_identity",
-        "payload": theorem_identity_payload(
-            declaration_name="certified_vector_a",
-            theorem_type_digest_value=_TYPE_A_DIGEST,
-            proof_declaration_digest=_PROOF_A,
-            environment_lock_digest_value=_LOCK_DIGEST,
-            elaborated_serialization=_TYPE_A["elaboratedSerialization"],
-            universe_params=_TYPE_A["universeParams"],
-            binders=_TYPE_A["binders"],
-            constant_names=_TYPE_A["constantNames"],
-        ),
+        "payload": {
+            **_TYPE_A,
+            "declarationName": "certified_vector_a",
+            "theoremTypeDigest": _TYPE_A_DIGEST,
+            "proofDeclarationDigest": _PROOF_A,
+            "environmentLock": dict(_LOCK),
+        },
         "digest": _TYPE_A_DIGEST,
     },
     {

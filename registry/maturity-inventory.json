@@ -1,0 +1,255 @@
+{
+  "schemaVersion": "0.1.0",
+  "statusAsOfCommit": "30522d70e9be0f3fda9b9b6febc7502b9ef4c34b",
+  "program": "exact-candidate-binding",
+  "note": "Exact-candidate-binding baseline pin 30522d70. CR-eligible: ideal, rational_equality, linear_algebra (4 ops), finite_counterexample (refuted), formal_rational_calculus (4 ops soundResult), analytic_calculus (Deriv/DerivWithin/Antideriv/ODE).",
+  "capabilities": [
+    {
+      "id": "algebra.ideal_membership_witness",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": true,
+      "lean_soundness_exists": true,
+      "bridge_replay_exists": true,
+      "exact_candidate_binding_exists": true,
+      "offline_replay_exists": true,
+      "cr_eligible": true,
+      "trusted_backend": "lean_kernel",
+      "supported_assurance_modes": [
+        "native_checked",
+        "kernel_replay"
+      ],
+      "allowed_certification_outcomes": [
+        "proved"
+      ],
+      "exactBinding": {
+        "supported": true,
+        "generatorId": "mathevidence.exact_ideal_membership",
+        "generatorVersion": "0.1.0",
+        "grammarVersion": "0.1.0",
+        "generatorPath": "scripts/generate_exact_ideal_replay_module.py",
+        "verifier": "mathevidence-declaration-identity"
+      },
+      "known_limitations": [
+        "CR eligibility enabled after local Lean exact-replay E2E ladder; OfflineFixtures are not Certification Record authority.",
+        "Witness identity only: no Groebner, non-membership, radical, or completeness claim.",
+        "Offline exact bundle may still report theorem_pending for Lean inspect; online kernel_replay is the promotion path."
+      ]
+    },
+    {
+      "id": "algebra.rational_equality",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": true,
+      "lean_soundness_exists": true,
+      "bridge_replay_exists": true,
+      "exact_candidate_binding_exists": true,
+      "offline_replay_exists": true,
+      "cr_eligible": true,
+      "trusted_backend": "lean_kernel",
+      "supported_assurance_modes": [
+        "kernel_replay"
+      ],
+      "allowed_certification_outcomes": [
+        "proved"
+      ],
+      "exactBinding": {
+        "supported": true,
+        "generatorId": "mathevidence.exact_rational_equality",
+        "generatorVersion": "0.1.0",
+        "grammarVersion": "0.1.0",
+        "generatorPath": "scripts/generate_exact_rational_equality_replay_module.py",
+        "verifier": "mathevidence-declaration-identity"
+      },
+      "known_limitations": [
+        "CR eligibility enabled after local Lean exact-replay E2E; OfflineFixtures are not Certification Record authority.",
+        "Canonical rationals: int num, strictly positive den, gcd-normalized, zero as 0/1."
+      ]
+    },
+    {
+      "id": "algebra.linear_algebra",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": true,
+      "lean_soundness_exists": true,
+      "bridge_replay_exists": true,
+      "exact_candidate_binding_exists": true,
+      "offline_replay_exists": true,
+      "cr_eligible": true,
+      "trusted_backend": "lean_kernel",
+      "supported_assurance_modes": [
+        "kernel_replay"
+      ],
+      "allowed_certification_outcomes": [
+        "proved"
+      ],
+      "exactBinding": {
+        "supported": true,
+        "generatorId": "mathevidence.exact_linear_algebra",
+        "generatorVersion": "0.1.0",
+        "grammarVersion": "0.1.0",
+        "generatorPath": "scripts/generate_exact_linear_algebra_replay_module.py",
+        "verifier": "mathevidence-declaration-identity"
+      },
+      "known_limitations": [
+        "CR eligibility enabled after local Lean exact-replay E2E for inverse_witness, system_solution, kernel_vector, and det_identity.",
+        "Exact int/rational entries only; numerical LA is a different evidence class."
+      ]
+    },
+    {
+      "id": "logic.finite_counterexample",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": true,
+      "lean_soundness_exists": true,
+      "bridge_replay_exists": true,
+      "exact_candidate_binding_exists": true,
+      "offline_replay_exists": true,
+      "cr_eligible": true,
+      "trusted_backend": "lean_kernel",
+      "supported_assurance_modes": [
+        "kernel_replay"
+      ],
+      "allowed_certification_outcomes": [
+        "refuted"
+      ],
+      "exactBinding": {
+        "supported": true,
+        "generatorId": "mathevidence.exact_finite_counterexample",
+        "generatorVersion": "0.1.0",
+        "grammarVersion": "0.1.0",
+        "generatorPath": "scripts/generate_exact_finite_counterexample_replay_module.py",
+        "verifier": "mathevidence-declaration-identity"
+      },
+      "known_limitations": [
+        "Exact witness binding yields outcome polarity refuted (never proved).",
+        "CR eligibility enabled after local Lean exact-replay E2E."
+      ]
+    },
+    {
+      "id": "algebra.formal_rational_calculus",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": true,
+      "lean_soundness_exists": true,
+      "bridge_replay_exists": true,
+      "exact_candidate_binding_exists": true,
+      "offline_replay_exists": true,
+      "cr_eligible": true,
+      "trusted_backend": "lean_kernel",
+      "supported_assurance_modes": [
+        "kernel_replay"
+      ],
+      "allowed_certification_outcomes": [
+        "proved"
+      ],
+      "exactBinding": {
+        "supported": true,
+        "generatorId": "mathevidence.exact_formal_rational_calculus",
+        "generatorVersion": "0.1.0",
+        "grammarVersion": "0.1.0",
+        "generatorPath": "scripts/generate_exact_formal_rational_calculus_replay_module.py",
+        "verifier": "mathevidence-declaration-identity"
+      },
+      "known_limitations": [
+        "Formal/algebraic only; not analytic HasDerivAt.",
+        "CR eligibility enabled after local Lean exact-replay E2E for derivative/antiderivative/recurrence/ODE with soundResult claims.",
+        "Candidate-only requests remain evidence-only."
+      ]
+    },
+    {
+      "id": "analysis.analytic_calculus",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": true,
+      "lean_soundness_exists": true,
+      "bridge_replay_exists": true,
+      "exact_candidate_binding_exists": true,
+      "offline_replay_exists": true,
+      "cr_eligible": true,
+      "trusted_backend": "lean_kernel",
+      "supported_assurance_modes": [
+        "kernel_replay"
+      ],
+      "allowed_certification_outcomes": [
+        "proved"
+      ],
+      "exactBinding": {
+        "supported": true,
+        "generatorId": "mathevidence.exact_analytic_calculus",
+        "generatorVersion": "0.1.0",
+        "grammarVersion": "0.1.0",
+        "generatorPath": "scripts/generate_exact_analytic_calculus_replay_module.py",
+        "verifier": "mathevidence-declaration-identity"
+      },
+      "known_limitations": [
+        "Analytic calculus whitelist only: checkDeriv_sound, checkDerivWithin_sound, checkAntideriv_sound, checkODE_sound.",
+        "CR eligibility enabled after local Lean exact-replay E2E for Deriv / DerivWithin / Antideriv / ODE (empty-obligation single-IC ODE).",
+        "Exact ODE currently requires empty domain obligations and at most one initial condition; multi-IC / obligation-bearing ODE fail closed."
+      ]
+    },
+    {
+      "id": "logic.sat_unsat",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": false,
+      "lean_soundness_exists": false,
+      "bridge_replay_exists": false,
+      "exact_candidate_binding_exists": false,
+      "offline_replay_exists": false,
+      "cr_eligible": false,
+      "trusted_backend": "external",
+      "supported_assurance_modes": [],
+      "allowed_certification_outcomes": [],
+      "exactBinding": {
+        "supported": false
+      },
+      "known_limitations": [
+        "Federated metadata only. External SAT checker owns witnesses and proofs.",
+        "Never CR-eligible in the exact-candidate-binding program."
+      ]
+    },
+    {
+      "id": "logic.pseudo_boolean",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": false,
+      "lean_soundness_exists": false,
+      "bridge_replay_exists": false,
+      "exact_candidate_binding_exists": false,
+      "offline_replay_exists": false,
+      "cr_eligible": false,
+      "trusted_backend": "external",
+      "supported_assurance_modes": [],
+      "allowed_certification_outcomes": [],
+      "exactBinding": {
+        "supported": false
+      },
+      "known_limitations": [
+        "Federated metadata only. External PB checker owns certificates.",
+        "Never CR-eligible in the exact-candidate-binding program."
+      ]
+    },
+    {
+      "id": "logic.smt",
+      "version": "0.1.0",
+      "adapter_exists": true,
+      "checker_exists": false,
+      "lean_soundness_exists": false,
+      "bridge_replay_exists": false,
+      "exact_candidate_binding_exists": false,
+      "offline_replay_exists": false,
+      "cr_eligible": false,
+      "trusted_backend": "external",
+      "supported_assurance_modes": [],
+      "allowed_certification_outcomes": [],
+      "exactBinding": {
+        "supported": false
+      },
+      "known_limitations": [
+        "Federated metadata only. Lean-SMT / sibling projects own reconstruction.",
+        "Never CR-eligible in the exact-candidate-binding program."
+      ]
+    }
+  ]
+}

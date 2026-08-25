@@ -89,5 +89,31 @@
   },
   "semanticReview": "absent",
   "trustReview": "absent",
-  "lifecycle": "experimental"
+  "lifecycle": "experimental",
+  "assurancePolicy": {
+    "supportedAssuranceModes": [],
+    "exactBinding": {
+      "supported": false
+    },
+    "replay": {
+      "backend": "none",
+      "offlineSupported": false
+    },
+    "certification": {
+      "allowedOutcomes": [],
+      "crEligible": false
+    },
+    "maturity": {
+      "adapterExists": true,
+      "checkerExists": false,
+      "leanSoundnessExists": false,
+      "bridgeReplayExists": false,
+      "exactCandidateBindingExists": false,
+      "offlineReplayExists": false
+    },
+    "limitations": [
+      "Federated metadata only. External SAT checker owns witnesses and proofs.",
+      "Never CR-eligible in the exact-candidate-binding program."
+    ]
+  }
 }

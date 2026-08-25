@@ -1,0 +1,36 @@
+{
+  "repository": "fraware/MathEvidence",
+  "pull_request": 53,
+  "pinned_head": "30522d70e9be0f3fda9b9b6febc7502b9ef4c34b",
+  "assessment_date": "2026-08-25",
+  "ci_baseline": {
+    "passing": [
+      "security",
+      "adapter-conformance",
+      "supply-chain",
+      "adversarial"
+    ],
+    "failing": [
+      "lean",
+      "offline-replay",
+      "benchmarks"
+    ],
+    "interpretation": "Shared Lean/exact-replay build integration failure; benchmark task suite itself passes."
+  },
+  "specs": [
+    "SPEC-00-Rebaseline-Status-and-Trust-Model.md",
+    "SPEC-01-Restore-Lean-Exact-Replay-CI.md",
+    "SPEC-02-Assurance-Capability-Registry.md",
+    "SPEC-03-Exact-Replay-Generator-Framework.md",
+    "SPEC-04-Rational-Equality-Exact-Certification.md",
+    "SPEC-05-Linear-Algebra-Exact-Certification.md",
+    "SPEC-06-Finite-Counterexample-Exact-Refutation.md",
+    "SPEC-07-Calculus-Exact-Certification.md",
+    "SPEC-08-Certification-Record-vNext.md",
+    "SPEC-09-Offline-Replay-and-Release-Bundle.md",
+    "SPEC-10-Benchmark-Conformance-and-Adversarial-Rebaseline.md",
+    "SPEC-11-Bounded-Execution-and-Security-Hardening.md",
+    "SPEC-12-Handoff-Docs-and-Operational-Runbook.md"
+  ],
+  "program_invariant": "Theorem-level certification requires exact candidate-bound verification; fixture/bridge replay cannot authorize promotion."
+}

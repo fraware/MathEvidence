@@ -2,45 +2,48 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://mathevidence.org/schemas/certification-record-v0.json",
   "title": "MathEvidence Certification Record Manifest",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "bundleVersion",
-    "artifactKind",
-    "candidateBundleDigest",
-    "capability",
-    "requestDigest",
-    "claimClass",
-    "resultStatus",
-    "assuranceMode",
-    "files",
-    "provenance",
-    "certificationDigest"
+  "description": "v0.4 is current. v0.3 remains parseable under its original version.",
+  "oneOf": [
+    { "$ref": "#/$defs/recordV03" },
+    { "$ref": "#/$defs/recordV04" }
   ],
-  "properties": {
-    "bundleVersion": {
-      "type": "string",
-      "enum": ["0.3.0"]
-    },
-    "schemaVersion": {
-      "type": "string",
-      "enum": ["0.3.0"]
-    },
-    "artifactKind": {
-      "const": "certification"
-    },
-    "candidateBundleDigest": {
+  "$defs": {
+    "sha256Digest": {
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$"
     },
-    "certificationDigest": {
+    "digestOrNA": {
       "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
+      "anyOf": [
+        { "pattern": "^sha256:[0-9a-f]{64}$" },
+        { "const": "n/a" }
+      ]
     },
-    "bundleDigest": {
-      "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$",
-      "description": "Alias of certificationDigest for store addressing."
+    "fileEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "digest", "mediaType", "role"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._/-]+$"
+        },
+        "digest": { "$ref": "#/$defs/sha256Digest" },
+        "mediaType": { "type": "string" },
+        "role": {
+          "type": "string",
+          "enum": [
+            "replay-target",
+            "checker-evaluation",
+            "theorem-identity",
+            "axiom-report",
+            "certification-receipt",
+            "signature",
+            "readme",
+            "other"
+          ]
+        }
+      }
     },
     "capability": {
       "type": "object",
@@ -49,48 +52,6 @@
       "properties": {
         "id": { "type": "string" },
         "version": { "type": "string" }
-      }
-    },
-    "requestDigest": {
-      "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
-    },
-    "claimClass": { "type": "string" },
-    "resultStatus": { "type": "string" },
-    "assuranceMode": {
-      "enum": ["kernel_replay", "verified_reflection", "native_checked"]
-    },
-    "files": {
-      "type": "array",
-      "minItems": 5,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["path", "digest", "mediaType", "role"],
-        "properties": {
-          "path": {
-            "type": "string",
-            "pattern": "^[A-Za-z0-9._/-]+$"
-          },
-          "digest": {
-            "type": "string",
-            "pattern": "^sha256:[0-9a-f]{64}$"
-          },
-          "mediaType": { "type": "string" },
-          "role": {
-            "type": "string",
-            "enum": [
-              "replay-target",
-              "checker-evaluation",
-              "theorem-identity",
-              "axiom-report",
-              "certification-receipt",
-              "signature",
-              "readme",
-              "other"
-            ]
-          }
-        }
       }
     },
     "provenance": {
@@ -103,6 +64,116 @@
         "checkerVersion": { "type": "string" },
         "backend": {
           "type": ["object", "null"]
+        }
+      }
+    },
+    "recordV03": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bundleVersion",
+        "artifactKind",
+        "candidateBundleDigest",
+        "capability",
+        "requestDigest",
+        "claimClass",
+        "resultStatus",
+        "assuranceMode",
+        "files",
+        "provenance",
+        "certificationDigest"
+      ],
+      "properties": {
+        "bundleVersion": { "const": "0.3.0" },
+        "schemaVersion": { "const": "0.3.0" },
+        "artifactKind": { "const": "certification" },
+        "candidateBundleDigest": { "$ref": "#/$defs/sha256Digest" },
+        "certificationDigest": { "$ref": "#/$defs/sha256Digest" },
+        "bundleDigest": { "$ref": "#/$defs/sha256Digest" },
+        "capability": { "$ref": "#/$defs/capability" },
+        "requestDigest": { "$ref": "#/$defs/sha256Digest" },
+        "claimClass": { "type": "string" },
+        "resultStatus": { "type": "string" },
+        "assuranceMode": {
+          "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+        },
+        "files": {
+          "type": "array",
+          "minItems": 5,
+          "items": { "$ref": "#/$defs/fileEntry" }
+        },
+        "provenance": { "$ref": "#/$defs/provenance" }
+      }
+    },
+    "recordV04": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bundleVersion",
+        "artifactKind",
+        "candidateBundleDigest",
+        "capability",
+        "requestDigest",
+        "claimClass",
+        "resultStatus",
+        "outcome",
+        "assuranceMode",
+        "files",
+        "provenance",
+        "certificationDigest",
+        "canonicalClaimHash",
+        "candidateHash",
+        "generatorId",
+        "generatorVersion",
+        "grammarVersion",
+        "generatedSourceHash",
+        "theoremOrDeclarationIdentity",
+        "toolchainContractDigest",
+        "dependencyLockDigest",
+        "artifactHashes",
+        "replayManifestHash",
+        "executionPolicyId"
+      ],
+      "properties": {
+        "bundleVersion": { "const": "0.4.0" },
+        "schemaVersion": { "const": "0.4.0" },
+        "artifactKind": { "const": "certification" },
+        "candidateBundleDigest": { "$ref": "#/$defs/sha256Digest" },
+        "certificationDigest": { "$ref": "#/$defs/sha256Digest" },
+        "bundleDigest": { "$ref": "#/$defs/sha256Digest" },
+        "capability": { "$ref": "#/$defs/capability" },
+        "requestDigest": { "$ref": "#/$defs/sha256Digest" },
+        "claimClass": { "type": "string" },
+        "resultStatus": { "type": "string" },
+        "outcome": {
+          "enum": ["proved", "refuted", "evidence_only"]
+        },
+        "assuranceMode": {
+          "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+        },
+        "files": {
+          "type": "array",
+          "minItems": 5,
+          "items": { "$ref": "#/$defs/fileEntry" }
+        },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "canonicalClaimHash": { "$ref": "#/$defs/digestOrNA" },
+        "candidateHash": { "$ref": "#/$defs/digestOrNA" },
+        "generatorId": { "type": "string", "minLength": 1 },
+        "generatorVersion": { "type": "string", "minLength": 1 },
+        "grammarVersion": { "type": "string", "minLength": 1 },
+        "generatedSourceHash": { "$ref": "#/$defs/digestOrNA" },
+        "theoremOrDeclarationIdentity": { "type": "string", "minLength": 1 },
+        "toolchainContractDigest": { "$ref": "#/$defs/digestOrNA" },
+        "dependencyLockDigest": { "$ref": "#/$defs/digestOrNA" },
+        "artifactHashes": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/digestOrNA" }
+        },
+        "replayManifestHash": { "$ref": "#/$defs/digestOrNA" },
+        "executionPolicyId": { "type": "string", "minLength": 1 },
+        "assuranceTier": {
+          "enum": ["exact", "legacy_fixture", "evidence_only"]
         }
       }
     }

@@ -25,6 +25,7 @@ open MathEvidence.Encoding.Finite
 open MathEvidence.Encoding.Polynomial
 open MathEvidence.IR.MatrixExpr (evalMatrix? evalVector?)
 open MathEvidence.IR.Polynomial (SparsePoly)
+open MvPolynomial
 
 /-- densify ∘ interpret ∘ quote = id on a concrete 2×2 matrix. -/
 theorem matrix_quote_roundtrip_2x2 :
@@ -63,18 +64,18 @@ theorem nat_bound_pred_matches (x : Nat) :
       (decide (x ≤ 3 → x = 0)) :=
   interprets_nat_le_imp_eq x 3 0
 
-/-- Univariate sparse IR matches `Polynomial.eval`. -/
-theorem poly_C_add_X_matches (c x : Int) :
-    InterpretsAt (SparsePoly.add (sparseC1 c) sparseX) [x]
-      ((_root_.Polynomial.eval x) ((_root_.Polynomial.C c) + _root_.Polynomial.X)) :=
-  interprets_sparseC1_add_X c x
+/-- Univariate sparse IR matches `C c + X` in `MvPolynomial (Fin 1)`. -/
+theorem poly_C_add_X_matches (c : Int) :
+    ((SparsePoly.C 1 c).add sparseX).eval =
+      (C c + MvPolynomial.X (0 : Fin 1) : MvPolynomial (Fin 1) ℤ) := by
+  rw [eval_add_bridge, eval_C_bridge, sparseX_eval]
 
-/-- MvPolynomial Fin-2 product matches sparse IR. -/
-theorem mv_X0_mul_X1_matches (a b : Int) :
-    InterpretsAt (SparsePoly.mul sparseX0 sparseX1) [a, b]
-      (MvPolynomial.eval (fun i : Fin 2 => if i = 0 then a else b)
-        ((MvPolynomial.X (0 : Fin 2) : MvPolynomial (Fin 2) ℤ) *
-          MvPolynomial.X (1 : Fin 2))) :=
-  interprets_sparseX0_mul_X1 a b
+/-- MvPolynomial Fin-2 product matches sparse `X₀ * X₁`. -/
+theorem mv_X0_mul_X1_matches :
+    (sparseX0.mul sparseX1).eval =
+      ((MvPolynomial.X (0 : Fin 2) : MvPolynomial (Fin 2) ℤ) *
+        MvPolynomial.X (1 : Fin 2)) := by
+  rw [eval_mul_bridge]
+  simp [sparseX0, sparseX1, SparsePoly.eval_X]
 
 end MathEvidence.Encoding.Examples

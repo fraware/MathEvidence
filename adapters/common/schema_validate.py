@@ -24,8 +24,10 @@ class SchemaStore:
 
     def _build_registry(self) -> Registry:
         registry: Registry = Registry()
+        resources: list[tuple[str, dict[str, Any]]] = []
         for path in sorted(self.schemas_dir.glob("*.schema.json")):
             data = json.loads(path.read_text(encoding="utf-8"))
+            resources.append((path.name, data))
             resource = Resource.from_contents(data, DRAFT202012)
             # Register under filename for relative $ref values used in schemas.
             registry = registry.with_resource(path.name, resource)
@@ -34,6 +36,13 @@ class SchemaStore:
             schema_id = data.get("$id")
             if isinstance(schema_id, str):
                 registry = registry.with_resource(schema_id, resource)
+        # Cross-schema filename $refs resolve against https://mathevidence.org/schemas/
+        # when the referring document declares an $id in that namespace.
+        for name, data in resources:
+            alias = f"https://mathevidence.org/schemas/{name}"
+            registry = registry.with_resource(
+                alias, Resource.from_contents(data, DRAFT202012)
+            )
         return registry
 
     def validator(self, schema_name: str) -> Draft202012Validator:

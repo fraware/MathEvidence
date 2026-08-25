@@ -41,6 +41,9 @@ Thumbs.db
 !dev/receipt-keys/README.md
 credentials.json
 
+# Local scratch / exact-replay working dirs (never commit)
+_tmp_*/
+
 # Evidence / artifacts (large generated; committed examples stay under evidence/)
 /tmp/
 /artifacts/
@@ -66,3 +69,4 @@ benchmarks/differential/manifest.json
 /evidence/store/bundles/sha256/
 /evidence/store/index/by-request/
 /evidence/store/sha256/
+/evidence/store/certifications/

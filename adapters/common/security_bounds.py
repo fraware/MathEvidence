@@ -38,7 +38,11 @@ def enforce_nesting_depth(value: Any, *, limits: ResourceLimits | None = None) -
 
 
 def integer_digit_count(text: str) -> int:
-    """Count decimal digits in an integer string (optional leading sign)."""
+    """Count decimal digits in an integer string (optional leading sign).
+
+    Uses the full digit string length (including leading zeros) so padded
+    numerals cannot bypass ``max_digits`` resource bounds.
+    """
     s = text.strip()
     if s.startswith(("+", "-")):
         s = s[1:]
@@ -47,7 +51,7 @@ def integer_digit_count(text: str) -> int:
             "malformed_evidence",
             f"integer literal is not a decimal digit string: {text!r}",
         )
-    return len(s.lstrip("0") or "0")
+    return len(s)
 
 
 def enforce_integer_digits(
@@ -89,7 +93,13 @@ def reject_path_traversal(rel: str, *, root: Path | None = None) -> Path | None:
     """Reject ``..`` / absolute paths; optionally resolve under ``root``."""
     normalized = rel.replace("\\", "/")
     parts = normalized.split("/")
-    if normalized.startswith("/") or any(p == ".." for p in parts):
+    # POSIX absolute, Windows drive, or UNC.
+    if (
+        normalized.startswith("/")
+        or any(p == ".." for p in parts)
+        or (len(normalized) >= 2 and normalized[1] == ":")
+        or normalized.startswith("//")
+    ):
         raise stable_error(
             "malformed_evidence",
             f"path traversal rejected: {rel}",
@@ -108,3 +118,21 @@ def reject_path_traversal(rel: str, *, root: Path | None = None) -> Path | None:
             details={"kind": "path_traversal", "path": rel},
         ) from exc
     return candidate
+
+
+def reject_symlink_escape(path: Path, *, root: Path) -> Path:
+    """Reject files whose resolved real path escapes ``root`` (symlink escape)."""
+    root_resolved = root.resolve()
+    if path.is_symlink() or path.exists():
+        real = path.resolve()
+    else:
+        real = path.resolve()
+    try:
+        real.relative_to(root_resolved)
+    except ValueError as exc:
+        raise stable_error(
+            "malformed_evidence",
+            f"symlink or path escapes workspace: {path}",
+            details={"kind": "symlink_escape", "path": str(path)},
+        ) from exc
+    return real

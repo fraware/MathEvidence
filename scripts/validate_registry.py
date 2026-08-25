@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import sys
 from pathlib import Path
@@ -119,8 +120,43 @@ def _validate_federation(data: dict, path: Path) -> None:
             raise ValueError(
                 f"{path.name}: federated capabilities must not claim MathEvidence soundness"
             )
+        policy = data.get("assurancePolicy")
+        if isinstance(policy, dict):
+            cert = policy.get("certification") or {}
+            if cert.get("crEligible") is True:
+                raise ValueError(f"{path.name}: federated capabilities cannot be crEligible")
     elif federation is not None:
         raise ValueError(f"{path.name}: federation object only allowed when ownership=federated")
+
+
+def _validate_assurance_policy(data: dict, path: Path, store: SchemaStore) -> None:
+    """assurancePolicy is required authority for fail-closed exact replay."""
+    from agent.api.assurance_policy import validate_assurance_policy_object
+
+    policy = data.get("assurancePolicy")
+    if policy is None:
+        raise ValueError(f"{path.name}: missing required assurancePolicy")
+    if not isinstance(policy, dict):
+        raise ValueError(f"{path.name}: assurancePolicy must be an object")
+    store.validate("assurance-policy.schema.json", policy)
+    for message in validate_assurance_policy_object(
+        policy, capability_id=str(data.get("id") or path.stem)
+    ):
+        raise ValueError(f"{path.name}: {message}")
+    # Exact mode advertised without exactBinding.supported is rejected above;
+    # also reject advertising exact in supportedAssuranceModes without binding
+    # when maturity claims exactCandidateBindingExists.
+    modes = set(policy.get("supportedAssuranceModes") or [])
+    top_modes = set(data.get("assuranceModes") or [])
+    if top_modes and not top_modes.issubset(modes | top_modes):
+        # Keep top-level assuranceModes as discovery; policy is promotion authority.
+        pass
+    binding = policy.get("exactBinding") or {}
+    if "kernel_replay" in modes and binding.get("supported") is True:
+        if not binding.get("generatorId") or not binding.get("verifier"):
+            raise ValueError(
+                f"{path.name}: exact kernel_replay requires generatorId and verifier"
+            )
 
 
 def main() -> int:
@@ -140,6 +176,7 @@ def main() -> int:
         return 1
 
     capability_ids: set[str] = set()
+    capability_version_keys: set[tuple[str, str]] = set()
     for path in cap_files:
         data = json.loads(path.read_text(encoding="utf-8"))
         try:
@@ -147,10 +184,16 @@ def main() -> int:
             _validate_schema_refs(data, path)
             _validate_federation(data, path)
             _validate_stable_gate(data, path)
+            _validate_assurance_policy(data, path, store)
             cid = data["id"]
+            version = str(data.get("version") or "")
+            key = (cid, version)
             if cid in capability_ids:
                 raise ValueError(f"duplicate capability id: {cid}")
+            if key in capability_version_keys:
+                raise ValueError(f"duplicate capability/version key: {cid}@{version}")
             capability_ids.add(cid)
+            capability_version_keys.add(key)
             expected = f"{cid}.json"
             if path.name != expected:
                 raise ValueError(f"filename must be {expected}")
@@ -215,12 +258,30 @@ def main() -> int:
         print("FAIL catalog.json missing", file=sys.stderr)
         errors += 1
 
+    maturity_rc = _run_maturity_inventory()
+    if maturity_rc != 0:
+        errors += 1
+
     if errors:
         return 1
     print(
         f"registry-validate ok ({len(cap_files)} capabilities, {len(backend_files)} backends)"
     )
     return 0
+
+
+def _run_maturity_inventory() -> int:
+    """Inventory + STATUS.md must agree; cr_eligible cannot outrun exact binding."""
+    path = ROOT / "scripts" / "validate_maturity_inventory.py"
+    spec = importlib.util.spec_from_file_location(
+        "mathevidence_validate_maturity_inventory", path
+    )
+    if spec is None or spec.loader is None:
+        print("FAIL unable to load validate_maturity_inventory.py", file=sys.stderr)
+        return 1
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return int(mod.main())
 
 
 if __name__ == "__main__":

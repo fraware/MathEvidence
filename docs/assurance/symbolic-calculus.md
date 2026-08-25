@@ -38,8 +38,10 @@ New Lean imports may use the additive alias barrel
 ## Soundness / completeness
 
 Soundness theorems live with the checker package. Completeness: **null** in the
-assurance JSON. Candidate validity remains separate from completeness
-(Milestone 5 honesty).
+assurance JSON. Candidate validity remains separate from completeness.
+Checker acceptance is not a theorem-level Certification Record; exact binding
+and registry `crEligible` are required — see [`../STATUS.md`](../STATUS.md).
+Analytic calculus (`analysis.analytic_calculus`) is a separate capability.
 
 ## Proprietary backends
 

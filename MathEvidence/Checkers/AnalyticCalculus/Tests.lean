@@ -20,10 +20,12 @@ def productCert : DerivCertificate where
   derivative := .add (.mul (.const 1) (.variable 0)) (.mul (.variable 0) (.const 1))
   proof := .mul .variable .variable
 
-example : checkDeriv productCert = true := by native_decide
+theorem productCert_ok : checkDeriv productCert = true := by native_decide
 
 /-- Completeness claim rejected. -/
-example : checkDeriv { productCert with claimsCompleteness := true } = false := by native_decide
+theorem productCert_completeness_rejected :
+    checkDeriv { productCert with claimsCompleteness := true } = false := by
+  native_decide
 
 /-- Quotient with explicit nonzero obligation. -/
 def quotientCert : DerivCertificate where
@@ -36,10 +38,17 @@ def quotientCert : DerivCertificate where
   proof := .div .variable (.add .variable .const) 0
   obligations := #[.nonzero (.add (.variable 0) (.const 1))]
 
-example : checkDeriv quotientCert = true := by native_decide
+/- Lean 4.14.0 `native_decide`/`ofReduceBool` is ill-typed on this certificate
+(`Eq.refl true` vs `reduceBool _ = true`). The VM check still fails the build
+if `checkDeriv` does not accept the fixture. -/
+#eval
+  if checkDeriv quotientCert then ()
+  else panic! "expected checkDeriv quotientCert = true"
 
 /-- Missing denominator obligation rejected. -/
-example : checkDeriv { quotientCert with obligations := #[] } = false := by native_decide
+theorem quotientCert_missing_obligation_rejected :
+    checkDeriv { quotientCert with obligations := #[] } = false := by
+  native_decide
 
 /-- Power rule. -/
 def powCert : DerivCertificate where
@@ -47,7 +56,7 @@ def powCert : DerivCertificate where
   derivative := .mul (.mul (.const 3) (.pow (.variable 0) 2)) (.const 1)
   proof := .pow 3 .variable
 
-example : checkDeriv powCert = true := by native_decide
+theorem powCert_ok : checkDeriv powCert = true := by native_decide
 
 /-- Nested sin ∘ id. -/
 def sinCert : DerivCertificate where
@@ -55,7 +64,7 @@ def sinCert : DerivCertificate where
   derivative := .mul (.cos (.variable 0)) (.const 1)
   proof := .sin .variable
 
-example : checkDeriv sinCert = true := by native_decide
+theorem sinCert_ok : checkDeriv sinCert = true := by native_decide
 
 /-- Exp. -/
 def expCert : DerivCertificate where
@@ -63,7 +72,7 @@ def expCert : DerivCertificate where
   derivative := .mul (.exp (.variable 0)) (.const 1)
   proof := .exp .variable
 
-example : checkDeriv expCert = true := by native_decide
+theorem expCert_ok : checkDeriv expCert = true := by native_decide
 
 /-- Log with positivity obligation. -/
 def logCert : DerivCertificate where
@@ -72,27 +81,29 @@ def logCert : DerivCertificate where
   proof := .log .variable 0
   obligations := #[.positive (.variable 0)]
 
-example : checkDeriv logCert = true := by native_decide
+theorem logCert_ok : checkDeriv logCert = true := by native_decide
 
 /-- Missing log positivity rejected. -/
-example : checkDeriv { logCert with obligations := #[] } = false := by native_decide
+theorem logCert_missing_obligation_rejected :
+    checkDeriv { logCert with obligations := #[] } = false := by
+  native_decide
 
 /-- Incorrect derivative tree rejected. -/
-example : checkDeriv {
+theorem sinCert_wrong_proof_rejected : checkDeriv {
   source := .sin (.variable 0)
   derivative := .mul (.cos (.variable 0)) (.const 1)
   proof := .exp .variable
 } = false := by native_decide
 
 /-- Correct expression with incorrect claimed derivative rejected. -/
-example : checkDeriv {
+theorem sinCert_wrong_derivative_rejected : checkDeriv {
   source := .sin (.variable 0)
   derivative := .const 0
   proof := .sin .variable
 } = false := by native_decide
 
 /-- Multivariate source rejected. -/
-example : checkDeriv {
+theorem multivariate_source_rejected : checkDeriv {
   source := .variable 1
   derivative := .const 0
   proof := .variable
@@ -105,10 +116,12 @@ def odeSq : ODECertificate where
   derivProof := .pow 2 .variable
   initialConditions := #[{ point := .const 0, value := .const 0 }]
 
-example : checkODE odeSq = true := by native_decide
+theorem odeSq_ok : checkODE odeSq = true := by native_decide
 
 /-- Completeness on ODE rejected. -/
-example : checkODE { odeSq with claimsCompleteness := true } = false := by native_decide
+theorem odeSq_completeness_rejected :
+    checkODE { odeSq with claimsCompleteness := true } = false := by
+  native_decide
 
 /-- Antiderivative of `1` is `x`. -/
 def antiderivId : AntiderivCertificate where
@@ -116,11 +129,13 @@ def antiderivId : AntiderivCertificate where
   derivative := .const 1
   proof := .variable
 
-example : checkAntideriv antiderivId = true := by native_decide
+theorem antiderivId_ok : checkAntideriv antiderivId = true := by native_decide
 
 /-- Concrete Mathlib example retained as documentation. -/
 theorem hasDerivAt_sq (x : ℝ) :
-    HasDerivAt (fun y : ℝ => y ^ 2) (2 * x) x :=
-  (hasDerivAt_id x).pow 2
+    HasDerivAt (fun y : ℝ => y ^ 2) (2 * x) x := by
+  simpa [id_eq, pow_two, pow_one, Nat.cast_eq_ofNat, mul_one, mul_comm,
+    mul_left_comm, mul_assoc] using
+    (HasDerivAt.pow (n := 2) (hasDerivAt_id (𝕜 := ℝ) x))
 
 end MathEvidence.Checkers.AnalyticCalculus.Tests

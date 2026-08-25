@@ -19,7 +19,8 @@
     "knownLimitations",
     "conformance",
     "maintainers",
-    "supportClaims"
+    "supportClaims",
+    "assurancePolicy"
   ],
   "properties": {
     "id": {
@@ -304,6 +305,10 @@
           "items": { "type": "string" }
         }
       }
+    },
+    "assurancePolicy": {
+      "$ref": "assurance-policy.schema.json",
+      "description": "Authority for theorem promotion and exact-candidate fail-closed decisions. Adapter discovery fields above are unchanged."
     }
   }
 }

@@ -289,8 +289,11 @@ def test_certification_receipt_coherence_native_checked(tmp_path: Path) -> None:
         )
 
 
-def test_certification_record_roundtrip(tmp_path: Path) -> None:
+def test_certification_record_structural_roundtrip_does_not_imply_verification(
+    tmp_path: Path,
+) -> None:
     from adapters.common.theorem_identity import (
+        build_replay_target,
         default_rational_environment_lock,
         environment_lock_digest,
     )
@@ -305,6 +308,7 @@ def test_certification_record_roundtrip(tmp_path: Path) -> None:
     )
     d = sha256_digest({"k": "v"})
     lock = environment_lock_digest(default_rational_environment_lock())
+    declaration = "forensic_rational_structural_only"
     cert_path = next(
         e["digest"] for e in cand_manifest["files"] if e["path"] == "certificate.cjson"
     )
@@ -345,11 +349,19 @@ def test_certification_record_roundtrip(tmp_path: Path) -> None:
         claim_class="soundResult",
         result_status="soundness_verified",
         assurance_mode="kernel_replay",
-        replay_target={
-            "schemaVersion": "0.3.0",
-            "candidateBundleDigest": cand_manifest["bundleDigest"],
-            "detail": "pending_wave2_elaboration",
-        },
+        replay_target=build_replay_target(
+            module_name="MathEvidence.Generated.Replay.forensic_rational_structural_only",
+            declaration_name=declaration,
+            theorem_type_canonical="forensic-rational-structural-only",
+            theorem_type_digest_value=d,
+            source_revision="historical-structural-fixture",
+            source_file="MathEvidence/Generated/Replay/forensic_rational_structural_only.lean",
+            environment_lock_digest_value=lock,
+            request_digest=request["requestDigest"],
+            capability_id="algebra.rational_equality",
+            capability_version="0.1.0",
+            candidate_bundle_digest=cand_manifest["bundleDigest"],
+        ),
         checker_evaluation={
             "schemaVersion": "0.3.0",
             "resultStatus": "checker_accepted",
@@ -357,6 +369,8 @@ def test_certification_record_roundtrip(tmp_path: Path) -> None:
         },
         theorem_identity={
             "schemaVersion": "0.3.0",
+            "serializerVersion": "mathevidence-theorem-identity-0.3",
+            "declarationName": declaration,
             "theoremTypeDigest": d,
             "proofDeclarationDigest": d,
             "environmentLockDigest": lock,
@@ -373,8 +387,11 @@ def test_certification_record_roundtrip(tmp_path: Path) -> None:
     assert result.candidate_bundle_digest == cand_manifest["bundleDigest"]
     assert result.assurance_mode == "kernel_replay"
     assert result.claim_established == "soundResult"
-    assert result.environment_lock_current is True
-    assert result.verified is True
+    assert result.record_integrity_verified is True
+    assert result.environment_lock_current is False
+    assert result.environment_lock_stale is True
+    assert result.kernel_replay_verified is False
+    assert result.verified is False
 
 
 def test_migration_script_deterministic(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

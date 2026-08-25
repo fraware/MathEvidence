@@ -1,0 +1,1 @@
+{"reportedOk":true,"source":{"lhs":{"idx":0,"tag":"variable"},"rhs":{"idx":0,"tag":"variable"},"tag":"mul"},"target":{"lhs":{"lhs":{"tag":"const","value":"1"},"rhs":{"idx":0,"tag":"variable"},"tag":"mul"},"rhs":{"lhs":{"idx":0,"tag":"variable"},"rhs":{"tag":"const","value":"1"},"tag":"mul"},"tag":"add"}}

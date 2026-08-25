@@ -28,26 +28,30 @@ Forensic regressions under `tests/forensic/` guard several of these properties.
 
 ## Current engineering posture
 
-Wave 0–1 claim correction, Candidate Bundle v0.3, content-addressed store, and
-Certification Record verification are present in tree. Wave 2 adds
-`mathevidence-kernel-replay` (protocol-reference fixture) plus a Python
-generated-module driver that **refuses** `soundness_verified` without Lean.
-Mathlib-heavy Checkers/IR compile remains the main local/CI cost center.
+Exact candidate binding is required for theorem-level Certification Records
+([ADR 0005](../adr/0005-exact-candidate-binding.md)). Live CR eligibility is
+registry-backed ([`docs/STATUS.md`](../STATUS.md),
+[`registry/maturity-inventory.json`](../../registry/maturity-inventory.json)).
+OfflineFixtures and checker-only green are **not** CR authority for a submitted
+candidate. Mathlib-heavy Checkers/IR compile remains the main local/CI cost center.
 
 | Area | Honest status |
 | --- | --- |
-| Rational equality | Protocol / semantic-boundary **reference**; `externalSearchEssential: false`. Interactive tactic closes fixtures and supported live certs via `eq_of_proposition` / elaborated `eq_of_replaySound` (`Bridge`; `Tactic/Examples.olean`). Kernel Certified also via `mathevidence-kernel-replay` / `replaySound` (Linux CI authoritative; Windows **required** rsp path). |
-| Linear algebra / finite CEX | `LinearAlgebra/Bridge.olean` + `BridgeDet.olean` (general-n inverse; rectangular system/kernel for `n ≠ 0`; general-n det via non-partial fuel `detRats` / Laplace) + Fin-5/6 det examples + rectangular examples + `Counterexample/Bridge.olean`. Kernel-replay fixtures inv/sys/ker/det + nat_eq0/bool_false. Practical det scale: intentional `defaultSizeLimit` (64 entries) — resource policy, not a missing proof. |
-| `algebra.formal_rational_calculus` | Formal rational-expression calculus only. Analytic `HasDerivAt` / ODE is separate (`analysis.analytic_calculus`). |
-| Ideal membership | Fixed-arity IR + Mathlib `Vector`; Soundness + `mem_span_*_of_check` / `mem_span_triple_of_check` + live Meta (`live_x2_minus_1_span` / `live_xy_span` / `live_xyz_span`) oleans attested. Benchmark: candidate smoke never claims `soundness_verified`; release tier emits Certification Records via OfflineFixtures (`xy`/`x2m1`) + `replaySound` (nightly `benchmarks.yml`). Capability id `algebra.ideal_membership_witness`. External backends discovery-only. External held-out (ME-RV-081) **BLOCKED(human)**. |
+| Exact binding / CR | Six owned capabilities are `cr_eligible=true` after Lean exact-replay E2E (`proved`, except CEX `refuted`). Federated SAT/PB/SMT never CR-eligible under exact binding. |
+| Rational equality | Protocol / semantic-boundary **reference**; interactive tactic closes fixtures and supported live certs via `eq_of_proposition` / `eq_of_replaySound`. Exact generator + CR path when registry allows. Linux CI authoritative for linked exe; Windows **required** rsp path. |
+| Linear algebra / finite CEX | Bridge + exact generators for registered ops; practical det scale bounded by intentional `defaultSizeLimit` (64 entries). CEX CR outcome is `refuted` only. |
+| Formal / analytic calculus | `algebra.formal_rational_calculus` is formal/algebraic only. `analysis.analytic_calculus` is a separate whitelist; exact ODE requires empty domain obligations and at most one initial condition. |
+| Ideal membership | Witness identity only (`algebra.ideal_membership_witness`); no Groebner / non-membership completeness. Exact generator + CR path when registry allows. OfflineFixtures remain protocol self-tests. External held-out (ME-RV-081) **BLOCKED(human)**. |
 | Agent API | Experimental. Public ops use opaque IDs. Certified only via verified Certification Record (`open_certification`). |
-| Evidence bundles | Candidate Bundle / Certification Record **v0.3**; placeholders rejected. |
-| CI / `just check` | Workflows under `.github/workflows/`. Branch protection enabled on `main` (see [`validation/ci/`](../validation/ci/)). `uv.lock` committed @ `1eb1e15` (ME-RV-070 lock-in-history MET); P0-G remains PARTIAL until push + Actions green. Forensic + rational/analytic kernel-replay self-tests in `lean.yml` (Linux authoritative). Local green `just check` is not promotion evidence. |
+| Evidence bundles | Candidate Bundle **v0.3**; Certification Record **v0.4** for exact promotion. Legacy v0.3 must not be silently upgraded. Placeholders rejected. |
+| Offline exact inspect | Defaults to `theorem_pending`; `MATHEVIDENCE_OFFLINE_LEAN=1` / `require_lean=True` may yield `theorem_proved` when Lake is available — still not a CR mint. |
+| CI / `just check` | Workflows under `.github/workflows/`. Branch protection enabled on `main` (see [`validation/ci/`](../validation/ci/)). Local green `just check` is not promotion evidence or attested release CI. |
 | CODEOWNERS | Single-owner incubation stub (`@fraware`). Multi-area dual review is **not** enforceable yet (ME-RV-084 / `admin:org`). |
-| Stable promotion | **Blocked** until real-vision acceptance matrix + human gates below close. Mechanical gate: `schemas/promotion-record.schema.json` + `registry/promotions/` (ME-RV-087). Living score: [`TRIPLE_CHECK_GAP_MATRIX.md`](../audits/2026-07-26-real-vision/TRIPLE_CHECK_GAP_MATRIX.md) (`MISSING = 0`). |
-| Bundle verifier vs kernel replay | `mathevidence-verify-bundle` → `native_checked` / `checker_accepted` only. `mathevidence-kernel-replay` → fixture `replaySound` + analytic `--self-test-analytic` + Python driver. Windows: `scripts/link_exe_via_rsp.py` required; `smoke_exe` degrades with `replay_dependency_missing`. |
+| Stable promotion | **Blocked** until acceptance matrix + human gates below close. Mechanical gate: `schemas/promotion-record.schema.json` + `registry/promotions/`. Historical scoreboard: [`TRIPLE_CHECK_GAP_MATRIX.md`](../audits/2026-07-26-real-vision/TRIPLE_CHECK_GAP_MATRIX.md). |
+| Bundle verifier vs kernel replay | `mathevidence-verify-bundle` → `native_checked` / `checker_accepted` only. Exact theorem path uses declaration-identity + registry policy. Windows: `scripts/link_exe_via_rsp.py` required; degrade with `replay_dependency_missing` — never fake Certified. |
+| Signing / PKI | Production receipt PKI and signed 0.x prerelease attestation remain **deferred** (dev keys under `dev/receipt-keys/` only). |
 | Foundry Q2 | Redefined to require Certification Record fields; v0.1 corpus is `Q1_checker_preview` (0 Q2). |
-| Env import/axiom audits | `mathevidence-import-graph` / `mathevidence-axiom-report` use `Lean.importModules` + `CollectAxioms` (`environmentLevel: true`); regex source scans remain defense-in-depth. |
+| Env import/axiom audits | `mathevidence-import-graph` / `mathevidence-axiom-report` use `Lean.importModules` + `CollectAxioms`; regex source scans remain defense-in-depth. |
 
 ---
 
@@ -86,7 +90,7 @@ Full index: [`human-gates-runbook.md`](../validation/human-gates-runbook.md).
 | E-8 | Frozen `uv.lock` | **Closed for lock-in-history:** committed @ `1eb1e15`. Remote attested CI freeze remains under P0-G / E-1. |
 | E-9 | Signed 0.x prerelease | Provenance/SBOM scaffolding present; signing + human publish approval open (ME-RV-074). |
 | E-10 | Environment-level Lean audits | **Closed for ME-RV-071/072** via `importModules` / `CollectAxioms` drivers + CI; keep source-scan as defense-in-depth. |
-| E-11 | Ideal flagship adoption | Live Meta + soundness oleans green; in-repo release-grade Certification Record MET (OfflineFixtures). No live external adoption; ME-RV-081 external held-out **BLOCKED(human)**. |
+| E-11 | Ideal flagship adoption | Exact CR path exists for witness identity when registry `crEligible`. OfflineFixtures are not CR authority for a submitted candidate. No live external adoption; ME-RV-081 external held-out **BLOCKED(human)**. |
 | E-12 | Rational tactic authority | **Closed for supported live fragment:** fixtures + elaborated live `eq_of_replaySound` (`RationalClose.tryCloseViaReplaySoundLive`); non-fixture examples + adversarial rejects in `Tactic/Examples.olean`. Authority remains checker soundness (no independent final `field_simp; ring`). |
 | E-13 | LA Bridge det (closed) | General-n `det_of_isDetIdentity` via non-partial `detRatsFuel`; Fin-5/6 examples green. **Intentional resource policy:** factorial Laplace cost + `IR/MatrixExpr.defaultSizeLimit` (64 entries) bound practical `n` — not a missing proof (A5). |
 | E-14 | Theorem identity `Expr.hash` | Type + proof-term digests via structural `ExprSerialize` MET; Lean-internal `Expr.hash` across compiler revisions still not claimed (must not be used). |
@@ -97,6 +101,8 @@ Full index: [`human-gates-runbook.md`](../validation/human-gates-runbook.md).
 ## Capability naming notes
 
 - Public calculus capability ID: **`algebra.formal_rational_calculus`**.
+- Analytic calculus capability ID: **`analysis.analytic_calculus`** (separate;
+  whitelist only; exact ODE empty-obligation single-IC).
 - Ideal membership capability ID: **`algebra.ideal_membership_witness`**.
 - Legacy schema and conformance paths may still use `symbolic_calculus` /
   `calculus` directory names; those are wire/fixture names, not analytic claims.

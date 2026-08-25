@@ -1,0 +1,64 @@
+# Lean-side assurance audits that do not require a full Mathlib theorem mint.
+# Lake build / exact E2E remains in lean.yml. This job stays green when
+# network-disabled Python assurance checks pass even if lake is red.
+name: lean-assurance-audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lean-assurance-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv (SHA-pinned)
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        with:
+          enable-cache: true
+
+      - name: Install Python dependencies (frozen lock required)
+        run: |
+          set -euo pipefail
+          test -f uv.lock
+          uv sync --frozen --extra dev --extra sympy
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Schema + registry + maturity validate
+        run: |
+          python scripts/validate_schemas.py
+          python scripts/validate_registry.py
+          python scripts/validate_maturity_inventory.py
+
+      - name: Import-boundary + sorry/axiom audit
+        run: |
+          python scripts/check_import_boundaries.py
+          python scripts/audit_sorry_axioms.py
+
+      - name: Forensic assurance suite (exact binding; no Lake E2E required)
+        env:
+          MATHEVIDENCE_OFFLINE: "1"
+        run: |
+          python -m pytest tests/forensic -q \
+            --ignore=tests/forensic/test_content_digest_replay.py \
+            --ignore=tests/forensic/test_certification_forgery.py \
+            --ignore=tests/forensic/test_wave2_kernel_replay.py \
+            --ignore=tests/forensic/test_verify_bundle_no_theorem_status.py \
+            --ignore=tests/forensic/test_theorem_producing_replay.py
+        # Lake-dependent E2E files stay in lean.yml. This gate distinguishes
+        # Keep Python assurance independent of Lean setup failures.
+
+      - name: Note
+        run: |
+          echo "::notice title=lean-assurance-audit::Python assurance audits green. Full Lake environment audits remain in lean.yml."

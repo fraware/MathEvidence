@@ -1,9 +1,10 @@
 """Theorem identity, environment lock, and replay-target digests (Wave 2 / ME-RV-020).
 
-Serializer profile: mathevidence-theorem-identity-0.3
+Current theorem serializer profile: mathevidence-theorem-identity-0.4.
 
-Digests cover elaborated expression serialization + binders + environment lock,
-never pretty-printed source alone.
+Historical theorem/environment payloads remain recomputable because binding
+functions preserve version fields and optional fields already present in each
+payload instead of silently rewriting them to current defaults.
 """
 
 from __future__ import annotations
@@ -12,9 +13,11 @@ from typing import Any
 
 from adapters.common.canonical import sha256_digest
 
-THEOREM_IDENTITY_SERIALIZER_VERSION = "mathevidence-theorem-identity-0.3"
-THEOREM_IDENTITY_SCHEMA_VERSION = "0.3.0"
+THEOREM_IDENTITY_SERIALIZER_VERSION = "mathevidence-theorem-identity-0.4"
+THEOREM_IDENTITY_SCHEMA_VERSION = "0.4.0"
 REPLAY_TARGET_SCHEMA_VERSION = "0.3.0"
+# Legacy default used by historical rational-equality vectors. Exact replay
+# constructs current 0.4 locks in adapters.common.environment_lock.
 ENVIRONMENT_LOCK_SCHEMA_VERSION = "0.3.0"
 
 RATIONAL_EQUALITY_DEFAULT_IMPORTS: tuple[str, ...] = (
@@ -25,7 +28,12 @@ RATIONAL_EQUALITY_DEFAULT_IMPORTS: tuple[str, ...] = (
 
 
 def environment_lock_binding(lock: dict[str, Any]) -> dict[str, Any]:
-    """Canonical binding payload for an environment lock (excludes self-digest)."""
+    """Canonical binding payload for an environment lock (excludes self-digest).
+
+    v0.4 exact locks additionally bind project revision, trusted Lean source-tree
+    content, and the dependency lockfile. v0.3 payloads omit those fields and
+    therefore retain their historical digest.
+    """
     out: dict[str, Any] = {
         "schemaVersion": lock.get("schemaVersion", ENVIRONMENT_LOCK_SCHEMA_VERSION),
         "leanVersion": lock["leanVersion"],
@@ -33,9 +41,17 @@ def environment_lock_binding(lock: dict[str, Any]) -> dict[str, Any]:
         "mathlibRevision": lock["mathlibRevision"],
         "imports": list(lock.get("imports") or []),
     }
-    toolchain = lock.get("toolchainDigest")
-    if isinstance(toolchain, str):
-        out["toolchainDigest"] = toolchain
+    for key in (
+        "toolchainDigest",
+        "projectSourceDigest",
+        "dependencyLockDigest",
+    ):
+        value = lock.get(key)
+        if isinstance(value, str):
+            out[key] = value
+    project_revision = lock.get("projectRevision")
+    if isinstance(project_revision, str):
+        out["projectRevision"] = project_revision
     return out
 
 
@@ -44,8 +60,9 @@ def environment_lock_digest(lock: dict[str, Any]) -> str:
 
 
 def default_rational_environment_lock() -> dict[str, Any]:
+    """Historical v0.3 rational-equality lock retained for archival vectors."""
     return {
-        "schemaVersion": ENVIRONMENT_LOCK_SCHEMA_VERSION,
+        "schemaVersion": "0.3.0",
         "leanVersion": "leanprover/lean4:v4.14.0",
         "lakeVersion": "lake",
         "mathlibRevision": "v4.14.0",
@@ -54,7 +71,11 @@ def default_rational_environment_lock() -> dict[str, Any]:
 
 
 def theorem_type_binding(identity: dict[str, Any]) -> dict[str, Any]:
-    """Binding payload for theorem type digest (elaborated + binders + env lock)."""
+    """Binding payload for theorem type digest (elaborated + binders + env lock).
+
+    Version fields supplied by an archival payload are preserved exactly. The
+    current constants are defaults only for newly constructed identities.
+    """
     return {
         "schemaVersion": identity.get("schemaVersion", THEOREM_IDENTITY_SCHEMA_VERSION),
         "serializerVersion": identity.get(
@@ -64,11 +85,11 @@ def theorem_type_binding(identity: dict[str, Any]) -> dict[str, Any]:
         "universeParams": list(identity.get("universeParams") or []),
         "binders": [
             {
-                "name": b["name"],
-                "kind": b.get("kind", "default"),
-                "typeSerialization": b["typeSerialization"],
+                "name": binder["name"],
+                "kind": binder.get("kind", "default"),
+                "typeSerialization": binder["typeSerialization"],
             }
-            for b in (identity.get("binders") or [])
+            for binder in (identity.get("binders") or [])
         ],
         "constantNames": list(identity.get("constantNames") or []),
         "environmentLockDigest": identity["environmentLockDigest"],
@@ -85,11 +106,17 @@ def theorem_identity_payload(
     theorem_type_digest_value: str,
     proof_declaration_digest: str,
     environment_lock_digest_value: str,
+    environment_lock: dict[str, Any],
     elaborated_serialization: str | None = None,
     universe_params: list[str] | None = None,
     binders: list[dict[str, Any]] | None = None,
     constant_names: list[str] | None = None,
 ) -> dict[str, Any]:
+    actual_lock_digest = environment_lock_digest(environment_lock)
+    if actual_lock_digest != environment_lock_digest_value:
+        raise ValueError(
+            "environmentLockDigest does not match the supplied environment lock"
+        )
     out: dict[str, Any] = {
         "schemaVersion": THEOREM_IDENTITY_SCHEMA_VERSION,
         "serializerVersion": THEOREM_IDENTITY_SERIALIZER_VERSION,
@@ -97,6 +124,7 @@ def theorem_identity_payload(
         "theoremTypeDigest": theorem_type_digest_value,
         "proofDeclarationDigest": proof_declaration_digest,
         "environmentLockDigest": environment_lock_digest_value,
+        "environmentLock": dict(environment_lock),
     }
     if elaborated_serialization is not None:
         out["elaboratedSerialization"] = elaborated_serialization
@@ -131,9 +159,9 @@ def replay_target_binding(target: dict[str, Any]) -> dict[str, Any]:
         },
         "requestDigest": target["requestDigest"],
     }
-    cand = target.get("candidateBundleDigest")
-    if isinstance(cand, str):
-        out["candidateBundleDigest"] = cand
+    candidate = target.get("candidateBundleDigest")
+    if isinstance(candidate, str):
+        out["candidateBundleDigest"] = candidate
     return out
 
 

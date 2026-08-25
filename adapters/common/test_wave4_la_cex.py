@@ -1,4 +1,4 @@
-"""Wave 4 forensic tests: LA + CEX kernel replay and adversarial mirrors."""
+"""Wave 4 forensic tests: LA/CEX mirrors and exact-replay fail-closed policy."""
 
 from __future__ import annotations
 
@@ -21,7 +21,8 @@ def _rat(n: int, d: int = 1) -> dict:
     return {"tag": "rat", "num": str(n), "den": str(d)}
 
 
-def test_la_profile_and_kernel_replay_without_lean(tmp_path: Path) -> None:
+def test_la_profile_and_generic_kernel_replay_fails_closed(tmp_path: Path) -> None:
+    """LA keeps its checker profile but cannot mint a generic record from a fixture."""
     bundle = ROOT / "evidence" / "conformance" / "linear_algebra" / "inverse_witness_2x2" / "bundle"
     if not bundle.is_dir():
         pytest.skip("LA conformance bundle missing")
@@ -44,31 +45,21 @@ def test_la_profile_and_kernel_replay_without_lean(tmp_path: Path) -> None:
     profile = _capability_replay_profile(req)
     assert profile["capability_id"] == "algebra.linear_algebra"
     assert profile["soundness_theorem"] == "replaySound"
-    try:
-        out = run_kernel_replay(
+    assert profile["fixture"] == "inv"  # historical self-test hint only
+
+    with pytest.raises(KernelReplayError) as exc:
+        run_kernel_replay(
             bundle_dir=bundle,
             require_lean=False,
             out_record_dir=tmp_path / "la_cert",
         )
-    except Exception as exc:  # noqa: BLE001
-        msg = str(exc).lower()
-        assert any(
-            k in msg
-            for k in ("theorem_elaboration", "kernel_rejected", "lake not found", "refusing")
-        ), msg
-        return
-    assert out["ok"] is True
-    assert out["capability"] == "algebra.linear_algebra"
-    assert out["resultStatus"] == "soundness_verified"
-    assert out.get("leanOk") is True
-    assert out["claimEstablished"] == "witness"
-    assert Path(out["recordDir"]).is_dir()
-    assert (Path(out["recordDir"]) / "manifest.cjson").is_file() or (
-        Path(out["recordDir"]) / "manifest.json"
-    ).is_file() or any(Path(out["recordDir"]).glob("manifest.*"))
+    assert exc.value.code == "assurance_mode_unavailable"
+    assert "exact-candidate generator" in str(exc.value)
+    assert not (tmp_path / "la_cert").exists()
 
 
-def test_cex_profile_and_kernel_replay_without_lean(tmp_path: Path) -> None:
+def test_cex_profile_and_generic_kernel_replay_fails_closed(tmp_path: Path) -> None:
+    """CEX fixture replay is a protocol test, not arbitrary Certification authority."""
     bundle = (
         ROOT
         / "evidence"
@@ -99,23 +90,18 @@ def test_cex_profile_and_kernel_replay_without_lean(tmp_path: Path) -> None:
     )
     profile = _capability_replay_profile(req)
     assert profile["capability_id"] == "logic.finite_counterexample"
-    try:
-        out = run_kernel_replay(
+    assert profile["fixture"] == "nat_eq0"  # historical self-test hint only
+
+    with pytest.raises(KernelReplayError) as exc:
+        run_kernel_replay(
             bundle_dir=bundle,
             require_lean=False,
             out_record_dir=tmp_path / "cex_cert",
         )
-    except Exception as exc:  # noqa: BLE001
-        msg = str(exc).lower()
-        assert any(
-            k in msg
-            for k in ("theorem_elaboration", "kernel_rejected", "lake not found", "refusing")
-        ), msg
-        return
-    assert out["ok"] is True
-    assert out["capability"] == "logic.finite_counterexample"
-    assert out.get("leanOk") is True
-    assert out["claimEstablished"] == "refutation"
+    assert exc.value.code == "assurance_mode_unavailable"
+    assert "exact-candidate generator" in str(exc.value)
+    assert not (tmp_path / "cex_cert").exists()
+
 
 def test_la_adversarial_mirrors() -> None:
     # Dimension mismatch

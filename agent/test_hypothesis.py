@@ -78,7 +78,8 @@ def _minimal_certificate(request_digest: str) -> dict:
     }
 
 
-def _write_verified_cert(tmp_path: Path, request: dict) -> Path:
+def _write_legacy_certification_fixture(tmp_path: Path, request: dict) -> Path:
+    """Write the historical metadata-only fixture; it must never certify."""
     cand = tmp_path / "cand"
     cand_manifest = write_candidate_bundle(
         cand,
@@ -207,14 +208,13 @@ def test_mirror_accepted_never_enters_certified_set(tmp_path: Path) -> None:
     lattice = build_condition_lattice(artifact_id="t", request=request)
     assert lattice["sufficientSets"]
     assert lattice["sufficientSetsCertified"] == []
-    # Promoting requires a real Certification Record.
-    cert_dir = _write_verified_cert(tmp_path, request)
+    cert_dir = _write_legacy_certification_fixture(tmp_path, request)
     ids = lattice["sufficientSets"][0]
-    promoted = certify_sufficient_set(
-        lattice, ids, certification_record_dir=cert_dir, candidate_dir=tmp_path / "cand"
-    )
-    assert len(promoted["sufficientSetsCertified"]) == 1
-    assert promoted["sufficientSetsCertified"][0]["previewStatus"] == "kernel_certified"
+    with pytest.raises(ValueError, match="Certification Record not verified"):
+        certify_sufficient_set(
+            lattice, ids, certification_record_dir=cert_dir, candidate_dir=tmp_path / "cand"
+        )
+    assert lattice["sufficientSetsCertified"] == []
 
 
 def test_minimality_refuses_incomplete_necessity() -> None:
@@ -490,4 +490,3 @@ def test_make_condition_node_typed_kinds() -> None:
         raise AssertionError("expected ValueError")
     except ValueError:
         pass
-

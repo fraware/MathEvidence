@@ -64,6 +64,10 @@ def main() -> int:
             "trace-item.schema.json",
             "proof-plan.schema.json",
             "algorithm-contract.schema.json",
+            "maturity-inventory.schema.json",
+            "assurance-policy.schema.json",
+            "certification-receipt.schema.json",
+            "certification-record.schema.json",
         ):
             store.validator(name)
         print("ok schema $ref registry")

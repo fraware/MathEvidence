@@ -2,7 +2,7 @@
 
 ## Status
 
-**Accepted** (Phase 0). Reference capability for Milestone 1 implementation.
+**Accepted.** Reference capability for Milestone 1 implementation.
 
 ## Objective
 

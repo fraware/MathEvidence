@@ -27,6 +27,10 @@ from adapters.common.schema_validate import SchemaStore
 BUNDLE_VERSION = "0.3.0"
 BUNDLE_VERSION_V02 = "0.2.0"
 BUNDLE_VERSION_LEGACY = "0.1.0"
+# Certification Records advance independently of Candidate Bundle version.
+CERTIFICATION_RECORD_VERSION = "0.4.0"
+CERTIFICATION_RECORD_VERSION_LEGACY = "0.3.0"
+NA_SENTINEL = "n/a"
 
 PLACEHOLDER_THEOREM_NAME = "mathevidence_bundle_theorem_placeholder"
 PLACEHOLDER_AXIOM_STATUS = "pending_compiled_audit"
@@ -419,6 +423,59 @@ def write_bundle(
     )
 
 
+def _default_outcome(claim_class: str, claim_established: Any) -> str:
+    if claim_class == "refutation" and isinstance(claim_established, str) and claim_established:
+        return "refuted"
+    if claim_established in {"witness", "soundResult", "completeSolution", "optimum"}:
+        return "proved"
+    return "evidence_only"
+
+
+def _fill_v04_exact_fields(
+    receipt: dict[str, Any],
+    *,
+    candidate_bundle_digest: str,
+    request_digest: str,
+    declaration_name: str | None,
+) -> None:
+    """Populate Certification Record v0.4 fields. Never synthesize fake generator identity."""
+    receipt.setdefault("outcome", _default_outcome(
+        str(receipt.get("claimRequested") or ""),
+        receipt.get("claimEstablished"),
+    ))
+    receipt.setdefault("canonicalClaimHash", request_digest)
+    receipt.setdefault("candidateHash", candidate_bundle_digest)
+    # Explicit n/a — callers with exact generators must set real values.
+    for key in (
+        "generatorId",
+        "generatorVersion",
+        "grammarVersion",
+        "theoremOrDeclarationIdentity",
+        "executionPolicyId",
+    ):
+        receipt.setdefault(key, NA_SENTINEL)
+    for key in (
+        "generatedSourceHash",
+        "toolchainContractDigest",
+        "dependencyLockDigest",
+        "replayManifestHash",
+    ):
+        receipt.setdefault(key, NA_SENTINEL)
+    if declaration_name and receipt.get("theoremOrDeclarationIdentity") == NA_SENTINEL:
+        receipt["theoremOrDeclarationIdentity"] = declaration_name
+    receipt.setdefault("artifactHashes", {})
+    if "assuranceTier" not in receipt:
+        if (
+            isinstance(receipt.get("generatorId"), str)
+            and receipt["generatorId"] not in {"", NA_SENTINEL}
+            and isinstance(receipt.get("generatedSourceHash"), str)
+            and str(receipt["generatedSourceHash"]).startswith("sha256:")
+        ):
+            receipt["assuranceTier"] = "exact"
+        else:
+            receipt["assuranceTier"] = "evidence_only"
+
+
 def write_certification_record(
     record_dir: Path,
     *,
@@ -437,10 +494,11 @@ def write_certification_record(
     signature: dict[str, Any] | None = None,
     schemas: SchemaStore | None = None,
 ) -> dict[str, Any]:
-    """Write a Certification Record v0.3 directory and return its manifest.
+    """Write a Certification Record v0.4 directory and return its manifest.
 
     Requires real theorem identity and axiom report (no placeholders).
-    Replay-target stubs are allowed until Wave 2 elaborates theorem identity.
+    Missing exact-generator fields are explicit ``n/a`` sentinels — never forged.
+    Signing is not claimed or required by this writer.
     """
     store = schemas or SchemaStore()
     _reject_placeholder_axiom(axiom_report)
@@ -473,7 +531,7 @@ def write_certification_record(
         write_cjson(record_dir / "signature.cjson", signature)
 
     receipt = dict(certification_receipt)
-    receipt["schemaVersion"] = BUNDLE_VERSION
+    receipt["schemaVersion"] = CERTIFICATION_RECORD_VERSION
     receipt["candidateBundleDigest"] = candidate_bundle_digest
     receipt["requestDigest"] = request_digest
     receipt["replayTargetDigest"] = file_digest(record_dir / "replay-target.cjson")
@@ -489,6 +547,13 @@ def write_certification_record(
     )
     receipt["assuranceMode"] = assurance_mode
     receipt["resultStatus"] = result_status
+    declaration_name = theorem_identity.get("declarationName")
+    _fill_v04_exact_fields(
+        receipt,
+        candidate_bundle_digest=candidate_bundle_digest,
+        request_digest=request_digest,
+        declaration_name=declaration_name if isinstance(declaration_name, str) else None,
+    )
 
     # Certification digest binds receipt payload excluding self-digest field
     # (avoids circular dependency).
@@ -497,7 +562,7 @@ def write_certification_record(
     }
     receipt_binding_digest = sha256_digest(receipt_for_binding)
     binding = {
-        "schemaVersion": BUNDLE_VERSION,
+        "schemaVersion": CERTIFICATION_RECORD_VERSION,
         "candidateBundleDigest": candidate_bundle_digest,
         "replayTargetDigest": file_digest(record_dir / "replay-target.cjson"),
         "checkerEvaluationDigest": file_digest(record_dir / "checker-evaluation.cjson"),
@@ -508,6 +573,7 @@ def write_certification_record(
     }
     cert_digest = sha256_digest(binding)
     receipt["certificationRecordDigest"] = cert_digest
+    store.validate("certification-receipt.schema.json", receipt)
     write_cjson(record_dir / "certification-receipt.cjson", receipt)
 
     relative_files = [
@@ -522,15 +588,21 @@ def write_certification_record(
     files_meta = _file_entries(record_dir, relative_files)
     _reject_duplicate_roles(files_meta)
 
+    artifact_hashes = {
+        entry["role"]: entry["digest"]
+        for entry in files_meta
+        if isinstance(entry.get("role"), str) and isinstance(entry.get("digest"), str)
+    }
     manifest: dict[str, Any] = {
-        "bundleVersion": BUNDLE_VERSION,
-        "schemaVersion": BUNDLE_VERSION,
+        "bundleVersion": CERTIFICATION_RECORD_VERSION,
+        "schemaVersion": CERTIFICATION_RECORD_VERSION,
         "artifactKind": "certification",
         "candidateBundleDigest": candidate_bundle_digest,
         "capability": {"id": capability_id, "version": capability_version},
         "requestDigest": request_digest,
         "claimClass": claim_class,
         "resultStatus": result_status,
+        "outcome": receipt["outcome"],
         "assuranceMode": assurance_mode,
         "files": files_meta,
         "provenance": {
@@ -542,6 +614,19 @@ def write_certification_record(
         },
         "certificationDigest": cert_digest,
         "bundleDigest": cert_digest,
+        "canonicalClaimHash": receipt["canonicalClaimHash"],
+        "candidateHash": receipt["candidateHash"],
+        "generatorId": receipt["generatorId"],
+        "generatorVersion": receipt["generatorVersion"],
+        "grammarVersion": receipt["grammarVersion"],
+        "generatedSourceHash": receipt["generatedSourceHash"],
+        "theoremOrDeclarationIdentity": receipt["theoremOrDeclarationIdentity"],
+        "toolchainContractDigest": receipt["toolchainContractDigest"],
+        "dependencyLockDigest": receipt["dependencyLockDigest"],
+        "artifactHashes": receipt.get("artifactHashes") or artifact_hashes,
+        "replayManifestHash": receipt["replayManifestHash"],
+        "executionPolicyId": receipt["executionPolicyId"],
+        "assuranceTier": receipt.get("assuranceTier", "evidence_only"),
     }
     store.validate("certification-record.schema.json", manifest)
     write_cjson(record_dir / "manifest.cjson", manifest)
@@ -563,6 +648,11 @@ def _schemas_for_capability(capability: str) -> tuple[str, str]:
         return (
             "symbolic-calculus-request.schema.json",
             "symbolic-calculus-certificate.schema.json",
+        )
+    if capability == "analysis.analytic_calculus":
+        return (
+            "analytic-calculus-request.schema.json",
+            "analytic-calculus-certificate.schema.json",
         )
     if capability == "algebra.ideal_membership_witness":
         return (

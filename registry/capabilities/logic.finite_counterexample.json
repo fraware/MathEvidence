@@ -115,5 +115,41 @@
     "minProtocolVersion": "0.1.0"
   },
   "semanticReview": "absent",
-  "trustReview": "absent"
+  "trustReview": "absent",
+  "assurancePolicy": {
+    "supportedAssuranceModes": [
+      "kernel_replay"
+    ],
+    "exactBinding": {
+      "supported": true,
+      "generatorId": "mathevidence.exact_finite_counterexample",
+      "generatorVersion": "0.1.0",
+      "grammarVersion": "0.1.0",
+      "generatorPath": "scripts/generate_exact_finite_counterexample_replay_module.py",
+      "verifier": "mathevidence-declaration-identity"
+    },
+    "replay": {
+      "backend": "exact_generator",
+      "offlineSupported": true
+    },
+    "certification": {
+      "allowedOutcomes": [
+        "refuted"
+      ],
+      "crEligible": true
+    },
+    "maturity": {
+      "adapterExists": true,
+      "checkerExists": true,
+      "leanSoundnessExists": true,
+      "bridgeReplayExists": true,
+      "exactCandidateBindingExists": true,
+      "offlineReplayExists": true
+    },
+    "limitations": [
+      "Exact witness binding yields outcome polarity refuted (never proved). No-witness / sampling must not mint proved.",
+      "CR eligibility enabled after local Lean exact-replay E2E; evidence-only search workflows stay usable without assurance inflation.",
+      "Exhaustive finite proof is out of scope."
+    ]
+  }
 }

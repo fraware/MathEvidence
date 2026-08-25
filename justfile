@@ -58,6 +58,7 @@ ideal-membership-release:
 schema-validate:
     python scripts/validate_schemas.py
 
+# Includes SPEC-00 maturity inventory vs docs/STATUS.md CR-eligibility claims.
 registry-validate:
     python scripts/validate_registry.py
 
@@ -136,6 +137,11 @@ replay: replay-python replay-lean
 
 replay-python:
     python scripts/offline_replay_python.py
+
+replay-exact-offline:
+    # SPEC-09: structure + regenerability (network disabled; no Lake required)
+    python -m pytest tests/forensic/test_offline_exact_replay.py -q
+    python scripts/offline_exact_replay.py tamper-selftest
 
 replay-lean:
     lake build MathEvidence.Core.JsonCanonicalTests MathEvidence.Checkers.RationalEquality.OfflineFixtures MathEvidence.Checkers.Calculus.Tests MathEvidence.Tactic.Examples MathEvidence.Hypothesis MathEvidence.Conjecture MathEvidence.TraceToPlan MathEvidence.Assurance

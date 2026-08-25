@@ -7,11 +7,13 @@ import MathEvidence.Checkers.AnalyticCalculus.Soundness
 import MathEvidence.Checkers.AnalyticCalculus.OfflineFixtures
 
 /-!
-# Analytic kernel-replay soundness (ME-RV-054)
+# Analytic OfflineFixtures packaging (not exact CR authority)
 
-`replaySound` / fixture `certified_analytic_replay_product` are the
-theorem-producing authority for analytic derivative kernel replay, parallel to
-Wave 2 rational `replaySound`.
+`replaySound` / fixture `certified_analytic_replay_product` package OfflineFixtures
+for protocol self-tests. Exact-candidate Certification Records bind
+`checkDeriv_sound` / `checkDerivWithin_sound` / `checkAntideriv_sound` /
+`checkODE_sound` from `Soundness.lean` via the typed exact generator — never by
+substituting these fixtures for a different submitted candidate.
 -/
 
 namespace MathEvidence.Checkers.AnalyticCalculus
