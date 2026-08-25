@@ -69,6 +69,7 @@
   "passTasks": 53,
   "skipTasks": 1,
   "xfailTasks": 1,
-  "valueGate": "Wave3: score backend-proposed witnesses (not expectedMultipliers). Stratified unit/adversarial/scale/held_out via task.stratum; byStratum reported in runner output.",
-  "honestyNote": "ME-RV-035/P0-F: candidate tier = propose ∧ decode ∧ checkMembership(proposed) and MUST NOT claim soundness_verified. release tier = candidate gates + OfflineFixtures kernel_replay Certification Record (fixture-backed subset). expectedMultipliers is oracle-only. In-repo held_out stratum is synthetic; ME-RV-081 external library-derived held-out remains BLOCKED(human)."
+  "evaluationRole": "frozen_release_conformance_and_assurance_regression",
+  "valueGate": "Score backend-proposed witnesses, never expectedMultipliers. Report answer correctness and evidence verification independently, including the critical incorrect-answer + verified-evidence false-accept cell. Stratified unit/adversarial/scale/held_out results are descriptive for this frozen corpus.",
+  "honestyNote": "Candidate tier = propose + decode + candidate-specific witness checking and MUST NOT claim theorem certification from backend success. The exact release tier uses candidate-bound generated replay and the declared Lean verification path when CR policy permits; OfflineFixtures are protocol self-tests only and can never certify a submitted candidate. expectedMultipliers is oracle-only. The in-repo held_out stratum is synthetic; external library-derived held-out validation remains a separate human/external gate. This 55-task corpus is release conformance/regression evidence, not a population estimate of solver soundness or broad mathematical generalization."
 }
