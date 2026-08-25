@@ -46,6 +46,7 @@ import MathEvidence.Checkers.IdealMembership.Soundness
 import MathEvidence.Checkers.IdealMembership.ReplaySound
 import MathEvidence.Checkers.IdealMembership.OfflineFixtures
 import MathEvidence.Checkers.IdealMembership.Wire
+import MathEvidence.Checkers.IdealMembership.WireTests
 import MathEvidence.Checkers.IdealMembership.Search
 import MathEvidence.IR.Polynomial.Syntax
 import MathEvidence.IR.Polynomial.Normalize
