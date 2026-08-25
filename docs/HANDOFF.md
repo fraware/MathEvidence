@@ -1,19 +1,18 @@
 # MathEvidence engineering handoff
 
 Operator and onboarding runbook for exact candidate binding and theorem-level
-Certification Records. Use this document with repository-local specs alone; do
-not rely on PR discussion or maintainer memory for assurance semantics.
+Certification Records. Use repository-local specs alone; do not rely on PR
+discussion or maintainer memory for assurance semantics.
 
 **Related authority**
 
 | Doc | Role |
 | --- | --- |
 | [`adr/0005-exact-candidate-binding.md`](adr/0005-exact-candidate-binding.md) | Non-negotiable invariant |
-| [`validation/handoff-2026-08-25-delta.md`](validation/handoff-2026-08-25-delta.md) | Baseline pin / CI delta vs PR #53 |
-| [`../MathEvidence_Engineering_Handoff_2026-08-25/`](../MathEvidence_Engineering_Handoff_2026-08-25/) | Dated engineering handoff package (archive specs and architecture) |
-| [`../MathEvidence_Engineering_Handoff_2026-08-25/03_ACCEPTANCE_MATRIX.md`](../MathEvidence_Engineering_Handoff_2026-08-25/03_ACCEPTANCE_MATRIX.md) | Acceptance matrix from the dated handoff package |
-| [`../registry/maturity-inventory.json`](../registry/maturity-inventory.json) | Machine-readable maturity / `cr_eligible` |
 | [`STATUS.md`](STATUS.md) | Short public-preview status (registry-backed table) |
+| [`../registry/maturity-inventory.json`](../registry/maturity-inventory.json) | Machine-readable maturity / `cr_eligible` |
+| [`validation/handoff-2026-08-25-delta.md`](validation/handoff-2026-08-25-delta.md) | Dated delta vs exact-certification baseline pin |
+| [`../MathEvidence_Engineering_Handoff_2026-08-25/`](../MathEvidence_Engineering_Handoff_2026-08-25/) | **Engineering archive** (pinned assessment package — not live status) |
 
 ---
 
@@ -42,31 +41,30 @@ Consequences that must never be weakened in docs or code:
 
 | Item | Value |
 | --- | --- |
-| Upstream integration PR | [#53](https://github.com/fraware/MathEvidence/pull/53) (`fix/exact-certification-binding`) |
-| Exact-certification baseline pin | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` |
-| Working branch | `phase4/exact-certification-handoff` (exact-certification workstream; keep history linear on this branch) |
-| Current `main` | Still fixture-substitution semantics — **not** this workstream's baseline |
+| Exact-certification baseline pin | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` ([PR #53](https://github.com/fraware/MathEvidence/pull/53)) |
+| Working branch | `phase4/exact-certification-handoff` |
+| Current `main` | May still use fixture-substitution semantics — **not** this workstream’s baseline |
 
-This branch builds on the pin with assurance-policy registry work, the typed
-`exact_replay` framework, Certification Record v0.4, capability generators,
-offline bundles, CI dimension split, and security adversarial coverage. This
-runbook is the operator entry point.
+This branch adds assurance-policy registry work, the typed `exact_replay`
+framework, Certification Record v0.4, capability generators, offline bundles,
+CI dimension split, and security adversarial coverage.
 
-Do **not** claim theorem CR eligibility for capabilities that still have
-`crEligible=false`. Currently eligible after local Lean exact-replay E2E:
-ideal membership, rational equality, linear algebra (all four ops), finite
-counterexample (`refuted`), formal rational calculus (derivative /
-antiderivative / recurrence / ODE with `soundResult`), and analytic calculus
-whitelist (Deriv / DerivWithin / Antideriv / ODE). Federated logic remains
-blocked. Offline theorem inspect defaults to `theorem_pending`; set
+Do **not** claim theorem CR eligibility where `crEligible=false`. Currently
+eligible after Lean exact-replay E2E: ideal membership, rational equality,
+linear algebra (all four ops), finite counterexample (`refuted`), formal
+rational calculus (derivative / antiderivative / recurrence / ODE with
+`soundResult`), and analytic calculus whitelist (Deriv / DerivWithin /
+Antideriv / ODE). Federated logic remains blocked.
+
+Offline theorem inspect defaults to `theorem_pending`; set
 `MATHEVIDENCE_OFFLINE_LEAN=1` or `require_lean=True` to attempt
-`theorem_proved` when Lake is available.
+`theorem_proved` when Lake is available (still not a CR mint).
 
 ---
 
 ## 3. Architecture and trust boundary
 
-Adapted from the dated handoff package
+Adapted from the dated archive
 [`01_TARGET_ARCHITECTURE.md`](../MathEvidence_Engineering_Handoff_2026-08-25/01_TARGET_ARCHITECTURE.md).
 
 ### End-to-end data flow
@@ -165,7 +163,8 @@ Windows kernel-replay link: use `python scripts/link_exe_via_rsp.py
 mathevidence-kernel-replay` (see getting-started). Never fake Certified on link
 failure.
 
-Work from the exact-certification branch / pin — **not** current `main`.
+Work from the exact-certification branch / pin — **not** current `main` if
+`main` still lacks exact binding.
 
 ---
 
@@ -218,17 +217,7 @@ lake build mathevidence-axiom-report
 lake build MathEvidence.Checkers.IdealMembership.OfflineFixtures
 ```
 
-Local Lean exact-replay E2E is green for all six owned exact-bound capabilities
-after fixing:
-
-1. generated olean output under `.lake/build/lib/` (never `.lake/build/lib/lean/`,
-   which shadows toolchain `Lean` on case-insensitive Windows);
-2. `lake exe mathevidence-declaration-identity` argv without a bare `--`
-   separator (Lake 5 forwards `--` into the exe and DeclarationIdentity exits 2);
-3. generators emitting named `def` claim/req/cert so
-   `Claim.proposition req.claim` unifies with `replaySound` (and analytic
-   Soundness decls).
-
+Local Lean exact-replay E2E is green for all six owned exact-bound capabilities.
 Do not treat a partial Lake success as blanket enablement for federated or
 non-registered capabilities. Flip `crEligible` only after that capability's own
 compile/identity ladder is green.
@@ -405,9 +394,6 @@ The table in [`STATUS.md`](STATUS.md) is validated against that inventory
 (`python scripts/validate_maturity_inventory.py`). Hand edits must not invent
 `cr_eligible=true`.
 
-All six exact-bound owned capabilities are **`cr_eligible=true`** after local
-Lean E2E. Federated logic remains false.
-
 | Capability | exactBinding / exact_candidate_binding_exists | offline_replay_exists | cr_eligible |
 | --- | --- | --- | --- |
 | `algebra.ideal_membership_witness` | **true** | true | **true** |
@@ -429,14 +415,14 @@ Lake E2E or CR minting is authorized (except where `cr_eligible` is true).
 
 | Limitation | Status |
 | --- | --- |
-| Lake / Lean exact-replay CI | Local lean.yml targets + exact E2E green for all six owned exact-bound capabilities after olean-path / declaration-identity argv / renderer / Checkers barrel ReplaySound imports. Remote Actions may lag until this branch is fully attested on protected CI. |
+| Lake / Lean exact-replay CI | Local lean.yml targets + exact E2E green for the six owned exact-bound capabilities. Remote Actions may lag until this branch is fully attested on protected CI. |
 | `crEligible` | **true** for ideal, rational equality, LA (4 ops), CEX (`refuted`), formal rational calculus (4 ops), analytic calculus (Deriv/DerivWithin/Antideriv/ODE empty-obligation single-IC); federated false |
 | Analytic ODE IC constraints | Exact ODE whitelist: empty domain obligations + at most one initial condition; multi-IC / obligation-bearing ODE fail closed |
 | Offline exact theorem inspect | Defaults to `theorem_pending`; `MATHEVIDENCE_OFFLINE_LEAN=1` / `require_lean=True` can yield `theorem_proved` after identity inspect — still not a CR mint; online `kernel_replay` is promotion authority |
 | Formal vs analytic calculus | Separate IDs; formal is not `HasDerivAt` / analytic ODE |
 | Federated SAT / PB / SMT | Metadata only; never CR-eligible under exact binding |
 | Signing / third-party reproduction | Explicitly **deferred**; bundle format must stay usable later without hidden local state |
-| Historical `MET` / audit language | Dated records only — not current CR authority |
+| Historical audit language | Dated records only — not current CR authority |
 | Windows Lake link | rsp path required for some exes; degrade honestly |
 
 Authoritative gap list: [`security/KNOWN_TRUST_GAPS.md`](security/KNOWN_TRUST_GAPS.md).

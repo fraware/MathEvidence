@@ -10,8 +10,8 @@ This tree is an **experimental** research platform. No registry capability is
 | Doc | Audience |
 | --- | --- |
 | [Getting started](getting-started/) | Install, `just check`, Agent API, first replay |
-| [HANDOFF.md](HANDOFF.md) | Engineering handoff / exact-certification runbook |
-| [STATUS.md](STATUS.md) | Short public-preview status |
+| [STATUS.md](STATUS.md) | Public-preview status and CR eligibility |
+| [HANDOFF.md](HANDOFF.md) | Exact-certification operator runbook |
 | [security/KNOWN_TRUST_GAPS.md](security/KNOWN_TRUST_GAPS.md) | Honest limitations and open gates |
 | [ROADMAP.md](ROADMAP.md) | Delivery order (points at normative roadmap) |
 | [SPEC_INDEX.md](SPEC_INDEX.md) | Full specification map |
@@ -43,7 +43,13 @@ This tree is an **experimental** research platform. No registry capability is
 ### Validation and release
 
 - [validation/](validation/) — promotion checklists, review packets, usability
+- [validation/handoff-2026-08-25-delta.md](validation/handoff-2026-08-25-delta.md) — dated exact-certification baseline delta
 - [release/](release/) — public-preview release notes draft
+
+### Archives
+
+- [audits/2026-07-26-real-vision/](audits/2026-07-26-real-vision/) — historical re-audit
+- [`MathEvidence_Engineering_Handoff_2026-08-25/`](../MathEvidence_Engineering_Handoff_2026-08-25/) — dated engineering assessment package (not live status)
 
 ## Community (repo root)
 

@@ -24,7 +24,10 @@ adapters propose; Lean decides. SymPy and Mathematica adapters, an Agent API,
 and Studio surfaces share one idea — use powerful external tools without
 trusting them inside the theorem prover.
 
-**Experimental** research preview: no capability is stable. See
+**Experimental** research preview: no capability is stable. Theorem-level
+Certification Records require exact candidate binding
+([ADR 0005](docs/adr/0005-exact-candidate-binding.md)); see
+[status](docs/STATUS.md) and
 [known limitations](docs/security/KNOWN_TRUST_GAPS.md) before relying on results.
 
 ## Why it exists
@@ -117,7 +120,8 @@ Protocol-wide changes belong in an RFC under `docs/rfcs/`.
 | --- | --- |
 | [`docs/README.md`](docs/README.md) | Documentation landing |
 | [`docs/getting-started/`](docs/getting-started/) | Install, check, Agent API, first replay |
-| [`docs/STATUS.md`](docs/STATUS.md) | Public-preview status |
+| [`docs/STATUS.md`](docs/STATUS.md) | Public-preview status and CR eligibility |
+| [`docs/HANDOFF.md`](docs/HANDOFF.md) | Exact-certification operator runbook |
 | [`docs/security/KNOWN_TRUST_GAPS.md`](docs/security/KNOWN_TRUST_GAPS.md) | Known limitations |
 
 Also: [`docs/SPEC_INDEX.md`](docs/SPEC_INDEX.md),
@@ -127,9 +131,12 @@ Also: [`docs/SPEC_INDEX.md`](docs/SPEC_INDEX.md),
 ## What to expect
 
 - Everything in the registry is still **experimental**.
+- Six owned capabilities are CR-eligible under exact binding (see STATUS); federated
+  logic is not. Offline exact inspect defaults to `theorem_pending`.
 - A green local `just check` is useful feedback — not attested release CI or
   completed human review.
 - Receipt crypto under `dev/receipt-keys/` is **dev-only**, not production PKI.
+  Signing / third-party attestation remains deferred.
 
 When unsure, trust Lean’s checkers and the written limitations — not a backend
 status code.

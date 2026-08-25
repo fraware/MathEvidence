@@ -2,7 +2,7 @@
   "schemaVersion": "0.1.0",
   "statusAsOfCommit": "30522d70e9be0f3fda9b9b6febc7502b9ef4c34b",
   "program": "exact-candidate-binding",
-  "note": "Phases 0-4 plus Lake E2E repair on pin 30522d70. CR-eligible: ideal, rational_equality, linear_algebra (4 ops), finite_counterexample (refuted), formal_rational_calculus (4 ops soundResult), analytic_calculus (Deriv/DerivWithin/Antideriv/ODE).",
+  "note": "Exact-candidate-binding baseline pin 30522d70. CR-eligible: ideal, rational_equality, linear_algebra (4 ops), finite_counterexample (refuted), formal_rational_calculus (4 ops soundResult), analytic_calculus (Deriv/DerivWithin/Antideriv/ODE).",
   "capabilities": [
     {
       "id": "algebra.ideal_membership_witness",

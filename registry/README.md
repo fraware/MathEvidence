@@ -43,19 +43,24 @@ fixtures / differential `skip`/`fixture`). LeanLink remains scaffold
 
 | ID | Ownership | Status | Notes |
 | --- | --- | --- | --- |
-| `algebra.rational_equality` | owned | experimental | Milestone 1 reference path — see `docs/validation/stable-capability-checklist.md` before `stable` |
-| `algebra.linear_algebra` | owned | experimental | SymPy conformance-verified; Mathematica/Sage live_generator_complete (CI fixture without Wolfram/Sage) |
-| `logic.finite_counterexample` | owned | experimental | SymPy conformance-verified; Mathematica/Sage live_generator_complete (CI fixture without Wolfram/Sage) |
-| `algebra.formal_rational_calculus` | owned | experimental | Transitional ID for planned `algebra.formal_rational_calculus`; formal rational identities only, not analytic semantics |
-| `algebra.ideal_membership_witness` | owned | experimental | Native sparse witness identity checker; SymPy simple witness generation; ≥50 value gate still open |
-| `logic.sat_unsat` | federated | experimental | Metadata only; external checker |
-| `logic.pseudo_boolean` | federated | experimental | Metadata only; external checker |
+| `algebra.rational_equality` | owned | experimental | Exact-bound; CR-eligible (`proved`) after Lean E2E — see maturity inventory |
+| `algebra.linear_algebra` | owned | experimental | Exact-bound; CR-eligible (`proved`) for registered ops |
+| `logic.finite_counterexample` | owned | experimental | Exact-bound; CR-eligible (`refuted`) |
+| `algebra.formal_rational_calculus` | owned | experimental | Formal rational identities only; CR-eligible (`proved`); not analytic semantics |
+| `analysis.analytic_calculus` | owned | experimental | Analytic whitelist; CR-eligible (`proved`); ODE empty-obligation single-IC only |
+| `algebra.ideal_membership_witness` | owned | experimental | Exact-bound; CR-eligible (`proved`); witness identity only |
+| `logic.sat_unsat` | federated | experimental | Metadata only; never CR-eligible under exact binding |
+| `logic.pseudo_boolean` | federated | experimental | Metadata only; never CR-eligible under exact binding |
 | `logic.smt` | federated | experimental | Metadata only; Lean-SMT authority |
 
 Federated entries use `ownership: "federated"` and
 `schemas/federation-metadata.schema.json`. See
 `docs/architecture/collaboration-cslib-lean-auto-smt.md` and
 `evidence/federation/examples/`.
+
+`assurancePolicy.certification.crEligible` (mirrored in
+`maturity-inventory.json`) is the only authority for theorem-level Certification
+Record minting. OfflineFixtures and checker-only green are not CR authority.
 
 Assurance contracts for owned checkers: `registry/assurance/`.
 

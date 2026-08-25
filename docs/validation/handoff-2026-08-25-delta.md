@@ -1,179 +1,63 @@
-# Exact-certification baseline delta — 2026-08-25 vs live workspace
+# Exact-certification baseline delta (2026-08-25)
 
-Baseline pin: `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` (PR #53,
-`fix/exact-certification-binding`, assessed 2026-08-25).
-
-This file records whether implementation began from that pin, what changed in
-CI, and the reproduced Lean exact-replay diagnostic. It does not rewrite dated
-audit evidence. For the dated handoff package archive, see
-[`MathEvidence_Engineering_Handoff_2026-08-25/`](../../MathEvidence_Engineering_Handoff_2026-08-25/).
-
-## Workspace vs pin
+Dated record of how the exact-candidate-binding workstream relates to the
+assessed baseline pin. **Live status** lives in [`../STATUS.md`](../STATUS.md)
+and [`../HANDOFF.md`](../HANDOFF.md). This file does not rewrite historical audit
+evidence.
 
 | Item | Value |
 | --- | --- |
-| Baseline branch at assessment | `phase0/exact-certification-baseline` (from `origin/fix/exact-certification-binding`) |
-| Current working branch | `phase4/exact-certification-handoff` |
-| Pin (PR #53 head at assessment) | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` |
-| Relation to pin | Branch commits build on the pin (assurance registry, exact replay, CR v0.4, offline bundle, CI split) |
-| Current `main` | Fixture substitution still present; **not** used as this workstream baseline |
+| Baseline pin | `30522d70e9be0f3fda9b9b6febc7502b9ef4c34b` ([PR #53](https://github.com/fraware/MathEvidence/pull/53)) |
+| Working branch | `phase4/exact-certification-handoff` |
+| Current `main` | May still use fixture substitution — not this baseline |
+| Engineering archive | [`MathEvidence_Engineering_Handoff_2026-08-25/`](../../MathEvidence_Engineering_Handoff_2026-08-25/) |
 
-The PR conversation mentioned synchronize SHA `7665010699728319eae48329550e63e31923c9cb`.
-That commit is an **ancestor** of the pin (`Build declaration identity authority in Lean CI`),
-not a later head. `git ls-remote` for `refs/heads/fix/exact-certification-binding`
-and `refs/pull/53/head` both resolve to `30522d70`.
+## What the pin already contained
 
-## PR #53 vs current main
-
-PR #53 already contains (do not rebuild): exact ideal-membership Lean inlining,
+Do not rebuild: exact ideal-membership Lean inlining,
 `mathevidence-declaration-identity`, generic `assurance_mode_unavailable` for
-rational / LA / CEX / analytic, stricter `verify_certification_record`, and
-substitution forensic tests. Current `main` still uses fixture substitution in
-`adapters/common/kernel_replay.py` and `scripts/generate_replay_module.py`.
+non-enabled capabilities, stricter `verify_certification_record`, and
+substitution forensic tests.
 
-## Local toolchain (reproduction host)
+## What this workstream added on the pin
 
-| Item | Value |
-| --- | --- |
-| OS | Windows NT 10.0.26200 (PowerShell) |
-| `lean --version` | Lean 4.14.0, `x86_64-w64-windows-gnu`, commit `410fab728470` |
-| Lake | 5.0.0-410fab7 (Lean 4.14.0) |
-| elan | 4.2.3 |
-| `lean-toolchain` | `leanprover/lean4:v4.14.0` |
-| lake-manifest mathlib SHA | `4bbdccd9c5f862bf90ff12f0a9e2c8be032b9a84` |
+- Maturity inventory + STATUS/HANDOFF rebaseline (registry-backed `cr_eligible`)
+- Lean compile fixes required for exact-replay CI (ExprSerialize reserved-word
+  binders; related Checker/Encoding/Analytic test modules)
+- Typed exact-replay generators for owned capabilities
+- Certification Record **v0.4** fields and polarity rules
+- Offline release bundles + tamper coverage
+- Bounded `lake env lean` execution and argv-only declaration-identity invocation
+- CR eligibility enabled only where Lean exact-replay ladders are green
 
-CI image for the failing jobs is GitHub `ubuntu-latest` with the same pinned
-elan installer (`scripts/ci/install-elan-pinned.sh`) and the same toolchain
-file / mathlib revision.
+## CR eligibility (after Lean E2E)
 
-## CI delta at the pin (GitHub Actions on `fix/exact-certification-binding`)
-
-Observed on run family starting 2026-08-25T06:56:07Z (example lean run
-[32819174319](https://github.com/fraware/MathEvidence/actions/runs/32819174319)):
-
-| Workflow | Pin / PR head status | Interpretation |
+| Capability | `cr_eligible` | Notes |
 | --- | --- | --- |
-| `security` | PASS | Must stay green |
-| `adapter-conformance` | PASS | Must stay green |
-| `supply-chain` | PASS | Must stay green |
-| `adversarial` | PASS | Must stay green |
-| `lean` | FAIL at `lake build` of verification + declaration-identity + audit drivers | Shared ExprSerialize parse error |
-| `offline-replay` | FAIL at Lean leg (`lake build` OfflineFixtures / Tactic.Examples) | Same ExprSerialize parse error; Python leg passed |
-| `benchmarks` | `benchmarks` job PASS; `ideal-release-grade` FAIL at `lake build MathEvidenceCheckers mathevidence-declaration-identity` | Same ExprSerialize required-build failure |
+| `algebra.ideal_membership_witness` | true | `proved` |
+| `algebra.rational_equality` | true | `proved` |
+| `algebra.linear_algebra` | true | four ops; `proved` |
+| `logic.finite_counterexample` | true | `refuted` |
+| `algebra.formal_rational_calculus` | true | four ops with `soundResult` |
+| `analysis.analytic_calculus` | true | Deriv / DerivWithin / Antideriv / ODE (empty-obligation single-IC) |
+| Federated SAT / PB / SMT | false | metadata only |
 
-## Reproduced `lake build` diagnostic
+Offline exact driver defaults to `theorem_pending`. With
+`MATHEVIDENCE_OFFLINE_LEAN=1` / `require_lean=True` and Lake available it can
+reach `theorem_proved` after declaration-identity inspect (still not a CR mint).
+Online `kernel_replay` remains the primary promotion path.
 
-Do not treat the following as speculation. It was reproduced locally on the pin
-and matches the GitHub Actions logs.
+## Pin-era CI note (historical)
 
-Local:
+At the pin assessment (2026-08-25), security / adapter-conformance / supply-chain
+/ adversarial were green while `lean`, `offline-replay`, and
+`ideal-release-grade` failed on a shared Lean parse error in
+`MathEvidence.Core.ExprSerialize` (reserved word `prefix` used as a pattern
+binder). That class of failure, plus independent Checker test-module fixes, was
+addressed on this workstream. Treat the long diagnostic log under the archive
+and older commits as historical reproduction — not current live status.
 
-```text
-lake build MathEvidence.Core.ExprSerialize
-✖ [9/9] Building MathEvidence.Core.ExprSerialize
-error: .\.\.\.\MathEvidence\Core\ExprSerialize.lean:49:8: unexpected token 'prefix'; expected '=>'
-error: .\.\.\.\MathEvidence\Core\ExprSerialize.lean:49:15: unexpected identifier; expected ':'
-error: .\.\.\.\MathEvidence\Core\ExprSerialize.lean:51:15: unexpected identifier; expected ':'
-error: Lean exited with code 1
-Some required builds logged failures:
-- MathEvidence.Core.ExprSerialize
-error: build failed
-```
+## Forbidden non-fixes (still)
 
-CI (`lean` job 32819174319, step "Lake build (verification + declaration identity + audit drivers)"):
-
-```text
-error: ././././MathEvidence/Core/ExprSerialize.lean:49:8: unexpected token 'prefix'; expected '=>'
-error: ././././MathEvidence/Core/ExprSerialize.lean:49:15: unexpected identifier; expected ':'
-error: ././././MathEvidence/Core/ExprSerialize.lean:51:15: unexpected identifier; expected ':'
-error: Lean exited with code 1
-Some required builds logged failures:
-- MathEvidence.Core.ExprSerialize
-error: build failed
-```
-
-Root cause: Lean 4 reserved word `prefix` (notation commands) used as a pattern
-binder in `serializeName` (`| .str prefix value =>` / `| .num prefix value =>`).
-`mathevidence-declaration-identity` imports this module, so every exact-replay
-CI target that requires declaration identity fails the same way.
-
-After that parse error was fixed, `lake build MathEvidenceCheckers` (the
-`ideal-release-grade` prerequisite) still failed on three imported test modules.
-Those errors were also present in the pin CI log; they are independent of
-ExprSerialize:
-
-- `WireTests.lean`: `native_decide` could not synthesize `Decidable` for
-  `Except String RequestDigest` equality. Wrapped the vectors in a `Bool`
-  matcher (`digestMatches`).
-- `Encoding/Examples.lean`: theorems cited missing `InterpretsAt` /
-  `interprets_sparseC1_add_X` identifiers. Restated against the existing
-  `MvPolynomial` eval bridges (`eval_add_bridge` / `eval_mul_bridge` /
-  `SparsePoly.eval_X`).
-- `AnalyticCalculus/Tests.lean`: unnamed `example` + `native_decide` hit a
-  Lean 4.14.0 `ofReduceBool` typing bug on `quotientCert`; `HasDerivAt.pow`
-  did not match `(fun y => y ^ 2)` / `2 * x`. Named the theorems, used `#eval`
-  for the quotient positive vector, and `simpa` for `hasDerivAt_sq`.
-
-Forbidden non-fixes were not used: generated modules were not skipped, theorems
-were not weakened, sorry/axiom/import/declaration audits were not disabled, and
-exact replay was not converted back to fixture replay.
-
-## Local verification (baseline + Lean compile fixes)
-
-| Command | Result |
-| --- | --- |
-| `python scripts/validate_schemas.py` | ok (36 files, including maturity-inventory) |
-| `python scripts/validate_registry.py` | ok (9 capabilities; maturity inventory agrees with STATUS.md) |
-| `python scripts/validate_maturity_inventory.py` | ok |
-| `python -m pytest tests/forensic/test_maturity_inventory.py -q` | 10 passed |
-| `lake build MathEvidence.Core.ExprSerialize MathEvidence.Core.ExprSerializeTests mathevidence-declaration-identity` | success |
-| `lake build mathevidence-verify-bundle mathevidence-kernel-replay mathevidence-declaration-identity mathevidence-import-graph mathevidence-axiom-report` | success (lean.yml targets) |
-| `lake build MathEvidence.Checkers.RationalEquality.OfflineFixtures MathEvidence.Tactic.Examples` | success (offline-replay Lean leg) |
-| `lake build MathEvidenceCheckers mathevidence-declaration-identity` | success (ideal-release-grade prerequisite) |
-
-## Lake E2E repair (release ladder)
-
-Additional root causes found and fixed on top of the pin:
-
-1. **Windows `Lean.olean` shadow:** `kernel_replay._compile_and_inspect` wrote oleans under
-   `.lake/build/lib/lean/...`. On case-insensitive Windows that directory shadows the
-   toolchain `Lean` module in `LEAN_PATH`. Fixed to `.lake/build/lib/<Module>/...`.
-2. **DeclarationIdentity argv:** `lake exe mathevidence-declaration-identity -- --module ...`
-   forwards a bare `--` into the exe (exit 2). Fixed to pass flags without `--`.
-3. **Ideal / rational (and sibling) generators:** theorem type must be
-   `Claim.proposition req.claim ...` via named `def`s (OfflineFixtures pattern).
-   Literal claim copies + accidental `{{` brace doubling broke elaboration / introduced
-   `sorryAx`.
-
-After those fixes, local ladders green for **ideal**, **rational equality**,
-**linear algebra** (inverse/system/kernel/det), **finite counterexample**
-(`refuted`), **formal rational calculus** (derivative/antiderivative/recurrence/ODE
-with `soundResult`), and **analytic calculus** (Deriv / DerivWithin / Antideriv /
-ODE empty-obligation single-IC) → `crEligible=true` in registry + maturity
-inventory. Federated logic remains `crEligible=false`. Offline exact driver
-defaults to `theorem_pending`; with `MATHEVIDENCE_OFFLINE_LEAN=1` /
-`require_lean=True` and Lake available it can reach `theorem_proved` after
-declaration-identity inspect (still not a CR mint). Online `kernel_replay`
-remains the primary promotion path.
-
-## Fail-closed / honesty hardening
-
-Additional hardening on the same workstream:
-
-- Receipt polarity hard-equals claim mapping; registry `allowedOutcomes` enforced
-  for `proved`/`refuted`
-- Inventory validator syncs `cr_eligible` / exact binding to live capability JSON
-- Analytic exact parse aligned with sibling plugins (required fields, kind match,
-  pow bounds); formal univariate `dependentVar` defaults to independent
-- Offline Lean inspect uses real `environment_lock_digest` + type/proof identity
-  checks; docs distinguish offline `theorem_proved` from CR promotion
-- Kernel profile no longer remaps unknown capabilities to rational equality
-- STATUS / HANDOFF / ADR 0005 / this delta aligned on CR v0.4 and eligibility
-
-## Code delta relative to the pin
-
-Relative to the pin, this workstream adds the maturity inventory / ADR / status
-rebaseline, Lean compile fixes required for exact-replay CI, typed exact-replay
-generators, Certification Record v0.4 fields, offline release bundles, and
-argv-only bounded `lake env lean` execution. CR eligibility is enabled only
-where ladders are green.
+Do not skip generated modules, weaken theorems, disable sorry/axiom/import
+audits, or convert exact replay back to fixture replay to “green” CI.

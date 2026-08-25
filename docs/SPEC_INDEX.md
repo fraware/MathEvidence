@@ -6,10 +6,11 @@ Curated map of normative and public docs. Prefer
 ## Project status and trust
 
 - [`README.md`](../README.md)
-- [`docs/HANDOFF.md`](HANDOFF.md)
 - [`docs/STATUS.md`](STATUS.md)
+- [`docs/HANDOFF.md`](HANDOFF.md)
 - [`docs/adr/0005-exact-candidate-binding.md`](adr/0005-exact-candidate-binding.md)
 - [`docs/security/KNOWN_TRUST_GAPS.md`](security/KNOWN_TRUST_GAPS.md)
+- [`docs/validation/handoff-2026-08-25-delta.md`](validation/handoff-2026-08-25-delta.md)
 - [`docs/release/RELEASE_NOTES_DRAFT.md`](release/RELEASE_NOTES_DRAFT.md)
 - [`SECURITY.md`](../SECURITY.md)
 - [`docs/security/SECURITY_AND_TRUST_MODEL.md`](security/SECURITY_AND_TRUST_MODEL.md)
@@ -57,10 +58,19 @@ Curated map of normative and public docs. Prefer
 ## Schemas and machine-readable surfaces
 
 - `schemas/capability.schema.json`
+- `schemas/maturity-inventory.schema.json`
+- `schemas/assurance-policy.schema.json`
 - `schemas/evidence-bundle.schema.json`
+- `schemas/certification-record.schema.json`
+- `registry/maturity-inventory.json`
 - `foundry/schema/training-episode.schema.json`
 - `foundry/schema/corpus-episode.schema.json`
 - `foundry/schema/corpus-release.schema.json`
 - `agent/api/openapi.yaml`
 - `agent/CHANGELOG.md`
 - `dev/receipt-keys/README.md`
+
+## Archives (not live status)
+
+- [`docs/audits/2026-07-26-real-vision/`](audits/2026-07-26-real-vision/)
+- [`MathEvidence_Engineering_Handoff_2026-08-25/`](../MathEvidence_Engineering_Handoff_2026-08-25/)

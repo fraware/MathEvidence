@@ -1,5 +1,11 @@
 # MathEvidence Engineering Handoff Package
 
+> **Archive notice:** This directory is a **dated engineering assessment package**
+> (2026-08-25), not live project status. For current public status, CR eligibility,
+> and the operator runbook, use [`docs/STATUS.md`](../docs/STATUS.md) and
+> [`docs/HANDOFF.md`](../docs/HANDOFF.md). Internal assessment banners and SPEC
+> program language inside this tree describe the pinned baseline, not today's
+> registry.
 
 > **Repository baseline:** `fraware/MathEvidence`  
 > **Open integration branch:** PR #53  
@@ -7,8 +13,9 @@
 > **Assessment date:** 2026-08-25  
 >
 > This specification is intentionally pinned to the repository state above. If implementation begins from a different commit,
-> engineers MUST first execute SPEC-00 and record the delta. Historical status labels are not authority for theorem-level
-> certification eligibility.
+> engineers MUST first record the delta (see
+> [`docs/validation/handoff-2026-08-25-delta.md`](../docs/validation/handoff-2026-08-25-delta.md)).
+> Historical status labels are not authority for theorem-level certification eligibility.
 
 
 This package is a standalone engineering takeover specification for completing the MathEvidence vision without weakening its

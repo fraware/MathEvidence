@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted (PR #53 / exact-candidate-binding workstream).
+Accepted.
 
 ## Decision
 
@@ -18,15 +18,16 @@ Consequences:
 4. Generated Lean for exact replay is produced from a validated typed
    representation of the candidate (request + certificate), not from untrusted
    raw caller Lean fragments.
-5. Checker existence, OfflineFixtures, benchmark scores, and numerical agreement
+5. Checker existence, offlineFixtures, benchmark scores, and numerical agreement
    never authorize Certification Record promotion by themselves.
 
 ## Context
 
-PR #53 repaired generic kernel replay that selected broad `OfflineFixtures` by
+Generic kernel replay previously selected broad `OfflineFixtures` by
 capability/profile while constructing candidate-specific Certification Record
 metadata. That allowed a valid fixture theorem to be recorded against a different
-submitted claim.
+submitted claim. The exact-candidate-binding workstream ([PR #53](https://github.com/fraware/MathEvidence/pull/53)
+and follow-on) repairs that class of failure.
 
 The live source of truth for what each capability may prove, and whether a
 result may mint a Certification Record, is
@@ -36,22 +37,18 @@ Historical `MET` labels in dated audits and older status snapshots remain
 historical engineering-artifact records. They are not current theorem-level
 authority.
 
-## Policy at this decision
+## Policy
 
-At ADR acceptance (PR #53 pin), catalog capabilities started with
-`cr_eligible=false`. Ideal membership already claimed exact-candidate binding
-(`exactBinding.supported=true`) while promotion stayed blocked pending Lean
-exact-replay CI.
-
-**Current registry (after exact-replay generators + local Lean E2E on the pin):**
-owned exact-bound capabilities may set `cr_eligible=true` only after generator,
+Owned exact-bound capabilities may set `cr_eligible=true` only after generator,
 declaration-identity, offline regenerability, and tamper gates — never from
 checker-only changes. Live `cr_eligible` / `allowedOutcomes` live in
 [`registry/maturity-inventory.json`](../../registry/maturity-inventory.json) and
 each capability's `assurancePolicy`. Federated SAT / PB / SMT remain metadata
 only and are never CR-eligible under exact binding.
 
-Do not read this ADR's historical "all false" snapshot as current status.
+At ADR acceptance on the baseline pin, catalog capabilities started with
+`cr_eligible=false`. Do not read that historical snapshot as current status —
+consult the maturity inventory.
 
 ## Revisit condition
 
