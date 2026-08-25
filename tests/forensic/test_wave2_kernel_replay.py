@@ -191,13 +191,26 @@ def test_exact_ideal_kernel_replay_uses_lean_declaration_identity(tmp_path: Path
     )
     assert theorem_identity["theoremTypeDigest"] == result["theoremTypeDigest"]
     assert theorem_identity["proofDeclarationDigest"] == result["proofDeclarationDigest"]
-    assert "OfflineFixtures" not in (
+    generated_source = (
         ROOT
         / "MathEvidence"
         / "Generated"
         / "Replay"
-        / "forensic_exact_ideal.lean"
-    ).read_text(encoding="utf-8")
+        / f"{result['declarationName']}.lean"
+    )
+    generated_olean = (
+        ROOT
+        / ".lake"
+        / "build"
+        / "lib"
+        / "lean"
+        / "MathEvidence"
+        / "Generated"
+        / "Replay"
+        / f"{result['declarationName']}.olean"
+    )
+    assert not generated_source.exists()
+    assert not generated_olean.exists()
 
 
 def test_kernel_replay_negative_tampered_certificate(tmp_path: Path) -> None:
