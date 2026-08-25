@@ -12,7 +12,6 @@ from adapters.common.theorem_identity import (
     environment_lock_digest,
 )
 from adapters.common.canonical import bind_request_digest, sha256_digest
-from adapters.common.schema_validate import SchemaStore
 from agent.trace_to_plan import (
     check_plan_soundness,
     classify_trace_item,
@@ -58,7 +57,8 @@ def _minimal_certificate(request_digest: str) -> dict:
     }
 
 
-def _write_verified_cert(tmp_path: Path) -> Path:
+def _write_legacy_certification_fixture(tmp_path: Path) -> Path:
+    """Write the historical metadata-only fixture; it must never certify."""
     request = _minimal_rational_request()
     cand = tmp_path / "cand"
     cand_manifest = write_candidate_bundle(
@@ -270,34 +270,14 @@ def test_direct_step_with_full_evidence_advances() -> None:
     assert node["status"] == "kernel_certified"
 
 
-def test_reconstructible_advances_with_certification_record(tmp_path: Path) -> None:
-    cert_dir = _write_verified_cert(tmp_path)
+def test_legacy_certification_record_cannot_advance_reconstruction(tmp_path: Path) -> None:
+    cert_dir = _write_legacy_certification_fixture(tmp_path)
     good = reconstruct_from_receipt(
         trace_id="c1",
         certification_record_dir=cert_dir,
         candidate_dir=tmp_path / "cand",
     )
-    assert good is not None
-    assert reconstruction_has_verified_receipt(good)
-
-    plan = plan_from_traces(
-        target_theorem="lhs = rhs",
-        traces=[
-            {
-                "id": "c1",
-                "rawKind": "certificate",
-                "content": {
-                    "claim": "poly equal",
-                    "capability": "algebra.rational_equality",
-                },
-            }
-        ],
-        reconstructions={"c1": good},
-    )
-    vnode = next(n for n in plan["nodes"] if n["id"] == "n_c1")
-    assert vnode["advancesProofStatus"] is True
-    assert vnode["status"] == "kernel_certified"
-    SchemaStore().validate("proof-plan.schema.json", plan)
+    assert good is None
 
 
 def test_cycle_rejected() -> None:
@@ -361,4 +341,3 @@ def test_plan_soundness_rejects_proved_without_evidence() -> None:
                 "edges": [],
             }
         )
-
