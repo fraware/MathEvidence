@@ -34,10 +34,15 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # Mathematical/task benchmark behavior (not assurance policy).
   benchmark-task-suite:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
@@ -96,17 +101,21 @@ jobs:
       - name: Tool-selection benchmark
         run: python scripts/run_tool_selection_benchmark.py
 
-  # ME-RV-035 / P0-F: backend-proposed multipliers -> exact Lean theorem ->
-  # Lean.Environment identity -> strict Certification Record.
-  # Failure taxonomy: Lake/setup failures are not benchmark-logic failures.
-  # Benchmark score must never write crEligible (registry remains authority).
+  # Backend-proposed multipliers -> exact Lean theorem -> Lean.Environment
+  # identity -> strict Certification Record. Benchmark score never grants CR eligibility.
   ideal-release-grade:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Install elan (checksum-pinned release asset)
         run: bash scripts/ci/install-elan-pinned.sh
+
+      - name: Restore pinned Mathlib build cache
+        run: |
+          set -euo pipefail
+          lake exe cache get
 
       - name: Setup Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
@@ -150,7 +159,6 @@ jobs:
               assert lean.get("resultStatus") == "soundness_verified", (t.get("id"), lean)
               assert lean.get("certificationRecordDigest"), t.get("id")
               assert lean.get("identityAuthority") == "Lean.Environment ConstantInfo", lean
-          # Benchmark must not claim registry crEligible flips.
           assert "crEligible" not in p
           print("ideal exact release-grade OK:", p.get("passed"), "Certification Records")
           PY
