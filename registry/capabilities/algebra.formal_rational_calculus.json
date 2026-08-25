@@ -17,7 +17,7 @@
     "leanPackage": "MathEvidence.IR.FormalRationalCalculus"
   },
   "admissibility": {
-    "summary": "FORMAL RATIONAL CALCULUS ONLY: RationalExpr syntactic differentiation/substitution identities over ℚ. Does not establish HasDerivAt, HasDerivWithinAt, continuity, existence/uniqueness, or Mathlib ODE semantics.",
+    "summary": "FORMAL RATIONAL CALCULUS ONLY: RationalExpr syntactic differentiation/substitution identities over \u211a. Does not establish HasDerivAt, HasDerivWithinAt, continuity, existence/uniqueness, or Mathlib ODE semantics.",
     "rejectedConstructs": [
       "transcendentals",
       "conditionals",
@@ -120,5 +120,42 @@
     "minProtocolVersion": "0.1.0"
   },
   "semanticReview": "absent",
-  "trustReview": "absent"
+  "trustReview": "absent",
+  "assurancePolicy": {
+    "supportedAssuranceModes": [
+      "kernel_replay"
+    ],
+    "exactBinding": {
+      "supported": true,
+      "generatorId": "mathevidence.exact_formal_rational_calculus",
+      "generatorVersion": "0.1.0",
+      "grammarVersion": "0.1.0",
+      "generatorPath": "scripts/generate_exact_formal_rational_calculus_replay_module.py",
+      "verifier": "mathevidence-declaration-identity"
+    },
+    "replay": {
+      "backend": "exact_generator",
+      "offlineSupported": true
+    },
+    "certification": {
+      "allowedOutcomes": [
+        "proved"
+      ],
+      "crEligible": true
+    },
+    "maturity": {
+      "adapterExists": true,
+      "checkerExists": true,
+      "leanSoundnessExists": true,
+      "bridgeReplayExists": true,
+      "exactCandidateBindingExists": true,
+      "offlineReplayExists": true
+    },
+    "limitations": [
+      "SPEC-07 Track A: formal/algebraic RationalExpr calculus only; not HasDerivAt / analytic ODE.",
+      "CR eligibility enabled after local Lean exact-replay E2E for derivative/antiderivative/recurrence/ODE with soundResult claims.",
+      "Candidate-only requests remain evidence-only and cannot mint theorems.",
+      "Numerical calculus remains evidence-only."
+    ]
+  }
 }

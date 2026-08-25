@@ -106,5 +106,43 @@
     "minProtocolVersion": "0.1.0"
   },
   "semanticReview": "absent",
-  "trustReview": "absent"
+  "trustReview": "absent",
+  "assurancePolicy": {
+    "supportedAssuranceModes": [
+      "native_checked",
+      "kernel_replay"
+    ],
+    "exactBinding": {
+      "supported": true,
+      "generatorId": "mathevidence.exact_ideal_membership",
+      "generatorVersion": "0.1.0",
+      "grammarVersion": "0.1.0",
+      "generatorPath": "scripts/generate_exact_ideal_replay_module.py",
+      "verifier": "mathevidence-declaration-identity"
+    },
+    "replay": {
+      "backend": "exact_generator",
+      "offlineSupported": true
+    },
+    "certification": {
+      "allowedOutcomes": [
+        "proved"
+      ],
+      "crEligible": true
+    },
+    "maturity": {
+      "adapterExists": true,
+      "checkerExists": true,
+      "leanSoundnessExists": true,
+      "bridgeReplayExists": true,
+      "exactCandidateBindingExists": true,
+      "offlineReplayExists": true
+    },
+    "limitations": [
+      "CR eligibility enabled after local Lean exact-replay E2E: generate, compile, declaration-identity, axiom policy, independent verify, offline regenerability, and tamper forensics (Windows Lean.olean path shadow + declaration-identity argv fixed).",
+      "OfflineFixtures remain protocol self-tests and do not certify a different submitted candidate.",
+      "Witness identity only: no Groebner, non-membership, radical, or completeness claim.",
+      "Offline exact bundle Lean theorem inspect may still report theorem_pending; promotion authority is the online exact kernel-replay path."
+    ]
+  }
 }

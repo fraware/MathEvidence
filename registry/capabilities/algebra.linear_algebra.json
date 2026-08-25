@@ -17,7 +17,7 @@
     "leanPackage": "MathEvidence.IR.MatrixExpr"
   },
   "admissibility": {
-    "summary": "Custom MatrixExpr/RatLit IR witnesses over ℚ (inverse, system, kernel, det). Not Mathlib Matrix goal reification yet. Completeness/rank/basis claims are separate claim classes.",
+    "summary": "Custom MatrixExpr/RatLit IR witnesses over \u211a (inverse, system, kernel, det). Not Mathlib Matrix goal reification yet. Completeness/rank/basis claims are separate claim classes.",
     "rejectedConstructs": [
       "floating_point_matrices",
       "approximate_svd",
@@ -119,5 +119,58 @@
     "minProtocolVersion": "0.1.0"
   },
   "semanticReview": "absent",
-  "trustReview": "absent"
+  "trustReview": "absent",
+  "assurancePolicy": {
+    "supportedAssuranceModes": [
+      "kernel_replay"
+    ],
+    "exactBinding": {
+      "supported": true,
+      "generatorId": "mathevidence.exact_linear_algebra",
+      "generatorVersion": "0.1.0",
+      "grammarVersion": "0.1.0",
+      "generatorPath": "scripts/generate_exact_linear_algebra_replay_module.py",
+      "verifier": "mathevidence-declaration-identity",
+      "operations": {
+        "inverse_witness": {
+          "exactBindingSupported": true,
+          "crEligible": true
+        },
+        "system_solution": {
+          "exactBindingSupported": true,
+          "crEligible": true
+        },
+        "kernel_vector": {
+          "exactBindingSupported": true,
+          "crEligible": true
+        },
+        "det_identity": {
+          "exactBindingSupported": true,
+          "crEligible": true
+        }
+      }
+    },
+    "replay": {
+      "backend": "exact_generator",
+      "offlineSupported": true
+    },
+    "certification": {
+      "allowedOutcomes": [
+        "proved"
+      ],
+      "crEligible": true
+    },
+    "maturity": {
+      "adapterExists": true,
+      "checkerExists": true,
+      "leanSoundnessExists": true,
+      "bridgeReplayExists": true,
+      "exactCandidateBindingExists": true,
+      "offlineReplayExists": true
+    },
+    "limitations": [
+      "CR eligibility enabled after local Lean exact-replay E2E for inverse_witness, system_solution, kernel_vector, and det_identity.",
+      "Exact int/rational entries only; floats rejected. Numerical LA is a different evidence class."
+    ]
+  }
 }
