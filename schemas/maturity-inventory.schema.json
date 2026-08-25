@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://mathevidence.org/schemas/maturity-inventory-v0.json",
+  "$id": "https://mathevidence.org/schemas/maturity-inventory-v0.2.json",
   "title": "MathEvidence Assurance Maturity Inventory",
-  "description": "Machine-readable answer to: what can each adapter-exposed capability prove today, and may that result mint a Certification Record? Independent booleans are not implied by each other. cr_eligible never follows from checker or fixture existence.",
+  "description": "Machine-readable answer to: what can each adapter-exposed capability prove today, and may that result mint a Certification Record? Independent booleans are not implied by each other. cr_eligible never follows from checker or fixture existence. Offline bundle replay and offline kernel theorem execution are distinct maturity dimensions.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -14,12 +14,12 @@
   "properties": {
     "schemaVersion": {
       "type": "string",
-      "const": "0.1.0"
+      "const": "0.2.0"
     },
     "statusAsOfCommit": {
       "type": "string",
       "pattern": "^[0-9a-f]{40}$",
-      "description": "Git commit this inventory describes"
+      "description": "Audited baseline Git commit whose capability state this inventory describes. A release manifest binds the inventory hash to the actual release commit/tree."
     },
     "program": {
       "type": "string",
@@ -49,6 +49,8 @@
         "bridge_replay_exists",
         "exact_candidate_binding_exists",
         "offline_replay_exists",
+        "offline_bundle_replay_exists",
+        "offline_kernel_replay_exists",
         "cr_eligible",
         "exactBinding",
         "known_limitations"
@@ -67,7 +69,18 @@
         "lean_soundness_exists": { "type": "boolean" },
         "bridge_replay_exists": { "type": "boolean" },
         "exact_candidate_binding_exists": { "type": "boolean" },
-        "offline_replay_exists": { "type": "boolean" },
+        "offline_replay_exists": {
+          "type": "boolean",
+          "description": "Compatibility alias for offline_bundle_replay_exists. It does not mean the Lean theorem was re-executed offline."
+        },
+        "offline_bundle_replay_exists": {
+          "type": "boolean",
+          "description": "A sealed candidate replay bundle can be regenerated/validated without consulting the untrusted solver or the network after materialization."
+        },
+        "offline_kernel_replay_exists": {
+          "type": "boolean",
+          "description": "Release CI requires successful offline Lean/kernel theorem execution of a sealed candidate bundle; setup failure does not count as success."
+        },
         "cr_eligible": { "type": "boolean" },
         "trusted_backend": { "type": "string" },
         "supported_assurance_modes": {
