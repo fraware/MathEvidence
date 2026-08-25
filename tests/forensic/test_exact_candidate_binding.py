@@ -71,9 +71,28 @@ def test_exact_ideal_generator_has_no_fixture_authority() -> None:
     assert "Claim.proposition" in text
     assert request["requestDigest"] in text
     assert f'version := "{request["capabilityVersion"]}"' in text
-    assert "resourcePolicy := defaultResourcePolicy" in text
+    assert "Request.ofWireFields!" in text
+    assert "exact_xy_request_binding" in text
+    assert "resourcePolicy := defaultResourcePolicy" not in text
     assert "Monomial.ofList! 2 [1, 1]" in text
     assert "Monomial.ofList! 2 [0, 1]" in text
+
+
+def test_request_notes_are_part_of_lean_wire_binding() -> None:
+    request, certificate = _request_and_certificate()
+    request["notes"] = ["semantic note", "second note"]
+    text = _generate(request, certificate, name="notes_bound", digest_byte="4")
+    assert 'some ["semantic note", "second note"]' in text
+    assert "Request.ofWireFields!" in text
+    assert "notes_bound_request_binding" in text
+
+
+def test_wrong_request_schema_version_rejected_before_lean() -> None:
+    request, certificate = _request_and_certificate()
+    request["schemaVersion"] = "0.2.0"
+    certificate["schemaVersion"] = "0.2.0"
+    with pytest.raises(ValueError, match="request schemaVersion"):
+        _generate(request, certificate, name="bad_schema", digest_byte="5")
 
 
 def test_same_profile_different_claim_changes_theorem_source() -> None:
