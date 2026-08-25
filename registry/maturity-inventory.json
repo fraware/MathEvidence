@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "0.1.0",
-  "statusAsOfCommit": "30522d70e9be0f3fda9b9b6febc7502b9ef4c34b",
+  "schemaVersion": "0.2.0",
+  "statusAsOfCommit": "d7192f749aa54481bf979e84be1498b29abd2c55",
   "program": "exact-candidate-binding",
-  "note": "Exact-candidate-binding baseline pin 30522d70. CR-eligible: ideal, rational_equality, linear_algebra (4 ops), finite_counterexample (refuted), formal_rational_calculus (4 ops soundResult), analytic_calculus (Deriv/DerivWithin/Antideriv/ODE).",
+  "note": "Audited capability baseline is main@d7192f74. Final release commit/tree is bound separately by the release provenance manifest. offline_replay_exists is retained only as a compatibility alias for offline_bundle_replay_exists; offline kernel theorem execution is tracked independently.",
   "capabilities": [
     {
       "id": "algebra.ideal_membership_witness",
@@ -13,6 +13,8 @@
       "bridge_replay_exists": true,
       "exact_candidate_binding_exists": true,
       "offline_replay_exists": true,
+      "offline_bundle_replay_exists": true,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": true,
       "trusted_backend": "lean_kernel",
       "supported_assurance_modes": [
@@ -31,9 +33,9 @@
         "verifier": "mathevidence-declaration-identity"
       },
       "known_limitations": [
-        "CR eligibility enabled after local Lean exact-replay E2E ladder; OfflineFixtures are not Certification Record authority.",
+        "CR eligibility requires candidate-bound Lean exact replay; OfflineFixtures are not Certification Record authority.",
         "Witness identity only: no Groebner, non-membership, radical, or completeness claim.",
-        "Offline exact bundle may still report theorem_pending for Lean inspect; online kernel_replay is the promotion path."
+        "Offline bundle replay exists; offline kernel replay is not yet a required release maturity gate."
       ]
     },
     {
@@ -45,6 +47,8 @@
       "bridge_replay_exists": true,
       "exact_candidate_binding_exists": true,
       "offline_replay_exists": true,
+      "offline_bundle_replay_exists": true,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": true,
       "trusted_backend": "lean_kernel",
       "supported_assurance_modes": [
@@ -62,8 +66,9 @@
         "verifier": "mathevidence-declaration-identity"
       },
       "known_limitations": [
-        "CR eligibility enabled after local Lean exact-replay E2E; OfflineFixtures are not Certification Record authority.",
-        "Canonical rationals: int num, strictly positive den, gcd-normalized, zero as 0/1."
+        "CR eligibility requires candidate-bound Lean exact replay; OfflineFixtures are not Certification Record authority.",
+        "Canonical rationals: int num, strictly positive den, gcd-normalized, zero as 0/1.",
+        "Offline bundle replay exists; offline kernel replay is not yet a required release maturity gate."
       ]
     },
     {
@@ -75,6 +80,8 @@
       "bridge_replay_exists": true,
       "exact_candidate_binding_exists": true,
       "offline_replay_exists": true,
+      "offline_bundle_replay_exists": true,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": true,
       "trusted_backend": "lean_kernel",
       "supported_assurance_modes": [
@@ -92,8 +99,9 @@
         "verifier": "mathevidence-declaration-identity"
       },
       "known_limitations": [
-        "CR eligibility enabled after local Lean exact-replay E2E for inverse_witness, system_solution, kernel_vector, and det_identity.",
-        "Exact int/rational entries only; numerical LA is a different evidence class."
+        "CR eligibility is operation-scoped to exact-enabled inverse_witness, system_solution, kernel_vector, and det_identity.",
+        "Exact int/rational entries only; numerical LA is a different evidence class.",
+        "Offline bundle replay exists; offline kernel replay is not yet a required release maturity gate."
       ]
     },
     {
@@ -105,6 +113,8 @@
       "bridge_replay_exists": true,
       "exact_candidate_binding_exists": true,
       "offline_replay_exists": true,
+      "offline_bundle_replay_exists": true,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": true,
       "trusted_backend": "lean_kernel",
       "supported_assurance_modes": [
@@ -123,7 +133,8 @@
       },
       "known_limitations": [
         "Exact witness binding yields outcome polarity refuted (never proved).",
-        "CR eligibility enabled after local Lean exact-replay E2E."
+        "Failure to find a witness is not a proof of the universal claim.",
+        "Offline bundle replay exists; offline kernel replay is not yet a required release maturity gate."
       ]
     },
     {
@@ -135,6 +146,8 @@
       "bridge_replay_exists": true,
       "exact_candidate_binding_exists": true,
       "offline_replay_exists": true,
+      "offline_bundle_replay_exists": true,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": true,
       "trusted_backend": "lean_kernel",
       "supported_assurance_modes": [
@@ -152,9 +165,9 @@
         "verifier": "mathevidence-declaration-identity"
       },
       "known_limitations": [
-        "Formal/algebraic only; not analytic HasDerivAt.",
-        "CR eligibility enabled after local Lean exact-replay E2E for derivative/antiderivative/recurrence/ODE with soundResult claims.",
-        "Candidate-only requests remain evidence-only."
+        "Formal/algebraic only; not general analytic HasDerivAt semantics.",
+        "CR eligibility is restricted to the exact registered soundResult operations; candidate-only requests remain evidence-only.",
+        "Offline bundle replay exists; offline kernel replay is not yet a required release maturity gate."
       ]
     },
     {
@@ -166,6 +179,8 @@
       "bridge_replay_exists": true,
       "exact_candidate_binding_exists": true,
       "offline_replay_exists": true,
+      "offline_bundle_replay_exists": true,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": true,
       "trusted_backend": "lean_kernel",
       "supported_assurance_modes": [
@@ -183,9 +198,9 @@
         "verifier": "mathevidence-declaration-identity"
       },
       "known_limitations": [
-        "Analytic calculus whitelist only: checkDeriv_sound, checkDerivWithin_sound, checkAntideriv_sound, checkODE_sound.",
-        "CR eligibility enabled after local Lean exact-replay E2E for Deriv / DerivWithin / Antideriv / ODE (empty-obligation single-IC ODE).",
-        "Exact ODE currently requires empty domain obligations and at most one initial condition; multi-IC / obligation-bearing ODE fail closed."
+        "Analytic calculus is a strict theorem-form whitelist, not arbitrary analysis.",
+        "Exact ODE currently requires empty domain obligations and at most one initial condition; unsupported forms fail closed.",
+        "Offline bundle replay exists; offline kernel replay is not yet a required release maturity gate."
       ]
     },
     {
@@ -197,6 +212,8 @@
       "bridge_replay_exists": false,
       "exact_candidate_binding_exists": false,
       "offline_replay_exists": false,
+      "offline_bundle_replay_exists": false,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": false,
       "trusted_backend": "external",
       "supported_assurance_modes": [],
@@ -218,6 +235,8 @@
       "bridge_replay_exists": false,
       "exact_candidate_binding_exists": false,
       "offline_replay_exists": false,
+      "offline_bundle_replay_exists": false,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": false,
       "trusted_backend": "external",
       "supported_assurance_modes": [],
@@ -239,6 +258,8 @@
       "bridge_replay_exists": false,
       "exact_candidate_binding_exists": false,
       "offline_replay_exists": false,
+      "offline_bundle_replay_exists": false,
+      "offline_kernel_replay_exists": false,
       "cr_eligible": false,
       "trusted_backend": "external",
       "supported_assurance_modes": [],
