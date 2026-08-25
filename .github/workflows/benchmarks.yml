@@ -22,6 +22,10 @@ on:
       - "scripts/run_ideal_membership_benchmark.py"
       - "scripts/smoke_ideal_membership.py"
       - "scripts/generate_exact_ideal_replay_module.py"
+      - "scripts/ci/run_cr_exact_lean_e2e.py"
+      - "registry/maturity-inventory.json"
+      - "registry/capabilities/**"
+      - "adapters/common/exact_replay/**"
       - "MathEvidence/Checkers/IdealMembership/**"
       - "MathEvidence/Core/ExprSerialize.lean"
       - "MathEvidence/Exe/DeclarationIdentity.lean"
@@ -30,6 +34,8 @@ on:
       - "adapters/common/environment_lock.py"
       - "agent/api/receipt.py"
       - ".github/workflows/benchmarks.yml"
+      - ".github/workflows/lean.yml"
+      - ".github/workflows/release.yml"
 
 permissions:
   contents: read
