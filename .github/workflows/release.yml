@@ -10,14 +10,24 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release-provenance:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Install elan (checksum-pinned release asset)
         run: bash scripts/ci/install-elan-pinned.sh
+
+      - name: Restore pinned Mathlib build cache
+        run: |
+          set -euo pipefail
+          lake exe cache get
 
       - name: Install uv (SHA-pinned)
         uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
