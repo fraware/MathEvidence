@@ -93,6 +93,7 @@ theorems. Analytic fragments use the separate experimental id
 
 | Doc | Why |
 | --- | --- |
+| [`../HANDOFF.md`](../HANDOFF.md) | Exact-certification engineering handoff / runbook |
 | [`../STATUS.md`](../STATUS.md) | Preview claims and non-claims |
 | [`../security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md) | Trust gaps |
 | [`../products/README.md`](../products/README.md) | Product surface map |

@@ -6,7 +6,9 @@ Curated map of normative and public docs. Prefer
 ## Project status and trust
 
 - [`README.md`](../README.md)
+- [`docs/HANDOFF.md`](HANDOFF.md)
 - [`docs/STATUS.md`](STATUS.md)
+- [`docs/adr/0005-exact-candidate-binding.md`](adr/0005-exact-candidate-binding.md)
 - [`docs/security/KNOWN_TRUST_GAPS.md`](security/KNOWN_TRUST_GAPS.md)
 - [`docs/release/RELEASE_NOTES_DRAFT.md`](release/RELEASE_NOTES_DRAFT.md)
 - [`SECURITY.md`](../SECURITY.md)

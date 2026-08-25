@@ -11,7 +11,14 @@ Do not invent human confirmations. Capabilities remain
 [stable-capability-checklist.md](stable-capability-checklist.md) is fully
 checked with real artifacts.
 
-**Status labels**
+**Status labels (historical engineering-artifact records)**
+
+These `MET` / `PARTIAL` / `OPEN` cells describe whether a qualifying
+implementation artifact existed for the §21 / roadmap row as written. They are
+**not** theorem-level Certification Record eligibility. Current CR authority is
+[`registry/maturity-inventory.json`](../../registry/maturity-inventory.json)
+and PR #53 / post-repair semantics in [`STATUS.md`](../STATUS.md). Dated audit
+files under `docs/audits/` are left unchanged.
 
 - `MET` — qualifying engineering artifact exists and matches the row as written.
 - `PARTIAL` — some required artifact exists; gaps listed.
