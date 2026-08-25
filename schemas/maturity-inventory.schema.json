@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathevidence.org/schemas/maturity-inventory-v0.json",
+  "title": "MathEvidence Assurance Maturity Inventory",
+  "description": "Phase 0 (SPEC-00) machine-readable answer to: what can each adapter-exposed capability prove today, and may that result mint a Certification Record? Independent booleans are not implied by each other. cr_eligible never follows from checker or fixture existence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "statusAsOfCommit",
+    "program",
+    "capabilities"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "statusAsOfCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "Git commit this inventory describes"
+    },
+    "program": {
+      "type": "string",
+      "const": "exact-candidate-binding"
+    },
+    "note": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/capabilityMaturity"
+      }
+    }
+  },
+  "$defs": {
+    "capabilityMaturity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "adapter_exists",
+        "checker_exists",
+        "lean_soundness_exists",
+        "bridge_replay_exists",
+        "exact_candidate_binding_exists",
+        "offline_replay_exists",
+        "cr_eligible",
+        "exactBinding",
+        "known_limitations"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "adapter_exists": { "type": "boolean" },
+        "checker_exists": { "type": "boolean" },
+        "lean_soundness_exists": { "type": "boolean" },
+        "bridge_replay_exists": { "type": "boolean" },
+        "exact_candidate_binding_exists": { "type": "boolean" },
+        "offline_replay_exists": { "type": "boolean" },
+        "cr_eligible": { "type": "boolean" },
+        "trusted_backend": { "type": "string" },
+        "supported_assurance_modes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "allowed_certification_outcomes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "exactBinding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["supported"],
+          "properties": {
+            "supported": { "type": "boolean" },
+            "generatorId": { "type": "string", "minLength": 1 },
+            "generatorVersion": {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+            },
+            "grammarVersion": {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+            },
+            "generatorPath": { "type": "string", "minLength": 1 },
+            "verifier": { "type": "string", "minLength": 1 }
+          }
+        },
+        "known_limitations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}
