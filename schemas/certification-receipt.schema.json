@@ -1,43 +1,53 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://mathevidence.org/schemas/certification-receipt-v0.json",
-  "title": "MathEvidence Certification Receipt v0.3",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "schemaVersion",
-    "candidateBundleDigest",
-    "certificationRecordDigest",
-    "requestDigest",
-    "certificateContentDigest",
-    "replayTargetDigest",
-    "theoremTypeDigest",
-    "proofDeclarationDigest",
-    "axiomReportDigest",
-    "environmentLockDigest",
-    "capability",
-    "checker",
-    "claimRequested",
-    "claimEstablished",
-    "unresolvedObligations",
-    "assuranceMode",
-    "resultStatus",
-    "toolchain"
+  "title": "MathEvidence Certification Receipt",
+  "description": "v0.4 is current for exact promotion. v0.3 remains parseable under its original version; never silently upgrade. Signing is not claimed by this schema.",
+  "oneOf": [
+    { "$ref": "#/$defs/receiptV03" },
+    { "$ref": "#/$defs/receiptV04" }
   ],
-  "properties": {
-    "schemaVersion": {
+  "$defs": {
+    "sha256Digest": {
       "type": "string",
-      "enum": ["0.3.0"]
+      "pattern": "^sha256:[0-9a-f]{64}$"
     },
-    "candidateBundleDigest": { "$ref": "#/$defs/sha256Digest" },
-    "certificationRecordDigest": { "$ref": "#/$defs/sha256Digest" },
-    "requestDigest": { "$ref": "#/$defs/sha256Digest" },
-    "certificateContentDigest": { "$ref": "#/$defs/sha256Digest" },
-    "replayTargetDigest": { "$ref": "#/$defs/sha256Digest" },
-    "theoremTypeDigest": { "$ref": "#/$defs/sha256Digest" },
-    "proofDeclarationDigest": { "$ref": "#/$defs/sha256Digest" },
-    "axiomReportDigest": { "$ref": "#/$defs/sha256Digest" },
-    "environmentLockDigest": { "$ref": "#/$defs/sha256Digest" },
+    "digestOrNA": {
+      "type": "string",
+      "anyOf": [
+        { "pattern": "^sha256:[0-9a-f]{64}$" },
+        { "const": "n/a" }
+      ]
+    },
+    "claimClass": {
+      "enum": [
+        "candidate",
+        "witness",
+        "refutation",
+        "decomposition",
+        "soundResult",
+        "completeSolution",
+        "optimum",
+        "enclosure",
+        "canonicalForm"
+      ]
+    },
+    "resultStatus": {
+      "enum": [
+        "computed",
+        "tested",
+        "checker_accepted",
+        "witness_verified",
+        "soundness_verified",
+        "completeness_verified",
+        "optimality_verified",
+        "approximation_certified",
+        "native_verified",
+        "rejected",
+        "unsupported",
+        "ambiguous"
+      ]
+    },
     "capability": {
       "type": "object",
       "additionalProperties": false,
@@ -65,42 +75,6 @@
         "soundnessTheorem": { "type": "string", "minLength": 1 }
       }
     },
-    "soundnessTheorem": { "type": "string", "minLength": 1 },
-    "claimRequested": { "$ref": "#/$defs/claimClass" },
-    "claimEstablished": {
-      "anyOf": [{ "$ref": "#/$defs/claimClass" }, { "type": "null" }]
-    },
-    "unresolvedObligations": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["id", "description"],
-        "properties": {
-          "id": { "type": "string", "minLength": 1 },
-          "description": { "type": "string", "minLength": 1 }
-        }
-      }
-    },
-    "assuranceMode": {
-      "enum": ["kernel_replay", "verified_reflection", "native_checked"]
-    },
-    "resultStatus": {
-      "enum": [
-        "computed",
-        "tested",
-        "checker_accepted",
-        "witness_verified",
-        "soundness_verified",
-        "completeness_verified",
-        "optimality_verified",
-        "approximation_certified",
-        "native_verified",
-        "rejected",
-        "unsupported",
-        "ambiguous"
-      ]
-    },
     "toolchain": {
       "type": "object",
       "additionalProperties": false,
@@ -112,25 +86,151 @@
         "platform": { "type": "string" }
       }
     },
-    "detail": { "type": "string" }
-  },
-  "$defs": {
-    "sha256Digest": {
-      "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
+    "obligations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 }
+        }
+      }
     },
-    "claimClass": {
-      "enum": [
-        "candidate",
-        "witness",
-        "refutation",
-        "decomposition",
-        "soundResult",
-        "completeSolution",
-        "optimum",
-        "enclosure",
-        "canonicalForm"
-      ]
+    "receiptV03": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "candidateBundleDigest",
+        "certificationRecordDigest",
+        "requestDigest",
+        "certificateContentDigest",
+        "replayTargetDigest",
+        "theoremTypeDigest",
+        "proofDeclarationDigest",
+        "axiomReportDigest",
+        "environmentLockDigest",
+        "capability",
+        "checker",
+        "claimRequested",
+        "claimEstablished",
+        "unresolvedObligations",
+        "assuranceMode",
+        "resultStatus",
+        "toolchain"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "0.3.0" },
+        "candidateBundleDigest": { "$ref": "#/$defs/sha256Digest" },
+        "certificationRecordDigest": { "$ref": "#/$defs/sha256Digest" },
+        "requestDigest": { "$ref": "#/$defs/sha256Digest" },
+        "certificateContentDigest": { "$ref": "#/$defs/sha256Digest" },
+        "replayTargetDigest": { "$ref": "#/$defs/sha256Digest" },
+        "theoremTypeDigest": { "$ref": "#/$defs/sha256Digest" },
+        "proofDeclarationDigest": { "$ref": "#/$defs/sha256Digest" },
+        "axiomReportDigest": { "$ref": "#/$defs/sha256Digest" },
+        "environmentLockDigest": { "$ref": "#/$defs/sha256Digest" },
+        "capability": { "$ref": "#/$defs/capability" },
+        "checker": { "$ref": "#/$defs/checker" },
+        "soundnessTheorem": { "type": "string", "minLength": 1 },
+        "claimRequested": { "$ref": "#/$defs/claimClass" },
+        "claimEstablished": {
+          "anyOf": [{ "$ref": "#/$defs/claimClass" }, { "type": "null" }]
+        },
+        "unresolvedObligations": { "$ref": "#/$defs/obligations" },
+        "assuranceMode": {
+          "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+        },
+        "resultStatus": { "$ref": "#/$defs/resultStatus" },
+        "toolchain": { "$ref": "#/$defs/toolchain" },
+        "detail": { "type": "string" }
+      }
+    },
+    "receiptV04": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "candidateBundleDigest",
+        "certificationRecordDigest",
+        "requestDigest",
+        "certificateContentDigest",
+        "replayTargetDigest",
+        "theoremTypeDigest",
+        "proofDeclarationDigest",
+        "axiomReportDigest",
+        "environmentLockDigest",
+        "capability",
+        "checker",
+        "claimRequested",
+        "claimEstablished",
+        "unresolvedObligations",
+        "assuranceMode",
+        "resultStatus",
+        "outcome",
+        "toolchain",
+        "canonicalClaimHash",
+        "candidateHash",
+        "generatorId",
+        "generatorVersion",
+        "grammarVersion",
+        "generatedSourceHash",
+        "theoremOrDeclarationIdentity",
+        "toolchainContractDigest",
+        "dependencyLockDigest",
+        "artifactHashes",
+        "replayManifestHash",
+        "executionPolicyId"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "0.4.0" },
+        "candidateBundleDigest": { "$ref": "#/$defs/sha256Digest" },
+        "certificationRecordDigest": { "$ref": "#/$defs/sha256Digest" },
+        "requestDigest": { "$ref": "#/$defs/sha256Digest" },
+        "certificateContentDigest": { "$ref": "#/$defs/sha256Digest" },
+        "replayTargetDigest": { "$ref": "#/$defs/sha256Digest" },
+        "theoremTypeDigest": { "$ref": "#/$defs/sha256Digest" },
+        "proofDeclarationDigest": { "$ref": "#/$defs/sha256Digest" },
+        "axiomReportDigest": { "$ref": "#/$defs/sha256Digest" },
+        "environmentLockDigest": { "$ref": "#/$defs/sha256Digest" },
+        "capability": { "$ref": "#/$defs/capability" },
+        "checker": { "$ref": "#/$defs/checker" },
+        "soundnessTheorem": { "type": "string", "minLength": 1 },
+        "claimRequested": { "$ref": "#/$defs/claimClass" },
+        "claimEstablished": {
+          "anyOf": [{ "$ref": "#/$defs/claimClass" }, { "type": "null" }]
+        },
+        "unresolvedObligations": { "$ref": "#/$defs/obligations" },
+        "assuranceMode": {
+          "enum": ["kernel_replay", "verified_reflection", "native_checked"]
+        },
+        "resultStatus": { "$ref": "#/$defs/resultStatus" },
+        "outcome": {
+          "enum": ["proved", "refuted", "evidence_only"]
+        },
+        "toolchain": { "$ref": "#/$defs/toolchain" },
+        "detail": { "type": "string" },
+        "canonicalClaimHash": { "$ref": "#/$defs/digestOrNA" },
+        "candidateHash": { "$ref": "#/$defs/digestOrNA" },
+        "generatorId": { "type": "string", "minLength": 1 },
+        "generatorVersion": { "type": "string", "minLength": 1 },
+        "grammarVersion": { "type": "string", "minLength": 1 },
+        "generatedSourceHash": { "$ref": "#/$defs/digestOrNA" },
+        "theoremOrDeclarationIdentity": { "type": "string", "minLength": 1 },
+        "toolchainContractDigest": { "$ref": "#/$defs/digestOrNA" },
+        "dependencyLockDigest": { "$ref": "#/$defs/digestOrNA" },
+        "artifactHashes": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/digestOrNA" }
+        },
+        "replayManifestHash": { "$ref": "#/$defs/digestOrNA" },
+        "executionPolicyId": { "type": "string", "minLength": 1 },
+        "assuranceTier": {
+          "enum": ["exact", "legacy_fixture", "evidence_only"]
+        }
+      }
     }
   }
 }
