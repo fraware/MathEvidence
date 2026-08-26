@@ -271,7 +271,7 @@ class FormalRationalCalculusPlugin:
       have hDigest : digestOk {req_name} {cert_name} = true := by native_decide
       have hWellFormed : wellFormedOk {req_name} = true := by native_decide
       have hDomain : domainCoverOk {req_name} {cert_name} = true := by native_decide
-      have hOp : opOk {req_name} = true := by native_decide
+      have hOp : opOk {req_name} = true := by rfl
       simp [checkBool, hDigest, hWellFormed, hDomain, hOp]"""
         else:
             checker_proof = (
