@@ -3,17 +3,16 @@
 #
 # This transport path avoids releases.lean-lang.org, whose TLS endpoint has
 # repeatedly failed before project code can run. The source is pinned by:
-#   tag:       v4.14.0
-#   tag commit:410fab7284703f41660ca2454218dcca9b2ec896
-#   asset id:  210336963
-#   asset name:lean-4.14.0-linux.tar.zst
-#   byte size: 249860945
+#   tag:        v4.14.0
+#   tag commit: 410fab7284703f41660ca2454218dcca9b2ec896
+#   asset id:   210336963
+#   asset name: lean-4.14.0-linux.tar.zst
+#   byte size:  249860945
+#   sha256:     320f18e7d58271d95fced740522b5a5ed41b85b2af5bf0e8ab9a8dbc380e450a
 #
-# The upstream GitHub API does not expose a digest for this 2024 asset. Until
-# LEAN_SHA256 below is populated from an observed download of this exact asset,
-# this script is calibration-only and MUST NOT be treated as final release
-# provenance. It prints the observed SHA-256 so the next exact candidate can pin
-# it and rerun all release-critical CI.
+# The SHA-256 was observed from the exact official GitHub release asset after
+# independently checking asset id/name/size, archive integrity, extracted Lean
+# version, and the upstream v4.14.0 tag commit. CI fails closed on any mismatch.
 set -euo pipefail
 
 LEAN_VERSION="4.14.0"
@@ -23,8 +22,7 @@ LEAN_ASSET_ID="210336963"
 LEAN_ASSET_NAME="lean-${LEAN_VERSION}-linux.tar.zst"
 LEAN_ASSET_SIZE="249860945"
 LEAN_ASSET_URL="https://api.github.com/repos/leanprover/lean4/releases/assets/${LEAN_ASSET_ID}"
-# Calibration phase only. Populate this with the observed digest before release.
-LEAN_SHA256="${LEAN_SHA256:-}"
+LEAN_SHA256="320f18e7d58271d95fced740522b5a5ed41b85b2af5bf0e8ab9a8dbc380e450a"
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 actual_toolchain="$(tr -d '\r\n' < "${repo_root}/lean-toolchain")"
@@ -78,13 +76,9 @@ observed_sha256="$(sha256sum "$archive" | awk '{print $1}')"
 echo "MATHEVIDENCE_LEAN_ASSET_ID=${LEAN_ASSET_ID}"
 echo "MATHEVIDENCE_LEAN_ASSET_SIZE=${actual_size}"
 echo "MATHEVIDENCE_LEAN_ASSET_SHA256=${observed_sha256}"
-if [[ -n "$LEAN_SHA256" ]]; then
-  if [[ "$observed_sha256" != "$LEAN_SHA256" ]]; then
-    echo "Lean asset SHA-256 mismatch: got ${observed_sha256}, expected ${LEAN_SHA256}" >&2
-    exit 1
-  fi
-else
-  echo "Lean asset SHA-256 is observation-only on this calibration head; release remains blocked" >&2
+if [[ "$observed_sha256" != "$LEAN_SHA256" ]]; then
+  echo "Lean asset SHA-256 mismatch: got ${observed_sha256}, expected ${LEAN_SHA256}" >&2
+  exit 1
 fi
 
 # Verify compressed-stream integrity before extraction.
@@ -94,7 +88,7 @@ tar --zstd -xf "$archive" -C "$extract_root"
 toolchain_dir="${extract_root}/lean-${LEAN_VERSION}-linux"
 if [[ ! -x "${toolchain_dir}/bin/lean" || ! -x "${toolchain_dir}/bin/lake" ]]; then
   echo "official Lean release archive layout is not the expected linux distribution" >&2
-  find "$extract_root" -maxdepth 2 -type f -o -type d >&2 || true
+  find "$extract_root" -maxdepth 2 \( -type f -o -type d \) >&2 || true
   exit 1
 fi
 
