@@ -6,6 +6,7 @@ import sys
 from types import ModuleType
 
 from adapters.common.canonical import verify_request_digest
+from agent.api.assurance_policy import decide_exact_kernel_replay
 
 ROOT = Path(__file__).resolve().parents[2]
 RUNNER_PATH = ROOT / "scripts" / "ci" / "run_cr_exact_lean_e2e_production.py"
@@ -66,34 +67,18 @@ def test_production_runner_registers_dataclass_matrix_module_and_binds_requests(
         _restore_module(MATRIX_MODULE_NAME, previous_matrix)
 
 
-def test_rational_failure_diagnostic_is_non_authoritative() -> None:
-    """The failure companion may print bindings but must contain no proof authority."""
+def test_rational_equality_is_excluded_from_production_release_matrix() -> None:
+    """A disabled theorem policy must not leak into the production CR matrix."""
     runner, previous_runner, previous_matrix = _load_runner()
 
     try:
-        case = next(
-            item
-            for item in runner.matrix._cases()
-            if item.capability == "algebra.rational_equality"
-        )
-        request, certificate = runner._canonical_case_payload(case)
-        module = runner.generate_module(
-            capability_id=case.capability,
-            request=request,
-            certificate=certificate,
-            candidate_bundle_digest=runner.BUNDLE_DIGEST,
-            module_name=f"MathEvidence.Generated.Replay.release_{case.name}",
-            declaration_name=f"release_{case.name}",
-        )
-        source = runner._rational_binding_diagnostic_source(case, module)
-        assert source is not None
-        assert "MATHEVIDENCE_DIAG_CANONICAL=" in source
-        assert "MATHEVIDENCE_DIAG_DIGEST=" in source
-        assert "\ntheorem " not in source
-        assert "\n  native_decide\n" not in source
-        assert "(by native_decide" not in source
-        assert "#print axioms" not in source
-        assert f"{module.declaration_name}_req.requestDigest.value" in source
+        cases = runner.matrix._cases()
+        assert all(case.capability != "algebra.rational_equality" for case in cases)
+        assert "algebra.rational_equality" not in runner._required_cr_capabilities()
+
+        decision = decide_exact_kernel_replay("algebra.rational_equality")
+        assert decision.ok is False
+        assert "crEligible" in decision.message
     finally:
         _restore_module(RUNNER_MODULE_NAME, previous_runner)
         _restore_module(MATRIX_MODULE_NAME, previous_matrix)
