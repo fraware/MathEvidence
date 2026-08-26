@@ -19,10 +19,12 @@ from types import ModuleType
 from typing import Any
 
 import adapters.common.exact_replay.plugins  # noqa: F401
+from adapters.common.canonical import bind_request_digest, verify_request_digest
 from adapters.common.environment_lock import current_capability_environment_lock
 from adapters.common.exact_replay.pipeline import generate_module, verify
 from adapters.common.kernel_replay import (
     ALLOWED_AXIOMS_DEFAULT,
+    KernelReplayError,
     _compile_and_inspect,
     axiom_policy_ok,
     find_lake,
@@ -58,12 +60,29 @@ matrix = _load_matrix()
 BUNDLE_DIGEST = matrix.BUNDLE_DIGEST
 
 
+def _canonical_case_payload(case: Any) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Bind synthetic matrix fixtures exactly as a real Candidate Bundle request.
+
+    Matrix cases use deterministic placeholder digests to keep fixture construction
+    readable. Release execution must not compile those placeholders: production
+    Candidate Bundles bind ``requestDigest`` to the canonical request payload before
+    exact replay. Recompute that binding here and synchronize the certificate so the
+    E2E gate exercises the same semantic contract rather than an invalid fixture.
+    """
+    request = bind_request_digest(case.request)
+    request_digest = verify_request_digest(request)
+    certificate = dict(case.certificate)
+    certificate["requestDigest"] = request_digest
+    return request, certificate
+
+
 def _execute(case: Any) -> dict[str, Any]:
     matrix._assert_policy(case)
+    request, certificate = _canonical_case_payload(case)
     module = generate_module(
         capability_id=case.capability,
-        request=case.request,
-        certificate=case.certificate,
+        request=request,
+        certificate=certificate,
         candidate_bundle_digest=BUNDLE_DIGEST,
         module_name=f"MathEvidence.Generated.Replay.release_{case.name}",
         declaration_name=f"release_{case.name}",
@@ -85,14 +104,37 @@ def _execute(case: Any) -> dict[str, Any]:
 
     lock = current_capability_environment_lock(ROOT, case.capability)
     lock_digest = environment_lock_digest(lock)
-    report, lean_stdout, lean_stderr = _compile_and_inspect(
-        root=ROOT,
-        lake=lake,
-        module_name=module.module_name,
-        declaration_name=module.declaration_name,
-        source_text=module.source_text,
-        environment_lock_digest_value=lock_digest,
-    )
+    try:
+        report, lean_stdout, lean_stderr = _compile_and_inspect(
+            root=ROOT,
+            lake=lake,
+            module_name=module.module_name,
+            declaration_name=module.declaration_name,
+            source_text=module.source_text,
+            environment_lock_digest_value=lock_digest,
+        )
+    except KernelReplayError as exc:
+        # Preserve the structured Lean/Lake failure context in CI. The kernel
+        # replay primitive already bounds stdout/stderr tails before attaching
+        # them to ``details``; emitting them here does not change acceptance.
+        print(
+            json.dumps(
+                {
+                    "schemaVersion": "0.1.0",
+                    "status": "exact_e2e_failure",
+                    "case": case.name,
+                    "capability": case.capability,
+                    "form": case.form,
+                    "requestDigest": request["requestDigest"],
+                    "errorCode": exc.code,
+                    "message": exc.message,
+                    "details": exc.details or {},
+                },
+                sort_keys=True,
+            ),
+            file=sys.stderr,
+        )
+        raise
 
     if report.get("authority") != "Lean.Environment ConstantInfo":
         raise RuntimeError(
