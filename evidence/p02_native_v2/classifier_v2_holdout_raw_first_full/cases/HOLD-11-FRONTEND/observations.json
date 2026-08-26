@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-11-FRONTEND-candidate.lean"
+    ],
+    "elapsed_seconds": 0.6068300910000062,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-11-FRONTEND-candidate.lean:1:30: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "HOLD-11-FRONTEND",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

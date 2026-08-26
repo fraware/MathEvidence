@@ -1,0 +1,3 @@
+/tmp/p02-v2-holdout-mukng50g/HOLD-10-ACTUAL-AXIOM-declaration.lean:3:22: warning: unused variable `b`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+holdoutTwo (a b : Nat) : a = a

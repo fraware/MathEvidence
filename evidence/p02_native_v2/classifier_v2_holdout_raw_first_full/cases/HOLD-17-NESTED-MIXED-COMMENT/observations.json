@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-17-NESTED-MIXED-COMMENT-candidate.lean"
+    ],
+    "elapsed_seconds": 0.6005210719999923,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "HOLD-17-NESTED-MIXED-COMMENT",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-17-NESTED-MIXED-COMMENT-declaration.lean"
+    ],
+    "elapsed_seconds": 0.6005520169999841,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "holdoutTrue : True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-17-NESTED-MIXED-COMMENT-target.lean"
+    ],
+    "elapsed_seconds": 0.6003037520000021,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

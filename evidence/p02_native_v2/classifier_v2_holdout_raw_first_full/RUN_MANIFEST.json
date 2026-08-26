@@ -1,0 +1,17 @@
+{
+  "classification_performed": false,
+  "classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "n_cases": 20,
+  "non_claims": [
+    "This bundle contains raw holdout observations only.",
+    "The v2 classifier was frozen before holdout execution.",
+    "Expected classes are not classifier outputs and are not consulted during collection."
+  ],
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_classifier_v2_holdout_raw_v1",
+  "spec_digest": "sha256:a113c101250c346a89fc8c67b4147a1a6baaaf26df3111fbf05ef0be8f8a5416",
+  "status": "RAW_V2_HOLDOUT_EXECUTED_NOT_CLASSIFIED",
+  "toolchain_archive_sha256": null,
+  "toolchain_expected_identity": "Lean 4.14.0 commit 410fab728470",
+  "toolchain_transport": "elan_release_host"
+}

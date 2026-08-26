@@ -1,0 +1,2 @@
+/tmp/p02-v2-holdout-mukng50g/HOLD-19-RENAMED-PAIR-candidate.lean:1:21: warning: unused variable `a`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

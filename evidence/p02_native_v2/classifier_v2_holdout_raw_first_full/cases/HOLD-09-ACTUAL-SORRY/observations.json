@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-09-ACTUAL-SORRY-candidate.lean"
+    ],
+    "elapsed_seconds": 0.6202972869999996,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-09-ACTUAL-SORRY-candidate.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "HOLD-09-ACTUAL-SORRY",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-09-ACTUAL-SORRY-declaration.lean"
+    ],
+    "elapsed_seconds": 0.6236552499999846,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-09-ACTUAL-SORRY-declaration.lean:1:8: warning: declaration uses 'sorry'\nholdoutProp (p : Prop) (hp : p) : p\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-09-ACTUAL-SORRY-target.lean"
+    ],
+    "elapsed_seconds": 0.6411674290000065,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-09-ACTUAL-SORRY-target.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

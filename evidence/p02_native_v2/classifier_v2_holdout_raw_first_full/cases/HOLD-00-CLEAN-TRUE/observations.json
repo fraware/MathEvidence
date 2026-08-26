@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-00-CLEAN-TRUE-candidate.lean"
+    ],
+    "elapsed_seconds": 0.6276658509999891,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "HOLD-00-CLEAN-TRUE",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-00-CLEAN-TRUE-declaration.lean"
+    ],
+    "elapsed_seconds": 0.6234520669999881,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "holdoutTrue : True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-00-CLEAN-TRUE-target.lean"
+    ],
+    "elapsed_seconds": 0.6183252099999947,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

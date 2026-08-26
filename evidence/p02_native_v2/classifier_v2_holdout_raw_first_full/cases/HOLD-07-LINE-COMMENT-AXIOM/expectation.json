@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-07-LINE-COMMENT-AXIOM",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "line-commented axiom must be inert",
+  "role": "lexical_comment",
+  "source_sha256": "sha256:dfa02318406b8003a8e5af35647d88d929f76b054d9aca0f68c6db61e8ce5e96",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

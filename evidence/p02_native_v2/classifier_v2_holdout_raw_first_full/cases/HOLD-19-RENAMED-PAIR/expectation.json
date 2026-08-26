@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-19-RENAMED-PAIR",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "different theorem name and two-argument shape should remain target-matching",
+  "role": "shape_control",
+  "source_sha256": "sha256:4baf0f54a375424de8eb089a809423781bd6b6f01fc11399b71439e201aaeabd",
+  "target_sha256": "sha256:e8954427ae37771a11bcc8047863cb40e3afc55265d9be46748738c9379c8c05",
+  "theorem_name": "holdoutPair"
+}

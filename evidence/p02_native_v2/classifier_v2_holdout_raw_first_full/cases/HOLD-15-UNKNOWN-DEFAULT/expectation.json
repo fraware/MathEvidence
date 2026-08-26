@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-15-UNKNOWN-DEFAULT",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "default autoImplicit can generalize the type parameter and instantiate it at Nat",
+  "role": "environment_sensitivity",
+  "source_sha256": "sha256:f61fa994dd03bb8c12127a4fe54b43acbbea820732bf38f1712c67c1dbb7c545",
+  "target_sha256": "sha256:b96b912d10f1ff815f0d60532745063d02e56ad37ab8340014f2811dfa2168e0",
+  "theorem_name": "holdoutUnknownDefault"
+}

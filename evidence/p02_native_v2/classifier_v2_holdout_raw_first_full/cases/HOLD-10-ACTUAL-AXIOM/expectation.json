@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-10-ACTUAL-AXIOM",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "rationale": "actual custom axiom anywhere in artifact violates declared file policy",
+  "role": "true_policy_violation",
+  "source_sha256": "sha256:e0895e49c347070b389b361b19bf5ceaf12079d91b0849b3a71ab92917136b69",
+  "target_sha256": "sha256:13d4b3338df5f9131a9352c22133b3df02cf3eb909c21d8efe60fdb450179af4",
+  "theorem_name": "holdoutTwo"
+}

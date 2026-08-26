@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-13-WRONG-TARGET",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+  "rationale": "accepted declaration proves a different target",
+  "role": "target_mismatch",
+  "source_sha256": "sha256:f774391314ed0d9f15e34cfcf28409af2c283378148fe773d4e8584b5518614e",
+  "target_sha256": "sha256:60a33e6cf5151f2d52eddae9685cfa270426aa89d8dbc7dfb854606f1d1a40fe",
+  "theorem_name": "holdoutWrong"
+}

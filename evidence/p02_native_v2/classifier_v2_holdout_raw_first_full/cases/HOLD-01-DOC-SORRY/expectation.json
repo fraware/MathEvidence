@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-01-DOC-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "documentation comment must not create placeholder policy",
+  "role": "lexical_comment",
+  "source_sha256": "sha256:60057fae8dd5cb2baf8dad9d67c84c535edeb5399281d063ea2bbc9588efa0f1",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

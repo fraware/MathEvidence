@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-17-NESTED-MIXED-COMMENT",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "nested block comment containing string-like text remains inert",
+  "role": "lexical_comment",
+  "source_sha256": "sha256:af6a132a1db9b1df8fb1bcea9fd9d89308c3e280379a47cbb03ebef5d45f0c51",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

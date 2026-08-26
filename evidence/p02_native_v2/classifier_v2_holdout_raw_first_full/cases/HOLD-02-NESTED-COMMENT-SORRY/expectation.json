@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-02-NESTED-COMMENT-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "nested block-comment token must be inert",
+  "role": "lexical_comment",
+  "source_sha256": "sha256:259cd5ab76731c81a24f01e3f9dfaca798a43d207f493134f99adbd42f681dc4",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

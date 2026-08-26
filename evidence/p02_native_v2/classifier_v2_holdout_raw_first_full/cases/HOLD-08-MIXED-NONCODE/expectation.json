@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-08-MIXED-NONCODE",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "mixed non-code policy tokens must all be inert",
+  "role": "mixed_noncode",
+  "source_sha256": "sha256:784d6f4f68797fcf74aed2cb7e1e6df3db272a6dfe53351b9f5caa17b48997c7",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

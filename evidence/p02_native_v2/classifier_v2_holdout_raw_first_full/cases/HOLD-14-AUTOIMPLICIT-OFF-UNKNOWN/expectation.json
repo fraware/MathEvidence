@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN",
+  "expected_semantic_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "rationale": "explicitly disabling autoImplicit makes unknown type reject",
+  "role": "environment_sensitivity",
+  "source_sha256": "sha256:3885a841c16f06fd19583affbf6fb32fcff1c00f8a37e3fd492b16008d1378e0",
+  "target_sha256": "sha256:b96b912d10f1ff815f0d60532745063d02e56ad37ab8340014f2811dfa2168e0",
+  "theorem_name": "holdoutUnknownOff"
+}

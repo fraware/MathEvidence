@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-16-COMMENT-PLUS-REAL-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "rationale": "scanner must ignore comment token while retaining the real placeholder",
+  "role": "true_policy_violation",
+  "source_sha256": "sha256:47029bf6550e8459302b5d0b6ee715f918b8b20b21fb32959888bc03b9387532",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutMain"
+}

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-19-RENAMED-PAIR-candidate.lean"
+    ],
+    "elapsed_seconds": 0.6096711200000016,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-19-RENAMED-PAIR-candidate.lean:1:21: warning: unused variable `a`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "HOLD-19-RENAMED-PAIR",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-19-RENAMED-PAIR-declaration.lean"
+    ],
+    "elapsed_seconds": 0.6020558819999735,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-19-RENAMED-PAIR-declaration.lean:1:21: warning: unused variable `a`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\nholdoutPair (a b : Nat) : b = b\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-19-RENAMED-PAIR-target.lean"
+    ],
+    "elapsed_seconds": 0.6109211609999932,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-19-RENAMED-PAIR-target.lean:1:21: warning: unused variable `a`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-v2-holdout-mukng50g/HOLD-19-RENAMED-PAIR-target.lean:4:13: warning: unused variable `a`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  }
+}

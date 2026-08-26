@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-05-ESCAPED-STRING-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "escaped quote must not terminate policy string erasure",
+  "role": "lexical_string",
+  "source_sha256": "sha256:a7d4af322653fbc69c30d177fd627de3890984ff7d5f20221783dbf98095e8f2",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

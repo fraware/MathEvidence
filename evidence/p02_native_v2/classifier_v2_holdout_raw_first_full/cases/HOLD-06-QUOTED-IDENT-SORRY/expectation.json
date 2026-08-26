@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-06-QUOTED-IDENT-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "escaped identifier text equal to a policy keyword must be inert",
+  "role": "quoted_identifier",
+  "source_sha256": "sha256:d6cb0e93f8b75ff3679aa3cb888327299f880f3e75c4bc85f8a046d0dfa033ad",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-00-CLEAN-TRUE",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "clean proposition control",
+  "role": "clean_control",
+  "source_sha256": "sha256:67fe294be08f9f5b7c7b00c7afc2cf8f9f9b8fbe71098007c892cb41d2397f33",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

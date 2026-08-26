@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-04-STRING-MIXED-POLICY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "policy words inside an ordinary string must be inert",
+  "role": "lexical_string",
+  "source_sha256": "sha256:0c553b23266aee8a5579f0adedf878c780905b42f81dc849076e021a7a6ae48d",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutTrue"
+}

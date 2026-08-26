@@ -1,0 +1,2 @@
+/tmp/p02-v2-holdout-mukng50g/HOLD-09-ACTUAL-SORRY-declaration.lean:1:8: warning: declaration uses 'sorry'
+holdoutProp (p : Prop) (hp : p) : p

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-16-COMMENT-PLUS-REAL-SORRY-candidate.lean"
+    ],
+    "elapsed_seconds": 0.6025169300000073,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-16-COMMENT-PLUS-REAL-SORRY-candidate.lean:2:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "HOLD-16-COMMENT-PLUS-REAL-SORRY",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-16-COMMENT-PLUS-REAL-SORRY-declaration.lean"
+    ],
+    "elapsed_seconds": 0.6050428069999896,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-16-COMMENT-PLUS-REAL-SORRY-declaration.lean:2:8: warning: declaration uses 'sorry'\nholdoutMain : True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-16-COMMENT-PLUS-REAL-SORRY-target.lean"
+    ],
+    "elapsed_seconds": 0.6174491299999829,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-16-COMMENT-PLUS-REAL-SORRY-target.lean:2:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

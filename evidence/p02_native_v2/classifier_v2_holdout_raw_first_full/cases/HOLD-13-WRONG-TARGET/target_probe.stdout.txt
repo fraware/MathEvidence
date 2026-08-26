@@ -1,0 +1,6 @@
+/tmp/p02-v2-holdout-mukng50g/HOLD-13-WRONG-TARGET-target.lean:4:19: error: type mismatch
+  holdoutWrong
+has type
+  True : Prop
+but is expected to have type
+  False : Prop

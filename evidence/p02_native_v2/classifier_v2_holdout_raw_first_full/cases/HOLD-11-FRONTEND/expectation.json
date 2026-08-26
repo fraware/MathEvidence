@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-11-FRONTEND",
+  "expected_semantic_class": "FRONTEND_REJECT",
+  "rationale": "malformed binder should be rejected in frontend",
+  "role": "native_reject",
+  "source_sha256": "sha256:777ad34e98f2e753e13cc8213bfca65f203519a385facb1f935f00b555c053e2",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "holdoutSyntax"
+}

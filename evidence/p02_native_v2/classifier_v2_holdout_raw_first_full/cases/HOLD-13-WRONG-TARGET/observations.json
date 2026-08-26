@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-13-WRONG-TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.6114269379999939,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "HOLD-13-WRONG-TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-13-WRONG-TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.6271201509999855,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "holdoutWrong : True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-13-WRONG-TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.6237700879999863,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-13-WRONG-TARGET-target.lean:4:19: error: type mismatch\n  holdoutWrong\nhas type\n  True : Prop\nbut is expected to have type\n  False : Prop\n",
+    "timed_out": false
+  }
+}

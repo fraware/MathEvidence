@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-v2-holdout-mukng50g/HOLD-12-INVALID-PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.6102402509999933,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v2-holdout-mukng50g/HOLD-12-INVALID-PROOF-candidate.lean:2:8: error: numerals are data in Lean, but the expected type is a proposition\n  True : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "HOLD-12-INVALID-PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

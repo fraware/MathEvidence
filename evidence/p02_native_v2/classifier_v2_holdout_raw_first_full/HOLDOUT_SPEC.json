@@ -1,0 +1,189 @@
+{
+  "cases": [
+    {
+      "case_id": "HOLD-00-CLEAN-TRUE",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "clean proposition control",
+      "role": "clean_control",
+      "source_sha256": "sha256:67fe294be08f9f5b7c7b00c7afc2cf8f9f9b8fbe71098007c892cb41d2397f33",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-01-DOC-SORRY",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "documentation comment must not create placeholder policy",
+      "role": "lexical_comment",
+      "source_sha256": "sha256:60057fae8dd5cb2baf8dad9d67c84c535edeb5399281d063ea2bbc9588efa0f1",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-02-NESTED-COMMENT-SORRY",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "nested block-comment token must be inert",
+      "role": "lexical_comment",
+      "source_sha256": "sha256:259cd5ab76731c81a24f01e3f9dfaca798a43d207f493134f99adbd42f681dc4",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-03-MULTILINE-COMMENT-AXIOM",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "multiline commented axiom must be inert",
+      "role": "lexical_comment",
+      "source_sha256": "sha256:a3be3f6139551f4d9c4a3ddb69c718746f6054d7a39b37d08387da29d88c504f",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-04-STRING-MIXED-POLICY",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "policy words inside an ordinary string must be inert",
+      "role": "lexical_string",
+      "source_sha256": "sha256:0c553b23266aee8a5579f0adedf878c780905b42f81dc849076e021a7a6ae48d",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-05-ESCAPED-STRING-SORRY",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "escaped quote must not terminate policy string erasure",
+      "role": "lexical_string",
+      "source_sha256": "sha256:a7d4af322653fbc69c30d177fd627de3890984ff7d5f20221783dbf98095e8f2",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-06-QUOTED-IDENT-SORRY",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "escaped identifier text equal to a policy keyword must be inert",
+      "role": "quoted_identifier",
+      "source_sha256": "sha256:d6cb0e93f8b75ff3679aa3cb888327299f880f3e75c4bc85f8a046d0dfa033ad",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-07-LINE-COMMENT-AXIOM",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "line-commented axiom must be inert",
+      "role": "lexical_comment",
+      "source_sha256": "sha256:dfa02318406b8003a8e5af35647d88d929f76b054d9aca0f68c6db61e8ce5e96",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-08-MIXED-NONCODE",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "mixed non-code policy tokens must all be inert",
+      "role": "mixed_noncode",
+      "source_sha256": "sha256:784d6f4f68797fcf74aed2cb7e1e6df3db272a6dfe53351b9f5caa17b48997c7",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-09-ACTUAL-SORRY",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "rationale": "actual placeholder anywhere in artifact violates declared file policy",
+      "role": "true_policy_violation",
+      "source_sha256": "sha256:42e05997a95fe5819a2d9f732ee54955039b7cae2b6afa872cc5e9dcd02e3929",
+      "target_sha256": "sha256:f9e4b80b006ac734037dc2df0d413735b69a91c7e8196156db128c1369b552bb",
+      "theorem_name": "holdoutProp"
+    },
+    {
+      "case_id": "HOLD-10-ACTUAL-AXIOM",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "rationale": "actual custom axiom anywhere in artifact violates declared file policy",
+      "role": "true_policy_violation",
+      "source_sha256": "sha256:e0895e49c347070b389b361b19bf5ceaf12079d91b0849b3a71ab92917136b69",
+      "target_sha256": "sha256:13d4b3338df5f9131a9352c22133b3df02cf3eb909c21d8efe60fdb450179af4",
+      "theorem_name": "holdoutTwo"
+    },
+    {
+      "case_id": "HOLD-11-FRONTEND",
+      "expected_semantic_class": "FRONTEND_REJECT",
+      "rationale": "malformed binder should be rejected in frontend",
+      "role": "native_reject",
+      "source_sha256": "sha256:777ad34e98f2e753e13cc8213bfca65f203519a385facb1f935f00b555c053e2",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+      "theorem_name": "holdoutSyntax"
+    },
+    {
+      "case_id": "HOLD-12-INVALID-PROOF",
+      "expected_semantic_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "rationale": "well-formed source with type-invalid proof should reject during elaboration",
+      "role": "native_reject",
+      "source_sha256": "sha256:14ac7e8e95d8eab0f468fa83bc9ed9962a76f16f14e56077bf23bf2b1aaf6178",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutInvalid"
+    },
+    {
+      "case_id": "HOLD-13-WRONG-TARGET",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "rationale": "accepted declaration proves a different target",
+      "role": "target_mismatch",
+      "source_sha256": "sha256:f774391314ed0d9f15e34cfcf28409af2c283378148fe773d4e8584b5518614e",
+      "target_sha256": "sha256:60a33e6cf5151f2d52eddae9685cfa270426aa89d8dbc7dfb854606f1d1a40fe",
+      "theorem_name": "holdoutWrong"
+    },
+    {
+      "case_id": "HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN",
+      "expected_semantic_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "rationale": "explicitly disabling autoImplicit makes unknown type reject",
+      "role": "environment_sensitivity",
+      "source_sha256": "sha256:3885a841c16f06fd19583affbf6fb32fcff1c00f8a37e3fd492b16008d1378e0",
+      "target_sha256": "sha256:b96b912d10f1ff815f0d60532745063d02e56ad37ab8340014f2811dfa2168e0",
+      "theorem_name": "holdoutUnknownOff"
+    },
+    {
+      "case_id": "HOLD-15-UNKNOWN-DEFAULT",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "default autoImplicit can generalize the type parameter and instantiate it at Nat",
+      "role": "environment_sensitivity",
+      "source_sha256": "sha256:f61fa994dd03bb8c12127a4fe54b43acbbea820732bf38f1712c67c1dbb7c545",
+      "target_sha256": "sha256:b96b912d10f1ff815f0d60532745063d02e56ad37ab8340014f2811dfa2168e0",
+      "theorem_name": "holdoutUnknownDefault"
+    },
+    {
+      "case_id": "HOLD-16-COMMENT-PLUS-REAL-SORRY",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "rationale": "scanner must ignore comment token while retaining the real placeholder",
+      "role": "true_policy_violation",
+      "source_sha256": "sha256:47029bf6550e8459302b5d0b6ee715f918b8b20b21fb32959888bc03b9387532",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutMain"
+    },
+    {
+      "case_id": "HOLD-17-NESTED-MIXED-COMMENT",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "nested block comment containing string-like text remains inert",
+      "role": "lexical_comment",
+      "source_sha256": "sha256:af6a132a1db9b1df8fb1bcea9fd9d89308c3e280379a47cbb03ebef5d45f0c51",
+      "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+      "theorem_name": "holdoutTrue"
+    },
+    {
+      "case_id": "HOLD-18-DOC-AXIOM",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "documentation block containing axiom syntax must be inert",
+      "role": "lexical_comment",
+      "source_sha256": "sha256:88cfd951c54f6a46d664b3e078162800a0424a13574bfdd536a118ccaec80238",
+      "target_sha256": "sha256:f9e4b80b006ac734037dc2df0d413735b69a91c7e8196156db128c1369b552bb",
+      "theorem_name": "holdoutProp"
+    },
+    {
+      "case_id": "HOLD-19-RENAMED-PAIR",
+      "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "rationale": "different theorem name and two-argument shape should remain target-matching",
+      "role": "shape_control",
+      "source_sha256": "sha256:4baf0f54a375424de8eb089a809423781bd6b6f01fc11399b71439e201aaeabd",
+      "target_sha256": "sha256:e8954427ae37771a11bcc8047863cb40e3afc55265d9be46748738c9379c8c05",
+      "theorem_name": "holdoutPair"
+    }
+  ],
+  "classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "n_cases": 20,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_classifier_v2_holdout_raw_v1",
+  "spec_digest": "sha256:a113c101250c346a89fc8c67b4147a1a6baaaf26df3111fbf05ef0be8f8a5416"
+}

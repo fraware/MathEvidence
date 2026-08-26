@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-12-INVALID-PROOF",
+  "expected_semantic_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "rationale": "well-formed source with type-invalid proof should reject during elaboration",
+  "role": "native_reject",
+  "source_sha256": "sha256:14ac7e8e95d8eab0f468fa83bc9ed9962a76f16f14e56077bf23bf2b1aaf6178",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "holdoutInvalid"
+}

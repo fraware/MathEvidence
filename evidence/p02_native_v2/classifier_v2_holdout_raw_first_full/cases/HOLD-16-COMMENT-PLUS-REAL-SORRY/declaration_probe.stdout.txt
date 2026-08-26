@@ -1,0 +1,2 @@
+/tmp/p02-v2-holdout-mukng50g/HOLD-16-COMMENT-PLUS-REAL-SORRY-declaration.lean:2:8: warning: declaration uses 'sorry'
+holdoutMain : True

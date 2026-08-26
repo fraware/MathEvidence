@@ -1,0 +1,59 @@
+{
+  "git_head": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "elapsed_seconds": 0.002681317000025274,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "946d2f7b14840837a5b641150c9df9008c4be9eb\n",
+    "timed_out": false
+  },
+  "git_status": {
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "elapsed_seconds": 0.009118683999986388,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "lake_version": {
+    "command": [
+      "lake",
+      "--version"
+    ],
+    "elapsed_seconds": 0.03256061300001534,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "Lake version 5.0.0-410fab7 (Lean version 4.14.0)\n",
+    "timed_out": false
+  },
+  "lean_toolchain_file": "leanprover/lean4:v4.14.0",
+  "lean_version": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "--version"
+    ],
+    "elapsed_seconds": 0.5714317659999892,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "Lean (version 4.14.0, x86_64-unknown-linux-gnu, commit 410fab728470, Release)\n",
+    "timed_out": false
+  },
+  "observed_git_head": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "observed_git_status": "",
+  "observed_lean_version": "4.14.0",
+  "project_path": "/tmp/mathevidence-pinned"
+}

@@ -1,0 +1,9 @@
+{
+  "case_id": "HOLD-09-ACTUAL-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "rationale": "actual placeholder anywhere in artifact violates declared file policy",
+  "role": "true_policy_violation",
+  "source_sha256": "sha256:42e05997a95fe5819a2d9f732ee54955039b7cae2b6afa872cc5e9dcd02e3929",
+  "target_sha256": "sha256:f9e4b80b006ac734037dc2df0d413735b69a91c7e8196156db128c1369b552bb",
+  "theorem_name": "holdoutProp"
+}

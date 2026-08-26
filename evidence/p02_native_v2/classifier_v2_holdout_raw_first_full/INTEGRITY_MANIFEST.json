@@ -1,0 +1,963 @@
+{
+  "bundle_digest": "sha256:4ba819c943fe89e5afef50142c12ef29c5cf9420bf55519406ab8f72878701a3",
+  "files": [
+    {
+      "path": "ENVIRONMENT.json",
+      "sha256": "sha256:afbfc4811c924f985466d96fe1bdc4a5cb5ace1251d5c6fb2969a26f08a9ae62",
+      "size_bytes": 1378
+    },
+    {
+      "path": "HOLDOUT_SPEC.json",
+      "sha256": "sha256:261e7e74ac76549e9776e99e9dbd4def5b81de716531b8209ffa23b1ada899de",
+      "size_bytes": 9683
+    },
+    {
+      "path": "RUN_MANIFEST.json",
+      "sha256": "sha256:5803d5e3739bb8c8baf269b7aaf00798b5975f43b1c8d178a55b55e68187466b",
+      "size_bytes": 762
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/candidate.lean",
+      "sha256": "sha256:67fe294be08f9f5b7c7b00c7afc2cf8f9f9b8fbe71098007c892cb41d2397f33",
+      "size_bytes": 43
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/expectation.json",
+      "sha256": "sha256:dd16a32d22056d2f6e0bf9f6ada1394b36049a92da1a51577bfc3e8ac66ceddb",
+      "size_bytes": 392
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/observations.json",
+      "sha256": "sha256:892ff7bf1d0352833de7e8af3e0cb3f48ed0fd549241b3c8f3b1c14d793a4d7a",
+      "size_bytes": 1011
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/candidate.lean",
+      "sha256": "sha256:60057fae8dd5cb2baf8dad9d67c84c535edeb5399281d063ea2bbc9588efa0f1",
+      "size_bytes": 88
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/expectation.json",
+      "sha256": "sha256:c8178e28306c5c017e6acdd9ffc2c48911f53a9080afc5d82c0b62bd8a3ada27",
+      "size_bytes": 424
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/observations.json",
+      "sha256": "sha256:3f1356f8aa0faea03c450aa046d86b91c8a463b828eaec9ed8353f1e52eb5b10",
+      "size_bytes": 1007
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/candidate.lean",
+      "sha256": "sha256:259cd5ab76731c81a24f01e3f9dfaca798a43d207f493134f99adbd42f681dc4",
+      "size_bytes": 81
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/expectation.json",
+      "sha256": "sha256:2d5fe3874ac33106c4d8ab4fb1dbcb9a8fa912b5b43412cafc21bbbc7a4d20a1",
+      "size_bytes": 419
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/observations.json",
+      "sha256": "sha256:2a4177d1ae2369cb5364b5e021f1649cecd3e906bdd82fd2f4cc100b47d11335",
+      "size_bytes": 1051
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/candidate.lean",
+      "sha256": "sha256:a3be3f6139551f4d9c4a3ddb69c718746f6054d7a39b37d08387da29d88c504f",
+      "size_bytes": 76
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/expectation.json",
+      "sha256": "sha256:4ea3100ff3026df6b2535666299aa371ef5f5ff75e28366c36b704c2b4e0ca41",
+      "size_bytes": 421
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/observations.json",
+      "sha256": "sha256:9253739e56e116666f92d783a252fa38d1f3d50af3811bffd28d3cd847006333",
+      "size_bytes": 1063
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/candidate.lean",
+      "sha256": "sha256:0c553b23266aee8a5579f0adedf878c780905b42f81dc849076e021a7a6ae48d",
+      "size_bytes": 94
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/expectation.json",
+      "sha256": "sha256:11509d815b9db35c8fe47cbc9a45a4fc28f4323ef73788793da645cd3e6a01cb",
+      "size_bytes": 429
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/observations.json",
+      "sha256": "sha256:4fff6a371df917c9cf8cbac9685320c26b358d19df46c7384eb267b55765e39a",
+      "size_bytes": 1046
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/candidate.lean",
+      "sha256": "sha256:a7d4af322653fbc69c30d177fd627de3890984ff7d5f20221783dbf98095e8f2",
+      "size_bytes": 104
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/expectation.json",
+      "sha256": "sha256:b60e2fa1ad8664a5d8cdddc9ee9eeef056a45868060d00909aecde0a67f66ed1",
+      "size_bytes": 432
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/observations.json",
+      "sha256": "sha256:e445e39ed62a09c8124e91cc865adef5b38267536db29fec316ac6da2eefa131",
+      "size_bytes": 1044
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/candidate.lean",
+      "sha256": "sha256:d6cb0e93f8b75ff3679aa3cb888327299f880f3e75c4bc85f8a046d0dfa033ad",
+      "size_bytes": 68
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/expectation.json",
+      "sha256": "sha256:331e7ff18a8f87bd8cf43f21aedbb54f2de8cc78ba91a4f072a78de0c6b5720c",
+      "size_bytes": 442
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/observations.json",
+      "sha256": "sha256:2a7f7b36011356c54d982841587e7c171b0c1333e02bb3b42a4e6707921a6a43",
+      "size_bytes": 1043
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/candidate.lean",
+      "sha256": "sha256:dfa02318406b8003a8e5af35647d88d929f76b054d9aca0f68c6db61e8ce5e96",
+      "size_bytes": 73
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/expectation.json",
+      "sha256": "sha256:51be6cece43d0777fbbbf855a725d67c81710014a69188d98d2883e4e4a0191f",
+      "size_bytes": 411
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/observations.json",
+      "sha256": "sha256:16be3aadad8d5c902cf688a6edd773a4db4445da9acbe5a7b6a5bf60fbbe1785",
+      "size_bytes": 1034
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/candidate.lean",
+      "sha256": "sha256:784d6f4f68797fcf74aed2cb7e1e6df3db272a6dfe53351b9f5caa17b48997c7",
+      "size_bytes": 118
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/expectation.json",
+      "sha256": "sha256:41667aa574c50ded9721000c3c1907155ff1c533d5a4afaffd384d4ae3bf73a6",
+      "size_bytes": 416
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/observations.json",
+      "sha256": "sha256:b2393ae701f014fccfbf108e94c43678b20b732f5096ad7d3e6b9c1a33ad01b1",
+      "size_bytes": 1022
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/candidate.lean",
+      "sha256": "sha256:42e05997a95fe5819a2d9f732ee54955039b7cae2b6afa872cc5e9dcd02e3929",
+      "size_bytes": 105
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/candidate.stdout.txt",
+      "sha256": "sha256:2e2fcf4e16ea280f1b6de68bcc7f7404ae4b27625076943be97aace132fef387",
+      "size_bytes": 104
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/declaration_probe.stdout.txt",
+      "sha256": "sha256:e32d619e1ef1dd50ea4d7b193dfe7eb5702f4164fdc7c351eb53b41ff44b861d",
+      "size_bytes": 142
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/expectation.json",
+      "sha256": "sha256:5dd679c4a51eb68e17bd884728eece81e12dd7243a0f5c6e01a8e82cd297c9e1",
+      "size_bytes": 447
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/observations.json",
+      "sha256": "sha256:0dd24cf923a652a87a285eca581f741dc870ae95a8df0ed99fba1294200a075d",
+      "size_bytes": 1350
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/target.txt",
+      "sha256": "sha256:14c27eea6b23850b1d8dabce943c785d94752ef3d495272087cf4f3f93e4a918",
+      "size_bytes": 24
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/target_probe.stdout.txt",
+      "sha256": "sha256:5c34fa2cca4797d49d5ce675307798ee52fd9cd8b2cc44e52afebcec32ff44fa",
+      "size_bytes": 101
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/candidate.lean",
+      "sha256": "sha256:e0895e49c347070b389b361b19bf5ceaf12079d91b0849b3a71ab92917136b69",
+      "size_bytes": 78
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/candidate.stdout.txt",
+      "sha256": "sha256:ecd58acf67c2bc9016defa58ee2f97b8f75eaa1adc7c5d4326876be0b83f8c87",
+      "size_bytes": 181
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/declaration_probe.stdout.txt",
+      "sha256": "sha256:47cfbb235f8c8b2249ef0ba3d656e8d143a9d88173104a9041d7904e89d669a5",
+      "size_bytes": 214
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/expectation.json",
+      "sha256": "sha256:d3f55e90f17c5e0c90a51fd4b18433f00aeee1063f63206c4f84a7a1e3b91599",
+      "size_bytes": 447
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/observations.json",
+      "sha256": "sha256:adf8f8de9fbc5dde08e29c15f022a6a7df93c8f1da0ae82bf5b95fcbeeb522e3",
+      "size_bytes": 1759
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/target.txt",
+      "sha256": "sha256:23b4b30a1de14090f4f7e531b3355c510c319336c012f70e006a07ab4471cd5b",
+      "size_bytes": 23
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/target_probe.stdout.txt",
+      "sha256": "sha256:9a91b2182cb7b9b4c968c900a0c796e1fbb36e6a9a3f39b47cf399f87b82de88",
+      "size_bytes": 356
+    },
+    {
+      "path": "cases/HOLD-11-FRONTEND/candidate.lean",
+      "sha256": "sha256:777ad34e98f2e753e13cc8213bfca65f203519a385facb1f935f00b555c053e2",
+      "size_bytes": 51
+    },
+    {
+      "path": "cases/HOLD-11-FRONTEND/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-11-FRONTEND/candidate.stdout.txt",
+      "sha256": "sha256:17bb181951ae2c3bc15fb55844a1d82f7a7d6bad73920957413e6e3df6578cdf",
+      "size_bytes": 109
+    },
+    {
+      "path": "cases/HOLD-11-FRONTEND/expectation.json",
+      "sha256": "sha256:c62adacf00e56167f297a9716d429a72c509ac29014f12bd813de376ddbe62f1",
+      "size_bytes": 400
+    },
+    {
+      "path": "cases/HOLD-11-FRONTEND/observations.json",
+      "sha256": "sha256:1f12dece066bedfbdcc0b2cb28384fde46460ab70b20f9ddb01e7bbb3d5b71aa",
+      "size_bytes": 528
+    },
+    {
+      "path": "cases/HOLD-11-FRONTEND/target.txt",
+      "sha256": "sha256:a4d6d6a4ed6ce241b8579cfb2fa3031d061c8e593b66355664c664f7011638e6",
+      "size_bytes": 21
+    },
+    {
+      "path": "cases/HOLD-12-INVALID-PROOF/candidate.lean",
+      "sha256": "sha256:14ac7e8e95d8eab0f468fa83bc9ed9962a76f16f14e56077bf23bf2b1aaf6178",
+      "size_bytes": 46
+    },
+    {
+      "path": "cases/HOLD-12-INVALID-PROOF/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-12-INVALID-PROOF/candidate.stdout.txt",
+      "sha256": "sha256:502f7012b35163ad804223e78e02e0a63c5175bd0b251a263489f2b56a565ab5",
+      "size_bytes": 158
+    },
+    {
+      "path": "cases/HOLD-12-INVALID-PROOF/expectation.json",
+      "sha256": "sha256:b33d6e2d001a1a75ebf4f893a85b0500096cb284d2524a1bc4dcc6e46a4f307b",
+      "size_bytes": 445
+    },
+    {
+      "path": "cases/HOLD-12-INVALID-PROOF/observations.json",
+      "sha256": "sha256:9337d7c2fa223d3547aca5d47e019b3bd2fd0b2fe6a0cdc98bfdfd97e3a07546",
+      "size_bytes": 588
+    },
+    {
+      "path": "cases/HOLD-12-INVALID-PROOF/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/candidate.lean",
+      "sha256": "sha256:f774391314ed0d9f15e34cfcf28409af2c283378148fe773d4e8584b5518614e",
+      "size_bytes": 44
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/declaration_probe.stdout.txt",
+      "sha256": "sha256:5d64b143fdacca01a07023ddf621c131967fb9181ccb442bde89768051915558",
+      "size_bytes": 20
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/expectation.json",
+      "sha256": "sha256:31c907a6af3dcb2aa4335fde588918594344d703b786ae10e679674a0fbe73e1",
+      "size_bytes": 421
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/observations.json",
+      "sha256": "sha256:ea8b529c6cfce1af0e7c4eb96e0b30953bc6f0102a2c6b51ae9044560f6c3a17",
+      "size_bytes": 1197
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/target.txt",
+      "sha256": "sha256:7fc755fadc1b31a6696b8ed57c69d2bfc37f5457735c8fcfae31fcbd7bba97d5",
+      "size_bytes": 6
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/target_probe.stdout.txt",
+      "sha256": "sha256:147bf16822c4eea841ffe35db50e206104fbb17b644772efd2764bfd6787f29b",
+      "size_bytes": 171
+    },
+    {
+      "path": "cases/HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN/candidate.lean",
+      "sha256": "sha256:3885a841c16f06fd19583affbf6fb32fcff1c00f8a37e3fd492b16008d1378e0",
+      "size_bytes": 101
+    },
+    {
+      "path": "cases/HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN/candidate.stdout.txt",
+      "sha256": "sha256:2bfc076d14403d7cdb9f08f991be45ec270868cf21d66aa1dfd8e2123017d84a",
+      "size_bytes": 130
+    },
+    {
+      "path": "cases/HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN/expectation.json",
+      "sha256": "sha256:668ff71f25850c807d114bdde6914eaed471c0c77bda0eca644339dd734d31e8",
+      "size_bytes": 453
+    },
+    {
+      "path": "cases/HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN/observations.json",
+      "sha256": "sha256:cfdae58103853b8c4a65c3c1585bb09840cacf083498ed977cbad3b6fb40f69e",
+      "size_bytes": 581
+    },
+    {
+      "path": "cases/HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN/target.txt",
+      "sha256": "sha256:63e82570f4d8f59e81ee2ea7214a8d3a4a2a77ff41c36de0aefdc78c370777be",
+      "size_bytes": 21
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/candidate.lean",
+      "sha256": "sha256:f61fa994dd03bb8c12127a4fe54b43acbbea820732bf38f1712c67c1dbb7c545",
+      "size_bytes": 75
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/declaration_probe.stdout.txt",
+      "sha256": "sha256:a04f209c40a957f6f6d14631e44ff99802c71214367ec0dd25b8aa15da910480",
+      "size_bytes": 93
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/expectation.json",
+      "sha256": "sha256:2f309d9e95baa93fffa94a8f4378d2a9d1463df1cd43f8aa5bac472d59780557",
+      "size_bytes": 472
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/observations.json",
+      "sha256": "sha256:c277f7fecd60ffecf191ae669627b4447463c9b356bc1b7f4f1d2248d2774721",
+      "size_bytes": 1105
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/target.txt",
+      "sha256": "sha256:63e82570f4d8f59e81ee2ea7214a8d3a4a2a77ff41c36de0aefdc78c370777be",
+      "size_bytes": 21
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/candidate.lean",
+      "sha256": "sha256:47029bf6550e8459302b5d0b6ee715f918b8b20b21fb32959888bc03b9387532",
+      "size_bytes": 124
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/candidate.stdout.txt",
+      "sha256": "sha256:4a21ddca7f34a0d02dc119a33de0c36abdab864be48f407873675e9f335525c2",
+      "size_bytes": 115
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/declaration_probe.stdout.txt",
+      "sha256": "sha256:2ae9a3b541691cadcbccb78acb9378ab3963a06fb09355643dceee934dccef9b",
+      "size_bytes": 136
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/expectation.json",
+      "sha256": "sha256:61f5f35a0e42b77cebf66185b12a1546b96966bcda1dc4fd46eb834e18a9af1a",
+      "size_bytes": 459
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/observations.json",
+      "sha256": "sha256:036bbbf568a07957d4a849129ef34fa8daa665d65d2568cbcf4dac5ca7b54291",
+      "size_bytes": 1410
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/target_probe.stdout.txt",
+      "sha256": "sha256:64ae7ba5d7cb34c1e802727ec6d36cce47b6789046b78416307b3240120417b5",
+      "size_bytes": 112
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/candidate.lean",
+      "sha256": "sha256:af6a132a1db9b1df8fb1bcea9fd9d89308c3e280379a47cbb03ebef5d45f0c51",
+      "size_bytes": 94
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/declaration_probe.stdout.txt",
+      "sha256": "sha256:1ebf65643b325c93054f75d1d226c4f2318714392ebdfd864de8c0d74923957f",
+      "size_bytes": 19
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/expectation.json",
+      "sha256": "sha256:5891d3d536432278bbeb294e5f7d883a1c12eafbfc963a157fb1639b1b6c06fc",
+      "size_bytes": 441
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/observations.json",
+      "sha256": "sha256:1ce9e861ff0fa711062457d89f4791bf00a41ce493573dc6c83c31c42eaded0e",
+      "size_bytes": 1051
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/target.txt",
+      "sha256": "sha256:a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+      "size_bytes": 5
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/candidate.lean",
+      "sha256": "sha256:88cfd951c54f6a46d664b3e078162800a0424a13574bfdd536a118ccaec80238",
+      "size_bytes": 90
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/candidate.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/declaration_probe.stdout.txt",
+      "sha256": "sha256:698c73b7b6d4238a0eb97ca54fe349b02799e159bb052a1eb4636cecce525531",
+      "size_bytes": 36
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/expectation.json",
+      "sha256": "sha256:b1fa39f9097054a45a31fddd7a64a4805d19691ff21cf56bb626d484c6faa1d8",
+      "size_bytes": 425
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/observations.json",
+      "sha256": "sha256:248a40b1abd99d4d98a1d4327a82e3be46f2b73058b76b6eaec943c71f57bf79",
+      "size_bytes": 1023
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/target.txt",
+      "sha256": "sha256:14c27eea6b23850b1d8dabce943c785d94752ef3d495272087cf4f3f93e4a918",
+      "size_bytes": 24
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/target_probe.stdout.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/candidate.lean",
+      "sha256": "sha256:4baf0f54a375424de8eb089a809423781bd6b6f01fc11399b71439e201aaeabd",
+      "size_bytes": 52
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/candidate.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/candidate.stdout.txt",
+      "sha256": "sha256:08a5901d2a00c1c007d1d98c1afc446cc1c250e029df8498b410331951f68220",
+      "size_bytes": 181
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/declaration_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/declaration_probe.stdout.txt",
+      "sha256": "sha256:cb1c8ca58d012daaa30f5a31b7928d3db1fb3e17b2b9004c6bfa775191a35500",
+      "size_bytes": 215
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/expectation.json",
+      "sha256": "sha256:81692a33df5c6811194674c993a36fa9237e62f884ad6918aed46bb7e712b0db",
+      "size_bytes": 444
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/observations.json",
+      "sha256": "sha256:e020ff2089adfd54bed6e9b88a435058bf59446040bab50176efc348387fd175",
+      "size_bytes": 1760
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/target.txt",
+      "sha256": "sha256:c87bde10c83679debd13e8f8a5c2d047c611541d4e370b25ae5707975eaac950",
+      "size_bytes": 23
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/target_probe.stderr.txt",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/target_probe.stdout.txt",
+      "sha256": "sha256:4a56c052db444c7642d48273fc3eee6481efb323bba26c403e0769caaee526ec",
+      "size_bytes": 356
+    }
+  ],
+  "n_files": 191,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_classifier_v2_holdout_raw_integrity_v1"
+}
