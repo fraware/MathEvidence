@@ -60,7 +60,11 @@ jobs:
         run: |
           set -euo pipefail
           cp lake-manifest.json /tmp/lake-manifest.before.json
+          # The exact-candidate E2E step imports ReplaySound declarations directly,
+          # so the release must materialize the complete checker closure as well as
+          # the executable/audit drivers before attempting generated-candidate replay.
           lake build \
+            MathEvidenceCheckers \
             mathevidence-verify-bundle \
             mathevidence-kernel-replay \
             mathevidence-declaration-identity \
