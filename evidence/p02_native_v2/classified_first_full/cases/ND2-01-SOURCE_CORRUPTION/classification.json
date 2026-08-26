@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-01-SOURCE_CORRUPTION",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "FRONTEND_REJECT",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:1a1f541224083c52e4b242a5aae4faa58ac42c3a2c0391862804c5e93b0cd95e",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "source_sha256": "sha256:ce59f89da3dc59835467cd27a7630a9b07ebd40dde9f3286266cadabd62c28eb"
+}

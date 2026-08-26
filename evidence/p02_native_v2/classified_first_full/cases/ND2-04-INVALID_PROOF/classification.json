@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-04-INVALID_PROOF",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:41e5d52414f6b3349b7b1a52b75b9e13713ac57424779ad9179d24a043e97b6a",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "source_sha256": "sha256:afa0e551aa1a29734cfa1c51eabece0d9a86041bd35d7581c1bbd1380b197fc8"
+}

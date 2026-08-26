@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-09-SOURCE_CORRUPTION+WRONG_TARGET",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "FRONTEND_REJECT",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:a34d8f0ff7376c4bac981ec44f2690cd82089042f2de66bd753bd3e255bcfe5c",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "source_sha256": "sha256:5d6f42907c4f3786dd105220311c73e4c953bc9eb35eb52bb91c7bb094b3e9c0"
+}

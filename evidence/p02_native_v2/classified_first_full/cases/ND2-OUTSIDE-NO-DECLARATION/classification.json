@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-OUTSIDE-NO-DECLARATION",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "UNKNOWN",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:9d35bb42d1c33c49843a9c42a3a6f9a97a31c04ed784997316197f136b0ddc8a",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "source_sha256": "sha256:c04522ef26950d636b05d8f88a7451f62980722b5f4bd4417d711b414e0c6a28"
+}

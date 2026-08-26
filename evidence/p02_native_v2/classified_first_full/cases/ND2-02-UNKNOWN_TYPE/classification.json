@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-02-UNKNOWN_TYPE",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:c17af6f2e753e1ef42bb626e4e79a6ee2869cc30c2737df2317472fe1fb54089",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "source_sha256": "sha256:b8522fcb6189bc44ab4a60551096f6028c0d9a7b0b7ebeb834ff32a8aeac6735"
+}

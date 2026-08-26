@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-03-PROHIBITED_PLACEHOLDER",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:aef5ad3306953e6c783369232cf9cd0a10030fe8d5c4b19057444ce3fc7ef3a0",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "source_sha256": "sha256:655e05c043688054821f8dcd589cc5dc7dbf0cf45cc7a5a047a69572ac153e2d"
+}

@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-23-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:5e3d5f8b23affce3f99cc24d78a7ade77cf3b09c463143abaeabecca196cb3c9",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "source_sha256": "sha256:a7cbe1ff9a7e4dd6d910a1b13654fe5737ff3c9bc9496e1e6665e02fdd635260"
+}

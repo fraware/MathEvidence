@@ -1,0 +1,28 @@
+{
+  "classifier_rules_modified_after_raw_run": false,
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "construction_metadata_read_during_classification": false,
+  "corpus_digest": "sha256:fe356ed2f5d4bcf653c5cedaa37922e2248547434fe30b746fbcf10ca73bc199",
+  "derived_class_counts": {
+    "ENVIRONMENT_OR_ELAB_REJECT": 8,
+    "FRONTEND_REJECT": 16,
+    "SOURCE_EMPTY": 1,
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": 4,
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH": 2,
+    "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 2,
+    "UNKNOWN": 1
+  },
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "n_cases": 34,
+  "non_claims": [
+    "This step assigns native classes only; it does not compare them to construction mechanisms.",
+    "UNKNOWN remains a first-class outcome and is not reassigned.",
+    "No native masking or repair claim is made by this classification step.",
+    "Publication eligibility remains false pending differential analysis and review."
+  ],
+  "publication_claim_eligible": false,
+  "raw_bundle_digest": "sha256:482f21fe8bafd4e3784e7c3a7e0a5dc103820c087691fc0e66e5ff3dd61a63ea",
+  "raw_run_status": "RAW_OBSERVATIONS_EXECUTED_NOT_CLASSIFIED",
+  "schema_version": "p02_native_classification_v2_from_frozen_v1",
+  "status": "CLASSIFIED_NOT_DIFFERENTIAL_ANALYZED"
+}
