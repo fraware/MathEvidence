@@ -54,9 +54,9 @@ def _staged_sources(source: str) -> tuple[str, str]:
     prefix = source.split(marker, 1)[0]
     compute = (
         prefix
-        + f"""/-- Closed candidate-specific request-binding computation. -/\ndef {DECL}_binding_bool : Bool :=\n  decide ({DECL}_req.requestDigest = {DECL}_cert.requestDigest)\n\n/-- Closed candidate-specific checker computation. -/\ndef {DECL}_checker_bool : Bool :=\n  checkBool {DECL}_req {DECL}_cert\n"""
+        + f"""/-- Closed candidate-specific request-binding computation. -/\ndef {DECL}_binding_bool : Bool :=\n  decide ({DECL}_req.requestDigest = {DECL}_cert.requestDigest)\n\n/-- Closed candidate-specific checker proposition computation. -/\ndef {DECL}_checker_decide_bool : Bool :=\n  decide (checkBool {DECL}_req {DECL}_cert = true)\n"""
     )
-    theorem = f"""/- Diagnostic theorem stage; never Certification Record authority. -/\nimport {COMPUTE_MODULE}\n\nopen MathEvidence.Core\nopen MathEvidence.IR.RationalExpr\nopen MathEvidence.Checkers.RationalEquality\n\n/-- Request digest is recomputed by Request.ofClaim! in the imported candidate module. -/\ntheorem {DECL}_request_binding :\n    {DECL}_req.requestDigest = {DECL}_cert.requestDigest :=\n  of_decide_eq_true\n    (Lean.ofReduceBool {DECL}_binding_bool true (Eq.refl true))\n\n/-- Candidate-specific semantic theorem from the independently evaluated checker. -/\ntheorem {DECL} : Claim.proposition {DECL}_req.claim {DECL}_cert.denomFactors :=\n  replaySound\n    {DECL}_req\n    {DECL}_cert\n    (Lean.ofReduceBool {DECL}_checker_bool true (Eq.refl true))\n\n#print axioms {DECL}_request_binding\n#print axioms {DECL}\n"""
+    theorem = f"""/- Diagnostic theorem stage; never Certification Record authority. -/\nimport {COMPUTE_MODULE}\n\nopen MathEvidence.Core\nopen MathEvidence.IR.RationalExpr\nopen MathEvidence.Checkers.RationalEquality\n\n/-- Request digest is recomputed by Request.ofClaim! in the imported candidate module. -/\ntheorem {DECL}_request_binding :\n    {DECL}_req.requestDigest = {DECL}_cert.requestDigest :=\n  of_decide_eq_true\n    (Lean.ofReduceBool {DECL}_binding_bool true (Eq.refl true))\n\n/-- Candidate-specific semantic theorem from the independently evaluated checker. -/\ntheorem {DECL} : Claim.proposition {DECL}_req.claim {DECL}_cert.denomFactors := by\n  have hcheck : checkBool {DECL}_req {DECL}_cert = true :=\n    of_decide_eq_true\n      (Lean.ofReduceBool {DECL}_checker_decide_bool true (Eq.refl true))\n  exact replaySound {DECL}_req {DECL}_cert hcheck\n\n#print axioms {DECL}_request_binding\n#print axioms {DECL}\n"""
     return compute, theorem
 
 
@@ -96,6 +96,8 @@ def main() -> int:
         compute_source, theorem_source = _staged_sources(module.source_text)
         if "Request.ofClaim!" not in compute_source:
             raise RuntimeError("compute stage lost Lean-side request digest reconstruction")
+        if f"decide (checkBool {DECL}_req {DECL}_cert = true)" not in compute_source:
+            raise RuntimeError("compute stage does not decide the exact checker proposition")
         if "Lean.ofReduceBool" not in theorem_source:
             raise RuntimeError("theorem stage does not consume compiled Boolean constants")
         if "native_decide" in theorem_source:
@@ -148,12 +150,12 @@ def main() -> int:
                 )
 
             report = {
-                "schemaVersion": "0.3.0",
+                "schemaVersion": "0.4.0",
                 "status": "diagnostic_only_non_authoritative",
                 "capability": case.capability,
                 "requestDigest": request["requestDigest"],
                 "generatedSourceHash": module.source_hash,
-                "probeTransformation": "precompile_closed_candidate_bools_then_ofReduceBool",
+                "probeTransformation": "precompile_decided_binding_and_checker_propositions_then_ofReduceBool",
                 "computeReturnCode": compute_proc.returncode,
                 "theoremReturnCode": None if theorem_proc is None else theorem_proc.returncode,
                 "computeOleanExists": compute_olean.is_file(),
