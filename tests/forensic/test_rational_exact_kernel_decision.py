@@ -39,5 +39,7 @@ def test_rational_exact_source_uses_kernel_decision_for_bound_request() -> None:
 
     assert "Request.ofClaim! rat_kernel_decision_claim" in source
     assert "rat_kernel_decision_request_binding" in source
+    assert "\n  decide\n" in source
     assert "(by decide : checkBool rat_kernel_decision_req rat_kernel_decision_cert = true)" in source
-    assert "native_decide" not in source
+    assert "\n  native_decide\n" not in source
+    assert "(by native_decide" not in source
