@@ -1,0 +1,171 @@
+{
+  "active_mechanisms": [
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "SOURCE_CORRUPTION",
+    "WRONG_TARGET"
+  ],
+  "analysis_uses_metadata_only_after_classification": true,
+  "baseline_classified_bundle_digest": "sha256:7de9a7fabbb8fb6ab104c7bbdb63f3b7b3d5bf41a64ed1ffac6d8328c3c12de3",
+  "baseline_lattice": {
+    "exact_match_rate": 1.0,
+    "model_matches": 32,
+    "model_violations": 0,
+    "n_states": 32
+  },
+  "baseline_raw_bundle_digest": "sha256:482f21fe8bafd4e3784e7c3a7e0a5dc103820c087691fc0e66e5ff3dd61a63ea",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "clean_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "corpus_digest": "sha256:fe356ed2f5d4bcf653c5cedaa37922e2248547434fe30b746fbcf10ca73bc199",
+  "counterfactual_repairs": {
+    "by_category": {
+      "co_visible_blocker_repair": {
+        "class_change_rate": null,
+        "class_changed": 0,
+        "class_preserved": 0,
+        "model_match": 0,
+        "model_match_rate": null,
+        "n": 0
+      },
+      "inert_mechanism_repair": {
+        "class_change_rate": 0.0,
+        "class_changed": 0,
+        "class_preserved": 16,
+        "model_match": 16,
+        "model_match_rate": 1.0,
+        "n": 16
+      },
+      "masked_later_repair": {
+        "class_change_rate": 0.0,
+        "class_changed": 0,
+        "class_preserved": 34,
+        "model_match": 34,
+        "model_match_rate": 1.0,
+        "n": 34
+      },
+      "visible_blocker_repair": {
+        "class_change_rate": 1.0,
+        "class_changed": 30,
+        "class_preserved": 0,
+        "model_match": 30,
+        "model_match_rate": 1.0,
+        "n": 30
+      }
+    },
+    "by_mechanism": {
+      "INVALID_PROOF": {
+        "class_change_rate": 0.5,
+        "class_changed": 8,
+        "class_preserved": 8,
+        "model_match": 16,
+        "model_match_rate": 1.0,
+        "native_inert": false,
+        "native_single_fault_signature": "ENVIRONMENT_OR_ELAB_REJECT",
+        "total": 16
+      },
+      "PROHIBITED_PLACEHOLDER": {
+        "class_change_rate": 0.25,
+        "class_changed": 4,
+        "class_preserved": 12,
+        "model_match": 16,
+        "model_match_rate": 1.0,
+        "native_inert": false,
+        "native_single_fault_signature": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+        "total": 16
+      },
+      "SOURCE_CORRUPTION": {
+        "class_change_rate": 1.0,
+        "class_changed": 16,
+        "class_preserved": 0,
+        "model_match": 16,
+        "model_match_rate": 1.0,
+        "native_inert": false,
+        "native_single_fault_signature": "FRONTEND_REJECT",
+        "total": 16
+      },
+      "UNKNOWN_TYPE": {
+        "class_change_rate": 0.0,
+        "class_changed": 0,
+        "class_preserved": 16,
+        "model_match": 16,
+        "model_match_rate": 1.0,
+        "native_inert": true,
+        "native_single_fault_signature": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+        "total": 16
+      },
+      "WRONG_TARGET": {
+        "class_change_rate": 0.125,
+        "class_changed": 2,
+        "class_preserved": 14,
+        "model_match": 16,
+        "model_match_rate": 1.0,
+        "native_inert": false,
+        "native_single_fault_signature": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+        "total": 16
+      }
+    },
+    "exact_match_rate": 1.0,
+    "model_matches": 80,
+    "model_violations": 0,
+    "n_edges": 80
+  },
+  "cumulative_repair": {
+    "end_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+    "exact_match_rate": 1.0,
+    "model_matches": 5,
+    "model_violations": 0,
+    "n_steps": 5,
+    "observed_path": [
+      "FRONTEND_REJECT",
+      "ENVIRONMENT_OR_ELAB_REJECT",
+      "ENVIRONMENT_OR_ELAB_REJECT",
+      "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    ],
+    "repair_order": [
+      "SOURCE_CORRUPTION",
+      "UNKNOWN_TYPE",
+      "INVALID_PROOF",
+      "PROHIBITED_PLACEHOLDER",
+      "WRONG_TARGET"
+    ],
+    "start_class": "FRONTEND_REJECT"
+  },
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "mechanism_native_signatures": {
+    "INVALID_PROOF": "ENVIRONMENT_OR_ELAB_REJECT",
+    "PROHIBITED_PLACEHOLDER": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+    "SOURCE_CORRUPTION": "FRONTEND_REJECT",
+    "UNKNOWN_TYPE": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+    "WRONG_TARGET": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH"
+  },
+  "native_inert_mechanisms": [
+    "UNKNOWN_TYPE"
+  ],
+  "non_claims": [
+    "Exact rates here are exhaustive finite checks over this constructed 32-state corpus, not population estimates.",
+    "A model match does not establish proof-generation capability or semantic correctness beyond the declared target-match predicate.",
+    "Native-inert mechanisms are reported separately and are not counted as masked active blockers.",
+    "No S6 semantic-admissibility automation or claim is made.",
+    "Publication eligibility remains false pending adversarial review and manuscript-level claim audit."
+  ],
+  "pipeline_class_order": [
+    "FRONTEND_REJECT",
+    "ENVIRONMENT_OR_ELAB_REJECT",
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+    "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+  ],
+  "plan_digest": "sha256:0b610ed6bd984acf6403046e5adf56ed5f8ae0d9a6fbce4178c6a8ede4e20565",
+  "publication_claim_eligible": false,
+  "repair_classified_bundle_digest": "sha256:96fc867e07e6b130fbd4cf3217a2c555c61f08b42f9506ac370a2b3b11233782",
+  "repair_raw_bundle_digest": "sha256:40b4c6a1397edb126774cf38ff06cbc54c73b216e9dbe4ef9c8a81d3e2fe4857",
+  "schema_version": "p02_native_transition_analysis_v2",
+  "status": "POSTCLASSIFICATION_ANALYZED_NOT_ADVERSARIAL_REVIEWED",
+  "violations": {
+    "baseline_states": [],
+    "counterfactual_edges": [],
+    "cumulative_steps": []
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "bundle_digest": "sha256:0b44d509271db2cbfff53d2bf1f83121681a372d4431f329529e4b070b1eb68c",
+  "files": [
+    {
+      "path": "CUMULATIVE_TRAJECTORY.csv",
+      "sha256": "sha256:392d7643dc95407b29aa3fc4c296f61247c24a3e047a427c5ae7a7003d452c44",
+      "size_bytes": 1493
+    },
+    {
+      "path": "REPAIR_EDGE_TABLE.csv",
+      "sha256": "sha256:78fd7c3967a00c50ba72a5262dea0f4625939ed8f61f29f90fea529429b4f6b2",
+      "size_bytes": 34574
+    },
+    {
+      "path": "STATE_TABLE.csv",
+      "sha256": "sha256:b9bcffe551ec5e9738c442fea53145b1e263acbdb7c3aa90e219ec2a53fa5493",
+      "size_bytes": 5073
+    },
+    {
+      "path": "TRANSITION_ANALYSIS.json",
+      "sha256": "sha256:c3c7430e3298045d80a4262a2d5ea16bdd0d0f5c4b327bb69aef54b48cb3c758",
+      "size_bytes": 5730
+    }
+  ],
+  "n_files": 4,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_transition_analysis_integrity_v2"
+}
