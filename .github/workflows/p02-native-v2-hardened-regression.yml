@@ -1,0 +1,75 @@
+name: p02-native-v2-hardened-regression
+
+on:
+  push:
+    branches:
+      - science/p02-native-v2-20260826
+    paths:
+      - .github/workflows/p02-native-v2-hardened-regression.yml
+      - scripts/p02_classify_native_v2_hardened.py
+      - scripts/p02_run_hardened_v2_regression.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-native-v2-hardened-regression
+  cancel-in-progress: false
+
+env:
+  OUT_ROOT: evidence/p02_native_v2/classifier_v2_development_regression_first_full
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Run classifier-v2 development regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "${OUT_ROOT}"
+          python scripts/p02_run_hardened_v2_regression.py \
+            --baseline-raw evidence/p02_native_v2/raw_first_full \
+            --baseline-v1 evidence/p02_native_v2/classified_first_full \
+            --repair-raw evidence/p02_native_v2/repair_raw_first_full \
+            --repair-v1 evidence/p02_native_v2/repair_classified_first_full \
+            --adv-raw evidence/p02_native_v2/adversarial_raw_first_full \
+            --out-root "${OUT_ROOT}"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('evidence/p02_native_v2/classifier_v2_development_regression_first_full/V2_DEVELOPMENT_REGRESSION.json')
+          d = json.loads(p.read_text(encoding='utf-8'))
+          assert d['status'] == 'V2_DEVELOPMENT_REGRESSION_COMPLETE_NOT_HOLDOUT_VALIDATED'
+          assert d['publication_claim_eligible'] is False
+          assert d['baseline']['n_class_differences'] == 0
+          assert d['repair']['n_class_differences'] == 0
+          assert d['development_adversarial']['n_matches'] == 13
+          assert d['development_adversarial']['n_mismatches'] == 0
+          print(json.dumps(d, indent=2, sort_keys=True))
+          PY
+
+      - name: Commit immutable v2 development regression bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${OUT_ROOT}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_native_v2/classifier_v2_development_regression_first_full/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 classifier v2 development regression"
+          git push origin HEAD:science/p02-native-v2-20260826
