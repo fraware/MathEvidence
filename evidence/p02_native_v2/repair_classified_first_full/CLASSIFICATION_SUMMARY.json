@@ -1,0 +1,28 @@
+{
+  "baseline_bundle_digest": "sha256:482f21fe8bafd4e3784e7c3a7e0a5dc103820c087691fc0e66e5ff3dd61a63ea",
+  "classifier_rules_modified_after_repair_run": false,
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_class_counts": {
+    "ENVIRONMENT_OR_ELAB_REJECT": 22,
+    "FRONTEND_REJECT": 32,
+    "SOURCE_EMPTY": 0,
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": 13,
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH": 10,
+    "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 8,
+    "UNKNOWN": 0
+  },
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "n_cases": 85,
+  "non_claims": [
+    "This step classifies repair observations but does not inspect repair metadata.",
+    "No masking, repair-success, or transition-rate claim is made here.",
+    "UNKNOWN remains unchanged under the frozen classifier.",
+    "Transition analysis is a separate post-classification step."
+  ],
+  "plan_digest": "sha256:0b610ed6bd984acf6403046e5adf56ed5f8ae0d9a6fbce4178c6a8ede4e20565",
+  "publication_claim_eligible": false,
+  "raw_repair_bundle_digest": "sha256:40b4c6a1397edb126774cf38ff06cbc54c73b216e9dbe4ef9c8a81d3e2fe4857",
+  "repair_metadata_read_during_classification": false,
+  "schema_version": "p02_native_repair_classification_v2_from_frozen_v1",
+  "status": "REPAIR_CLASSIFIED_NOT_TRANSITION_ANALYZED"
+}

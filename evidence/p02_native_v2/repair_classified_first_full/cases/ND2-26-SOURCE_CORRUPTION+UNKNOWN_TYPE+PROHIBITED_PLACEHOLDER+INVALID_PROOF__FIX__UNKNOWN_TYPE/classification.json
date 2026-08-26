@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-26-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__UNKNOWN_TYPE",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "FRONTEND_REJECT",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:e5cd6ea1d3c826d63ecbc14d93a95ee5c0b556c7b00403ada86ecd62a4ede4aa",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "source_sha256": "sha256:a24425caded48f858879b3ae0598cc5d31445f08a623486216d3923be146f31d"
+}
