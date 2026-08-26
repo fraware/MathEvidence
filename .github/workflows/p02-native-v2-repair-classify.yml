@@ -1,0 +1,77 @@
+name: p02-native-v2-repair-classify
+
+on:
+  push:
+    branches:
+      - science/p02-native-v2-20260826
+    paths:
+      - .github/workflows/p02-native-v2-repair-classify.yml
+      - scripts/p02_classify_native_v2_repair_raw.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-native-v2-repair-classify
+  cancel-in-progress: false
+
+env:
+  RAW_DIR: evidence/p02_native_v2/repair_raw_first_full
+  CLASSIFIED_DIR: evidence/p02_native_v2/repair_classified_first_full
+
+jobs:
+  classify-frozen-repair-raw:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply precommitted frozen classifier to sealed repair bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d "${RAW_DIR}"
+          test ! -e "${CLASSIFIED_DIR}"
+          python scripts/p02_classify_native_v2_repair_raw.py \
+            --raw "${RAW_DIR}" \
+            --out "${CLASSIFIED_DIR}"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("evidence/p02_native_v2/repair_classified_first_full")
+          summary = json.loads((root / "CLASSIFICATION_SUMMARY.json").read_text(encoding="utf-8"))
+          integrity = json.loads((root / "INTEGRITY_MANIFEST.json").read_text(encoding="utf-8"))
+          assert summary["status"] == "REPAIR_CLASSIFIED_NOT_TRANSITION_ANALYZED"
+          assert summary["publication_claim_eligible"] is False
+          assert summary["repair_metadata_read_during_classification"] is False
+          assert summary["classifier_rules_modified_after_repair_run"] is False
+          assert summary["n_cases"] == 85
+          assert sum(summary["derived_class_counts"].values()) == 85
+          assert summary["plan_digest"] == "sha256:0b610ed6bd984acf6403046e5adf56ed5f8ae0d9a6fbce4178c6a8ede4e20565"
+          assert summary["raw_repair_bundle_digest"] == "sha256:40b4c6a1397edb126774cf38ff06cbc54c73b216e9dbe4ef9c8a81d3e2fe4857"
+          assert integrity["n_files"] == 87
+          print(json.dumps(summary["derived_class_counts"], sort_keys=True))
+          print(integrity["bundle_digest"])
+          PY
+
+      - name: Commit immutable repair classification bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${CLASSIFIED_DIR}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_native_v2/repair_classified_first_full/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 native v2 repair classifications"
+          git push origin HEAD:science/p02-native-v2-20260826
