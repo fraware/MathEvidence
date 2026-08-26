@@ -1,0 +1,148 @@
+name: p02-native-v2-adversarial-raw
+
+on:
+  push:
+    branches:
+      - science/p02-native-v2-20260826
+    paths:
+      - .github/workflows/p02-native-v2-adversarial-raw.yml
+      - scripts/p02_native_v2_adversarial_raw.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-native-v2-adversarial-raw
+  cancel-in-progress: false
+
+env:
+  PINNED_PROJECT_SHA: 946d2f7b14840837a5b641150c9df9008c4be9eb
+  ADVERSARIAL_RAW_DIR: evidence/p02_native_v2/adversarial_raw_first_full
+  LEAN_GITHUB_ASSET_URL: https://github.com/leanprover/lean4/releases/download/v4.14.0/lean-4.14.0-linux.tar.zst
+
+jobs:
+  collect-adversarial-observations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch with full history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Materialize exact pinned MathEvidence worktree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${PINNED_PROJECT_SHA}^{commit}"
+          rm -rf /tmp/mathevidence-pinned
+          git worktree add --detach /tmp/mathevidence-pinned "${PINNED_PROJECT_SHA}"
+          test "$(git -C /tmp/mathevidence-pinned rev-parse HEAD)" = "${PINNED_PROJECT_SHA}"
+          test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
+          test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "leanprover/lean4:v4.14.0"
+
+      - name: Install checksum-pinned elan from pinned tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
+
+      - name: Initialize exact Lean 4.14.0 with official-asset fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          cd /tmp/mathevidence-pinned
+          success=0
+          lean_output=""
+          for attempt in 1 2 3 4 5; do
+            echo "Pinned Lean 4.14.0 elan initialization attempt ${attempt}/5"
+            if lean_output="$(lake env lean --version 2>&1)"; then
+              success=1
+              export P02_LEAN_BIN_DIR="$HOME/.elan/bin"
+              export P02_TOOLCHAIN_TRANSPORT="elan_release_host"
+              export P02_TOOLCHAIN_ARCHIVE_SHA256=""
+              break
+            fi
+            printf '%s\n' "$lean_output" >&2
+            if [ "$attempt" -lt 5 ]; then sleep 5; fi
+          done
+          if [ "$success" -ne 1 ]; then
+            command -v curl
+            command -v unzstd
+            rm -rf /tmp/p02-lean-direct /tmp/p02-lean-4.14.0-linux.tar.zst
+            mkdir -p /tmp/p02-lean-direct
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output /tmp/p02-lean-4.14.0-linux.tar.zst \
+              "${LEAN_GITHUB_ASSET_URL}"
+            archive_sha="$(sha256sum /tmp/p02-lean-4.14.0-linux.tar.zst | awk '{print $1}')"
+            test -n "$archive_sha"
+            tar --use-compress-program=unzstd -xf /tmp/p02-lean-4.14.0-linux.tar.zst -C /tmp/p02-lean-direct
+            lean_root="$(find /tmp/p02-lean-direct -mindepth 1 -maxdepth 1 -type d -name 'lean-4.14.0-*' -print -quit)"
+            test -n "$lean_root"
+            test -x "$lean_root/bin/lean"
+            test -x "$lean_root/bin/lake"
+            export P02_LEAN_BIN_DIR="$lean_root/bin"
+            export P02_TOOLCHAIN_TRANSPORT="official_github_release_asset"
+            export P02_TOOLCHAIN_ARCHIVE_SHA256="sha256:${archive_sha}"
+            export PATH="$P02_LEAN_BIN_DIR:$PATH"
+            lean_output="$(lake env lean --version 2>&1)"
+          fi
+          export PATH="$P02_LEAN_BIN_DIR:$PATH"
+          printf '%s\n' "$lean_output" | grep -F 'Lean (version 4.14.0,'
+          printf '%s\n' "$lean_output" | grep -F 'commit 410fab728470'
+          lake --version
+          test -z "$(git status --porcelain)"
+          echo "P02_LEAN_BIN_DIR=$P02_LEAN_BIN_DIR" >> "$GITHUB_ENV"
+          echo "P02_TOOLCHAIN_TRANSPORT=$P02_TOOLCHAIN_TRANSPORT" >> "$GITHUB_ENV"
+          echo "P02_TOOLCHAIN_ARCHIVE_SHA256=$P02_TOOLCHAIN_ARCHIVE_SHA256" >> "$GITHUB_ENV"
+
+      - name: Collect preregistered adversarial raw observations
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="${P02_LEAN_BIN_DIR}:$PATH"
+          lake env lean --version | grep -F 'Lean (version 4.14.0,'
+          lake env lean --version | grep -F 'commit 410fab728470'
+          test ! -e "${ADVERSARIAL_RAW_DIR}"
+          python scripts/p02_native_v2_adversarial_raw.py \
+            --pinned-project /tmp/mathevidence-pinned \
+            --out "${ADVERSARIAL_RAW_DIR}" \
+            --timeout-seconds 30
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("evidence/p02_native_v2/adversarial_raw_first_full")
+          run = json.loads((root / "RUN_MANIFEST.json").read_text(encoding="utf-8"))
+          spec = json.loads((root / "ADVERSARIAL_SPEC.json").read_text(encoding="utf-8"))
+          integrity = json.loads((root / "INTEGRITY_MANIFEST.json").read_text(encoding="utf-8"))
+          assert run["status"] == "RAW_ADVERSARIAL_OBSERVATIONS_EXECUTED_NOT_CLASSIFIED"
+          assert run["publication_claim_eligible"] is False
+          assert run["classification_performed"] is False
+          assert run["n_cases"] == 13
+          assert run["spec_digest"] == "sha256:b3db906353bdb5c53a732c2fd3f924ab445b116f58afbdac104c24d5334465c4"
+          assert spec["spec_digest"] == run["spec_digest"]
+          assert spec["n_cases"] == 13
+          assert run["toolchain_transport"] in {"elan_release_host", "official_github_release_asset"}
+          assert integrity["n_files"] > 0
+          print(integrity["bundle_digest"])
+          PY
+
+      - name: Commit immutable raw adversarial evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${ADVERSARIAL_RAW_DIR}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_native_v2/adversarial_raw_first_full/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 native v2 adversarial raw observations"
+          git push origin HEAD:science/p02-native-v2-20260826
