@@ -23,6 +23,7 @@ on:
       - "scripts/smoke_ideal_membership.py"
       - "scripts/generate_exact_ideal_replay_module.py"
       - "scripts/ci/run_cr_exact_lean_e2e.py"
+      - "scripts/ci/run_cr_exact_lean_e2e_production.py"
       - "registry/maturity-inventory.json"
       - "registry/capabilities/**"
       - "adapters/common/exact_replay/**"
