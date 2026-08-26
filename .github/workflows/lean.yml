@@ -20,8 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Install elan (checksum-pinned release asset)
-        run: bash scripts/ci/install-elan-pinned.sh
+      - name: Install exact Lean 4.14.0 release asset (digest calibration)
+        run: bash scripts/ci/install-lean-pinned.sh
 
       - name: Restore pinned Mathlib build cache
         run: |
@@ -34,18 +34,17 @@ jobs:
                 return 0
               fi
               if [ "$attempt" -eq 3 ]; then
-                echo "network bootstrap command failed after ${attempt} attempts: $*" >&2
+                echo "network cache command failed after ${attempt} attempts: $*" >&2
                 return 1
               fi
               sleep_seconds=$((5 * (2 ** (attempt - 1))))
-              echo "network bootstrap attempt ${attempt} failed; retrying in ${sleep_seconds}s: $*" >&2
+              echo "network cache attempt ${attempt} failed; retrying in ${sleep_seconds}s: $*" >&2
               sleep "$sleep_seconds"
             done
           }
 
-          # Resolving through the checked-in lean-toolchain keeps the toolchain
-          # identity pinned; retries cover only transient transport failures.
-          retry_network lean --version
+          lean --version
+          lake --version
           retry_network lake exe cache get
 
       - name: Setup Python
