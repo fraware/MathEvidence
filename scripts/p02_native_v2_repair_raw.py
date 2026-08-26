@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -327,12 +328,16 @@ def main() -> int:
         "n_observation_cases": n_written,
         "cumulative_repair_order": list(CUMULATIVE_REPAIR_ORDER),
         "classification_performed": False,
+        "toolchain_transport": os.environ.get("P02_TOOLCHAIN_TRANSPORT", "elan_release_host"),
+        "toolchain_archive_sha256": os.environ.get("P02_TOOLCHAIN_ARCHIVE_SHA256"),
+        "toolchain_expected_identity": "Lean 4.14.0 commit 410fab728470",
         **baseline_identity,
         "non_claims": [
             "This bundle contains raw repair/recheck observations only.",
             "Repair metadata is stored separately from observation records.",
             "No native-class transition, masking rate, or repair success claim is assigned here.",
-            "The UNKNOWN_TYPE mechanism remains in the preregistered plan even if baseline evidence shows it is native-inert."
+            "The UNKNOWN_TYPE mechanism remains in the preregistered plan even if baseline evidence shows it is native-inert.",
+            "Toolchain transport metadata records how the exact Lean 4.14.0 binary was obtained; it does not alter the frozen repair plan."
         ],
     }
     base.json_dump(out / "RUN_MANIFEST.json", run_manifest)
