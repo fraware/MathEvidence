@@ -19,13 +19,19 @@ from types import ModuleType
 from typing import Any
 
 import adapters.common.exact_replay.plugins  # noqa: F401
-from adapters.common.canonical import bind_request_digest, verify_request_digest
+from adapters.common.canonical import (
+    bind_request_digest,
+    canonical_dumps,
+    request_binding_payload,
+    verify_request_digest,
+)
 from adapters.common.environment_lock import current_capability_environment_lock
 from adapters.common.exact_replay.pipeline import generate_module, verify
 from adapters.common.kernel_replay import (
     ALLOWED_AXIOMS_DEFAULT,
     KernelReplayError,
     _compile_and_inspect,
+    _run_process,
     axiom_policy_ok,
     find_lake,
 )
@@ -76,6 +82,81 @@ def _canonical_case_payload(case: Any) -> tuple[dict[str, Any], dict[str, Any]]:
     return request, certificate
 
 
+def _rational_binding_diagnostic_source(case: Any, module: Any) -> str | None:
+    """Build a non-authoritative companion that prints Lean's reconstructed binding.
+
+    The production theorem source is attempted first and remains the only acceptance
+    path. This companion is generated only for diagnostics after a failure. It stops
+    before the first theorem and therefore cannot establish or inspect a theorem.
+    """
+    if case.capability != "algebra.rational_equality":
+        return None
+    marker = "/-- Lean-side request binding for the reconstructed exact wire semantics. -/"
+    prefix, found, _ = module.source_text.partition(marker)
+    if not found:
+        return None
+    decl = module.declaration_name
+    return (
+        prefix
+        + f"""
+/- Diagnostic-only companion: never Certification Record authority. -/
+#eval do
+  match MathEvidence.Core.JsonCanonical.canonicalString
+      (MathEvidence.Checkers.RationalEquality.Wire.claimToRequestJson {decl}_claim) with
+  | .ok s => IO.println ("MATHEVIDENCE_DIAG_CANONICAL=" ++ s)
+  | .error e => IO.println ("MATHEVIDENCE_DIAG_CANONICAL_ERROR=" ++ toString e)
+
+#eval IO.println ("MATHEVIDENCE_DIAG_DIGEST=" ++ {decl}_req.requestDigest.value)
+"""
+    )
+
+
+def _extract_prefixed_line(stdout: str, prefix: str) -> str | None:
+    for line in stdout.splitlines():
+        if line.startswith(prefix):
+            return line[len(prefix) :]
+    return None
+
+
+def _rational_binding_diagnostic(
+    *, case: Any, module: Any, request: dict[str, Any], lake: Path
+) -> dict[str, Any]:
+    """Run a failure-only Lean/Python binding comparison with no theorem authority."""
+    source = _rational_binding_diagnostic_source(case, module)
+    if source is None:
+        return {"status": "diagnostic_unavailable", "reason": "source_marker_missing"}
+
+    diagnostic_module = f"MathEvidence.Generated.Replay.diagnostic_{case.name}"
+    source_path = ROOT.joinpath(*diagnostic_module.split(".")).with_suffix(".lean")
+    source_path.parent.mkdir(parents=True, exist_ok=True)
+    source_path.write_text(source, encoding="utf-8", newline="\n")
+    try:
+        proc = _run_process([str(lake), "env", "lean", str(source_path)], root=ROOT)
+    finally:
+        source_path.unlink(missing_ok=True)
+
+    lean_canonical = _extract_prefixed_line(
+        proc.stdout or "", "MATHEVIDENCE_DIAG_CANONICAL="
+    )
+    lean_digest = _extract_prefixed_line(proc.stdout or "", "MATHEVIDENCE_DIAG_DIGEST=")
+    python_canonical = canonical_dumps(request_binding_payload(request))
+    python_digest = str(request["requestDigest"])
+    return {
+        "status": "diagnostic_only_non_authoritative",
+        "returnCode": proc.returncode,
+        "leanCanonical": lean_canonical,
+        "pythonCanonical": python_canonical,
+        "canonicalMatch": (
+            lean_canonical == python_canonical if lean_canonical is not None else None
+        ),
+        "leanRequestDigest": lean_digest,
+        "pythonRequestDigest": python_digest,
+        "digestMatch": lean_digest == python_digest if lean_digest is not None else None,
+        "stdoutTail": (proc.stdout or "")[-3000:],
+        "stderrTail": (proc.stderr or "")[-3000:],
+    }
+
+
 def _execute(case: Any) -> dict[str, Any]:
     matrix._assert_policy(case)
     request, certificate = _canonical_case_payload(case)
@@ -114,13 +195,27 @@ def _execute(case: Any) -> dict[str, Any]:
             environment_lock_digest_value=lock_digest,
         )
     except KernelReplayError as exc:
-        # Preserve the structured Lean/Lake failure context in CI. The kernel
-        # replay primitive already bounds stdout/stderr tails before attaching
-        # them to ``details``; emitting them here does not change acceptance.
+        diagnostics: dict[str, Any] = {}
+        if case.capability == "algebra.rational_equality":
+            try:
+                diagnostics = _rational_binding_diagnostic(
+                    case=case,
+                    module=module,
+                    request=request,
+                    lake=lake,
+                )
+            except Exception as diagnostic_exc:  # noqa: BLE001
+                diagnostics = {
+                    "status": "diagnostic_failed",
+                    "error": f"{type(diagnostic_exc).__name__}: {diagnostic_exc}",
+                }
+
+        # Preserve the structured Lean/Lake failure context in CI. Diagnostics
+        # are explicitly non-authoritative and run only after acceptance failed.
         print(
             json.dumps(
                 {
-                    "schemaVersion": "0.1.0",
+                    "schemaVersion": "0.2.0",
                     "status": "exact_e2e_failure",
                     "case": case.name,
                     "capability": case.capability,
@@ -129,6 +224,7 @@ def _execute(case: Any) -> dict[str, Any]:
                     "errorCode": exc.code,
                     "message": exc.message,
                     "details": exc.details or {},
+                    "diagnostics": diagnostics,
                 },
                 sort_keys=True,
             ),
