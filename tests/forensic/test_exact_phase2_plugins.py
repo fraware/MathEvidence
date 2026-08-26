@@ -74,7 +74,7 @@ def _rat_request_cert(
     return request, certificate
 
 
-def test_rational_equal_reduced_and_unreduced_canonicalize() -> None:
+def test_rational_exact_wire_binding_and_scope_rejections() -> None:
     # (x^2-1)/(x-1) = x+1
     lhs = {
         "tag": "div",
@@ -106,23 +106,53 @@ def test_rational_equal_reduced_and_unreduced_canonicalize() -> None:
     assert "replaySound" in text
     assert "Expr.div" in text
     assert DIGEST_A in text
+    assert "Request.ofClaim! rat_eq_claim" in text
+    assert "rat_eq_request_binding" in text
 
-    # Unreduced rat literal 2/4 -> 1/2 in source
+    # Exact theorem replay must not silently rewrite a request behind its digest.
     request2, cert2 = _rat_request_cert(
         lhs={"tag": "rat", "num": "2", "den": "4"},
         rhs={"tag": "rat", "num": "1", "den": "2"},
         factors=[],
         digest=DIGEST_B,
     )
-    text2 = generate_exact_rational_equality_module(
-        module_name="MathEvidence.Generated.Replay.rat_canon",
-        declaration_name="rat_canon",
-        request=request2,
-        certificate=cert2,
-        candidate_bundle_digest=BUNDLE,
-    )
-    assert "Expr.rat (1 : Int) 2" in text2
-    assert "Expr.rat (2 : Int) 4" not in text2
+    with pytest.raises(ValueError, match="canonical exact RationalExpr"):
+        generate_exact_rational_equality_module(
+            module_name="MathEvidence.Generated.Replay.rat_noncanonical",
+            declaration_name="rat_noncanonical",
+            request=request2,
+            certificate=cert2,
+            candidate_bundle_digest=BUNDLE,
+        )
+
+    unsupported_policy = copy.deepcopy(request)
+    unsupported_policy["resourcePolicy"] = {
+        "maxWallTimeMs": 20000,
+        "maxOutputBytes": 1048576,
+    }
+    with pytest.raises(ValueError, match="resourcePolicy"):
+        generate_module(
+            capability_id="algebra.rational_equality",
+            request=unsupported_policy,
+            certificate=certificate,
+            candidate_bundle_digest=BUNDLE,
+            module_name="MathEvidence.Generated.Replay.rat_policy",
+            declaration_name="rat_policy",
+        )
+
+    unsupported_version = copy.deepcopy(request)
+    unsupported_version["capabilityVersion"] = "0.2.0"
+    unsupported_version_cert = copy.deepcopy(certificate)
+    unsupported_version_cert["capabilityVersion"] = "0.2.0"
+    with pytest.raises(ValueError, match="supports capabilityVersion 0.1.0 only"):
+        generate_module(
+            capability_id="algebra.rational_equality",
+            request=unsupported_version,
+            certificate=unsupported_version_cert,
+            candidate_bundle_digest=BUNDLE,
+            module_name="MathEvidence.Generated.Replay.rat_version",
+            declaration_name="rat_version",
+        )
 
 
 def test_rational_negatives_zero_unequal_den0_float() -> None:
@@ -141,7 +171,7 @@ def test_rational_negatives_zero_unequal_den0_float() -> None:
     assert "Expr.neg" in text
 
     request0, cert0 = _rat_request_cert(
-        lhs={"tag": "rat", "num": "0", "den": "5"},
+        lhs={"tag": "rat", "num": "0", "den": "1"},
         rhs={"tag": "int", "value": "0"},
         factors=[],
         digest=DIGEST_B,
@@ -217,6 +247,7 @@ def test_rational_field_and_operator_mutation_change_hash() -> None:
         module_name="MathEvidence.Generated.Replay.rat_op",
         declaration_name="rat_op",
     )
+    assert other.source_hash != base.source_hash
     assert op_other.source_hash != base.source_hash
     assert "OfflineFixtures" not in base.source_text
 

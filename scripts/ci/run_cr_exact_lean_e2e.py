@@ -97,7 +97,7 @@ def _rational_case() -> ExactCase:
         "capability": "algebra.rational_equality",
         "capabilityVersion": "0.1.0",
         "variables": [],
-        "lhs": {"tag": "rat", "num": "2", "den": "4"},
+        "lhs": {"tag": "rat", "num": "1", "den": "2"},
         "rhs": {"tag": "rat", "num": "1", "den": "2"},
         "knownAssumptions": [],
         "requestedClaim": "soundResult",
