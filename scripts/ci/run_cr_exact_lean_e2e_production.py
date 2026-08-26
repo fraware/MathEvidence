@@ -91,11 +91,11 @@ def _rational_binding_diagnostic_source(case: Any, module: Any) -> str | None:
     """
     if case.capability != "algebra.rational_equality":
         return None
-    marker = "/-- Lean-side equality between reconstructed wire binding and submitted digest. -/"
+    decl = module.declaration_name
+    marker = f"theorem {decl}_request_binding :"
     prefix, found, _ = module.source_text.partition(marker)
     if not found:
         return None
-    decl = module.declaration_name
     return (
         prefix
         + f"""
