@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Diagnostic-only probe for generated rational native_decide elaboration.
+"""Diagnostic-only probe for staged rational native reduction.
 
-This script never emits or accepts a Certification Record. It tests whether
-unfolding current-module candidate aliases before ``native_decide`` removes the
-Lean 4.14 current-module native-evaluation dependency while preserving the
-exact candidate-bound proposition. Production acceptance remains owned by
-``run_cr_exact_lean_e2e_production.py`` and ``kernel_replay._compile_and_inspect``.
+This script never emits or accepts a Certification Record. It tests the exact
+Lean 4.14 boundary required by ``Lean.reduceBool``: candidate-specific closed
+Boolean computations are elaborated first as an imported module, then a second
+theorem module consumes those imported constants through ``Lean.ofReduceBool``.
+Production acceptance remains owned by ``run_cr_exact_lean_e2e_production.py``
+and ``kernel_replay._compile_and_inspect``.
 """
 
 from __future__ import annotations
@@ -22,6 +23,10 @@ from adapters.common.kernel_replay import _run_process, find_lake
 ROOT = Path(__file__).resolve().parents[2]
 RUNNER_PATH = ROOT / "scripts" / "ci" / "run_cr_exact_lean_e2e_production.py"
 RUNNER_MODULE = "mathevidence_native_compile_probe_runner"
+BASE_MODULE = "MathEvidence.Generated.Replay.probe_rational_native_compile"
+COMPUTE_MODULE = f"{BASE_MODULE}Compute"
+THEOREM_MODULE = f"{BASE_MODULE}Theorem"
+DECL = "probe_rational_native_compile"
 
 
 def _load_runner():
@@ -42,27 +47,25 @@ def _load_runner():
     return module, previous
 
 
-def _unfold_before_native_decide(source: str, decl: str) -> str:
-    binding_old = " := by\n  native_decide\n\n/-- Exact Candidate Bundle semantic claim."
-    binding_new = (
-        " := by\n"
-        f"  simp only [{decl}_req, {decl}_claim]\n"
-        "  native_decide\n\n"
-        "/-- Exact Candidate Bundle semantic claim."
+def _staged_sources(source: str) -> tuple[str, str]:
+    marker = "/-- Lean-side equality between reconstructed wire binding and submitted digest."
+    if marker not in source:
+        raise RuntimeError("expected rational request-binding marker not found")
+    prefix = source.split(marker, 1)[0]
+    compute = (
+        prefix
+        + f"""/-- Closed candidate-specific request-binding computation. -/\ndef {DECL}_binding_bool : Bool :=\n  decide ({DECL}_req.requestDigest = {DECL}_cert.requestDigest)\n\n/-- Closed candidate-specific checker computation. -/\ndef {DECL}_checker_bool : Bool :=\n  checkBool {DECL}_req {DECL}_cert\n"""
     )
-    if binding_old not in source:
-        raise RuntimeError("expected request-binding native_decide proof not found")
-    source = source.replace(binding_old, binding_new, 1)
+    theorem = f"""/- Diagnostic theorem stage; never Certification Record authority. -/\nimport {COMPUTE_MODULE}\n\nopen MathEvidence.Core\nopen MathEvidence.IR.RationalExpr\nopen MathEvidence.Checkers.RationalEquality\n\n/-- Request digest is recomputed by Request.ofClaim! in the imported candidate module. -/\ntheorem {DECL}_request_binding :\n    {DECL}_req.requestDigest = {DECL}_cert.requestDigest :=\n  of_decide_eq_true\n    (Lean.ofReduceBool {DECL}_binding_bool true (Eq.refl true))\n\n/-- Candidate-specific semantic theorem from the independently evaluated checker. -/\ntheorem {DECL} : Claim.proposition {DECL}_req.claim {DECL}_cert.denomFactors :=\n  replaySound\n    {DECL}_req\n    {DECL}_cert\n    (Lean.ofReduceBool {DECL}_checker_bool true (Eq.refl true))\n\n#print axioms {DECL}_request_binding\n#print axioms {DECL}\n"""
+    return compute, theorem
 
-    check_old = f"(by native_decide : checkBool {decl}_req {decl}_cert = true)"
-    check_new = (
-        "(by\n"
-        f"      simp only [{decl}_req, {decl}_claim, {decl}_cert]\n"
-        f"      native_decide : checkBool {decl}_req {decl}_cert = true)"
-    )
-    if check_old not in source:
-        raise RuntimeError("expected checker native_decide proof not found")
-    return source.replace(check_old, check_new, 1)
+
+def _path_for(module_name: str, suffix: str) -> Path:
+    return ROOT.joinpath(*module_name.split(".")).with_suffix(suffix)
+
+
+def _build_path(module_name: str, suffix: str) -> Path:
+    return (ROOT / ".lake" / "build" / "lib").joinpath(*module_name.split(".")).with_suffix(suffix)
 
 
 def main() -> int:
@@ -79,75 +82,103 @@ def main() -> int:
             request=request,
             certificate=certificate,
             candidate_bundle_digest=runner.BUNDLE_DIGEST,
-            module_name="MathEvidence.Generated.Replay.probe_rational_native_compile",
-            declaration_name="probe_rational_native_compile",
+            module_name=BASE_MODULE,
+            declaration_name=DECL,
         )
         metadata = verify(module)
         if not metadata.ok:
             raise RuntimeError(f"generated module metadata failed: {metadata.detail}")
-        if "Request.ofClaim! probe_rational_native_compile_claim" not in module.source_text:
+        if f"Request.ofClaim! {DECL}_claim" not in module.source_text:
             raise RuntimeError("probe source is not candidate-bound through Request.ofClaim!")
-        if "native_decide" not in module.source_text:
-            raise RuntimeError("probe source does not exercise native_decide")
         if "OfflineFixtures" in module.source_text:
             raise RuntimeError("probe source unexpectedly references OfflineFixtures")
 
-        source = _unfold_before_native_decide(
-            module.source_text, module.declaration_name
-        )
-        if "simp only [probe_rational_native_compile_req, probe_rational_native_compile_claim]" not in source:
-            raise RuntimeError("request-binding alias unfolding was not injected")
-        if "simp only [probe_rational_native_compile_req, probe_rational_native_compile_claim, probe_rational_native_compile_cert]" not in source:
-            raise RuntimeError("checker alias unfolding was not injected")
+        compute_source, theorem_source = _staged_sources(module.source_text)
+        if "Request.ofClaim!" not in compute_source:
+            raise RuntimeError("compute stage lost Lean-side request digest reconstruction")
+        if "Lean.ofReduceBool" not in theorem_source:
+            raise RuntimeError("theorem stage does not consume compiled Boolean constants")
+        if "native_decide" in theorem_source:
+            raise RuntimeError("theorem stage unexpectedly creates a fresh native_decide auxiliary")
 
         lake = find_lake(ROOT)
         if lake is None:
             raise RuntimeError("lake unavailable")
 
-        source_path = ROOT / "MathEvidence" / "Generated" / "Replay" / "probe_rational_native_compile.lean"
-        build_root = ROOT / ".lake" / "build" / "mathevidence-native-probe"
-        olean_path = build_root / "probe_rational_native_compile.olean"
-        c_path = build_root / "probe_rational_native_compile.c"
-        source_path.parent.mkdir(parents=True, exist_ok=True)
-        build_root.mkdir(parents=True, exist_ok=True)
-        source_path.write_text(source, encoding="utf-8", newline="\n")
+        compute_source_path = _path_for(COMPUTE_MODULE, ".lean")
+        theorem_source_path = _path_for(THEOREM_MODULE, ".lean")
+        compute_olean = _build_path(COMPUTE_MODULE, ".olean")
+        theorem_olean = _build_path(THEOREM_MODULE, ".olean")
+        compute_c = (ROOT / ".lake" / "build" / "ir").joinpath(
+            *COMPUTE_MODULE.split(".")
+        ).with_suffix(".c")
+        for path in (compute_source_path, theorem_source_path, compute_olean, theorem_olean, compute_c):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.unlink(missing_ok=True)
+
+        compute_source_path.write_text(compute_source, encoding="utf-8", newline="\n")
+        theorem_source_path.write_text(theorem_source, encoding="utf-8", newline="\n")
+        compute_proc = None
+        theorem_proc = None
         try:
-            proc = _run_process(
+            compute_proc = _run_process(
                 [
                     str(lake),
                     "env",
                     "lean",
                     "-o",
-                    str(olean_path),
+                    str(compute_olean),
                     "-c",
-                    str(c_path),
-                    str(source_path),
+                    str(compute_c),
+                    str(compute_source_path),
                 ],
                 root=ROOT,
             )
+            if compute_proc.returncode == 0:
+                theorem_proc = _run_process(
+                    [
+                        str(lake),
+                        "env",
+                        "lean",
+                        "-o",
+                        str(theorem_olean),
+                        str(theorem_source_path),
+                    ],
+                    root=ROOT,
+                )
+
             report = {
-                "schemaVersion": "0.2.0",
+                "schemaVersion": "0.3.0",
                 "status": "diagnostic_only_non_authoritative",
                 "capability": case.capability,
                 "requestDigest": request["requestDigest"],
                 "generatedSourceHash": module.source_hash,
-                "probeTransformation": "unfold_current_module_aliases_before_native_decide",
-                "returnCode": proc.returncode,
-                "oleanExists": olean_path.is_file(),
-                "cExists": c_path.is_file(),
-                "stdoutTail": (proc.stdout or "")[-3000:],
-                "stderrTail": (proc.stderr or "")[-3000:],
+                "probeTransformation": "precompile_closed_candidate_bools_then_ofReduceBool",
+                "computeReturnCode": compute_proc.returncode,
+                "theoremReturnCode": None if theorem_proc is None else theorem_proc.returncode,
+                "computeOleanExists": compute_olean.is_file(),
+                "computeCExists": compute_c.is_file(),
+                "theoremOleanExists": theorem_olean.is_file(),
+                "computeStdoutTail": (compute_proc.stdout or "")[-2500:],
+                "computeStderrTail": (compute_proc.stderr or "")[-2500:],
+                "theoremStdoutTail": "" if theorem_proc is None else (theorem_proc.stdout or "")[-2500:],
+                "theoremStderrTail": "" if theorem_proc is None else (theorem_proc.stderr or "")[-2500:],
             }
             print(json.dumps(report, sort_keys=True))
-            if proc.returncode != 0:
+            if compute_proc.returncode != 0 or theorem_proc is None or theorem_proc.returncode != 0:
                 return 1
-            if not olean_path.is_file() or not c_path.is_file():
-                raise RuntimeError("probe reported success without both .olean and C outputs")
+            if not compute_olean.is_file() or not theorem_olean.is_file():
+                raise RuntimeError("staged probe reported success without both .olean files")
             return 0
         finally:
-            source_path.unlink(missing_ok=True)
-            olean_path.unlink(missing_ok=True)
-            c_path.unlink(missing_ok=True)
+            for path in (
+                compute_source_path,
+                theorem_source_path,
+                compute_olean,
+                theorem_olean,
+                compute_c,
+            ):
+                path.unlink(missing_ok=True)
     finally:
         if previous is None:
             sys.modules.pop(RUNNER_MODULE, None)
