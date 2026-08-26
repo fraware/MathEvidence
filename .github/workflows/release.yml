@@ -47,6 +47,8 @@ jobs:
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
 
       - name: Validate schemas, registry, maturity, and audits
+        env:
+          MATHEVIDENCE_ENV_AUDIT_OUT_DIR: ${{ runner.temp }}/mathevidence-env-audits
         run: |
           set -euo pipefail
           python scripts/validate_schemas.py
@@ -55,6 +57,9 @@ jobs:
           python scripts/check_import_boundaries.py
           python scripts/audit_sorry_axioms.py
           python scripts/scaffold_env_audits.py
+          test -f "$RUNNER_TEMP/mathevidence-env-audits/environment_audit_scaffold.json"
+          test -f "$RUNNER_TEMP/mathevidence-env-audits/import_graph_env.json"
+          test -f "$RUNNER_TEMP/mathevidence-env-audits/axiom_report_env.json"
 
       - name: Lake build with lock immutability
         run: |
@@ -89,10 +94,23 @@ jobs:
           python scripts/smoke_exe.py
           python scripts/smoke_ideal_membership.py
 
+      - name: Assert exact checked-out source tree remained clean
+        run: |
+          set -euo pipefail
+          status="$(git status --porcelain --untracked-files=normal)"
+          if [ -n "$status" ]; then
+            echo "Release checks mutated the non-ignored source tree:" >&2
+            printf '%s\n' "$status" >&2
+            exit 1
+          fi
+
       - name: Generate exact-tree provenance + SBOM + digests
         run: |
           set -euo pipefail
-          mkdir -p dist/provenance dist/sbom dist/signed
+          mkdir -p dist/provenance/environment-audits dist/sbom dist/signed
+          cp "$RUNNER_TEMP/mathevidence-env-audits/environment_audit_scaffold.json" dist/provenance/environment-audits/
+          cp "$RUNNER_TEMP/mathevidence-env-audits/import_graph_env.json" dist/provenance/environment-audits/
+          cp "$RUNNER_TEMP/mathevidence-env-audits/axiom_report_env.json" dist/provenance/environment-audits/
           python scripts/generate_release_provenance.py dist/provenance
           test -f dist/provenance/provenance-manifest.json
           python scripts/generate_sbom.py dist/sbom
@@ -112,6 +130,7 @@ jobs:
           assert m.get("leanToolchain"), "missing leanToolchain pin"
           assert m.get("gitCommit") == os.environ.get("GITHUB_SHA"), "release SHA mismatch"
           assert m.get("gitTree") and m["gitTree"] != "unknown", "missing git tree"
+          assert m.get("gitWorkingTreeCleanAtGeneration") is True, "release provenance generated from dirty source tree"
           maturity = m.get("maturityInventory") or {}
           assert str(maturity.get("digest") or "").startswith("sha256:")
           assert maturity.get("auditedBaselineCommit"), "missing maturity baseline"
@@ -121,10 +140,15 @@ jobs:
           assert m.get("lockFiles"), "missing lock/toolchain hashes"
           lake = m.get("lake") or {}
           assert lake.get("packages"), "missing lake package pins"
+          audit_dir = Path("dist/provenance/environment-audits")
+          assert (audit_dir / "environment_audit_scaffold.json").is_file()
+          assert (audit_dir / "import_graph_env.json").is_file()
+          assert (audit_dir / "axiom_report_env.json").is_file()
           print(
               "provenance ok:",
               m["gitCommit"],
               m["gitTree"],
+              "clean=", m["gitWorkingTreeCleanAtGeneration"],
               "registry=", len(m["registryFiles"]),
               "schemas=", len(m["schemaFiles"]),
           )
