@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Install exact Lean 4.14.0 release asset (digest calibration)
+      - name: Install checksum-pinned Lean 4.14.0 release asset
         run: bash scripts/ci/install-lean-pinned.sh
 
       - name: Restore pinned Mathlib build cache
@@ -86,6 +86,12 @@ jobs:
             mathevidence-declaration-identity \
             mathevidence-import-graph \
             mathevidence-axiom-report
+
+      - name: Diagnostic only - rational native code emission probe
+        run: |
+          set -euo pipefail
+          echo "::notice title=rational-native-probe::Diagnostic only. Success does not grant theorem status or Certification Record authority."
+          python scripts/ci/probe_rational_native_compile.py
 
       - name: CR-eligible exact candidate production Lean E2E
         run: |
