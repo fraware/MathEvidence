@@ -44,10 +44,12 @@ A validation failure is a setup/integrity failure, not a mathematical rejection.
 
 ## 4. Build the pinned Lean trust path
 
-Build the verification executables and audit drivers with the pinned toolchain:
+Build the complete checker closure, verification executables, and audit drivers
+with the pinned toolchain:
 
 ```text
 lake build \
+  MathEvidenceCheckers \
   mathevidence-verify-bundle \
   mathevidence-kernel-replay \
   mathevidence-declaration-identity \
@@ -60,15 +62,22 @@ Then run the environment-level import/axiom audits used by CI.
 ## 5. Reproduce candidate-specific exact assurance
 
 For theorem-level Certification Record eligibility, structural source generation
-is insufficient. The release gate must generate the exact candidate-specific Lean
-module through the production exact-replay plugin and successfully elaborate it
-with the pinned Lean environment:
+is insufficient. The authoritative release gate must generate each exact
+candidate-specific Lean module through the production exact-replay plugin,
+compile it through the same staged project path used by production kernel replay,
+and inspect the resulting declaration in the pinned Lean environment:
 
 ```text
-python scripts/ci/run_cr_exact_lean_e2e.py
+python scripts/ci/run_cr_exact_lean_e2e_production.py
 ```
 
-The script derives the CR-eligible capability set from
+The production runner imports its case/coverage matrix from
+`scripts/ci/run_cr_exact_lean_e2e.py`. That matrix module also contains a
+standalone diagnostic executor, but the standalone temporary-file invocation is
+**not** release authority for Lean 4.14 modules that depend on the production
+staging/compiled-module path.
+
+The matrix derives the CR-eligible capability set from
 `registry/maturity-inventory.json`. For operation-discriminated capabilities it
 also requires coverage of the complete production exact-operation/whitelist set.
 Adding a promoted exact form without an E2E case therefore fails release CI.

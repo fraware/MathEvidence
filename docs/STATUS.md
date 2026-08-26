@@ -79,7 +79,7 @@ It is **not**:
 | --- | --- |
 | Exact binding | Required for theorem CR; see ADR 0005 |
 | CR-eligible set | Six owned capabilities above; federated logic never eligible under exact binding |
-| Exact Lean release gate | `scripts/ci/run_cr_exact_lean_e2e.py` executes production-generated candidates under pinned Lean; structural generation tests alone are insufficient |
+| Exact Lean release gate | `scripts/ci/run_cr_exact_lean_e2e_production.py` executes production-generated candidates through the production kernel-replay staging and declaration-inspection path under pinned Lean; structural generation or standalone temporary-file execution is insufficient |
 | Offline bundle replay | Available for exact owned capabilities; deterministic integrity/re-generation may end at `theorem_pending` |
 | Offline kernel replay | Not claimed as release maturity today; optional `require_lean=True` may prove when the materialized closure is available, but setup failure does not count as proof |
 | Analytic calculus | Strict theorem-form whitelist; unsupported forms fail closed |
@@ -117,8 +117,12 @@ pytest tests/forensic -q
 Production-generated exact Lean E2E:
 
 ```text
-python scripts/ci/run_cr_exact_lean_e2e.py
+python scripts/ci/run_cr_exact_lean_e2e_production.py
 ```
+
+The companion `scripts/ci/run_cr_exact_lean_e2e.py` module owns the checked-in
+case/coverage matrix and a standalone diagnostic runner. Its temporary-file Lean
+execution is not the authoritative release path.
 
 Workflow definitions: `.github/workflows/`. Local green alone is not promotion
 or release evidence; the exact release SHA must have the required remote gates
