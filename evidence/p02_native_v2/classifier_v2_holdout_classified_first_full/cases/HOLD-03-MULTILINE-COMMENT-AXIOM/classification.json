@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-03-MULTILINE-COMMENT-AXIOM",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:9253739e56e116666f92d783a252fa38d1f3d50af3811bffd28d3cd847006333",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:8335c587d48f346a1ddac389c84ae4c7595b7f0b518e60ee96942f1e39de5434",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:a3be3f6139551f4d9c4a3ddb69c718746f6054d7a39b37d08387da29d88c504f"
+}

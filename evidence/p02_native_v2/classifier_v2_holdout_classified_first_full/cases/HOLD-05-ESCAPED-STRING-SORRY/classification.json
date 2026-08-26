@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-05-ESCAPED-STRING-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:e445e39ed62a09c8124e91cc865adef5b38267536db29fec316ac6da2eefa131",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:4dec8d81caa3b1b5a90b89f4b5e86228c6d5596c98965b52c5ea2991748cc9d6",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:a7d4af322653fbc69c30d177fd627de3890984ff7d5f20221783dbf98095e8f2"
+}

@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-11-FRONTEND",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "FRONTEND_REJECT",
+  "observations_sha256": "sha256:1f12dece066bedfbdcc0b2cb28384fde46460ab70b20f9ddb01e7bbb3d5b71aa",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:777ad34e98f2e753e13cc8213bfca65f203519a385facb1f935f00b555c053e2",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:777ad34e98f2e753e13cc8213bfca65f203519a385facb1f935f00b555c053e2"
+}

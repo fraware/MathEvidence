@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-12-INVALID-PROOF",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "UNKNOWN",
+  "observations_sha256": "sha256:9337d7c2fa223d3547aca5d47e019b3bd2fd0b2fe6a0cdc98bfdfd97e3a07546",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:14ac7e8e95d8eab0f468fa83bc9ed9962a76f16f14e56077bf23bf2b1aaf6178",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:14ac7e8e95d8eab0f468fa83bc9ed9962a76f16f14e56077bf23bf2b1aaf6178"
+}

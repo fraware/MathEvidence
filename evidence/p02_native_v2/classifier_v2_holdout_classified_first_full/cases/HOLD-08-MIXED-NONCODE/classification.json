@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-08-MIXED-NONCODE",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:b2393ae701f014fccfbf108e94c43678b20b732f5096ad7d3e6b9c1a33ad01b1",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:e54e3caa63690f4b2c3ecec2aeac147c80ed2824976aa9837c27a521f449e4dc",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:784d6f4f68797fcf74aed2cb7e1e6df3db272a6dfe53351b9f5caa17b48997c7"
+}

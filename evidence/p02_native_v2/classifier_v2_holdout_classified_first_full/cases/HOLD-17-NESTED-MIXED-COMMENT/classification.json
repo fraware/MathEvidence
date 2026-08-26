@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-17-NESTED-MIXED-COMMENT",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:1ce9e861ff0fa711062457d89f4791bf00a41ce493573dc6c83c31c42eaded0e",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:b99cb40917b85e1f23543e898d75a5ea3ecc42c80619da58d78fe75bb44c93f6",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:af6a132a1db9b1df8fb1bcea9fd9d89308c3e280379a47cbb03ebef5d45f0c51"
+}

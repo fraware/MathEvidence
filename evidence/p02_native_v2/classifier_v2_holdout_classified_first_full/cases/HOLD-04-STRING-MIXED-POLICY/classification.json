@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-04-STRING-MIXED-POLICY",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:4fff6a371df917c9cf8cbac9685320c26b358d19df46c7384eb267b55765e39a",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:04abbe4b8b1a82ed7e4f7fa106a60e8b1c324b948f2250746156b9f76075238a",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:0c553b23266aee8a5579f0adedf878c780905b42f81dc849076e021a7a6ae48d"
+}

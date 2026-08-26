@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-01-DOC-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:3f1356f8aa0faea03c450aa046d86b91c8a463b828eaec9ed8353f1e52eb5b10",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:d985f93b78a3342c9c61728105507ab837f5631852e1a0345d2e02d2e0adeed7",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:60057fae8dd5cb2baf8dad9d67c84c535edeb5399281d063ea2bbc9588efa0f1"
+}

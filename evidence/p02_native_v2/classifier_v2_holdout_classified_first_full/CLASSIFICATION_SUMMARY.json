@@ -1,0 +1,33 @@
+{
+  "classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_class_counts": {
+    "ENVIRONMENT_OR_ELAB_REJECT": 1,
+    "FRONTEND_REJECT": 1,
+    "SOURCE_EMPTY": 0,
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": 3,
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH": 13,
+    "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 1,
+    "UNKNOWN": 1
+  },
+  "development_adversarial_spec_digest": "sha256:b3db906353bdb5c53a732c2fd3f924ab445b116f58afbdac104c24d5334465c4",
+  "evidence_role": "unseen_holdout",
+  "expectation_metadata_read_during_classification": false,
+  "holdout_spec_digest": "sha256:a113c101250c346a89fc8c67b4147a1a6baaaf26df3111fbf05ef0be8f8a5416",
+  "n_cases": 20,
+  "non_claims": [
+    "v2 was motivated by frozen-v1 failures on the 13-case development adversarial suite.",
+    "Performance on that development suite is not holdout evidence.",
+    "Publication eligibility remains false until a separately frozen holdout suite is classified and audited.",
+    "The scanner is lexical and does not claim to be a complete Lean parser."
+  ],
+  "only_policy_scan_changed_from_v1": true,
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "posthoc_relative_to_development_adversarial_suite": true,
+  "publication_claim_eligible": false,
+  "raw_bundle_digest": "sha256:4ba819c943fe89e5afef50142c12ef29c5cf9420bf55519406ab8f72878701a3",
+  "schema_version": "p02_native_classification_v2_hardened",
+  "status": "V2_UNSEEN_HOLDOUT_CLASSIFIED_NOT_EXPECTATION_ANALYZED"
+}

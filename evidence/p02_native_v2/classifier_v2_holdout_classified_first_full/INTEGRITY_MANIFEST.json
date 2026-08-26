@@ -1,0 +1,113 @@
+{
+  "bundle_digest": "sha256:fe5c484cfcdf23a588e53ddc3a225dbdcd67ea02bade9986c4b623903e840178",
+  "files": [
+    {
+      "path": "CLASSIFICATION_SUMMARY.json",
+      "sha256": "sha256:4cc050854e5e191b6bbd81da8fed05a77617be28e3d131d02b54ddab50a1ca46",
+      "size_bytes": 1711
+    },
+    {
+      "path": "cases/HOLD-00-CLEAN-TRUE/classification.json",
+      "sha256": "sha256:b3fcd0a2da90bea5b62e08b5f995760458b89ae0f78b890a633d5073f7140ca1",
+      "size_bytes": 793
+    },
+    {
+      "path": "cases/HOLD-01-DOC-SORRY/classification.json",
+      "sha256": "sha256:4b5181bd2eae20b6e23490715496918d5251921c1ec3432c54d01697ab077110",
+      "size_bytes": 792
+    },
+    {
+      "path": "cases/HOLD-02-NESTED-COMMENT-SORRY/classification.json",
+      "sha256": "sha256:e9576a65a06bf92546b8a0280fd44d91974e14374c0f599db159b4b74b3ae323",
+      "size_bytes": 803
+    },
+    {
+      "path": "cases/HOLD-03-MULTILINE-COMMENT-AXIOM/classification.json",
+      "sha256": "sha256:7c0f77c257f53da227572f83c44f52b0d13b26cfd6349c5e01e6c5fb28cdd22f",
+      "size_bytes": 806
+    },
+    {
+      "path": "cases/HOLD-04-STRING-MIXED-POLICY/classification.json",
+      "sha256": "sha256:189164572af5876d9b4c13250ef3b469edd025fa42e1ae07b43dbe9a2a3daca4",
+      "size_bytes": 802
+    },
+    {
+      "path": "cases/HOLD-05-ESCAPED-STRING-SORRY/classification.json",
+      "sha256": "sha256:7627d15042c502a2ace6737c9601428388692d0eb9eb6b276d4f26371c596cb8",
+      "size_bytes": 803
+    },
+    {
+      "path": "cases/HOLD-06-QUOTED-IDENT-SORRY/classification.json",
+      "sha256": "sha256:8859caf7fb887c063669e4053a31d03e569562a1e8dc8ecafb379ccf20a7cfed",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/HOLD-07-LINE-COMMENT-AXIOM/classification.json",
+      "sha256": "sha256:05486aca4c10788bcaeed315f2a294ca633d1b6f7fba8677b32831ad35d03929",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/HOLD-08-MIXED-NONCODE/classification.json",
+      "sha256": "sha256:fcc6a3024777cb06757595c29607a64b88dfd13b436a542c1bf261c3355a5b1b",
+      "size_bytes": 796
+    },
+    {
+      "path": "cases/HOLD-09-ACTUAL-SORRY/classification.json",
+      "sha256": "sha256:a60256593fb538d672f5c9c309673ec0879acfbe8af14ba64704c81ac4b50296",
+      "size_bytes": 796
+    },
+    {
+      "path": "cases/HOLD-10-ACTUAL-AXIOM/classification.json",
+      "sha256": "sha256:344a97150611b030d307073ba37a91853c4499d801afead7f1723c6a137bd318",
+      "size_bytes": 796
+    },
+    {
+      "path": "cases/HOLD-11-FRONTEND/classification.json",
+      "sha256": "sha256:41248e059c50b9eb2855371bb042be770be7b4aafab56e199fdce23f4b7736f3",
+      "size_bytes": 777
+    },
+    {
+      "path": "cases/HOLD-12-INVALID-PROOF/classification.json",
+      "sha256": "sha256:79e20e83ee9050bf881db80bb0e812783391ffcf62b7b42346bd69867cd0647d",
+      "size_bytes": 774
+    },
+    {
+      "path": "cases/HOLD-13-WRONG-TARGET/classification.json",
+      "sha256": "sha256:3ed254ad33afa9b68a83f2fa649e29ec8349ef17367dffca191ddf3f125a3638",
+      "size_bytes": 798
+    },
+    {
+      "path": "cases/HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN/classification.json",
+      "sha256": "sha256:564a6b2d109dca63fd839ee81ee0a6c693c89eb12852482f5d4d128db0878b4d",
+      "size_bytes": 804
+    },
+    {
+      "path": "cases/HOLD-15-UNKNOWN-DEFAULT/classification.json",
+      "sha256": "sha256:9721da9ec96eb6f5f6731cad3a6e1b540bcf23a0f219cc9cda9c9d32efc96d60",
+      "size_bytes": 798
+    },
+    {
+      "path": "cases/HOLD-16-COMMENT-PLUS-REAL-SORRY/classification.json",
+      "sha256": "sha256:5216940d279190c70da21495ded972754584c03dfefd0c977059645f9d2eb6ad",
+      "size_bytes": 807
+    },
+    {
+      "path": "cases/HOLD-17-NESTED-MIXED-COMMENT/classification.json",
+      "sha256": "sha256:c3ef28c5fbffe4a74165c3b7fe7fb7c1c5c17ab2d1a495f528747b2b21b9b3e9",
+      "size_bytes": 803
+    },
+    {
+      "path": "cases/HOLD-18-DOC-AXIOM/classification.json",
+      "sha256": "sha256:db7f07d2e3d6d2899f03e6c89c7bf031861099699b807c300211c5b5ece07054",
+      "size_bytes": 792
+    },
+    {
+      "path": "cases/HOLD-19-RENAMED-PAIR/classification.json",
+      "sha256": "sha256:265f1bd7eab3cc69c580fa30805f607f2deeebf08795c30f2d91165f4e44827f",
+      "size_bytes": 795
+    }
+  ],
+  "n_files": 21,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_classification_v2_hardened_integrity"
+}

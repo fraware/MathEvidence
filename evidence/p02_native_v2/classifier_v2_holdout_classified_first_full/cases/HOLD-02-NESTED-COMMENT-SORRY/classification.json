@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-02-NESTED-COMMENT-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:2a4177d1ae2369cb5364b5e021f1649cecd3e906bdd82fd2f4cc100b47d11335",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:634c342a4e9c6f5ec8705ecadeeead303f151750987ee6b430eb401066914c5c",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:259cd5ab76731c81a24f01e3f9dfaca798a43d207f493134f99adbd42f681dc4"
+}

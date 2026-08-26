@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-16-COMMENT-PLUS-REAL-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "observations_sha256": "sha256:036bbbf568a07957d4a849129ef34fa8daa665d65d2568cbcf4dac5ca7b54291",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:389497a775bd4a0c57d3cf69e86e041e631e5e638fc9a464a97f351ad53f48a6",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:47029bf6550e8459302b5d0b6ee715f918b8b20b21fb32959888bc03b9387532"
+}

@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-00-CLEAN-TRUE",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:892ff7bf1d0352833de7e8af3e0cb3f48ed0fd549241b3c8f3b1c14d793a4d7a",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:67fe294be08f9f5b7c7b00c7afc2cf8f9f9b8fbe71098007c892cb41d2397f33",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:67fe294be08f9f5b7c7b00c7afc2cf8f9f9b8fbe71098007c892cb41d2397f33"
+}

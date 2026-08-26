@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-09-ACTUAL-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "observations_sha256": "sha256:0dd24cf923a652a87a285eca581f741dc870ae95a8df0ed99fba1294200a075d",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:42e05997a95fe5819a2d9f732ee54955039b7cae2b6afa872cc5e9dcd02e3929",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:42e05997a95fe5819a2d9f732ee54955039b7cae2b6afa872cc5e9dcd02e3929"
+}

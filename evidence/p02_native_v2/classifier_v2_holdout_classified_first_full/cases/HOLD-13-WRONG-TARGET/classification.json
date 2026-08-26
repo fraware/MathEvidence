@@ -1,0 +1,14 @@
+{
+  "case_id": "HOLD-13-WRONG-TARGET",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+  "observations_sha256": "sha256:ea8b529c6cfce1af0e7c4eb96e0b30953bc6f0102a2c6b51ae9044560f6c3a17",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:f774391314ed0d9f15e34cfcf28409af2c283378148fe773d4e8584b5518614e",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:f774391314ed0d9f15e34cfcf28409af2c283378148fe773d4e8584b5518614e"
+}
