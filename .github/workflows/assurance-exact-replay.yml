@@ -48,6 +48,7 @@ jobs:
           python -m pytest \
             tests/forensic/test_exact_replay_framework.py \
             tests/forensic/test_exact_phase2_plugins.py \
+            tests/forensic/test_rational_exact_kernel_decision.py \
             tests/forensic/test_assurance_policy.py \
             tests/forensic/test_certification_record_v04.py \
             tests/forensic/test_assurance_adversarial_corpus.py \
