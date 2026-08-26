@@ -1,0 +1,132 @@
+{
+  "by_role": {
+    "clean_control": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "diagnostic_comment": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "environment_control": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "environment_sensitivity": {
+      "matches": 2,
+      "mismatches": 0,
+      "total": 2
+    },
+    "formatting": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "lexical_comment": {
+      "matches": 0,
+      "mismatches": 3,
+      "total": 3
+    },
+    "lexical_string": {
+      "matches": 0,
+      "mismatches": 1,
+      "total": 1
+    },
+    "renaming": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "true_policy_violation": {
+      "matches": 2,
+      "mismatches": 0,
+      "total": 2
+    }
+  },
+  "classified_adversarial_bundle_digest": "sha256:3811458ec0aa4a2ae08572ff1ad456d0fbb0a8317f4ec17a4c05a0b466d7bd03",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "comparison_rule": "exact equality between preregistered expected semantic class and frozen-v1 derived class",
+  "confusion": [
+    {
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "n": 1,
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "expected_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "n": 2,
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "n": 4,
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "n": 6,
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    }
+  ],
+  "exact_match_rate": 0.6923076923076923,
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "mismatches": [
+    {
+      "case_id": "ADV-01-LINE-COMMENT-SORRY",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "match": false,
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "policy_has_custom_axiom": false,
+      "policy_has_placeholder": true,
+      "rationale": "comment text must not create a proof placeholder",
+      "role": "lexical_comment"
+    },
+    {
+      "case_id": "ADV-02-BLOCK-COMMENT-AXIOM",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "match": false,
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "policy_has_custom_axiom": true,
+      "policy_has_placeholder": false,
+      "rationale": "commented axiom text must not create an axiom declaration",
+      "role": "lexical_comment"
+    },
+    {
+      "case_id": "ADV-03-STRING-SORRY",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "match": false,
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "policy_has_custom_axiom": false,
+      "policy_has_placeholder": true,
+      "rationale": "string contents must not create a proof placeholder",
+      "role": "lexical_string"
+    },
+    {
+      "case_id": "ADV-09-BLOCK-COMMENT-ADMIT",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "match": false,
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "policy_has_custom_axiom": false,
+      "policy_has_placeholder": true,
+      "rationale": "commented admit must not create a proof placeholder",
+      "role": "lexical_comment"
+    }
+  ],
+  "n_cases": 13,
+  "n_matches": 9,
+  "n_mismatches": 4,
+  "non_claims": [
+    "This adversarial suite is small and targeted; its exact-match rate is not a population estimate.",
+    "Failures are retained as classifier falsifications and are not relabeled.",
+    "Any v2 hardening motivated by these failures is post-hoc relative to this suite and requires a new holdout validation set.",
+    "No proof-generation efficacy or S6 semantic-admissibility claim follows from this audit."
+  ],
+  "publication_claim_eligible": false,
+  "raw_adversarial_bundle_digest": "sha256:a30bd039967f16d65494727ce176fe0d6153ca3b1d4e2d226cbf4df6a669ac10",
+  "schema_version": "p02_native_adversarial_comparison_v2",
+  "spec_digest": "sha256:b3db906353bdb5c53a732c2fd3f924ab445b116f58afbdac104c24d5334465c4",
+  "status": "ADVERSARIAL_V1_AUDITED"
+}

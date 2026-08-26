@@ -1,0 +1,18 @@
+{
+  "bundle_digest": "sha256:2217e7dc9963bf2ac13e04398c0861530f39cc0042b9a67e00acff61b77e7187",
+  "files": [
+    {
+      "path": "ADVERSARIAL_CASE_TABLE.csv",
+      "sha256": "sha256:ea3bd6176112d84f18e97386d7a8c78e584600d621e2f49a3fe66b9cf44ae3af",
+      "size_bytes": 2380
+    },
+    {
+      "path": "ADVERSARIAL_COMPARISON.json",
+      "sha256": "sha256:fbb6e1b3c99be859960c75b036a3868c408730a4b9b279ed7da451796bdbdf83",
+      "size_bytes": 4214
+    }
+  ],
+  "n_files": 2,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_adversarial_comparison_integrity_v2"
+}

@@ -1,0 +1,14 @@
+case_id,role,expected_class,observed_class,match,rationale,policy_has_placeholder,policy_has_custom_axiom
+ADV-00-CLEAN,clean_control,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,policy-admissible clean control,False,False
+ADV-01-LINE-COMMENT-SORRY,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_POLICY_REJECT,False,comment text must not create a proof placeholder,True,False
+ADV-02-BLOCK-COMMENT-AXIOM,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_POLICY_REJECT,False,commented axiom text must not create an axiom declaration,False,True
+ADV-03-STRING-SORRY,lexical_string,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_POLICY_REJECT,False,string contents must not create a proof placeholder,True,False
+ADV-04-DIAGNOSTIC-WORDS-COMMENT,diagnostic_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,source comments must not be mistaken for process diagnostics,False,False
+ADV-05-WHITESPACE,formatting,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,irrelevant formatting should preserve native outcome,False,False
+ADV-06-RENAMED-THEOREM,renaming,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,identifier renaming with matched probe should preserve outcome,False,False
+ADV-07-ACTUAL-SORRY,true_policy_violation,TOOLCHAIN_ACCEPT_POLICY_REJECT,TOOLCHAIN_ACCEPT_POLICY_REJECT,True,actual sorry in artifact is a file-level policy violation,True,False
+ADV-08-ACTUAL-AXIOM,true_policy_violation,TOOLCHAIN_ACCEPT_POLICY_REJECT,TOOLCHAIN_ACCEPT_POLICY_REJECT,True,actual axiom in artifact is a file-level policy violation,False,True
+ADV-09-BLOCK-COMMENT-ADMIT,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_POLICY_REJECT,False,commented admit must not create a proof placeholder,True,False
+ADV-10-AUTOIMPLICIT-OFF-CLEAN,environment_control,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,autoImplicit=false must leave well-declared control accepted,False,False
+ADV-11-AUTOIMPLICIT-OFF-UNKNOWN,environment_sensitivity,ENVIRONMENT_OR_ELAB_REJECT,ENVIRONMENT_OR_ELAB_REJECT,True,unknown type must reject when autoImplicit is explicitly disabled,False,False
+ADV-12-UNKNOWN-DEFAULT,environment_sensitivity,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,default autoImplicit permits this name to be generalized,False,False
