@@ -138,7 +138,7 @@ class FormalRationalCalculusPlugin:
         if not isinstance(domain_raw, list):
             raise ValueError("domainConditions must be a list")
         domain_conditions = [
-            validate_rational_expr(item, var_names=var_names, what=f"domainConditions[{i}]")
+            validate_rational_expr(item, var_names=var_names, what=f"domainConditions[{i}]\")
             for i, item in enumerate(domain_raw)
         ]
         cert_domain = certificate.get("domainConditions", domain_raw)
@@ -319,7 +319,7 @@ theorem {decl} : Claim.proposition {req_name}.claim :=
   replaySound
     {req_name}
     {cert_name}
-    (by native_decide : checkBool {req_name} {cert_name} = true)
+    (by decide : checkBool {req_name} {cert_name} = true)
 
 #print axioms {binding_decl}
 #print axioms {decl}
