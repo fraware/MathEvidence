@@ -82,12 +82,14 @@ def test_formal_antiderivative_decomposes_exact_checker_obligation() -> None:
     assert "native_decide" not in binding_body
 
     # Keep replaySound as the authority bridge while splitting the closed checker
-    # conjunction into independently computed obligations. This is deliberately
-    # not a direct proof of Claim.proposition and does not skip digest/domain checks.
+    # conjunction into independently computed obligations. Digest, well-formedness,
+    # and domain coverage retain native evaluation; the concrete operation identity
+    # must close definitionally, avoiding the Lean 4.14 native_decide bridge defect.
     assert f"show checkBool {declaration}_req {declaration}_cert = true from by" in theorem_body
     for component in ("digestOk", "wellFormedOk", "domainCoverOk", "opOk"):
         assert component in theorem_body
-    assert theorem_body.count("by native_decide") >= 4
+    assert theorem_body.count("by native_decide") == 3
+    assert f"have hOp : opOk {declaration}_req = true := by rfl" in theorem_body
     assert "simp [checkBool, hDigest, hWellFormed, hDomain, hOp]" in theorem_body
     assert "by decide" not in theorem_body
 
