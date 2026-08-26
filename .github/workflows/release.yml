@@ -60,9 +60,8 @@ jobs:
         run: |
           set -euo pipefail
           cp lake-manifest.json /tmp/lake-manifest.before.json
-          # The exact-candidate E2E step imports ReplaySound declarations directly,
-          # so the release must materialize the complete checker closure as well as
-          # the executable/audit drivers before attempting generated-candidate replay.
+          # Exact candidate execution imports capability ReplaySound declarations
+          # directly, so release materializes the complete checker closure first.
           lake build \
             MathEvidenceCheckers \
             mathevidence-verify-bundle \
@@ -73,10 +72,10 @@ jobs:
           cmp /tmp/lake-manifest.before.json lake-manifest.json
           git diff --exit-code -- lake-manifest.json lean-toolchain
 
-      - name: Production-generated CR exact Lean E2E
+      - name: Production-generated CR exact Lean E2E + declaration identity
         run: |
           set -euo pipefail
-          python scripts/ci/run_cr_exact_lean_e2e.py | tee /tmp/cr-exact-lean-e2e.jsonl
+          python scripts/ci/run_cr_exact_lean_e2e_production.py | tee /tmp/cr-exact-lean-e2e.jsonl
 
       - name: Offline bundle replay + tamper + exe smoke
         env:
