@@ -54,9 +54,14 @@ jobs:
       - name: Sorry / axiom audit
         run: python scripts/audit_sorry_axioms.py
 
-      - name: Lake build (verification + declaration identity + audit drivers)
+      - name: Lake build (checker closure + verification + declaration identity + audit drivers)
         run: |
+          set -euo pipefail
+          # Generated exact-candidate modules import capability ReplaySound declarations
+          # directly. Build the complete checker barrel first so every CR-eligible
+          # production E2E import has a materialized .olean before direct elaboration.
           lake build \
+            MathEvidenceCheckers \
             mathevidence-verify-bundle \
             mathevidence-kernel-replay \
             mathevidence-declaration-identity \
