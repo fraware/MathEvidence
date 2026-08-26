@@ -313,7 +313,7 @@ def {cert_name} : Certificate where
 
 theorem {binding_decl} :
     {req_name}.requestDigest = ⟨{lean_string(request_digest)}⟩ := by
-  native_decide
+  rfl
 
 theorem {decl} : Claim.proposition {req_name}.claim :=
   replaySound
