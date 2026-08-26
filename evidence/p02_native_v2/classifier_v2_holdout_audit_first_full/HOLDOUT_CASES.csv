@@ -1,0 +1,21 @@
+case_id,role,expected_class,observed_class,match,rationale,policy_has_placeholder,policy_has_custom_axiom
+HOLD-00-CLEAN-TRUE,clean_control,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,clean proposition control,False,False
+HOLD-01-DOC-SORRY,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,documentation comment must not create placeholder policy,False,False
+HOLD-02-NESTED-COMMENT-SORRY,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,nested block-comment token must be inert,False,False
+HOLD-03-MULTILINE-COMMENT-AXIOM,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,multiline commented axiom must be inert,False,False
+HOLD-04-STRING-MIXED-POLICY,lexical_string,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,policy words inside an ordinary string must be inert,False,False
+HOLD-05-ESCAPED-STRING-SORRY,lexical_string,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,escaped quote must not terminate policy string erasure,False,False
+HOLD-06-QUOTED-IDENT-SORRY,quoted_identifier,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,escaped identifier text equal to a policy keyword must be inert,False,False
+HOLD-07-LINE-COMMENT-AXIOM,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,line-commented axiom must be inert,False,False
+HOLD-08-MIXED-NONCODE,mixed_noncode,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,mixed non-code policy tokens must all be inert,False,False
+HOLD-09-ACTUAL-SORRY,true_policy_violation,TOOLCHAIN_ACCEPT_POLICY_REJECT,TOOLCHAIN_ACCEPT_POLICY_REJECT,True,actual placeholder anywhere in artifact violates declared file policy,True,False
+HOLD-10-ACTUAL-AXIOM,true_policy_violation,TOOLCHAIN_ACCEPT_POLICY_REJECT,TOOLCHAIN_ACCEPT_POLICY_REJECT,True,actual custom axiom anywhere in artifact violates declared file policy,False,True
+HOLD-11-FRONTEND,native_reject,FRONTEND_REJECT,FRONTEND_REJECT,True,malformed binder should be rejected in frontend,False,False
+HOLD-12-INVALID-PROOF,native_reject,ENVIRONMENT_OR_ELAB_REJECT,UNKNOWN,False,well-formed source with type-invalid proof should reject during elaboration,False,False
+HOLD-13-WRONG-TARGET,target_mismatch,TOOLCHAIN_ACCEPT_TARGET_MISMATCH,TOOLCHAIN_ACCEPT_TARGET_MISMATCH,True,accepted declaration proves a different target,False,False
+HOLD-14-AUTOIMPLICIT-OFF-UNKNOWN,environment_sensitivity,ENVIRONMENT_OR_ELAB_REJECT,ENVIRONMENT_OR_ELAB_REJECT,True,explicitly disabling autoImplicit makes unknown type reject,False,False
+HOLD-15-UNKNOWN-DEFAULT,environment_sensitivity,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,default autoImplicit can generalize the type parameter and instantiate it at Nat,False,False
+HOLD-16-COMMENT-PLUS-REAL-SORRY,true_policy_violation,TOOLCHAIN_ACCEPT_POLICY_REJECT,TOOLCHAIN_ACCEPT_POLICY_REJECT,True,scanner must ignore comment token while retaining the real placeholder,True,False
+HOLD-17-NESTED-MIXED-COMMENT,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,nested block comment containing string-like text remains inert,False,False
+HOLD-18-DOC-AXIOM,lexical_comment,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,documentation block containing axiom syntax must be inert,False,False
+HOLD-19-RENAMED-PAIR,shape_control,TOOLCHAIN_ACCEPT_TARGET_MATCH,TOOLCHAIN_ACCEPT_TARGET_MATCH,True,different theorem name and two-argument shape should remain target-matching,False,False

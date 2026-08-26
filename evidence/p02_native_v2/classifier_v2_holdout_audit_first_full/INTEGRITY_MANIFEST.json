@@ -1,0 +1,17 @@
+{
+  "bundle_digest": "sha256:7f779d49b39b72ce263b90f0465dd1961b74764d557c5af71f5825cb6bac2068",
+  "files": [
+    {
+      "path": "HOLDOUT_AUDIT.json",
+      "sha256": "sha256:92c9c39130794ddc09a851e7ee0adb22232c3c09c1bd9576c489cca4ddd90856",
+      "size_bytes": 3450
+    },
+    {
+      "path": "HOLDOUT_CASES.csv",
+      "sha256": "sha256:fdbe917845e7181a208c917354104413860ef56832a9de638278fb9094dec630",
+      "size_bytes": 3591
+    }
+  ],
+  "n_files": 2,
+  "schema_version": "p02_native_classifier_v2_unseen_holdout_audit_integrity_v1"
+}

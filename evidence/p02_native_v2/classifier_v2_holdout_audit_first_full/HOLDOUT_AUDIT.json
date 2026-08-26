@@ -1,0 +1,119 @@
+{
+  "by_role": {
+    "clean_control": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "environment_sensitivity": {
+      "matches": 2,
+      "mismatches": 0,
+      "total": 2
+    },
+    "lexical_comment": {
+      "matches": 6,
+      "mismatches": 0,
+      "total": 6
+    },
+    "lexical_string": {
+      "matches": 2,
+      "mismatches": 0,
+      "total": 2
+    },
+    "mixed_noncode": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "native_reject": {
+      "matches": 1,
+      "mismatches": 1,
+      "total": 2
+    },
+    "quoted_identifier": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "shape_control": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "target_mismatch": {
+      "matches": 1,
+      "mismatches": 0,
+      "total": 1
+    },
+    "true_policy_violation": {
+      "matches": 3,
+      "mismatches": 0,
+      "total": 3
+    }
+  },
+  "classified_holdout_bundle_digest": "sha256:fe5c484cfcdf23a588e53ddc3a225dbdcd67ea02bade9986c4b623903e840178",
+  "classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "comparison_rule": "exact equality between preregistered expected semantic class and frozen-v2 derived class",
+  "confusion": [
+    {
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "n": 1,
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "n": 1,
+      "observed_class": "UNKNOWN"
+    },
+    {
+      "expected_class": "FRONTEND_REJECT",
+      "n": 1,
+      "observed_class": "FRONTEND_REJECT"
+    },
+    {
+      "expected_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "n": 3,
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "n": 13,
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    },
+    {
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "n": 1,
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH"
+    }
+  ],
+  "evidence_role": "unseen_holdout",
+  "exact_match_rate": 0.95,
+  "holdout_spec_digest": "sha256:a113c101250c346a89fc8c67b4147a1a6baaaf26df3111fbf05ef0be8f8a5416",
+  "mismatches": [
+    {
+      "case_id": "HOLD-12-INVALID-PROOF",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": false,
+      "observed_class": "UNKNOWN",
+      "policy_has_custom_axiom": false,
+      "policy_has_placeholder": false,
+      "rationale": "well-formed source with type-invalid proof should reject during elaboration",
+      "role": "native_reject"
+    }
+  ],
+  "n_cases": 20,
+  "n_matches": 19,
+  "n_mismatches": 1,
+  "non_claims": [
+    "This 20-case holdout is a targeted constructed native suite, not a population sample.",
+    "Exact-match performance does not establish proof-generation capability.",
+    "The v2 policy scanner remains lexical and is not a complete Lean parser.",
+    "No S6 semantic-admissibility claim follows from this audit.",
+    "Any future classifier modification would require a new independently frozen holdout."
+  ],
+  "publication_claim_eligible": false,
+  "raw_holdout_bundle_digest": "sha256:4ba819c943fe89e5afef50142c12ef29c5cf9420bf55519406ab8f72878701a3",
+  "schema_version": "p02_native_classifier_v2_unseen_holdout_audit_v1",
+  "status": "V2_UNSEEN_HOLDOUT_AUDITED"
+}
