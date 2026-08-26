@@ -55,6 +55,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          command -v elan
+          command -v lake
           test -d "${BASELINE_DIR}"
           test ! -e "${REPAIR_RAW_DIR}"
           python scripts/p02_native_v2_repair_raw.py \
