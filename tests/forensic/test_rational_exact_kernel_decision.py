@@ -5,7 +5,7 @@ from adapters.common.exact_replay.plugins.rational_equality import (
 )
 
 
-def test_rational_exact_source_uses_kernel_decision_for_bound_request() -> None:
+def test_rational_exact_source_uses_native_decision_for_bound_request() -> None:
     digest = "sha256:" + ("a" * 64)
     request = {
         "schemaVersion": "0.1.0",
@@ -30,16 +30,15 @@ def test_rational_exact_source_uses_kernel_decision_for_bound_request() -> None:
     }
 
     source = generate_exact_rational_equality_module(
-        module_name="MathEvidence.Generated.Replay.rat_kernel_decision",
-        declaration_name="rat_kernel_decision",
+        module_name="MathEvidence.Generated.Replay.rat_native_decision",
+        declaration_name="rat_native_decision",
         request=request,
         certificate=certificate,
         candidate_bundle_digest="sha256:" + ("b" * 64),
     )
 
-    assert "Request.ofClaim! rat_kernel_decision_claim" in source
-    assert "rat_kernel_decision_request_binding" in source
-    assert "\n  decide\n" in source
-    assert "(by decide : checkBool rat_kernel_decision_req rat_kernel_decision_cert = true)" in source
-    assert "\n  native_decide\n" not in source
-    assert "(by native_decide" not in source
+    assert "Request.ofClaim! rat_native_decision_claim" in source
+    assert "rat_native_decision_request_binding" in source
+    assert "\n  native_decide\n" in source
+    assert "(by native_decide : checkBool rat_native_decision_req rat_native_decision_cert = true)" in source
+    assert "OfflineFixtures" not in source
