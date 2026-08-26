@@ -1,0 +1,91 @@
+name: p02-native-v2-raw
+
+on:
+  push:
+    branches:
+      - science/p02-native-v2-20260826
+    paths:
+      - .github/workflows/p02-native-v2.yml
+      - scripts/p02_native_v2_raw.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-native-v2-raw
+  cancel-in-progress: false
+
+env:
+  PINNED_PROJECT_SHA: 946d2f7b14840837a5b641150c9df9008c4be9eb
+  EVIDENCE_DIR: evidence/p02_native_v2/raw_first_full
+
+jobs:
+  collect-raw-observations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch with full history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Materialize exact pinned MathEvidence worktree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${PINNED_PROJECT_SHA}^{commit}"
+          rm -rf /tmp/mathevidence-pinned
+          git worktree add --detach /tmp/mathevidence-pinned "${PINNED_PROJECT_SHA}"
+          test "$(git -C /tmp/mathevidence-pinned rev-parse HEAD)" = "${PINNED_PROJECT_SHA}"
+          test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
+          test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "leanprover/lean4:v4.14.0"
+
+      - name: Install checksum-pinned elan from pinned tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
+
+      - name: Collect frozen raw Lean observations
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "${EVIDENCE_DIR}"
+          python scripts/p02_native_v2_raw.py \
+            --pinned-project /tmp/mathevidence-pinned \
+            --out "${EVIDENCE_DIR}" \
+            --timeout-seconds 30
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("evidence/p02_native_v2/raw_first_full")
+          run = json.loads((root / "RUN_MANIFEST.json").read_text(encoding="utf-8"))
+          corpus = json.loads((root / "CORPUS_MANIFEST.json").read_text(encoding="utf-8"))
+          integrity = json.loads((root / "INTEGRITY_MANIFEST.json").read_text(encoding="utf-8"))
+          assert run["status"] == "RAW_OBSERVATIONS_EXECUTED_NOT_CLASSIFIED"
+          assert run["classification_performed"] is False
+          assert run["n_cases"] == 34
+          assert corpus["observed_corpus_digest"] == "sha256:fe356ed2f5d4bcf653c5cedaa37922e2248547434fe30b746fbcf10ca73bc199"
+          assert integrity["n_files"] > 0
+          print("raw P02 evidence bundle checks passed")
+          PY
+
+      - name: Commit immutable raw evidence to evidence branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --short
+          git add "${EVIDENCE_DIR}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_native_v2/raw_first_full/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 native v2 raw observations"
+          git push origin HEAD:science/p02-native-v2-20260826
