@@ -1,0 +1,8 @@
+{
+  "case_id": "ND2-OUTSIDE-NO-DECLARATION",
+  "mechanisms": [],
+  "role": "outside_domain_control",
+  "source_sha256": "sha256:c04522ef26950d636b05d8f88a7451f62980722b5f4bd4417d711b414e0c6a28",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

@@ -1,0 +1,10 @@
+{
+  "case_id": "ND2-03-PROHIBITED_PLACEHOLDER",
+  "mechanisms": [
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "role": "single_fault",
+  "source_sha256": "sha256:655e05c043688054821f8dcd589cc5dc7dbf0cf45cc7a5a047a69572ac153e2d",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

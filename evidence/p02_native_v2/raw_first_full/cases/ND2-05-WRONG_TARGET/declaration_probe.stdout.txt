@@ -1,0 +1,3 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-05-WRONG_TARGET-declaration.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+p02Native (n : Nat) : 0 = 0

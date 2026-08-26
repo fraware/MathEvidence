@@ -1,0 +1,2 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-03-PROHIBITED_PLACEHOLDER-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02Native (n : Nat) : n = n

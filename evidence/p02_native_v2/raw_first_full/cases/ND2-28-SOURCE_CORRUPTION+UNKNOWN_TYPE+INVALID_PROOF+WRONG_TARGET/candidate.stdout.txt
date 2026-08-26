@@ -1,0 +1,1 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-28-SOURCE_CORRUPTION_UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET-candidate.lean:1:37: error: unexpected token ':'; expected ')'

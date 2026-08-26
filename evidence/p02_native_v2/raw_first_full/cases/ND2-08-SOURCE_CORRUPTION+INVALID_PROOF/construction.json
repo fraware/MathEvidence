@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF",
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF"
+  ],
+  "role": "compound_fault",
+  "source_sha256": "sha256:2a61d7bc2cf64ae80a5d235b014e32067d0f10624751a028190f66742e96fa3e",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

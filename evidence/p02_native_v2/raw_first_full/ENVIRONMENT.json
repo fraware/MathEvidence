@@ -1,0 +1,59 @@
+{
+  "git_head": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "elapsed_seconds": 0.0021828789999958076,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "946d2f7b14840837a5b641150c9df9008c4be9eb\n",
+    "timed_out": false
+  },
+  "git_status": {
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "elapsed_seconds": 0.05231541799999917,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "lake_version": {
+    "command": [
+      "lake",
+      "--version"
+    ],
+    "elapsed_seconds": 0.02541703200000711,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "Lake version 5.0.0-410fab7 (Lean version 4.14.0)\n",
+    "timed_out": false
+  },
+  "lean_toolchain_file": "leanprover/lean4:v4.14.0",
+  "lean_version": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "--version"
+    ],
+    "elapsed_seconds": 40.869885096999994,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "info: Version 4.2.4 of elan is available! Use `elan self update` to update.\ninfo: downloading https://releases.lean-lang.org/lean4/v4.14.0/lean-4.14.0-linux.tar.zst\ninfo: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.14.0\ninfo: mathlib: cloning https://github.com/leanprover-community/mathlib4.git\ninfo: mathlib: checking out revision '4bbdccd9c5f862bf90ff12f0a9e2c8be032b9a84'\ninfo: plausible: cloning https://github.com/leanprover-community/plausible\ninfo: plausible: checking out revision '42dc02bdbc5d0c2f395718462a76c3d87318f7fa'\ninfo: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient\ninfo: LeanSearchClient: checking out revision 'd7caecce0d0f003fd5e9cce9a61f1dd6ba83142b'\ninfo: importGraph: cloning https://github.com/leanprover-community/import-graph\ninfo: importGraph: checking out revision '519e509a28864af5bed98033dd33b95cf08e9aa7'\ninfo: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4\ninfo: proofwidgets: checking out revision '68280daef58803f68368eb2e53046dabcd270c9d'\ninfo: aesop: cloning https://github.com/leanprover-community/aesop\ninfo: aesop: checking out revision '5a0ec8588855265ade536f35bcdcf0fb24fd6030'\ninfo: Qq: cloning https://github.com/leanprover-community/quote4\ninfo: Qq: checking out revision '303b23fbcea94ac4f96e590c1cad6618fd4f5f41'\ninfo: batteries: cloning https://github.com/leanprover-community/batteries\ninfo: batteries: checking out revision '8d6c853f11a5172efa0e96b9f2be1a83d861cdd9'\ninfo: Cli: cloning https://github.com/leanprover/lean4-cli\ninfo: Cli: checking out revision '726b3c9ad13acca724d4651f14afc4804a7b0e4d'\n",
+    "stdout": "Lean (version 4.14.0, x86_64-unknown-linux-gnu, commit 410fab728470, Release)\n",
+    "timed_out": false
+  },
+  "observed_git_head": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "observed_git_status": "",
+  "observed_lean_version": "4.14.0",
+  "project_path": "/tmp/mathevidence-pinned"
+}

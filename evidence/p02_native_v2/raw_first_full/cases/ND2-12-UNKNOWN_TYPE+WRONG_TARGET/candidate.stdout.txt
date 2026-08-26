@@ -1,0 +1,2 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-12-UNKNOWN_TYPE_WRONG_TARGET-candidate.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

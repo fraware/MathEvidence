@@ -1,0 +1,4 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET-declaration.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-native-v2-raw-atjey7gb/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET-declaration.lean:4:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+p02Native (n : Nat) : 0 = 0

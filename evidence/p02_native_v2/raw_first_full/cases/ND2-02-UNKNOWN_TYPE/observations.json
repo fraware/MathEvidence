@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-02-UNKNOWN_TYPE-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4805019319999957,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "ND2-02-UNKNOWN_TYPE",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-02-UNKNOWN_TYPE-declaration.lean"
+    ],
+    "elapsed_seconds": 0.48070202200000267,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-02-UNKNOWN_TYPE-target.lean"
+    ],
+    "elapsed_seconds": 0.4838992699999949,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

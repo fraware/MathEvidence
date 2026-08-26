@@ -1,0 +1,10 @@
+{
+  "case_id": "ND2-05-WRONG_TARGET",
+  "mechanisms": [
+    "WRONG_TARGET"
+  ],
+  "role": "single_fault",
+  "source_sha256": "sha256:ba5b4784337ad96d9669406d765aa2f7cb53bd9e30ce8317bc5d81536a05b921",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

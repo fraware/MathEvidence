@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4804632560000073,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET-candidate.lean:2:2: error: type mismatch\n  n\nhas type\n  P02MissingType : Sort u_1\nbut is expected to have type\n  0 = 0 : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-24-UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

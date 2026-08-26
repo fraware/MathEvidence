@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-04-INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.47711567000000343,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-04-INVALID_PROOF-candidate.lean:2:2: error: type mismatch\n  n\nhas type\n  Nat : Type\nbut is expected to have type\n  n = n : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-04-INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

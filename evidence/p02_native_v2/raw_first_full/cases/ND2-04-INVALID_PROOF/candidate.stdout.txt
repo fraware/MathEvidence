@@ -1,0 +1,6 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-04-INVALID_PROOF-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4872884500000083,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-candidate.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-candidate.lean:4:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-23-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.48389543199999707,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-declaration.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-declaration.lean:4:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : 0 = 0\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.48079392299999313,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-target.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-target.lean:4:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-native-v2-raw-atjey7gb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-target.lean:7:32: error: type mismatch\n  p02Native\nhas type\n  ?m.97 → 0 = 0 : Prop\nbut is expected to have type\n  ∀ (n : Nat), n = n : Prop\n",
+    "timed_out": false
+  }
+}

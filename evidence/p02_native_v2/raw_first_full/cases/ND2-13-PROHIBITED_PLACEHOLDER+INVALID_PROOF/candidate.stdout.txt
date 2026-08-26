@@ -1,0 +1,7 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-13-PROHIBITED_PLACEHOLDER_INVALID_PROOF-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-native-v2-raw-atjey7gb/ND2-13-PROHIBITED_PLACEHOLDER_INVALID_PROOF-candidate.lean:5:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

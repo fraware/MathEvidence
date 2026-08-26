@@ -1,0 +1,6 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-11-UNKNOWN_TYPE_INVALID_PROOF-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  P02MissingType : Sort u_1
+but is expected to have type
+  n = n : Prop

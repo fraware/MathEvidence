@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-15-INVALID_PROOF+WRONG_TARGET",
+  "mechanisms": [
+    "INVALID_PROOF",
+    "WRONG_TARGET"
+  ],
+  "role": "compound_fault",
+  "source_sha256": "sha256:f2fae085515291b5935e915cd7d4bed5a7f0590b533d5d5c764cf7dcec71bb80",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

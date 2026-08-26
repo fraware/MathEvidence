@@ -1,0 +1,33 @@
+{
+  "classification_performed": false,
+  "corpus_digest": "sha256:fe356ed2f5d4bcf653c5cedaa37922e2248547434fe30b746fbcf10ca73bc199",
+  "expected_lean_version": "4.14.0",
+  "expected_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "expected_toolchain": "leanprover/lean4:v4.14.0",
+  "harness_branch_sha": "209bc559a2630711a354fbee6cd7db17045a466a",
+  "n_cases": 34,
+  "non_claims": [
+    "This bundle contains raw Lean observations only.",
+    "Construction metadata is stored separately from observations.",
+    "No native class, agreement rate, masking rate, or repair result is assigned here.",
+    "Publication promotion requires classification with the frozen P02 classifier and independent review."
+  ],
+  "post_run_git_status": {
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "elapsed_seconds": 0.007704265000000987,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "publication_claim_eligible": false,
+  "runner_sha256": "sha256:ada100f9b134f2d3f6e72c3a627bbc7761d2ec6129fd8cc4af50afaeb234b7bf",
+  "schema_version": "p02_native_raw_observations_v2",
+  "status": "RAW_OBSERVATIONS_EXECUTED_NOT_CLASSIFIED",
+  "timeout_seconds": 30.0
+}

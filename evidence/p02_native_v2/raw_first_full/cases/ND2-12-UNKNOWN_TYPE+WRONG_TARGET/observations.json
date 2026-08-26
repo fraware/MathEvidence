@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-12-UNKNOWN_TYPE_WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4781958509999953,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-12-UNKNOWN_TYPE_WRONG_TARGET-candidate.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-12-UNKNOWN_TYPE+WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-12-UNKNOWN_TYPE_WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4771026479999989,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-12-UNKNOWN_TYPE_WRONG_TARGET-declaration.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : 0 = 0\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-12-UNKNOWN_TYPE_WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.483920193000003,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-12-UNKNOWN_TYPE_WRONG_TARGET-target.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-native-v2-raw-atjey7gb/ND2-12-UNKNOWN_TYPE_WRONG_TARGET-target.lean:4:32: error: type mismatch\n  p02Native\nhas type\n  ?m.92 → 0 = 0 : Prop\nbut is expected to have type\n  ∀ (n : Nat), n = n : Prop\n",
+    "timed_out": false
+  }
+}

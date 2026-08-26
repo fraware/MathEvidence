@@ -1,0 +1,1 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-OUTSIDE-EMPTY-declaration.lean:2:7: error: unknown identifier 'p02Native'

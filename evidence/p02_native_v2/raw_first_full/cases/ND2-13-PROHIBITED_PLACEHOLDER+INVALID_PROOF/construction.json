@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-13-PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+  "mechanisms": [
+    "PROHIBITED_PLACEHOLDER",
+    "INVALID_PROOF"
+  ],
+  "role": "compound_fault",
+  "source_sha256": "sha256:dae88f03a8b6dabb7d5b9e9a7c05da4bd8009a3d93020b5dd183fdc2d2055123",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

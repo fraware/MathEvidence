@@ -1,0 +1,2 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-10-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : n = n

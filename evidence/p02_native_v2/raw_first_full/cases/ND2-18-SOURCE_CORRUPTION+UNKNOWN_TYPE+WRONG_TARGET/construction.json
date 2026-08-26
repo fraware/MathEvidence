@@ -1,0 +1,12 @@
+{
+  "case_id": "ND2-18-SOURCE_CORRUPTION+UNKNOWN_TYPE+WRONG_TARGET",
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "UNKNOWN_TYPE",
+    "WRONG_TARGET"
+  ],
+  "role": "compound_fault",
+  "source_sha256": "sha256:dcf446ab06ed2d8ff2f951d2c7357eddc84cd6351f64e8612a8e564dfe6c06b1",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

@@ -1,0 +1,8 @@
+{
+  "case_id": "ND2-00-CLEAN",
+  "mechanisms": [],
+  "role": "clean_control",
+  "source_sha256": "sha256:1d2fc3b9c5e564135fef3c079853ba7f2f07f40f970843858db0f577b1402853",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

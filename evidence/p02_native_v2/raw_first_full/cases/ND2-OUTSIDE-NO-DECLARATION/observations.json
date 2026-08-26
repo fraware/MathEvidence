@@ -1,0 +1,33 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-OUTSIDE-NO-DECLARATION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4985405950000086,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "1\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-OUTSIDE-NO-DECLARATION",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-OUTSIDE-NO-DECLARATION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.497447569000002,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "1\n/tmp/p02-native-v2-raw-atjey7gb/ND2-OUTSIDE-NO-DECLARATION-declaration.lean:3:7: error: unknown identifier 'p02Native'\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": null
+}

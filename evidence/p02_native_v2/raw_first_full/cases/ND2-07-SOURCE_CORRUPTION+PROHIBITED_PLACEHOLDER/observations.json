@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-native-v2-raw-atjey7gb/ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.47755696099999057,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-native-v2-raw-atjey7gb/ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER-candidate.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-native-v2-raw-atjey7gb/ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER-candidate.lean:4:26: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-07-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

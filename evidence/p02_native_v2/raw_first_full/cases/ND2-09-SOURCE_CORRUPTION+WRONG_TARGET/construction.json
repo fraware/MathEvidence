@@ -1,0 +1,11 @@
+{
+  "case_id": "ND2-09-SOURCE_CORRUPTION+WRONG_TARGET",
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "WRONG_TARGET"
+  ],
+  "role": "compound_fault",
+  "source_sha256": "sha256:5d6f42907c4f3786dd105220311c73e4c953bc9eb35eb52bb91c7bb094b3e9c0",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

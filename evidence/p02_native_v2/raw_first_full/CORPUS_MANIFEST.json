@@ -1,0 +1,358 @@
+{
+  "cases": [
+    {
+      "case_id": "ND2-00-CLEAN",
+      "mechanisms": [],
+      "role": "clean_control",
+      "source_sha256": "sha256:1d2fc3b9c5e564135fef3c079853ba7f2f07f40f970843858db0f577b1402853",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-01-SOURCE_CORRUPTION",
+      "mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "role": "single_fault",
+      "source_sha256": "sha256:ce59f89da3dc59835467cd27a7630a9b07ebd40dde9f3286266cadabd62c28eb",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-02-UNKNOWN_TYPE",
+      "mechanisms": [
+        "UNKNOWN_TYPE"
+      ],
+      "role": "single_fault",
+      "source_sha256": "sha256:b8522fcb6189bc44ab4a60551096f6028c0d9a7b0b7ebeb834ff32a8aeac6735",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-03-PROHIBITED_PLACEHOLDER",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "role": "single_fault",
+      "source_sha256": "sha256:655e05c043688054821f8dcd589cc5dc7dbf0cf45cc7a5a047a69572ac153e2d",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-04-INVALID_PROOF",
+      "mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "role": "single_fault",
+      "source_sha256": "sha256:afa0e551aa1a29734cfa1c51eabece0d9a86041bd35d7581c1bbd1380b197fc8",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-05-WRONG_TARGET",
+      "mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "role": "single_fault",
+      "source_sha256": "sha256:ba5b4784337ad96d9669406d765aa2f7cb53bd9e30ce8317bc5d81536a05b921",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-06-SOURCE_CORRUPTION+UNKNOWN_TYPE",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "UNKNOWN_TYPE"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:9c729a6311818de304cddb625c4f41cd2b57edf39962f8f334e6c61b566a1ac9",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-07-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:561dbcf11019b3317b7a0a4b91e019196f3b16af4c87483f1f6d1259a36a96db",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:2a61d7bc2cf64ae80a5d235b014e32067d0f10624751a028190f66742e96fa3e",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-09-SOURCE_CORRUPTION+WRONG_TARGET",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:5d6f42907c4f3786dd105220311c73e4c953bc9eb35eb52bb91c7bb094b3e9c0",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-10-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER",
+      "mechanisms": [
+        "UNKNOWN_TYPE",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:75970c1fc5a374345c6e0a1c9e5fcc91166e9d1d2c0fbf554120ab91e36c97a6",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-11-UNKNOWN_TYPE+INVALID_PROOF",
+      "mechanisms": [
+        "UNKNOWN_TYPE",
+        "INVALID_PROOF"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:15960c6dfa343329361dee7f557bbd8d42e23da043413c97d77b4da0f1e96893",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-12-UNKNOWN_TYPE+WRONG_TARGET",
+      "mechanisms": [
+        "UNKNOWN_TYPE",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:f8271a9e62112fda2cde202b02d04aa56efb24cb9a75f4e5d11bc1ab21f1a37a",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-13-PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "INVALID_PROOF"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:dae88f03a8b6dabb7d5b9e9a7c05da4bd8009a3d93020b5dd183fdc2d2055123",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-14-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:095aa4b46b245224ba1e787d4371f0c4f7c641b0606fc8d6b413a4872db13ecf",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-15-INVALID_PROOF+WRONG_TARGET",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:f2fae085515291b5935e915cd7d4bed5a7f0590b533d5d5c764cf7dcec71bb80",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-16-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "UNKNOWN_TYPE",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:d166dd26fdd922836dd7357365939d69a1a86e6f8d8d20144c278b7bdb199513",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-17-SOURCE_CORRUPTION+UNKNOWN_TYPE+INVALID_PROOF",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "UNKNOWN_TYPE",
+        "INVALID_PROOF"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:84dc997c3b146e3fcd753a44a7a42231d11d53393c391c2f1f527d60d98cd311",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-18-SOURCE_CORRUPTION+UNKNOWN_TYPE+WRONG_TARGET",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "UNKNOWN_TYPE",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:dcf446ab06ed2d8ff2f951d2c7357eddc84cd6351f64e8612a8e564dfe6c06b1",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-19-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "INVALID_PROOF"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:a24425caded48f858879b3ae0598cc5d31445f08a623486216d3923be146f31d",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-20-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:aae9972eaa671730db31c8014104f0de0725e15e1b75b530ba5e6ef2c05ba429",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-21-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:ac4d4bde40b0a29fa47e5da67614e745e06054b5170f16fcd4c965ecbf4a86d7",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-22-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "mechanisms": [
+        "UNKNOWN_TYPE",
+        "PROHIBITED_PLACEHOLDER",
+        "INVALID_PROOF"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:854f760680add1d0a9384590b14c7e955eb7c1c4bab68aa8a15e05e380cfd086",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-23-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "mechanisms": [
+        "UNKNOWN_TYPE",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:a7cbe1ff9a7e4dd6d910a1b13654fe5737ff3c9bc9496e1e6665e02fdd635260",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-24-UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET",
+      "mechanisms": [
+        "UNKNOWN_TYPE",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:326d35a34d5a4f276954a98b2215588399d1314e4da1f26c229e339099eabe66",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:9aa2e6f5067bcded751a1c7ccd25fcdc0618b2d25649c89e01980e7cba9cc159",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-26-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "UNKNOWN_TYPE",
+        "PROHIBITED_PLACEHOLDER",
+        "INVALID_PROOF"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:fa1f6d6da6b02bb9301ff01b74cf98e62496cea5117e3ca1527b080d5fe9308c",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-27-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "UNKNOWN_TYPE",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:6ec7ecb1065128ea4253e027d6b17c8bf0823eab903a08aa4cee6add3ff32798",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-28-SOURCE_CORRUPTION+UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "UNKNOWN_TYPE",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:a490b6baeda17bcbeb2bb0393b4c8608cdb962ae8e3d6a311c584aede681516c",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-29-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:8a92a62de47b190f41fd3456df17a13caf81801a32b9ff3aa850b4a835176d1e",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-30-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "mechanisms": [
+        "UNKNOWN_TYPE",
+        "PROHIBITED_PLACEHOLDER",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:53e8fe76d42be242e06d720cc6e8dedab0954ce553733c89c1965e710b25afe0",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-31-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "UNKNOWN_TYPE",
+        "PROHIBITED_PLACEHOLDER",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "role": "compound_fault",
+      "source_sha256": "sha256:d9e5395c62d40332eb04e99f03b9df17213d9968e169e75e35e05b94c2d18bec",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-OUTSIDE-NO-DECLARATION",
+      "mechanisms": [],
+      "role": "outside_domain_control",
+      "source_sha256": "sha256:c04522ef26950d636b05d8f88a7451f62980722b5f4bd4417d711b414e0c6a28",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    },
+    {
+      "case_id": "ND2-OUTSIDE-EMPTY",
+      "mechanisms": [],
+      "role": "outside_domain_control",
+      "source_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46"
+    }
+  ],
+  "expected_corpus_digest": "sha256:fe356ed2f5d4bcf653c5cedaa37922e2248547434fe30b746fbcf10ca73bc199",
+  "n_cases": 34,
+  "observed_corpus_digest": "sha256:fe356ed2f5d4bcf653c5cedaa37922e2248547434fe30b746fbcf10ca73bc199",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_raw_observations_v2"
+}

@@ -1,0 +1,2 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-27-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-native-v2-raw-atjey7gb/ND2-27-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET-candidate.lean:4:37: error: unexpected token ':'; expected ')'

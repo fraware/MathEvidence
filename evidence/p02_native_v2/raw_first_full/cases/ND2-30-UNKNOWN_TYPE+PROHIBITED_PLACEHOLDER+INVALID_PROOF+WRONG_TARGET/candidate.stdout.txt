@@ -1,0 +1,7 @@
+/tmp/p02-native-v2-raw-atjey7gb/ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-native-v2-raw-atjey7gb/ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET-candidate.lean:5:2: error: type mismatch
+  n
+has type
+  P02MissingType : Sort u_1
+but is expected to have type
+  0 = 0 : Prop
