@@ -14,6 +14,7 @@ from __future__ import annotations
 import importlib.util
 import json
 from pathlib import Path
+import sys
 from types import ModuleType
 from typing import Any
 
@@ -34,11 +35,22 @@ ROOT = Path(__file__).resolve().parents[2]
 def _load_matrix() -> ModuleType:
     """Load the checked-in case matrix explicitly, independent of package install layout."""
     path = ROOT / "scripts" / "ci" / "run_cr_exact_lean_e2e.py"
-    spec = importlib.util.spec_from_file_location("mathevidence_cr_exact_matrix", path)
+    module_name = "mathevidence_cr_exact_matrix"
+    spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot load exact E2E matrix from {path}")
+
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    previous = sys.modules.get(module_name)
+    sys.modules[module_name] = module
+    try:
+        spec.loader.exec_module(module)
+    except BaseException:
+        if previous is None:
+            sys.modules.pop(module_name, None)
+        else:
+            sys.modules[module_name] = previous
+        raise
     return module
 
 

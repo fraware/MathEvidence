@@ -53,6 +53,9 @@ jobs:
             tests/forensic/test_assurance_adversarial_corpus.py \
             -q
 
+      - name: Production exact matrix loader regression
+        run: python -m pytest tests/forensic/test_cr_exact_lean_e2e_loader.py -q
+
       - name: Cross-gate contract
         run: |
-          echo "::notice title=assurance-exact-replay::Candidate binding, deterministic generation, policy, CR, and adversarial tests are green here. Every CR-eligible capability must also pass production-generated candidate execution in the required lean workflow (scripts/ci/run_cr_exact_lean_e2e.py)."
+          echo "::notice title=assurance-exact-replay::Candidate binding, deterministic generation, policy, CR, and adversarial tests are green here. Every CR-eligible capability must also pass production-generated candidate execution in the required lean workflow (scripts/ci/run_cr_exact_lean_e2e_production.py)."
