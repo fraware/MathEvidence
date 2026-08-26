@@ -1,0 +1,77 @@
+name: p02-native-v2-adversarial-compare
+
+on:
+  push:
+    branches:
+      - science/p02-native-v2-20260826
+    paths:
+      - .github/workflows/p02-native-v2-adversarial-compare.yml
+      - scripts/p02_native_v2_adversarial_compare.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-native-v2-adversarial-compare
+  cancel-in-progress: false
+
+env:
+  RAW_DIR: evidence/p02_native_v2/adversarial_raw_first_full
+  CLASSIFIED_DIR: evidence/p02_native_v2/adversarial_classified_first_full
+  OUT_DIR: evidence/p02_native_v2/adversarial_comparison_v1_first_full
+
+jobs:
+  compare-adversarial-expectations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Compare frozen v1 output to preregistered expectations
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d "${RAW_DIR}"
+          test -d "${CLASSIFIED_DIR}"
+          test ! -e "${OUT_DIR}"
+          python scripts/p02_native_v2_adversarial_compare.py \
+            --raw "${RAW_DIR}" \
+            --classified "${CLASSIFIED_DIR}" \
+            --out "${OUT_DIR}"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('evidence/p02_native_v2/adversarial_comparison_v1_first_full')
+          summary = json.loads((root / 'ADVERSARIAL_COMPARISON.json').read_text(encoding='utf-8'))
+          integrity = json.loads((root / 'INTEGRITY_MANIFEST.json').read_text(encoding='utf-8'))
+          assert summary['status'] == 'ADVERSARIAL_V1_AUDITED'
+          assert summary['publication_claim_eligible'] is False
+          assert summary['n_cases'] == 13
+          assert summary['n_matches'] + summary['n_mismatches'] == 13
+          assert summary['classified_adversarial_bundle_digest'] == 'sha256:3811458ec0aa4a2ae08572ff1ad456d0fbb0a8317f4ec17a4c05a0b466d7bd03'
+          assert integrity['n_files'] == 2
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          print(integrity['bundle_digest'])
+          PY
+
+      - name: Commit immutable adversarial comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${OUT_DIR}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_native_v2/adversarial_comparison_v1_first_full/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 frozen-v1 adversarial comparison"
+          git push origin HEAD:science/p02-native-v2-20260826
