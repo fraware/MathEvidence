@@ -1,0 +1,14 @@
+{
+  "case_id": "ADV-09-BLOCK-COMMENT-ADMIT",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:6969418291b605e4d069cf125e9c9866ec55af04ab4373d05e66931ab6eeef54",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:6d812d71e000443b7f0a9a0747a1706118671a46c44db8d5d340f64cca20f6f3",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:1d5f2ac6abe39f2c9edbe5a204e621bddf6543cb15920db25d1e78e7b12c7e37"
+}

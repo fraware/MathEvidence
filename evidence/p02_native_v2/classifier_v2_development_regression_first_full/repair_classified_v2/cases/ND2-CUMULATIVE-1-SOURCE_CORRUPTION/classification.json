@@ -1,0 +1,14 @@
+{
+  "case_id": "ND2-CUMULATIVE-1-SOURCE_CORRUPTION",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:d51f5215044bdc883cf9c697a5e6e912ccc01defdf85eeb079cb053580639af5",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:53e8fe76d42be242e06d720cc6e8dedab0954ce553733c89c1965e710b25afe0",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:53e8fe76d42be242e06d720cc6e8dedab0954ce553733c89c1965e710b25afe0"
+}

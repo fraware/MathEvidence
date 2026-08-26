@@ -1,0 +1,78 @@
+{
+  "bundle_digest": "sha256:8c7d15b7496afbfecf4413d1e671661295cc4f65645f98a1ec6e080b51c86277",
+  "files": [
+    {
+      "path": "CLASSIFICATION_SUMMARY.json",
+      "sha256": "sha256:cbc851be4442e21eeb97bec02dd122ae340350a600ba8e2c0950ec9a2294d214",
+      "size_bytes": 1538
+    },
+    {
+      "path": "cases/ADV-00-CLEAN/classification.json",
+      "sha256": "sha256:75decf5c448fd69bcf85dc81b2ebd48793dd667e1339bb970d7503a24904848d",
+      "size_bytes": 787
+    },
+    {
+      "path": "cases/ADV-01-LINE-COMMENT-SORRY/classification.json",
+      "sha256": "sha256:3dbed7f85a66cbc3c44bc9c0c3c5605ea6630dbd4e1c8acfdbaba4fb4061c090",
+      "size_bytes": 800
+    },
+    {
+      "path": "cases/ADV-02-BLOCK-COMMENT-AXIOM/classification.json",
+      "sha256": "sha256:056b66e46702a536f1a39e3ffa330079d4b16b77d4675749c8b233251ec20984",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/ADV-03-STRING-SORRY/classification.json",
+      "sha256": "sha256:fad918a2dd19ee5c7e563a36928908c0f8af6fd5c73263d5de138673645d6fad",
+      "size_bytes": 794
+    },
+    {
+      "path": "cases/ADV-04-DIAGNOSTIC-WORDS-COMMENT/classification.json",
+      "sha256": "sha256:e66f26fb56c16364e573abbc91f1042dd9cb06ba06418a3ff014978102dab437",
+      "size_bytes": 806
+    },
+    {
+      "path": "cases/ADV-05-WHITESPACE/classification.json",
+      "sha256": "sha256:6d4d86d4554793acafe01a621b63e7f722336d36f31ecf1d353f23a38c17c20f",
+      "size_bytes": 792
+    },
+    {
+      "path": "cases/ADV-06-RENAMED-THEOREM/classification.json",
+      "sha256": "sha256:4db7241b48775ece7325dbb31fb869ce4583d8b718f071c55d511e3991ca7b7b",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/ADV-07-ACTUAL-SORRY/classification.json",
+      "sha256": "sha256:3891eba04fbe56635c9f8b24d5ae92ef893c5b5c1c1f37434eabca1bd4931201",
+      "size_bytes": 795
+    },
+    {
+      "path": "cases/ADV-08-ACTUAL-AXIOM/classification.json",
+      "sha256": "sha256:83152bef18473f47229e26ccba96b1061298a911b4016b5a3ce13e1fca6c3a8b",
+      "size_bytes": 795
+    },
+    {
+      "path": "cases/ADV-09-BLOCK-COMMENT-ADMIT/classification.json",
+      "sha256": "sha256:a1d9832667baad4217b1e1b88a62be282455e1f561cea18c5ab71b21dfd36b51",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/ADV-10-AUTOIMPLICIT-OFF-CLEAN/classification.json",
+      "sha256": "sha256:92184d1e289465d622efdbd321a0e313bf32711b2c708e29c18c6ca97473d247",
+      "size_bytes": 804
+    },
+    {
+      "path": "cases/ADV-11-AUTOIMPLICIT-OFF-UNKNOWN/classification.json",
+      "sha256": "sha256:7771a171a7330788a7815580df10bb8cbc3e8a6ba01c66cd7f5fb71b5b789679",
+      "size_bytes": 803
+    },
+    {
+      "path": "cases/ADV-12-UNKNOWN-DEFAULT/classification.json",
+      "sha256": "sha256:9e43582af9e365b02c26b5b2f77d3af9a5c8d77f637cc6373e735469777037ed",
+      "size_bytes": 797
+    }
+  ],
+  "n_files": 14,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_classification_v2_hardened_integrity"
+}

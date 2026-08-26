@@ -1,0 +1,14 @@
+{
+  "case_id": "ADV-07-ACTUAL-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "observations_sha256": "sha256:fcaa9883a95b940e7ad954baba20730d1757f737f4bd0e152a6eca3672477ba2",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:8d173887c5c3680337631b078a2e388e94c8a69cc25d02463288cee19254883a",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:8d173887c5c3680337631b078a2e388e94c8a69cc25d02463288cee19254883a"
+}

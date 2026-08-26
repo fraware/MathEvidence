@@ -1,0 +1,14 @@
+{
+  "case_id": "ADV-04-DIAGNOSTIC-WORDS-COMMENT",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:e4f095b8f68a659878dff02900e26c228a1ad016aa0a6902d760e6ccb57fa75b",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:c0f11f48cfb2eaf6d79149977ad53ce7575b0cc8c9cbc601757d711853fbbfce",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:51fcfb3ae1fa1f22fb4b89c1b0727e878b2c67f33594785ef134c87466eacb6c"
+}

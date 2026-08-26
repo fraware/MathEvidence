@@ -1,0 +1,14 @@
+{
+  "case_id": "ADV-06-RENAMED-THEOREM",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:0b3c672cd6fef567efbbe2c918055e220b00e6f03b39b269c7cada060684501f",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:5d6ec2dcca2a4f6d6b75458a04d7351e8c9e323751e0733cd7242506f2486d64",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:5d6ec2dcca2a4f6d6b75458a04d7351e8c9e323751e0733cd7242506f2486d64"
+}

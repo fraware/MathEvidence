@@ -1,0 +1,14 @@
+{
+  "case_id": "ND2-CUMULATIVE-2-UNKNOWN_TYPE",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:9f72ec5ab82db4872fd7f00097dabd3f8760a080e25d19d0edac0435c54e6006",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:9aa2e6f5067bcded751a1c7ccd25fcdc0618b2d25649c89e01980e7cba9cc159",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:9aa2e6f5067bcded751a1c7ccd25fcdc0618b2d25649c89e01980e7cba9cc159"
+}

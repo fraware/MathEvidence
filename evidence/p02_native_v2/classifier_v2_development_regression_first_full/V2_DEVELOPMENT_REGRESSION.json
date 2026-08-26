@@ -1,0 +1,32 @@
+{
+  "baseline": {
+    "n_cases": 34,
+    "n_class_differences": 0,
+    "v1_v2_class_differences": [],
+    "v2_bundle_digest": "sha256:aaca5cbc397300961bb0141a3b0f9ae9094000e04f7d4cddce2107e7c4cdd86a"
+  },
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "development_adversarial": {
+    "exact_match_rate": 1.0,
+    "mismatches": [],
+    "n_cases": 13,
+    "n_matches": 13,
+    "n_mismatches": 0,
+    "v2_bundle_digest": "sha256:8c7d15b7496afbfecf4413d1e671661295cc4f65645f98a1ec6e080b51c86277"
+  },
+  "non_claims": [
+    "The 13-case adversarial result is a development-set check because it motivated v2.",
+    "Zero regression on existing constructed bundles would not establish external validity.",
+    "A separately frozen holdout suite is required before v2 robustness is used in publication claims."
+  ],
+  "posthoc_relative_to_development_suite": true,
+  "publication_claim_eligible": false,
+  "repair": {
+    "n_cases": 85,
+    "n_class_differences": 0,
+    "v1_v2_class_differences": [],
+    "v2_bundle_digest": "sha256:4892fbe01cfabf6383ce38256d1f19c02f49f63576649ab5ede46250b18f3453"
+  },
+  "schema_version": "p02_native_classifier_v2_development_regression_v1",
+  "status": "V2_DEVELOPMENT_REGRESSION_COMPLETE_NOT_HOLDOUT_VALIDATED"
+}

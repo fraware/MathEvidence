@@ -1,0 +1,14 @@
+{
+  "case_id": "ADV-02-BLOCK-COMMENT-AXIOM",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:6ad8b1c96b6a21fd8bebf45140988f040ec44dcf168662dfab75853ab2cb43f1",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:58ed6e7d5a27d02ce4c21a22a202479e25cb57f362976f608eb991cd2466e651",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:2d5ab53125bc660fd7e49df343cb89e00d0127e40a74fad2eac41ee763a207c2"
+}

@@ -1,0 +1,14 @@
+{
+  "case_id": "ADV-01-LINE-COMMENT-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:2d968fffc32a81f31b412fa44dffcc94f9dcd68cd8b56fbb36d440f903107af0",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:367295789e971ec38c0c7b9265d80d7bc37151558d175a4f514bfdd5e2697d42",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:163c179c5757011d4bea8468b5dbc9c1ffab16d22d707c15d2e04f6c482399a8"
+}

@@ -1,0 +1,14 @@
+{
+  "case_id": "ADV-08-ACTUAL-AXIOM",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "observations_sha256": "sha256:d0f3cc465452291d98c8bd3724048ebd24182c13d1454d11fee3e618586a0983",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": true,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:94b7780369ad271b0bb36d822808736a8157fa7bdca27bda9d8fa68fc004b938",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:94b7780369ad271b0bb36d822808736a8157fa7bdca27bda9d8fa68fc004b938"
+}
