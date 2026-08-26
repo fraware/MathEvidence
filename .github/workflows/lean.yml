@@ -59,7 +59,7 @@ jobs:
           set -euo pipefail
           # Generated exact-candidate modules import capability ReplaySound declarations
           # directly. Build the complete checker barrel first so every CR-eligible
-          # production E2E import has a materialized .olean before direct elaboration.
+          # production E2E import has a materialized .olean before replay.
           lake build \
             MathEvidenceCheckers \
             mathevidence-verify-bundle \
@@ -68,10 +68,10 @@ jobs:
             mathevidence-import-graph \
             mathevidence-axiom-report
 
-      - name: CR-eligible exact candidate Lean E2E
+      - name: CR-eligible exact candidate production Lean E2E
         run: |
           set -euo pipefail
-          python scripts/ci/run_cr_exact_lean_e2e.py | tee /tmp/cr-exact-lean-e2e.jsonl
+          python scripts/ci/run_cr_exact_lean_e2e_production.py | tee /tmp/cr-exact-lean-e2e.jsonl
 
       - name: Environment import/axiom audits (Lean.Environment)
         run: |
