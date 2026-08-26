@@ -13,7 +13,6 @@ ROOT = Path(__file__).resolve().parents[2]
 _CR_ELIGIBLE = frozenset(
     {
         "algebra.ideal_membership_witness",
-        "algebra.rational_equality",
         "algebra.linear_algebra",
         "logic.finite_counterexample",
         "algebra.formal_rational_calculus",
@@ -49,6 +48,15 @@ def test_catalog_coverage_matches_disk() -> None:
     for entry in inventory["capabilities"]:
         if entry["id"] not in _CR_ELIGIBLE:
             assert entry["cr_eligible"] is False
+
+    rational = next(
+        entry
+        for entry in inventory["capabilities"]
+        if entry["id"] == "algebra.rational_equality"
+    )
+    assert rational["cr_eligible"] is False
+    assert rational["exact_candidate_binding_exists"] is False
+    assert rational["exactBinding"]["supported"] is False
 
 
 def test_cr_eligible_without_exact_binding_is_rejected() -> None:
@@ -134,7 +142,9 @@ def test_inventory_cr_eligible_must_match_capability_json() -> None:
 def test_federated_cr_eligible_is_rejected() -> None:
     mod = _mod()
     inventory = copy.deepcopy(mod.load_inventory())
-    target = next(entry for entry in inventory["capabilities"] if entry["id"] == "logic.sat_unsat")
+    target = next(
+        entry for entry in inventory["capabilities"] if entry["id"] == "logic.sat_unsat"
+    )
     target["cr_eligible"] = True
     target["exact_candidate_binding_exists"] = True
     target["exactBinding"] = {
