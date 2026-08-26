@@ -1,0 +1,86 @@
+name: p02-native-v2-transition-analysis
+
+on:
+  push:
+    branches:
+      - science/p02-native-v2-20260826
+    paths:
+      - .github/workflows/p02-native-v2-transition-analysis.yml
+      - scripts/p02_native_v2_transition_analysis.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-native-v2-transition-analysis
+  cancel-in-progress: false
+
+env:
+  BASELINE_RAW_DIR: evidence/p02_native_v2/raw_first_full
+  BASELINE_CLASSIFIED_DIR: evidence/p02_native_v2/classified_first_full
+  REPAIR_RAW_DIR: evidence/p02_native_v2/repair_raw_first_full
+  REPAIR_CLASSIFIED_DIR: evidence/p02_native_v2/repair_classified_first_full
+  ANALYSIS_DIR: evidence/p02_native_v2/transition_analysis_first_full
+
+jobs:
+  analyze-transitions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Run frozen post-classification transition analysis
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d "${BASELINE_RAW_DIR}"
+          test -d "${BASELINE_CLASSIFIED_DIR}"
+          test -d "${REPAIR_RAW_DIR}"
+          test -d "${REPAIR_CLASSIFIED_DIR}"
+          test ! -e "${ANALYSIS_DIR}"
+          python scripts/p02_native_v2_transition_analysis.py \
+            --baseline-raw "${BASELINE_RAW_DIR}" \
+            --baseline-classified "${BASELINE_CLASSIFIED_DIR}" \
+            --repair-raw "${REPAIR_RAW_DIR}" \
+            --repair-classified "${REPAIR_CLASSIFIED_DIR}" \
+            --out "${ANALYSIS_DIR}"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("evidence/p02_native_v2/transition_analysis_first_full")
+          summary = json.loads((root / "TRANSITION_ANALYSIS.json").read_text(encoding="utf-8"))
+          integrity = json.loads((root / "INTEGRITY_MANIFEST.json").read_text(encoding="utf-8"))
+          assert summary["status"] == "POSTCLASSIFICATION_ANALYZED_NOT_ADVERSARIAL_REVIEWED"
+          assert summary["publication_claim_eligible"] is False
+          assert summary["analysis_uses_metadata_only_after_classification"] is True
+          assert summary["baseline_lattice"]["n_states"] == 32
+          assert summary["counterfactual_repairs"]["n_edges"] == 80
+          assert summary["cumulative_repair"]["n_steps"] == 5
+          assert summary["plan_digest"] == "sha256:0b610ed6bd984acf6403046e5adf56ed5f8ae0d9a6fbce4178c6a8ede4e20565"
+          assert summary["repair_classified_bundle_digest"] == "sha256:96fc867e07e6b130fbd4cf3217a2c555c61f08b42f9506ac370a2b3b11233782"
+          assert integrity["n_files"] == 4
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          print(integrity["bundle_digest"])
+          PY
+
+      - name: Commit immutable transition analysis bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${ANALYSIS_DIR}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_native_v2/transition_analysis_first_full/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 native v2 transition analysis"
+          git push origin HEAD:science/p02-native-v2-20260826
