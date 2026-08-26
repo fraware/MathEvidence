@@ -1,0 +1,79 @@
+name: p02-native-v2-holdout-audit
+
+on:
+  push:
+    branches:
+      - science/p02-native-v2-20260826
+    paths:
+      - .github/workflows/p02-native-v2-holdout-audit.yml
+      - scripts/p02_audit_classifier_v2_holdout.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-native-v2-holdout-audit
+  cancel-in-progress: false
+
+env:
+  RAW_DIR: evidence/p02_native_v2/classifier_v2_holdout_raw_first_full
+  CLASSIFIED_DIR: evidence/p02_native_v2/classifier_v2_holdout_classified_first_full
+  AUDIT_DIR: evidence/p02_native_v2/classifier_v2_holdout_audit_first_full
+
+jobs:
+  audit-holdout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Compare frozen v2 outputs against preregistered unseen expectations
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d "${RAW_DIR}"
+          test -d "${CLASSIFIED_DIR}"
+          test ! -e "${AUDIT_DIR}"
+          test "$(git rev-parse HEAD:scripts/p02_classify_native_v2_hardened.py)" = "75d0599c277806007b1f31db451dbbe1bec3962e"
+          python scripts/p02_audit_classifier_v2_holdout.py \
+            --raw "${RAW_DIR}" \
+            --classified "${CLASSIFIED_DIR}" \
+            --out "${AUDIT_DIR}"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('evidence/p02_native_v2/classifier_v2_holdout_audit_first_full')
+          result = json.loads((root / 'HOLDOUT_AUDIT.json').read_text(encoding='utf-8'))
+          integrity = json.loads((root / 'INTEGRITY_MANIFEST.json').read_text(encoding='utf-8'))
+          assert result['status'] == 'V2_UNSEEN_HOLDOUT_AUDITED'
+          assert result['n_cases'] == 20
+          assert result['classifier_v2_blob_sha'] == '75d0599c277806007b1f31db451dbbe1bec3962e'
+          assert result['holdout_spec_digest'] == 'sha256:a113c101250c346a89fc8c67b4147a1a6baaaf26df3111fbf05ef0be8f8a5416'
+          assert result['raw_holdout_bundle_digest'] == 'sha256:4ba819c943fe89e5afef50142c12ef29c5cf9420bf55519406ab8f72878701a3'
+          assert result['classified_holdout_bundle_digest'] == 'sha256:fe5c484cfcdf23a588e53ddc3a225dbdcd67ea02bade9986c4b623903e840178'
+          assert result['n_matches'] + result['n_mismatches'] == 20
+          assert integrity['n_files'] == 2
+          print(json.dumps(result, indent=2, sort_keys=True))
+          PY
+
+      - name: Commit immutable unseen-holdout audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${AUDIT_DIR}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_native_v2/classifier_v2_holdout_audit_first_full/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 classifier-v2 unseen holdout audit"
+          git push origin HEAD:science/p02-native-v2-20260826
