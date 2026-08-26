@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import importlib.util
 import json
 from pathlib import Path
+import sys
 
 from agent.api.assurance_policy import (
     ASSURANCE_MODE_UNAVAILABLE,
@@ -56,3 +58,30 @@ def test_rational_theorem_certification_fails_closed_under_pinned_release_policy
     assert row["supported_assurance_modes"] == []
     assert row["allowed_certification_outcomes"] == []
     assert row["exactBinding"] == {"supported": False}
+
+
+def test_release_exact_matrix_is_exactly_live_cr_eligible_set() -> None:
+    """A disabled theorem path must disappear from release execution coverage."""
+    path = ROOT / "scripts" / "ci" / "run_cr_exact_lean_e2e.py"
+    module_name = "mathevidence_test_cr_exact_matrix"
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    assert spec is not None and spec.loader is not None
+
+    module = importlib.util.module_from_spec(spec)
+    previous = sys.modules.get(module_name)
+    sys.modules[module_name] = module
+    try:
+        spec.loader.exec_module(module)
+        cases = module._cases()
+        module._assert_coverage(cases)
+        covered = {case.capability for case in cases}
+        expected = module._inventory_cr_eligible()
+    finally:
+        if previous is None:
+            sys.modules.pop(module_name, None)
+        else:
+            sys.modules[module_name] = previous
+
+    assert covered == expected
+    assert "algebra.rational_equality" not in covered
+    assert len(covered) == 5
