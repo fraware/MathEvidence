@@ -19,6 +19,7 @@ env:
   PINNED_PROJECT_SHA: 946d2f7b14840837a5b641150c9df9008c4be9eb
   BASELINE_DIR: evidence/p02_native_v2/raw_first_full
   REPAIR_RAW_DIR: evidence/p02_native_v2/repair_raw_first_full
+  LEAN_GITHUB_ASSET_URL: https://github.com/leanprover/lean4/releases/download/v4.14.0/lean-4.14.0-linux.tar.zst
 
 jobs:
   collect-repair-observations:
@@ -51,18 +52,22 @@ jobs:
           set -euo pipefail
           bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
 
-      - name: Initialize and verify exact pinned Lean toolchain with retry
+      - name: Initialize exact Lean 4.14.0 with official-asset fallback
         shell: bash
         run: |
           set -euo pipefail
           export PATH="$HOME/.elan/bin:$PATH"
           cd /tmp/mathevidence-pinned
+
           success=0
+          lean_output=""
           for attempt in 1 2 3 4 5; do
-            echo "Pinned Lean 4.14.0 initialization attempt ${attempt}/5"
+            echo "Pinned Lean 4.14.0 elan initialization attempt ${attempt}/5"
             if lean_output="$(lake env lean --version 2>&1)"; then
-              printf '%s\n' "$lean_output"
               success=1
+              export P02_LEAN_BIN_DIR="$HOME/.elan/bin"
+              export P02_TOOLCHAIN_TRANSPORT="elan_release_host"
+              export P02_TOOLCHAIN_ARCHIVE_SHA256=""
               break
             fi
             printf '%s\n' "$lean_output" >&2
@@ -70,21 +75,50 @@ jobs:
               sleep 5
             fi
           done
+
           if [ "$success" -ne 1 ]; then
-            echo "Unable to initialize exact pinned Lean 4.14.0 after 5 attempts" >&2
-            exit 1
+            echo "Elan release-host transport unavailable; using official Lean v4.14.0 GitHub release asset"
+            command -v curl
+            command -v unzstd
+            rm -rf /tmp/p02-lean-direct /tmp/p02-lean-4.14.0-linux.tar.zst
+            mkdir -p /tmp/p02-lean-direct
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output /tmp/p02-lean-4.14.0-linux.tar.zst \
+              "${LEAN_GITHUB_ASSET_URL}"
+            archive_sha="$(sha256sum /tmp/p02-lean-4.14.0-linux.tar.zst | awk '{print $1}')"
+            test -n "$archive_sha"
+            tar --use-compress-program=unzstd -xf /tmp/p02-lean-4.14.0-linux.tar.zst -C /tmp/p02-lean-direct
+            lean_root="$(find /tmp/p02-lean-direct -mindepth 1 -maxdepth 1 -type d -name 'lean-4.14.0-*' -print -quit)"
+            test -n "$lean_root"
+            test -x "$lean_root/bin/lean"
+            test -x "$lean_root/bin/lake"
+            export P02_LEAN_BIN_DIR="$lean_root/bin"
+            export P02_TOOLCHAIN_TRANSPORT="official_github_release_asset"
+            export P02_TOOLCHAIN_ARCHIVE_SHA256="sha256:${archive_sha}"
+            export PATH="$P02_LEAN_BIN_DIR:$PATH"
+            lean_output="$(lake env lean --version 2>&1)"
           fi
+
+          export PATH="$P02_LEAN_BIN_DIR:$PATH"
+          printf '%s\n' "$lean_output"
           printf '%s\n' "$lean_output" | grep -F 'Lean (version 4.14.0,'
+          printf '%s\n' "$lean_output" | grep -F 'commit 410fab728470'
           lake --version
           test -z "$(git status --porcelain)"
+
+          echo "P02_LEAN_BIN_DIR=$P02_LEAN_BIN_DIR" >> "$GITHUB_ENV"
+          echo "P02_TOOLCHAIN_TRANSPORT=$P02_TOOLCHAIN_TRANSPORT" >> "$GITHUB_ENV"
+          echo "P02_TOOLCHAIN_ARCHIVE_SHA256=$P02_TOOLCHAIN_ARCHIVE_SHA256" >> "$GITHUB_ENV"
 
       - name: Collect preregistered raw repair observations
         shell: bash
         run: |
           set -euo pipefail
-          export PATH="$HOME/.elan/bin:$PATH"
-          command -v elan
+          export PATH="${P02_LEAN_BIN_DIR}:$PATH"
+          command -v lean
           command -v lake
+          lake env lean --version | grep -F 'Lean (version 4.14.0,'
+          lake env lean --version | grep -F 'commit 410fab728470'
           test -d "${BASELINE_DIR}"
           test ! -e "${REPAIR_RAW_DIR}"
           python scripts/p02_native_v2_repair_raw.py \
@@ -107,6 +141,10 @@ jobs:
           assert run["n_observation_cases"] == 85
           assert run["plan_digest"] == "sha256:0b610ed6bd984acf6403046e5adf56ed5f8ae0d9a6fbce4178c6a8ede4e20565"
           assert plan["plan_digest"] == run["plan_digest"]
+          assert run["toolchain_transport"] in {"elan_release_host", "official_github_release_asset"}
+          if run["toolchain_transport"] == "official_github_release_asset":
+              assert isinstance(run["toolchain_archive_sha256"], str)
+              assert run["toolchain_archive_sha256"].startswith("sha256:")
           assert integrity["n_files"] > 0
           print("raw P02 repair evidence bundle checks passed")
           PY
