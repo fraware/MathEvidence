@@ -2,17 +2,19 @@
 """Release gate: execute the CR exact matrix through the production Lean path.
 
 The case/coverage matrix lives in ``run_cr_exact_lean_e2e`` and is derived from
-registry maturity plus production plugin operation whitelists.  This executor
+registry maturity plus production plugin operation whitelists. This executor
 intentionally uses the same source staging, ``lake env lean -o`` compilation,
 and Lean.Environment declaration inspection primitive as production
-``kernel_replay``.  A standalone /tmp Lean invocation is not equivalent for
+``kernel_replay``. A standalone /tmp Lean invocation is not equivalent for
 Lean 4.14 ``native_decide`` modules and must not be used as release authority.
 """
 
 from __future__ import annotations
 
+import importlib.util
 import json
 from pathlib import Path
+from types import ModuleType
 from typing import Any
 
 import adapters.common.exact_replay.plugins  # noqa: F401
@@ -25,13 +27,26 @@ from adapters.common.kernel_replay import (
     find_lake,
 )
 from adapters.common.theorem_identity import environment_lock_digest
-from scripts.ci import run_cr_exact_lean_e2e as matrix
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def _load_matrix() -> ModuleType:
+    """Load the checked-in case matrix explicitly, independent of package install layout."""
+    path = ROOT / "scripts" / "ci" / "run_cr_exact_lean_e2e.py"
+    spec = importlib.util.spec_from_file_location("mathevidence_cr_exact_matrix", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot load exact E2E matrix from {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+matrix = _load_matrix()
 BUNDLE_DIGEST = matrix.BUNDLE_DIGEST
 
 
-def _execute(case: matrix.ExactCase) -> dict[str, Any]:
+def _execute(case: Any) -> dict[str, Any]:
     matrix._assert_policy(case)
     module = generate_module(
         capability_id=case.capability,
