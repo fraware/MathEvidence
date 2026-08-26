@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Diagnostic-only probe for generated rational native_decide compilation.
+"""Diagnostic-only probe for generated rational native_decide elaboration.
 
-This script never emits or accepts a Certification Record. It exists solely to
-answer one engineering question: does emitting native C output alongside the
-candidate-specific .olean make Lean 4.14 native_decide viable for the exact
-rational request-binding theorem? Production acceptance remains owned by
+This script never emits or accepts a Certification Record. It tests whether
+unfolding current-module candidate aliases before ``native_decide`` removes the
+Lean 4.14 current-module native-evaluation dependency while preserving the
+exact candidate-bound proposition. Production acceptance remains owned by
 ``run_cr_exact_lean_e2e_production.py`` and ``kernel_replay._compile_and_inspect``.
 """
 
@@ -42,6 +42,29 @@ def _load_runner():
     return module, previous
 
 
+def _unfold_before_native_decide(source: str, decl: str) -> str:
+    binding_old = " := by\n  native_decide\n\n/-- Exact Candidate Bundle semantic claim."
+    binding_new = (
+        " := by\n"
+        f"  simp only [{decl}_req, {decl}_claim]\n"
+        "  native_decide\n\n"
+        "/-- Exact Candidate Bundle semantic claim."
+    )
+    if binding_old not in source:
+        raise RuntimeError("expected request-binding native_decide proof not found")
+    source = source.replace(binding_old, binding_new, 1)
+
+    check_old = f"(by native_decide : checkBool {decl}_req {decl}_cert = true)"
+    check_new = (
+        "(by\n"
+        f"      simp only [{decl}_req, {decl}_claim, {decl}_cert]\n"
+        f"      native_decide : checkBool {decl}_req {decl}_cert = true)"
+    )
+    if check_old not in source:
+        raise RuntimeError("expected checker native_decide proof not found")
+    return source.replace(check_old, check_new, 1)
+
+
 def main() -> int:
     runner, previous = _load_runner()
     try:
@@ -69,6 +92,14 @@ def main() -> int:
         if "OfflineFixtures" in module.source_text:
             raise RuntimeError("probe source unexpectedly references OfflineFixtures")
 
+        source = _unfold_before_native_decide(
+            module.source_text, module.declaration_name
+        )
+        if "simp only [probe_rational_native_compile_req, probe_rational_native_compile_claim]" not in source:
+            raise RuntimeError("request-binding alias unfolding was not injected")
+        if "simp only [probe_rational_native_compile_req, probe_rational_native_compile_claim, probe_rational_native_compile_cert]" not in source:
+            raise RuntimeError("checker alias unfolding was not injected")
+
         lake = find_lake(ROOT)
         if lake is None:
             raise RuntimeError("lake unavailable")
@@ -79,7 +110,7 @@ def main() -> int:
         c_path = build_root / "probe_rational_native_compile.c"
         source_path.parent.mkdir(parents=True, exist_ok=True)
         build_root.mkdir(parents=True, exist_ok=True)
-        source_path.write_text(module.source_text, encoding="utf-8", newline="\n")
+        source_path.write_text(source, encoding="utf-8", newline="\n")
         try:
             proc = _run_process(
                 [
@@ -95,11 +126,12 @@ def main() -> int:
                 root=ROOT,
             )
             report = {
-                "schemaVersion": "0.1.0",
+                "schemaVersion": "0.2.0",
                 "status": "diagnostic_only_non_authoritative",
                 "capability": case.capability,
                 "requestDigest": request["requestDigest"],
                 "generatedSourceHash": module.source_hash,
+                "probeTransformation": "unfold_current_module_aliases_before_native_decide",
                 "returnCode": proc.returncode,
                 "oleanExists": olean_path.is_file(),
                 "cExists": c_path.is_file(),
@@ -110,7 +142,7 @@ def main() -> int:
             if proc.returncode != 0:
                 return 1
             if not olean_path.is_file() or not c_path.is_file():
-                raise RuntimeError("native compile reported success without both .olean and C outputs")
+                raise RuntimeError("probe reported success without both .olean and C outputs")
             return 0
         finally:
             source_path.unlink(missing_ok=True)
