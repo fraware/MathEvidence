@@ -1,0 +1,11 @@
+{
+  "case_id": "ADV-05-WHITESPACE",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:d683d3576a7754382e9432f8dc5006d7fdbf8f17844db6e23c288f7053b07fed",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "source_sha256": "sha256:574d875484d75bb070a955345f31a6ec3edf22d9d04924ecdca63fd8ab86c5e9"
+}

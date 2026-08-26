@@ -1,0 +1,11 @@
+{
+  "case_id": "ADV-03-STRING-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:8dd162b0f13b6d056456383d0a4ef476176dd9ef050fe29e7c4a68021b4d185b",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "source_sha256": "sha256:b3233f25a7cd356b42b4fd9a200799a2b917f96505e5b331e6eed1c864996112"
+}

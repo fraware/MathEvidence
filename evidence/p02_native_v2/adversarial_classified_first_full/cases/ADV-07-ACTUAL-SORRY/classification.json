@@ -1,0 +1,11 @@
+{
+  "case_id": "ADV-07-ACTUAL-SORRY",
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "observations_sha256": "sha256:fcaa9883a95b940e7ad954baba20730d1757f737f4bd0e152a6eca3672477ba2",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "source_sha256": "sha256:8d173887c5c3680337631b078a2e388e94c8a69cc25d02463288cee19254883a"
+}

@@ -1,0 +1,78 @@
+{
+  "bundle_digest": "sha256:3811458ec0aa4a2ae08572ff1ad456d0fbb0a8317f4ec17a4c05a0b466d7bd03",
+  "files": [
+    {
+      "path": "CLASSIFICATION_SUMMARY.json",
+      "sha256": "sha256:43da50624d16f64d23041845c5bf2439ed6a598d0ab77cdaf69356471af48402",
+      "size_bytes": 1158
+    },
+    {
+      "path": "cases/ADV-00-CLEAN/classification.json",
+      "sha256": "sha256:fc923ecf0916575182e1cd3f9cdc2d4ca4112dc91f7088a563ed02e7d4d5432b",
+      "size_bytes": 525
+    },
+    {
+      "path": "cases/ADV-01-LINE-COMMENT-SORRY/classification.json",
+      "sha256": "sha256:5c607be7cd42271fc9107b02e1b2f87dd43016d742bd9a86068878246d5f72c4",
+      "size_bytes": 539
+    },
+    {
+      "path": "cases/ADV-02-BLOCK-COMMENT-AXIOM/classification.json",
+      "sha256": "sha256:683655e1197f368b803a7868166af7fecba5274dbb3747bc1a7e4dcd52804c20",
+      "size_bytes": 540
+    },
+    {
+      "path": "cases/ADV-03-STRING-SORRY/classification.json",
+      "sha256": "sha256:0c7b6b82826237d0f8569dce48924174a440d800468c097da6a0204bafa5bb87",
+      "size_bytes": 533
+    },
+    {
+      "path": "cases/ADV-04-DIAGNOSTIC-WORDS-COMMENT/classification.json",
+      "sha256": "sha256:a528f313b27c3a3d8597fcee6b3b1142b819a6c3bb40d4d77983370a72c0dc2f",
+      "size_bytes": 544
+    },
+    {
+      "path": "cases/ADV-05-WHITESPACE/classification.json",
+      "sha256": "sha256:160937e40478518a876477d87e360f6bf52c872dbbc260ba0cb66eccc3641314",
+      "size_bytes": 530
+    },
+    {
+      "path": "cases/ADV-06-RENAMED-THEOREM/classification.json",
+      "sha256": "sha256:dc9ff9f3a36b15737c16f800c6cf5ad2848962b46eb82a01fe427ad9490580c1",
+      "size_bytes": 535
+    },
+    {
+      "path": "cases/ADV-07-ACTUAL-SORRY/classification.json",
+      "sha256": "sha256:fd283c135edde0d4940786fe00a39e04b3bff5ccb5b03f1b1cf2f181d0572695",
+      "size_bytes": 533
+    },
+    {
+      "path": "cases/ADV-08-ACTUAL-AXIOM/classification.json",
+      "sha256": "sha256:1029e7c56d9794ce66a1d512e94c5b863ffaf17b345b01b88df8f31832a50a51",
+      "size_bytes": 533
+    },
+    {
+      "path": "cases/ADV-09-BLOCK-COMMENT-ADMIT/classification.json",
+      "sha256": "sha256:a4ab1616bbf885d5732f9b252ab2ce78333a2e18cb177da473da92eaddbf7a76",
+      "size_bytes": 540
+    },
+    {
+      "path": "cases/ADV-10-AUTOIMPLICIT-OFF-CLEAN/classification.json",
+      "sha256": "sha256:4b54f0b06ec94036803240a986657017cd095720bf51d88c93c76e4dc67215e1",
+      "size_bytes": 542
+    },
+    {
+      "path": "cases/ADV-11-AUTOIMPLICIT-OFF-UNKNOWN/classification.json",
+      "sha256": "sha256:496d0d296feb4703dccdf8267ece2ba754e2e95c4cf6c0d1599a4eb05e790173",
+      "size_bytes": 541
+    },
+    {
+      "path": "cases/ADV-12-UNKNOWN-DEFAULT/classification.json",
+      "sha256": "sha256:e17a0fc3ebb1863c64a4949620fc739f2cab7be58e23b50a4f1256683de7ef75",
+      "size_bytes": 535
+    }
+  ],
+  "n_files": 14,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_adversarial_classification_integrity_v2"
+}

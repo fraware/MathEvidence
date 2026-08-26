@@ -1,0 +1,26 @@
+{
+  "classifier_rules_modified_for_adversarial_suite": false,
+  "classifier_version": "p02_native_observation_classifier_v1",
+  "derived_class_counts": {
+    "ENVIRONMENT_OR_ELAB_REJECT": 1,
+    "FRONTEND_REJECT": 0,
+    "SOURCE_EMPTY": 0,
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": 6,
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH": 6,
+    "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 0,
+    "UNKNOWN": 0
+  },
+  "expectation_metadata_read_during_classification": false,
+  "frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "n_cases": 13,
+  "non_claims": [
+    "This step applies frozen v1 classification only.",
+    "It does not read preregistered expected semantic classes.",
+    "No adversarial success rate is assigned until the downstream expectation comparison."
+  ],
+  "publication_claim_eligible": false,
+  "raw_adversarial_bundle_digest": "sha256:a30bd039967f16d65494727ce176fe0d6153ca3b1d4e2d226cbf4df6a669ac10",
+  "schema_version": "p02_native_adversarial_classification_v2_from_frozen_v1",
+  "spec_digest": "sha256:b3db906353bdb5c53a732c2fd3f924ab445b116f58afbdac104c24d5334465c4",
+  "status": "ADVERSARIAL_CLASSIFIED_NOT_EXPECTATION_ANALYZED"
+}
