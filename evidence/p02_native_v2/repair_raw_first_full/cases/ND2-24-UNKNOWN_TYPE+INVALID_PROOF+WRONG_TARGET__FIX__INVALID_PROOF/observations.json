@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-ucx9haib/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.38029358,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-ucx9haib/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-candidate.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-24-UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-ucx9haib/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-declaration.lean"
+    ],
+    "elapsed_seconds": 0.37772498000003907,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-ucx9haib/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-declaration.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : 0 = 0\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-ucx9haib/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-target.lean"
+    ],
+    "elapsed_seconds": 0.37912879100002783,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-ucx9haib/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-target.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-repair-edge-ucx9haib/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-target.lean:4:32: error: type mismatch\n  p02Native\nhas type\n  ?m.92 → 0 = 0 : Prop\nbut is expected to have type\n  ∀ (n : Nat), n = n : Prop\n",
+    "timed_out": false
+  }
+}

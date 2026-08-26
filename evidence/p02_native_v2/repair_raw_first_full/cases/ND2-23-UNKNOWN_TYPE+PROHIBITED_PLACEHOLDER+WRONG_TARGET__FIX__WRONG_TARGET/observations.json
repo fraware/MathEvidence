@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-sdmy15qi/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.37540437500001644,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-sdmy15qi/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-23-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-sdmy15qi/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.38062962599997263,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-sdmy15qi/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean:1:8: warning: declaration uses 'sorry'\np02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-sdmy15qi/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.37811304300004167,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-sdmy15qi/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-target.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

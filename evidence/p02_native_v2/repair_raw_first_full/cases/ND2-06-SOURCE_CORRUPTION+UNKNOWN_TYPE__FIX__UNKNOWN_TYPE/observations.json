@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-7rpt3naq/ND2-06-SOURCE_CORRUPTION_UNKNOWN_TYPE__FIX__UNKNOWN_TYPE-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3907439750000208,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-7rpt3naq/ND2-06-SOURCE_CORRUPTION_UNKNOWN_TYPE__FIX__UNKNOWN_TYPE-candidate.lean:1:26: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-06-SOURCE_CORRUPTION+UNKNOWN_TYPE__FIX__UNKNOWN_TYPE",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

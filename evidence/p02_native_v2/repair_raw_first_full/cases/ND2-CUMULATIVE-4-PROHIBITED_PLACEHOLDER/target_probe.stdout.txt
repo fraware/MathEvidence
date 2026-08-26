@@ -1,0 +1,8 @@
+/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-target.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-target.lean:4:32: error: type mismatch
+  p02Native
+has type
+  Nat → 0 = 0 : Prop
+but is expected to have type
+  ∀ (n : Nat), n = n : Prop

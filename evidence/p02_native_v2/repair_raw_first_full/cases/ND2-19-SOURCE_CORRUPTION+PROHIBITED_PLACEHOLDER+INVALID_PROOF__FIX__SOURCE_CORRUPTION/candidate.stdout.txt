@@ -1,0 +1,7 @@
+/tmp/p02-repair-edge-b26fi3b6/ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-edge-b26fi3b6/ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:5:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-ya1khaw3/ND2-11-UNKNOWN_TYPE_INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3898224430000141,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "ND2-11-UNKNOWN_TYPE+INVALID_PROOF__FIX__INVALID_PROOF",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-ya1khaw3/ND2-11-UNKNOWN_TYPE_INVALID_PROOF__FIX__INVALID_PROOF-declaration.lean"
+    ],
+    "elapsed_seconds": 0.38723620799999026,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-ya1khaw3/ND2-11-UNKNOWN_TYPE_INVALID_PROOF__FIX__INVALID_PROOF-target.lean"
+    ],
+    "elapsed_seconds": 0.391221153999993,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "after_source_sha256": "sha256:dcf446ab06ed2d8ff2f951d2c7357eddc84cd6351f64e8612a8e564dfe6c06b1",
+  "baseline_case_id": "ND2-27-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+  "before_source_sha256": "sha256:6ec7ecb1065128ea4253e027d6b17c8bf0823eab903a08aa4cee6add3ff32798",
+  "case_id": "ND2-27-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+  "edge_id": "ND2-27-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms_after": [
+    "SOURCE_CORRUPTION",
+    "UNKNOWN_TYPE",
+    "WRONG_TARGET"
+  ],
+  "mechanisms_before": [
+    "SOURCE_CORRUPTION",
+    "UNKNOWN_TYPE",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+  "role": "counterfactual_repair"
+}

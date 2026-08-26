@@ -1,0 +1,1 @@
+/tmp/p02-repair-edge-7rpt3naq/ND2-06-SOURCE_CORRUPTION_UNKNOWN_TYPE__FIX__UNKNOWN_TYPE-candidate.lean:1:26: error: unexpected token ':'; expected ')'

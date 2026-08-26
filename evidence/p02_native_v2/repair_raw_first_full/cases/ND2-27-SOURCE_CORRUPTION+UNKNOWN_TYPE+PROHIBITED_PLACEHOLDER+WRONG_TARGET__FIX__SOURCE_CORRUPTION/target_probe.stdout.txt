@@ -1,0 +1,9 @@
+/tmp/p02-repair-edge-ick8326a/ND2-27-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-edge-ick8326a/ND2-27-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:4:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-repair-edge-ick8326a/ND2-27-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:7:32: error: type mismatch
+  p02Native
+has type
+  ?m.97 → 0 = 0 : Prop
+but is expected to have type
+  ∀ (n : Nat), n = n : Prop

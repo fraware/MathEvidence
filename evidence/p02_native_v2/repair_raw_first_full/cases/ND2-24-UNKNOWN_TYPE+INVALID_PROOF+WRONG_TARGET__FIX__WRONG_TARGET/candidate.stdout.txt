@@ -1,0 +1,6 @@
+/tmp/p02-repair-edge-fyht14xp/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  P02MissingType : Sort u_1
+but is expected to have type
+  n = n : Prop

@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-cumulative-u2b53gfi/ND2-CUMULATIVE-1-SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3818321829999718,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-cumulative-u2b53gfi/ND2-CUMULATIVE-1-SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-repair-cumulative-u2b53gfi/ND2-CUMULATIVE-1-SOURCE_CORRUPTION-candidate.lean:5:2: error: type mismatch\n  n\nhas type\n  P02MissingType : Sort u_1\nbut is expected to have type\n  0 = 0 : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-CUMULATIVE-1-SOURCE_CORRUPTION",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

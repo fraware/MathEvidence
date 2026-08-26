@@ -1,0 +1,3 @@
+/tmp/p02-repair-edge-9blutjdm/ND2-20-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-edge-9blutjdm/ND2-20-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean:4:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

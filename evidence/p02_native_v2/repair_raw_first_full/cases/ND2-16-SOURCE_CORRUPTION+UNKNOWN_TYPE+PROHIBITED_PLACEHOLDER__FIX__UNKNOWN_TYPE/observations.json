@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-i7dd9us_/ND2-16-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER__FIX__UNKNOWN_TYPE-candidate.lean"
+    ],
+    "elapsed_seconds": 0.37832253499999524,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-i7dd9us_/ND2-16-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER__FIX__UNKNOWN_TYPE-candidate.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-repair-edge-i7dd9us_/ND2-16-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER__FIX__UNKNOWN_TYPE-candidate.lean:4:26: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-16-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER__FIX__UNKNOWN_TYPE",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

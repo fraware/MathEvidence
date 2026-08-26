@@ -1,0 +1,2 @@
+/tmp/p02-repair-edge-iznjlo_a/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

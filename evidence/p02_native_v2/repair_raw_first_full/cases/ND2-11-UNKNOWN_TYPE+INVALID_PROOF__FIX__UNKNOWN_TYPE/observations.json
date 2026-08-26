@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-czy87ulg/ND2-11-UNKNOWN_TYPE_INVALID_PROOF__FIX__UNKNOWN_TYPE-candidate.lean"
+    ],
+    "elapsed_seconds": 0.38904258200000186,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-czy87ulg/ND2-11-UNKNOWN_TYPE_INVALID_PROOF__FIX__UNKNOWN_TYPE-candidate.lean:2:2: error: type mismatch\n  n\nhas type\n  Nat : Type\nbut is expected to have type\n  n = n : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-11-UNKNOWN_TYPE+INVALID_PROOF__FIX__UNKNOWN_TYPE",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

@@ -1,0 +1,13 @@
+{
+  "after_source_sha256": "sha256:9aa2e6f5067bcded751a1c7ccd25fcdc0618b2d25649c89e01980e7cba9cc159",
+  "baseline_case_id": "ND2-31-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+  "before_source_sha256": "sha256:53e8fe76d42be242e06d720cc6e8dedab0954ce553733c89c1965e710b25afe0",
+  "mechanisms_after": [
+    "PROHIBITED_PLACEHOLDER",
+    "INVALID_PROOF",
+    "WRONG_TARGET"
+  ],
+  "repair_mechanism": "UNKNOWN_TYPE",
+  "role": "cumulative_repair",
+  "step": 2
+}

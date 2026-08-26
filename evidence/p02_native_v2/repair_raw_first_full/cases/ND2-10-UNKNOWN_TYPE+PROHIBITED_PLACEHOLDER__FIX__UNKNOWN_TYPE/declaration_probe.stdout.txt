@@ -1,0 +1,2 @@
+/tmp/p02-repair-edge-8krffn0z/ND2-10-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER__FIX__UNKNOWN_TYPE-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02Native (n : Nat) : n = n

@@ -1,0 +1,2 @@
+/tmp/p02-repair-edge-u2lrrsnd/ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

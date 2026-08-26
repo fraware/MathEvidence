@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-_qd1p92w/ND2-15-INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3640147259999935,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-_qd1p92w/ND2-15-INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:2:2: error: type mismatch\n  n\nhas type\n  Nat : Type\nbut is expected to have type\n  n = n : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-15-INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

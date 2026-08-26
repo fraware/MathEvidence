@@ -1,0 +1,2 @@
+/tmp/p02-repair-edge-llddwydt/ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-edge-llddwydt/ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean:4:26: error: unexpected token ':'; expected ')'

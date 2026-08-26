@@ -1,0 +1,6 @@
+/tmp/p02-repair-edge-_qd1p92w/ND2-15-INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

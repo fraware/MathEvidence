@@ -1,0 +1,1 @@
+/tmp/p02-repair-edge-uqsyme0p/ND2-31-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:1:37: error: unexpected token ':'; expected ')'

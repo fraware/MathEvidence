@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-hj9w79ry/ND2-08-SOURCE_CORRUPTION_INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3965107859999648,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-hj9w79ry/ND2-08-SOURCE_CORRUPTION_INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean:1:26: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

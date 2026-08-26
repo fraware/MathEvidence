@@ -1,0 +1,13 @@
+{
+  "after_source_sha256": "sha256:1d2fc3b9c5e564135fef3c079853ba7f2f07f40f970843858db0f577b1402853",
+  "baseline_case_id": "ND2-02-UNKNOWN_TYPE",
+  "before_source_sha256": "sha256:b8522fcb6189bc44ab4a60551096f6028c0d9a7b0b7ebeb834ff32a8aeac6735",
+  "case_id": "ND2-02-UNKNOWN_TYPE",
+  "edge_id": "ND2-02-UNKNOWN_TYPE__FIX__UNKNOWN_TYPE",
+  "mechanisms_after": [],
+  "mechanisms_before": [
+    "UNKNOWN_TYPE"
+  ],
+  "repair_mechanism": "UNKNOWN_TYPE",
+  "role": "counterfactual_repair"
+}

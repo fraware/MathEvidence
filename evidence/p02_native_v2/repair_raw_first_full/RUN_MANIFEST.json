@@ -1,0 +1,29 @@
+{
+  "baseline_bundle_digest": "sha256:482f21fe8bafd4e3784e7c3a7e0a5dc103820c087691fc0e66e5ff3dd61a63ea",
+  "baseline_corpus_digest": "sha256:fe356ed2f5d4bcf653c5cedaa37922e2248547434fe30b746fbcf10ca73bc199",
+  "classification_performed": false,
+  "cumulative_repair_order": [
+    "SOURCE_CORRUPTION",
+    "UNKNOWN_TYPE",
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "n_counterfactual_edges": 80,
+  "n_cumulative_steps": 5,
+  "n_observation_cases": 85,
+  "non_claims": [
+    "This bundle contains raw repair/recheck observations only.",
+    "Repair metadata is stored separately from observation records.",
+    "No native-class transition, masking rate, or repair success claim is assigned here.",
+    "The UNKNOWN_TYPE mechanism remains in the preregistered plan even if baseline evidence shows it is native-inert.",
+    "Toolchain transport metadata records how the exact Lean 4.14.0 binary was obtained; it does not alter the frozen repair plan."
+  ],
+  "plan_digest": "sha256:0b610ed6bd984acf6403046e5adf56ed5f8ae0d9a6fbce4178c6a8ede4e20565",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_repair_raw_v2",
+  "status": "RAW_REPAIR_OBSERVATIONS_EXECUTED_NOT_CLASSIFIED",
+  "toolchain_archive_sha256": "sha256:320f18e7d58271d95fced740522b5a5ed41b85b2af5bf0e8ab9a8dbc380e450a",
+  "toolchain_expected_identity": "Lean 4.14.0 commit 410fab728470",
+  "toolchain_transport": "official_github_release_asset"
+}

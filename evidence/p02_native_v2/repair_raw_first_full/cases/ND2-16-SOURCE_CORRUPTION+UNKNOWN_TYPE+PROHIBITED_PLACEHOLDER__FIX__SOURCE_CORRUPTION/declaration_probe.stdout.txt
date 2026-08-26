@@ -1,0 +1,2 @@
+/tmp/p02-repair-edge-7oue18d5/ND2-16-SOURCE_CORRUPTION_UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : n = n

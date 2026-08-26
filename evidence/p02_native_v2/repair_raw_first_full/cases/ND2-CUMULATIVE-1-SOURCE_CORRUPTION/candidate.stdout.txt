@@ -1,0 +1,7 @@
+/tmp/p02-repair-cumulative-u2b53gfi/ND2-CUMULATIVE-1-SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-cumulative-u2b53gfi/ND2-CUMULATIVE-1-SOURCE_CORRUPTION-candidate.lean:5:2: error: type mismatch
+  n
+has type
+  P02MissingType : Sort u_1
+but is expected to have type
+  0 = 0 : Prop

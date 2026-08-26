@@ -1,0 +1,6 @@
+/tmp/p02-repair-edge-l8r9bf5t/ND2-08-SOURCE_CORRUPTION_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

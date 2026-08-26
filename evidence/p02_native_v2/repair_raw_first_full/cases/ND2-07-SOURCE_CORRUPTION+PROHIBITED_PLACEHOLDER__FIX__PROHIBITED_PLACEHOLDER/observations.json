@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-_x4m7mls/ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.38438866000001326,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-_x4m7mls/ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:1:26: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-07-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-l8r9bf5t/ND2-08-SOURCE_CORRUPTION_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.39303376800000933,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-l8r9bf5t/ND2-08-SOURCE_CORRUPTION_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:2:2: error: type mismatch\n  n\nhas type\n  Nat : Type\nbut is expected to have type\n  n = n : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

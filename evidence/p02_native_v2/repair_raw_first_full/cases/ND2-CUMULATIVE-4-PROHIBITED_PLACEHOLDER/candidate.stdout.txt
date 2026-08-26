@@ -1,0 +1,2 @@
+/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-candidate.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

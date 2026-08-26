@@ -1,0 +1,3 @@
+/tmp/p02-repair-cumulative-pieanp81/ND2-CUMULATIVE-3-INVALID_PROOF-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-cumulative-pieanp81/ND2-CUMULATIVE-3-INVALID_PROOF-candidate.lean:4:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

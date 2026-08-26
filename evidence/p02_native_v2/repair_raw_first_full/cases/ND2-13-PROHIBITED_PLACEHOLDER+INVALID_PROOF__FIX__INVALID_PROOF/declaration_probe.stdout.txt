@@ -1,0 +1,2 @@
+/tmp/p02-repair-edge-lcaau9dd/ND2-13-PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__INVALID_PROOF-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02Native (n : Nat) : n = n

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-u2lrrsnd/ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.39875615599999037,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-u2lrrsnd/ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-09-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-u2lrrsnd/ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4052220809999767,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-u2lrrsnd/ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-declaration.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Native (n : Nat) : 0 = 0\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-u2lrrsnd/ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.44523779200000035,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-u2lrrsnd/ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-repair-edge-u2lrrsnd/ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:4:32: error: type mismatch\n  p02Native\nhas type\n  Nat → 0 = 0 : Prop\nbut is expected to have type\n  ∀ (n : Nat), n = n : Prop\n",
+    "timed_out": false
+  }
+}

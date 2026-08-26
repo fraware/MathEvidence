@@ -1,0 +1,7 @@
+/tmp/p02-repair-edge-5kv73zd7/ND2-25-PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-edge-5kv73zd7/ND2-25-PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:5:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

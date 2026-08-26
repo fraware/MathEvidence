@@ -1,0 +1,13 @@
+{
+  "after_source_sha256": "sha256:1d2fc3b9c5e564135fef3c079853ba7f2f07f40f970843858db0f577b1402853",
+  "baseline_case_id": "ND2-05-WRONG_TARGET",
+  "before_source_sha256": "sha256:ba5b4784337ad96d9669406d765aa2f7cb53bd9e30ce8317bc5d81536a05b921",
+  "case_id": "ND2-05-WRONG_TARGET",
+  "edge_id": "ND2-05-WRONG_TARGET__FIX__WRONG_TARGET",
+  "mechanisms_after": [],
+  "mechanisms_before": [
+    "WRONG_TARGET"
+  ],
+  "repair_mechanism": "WRONG_TARGET",
+  "role": "counterfactual_repair"
+}

@@ -1,0 +1,6 @@
+/tmp/p02-repair-edge-cpcwgsfk/ND2-17-SOURCE_CORRUPTION_UNKNOWN_TYPE_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  P02MissingType : Sort u_1
+but is expected to have type
+  n = n : Prop

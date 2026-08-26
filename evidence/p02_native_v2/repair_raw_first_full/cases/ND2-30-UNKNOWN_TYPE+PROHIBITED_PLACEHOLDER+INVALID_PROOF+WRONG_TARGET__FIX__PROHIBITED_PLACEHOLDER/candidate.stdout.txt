@@ -1,0 +1,6 @@
+/tmp/p02-repair-edge-5jnqob9_/ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  P02MissingType : Sort u_1
+but is expected to have type
+  0 = 0 : Prop

@@ -1,0 +1,6 @@
+/tmp/p02-repair-edge-hfu3g96j/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__UNKNOWN_TYPE-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  0 = 0 : Prop

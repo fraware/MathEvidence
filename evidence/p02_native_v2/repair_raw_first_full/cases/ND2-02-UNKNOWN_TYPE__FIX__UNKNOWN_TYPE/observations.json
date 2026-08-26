@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-umk4zmbf/ND2-02-UNKNOWN_TYPE__FIX__UNKNOWN_TYPE-candidate.lean"
+    ],
+    "elapsed_seconds": 0.41350711100000126,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "ND2-02-UNKNOWN_TYPE__FIX__UNKNOWN_TYPE",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-umk4zmbf/ND2-02-UNKNOWN_TYPE__FIX__UNKNOWN_TYPE-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4188533089999851,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-umk4zmbf/ND2-02-UNKNOWN_TYPE__FIX__UNKNOWN_TYPE-target.lean"
+    ],
+    "elapsed_seconds": 0.40631904999997914,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

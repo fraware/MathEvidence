@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.37322226200001296,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-18-SOURCE_CORRUPTION+UNKNOWN_TYPE+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.38101999299999534,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-declaration.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : 0 = 0\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.38095648900002743,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:4:32: error: type mismatch\n  p02Native\nhas type\n  ?m.92 → 0 = 0 : Prop\nbut is expected to have type\n  ∀ (n : Nat), n = n : Prop\n",
+    "timed_out": false
+  }
+}

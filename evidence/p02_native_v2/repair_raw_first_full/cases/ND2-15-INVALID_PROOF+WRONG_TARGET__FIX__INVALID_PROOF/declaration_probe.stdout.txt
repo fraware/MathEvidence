@@ -1,0 +1,3 @@
+/tmp/p02-repair-edge-uec4h_7j/ND2-15-INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-declaration.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+p02Native (n : Nat) : 0 = 0

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-cumulative-m0bi40wc/ND2-CUMULATIVE-5-WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3746414680000498,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "ND2-CUMULATIVE-5-WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-cumulative-m0bi40wc/ND2-CUMULATIVE-5-WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.38275087400000984,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-cumulative-m0bi40wc/ND2-CUMULATIVE-5-WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.3807158399999935,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

@@ -1,0 +1,6 @@
+/tmp/p02-repair-edge-czy87ulg/ND2-11-UNKNOWN_TYPE_INVALID_PROOF__FIX__UNKNOWN_TYPE-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

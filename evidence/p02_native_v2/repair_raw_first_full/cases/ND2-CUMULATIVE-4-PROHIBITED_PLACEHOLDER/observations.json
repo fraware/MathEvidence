@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3809038829999736,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-candidate.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 0.38097669100000076,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-declaration.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Native (n : Nat) : 0 = 0\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 0.3851326150000318,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-target.lean:1:19: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-repair-cumulative-catus078/ND2-CUMULATIVE-4-PROHIBITED_PLACEHOLDER-target.lean:4:32: error: type mismatch\n  p02Native\nhas type\n  Nat → 0 = 0 : Prop\nbut is expected to have type\n  ∀ (n : Nat), n = n : Prop\n",
+    "timed_out": false
+  }
+}

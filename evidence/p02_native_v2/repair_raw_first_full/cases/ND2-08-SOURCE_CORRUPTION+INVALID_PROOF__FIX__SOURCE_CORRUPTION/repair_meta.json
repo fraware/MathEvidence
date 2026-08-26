@@ -1,0 +1,16 @@
+{
+  "after_source_sha256": "sha256:afa0e551aa1a29734cfa1c51eabece0d9a86041bd35d7581c1bbd1380b197fc8",
+  "baseline_case_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF",
+  "before_source_sha256": "sha256:2a61d7bc2cf64ae80a5d235b014e32067d0f10624751a028190f66742e96fa3e",
+  "case_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF",
+  "edge_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+  "mechanisms_after": [
+    "INVALID_PROOF"
+  ],
+  "mechanisms_before": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF"
+  ],
+  "repair_mechanism": "SOURCE_CORRUPTION",
+  "role": "counterfactual_repair"
+}

@@ -1,0 +1,18 @@
+{
+  "after_source_sha256": "sha256:095aa4b46b245224ba1e787d4371f0c4f7c641b0606fc8d6b413a4872db13ecf",
+  "baseline_case_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+  "before_source_sha256": "sha256:9aa2e6f5067bcded751a1c7ccd25fcdc0618b2d25649c89e01980e7cba9cc159",
+  "case_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+  "edge_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+  "mechanisms_after": [
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "mechanisms_before": [
+    "PROHIBITED_PLACEHOLDER",
+    "INVALID_PROOF",
+    "WRONG_TARGET"
+  ],
+  "repair_mechanism": "INVALID_PROOF",
+  "role": "counterfactual_repair"
+}

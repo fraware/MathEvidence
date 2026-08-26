@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-46uwxn6o/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4019557609999538,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-46uwxn6o/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-14-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-46uwxn6o/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.38231395799999746,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-46uwxn6o/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean:1:8: warning: declaration uses 'sorry'\np02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-46uwxn6o/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.3752804839999726,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-46uwxn6o/ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-target.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

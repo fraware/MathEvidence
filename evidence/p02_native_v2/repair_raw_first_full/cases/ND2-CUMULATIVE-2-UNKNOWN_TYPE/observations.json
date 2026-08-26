@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-cumulative-h0s_gman/ND2-CUMULATIVE-2-UNKNOWN_TYPE-candidate.lean"
+    ],
+    "elapsed_seconds": 0.37174519799998507,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-cumulative-h0s_gman/ND2-CUMULATIVE-2-UNKNOWN_TYPE-candidate.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-repair-cumulative-h0s_gman/ND2-CUMULATIVE-2-UNKNOWN_TYPE-candidate.lean:5:2: error: type mismatch\n  n\nhas type\n  Nat : Type\nbut is expected to have type\n  0 = 0 : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-CUMULATIVE-2-UNKNOWN_TYPE",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

@@ -1,0 +1,13 @@
+{
+  "after_source_sha256": "sha256:1d2fc3b9c5e564135fef3c079853ba7f2f07f40f970843858db0f577b1402853",
+  "baseline_case_id": "ND2-04-INVALID_PROOF",
+  "before_source_sha256": "sha256:afa0e551aa1a29734cfa1c51eabece0d9a86041bd35d7581c1bbd1380b197fc8",
+  "case_id": "ND2-04-INVALID_PROOF",
+  "edge_id": "ND2-04-INVALID_PROOF__FIX__INVALID_PROOF",
+  "mechanisms_after": [],
+  "mechanisms_before": [
+    "INVALID_PROOF"
+  ],
+  "repair_mechanism": "INVALID_PROOF",
+  "role": "counterfactual_repair"
+}

@@ -1,0 +1,6 @@
+/tmp/p02-repair-edge-_1249pn1/ND2-13-PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

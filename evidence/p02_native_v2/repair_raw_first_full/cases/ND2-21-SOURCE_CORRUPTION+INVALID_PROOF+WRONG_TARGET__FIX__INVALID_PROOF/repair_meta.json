@@ -1,0 +1,18 @@
+{
+  "after_source_sha256": "sha256:5d6f42907c4f3786dd105220311c73e4c953bc9eb35eb52bb91c7bb094b3e9c0",
+  "baseline_case_id": "ND2-21-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+  "before_source_sha256": "sha256:ac4d4bde40b0a29fa47e5da67614e745e06054b5170f16fcd4c965ecbf4a86d7",
+  "case_id": "ND2-21-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+  "edge_id": "ND2-21-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+  "mechanisms_after": [
+    "SOURCE_CORRUPTION",
+    "WRONG_TARGET"
+  ],
+  "mechanisms_before": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF",
+    "WRONG_TARGET"
+  ],
+  "repair_mechanism": "INVALID_PROOF",
+  "role": "counterfactual_repair"
+}

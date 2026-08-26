@@ -1,0 +1,3 @@
+/tmp/p02-repair-edge-gcxapocb/ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-declaration.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+p02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : 0 = 0

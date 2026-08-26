@@ -1,0 +1,1 @@
+/tmp/p02-repair-edge-jbu8w6u5/ND2-28-SOURCE_CORRUPTION_UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__UNKNOWN_TYPE-candidate.lean:1:26: error: unexpected token ':'; expected ')'

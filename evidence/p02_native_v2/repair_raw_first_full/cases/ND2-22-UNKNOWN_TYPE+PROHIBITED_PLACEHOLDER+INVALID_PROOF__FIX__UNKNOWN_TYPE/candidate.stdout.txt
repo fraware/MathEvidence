@@ -1,0 +1,7 @@
+/tmp/p02-repair-edge-b2r8e46q/ND2-22-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__UNKNOWN_TYPE-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-edge-b2r8e46q/ND2-22-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__UNKNOWN_TYPE-candidate.lean:5:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop

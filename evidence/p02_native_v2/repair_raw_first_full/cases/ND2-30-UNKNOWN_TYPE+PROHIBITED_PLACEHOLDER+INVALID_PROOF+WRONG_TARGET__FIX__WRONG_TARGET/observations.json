@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-8ystyq1n/ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3841106259999947,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-8ystyq1n/ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-repair-edge-8ystyq1n/ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:5:2: error: type mismatch\n  n\nhas type\n  P02MissingType : Sort u_1\nbut is expected to have type\n  n = n : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-30-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

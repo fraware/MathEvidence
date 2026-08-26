@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-repair-edge-nuuhbvkr/ND2-22-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3746853839999744,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-repair-edge-nuuhbvkr/ND2-22-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:2:2: error: type mismatch\n  n\nhas type\n  P02MissingType : Sort u_1\nbut is expected to have type\n  n = n : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-22-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

@@ -1,0 +1,3 @@
+/tmp/p02-repair-edge-ayxtx2mp/ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-repair-edge-ayxtx2mp/ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-candidate.lean:4:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

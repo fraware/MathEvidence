@@ -1,0 +1,8 @@
+/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-repair-edge-jek7ojyu/ND2-18-SOURCE_CORRUPTION_UNKNOWN_TYPE_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:4:32: error: type mismatch
+  p02Native
+has type
+  ?m.92 → 0 = 0 : Prop
+but is expected to have type
+  ∀ (n : Nat), n = n : Prop

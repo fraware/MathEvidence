@@ -1,0 +1,2 @@
+/tmp/p02-repair-edge-ucx9haib/ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__INVALID_PROOF-candidate.lean:1:19: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
