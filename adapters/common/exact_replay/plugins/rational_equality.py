@@ -294,19 +294,19 @@ def {cert_name} : Certificate where
   denomFactors := {denoms}
 
 /-- Lean-side equality between reconstructed wire binding and submitted digest.
-Kernel `decide` deliberately avoids compiler-backed `native_decide` here: the
-request digest is recomputed by the pure Lean canonical-JSON/SHA-256 path. -/
+The submitted digest is not copied into the request: `native_decide` evaluates
+Lean's canonical-JSON/SHA-256 reconstruction of `Request.ofClaim!`. -/
 theorem {binding_decl} :
     {req_name}.requestDigest = ⟨{lean_string(request_digest)}⟩ := by
-  decide
+  native_decide
 
 /-- Exact Candidate Bundle semantic claim. The checker includes digest equality,
-so this decision proof independently re-evaluates the same request binding. -/
+so this native decision independently re-evaluates the same request binding. -/
 theorem {decl} : Claim.proposition {req_name}.claim {cert_name}.denomFactors :=
   replaySound
     {req_name}
     {cert_name}
-    (by decide : checkBool {req_name} {cert_name} = true)
+    (by native_decide : checkBool {req_name} {cert_name} = true)
 
 #print axioms {binding_decl}
 #print axioms {decl}
