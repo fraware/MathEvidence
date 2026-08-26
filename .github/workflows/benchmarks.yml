@@ -24,6 +24,7 @@ on:
       - "scripts/generate_exact_ideal_replay_module.py"
       - "scripts/ci/run_cr_exact_lean_e2e.py"
       - "scripts/ci/run_cr_exact_lean_e2e_production.py"
+      - "tests/forensic/test_ideal_benchmark_scoring.py"
       - "registry/maturity-inventory.json"
       - "registry/capabilities/**"
       - "adapters/common/exact_replay/**"
@@ -81,6 +82,42 @@ jobs:
           uv sync --frozen --extra dev --extra sympy
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
 
+      - name: Ideal-membership scoring trust regression
+        run: python -m pytest tests/forensic/test_ideal_benchmark_scoring.py -q
+
+      - name: Ideal-membership frozen 55-task corpus (candidate/checker tier)
+        env:
+          MATHEVIDENCE_IDEAL_BACKEND: sympy
+        run: |
+          set -euo pipefail
+          python scripts/run_ideal_membership_benchmark.py --tier candidate | tee /tmp/ideal-candidate.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = json.loads(Path("/tmp/ideal-candidate.json").read_text(encoding="utf-8"))
+          manifest = json.loads(
+              Path("benchmarks/ideal_membership/manifest.json").read_text(encoding="utf-8")
+          )
+          expected_scored = int(manifest["passTasks"]) + int(manifest["xfailTasks"])
+          assert p.get("tier") == "candidate", p.get("tier")
+          assert p.get("taskCount") == manifest.get("taskCount"), (p.get("taskCount"), manifest.get("taskCount"))
+          assert p.get("scoredTasks") == expected_scored, (p.get("scoredTasks"), expected_scored)
+          assert p.get("skipped") == manifest.get("skipTasks"), (p.get("skipped"), manifest.get("skipTasks"))
+          assert p.get("passed") == p.get("scoredTasks"), (p.get("passed"), p.get("scoredTasks"))
+          assert p.get("criticalFalseAcceptCount") == 0, p.get("criticalFalseAcceptTasks")
+          assert not p.get("criticalFalseAcceptTasks"), p.get("criticalFalseAcceptTasks")
+          assert p.get("adapterCheckerDisagreementCount") == 0, p.get("adapterCheckerDisagreementTasks")
+          for task in p.get("tasks") or []:
+              assert (task.get("lean") or {}).get("resultStatus") is None, task.get("id")
+          print(
+              "ideal frozen corpus OK:",
+              p.get("taskCount"),
+              "tasks; scored=", p.get("scoredTasks"),
+              "false_accepts=", p.get("criticalFalseAcceptCount"),
+          )
+          PY
+
       - name: Agent held-out suite
         run: python scripts/run_agent_held_out.py
 
@@ -108,8 +145,10 @@ jobs:
       - name: Tool-selection benchmark
         run: python scripts/run_tool_selection_benchmark.py
 
-  # Backend-proposed multipliers -> exact Lean theorem -> Lean.Environment
-  # identity -> strict Certification Record. Benchmark score never grants CR eligibility.
+  # Bounded exact theorem subset: backend-proposed multipliers -> exact Lean
+  # theorem -> Lean.Environment identity -> strict Certification Record.
+  # The full 55-task corpus runs separately above. Benchmark score never grants
+  # CR eligibility.
   ideal-release-grade:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -147,25 +186,30 @@ jobs:
           echo "::notice title=ideal-release-grade setup::Lake build of exact-replay deps. Failure here is setup/replay, not benchmark scoring."
           lake build MathEvidenceCheckers mathevidence-declaration-identity
 
-      - name: Ideal membership release-grade (exact Certification Record)
+      - name: Ideal membership bounded exact theorem subset
         env:
           MATHEVIDENCE_IDEAL_BENCH_TIER: release
           MATHEVIDENCE_IDEAL_BACKEND: sympy
         run: |
           set -euo pipefail
-          echo "::notice title=ideal-release-grade bench::Benchmark logic + exact CR asserts. Distinct from Lake setup step above."
+          echo "::notice title=ideal-release-grade bench::Bounded exact-CR subset. The full 55-task candidate/checker corpus is a separate job."
           python scripts/run_ideal_membership_benchmark.py --tier release | tee /tmp/ideal-release.json
           python - <<'PY'
           import json
           p = json.load(open("/tmp/ideal-release.json", encoding="utf-8"))
+          tasks = p.get("tasks") or []
+          release_tasks = p.get("releaseCertificationTasks") or []
           assert p.get("tier") == "release", p.get("tier")
+          assert p.get("taskCount") == len(release_tasks) == len(tasks) and len(tasks) > 0
+          assert {t.get("id") for t in tasks} == set(release_tasks)
           assert p.get("passed") == p.get("scoredTasks") and p.get("scoredTasks", 0) > 0
+          assert p.get("criticalFalseAcceptCount") == 0, p.get("criticalFalseAcceptTasks")
           assert "OfflineFixtures" not in (p.get("scoringRule") or "")
-          for t in p.get("tasks") or []:
+          for t in tasks:
               lean = t.get("lean") or {}
               assert lean.get("resultStatus") == "soundness_verified", (t.get("id"), lean)
               assert lean.get("certificationRecordDigest"), t.get("id")
               assert lean.get("identityAuthority") == "Lean.Environment ConstantInfo", lean
           assert "crEligible" not in p
-          print("ideal exact release-grade OK:", p.get("passed"), "Certification Records")
+          print("ideal bounded exact subset OK:", p.get("passed"), "Certification Records")
           PY

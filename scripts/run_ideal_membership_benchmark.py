@@ -4,8 +4,9 @@
 Tiers
 -----
 ``candidate``:
-  pass iff backend proposes + arity decodes + the Python mirror of
-  ``checkMembership`` accepts. This tier never reports theorem authority.
+  pass iff backend proposes + arity decodes + the independently recomputed
+  Python mirror of ``checkMembership`` accepts. Adapter self-reports are
+  diagnostic only. This tier never reports theorem authority.
 
 ``release``:
   pass iff the candidate gates succeed and the *exact proposed witness* is
@@ -48,7 +49,8 @@ SUITE = ROOT / "benchmarks" / "ideal_membership"
 
 # Keep PR/nightly theorem compilation bounded while the exact path is new.
 # These are task IDs, not OfflineFixtures: the backend's proposed multipliers
-# are the certificate that Lean compiles and certifies.
+# are the certificate that Lean compiles and certifies. The complete frozen
+# corpus is evaluated separately at candidate/checker tier.
 RELEASE_CERTIFICATION_TASKS = frozenset(
     {
         "IM01_linear_combination_xy",
@@ -78,7 +80,7 @@ def _candidate_status(task: dict[str, Any], proposed: list[dict[str, Any]]) -> d
         "assuranceClaim": "native_checked_candidate_only",
         "resultStatus": None,
         "note": (
-            "Candidate tier accepted only by the Python checker mirror; "
+            "Candidate tier accepted only by the independently recomputed Python checker mirror; "
             "no theorem-level status is claimed."
         ),
         "taskId": task.get("id"),
@@ -259,6 +261,14 @@ def _score_task(task: dict[str, Any], backend: str, *, tier: str) -> dict[str, A
             decode_error = str(exc)
     check_ms = (time.perf_counter() - start) * 1000.0
 
+    adapter_reported_accepts = proposal.get("pythonMirrorAccepts")
+    adapter_checker_agreement = (
+        adapter_reported_accepts == proposed_ok
+        if isinstance(adapter_reported_accepts, bool)
+        else None
+    )
+    critical_false_accept = expected_status == "xfail" and proposed_ok
+
     if not proposed_ok:
         lean = {
             "leanCheckStatus": "not_attempted",
@@ -274,7 +284,9 @@ def _score_task(task: dict[str, Any], backend: str, *, tier: str) -> dict[str, A
     if expected_status == "skip":
         status = "skip"
     elif expected_status == "xfail":
-        status = "xfail_ok" if not proposal.get("pythonMirrorAccepts") else "xfail_unexpected_accept"
+        # A negative-corpus outcome is decided only by the independently
+        # recomputed checker result. Adapter self-report is untrusted telemetry.
+        status = "xfail_unexpected_accept" if critical_false_accept else "xfail_ok"
     elif not decode_ok:
         status = "fail_decode_arity"
     elif not proposed:
@@ -305,7 +317,9 @@ def _score_task(task: dict[str, Any], backend: str, *, tier: str) -> dict[str, A
         "decodeOk": decode_ok,
         "decodeError": decode_error,
         "proposedAccepts": proposed_ok,
-        "adapterPythonMirrorAccepts": proposal.get("pythonMirrorAccepts"),
+        "criticalFalseAccept": critical_false_accept,
+        "adapterPythonMirrorAccepts": adapter_reported_accepts,
+        "adapterCheckerAgreement": adapter_checker_agreement,
         "adapterBackend": proposal.get("backend"),
         "nativeWitnessMs": round(generation_ms, 3),
         "mathEvidenceCheckMs": round(check_ms, 3),
@@ -352,6 +366,13 @@ def main(argv: list[str] | None = None) -> int:
     if tier == TIER_CANDIDATE and soundness_claims:
         raise SystemExit("candidate tier produced soundness_verified; refusing report")
 
+    critical_false_accept_tasks = [
+        str(row["id"]) for row in rows if row.get("criticalFalseAccept") is True
+    ]
+    adapter_checker_disagreement_tasks = [
+        str(row["id"]) for row in rows if row.get("adapterCheckerAgreement") is False
+    ]
+
     by_stratum: dict[str, dict[str, int]] = {}
     for row in rows:
         bucket = by_stratum.setdefault(str(row.get("stratum") or "unit"), {"total": 0, "passed": 0})
@@ -367,9 +388,9 @@ def main(argv: list[str] | None = None) -> int:
         "capability": CAPABILITY_ID,
         "tier": tier,
         "scoringRule": (
-            "pass iff propose + arity-decode + Python mirror check; never theorem authority"
+            "pass iff propose + arity-decode + independently recomputed Python mirror check; adapter self-report is diagnostic only; never theorem authority"
             if tier == TIER_CANDIDATE
-            else "pass iff backend proposal passes mirror and that exact proposal obtains Lean.Environment-derived kernel Certification Record"
+            else "pass iff backend proposal passes independently recomputed mirror and that exact proposal obtains Lean.Environment-derived kernel Certification Record"
         ),
         "backend": backend,
         "declaredBaselines": manifest.get("baselines") or [],
@@ -378,6 +399,10 @@ def main(argv: list[str] | None = None) -> int:
         "scoredTasks": len(scored),
         "passed": passed,
         "skipped": sum(row["status"] == "skip" for row in rows),
+        "criticalFalseAcceptCount": len(critical_false_accept_tasks),
+        "criticalFalseAcceptTasks": critical_false_accept_tasks,
+        "adapterCheckerDisagreementCount": len(adapter_checker_disagreement_tasks),
+        "adapterCheckerDisagreementTasks": adapter_checker_disagreement_tasks,
         "byStratum": by_stratum,
         "honestyNote": manifest.get("honestyNote"),
         "externalHeldOutNote": (
@@ -403,7 +428,13 @@ def main(argv: list[str] | None = None) -> int:
         "tasks": rows,
     }
     print(json.dumps(out, indent=2))
-    return 0 if scored and passed == len(scored) else 1
+    return (
+        0
+        if scored
+        and passed == len(scored)
+        and not critical_false_accept_tasks
+        else 1
+    )
 
 
 if __name__ == "__main__":

@@ -49,7 +49,7 @@
   "expectedStatus": "xfail",
   "xfailReason": "false membership; no witness expected",
   "baselineNotes": [
-    "Target overridden to x^5; with gens ⟨x^2,y^2⟩ this is false membership."
+    "Target is x; every monomial in the monomial ideal ⟨x^2,y^2⟩ is divisible by x^2 or y^2, so x is not a member."
   ],
   "stratum": "adversarial"
 }
