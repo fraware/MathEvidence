@@ -72,9 +72,15 @@ def test_rational_equality_is_excluded_from_production_release_matrix() -> None:
     runner, previous_runner, previous_matrix = _load_runner()
 
     try:
-        cases = runner.matrix._cases()
-        assert all(case.capability != "algebra.rational_equality" for case in cases)
-        assert "algebra.rational_equality" not in runner._required_cr_capabilities()
+        matrix = runner.matrix
+        cases = matrix._cases()
+        matrix._assert_coverage(cases)
+
+        capabilities = {case.capability for case in cases}
+        expected = matrix._inventory_cr_eligible()
+        assert capabilities == expected
+        assert "algebra.rational_equality" not in capabilities
+        assert "algebra.rational_equality" not in expected
 
         decision = decide_exact_kernel_replay("algebra.rational_equality")
         assert decision.ok is False
