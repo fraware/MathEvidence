@@ -1,4 +1,4 @@
-"""Regression coverage for formal-calculus exact request binding."""
+"""Regression coverage for formal-calculus exact request binding and proof mode."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from adapters.common.canonical import bind_request_digest
 from adapters.common.exact_replay.pipeline import generate_module
 
 
-def test_formal_antiderivative_uses_definitional_request_binding() -> None:
+def test_formal_antiderivative_uses_definitional_binding_and_kernel_decide() -> None:
     request = bind_request_digest(
         {
             "schemaVersion": "0.1.0",
@@ -58,10 +58,12 @@ def test_formal_antiderivative_uses_definitional_request_binding() -> None:
     assert "\n  rfl\n" in binding_body
     assert "native_decide" not in binding_body
 
-    # Only the digest projection is definitional. The substantive checker
-    # acceptance remains executable proof authority and must still be discharged.
+    # The substantive theorem still depends on the exact checker accepting the
+    # exact generated request/certificate. `decide` asks the kernel to reduce
+    # that closed proposition; it is not a fixture, assumption, or bypass.
     theorem_body = source.split(
         "theorem formal_antiderivative_binding_regression :", 1
     )[1]
     assert "checkBool formal_antiderivative_binding_regression_req" in theorem_body
-    assert "by native_decide" in theorem_body
+    assert "by decide" in theorem_body
+    assert "native_decide" not in theorem_body
