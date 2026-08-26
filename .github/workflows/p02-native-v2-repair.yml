@@ -51,6 +51,16 @@ jobs:
           set -euo pipefail
           bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
 
+      - name: Initialize and verify pinned Lean toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          cd /tmp/mathevidence-pinned
+          lake env lean --version
+          lake --version
+          test -z "$(git status --porcelain)"
+
       - name: Collect preregistered raw repair observations
         shell: bash
         run: |
