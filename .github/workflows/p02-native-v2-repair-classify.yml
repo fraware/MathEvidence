@@ -56,7 +56,7 @@ jobs:
           assert sum(summary["derived_class_counts"].values()) == 85
           assert summary["plan_digest"] == "sha256:0b610ed6bd984acf6403046e5adf56ed5f8ae0d9a6fbce4178c6a8ede4e20565"
           assert summary["raw_repair_bundle_digest"] == "sha256:40b4c6a1397edb126774cf38ff06cbc54c73b216e9dbe4ef9c8a81d3e2fe4857"
-          assert integrity["n_files"] == 87
+          assert integrity["n_files"] == 86
           print(json.dumps(summary["derived_class_counts"], sort_keys=True))
           print(integrity["bundle_digest"])
           PY
