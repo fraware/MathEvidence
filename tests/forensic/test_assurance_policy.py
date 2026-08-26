@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import copy
-import json
 from pathlib import Path
 
 import pytest
@@ -17,15 +16,16 @@ from agent.api.assurance_policy import (
     load_assurance_policy,
     validate_assurance_policy_object,
 )
-from adapters.common.kernel_replay import EXACT_REPLAY_CAPABILITIES, KernelReplayError, run_kernel_replay
+from adapters.common.kernel_replay import EXACT_REPLAY_CAPABILITIES
 from adapters.common.schema_validate import SchemaStore
 
 ROOT = Path(__file__).resolve().parents[2]
 
+# Release-authorized theorem/CR cohort. Rational equality deliberately remains
+# candidate-only until its exact candidate-identity representation is closed.
 _CR_ELIGIBLE = frozenset(
     {
         "algebra.ideal_membership_witness",
-        "algebra.rational_equality",
         "algebra.linear_algebra",
         "logic.finite_counterexample",
         "algebra.formal_rational_calculus",
@@ -54,32 +54,42 @@ def test_all_capabilities_have_assurance_policy() -> None:
             assert cr is False
 
 
-def test_exact_binding_phase2_set() -> None:
-    supported = {cid for cid, p in load_all_assurance_policies().items() if p["exactBinding"]["supported"]}
-    assert supported == set(historical_exact_replay_capabilities())
+def test_exact_binding_current_and_historical_sets_are_distinct() -> None:
+    policies = load_all_assurance_policies()
+    supported = {
+        cid for cid, policy in policies.items() if policy["exactBinding"]["supported"]
+    }
+    historical = set(historical_exact_replay_capabilities())
+
+    assert supported == set(_CR_ELIGIBLE)
+    assert historical == set(EXACT_REPLAY_CAPABILITIES)
+    assert supported < historical
+    assert historical - supported == {"algebra.rational_equality"}
+
     assert exact_binding_supported("algebra.ideal_membership_witness") is True
-    assert exact_binding_supported("algebra.rational_equality") is True
+    assert exact_binding_supported("algebra.rational_equality") is False
     assert exact_binding_supported("logic.smt") is False
 
 
-def test_differential_matches_historical_exact_set() -> None:
-    historical = historical_exact_replay_capabilities()
-    assert historical == EXACT_REPLAY_CAPABILITIES
-    registry_exact = {
+def test_policy_decisions_match_current_release_cohort() -> None:
+    current = {
         cid
-        for cid, policy in load_all_assurance_policies().items()
+        for cid in load_all_assurance_policies()
         if decide_exact_kernel_replay(cid).ok
     }
-    assert registry_exact == set(historical)
+    assert current == set(_CR_ELIGIBLE)
+
+    # The compatibility cohort records implementation history only; it is not
+    # release authority and may therefore be a strict superset of current CR.
+    historical = historical_exact_replay_capabilities()
+    assert historical == EXACT_REPLAY_CAPABILITIES
+    assert "algebra.rational_equality" in historical
+    assert "algebra.rational_equality" not in current
 
 
 @pytest.mark.parametrize(
     "capability_id",
-    sorted(
-        cid
-        for cid in load_all_assurance_policies()
-        if cid not in historical_exact_replay_capabilities()
-    ),
+    sorted(cid for cid in load_all_assurance_policies() if cid not in _CR_ELIGIBLE),
 )
 def test_unsupported_exact_is_assurance_mode_unavailable(capability_id: str) -> None:
     decision = decide_exact_kernel_replay(capability_id)
@@ -98,9 +108,7 @@ def test_cr_eligible_without_generator_rejected_by_policy_validator() -> None:
     policy = copy.deepcopy(load_assurance_policy("logic.smt"))
     assert policy is not None
     policy["certification"]["crEligible"] = True
-    errors = validate_assurance_policy_object(
-        policy, capability_id="logic.smt"
-    )
+    errors = validate_assurance_policy_object(policy, capability_id="logic.smt")
     assert any("crEligible=true" in message for message in errors)
 
 
@@ -114,31 +122,25 @@ def test_exact_mode_without_binding_metadata_rejected() -> None:
     assert any("exactBinding.supported requires fields" in message for message in errors)
 
 
-def test_kernel_replay_rational_uses_exact_generator_not_fixtures() -> None:
-    """Exact binding is enabled; OfflineFixtures must never be the authority."""
-    example = ROOT / "evidence" / "examples" / "rational_equality_basic"
+def test_rational_theorem_replay_is_explicitly_fail_closed() -> None:
+    policy = load_assurance_policy("algebra.rational_equality")
+    assert policy is not None
+    assert policy["exactBinding"]["supported"] is False
+    assert policy["certification"]["crEligible"] is False
+    assert policy["certification"]["allowedOutcomes"] == []
+    assert policy["supportedAssuranceModes"] == []
+
     decision = decide_exact_kernel_replay("algebra.rational_equality")
-    assert decision.ok is True
-    try:
-        result = run_kernel_replay(
-            bundle_dir=example,
-            repo_root=ROOT,
-            declaration_name="forensic_exact_rational",
-            require_lean=False,
-        )
-    except KernelReplayError as exc:
-        assert "OfflineFixtures" not in str(exc.message)
-        return
-    assert result["ok"] is True
-    assert "OfflineFixtures" not in (result.get("detail") or "")
-    assert result.get("identityAuthority") == "Lean.Environment ConstantInfo"
+    assert decision.ok is False
+    assert decision.code == ASSURANCE_MODE_UNAVAILABLE
+    assert "crEligible" in decision.message
 
 
-def test_validate_registry_accepts_phase1_policies() -> None:
+def test_validate_registry_accepts_current_policies() -> None:
     import importlib.util
 
     path = ROOT / "scripts" / "validate_registry.py"
-    spec = importlib.util.spec_from_file_location("validate_registry_phase1", path)
+    spec = importlib.util.spec_from_file_location("validate_registry_release", path)
     assert spec and spec.loader
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
