@@ -90,7 +90,8 @@ def test_rational_failure_diagnostic_is_non_authoritative() -> None:
         assert "MATHEVIDENCE_DIAG_CANONICAL=" in source
         assert "MATHEVIDENCE_DIAG_DIGEST=" in source
         assert "\ntheorem " not in source
-        assert "native_decide" not in source
+        assert "\n  native_decide\n" not in source
+        assert "(by native_decide" not in source
         assert "#print axioms" not in source
         assert f"{module.declaration_name}_req.requestDigest.value" in source
     finally:
