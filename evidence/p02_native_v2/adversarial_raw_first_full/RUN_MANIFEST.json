@@ -1,0 +1,16 @@
+{
+  "classification_performed": false,
+  "n_cases": 13,
+  "non_claims": [
+    "This bundle contains raw native observations only.",
+    "Expected semantic classes are preregistered separately and are not classifier outputs.",
+    "No adversarial pass/fail claim is assigned by this collection step."
+  ],
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_adversarial_raw_v2",
+  "spec_digest": "sha256:b3db906353bdb5c53a732c2fd3f924ab445b116f58afbdac104c24d5334465c4",
+  "status": "RAW_ADVERSARIAL_OBSERVATIONS_EXECUTED_NOT_CLASSIFIED",
+  "toolchain_archive_sha256": null,
+  "toolchain_expected_identity": "Lean 4.14.0 commit 410fab728470",
+  "toolchain_transport": "elan_release_host"
+}

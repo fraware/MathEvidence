@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-06-RENAMED-THEOREM",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "identifier renaming with matched probe should preserve outcome",
+  "role": "renaming",
+  "source_sha256": "sha256:5d6ec2dcca2a4f6d6b75458a04d7351e8c9e323751e0733cd7242506f2486d64",
+  "theorem_name": "p02NativeRenamed"
+}

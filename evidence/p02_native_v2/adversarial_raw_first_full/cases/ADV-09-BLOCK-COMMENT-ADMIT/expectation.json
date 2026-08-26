@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-09-BLOCK-COMMENT-ADMIT",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "commented admit must not create a proof placeholder",
+  "role": "lexical_comment",
+  "source_sha256": "sha256:1d5f2ac6abe39f2c9edbe5a204e621bddf6543cb15920db25d1e78e7b12c7e37",
+  "theorem_name": "p02Native"
+}

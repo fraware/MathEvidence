@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-00-CLEAN",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "policy-admissible clean control",
+  "role": "clean_control",
+  "source_sha256": "sha256:1d2fc3b9c5e564135fef3c079853ba7f2f07f40f970843858db0f577b1402853",
+  "theorem_name": "p02Native"
+}

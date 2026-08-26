@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-02-BLOCK-COMMENT-AXIOM",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "commented axiom text must not create an axiom declaration",
+  "role": "lexical_comment",
+  "source_sha256": "sha256:2d5ab53125bc660fd7e49df343cb89e00d0127e40a74fad2eac41ee763a207c2",
+  "theorem_name": "p02Native"
+}

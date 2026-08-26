@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-06-RENAMED-THEOREM-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4427695349999965,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "ADV-06-RENAMED-THEOREM",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-06-RENAMED-THEOREM-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4390621759999931,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02NativeRenamed (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-06-RENAMED-THEOREM-target.lean"
+    ],
+    "elapsed_seconds": 0.44648939699999346,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-01-LINE-COMMENT-SORRY-candidate.lean"
+    ],
+    "elapsed_seconds": 0.444125059000001,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "ADV-01-LINE-COMMENT-SORRY",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-01-LINE-COMMENT-SORRY-declaration.lean"
+    ],
+    "elapsed_seconds": 0.44045038199999453,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-01-LINE-COMMENT-SORRY-target.lean"
+    ],
+    "elapsed_seconds": 0.4471761530000009,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

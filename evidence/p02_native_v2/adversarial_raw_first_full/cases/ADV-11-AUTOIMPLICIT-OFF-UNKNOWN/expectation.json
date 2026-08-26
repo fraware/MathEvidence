@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-11-AUTOIMPLICIT-OFF-UNKNOWN",
+  "expected_semantic_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "rationale": "unknown type must reject when autoImplicit is explicitly disabled",
+  "role": "environment_sensitivity",
+  "source_sha256": "sha256:0d18e11a72d48166c09fbe888449ae070ba4c23cfe226552ce750163b1562b7a",
+  "theorem_name": "p02Native"
+}

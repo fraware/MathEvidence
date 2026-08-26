@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-01-LINE-COMMENT-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "comment text must not create a proof placeholder",
+  "role": "lexical_comment",
+  "source_sha256": "sha256:163c179c5757011d4bea8468b5dbc9c1ffab16d22d707c15d2e04f6c482399a8",
+  "theorem_name": "p02Native"
+}

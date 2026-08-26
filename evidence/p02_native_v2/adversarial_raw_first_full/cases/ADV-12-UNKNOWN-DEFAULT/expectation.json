@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-12-UNKNOWN-DEFAULT",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "default autoImplicit permits this name to be generalized",
+  "role": "environment_sensitivity",
+  "source_sha256": "sha256:b8522fcb6189bc44ab4a60551096f6028c0d9a7b0b7ebeb834ff32a8aeac6735",
+  "theorem_name": "p02Native"
+}

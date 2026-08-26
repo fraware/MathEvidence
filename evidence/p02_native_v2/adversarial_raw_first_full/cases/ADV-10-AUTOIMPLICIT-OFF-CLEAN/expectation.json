@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-10-AUTOIMPLICIT-OFF-CLEAN",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "autoImplicit=false must leave well-declared control accepted",
+  "role": "environment_control",
+  "source_sha256": "sha256:dc4eb2eb50f241fb9d5bd4494c266473ab3977040850bc0f600d35581269c784",
+  "theorem_name": "p02Native"
+}

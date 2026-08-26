@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-07-ACTUAL-SORRY-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4404517159999841,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-adversarial-sih7z0gl/ADV-07-ACTUAL-SORRY-candidate.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "ADV-07-ACTUAL-SORRY",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-07-ACTUAL-SORRY-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4350156200000015,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-adversarial-sih7z0gl/ADV-07-ACTUAL-SORRY-declaration.lean:1:8: warning: declaration uses 'sorry'\np02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-07-ACTUAL-SORRY-target.lean"
+    ],
+    "elapsed_seconds": 0.4496015889999967,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-adversarial-sih7z0gl/ADV-07-ACTUAL-SORRY-target.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

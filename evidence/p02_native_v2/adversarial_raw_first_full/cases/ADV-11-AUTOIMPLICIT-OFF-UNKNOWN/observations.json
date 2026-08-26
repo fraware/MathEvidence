@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-11-AUTOIMPLICIT-OFF-UNKNOWN-candidate.lean"
+    ],
+    "elapsed_seconds": 0.44123237499999846,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-adversarial-sih7z0gl/ADV-11-AUTOIMPLICIT-OFF-UNKNOWN-candidate.lean:2:23: error: unknown identifier 'P02MissingType'\n",
+    "timed_out": false
+  },
+  "case_id": "ADV-11-AUTOIMPLICIT-OFF-UNKNOWN",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

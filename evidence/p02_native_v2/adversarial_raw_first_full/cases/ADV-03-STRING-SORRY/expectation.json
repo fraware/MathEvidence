@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-03-STRING-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "string contents must not create a proof placeholder",
+  "role": "lexical_string",
+  "source_sha256": "sha256:b3233f25a7cd356b42b4fd9a200799a2b917f96505e5b331e6eed1c864996112",
+  "theorem_name": "p02Native"
+}

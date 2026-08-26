@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-08-ACTUAL-AXIOM",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "rationale": "actual axiom in artifact is a file-level policy violation",
+  "role": "true_policy_violation",
+  "source_sha256": "sha256:94b7780369ad271b0bb36d822808736a8157fa7bdca27bda9d8fa68fc004b938",
+  "theorem_name": "p02Native"
+}

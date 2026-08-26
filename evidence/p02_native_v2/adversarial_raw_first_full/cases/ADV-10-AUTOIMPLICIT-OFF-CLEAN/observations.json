@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-10-AUTOIMPLICIT-OFF-CLEAN-candidate.lean"
+    ],
+    "elapsed_seconds": 0.437986431000013,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "ADV-10-AUTOIMPLICIT-OFF-CLEAN",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-10-AUTOIMPLICIT-OFF-CLEAN-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4500103789999912,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-adversarial-sih7z0gl/ADV-10-AUTOIMPLICIT-OFF-CLEAN-target.lean"
+    ],
+    "elapsed_seconds": 0.4418912480000188,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

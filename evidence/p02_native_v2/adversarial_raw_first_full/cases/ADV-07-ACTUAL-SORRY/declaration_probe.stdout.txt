@@ -1,0 +1,2 @@
+/tmp/p02-adversarial-sih7z0gl/ADV-07-ACTUAL-SORRY-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02Native (n : Nat) : n = n

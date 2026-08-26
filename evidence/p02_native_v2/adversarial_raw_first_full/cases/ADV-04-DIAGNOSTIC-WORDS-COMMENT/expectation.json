@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-04-DIAGNOSTIC-WORDS-COMMENT",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "source comments must not be mistaken for process diagnostics",
+  "role": "diagnostic_comment",
+  "source_sha256": "sha256:51fcfb3ae1fa1f22fb4b89c1b0727e878b2c67f33594785ef134c87466eacb6c",
+  "theorem_name": "p02Native"
+}

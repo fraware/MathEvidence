@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-05-WHITESPACE",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "rationale": "irrelevant formatting should preserve native outcome",
+  "role": "formatting",
+  "source_sha256": "sha256:574d875484d75bb070a955345f31a6ec3edf22d9d04924ecdca63fd8ab86c5e9",
+  "theorem_name": "p02Native"
+}

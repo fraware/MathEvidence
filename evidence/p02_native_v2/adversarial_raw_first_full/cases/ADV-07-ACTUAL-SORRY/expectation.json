@@ -1,0 +1,8 @@
+{
+  "case_id": "ADV-07-ACTUAL-SORRY",
+  "expected_semantic_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "rationale": "actual sorry in artifact is a file-level policy violation",
+  "role": "true_policy_violation",
+  "source_sha256": "sha256:8d173887c5c3680337631b078a2e388e94c8a69cc25d02463288cee19254883a",
+  "theorem_name": "p02Native"
+}
