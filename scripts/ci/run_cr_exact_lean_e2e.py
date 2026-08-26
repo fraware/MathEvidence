@@ -1,9 +1,10 @@
-"""Release gate: execute every CR-eligible production exact form with pinned Lean.
+"""Case/coverage matrix for exact-candidate Lean replay.
 
-This is a CI/release proof-of-execution gate, not a second verifier.
-Coverage is derived from the machine-readable maturity inventory and production
-plugin operation/whitelist constants. A newly promoted capability or theorem
-form therefore fails this gate until a candidate-specific Lean E2E case exists.
+The authoritative release executor is ``run_cr_exact_lean_e2e_production.py``.
+This module owns deterministic candidate fixtures and coverage checks derived
+from the machine-readable maturity inventory plus production operation/whitelist
+constants. Its standalone temporary-file Lean executor is diagnostic only and
+is not Certification Record or release authority.
 """
 
 from __future__ import annotations
@@ -89,31 +90,6 @@ def _ideal_case() -> ExactCase:
         "claimClass": "witness",
     }
     return ExactCase("ideal_membership", request["capability"], "witness", request, certificate)
-
-
-def _rational_case() -> ExactCase:
-    request = {
-        "schemaVersion": "0.1.0",
-        "capability": "algebra.rational_equality",
-        "capabilityVersion": "0.1.0",
-        "variables": [],
-        "lhs": {"tag": "rat", "num": "1", "den": "2"},
-        "rhs": {"tag": "rat", "num": "1", "den": "2"},
-        "knownAssumptions": [],
-        "requestedClaim": "soundResult",
-        "resourcePolicy": {"maxWallTimeMs": 10000, "maxOutputBytes": 1048576},
-        "requestDigest": _digest("2"),
-    }
-    certificate = {
-        "schemaVersion": "0.1.0",
-        "capability": request["capability"],
-        "capabilityVersion": request["capabilityVersion"],
-        "requestDigest": request["requestDigest"],
-        "differenceNumerator": {"tag": "int", "value": "0"},
-        "denominatorFactors": [],
-        "provenance": _provenance(),
-    }
-    return ExactCase("rational_equality", request["capability"], "soundResult", request, certificate)
 
 
 def _linear_cases() -> list[ExactCase]:
@@ -356,7 +332,6 @@ def _analytic_cases() -> list[ExactCase]:
 def _cases() -> list[ExactCase]:
     return [
         _ideal_case(),
-        _rational_case(),
         *_linear_cases(),
         _counterexample_case(),
         *_formal_cases(),

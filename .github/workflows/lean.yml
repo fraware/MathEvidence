@@ -87,12 +87,6 @@ jobs:
             mathevidence-import-graph \
             mathevidence-axiom-report
 
-      - name: Diagnostic only - rational native code emission probe
-        run: |
-          set -euo pipefail
-          echo "::notice title=rational-native-probe::Diagnostic only. Success does not grant theorem status or Certification Record authority."
-          python scripts/ci/probe_rational_native_compile.py
-
       - name: CR-eligible exact candidate production Lean E2E
         run: |
           set -euo pipefail

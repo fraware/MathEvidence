@@ -24,7 +24,8 @@ These do not change with backend, benchmark, or release status.
   proposition.
 - A backend Boolean answer is never sufficient theorem evidence.
 - A fixture or nearby theorem cannot certify a different submitted candidate.
-- Theorem-level Certification Records require exact candidate binding.
+- Theorem-level Certification Records require exact candidate binding and live
+  registry CR eligibility.
 - Assurance may not be escalated by an adapter, serializer, receipt field, user
   flag, benchmark result, or fallback path.
 - Unsupported exact modes fail closed.
@@ -48,19 +49,19 @@ generation alone is not sufficient release evidence.
 
 | Area | Honest status |
 | --- | --- |
-| Exact binding / CR | Six owned capabilities are registry-eligible for exact CR (`proved`, except finite CEX `refuted`). Their release gate is production-generated candidate execution under pinned Lean. Federated SAT/PB/SMT remain non-eligible. |
+| Exact binding / CR | Five owned capabilities are registry-eligible for exact CR (`proved`, except finite CEX `refuted`). Rational equality is deliberately non-eligible for theorem CR in the pinned Lean 4.14 public preview. Federated SAT/PB/SMT remain non-eligible. |
 | Ideal membership | Witness identity only (`algebra.ideal_membership_witness`); no Gröbner-basis, non-membership, radical, minimality, or completeness claim. |
-| Rational equality | Exact supported rational-expression grammar only. Binary floating point is not silently promoted to exact arithmetic. |
+| Rational equality | Checker, soundness theorem, bridge, and exact-source generation remain. Candidate-specific theorem CR is disabled fail-closed because the pinned Lean 4.14 production native-reduction path does not admit the generated checker proposition without an unacceptable `sorryAx` dependency. Binary floating point is not silently promoted to exact arithmetic. |
 | Linear algebra | Exact rational `inverse_witness`, `system_solution`, `kernel_vector`, and `det_identity`; no broad linear-algebra completeness/rank/basis claim. |
 | Finite counterexample | Exact finite witness can establish `refuted`. No-witness or sampled search cannot establish the universal claim. |
 | Formal calculus | `algebra.formal_rational_calculus` is a formal/algebraic grammar, not general analytic calculus. |
 | Analytic calculus | `analysis.analytic_calculus` is a strict theorem-form whitelist, not arbitrary analysis. Exact ODE support retains its documented obligation/initial-condition restrictions. |
 | Evidence bundles | Candidate Bundle v0.3; Certification Record v0.4 for exact promotion. Legacy records must not be silently upgraded. |
-| Offline bundle replay | Available for owned exact capabilities: sealed candidate artifacts can be regenerated/validated without consulting the solver after materialization. This may end at `theorem_pending`. |
+| Offline bundle replay | Available where declared: sealed candidate artifacts can be regenerated/validated without consulting the solver after materialization. This may end at `theorem_pending`. |
 | Offline kernel replay | Tracked separately as `offline_kernel_replay_exists`. It is currently **false** as a release maturity property; optional Lean execution succeeding on a machine is not the same as a required, network-isolated release gate. |
 | Bundle verifier | `mathevidence-verify-bundle` emits operational checker status only. It is not theorem Certification authority. |
 | CI / local checks | Local `just check` is useful feedback, not release attestation. Exact release claims require green remote gates on the exact release SHA. |
-| Branch protection | **Not currently enforced on `main` according to the live GitHub branch state observed during the final release audit.** Repository rules must be configured and independently re-verified before the release tag. Checked-in recommended settings are not proof of enforcement. |
+| Repository rules | Branch protection/rulesets are operational governance choices for this experimental preview. They are not mathematical assurance evidence and are not a public-preview release prerequisite. |
 | Stable promotion | **Blocked** until the repository-defined human/domain/trust/external gates close. Experimental CR eligibility and stable lifecycle promotion are separate. |
 | CODEOWNERS | Single-owner incubation stub (`@fraware`). Multi-area dual review is not enforceable yet. |
 | Signing / PKI | Production receipt PKI and production release signing remain deferred. Dev keys are not production authority. The experimental release workflow records unsigned status explicitly rather than claiming a signature. |
@@ -94,7 +95,7 @@ templates are not confirmations.
 | ID | Limitation | Notes |
 | --- | --- | --- |
 | E-1 | Immutable all-green release commit | The final tagged SHA must have the required assurance/security/replay/conformance gates green. |
-| E-2 | Live repository rules | `main` branch protection/ruleset must be configured outside the repository content and re-verified via GitHub. |
+| E-2 | Repository governance hardening | Optional operational hardening for this experimental preview; not a mathematical-assurance or release prerequisite. |
 | E-3 | Lean toolchain changes | `lean-toolchain` is pinned; a bump requires a separately validated change. |
 | E-4 | LeanLink native Mathematica bridge | Deferred; live Mathematica transport is `wolframscript` when configured. |
 | E-5 | Sage rational equality | Declared/placeholder; not advertised as live Agent routing. |
@@ -106,6 +107,7 @@ templates are not confirmations.
 | E-11 | Windows native Lake link | Required workaround remains `scripts/link_exe_via_rsp.py`; degrade with dependency/setup status, never fake Certified. |
 | E-12 | Practical LA scale | Exact determinant/checker cost and the IR size policy intentionally bound practical dimensions; this is not a completeness claim. |
 | E-13 | Lean internal expression identity | Compiler-internal `Expr.hash` stability across revisions is not claimed as a protocol guarantee. |
+| E-14 | Rational theorem CR on pinned Lean 4.14 | Disabled fail-closed for this public preview. Re-enabling requires a candidate-specific production theorem path that passes without `sorryAx` and is then requalified on an exact release SHA. |
 
 Environment-level Lean import/axiom audits are **implemented** through the
 `mathevidence-import-graph` / `mathevidence-axiom-report` drivers and CI; source
@@ -120,6 +122,8 @@ scans remain defense in depth.
   only.
 - Ideal-membership ID: `algebra.ideal_membership_witness`; witness identity
   only.
+- Rational equality must not be described as theorem-CR eligible in this pinned
+  Lean 4.14 release, even though its checker/soundness/bridge code exists.
 - Linear algebra must be described operation-by-operation, not as generic
   verified linear algebra.
 - Legacy fixture/conformance directories may use historical names such as

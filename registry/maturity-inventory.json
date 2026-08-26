@@ -45,30 +45,21 @@
       "checker_exists": true,
       "lean_soundness_exists": true,
       "bridge_replay_exists": true,
-      "exact_candidate_binding_exists": true,
+      "exact_candidate_binding_exists": false,
       "offline_replay_exists": true,
       "offline_bundle_replay_exists": true,
       "offline_kernel_replay_exists": false,
-      "cr_eligible": true,
+      "cr_eligible": false,
       "trusted_backend": "lean_kernel",
-      "supported_assurance_modes": [
-        "kernel_replay"
-      ],
-      "allowed_certification_outcomes": [
-        "proved"
-      ],
+      "supported_assurance_modes": [],
+      "allowed_certification_outcomes": [],
       "exactBinding": {
-        "supported": true,
-        "generatorId": "mathevidence.exact_rational_equality",
-        "generatorVersion": "0.1.0",
-        "grammarVersion": "0.1.0",
-        "generatorPath": "scripts/generate_exact_rational_equality_replay_module.py",
-        "verifier": "mathevidence-declaration-identity"
+        "supported": false
       },
       "known_limitations": [
-        "CR eligibility requires candidate-bound Lean exact replay; OfflineFixtures are not Certification Record authority.",
+        "Checker, soundness theorem, bridge, and exact-source generation remain available, but theorem-level Certification Record promotion is disabled for the pinned Lean 4.14 public preview because the candidate-specific checker proposition cannot be admitted on the production native-reduction path without an unacceptable sorryAx dependency.",
         "Canonical rationals: int num, strictly positive den, gcd-normalized, zero as 0/1.",
-        "Offline bundle replay exists; offline kernel replay is not yet a required release maturity gate."
+        "Offline bundle replay exists; offline kernel replay is not claimed as a release maturity property."
       ]
     },
     {

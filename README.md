@@ -25,8 +25,8 @@ and Studio surfaces share one idea — use powerful external tools without
 trusting them inside the theorem prover.
 
 **Experimental** research preview: no capability is stable. Theorem-level
-Certification Records require exact candidate binding
-([ADR 0005](docs/adr/0005-exact-candidate-binding.md)); see
+Certification Records require exact candidate binding **and current registry CR
+eligibility** ([ADR 0005](docs/adr/0005-exact-candidate-binding.md)); see
 [status](docs/STATUS.md) and
 [known limitations](docs/security/KNOWN_TRUST_GAPS.md) before relying on results.
 
@@ -44,18 +44,26 @@ actually establishes.**
 
 ## Current exact scope
 
-The registry currently marks six owned capability fragments CR-eligible under
+The registry currently marks five owned capability fragments CR-eligible under
 exact candidate binding. These are narrow contracts, not generic automation
-claims.
+claims. Rational equality remains an experimental checker/soundness/bridge
+capability but is deliberately fail-closed for theorem Certification Records in
+the pinned Lean 4.14 public-preview path.
 
 | Capability | Exact claim scope |
 | --- | --- |
 | `algebra.ideal_membership_witness` | Supplied witness establishes the supported polynomial ideal-membership identity; no Gröbner/non-membership/completeness claim |
-| `algebra.rational_equality` | Equality in the supported exact rational-expression grammar with explicit assumptions |
 | `algebra.linear_algebra` | Exact rational `inverse_witness`, `system_solution`, `kernel_vector`, and `det_identity` operations |
 | `logic.finite_counterexample` | Explicit finite witness establishes `refuted`; no-witness search does not prove universality |
 | `algebra.formal_rational_calculus` | Registered formal/algebraic grammar and exact `soundResult` operations only |
 | `analysis.analytic_calculus` | Strict registered theorem-form whitelist with explicit hypotheses; not arbitrary analysis |
+
+`algebra.rational_equality` still exposes its exact rational-expression checker,
+soundness theorem, bridge, and generator surface. Theorem-CR promotion is
+disabled for this release because the candidate-specific checker proposition
+cannot be admitted on the production Lean 4.14 native-reduction path without an
+unacceptable `sorryAx` dependency. Fixture closure is not substituted for that
+missing candidate theorem.
 
 Federated SAT/PB/SMT metadata is not theorem-CR eligible in this repository.
 The authoritative machine-readable state is
@@ -100,9 +108,11 @@ evidence/examples/rational_equality_basic/
 
 Inspect `request.cjson`, `certificate.cjson`, and `theorem.lean`. The adapter is
 untrusted. Checker/theorem authority is determined by the declared assurance
-path, not by the presence of those files alone. Then follow
-[`docs/getting-started/`](docs/getting-started/) for replay, or start the local
-Agent API:
+path, not by the presence of those files alone. In the pinned Lean 4.14 public
+preview this capability is **not** theorem-CR eligible; the committed theorem is
+therefore not release authority for an arbitrary submitted candidate. Then
+follow [`docs/getting-started/`](docs/getting-started/) for replay, or start the
+local Agent API:
 
 ```text
 python -m agent.api.server --host 127.0.0.1 --port 8787
@@ -180,16 +190,17 @@ Also: [`docs/SPEC_INDEX.md`](docs/SPEC_INDEX.md),
 ## What to expect
 
 - Everything in the registry is still **experimental**.
-- Six owned capability fragments are CR-eligible under exact candidate binding;
-  federated logic is not.
+- Five owned capability fragments are CR-eligible under exact candidate binding;
+  rational equality and federated logic are not theorem-CR eligible in this
+  release.
 - Offline **bundle** replay and offline **kernel** theorem replay are tracked as
   distinct maturity properties; the stronger kernel property is not currently
   claimed release-wide.
 - A green local `just check` is useful feedback — not attested release CI or
   completed human review.
 - The final release SHA must have the required remote assurance/security/replay
-  gates green. Checked-in CI configuration does not prove GitHub branch rules
-  are enabled.
+  gates green. Repository branch/ruleset configuration is operational governance,
+  not mathematical assurance evidence for this experimental preview.
 - Receipt crypto under `dev/receipt-keys/` is **dev-only**, not production PKI.
   Production signing / third-party attestation remains a separate explicit gate.
 
