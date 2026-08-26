@@ -1,0 +1,90 @@
+name: p02-native-v2-holdout-classify
+
+on:
+  push:
+    branches:
+      - science/p02-native-v2-20260826
+    paths:
+      - .github/workflows/p02-native-v2-holdout-classify.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-native-v2-holdout-classify
+  cancel-in-progress: false
+
+env:
+  CLASSIFIER_V2_BLOB_SHA: 75d0599c277806007b1f31db451dbbe1bec3962e
+  RAW_DIR: evidence/p02_native_v2/classifier_v2_holdout_raw_first_full
+  OUT_DIR: evidence/p02_native_v2/classifier_v2_holdout_classified_first_full
+
+jobs:
+  classify-holdout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify frozen v2 and classify sealed holdout without expectations
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:scripts/p02_classify_native_v2_hardened.py)" = "${CLASSIFIER_V2_BLOB_SHA}"
+          test ! -e "${OUT_DIR}"
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          import p02_classify_native_v2_hardened as v2
+          import p02_classify_native_v2_raw as v1
+          raw = Path('evidence/p02_native_v2/classifier_v2_holdout_raw_first_full')
+          integrity = json.loads((raw / 'INTEGRITY_MANIFEST.json').read_text(encoding='utf-8'))
+          files = v1.inventory(raw)
+          digest = v1.canonical_digest({'files': files})
+          assert integrity['files'] == files
+          assert integrity['bundle_digest'] == digest
+          assert digest == 'sha256:4ba819c943fe89e5afef50142c12ef29c5cf9420bf55519406ab8f72878701a3'
+          result = v2.classify_bundle(
+              raw_root=raw,
+              out_root=Path('evidence/p02_native_v2/classifier_v2_holdout_classified_first_full'),
+              expected_raw_digest=digest,
+              expected_n_cases=20,
+              status='V2_UNSEEN_HOLDOUT_CLASSIFIED_NOT_EXPECTATION_ANALYZED',
+              provenance={
+                  'evidence_role': 'unseen_holdout',
+                  'holdout_spec_digest': 'sha256:a113c101250c346a89fc8c67b4147a1a6baaaf26df3111fbf05ef0be8f8a5416',
+                  'classifier_v2_blob_sha': '75d0599c277806007b1f31db451dbbe1bec3962e',
+              },
+          )
+          summary = result['summary']
+          assert summary['expectation_metadata_read_during_classification'] is False
+          assert summary['n_cases'] == 20
+          assert sum(summary['derived_class_counts'].values()) == 20
+          assert summary['raw_bundle_digest'] == digest
+          print(json.dumps(summary['derived_class_counts'], sort_keys=True))
+          print(result['integrity']['bundle_digest'])
+          PY
+
+      - name: Commit immutable v2 holdout classification
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${OUT_DIR}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_native_v2/classifier_v2_holdout_classified_first_full/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 classifier-v2 unseen holdout classifications"
+          git push origin HEAD:science/p02-native-v2-20260826
