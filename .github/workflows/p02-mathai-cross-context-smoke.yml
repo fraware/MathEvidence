@@ -60,6 +60,17 @@ jobs:
           lake env lean --version
           test "$(cat lean-toolchain)" = "${PINNED_LEAN_TOOLCHAIN}"
 
+      - name: Build frozen MathEvidence assurance library
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/mathevidence-pinned
+          lake build MathEvidenceAssurance
+          test -f .lake/build/lib/lean/MathEvidence/Assurance/RationalEquality.olean
+          test -f .lake/build/lib/lean/MathEvidence/Assurance/Calculus.olean
+          test -f .lake/build/lib/lean/MathEvidence/Assurance/LinearAlgebra.olean
+          test "$(git rev-parse HEAD)" = "${PINNED_PROJECT_SHA}"
+
       - name: Execute preregistered clean + single-perturbation smoke gate
         shell: bash
         run: |
