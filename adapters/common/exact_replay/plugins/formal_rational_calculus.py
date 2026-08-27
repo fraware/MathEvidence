@@ -267,17 +267,34 @@ class FormalRationalCalculusPlugin:
         cert_name = f"{decl}_cert"
         binding_decl = f"{decl}_request_binding"
         if op == "antiderivative_candidate":
-            # The exact checker contains heterogeneous closed computations. Lean
-            # 4.14's native_decide bridge has failed specifically on the symbolic
-            # antiderivative operation, while monolithic kernel decide can become
-            # blocked by digest equality reduction. Discharge the bookkeeping
-            # components natively and reserve kernel decide for the mathematical
-            # opOk proposition, then reconstruct the unchanged checkBool fact.
+            # The checker combines opaque imported definitions with a small closed
+            # symbolic calculation. Keep native evaluation for binding/shape/domain
+            # bookkeeping, but expose the formal derivative and sparse-polynomial
+            # computation explicitly for the mathematical obligation. This avoids
+            # Lean 4.14's native_decide bridge failure without changing checkBool.
             checker_proof = f"""show checkBool {req_name} {cert_name} = true from by
       have hDigest : digestOk {req_name} {cert_name} = true := by native_decide
       have hWellFormed : wellFormedOk {req_name} = true := by native_decide
       have hDomain : domainCoverOk {req_name} {cert_name} = true := by native_decide
-      have hOp : opOk {req_name} = true := by decide
+      have hOp : opOk {req_name} = true := by
+        simp [opOk, {req_name}, {claim_name}, Claim.opHolds,
+          antiderivativeOk, exprEqual, formalDeriv,
+          MathEvidence.IR.RationalExpr.polyEqual,
+          MathEvidence.IR.RationalExpr.differenceNumerator,
+          MathEvidence.IR.RationalExpr.toFrac,
+          MathEvidence.IR.RationalExpr.Poly.combineLike,
+          MathEvidence.IR.RationalExpr.Poly.sub,
+          MathEvidence.IR.RationalExpr.Poly.add,
+          MathEvidence.IR.RationalExpr.Poly.neg,
+          MathEvidence.IR.RationalExpr.Poly.mul,
+          MathEvidence.IR.RationalExpr.Poly.pow,
+          MathEvidence.IR.RationalExpr.Poly.one,
+          MathEvidence.IR.RationalExpr.Poly.C,
+          MathEvidence.IR.RationalExpr.Poly.X,
+          MathEvidence.IR.RationalExpr.Poly.mulTerm,
+          MathEvidence.IR.RationalExpr.Poly.Term.sortVars,
+          MathEvidence.IR.RationalExpr.Poly.sortNats,
+          MathEvidence.IR.RationalExpr.Poly.insertSorted]
       simp [checkBool, hDigest, hWellFormed, hDomain, hOp]"""
         else:
             checker_proof = (
