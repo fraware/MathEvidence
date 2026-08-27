@@ -73,7 +73,7 @@ def _binding_and_theorem(source: str, declaration: str) -> tuple[str, str]:
     return binding_body, theorem_body
 
 
-def test_formal_antiderivative_uses_kernel_decide_for_exact_checker() -> None:
+def test_formal_antiderivative_stages_exact_checker_proof() -> None:
     declaration = "formal_antiderivative_candidate_proof_mode_regression"
     source = _generate("antiderivative_candidate", antiderivative=True)
     binding_body, theorem_body = _binding_and_theorem(source, declaration)
@@ -81,13 +81,19 @@ def test_formal_antiderivative_uses_kernel_decide_for_exact_checker() -> None:
     assert "\n  rfl\n" in binding_body
     assert "native_decide" not in binding_body
 
-    # Preserve replaySound and the exact production checkBool proposition.  The
-    # small closed antiderivative obligation uses kernel evaluation rather than
-    # Lean 4.14's native_decide bridge, which has failed on this generated term.
-    assert f"checkBool {declaration}_req {declaration}_cert" in theorem_body
-    assert "by decide" in theorem_body
-    assert "native_decide" not in theorem_body
-    assert "show checkBool" not in theorem_body
+    # Preserve replaySound over the exact production checkBool proposition while
+    # separating metadata/domain computations from the mathematical operation.
+    # Lean 4.14's native_decide bridge is unstable for this opOk term, whereas
+    # monolithic kernel decide can be blocked by digest-equality reduction.
+    assert f"show checkBool {declaration}_req {declaration}_cert = true from by" in theorem_body
+    assert f"digestOk {declaration}_req {declaration}_cert" in theorem_body
+    assert f"wellFormedOk {declaration}_req" in theorem_body
+    assert f"domainCoverOk {declaration}_req {declaration}_cert" in theorem_body
+    assert f"opOk {declaration}_req" in theorem_body
+    assert theorem_body.count("native_decide") == 3
+    assert "have hOp" in theorem_body
+    assert "have hOp" in theorem_body and ":= by decide" in theorem_body
+    assert "simp [checkBool, hDigest, hWellFormed, hDomain, hOp]" in theorem_body
 
 
 def test_formal_derivative_retains_validated_native_checker_path() -> None:
