@@ -83,8 +83,8 @@ def test_formal_antiderivative_stages_exact_checker_proof() -> None:
 
     # Preserve replaySound over the exact production checkBool proposition while
     # separating metadata/domain computations from the mathematical operation.
-    # Lean 4.14's native_decide bridge is unstable for this opOk term, whereas
-    # monolithic kernel decide can be blocked by digest-equality reduction.
+    # The operation proof explicitly unfolds the production symbolic computation
+    # so kernel simplification is authoritative and no native bridge is used for it.
     assert f"show checkBool {declaration}_req {declaration}_cert = true from by" in theorem_body
     assert f"digestOk {declaration}_req {declaration}_cert" in theorem_body
     assert f"wellFormedOk {declaration}_req" in theorem_body
@@ -92,7 +92,10 @@ def test_formal_antiderivative_stages_exact_checker_proof() -> None:
     assert f"opOk {declaration}_req" in theorem_body
     assert theorem_body.count("native_decide") == 3
     assert "have hOp" in theorem_body
-    assert "have hOp" in theorem_body and ":= by decide" in theorem_body
+    assert "simp [opOk" in theorem_body
+    assert "MathEvidence.IR.RationalExpr.polyEqual" in theorem_body
+    assert "MathEvidence.IR.RationalExpr.Poly.combineLike" in theorem_body
+    assert "have hOp" in theorem_body and ":= by decide" not in theorem_body
     assert "simp [checkBool, hDigest, hWellFormed, hDomain, hOp]" in theorem_body
 
 
