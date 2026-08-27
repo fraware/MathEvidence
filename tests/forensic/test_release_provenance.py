@@ -1,4 +1,4 @@
-"""Release-provenance regressions for canonical evidence binding."""
+"""Release-provenance regressions for complete evidence binding."""
 
 from __future__ import annotations
 
@@ -9,10 +9,10 @@ from pathlib import Path
 import scripts.generate_release_provenance as release_provenance
 
 
-def test_release_provenance_binds_canonical_cjson(
+def test_release_provenance_binds_complete_evidence_and_benchmark_trees(
     tmp_path: Path, monkeypatch
 ) -> None:
-    """Canonical Candidate Bundle bytes must appear in the provenance manifest."""
+    """Every committed file in evidence/ and benchmarks/ must be digest-bound."""
 
     root = tmp_path / "repo"
     evidence = root / "evidence" / "examples" / "example"
@@ -22,10 +22,12 @@ def test_release_provenance_binds_canonical_cjson(
 
     canonical = evidence / "manifest.cjson"
     canonical.write_text('{"bundleVersion":"0.3.0"}\n', encoding="utf-8")
-    (evidence / "README.md").write_text("example\n", encoding="utf-8")
-    (benchmark / "manifest.json").write_text("{}\n", encoding="utf-8")
-    # Unrelated formats must not silently expand the provenance surface.
-    (evidence / "scratch.txt").write_text("not release evidence\n", encoding="utf-8")
+    readme = evidence / "README.md"
+    readme.write_text("example\n", encoding="utf-8")
+    theorem = evidence / "theorem.lean"
+    theorem.write_text("theorem example : True := by trivial\n", encoding="utf-8")
+    benchmark_manifest = benchmark / "manifest.json"
+    benchmark_manifest.write_text("{}\n", encoding="utf-8")
 
     monkeypatch.setattr(release_provenance, "ROOT", root)
     monkeypatch.setattr(release_provenance, "_git_rev", lambda: "a" * 40)
@@ -45,9 +47,12 @@ def test_release_provenance_binds_canonical_cjson(
         for row in manifest["evidenceAndBenchmarkFiles"]
     }
 
-    canonical_path = "evidence/examples/example/manifest.cjson"
-    assert canonical_path in rows
-    assert rows[canonical_path] == release_provenance._sha256_file(canonical)
-    assert "evidence/examples/example/README.md" in rows
-    assert "benchmarks/suite/manifest.json" in rows
-    assert "evidence/examples/example/scratch.txt" not in rows
+    expected = {
+        "evidence/examples/example/manifest.cjson": canonical,
+        "evidence/examples/example/README.md": readme,
+        "evidence/examples/example/theorem.lean": theorem,
+        "benchmarks/suite/manifest.json": benchmark_manifest,
+    }
+    assert set(rows) == set(expected)
+    for relative_path, path in expected.items():
+        assert rows[relative_path] == release_provenance._sha256_file(path)
