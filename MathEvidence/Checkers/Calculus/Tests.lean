@@ -196,7 +196,11 @@ theorem replay_antideriv_half_kernel :
   have hDomain : domainCoverOk req_antideriv_half cert_antideriv_half = true := by
     native_decide
   have hOp : opOk req_antideriv_half = true := by
-    decide
+    simp [opOk, req_antideriv_half, claim_antideriv_half, Claim.opHolds,
+      antiderivativeOk, exprEqual, formalDeriv, polyEqual, differenceNumerator,
+      toFrac, Poly.combineLike, Poly.sub, Poly.add, Poly.neg, Poly.mul, Poly.pow,
+      Poly.one, Poly.C, Poly.X, Poly.mulTerm, Poly.Term.sortVars, Poly.sortNats,
+      Poly.insertSorted]
   simp [checkBool, hDigest, hWellFormed, hDomain, hOp]
 
 theorem replay_recurrence :
