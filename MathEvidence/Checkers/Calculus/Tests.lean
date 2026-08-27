@@ -53,6 +53,26 @@ def cert_antideriv : Certificate where
   operation := .antiderivativeCandidate
   domainConditions := []
 
+/-- Production-shape antiderivative: `F = (1/2)x^2`, `f = x`.
+
+The canonical rational literal `1/2` is structurally well-formed and creates no
+runtime domain condition.  Kernel `decide` mirrors the exact replay proof mode. -/
+def claim_antideriv_half : Claim where
+  operation := .antiderivativeCandidate
+  varNames := ["x"]
+  independentVar := 0
+  expr := .var 0
+  candidate := .mul (.rat 1 2) (.pow (.var 0) 2)
+  domainConditions := []
+  claimClass := .soundResult
+
+def req_antideriv_half : Request := Request.ofClaim claim_antideriv_half
+
+def cert_antideriv_half : Certificate where
+  requestDigest := req_antideriv_half.requestDigest
+  operation := .antiderivativeCandidate
+  domainConditions := []
+
 /-- Closed form `u(n) = n`; recurrence `u(n+1) = u + 1`. -/
 def claim_recurrence : Claim where
   operation := .recurrenceIdentity
@@ -159,6 +179,9 @@ theorem replay_deriv_x2 :
 theorem replay_antideriv :
     checkBool req_antideriv cert_antideriv = true := by native_decide
 
+theorem replay_antideriv_half_kernel :
+    checkBool req_antideriv_half cert_antideriv_half = true := by decide
+
 theorem replay_recurrence :
     checkBool req_recurrence cert_recurrence = true := by native_decide
 
@@ -184,6 +207,10 @@ theorem replay_report_deriv :
 theorem sound_deriv_x2 :
     Claim.proposition claim_deriv_x2 :=
   checkBool_sound req_deriv_x2 cert_deriv_x2 replay_deriv_x2
+
+theorem sound_antideriv_half :
+    Claim.proposition claim_antideriv_half :=
+  checkBool_sound req_antideriv_half cert_antideriv_half replay_antideriv_half_kernel
 
 theorem sound_ode :
     Claim.proposition claim_ode :=
