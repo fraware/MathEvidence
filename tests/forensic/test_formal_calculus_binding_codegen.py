@@ -73,7 +73,7 @@ def _binding_and_theorem(source: str, declaration: str) -> tuple[str, str]:
     return binding_body, theorem_body
 
 
-def test_formal_antiderivative_decomposes_exact_checker_obligation() -> None:
+def test_formal_antiderivative_uses_kernel_decide_for_exact_checker() -> None:
     declaration = "formal_antiderivative_candidate_proof_mode_regression"
     source = _generate("antiderivative_candidate", antiderivative=True)
     binding_body, theorem_body = _binding_and_theorem(source, declaration)
@@ -81,17 +81,13 @@ def test_formal_antiderivative_decomposes_exact_checker_obligation() -> None:
     assert "\n  rfl\n" in binding_body
     assert "native_decide" not in binding_body
 
-    # Keep replaySound as the authority bridge while splitting the closed checker
-    # conjunction into independently computed obligations. Digest, well-formedness,
-    # and domain coverage retain native evaluation; the concrete operation identity
-    # must close definitionally, avoiding the Lean 4.14 native_decide bridge defect.
-    assert f"show checkBool {declaration}_req {declaration}_cert = true from by" in theorem_body
-    for component in ("digestOk", "wellFormedOk", "domainCoverOk", "opOk"):
-        assert component in theorem_body
-    assert theorem_body.count("by native_decide") == 3
-    assert f"have hOp : opOk {declaration}_req = true := by rfl" in theorem_body
-    assert "simp [checkBool, hDigest, hWellFormed, hDomain, hOp]" in theorem_body
-    assert "by decide" not in theorem_body
+    # Preserve replaySound and the exact production checkBool proposition.  The
+    # small closed antiderivative obligation uses kernel evaluation rather than
+    # Lean 4.14's native_decide bridge, which has failed on this generated term.
+    assert f"checkBool {declaration}_req {declaration}_cert" in theorem_body
+    assert "by decide" in theorem_body
+    assert "native_decide" not in theorem_body
+    assert "show checkBool" not in theorem_body
 
 
 def test_formal_derivative_retains_validated_native_checker_path() -> None:
