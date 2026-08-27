@@ -140,6 +140,21 @@ jobs:
           assert m.get("lockFiles"), "missing lock/toolchain hashes"
           lake = m.get("lake") or {}
           assert lake.get("packages"), "missing lake package pins"
+
+          evidence_rows = m.get("evidenceAndBenchmarkFiles") or []
+          bound_evidence = {row.get("path") for row in evidence_rows}
+          expected_evidence = {
+              file.relative_to(Path.cwd()).as_posix()
+              for root in ("evidence", "benchmarks")
+              for file in (Path.cwd() / root).rglob("*")
+              if file.is_file()
+          }
+          assert bound_evidence == expected_evidence, (
+              "release evidence provenance coverage mismatch",
+              sorted(expected_evidence - bound_evidence)[:20],
+              sorted(bound_evidence - expected_evidence)[:20],
+          )
+
           audit_dir = Path("dist/provenance/environment-audits")
           assert (audit_dir / "environment_audit_scaffold.json").is_file()
           assert (audit_dir / "import_graph_env.json").is_file()
@@ -149,6 +164,7 @@ jobs:
               m["gitCommit"],
               m["gitTree"],
               "clean=", m["gitWorkingTreeCleanAtGeneration"],
+              "evidence=", len(bound_evidence),
               "registry=", len(m["registryFiles"]),
               "schemas=", len(m["schemaFiles"]),
           )
