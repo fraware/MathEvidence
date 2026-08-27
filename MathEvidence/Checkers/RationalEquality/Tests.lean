@@ -54,6 +54,30 @@ def cert_sub_self : Certificate where
   requestDigest := req_sub_self.requestDigest
   denomFactors := [.var 0]
 
+/-- Canonical rational literals are structural values, not domain assumptions. -/
+def claim_half : Claim where
+  varNames := []
+  lhs := .add (.rat 1 2) (.int 0)
+  rhs := .rat 1 2
+
+def req_half : Request := Request.ofClaim! claim_half
+
+def cert_half : Certificate where
+  requestDigest := req_half.requestDigest
+  denomFactors := []
+
+/-- A zero literal denominator remains malformed through `wellFormed`. -/
+def claim_zero_literal_denom : Claim where
+  varNames := []
+  lhs := .rat 1 0
+  rhs := .int 0
+
+def req_zero_literal_denom : Request := Request.ofClaim! claim_zero_literal_denom
+
+def cert_zero_literal_denom : Certificate where
+  requestDigest := req_zero_literal_denom.requestDigest
+  denomFactors := []
+
 /-- False identity `x = x + 1` must be rejected. -/
 def claim_false : Claim where
   varNames := ["x"]
@@ -85,6 +109,12 @@ theorem replay_cancel :
 theorem replay_sub_self :
     checkBool req_sub_self cert_sub_self = true := by native_decide
 
+theorem replay_half_without_domain_factor :
+    checkBool req_half cert_half = true := by native_decide
+
+theorem reject_zero_literal_denom :
+    checkBool req_zero_literal_denom cert_zero_literal_denom = false := by native_decide
+
 theorem reject_false :
     checkBool req_false cert_false = false := by native_decide
 
@@ -102,5 +132,10 @@ theorem replay_report_add0 :
 theorem sound_add0 :
     Claim.proposition req_add0.claim cert_add0.denomFactors :=
   checkBool_sound req_add0 cert_add0 replay_add0
+
+/-- Literal definedness is discharged by well-formedness in the soundness proof. -/
+theorem sound_half_without_domain_factor :
+    Claim.proposition req_half.claim cert_half.denomFactors :=
+  checkBool_sound req_half cert_half replay_half_without_domain_factor
 
 end MathEvidence.Checkers.RationalEquality.Tests
