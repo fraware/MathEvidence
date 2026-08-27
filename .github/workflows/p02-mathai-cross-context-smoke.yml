@@ -17,6 +17,7 @@ concurrency:
 
 env:
   PINNED_PROJECT_SHA: 946d2f7b14840837a5b641150c9df9008c4be9eb
+  PINNED_LEAN_TOOLCHAIN: leanprover/lean4:v4.14.0
   EVIDENCE_DIR: evidence/p02_mathai_cross_context/smoke_raw_first
 
 jobs:
@@ -42,13 +43,22 @@ jobs:
           git worktree add --detach /tmp/mathevidence-pinned "${PINNED_PROJECT_SHA}"
           test "$(git -C /tmp/mathevidence-pinned rev-parse HEAD)" = "${PINNED_PROJECT_SHA}"
           test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
-          test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "leanprover/lean4:v4.14.0"
+          test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "${PINNED_LEAN_TOOLCHAIN}"
 
       - name: Install checksum-pinned elan from pinned tree
         shell: bash
         run: |
           set -euo pipefail
           bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
+
+      - name: Materialize the already frozen Lean toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          elan toolchain install "${PINNED_LEAN_TOOLCHAIN}"
+          cd /tmp/mathevidence-pinned
+          lake env lean --version
+          test "$(cat lean-toolchain)" = "${PINNED_LEAN_TOOLCHAIN}"
 
       - name: Execute preregistered clean + single-perturbation smoke gate
         shell: bash
