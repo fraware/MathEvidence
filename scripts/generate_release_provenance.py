@@ -164,8 +164,13 @@ def main() -> int:
 
     evidence_files: list[dict[str, str]] = []
     for root_name in ("evidence", "benchmarks"):
+        # .cjson is the canonical encoding for Candidate Bundle artifacts.  It
+        # must be release-bound alongside JSON metadata and human-readable docs.
         evidence_files.extend(
-            _hashed_files(ROOT / root_name, suffixes=frozenset({".json", ".md"}))
+            _hashed_files(
+                ROOT / root_name,
+                suffixes=frozenset({".cjson", ".json", ".md"}),
+            )
         )
     evidence_files.sort(key=lambda item: item["path"])
 
