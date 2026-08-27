@@ -188,7 +188,16 @@ theorem replay_antideriv :
     checkBool req_antideriv cert_antideriv = true := by native_decide
 
 theorem replay_antideriv_half_kernel :
-    checkBool req_antideriv_half cert_antideriv_half = true := by decide
+    checkBool req_antideriv_half cert_antideriv_half = true := by
+  have hDigest : digestOk req_antideriv_half cert_antideriv_half = true := by
+    native_decide
+  have hWellFormed : wellFormedOk req_antideriv_half = true := by
+    native_decide
+  have hDomain : domainCoverOk req_antideriv_half cert_antideriv_half = true := by
+    native_decide
+  have hOp : opOk req_antideriv_half = true := by
+    decide
+  simp [checkBool, hDigest, hWellFormed, hDomain, hOp]
 
 theorem replay_recurrence :
     checkBool req_recurrence cert_recurrence = true := by native_decide
