@@ -164,14 +164,10 @@ def main() -> int:
 
     evidence_files: list[dict[str, str]] = []
     for root_name in ("evidence", "benchmarks"):
-        # .cjson is the canonical encoding for Candidate Bundle artifacts.  It
-        # must be release-bound alongside JSON metadata and human-readable docs.
-        evidence_files.extend(
-            _hashed_files(
-                ROOT / root_name,
-                suffixes=frozenset({".cjson", ".json", ".md"}),
-            )
-        )
+        # Bind every committed file under the release evidence trees.  A suffix
+        # allowlist could silently omit a future proof/evidence format and make
+        # the provenance manifest weaker than the released repository tree.
+        evidence_files.extend(_hashed_files(ROOT / root_name))
     evidence_files.sort(key=lambda item: item["path"])
 
     lock_files = _hashed_paths(
@@ -230,8 +226,9 @@ def main() -> int:
             "bound here to the actual release commit/tree.",
             "Lean is pinned by lean-toolchain plus lake-manifest package revisions.",
             "Python dependency state is bound by uv.lock and requirements-freeze.txt.",
-            "Evidence and benchmark hashes are release evidence, not a substitute "
-            "for capability-specific checker soundness.",
+            "Every file under evidence/ and benchmarks/ is individually digest-bound; "
+            "these hashes are release evidence, not a substitute for capability-specific "
+            "checker soundness.",
             "Stable promotion and human/external review gates are not implied by "
             "this experimental-release provenance record.",
         ],
