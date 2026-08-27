@@ -267,11 +267,18 @@ class FormalRationalCalculusPlugin:
         cert_name = f"{decl}_cert"
         binding_decl = f"{decl}_request_binding"
         if op == "antiderivative_candidate":
-            # Lean 4.14's native_decide bridge is unstable for this closed checker
-            # computation. Keep the exact checker proposition and evaluate it in
-            # the kernel instead; the generated theorem is still replaySound over
-            # the production request/certificate pair, with no fixture substitution.
-            checker_proof = f"by decide : checkBool {req_name} {cert_name} = true"
+            # The exact checker contains heterogeneous closed computations. Lean
+            # 4.14's native_decide bridge has failed specifically on the symbolic
+            # antiderivative operation, while monolithic kernel decide can become
+            # blocked by digest equality reduction. Discharge the bookkeeping
+            # components natively and reserve kernel decide for the mathematical
+            # opOk proposition, then reconstruct the unchanged checkBool fact.
+            checker_proof = f"""show checkBool {req_name} {cert_name} = true from by
+      have hDigest : digestOk {req_name} {cert_name} = true := by native_decide
+      have hWellFormed : wellFormedOk {req_name} = true := by native_decide
+      have hDomain : domainCoverOk {req_name} {cert_name} = true := by native_decide
+      have hOp : opOk {req_name} = true := by decide
+      simp [checkBool, hDigest, hWellFormed, hDomain, hOp]"""
         else:
             checker_proof = (
                 f"by native_decide : checkBool {req_name} {cert_name} = true"
