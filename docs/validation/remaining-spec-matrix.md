@@ -65,7 +65,9 @@ Local `just check` ≠ attested immutable CI green on a release commit.
 | Offline replay | PARTIAL | Offline bundle replay is implemented; offline kernel replay is a distinct stronger maturity field and is currently false in the authoritative inventory. |
 | Side conditions / mismatch reject / no forbidden axioms | MET (eng) | See §21.3, §21.5, and §21.6. |
 
-Evidence Bundle trees for full bundles use schema **v0.2** (`.cjson`).
+Candidate Bundle trees use `bundleVersion: 0.3.0` with canonical `.cjson`
+encoding. Schema v0.2 remains accepted only for historical canonical bundles;
+it is not the current Candidate Bundle protocol version.
 
 ---
 
