@@ -23,10 +23,42 @@ from adapters.common.exact_replay.registry import register_plugin
 from adapters.common.limits import ResourceLimits
 
 CAPABILITY = "algebra.rational_equality"
+CAPABILITY_VERSION = "0.1.0"
 GENERATOR_ID = "mathevidence.exact_rational_equality"
 GENERATOR_VERSION = "0.1.0"
 GRAMMAR_VERSION = "0.1.0"
 VERIFIER = "mathevidence-declaration-identity"
+# ``MathEvidence.Checkers.RationalEquality.Wire.claimToRequestJson`` currently
+# reconstructs exactly this v0.1 policy. Exact theorem replay must reject any
+# broader wire policy until the Lean binding projection carries those fields.
+EXACT_RESOURCE_POLICY = {
+    "maxWallTimeMs": 10000,
+    "maxOutputBytes": 1048576,
+}
+
+
+def _validate_exact_expr(
+    value: Any,
+    *,
+    var_names: list[str],
+    what: str,
+) -> dict[str, Any]:
+    """Validate an expression without silently changing request wire semantics.
+
+    ``validate_rational_expr`` canonicalizes rational literals (for example
+    ``2/4`` to ``1/2``). That normalization is useful for non-theorem adapter
+    handling, but exact candidate replay must reconstruct the same wire object
+    whose digest the submitter bound. The Lean v0.1 wire projection emits
+    canonical integer/rational syntax, so non-canonical inputs are unsupported
+    here and fail closed rather than being normalized behind the digest.
+    """
+    canonical = validate_rational_expr(value, var_names=var_names, what=what)
+    if canonical != value:
+        raise ValueError(
+            f"{what} must use canonical exact RationalExpr wire syntax; "
+            "silent normalization is not permitted for exact candidate binding"
+        )
+    return canonical
 
 
 @dataclass(frozen=True)
@@ -60,8 +92,21 @@ class RationalEqualityPlugin:
         capability_version = validate_semver(
             request.get("capabilityVersion"), what="request capabilityVersion"
         )
+        if capability_version != CAPABILITY_VERSION:
+            raise ValueError(
+                f"exact rational replay supports capabilityVersion {CAPABILITY_VERSION} only; "
+                "the Lean v0.1 wire binding must be extended before another version is eligible"
+            )
         if certificate.get("capabilityVersion") != capability_version:
             raise ValueError("certificate capabilityVersion does not match request")
+
+        resource_policy = request.get("resourcePolicy")
+        if resource_policy != EXACT_RESOURCE_POLICY:
+            raise ValueError(
+                "exact rational replay requires resourcePolicy "
+                f"{EXACT_RESOURCE_POLICY!r}; broader policy fields are not yet represented "
+                "by the Lean v0.1 request-binding projection"
+            )
 
         request_digest = validate_digest(request.get("requestDigest"), what="requestDigest")
         validate_digest(candidate_bundle_digest, what="candidateBundleDigest")
@@ -83,12 +128,16 @@ class RationalEqualityPlugin:
                 raise ValueError(f"variable {index} name invalid")
             if var.get("type") != "Rat":
                 raise ValueError(f"variable {index} type must be Rat")
+            if set(var) != {"name", "type"}:
+                raise ValueError(
+                    f"variable {index} contains fields outside the Lean v0.1 wire projection"
+                )
             if name in var_names:
                 raise ValueError(f"duplicate variable name {name!r}")
             var_names.append(name)
 
-        lhs = validate_rational_expr(request.get("lhs"), var_names=var_names, what="lhs")
-        rhs = validate_rational_expr(request.get("rhs"), var_names=var_names, what="rhs")
+        lhs = _validate_exact_expr(request.get("lhs"), var_names=var_names, what="lhs")
+        rhs = _validate_exact_expr(request.get("rhs"), var_names=var_names, what="rhs")
 
         assumptions_raw = request.get("knownAssumptions")
         if not isinstance(assumptions_raw, list):
@@ -97,9 +146,15 @@ class RationalEqualityPlugin:
         for index, item in enumerate(assumptions_raw):
             if not isinstance(item, dict) or item.get("kind") != "nonzero":
                 raise ValueError(f"knownAssumptions[{index}] must be kind=nonzero")
+            if set(item) != {"kind", "expr"}:
+                raise ValueError(
+                    f"knownAssumptions[{index}] contains fields outside the Lean v0.1 wire projection"
+                )
             assumptions.append(
-                validate_rational_expr(
-                    item.get("expr"), var_names=var_names, what=f"knownAssumptions[{index}].expr"
+                _validate_exact_expr(
+                    item.get("expr"),
+                    var_names=var_names,
+                    what=f"knownAssumptions[{index}].expr",
                 )
             )
 
@@ -113,17 +168,17 @@ class RationalEqualityPlugin:
             role = item.get("role")
             if role not in {"original_division", "common_denominator", "factorization"}:
                 raise ValueError(f"denominatorFactors[{index}] role unsupported")
-            denom_factors.append(
-                validate_rational_expr(
-                    item.get("expr"),
-                    var_names=var_names,
-                    what=f"denominatorFactors[{index}].expr",
-                )
+            canonical_expr = _validate_exact_expr(
+                item.get("expr"),
+                var_names=var_names,
+                what=f"denominatorFactors[{index}].expr",
             )
+            denom_factors.append(canonical_expr)
 
-        # differenceNumerator is diagnostic; reject malformed when present.
+        # differenceNumerator is diagnostic; reject malformed/non-canonical when present so
+        # the generated source never silently rewrites an exact Candidate Bundle field.
         if "differenceNumerator" in certificate:
-            validate_rational_expr(
+            _validate_exact_expr(
                 certificate["differenceNumerator"],
                 var_names=var_names,
                 what="differenceNumerator",
@@ -198,7 +253,6 @@ class RationalEqualityPlugin:
         request_digest = meta["request_digest"]
         candidate_bundle_digest = meta["candidate_bundle_digest"]
         decl = ir.declaration_name
-        binding_decl = f"{decl}_request_binding"
 
         claim_fields = (
             f"  varNames := {names}\n"
@@ -207,7 +261,6 @@ class RationalEqualityPlugin:
             f"  knownAssumptions := {assumptions}\n"
             f"  claimClass := .soundResult"
         )
-        decl = ir.declaration_name
         claim_name = f"{decl}_claim"
         req_name = f"{decl}_req"
         cert_name = f"{decl}_cert"
@@ -232,20 +285,23 @@ open MathEvidence.Checkers.RationalEquality
 def {claim_name} : Claim where
 {claim_fields}
 
-def {req_name} : Request where
-  claim := {claim_name}
-  requestDigest := ⟨{lean_string(request_digest)}⟩
+/-- Reconstruct the request digest from Lean wire semantics; callers do not supply it. -/
+def {req_name} : Request :=
+  Request.ofClaim! {claim_name}
 
 def {cert_name} : Certificate where
   requestDigest := ⟨{lean_string(request_digest)}⟩
   denomFactors := {denoms}
 
-/-- Lean-side request binding for the reconstructed exact wire semantics. -/
+/-- Lean-side equality between reconstructed wire binding and submitted digest.
+The submitted digest is not copied into the request: `native_decide` evaluates
+Lean's canonical-JSON/SHA-256 reconstruction of `Request.ofClaim!`. -/
 theorem {binding_decl} :
     {req_name}.requestDigest = ⟨{lean_string(request_digest)}⟩ := by
   native_decide
 
-/-- Exact Candidate Bundle semantic claim. -/
+/-- Exact Candidate Bundle semantic claim. The checker includes digest equality,
+so this native decision independently re-evaluates the same request binding. -/
 theorem {decl} : Claim.proposition {req_name}.claim {cert_name}.denomFactors :=
   replaySound
     {req_name}

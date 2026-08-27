@@ -48,10 +48,15 @@ def Expr.wellFormed (varCount : Nat) : Expr → Bool
     a.wellFormed varCount && b.wellFormed varCount
   | .pow b _ => b.wellFormed varCount
 
-/-- Collect denominator subexpressions appearing under `div` (and `rat` dens as ints). -/
+/--
+Collect runtime denominator subexpressions introduced by explicit `div` nodes.
+
+A canonical rational literal `.rat n d` is not a domain condition: `wellFormed`
+already rejects `d = 0`.  RFC 0001 exposes nonzero assumptions for divisions in
+the represented expression, while literal validity is a structural obligation.
+-/
 def Expr.denominators : Expr → List Expr
-  | .var _ | .int _ => []
-  | .rat _ d => [.int (Int.ofNat d)]
+  | .var _ | .int _ | .rat _ _ => []
   | .neg e => e.denominators
   | .add a b | .sub a b | .mul a b => a.denominators ++ b.denominators
   | .pow b _ => b.denominators

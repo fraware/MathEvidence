@@ -266,6 +266,40 @@ class FormalRationalCalculusPlugin:
         req_name = f"{decl}_req"
         cert_name = f"{decl}_cert"
         binding_decl = f"{decl}_request_binding"
+        if op == "antiderivative_candidate":
+            # The checker combines opaque imported definitions with a small closed
+            # symbolic calculation. Keep native evaluation for binding/shape/domain
+            # bookkeeping, but expose the formal derivative and sparse-polynomial
+            # computation explicitly for the mathematical obligation. This avoids
+            # Lean 4.14's native_decide bridge failure without changing checkBool.
+            checker_proof = f"""show checkBool {req_name} {cert_name} = true from by
+      have hDigest : digestOk {req_name} {cert_name} = true := by native_decide
+      have hWellFormed : wellFormedOk {req_name} = true := by native_decide
+      have hDomain : domainCoverOk {req_name} {cert_name} = true := by native_decide
+      have hOp : opOk {req_name} = true := by
+        simp [opOk, {req_name}, {claim_name}, Claim.opHolds,
+          antiderivativeOk, exprEqual, formalDeriv,
+          MathEvidence.IR.RationalExpr.polyEqual,
+          MathEvidence.IR.RationalExpr.differenceNumerator,
+          MathEvidence.IR.RationalExpr.toFrac,
+          MathEvidence.IR.RationalExpr.Poly.combineLike,
+          MathEvidence.IR.RationalExpr.Poly.sub,
+          MathEvidence.IR.RationalExpr.Poly.add,
+          MathEvidence.IR.RationalExpr.Poly.neg,
+          MathEvidence.IR.RationalExpr.Poly.mul,
+          MathEvidence.IR.RationalExpr.Poly.pow,
+          MathEvidence.IR.RationalExpr.Poly.one,
+          MathEvidence.IR.RationalExpr.Poly.C,
+          MathEvidence.IR.RationalExpr.Poly.X,
+          MathEvidence.IR.RationalExpr.Poly.mulTerm,
+          MathEvidence.IR.RationalExpr.Poly.Term.sortVars,
+          MathEvidence.IR.RationalExpr.Poly.sortNats,
+          MathEvidence.IR.RationalExpr.Poly.insertSorted]
+      simp [checkBool, hDigest, hWellFormed, hDomain, hOp]"""
+        else:
+            checker_proof = (
+                f"by native_decide : checkBool {req_name} {cert_name} = true"
+            )
         claim_fields = (
             f"  operation := {_OP_LEAN[op]}\n"
             f"  varNames := {names}\n"
@@ -313,13 +347,13 @@ def {cert_name} : Certificate where
 
 theorem {binding_decl} :
     {req_name}.requestDigest = ⟨{lean_string(request_digest)}⟩ := by
-  native_decide
+  rfl
 
 theorem {decl} : Claim.proposition {req_name}.claim :=
   replaySound
     {req_name}
     {cert_name}
-    (by native_decide : checkBool {req_name} {cert_name} = true)
+    ({checker_proof})
 
 #print axioms {binding_decl}
 #print axioms {decl}

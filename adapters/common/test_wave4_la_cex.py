@@ -13,6 +13,7 @@ from adapters.common.kernel_replay import (
     run_kernel_replay,
 )
 from adapters.common.lean_mirrors import check_finite_counterexample, check_linear_algebra
+from agent.api.assurance_policy import ASSURANCE_MODE_UNAVAILABLE, decide_exact_kernel_replay
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -21,8 +22,8 @@ def _rat(n: int, d: int = 1) -> dict:
     return {"tag": "rat", "num": str(n), "den": str(d)}
 
 
-def test_la_profile_and_generic_kernel_replay_fails_closed(tmp_path: Path) -> None:
-    """LA keeps its checker profile but cannot mint a generic record from a fixture."""
+def test_la_profile_rejects_historical_fixture_as_exact_candidate(tmp_path: Path) -> None:
+    """LA exact support must reject a historical fixture that is not valid exact evidence."""
     bundle = ROOT / "evidence" / "conformance" / "linear_algebra" / "inverse_witness_2x2" / "bundle"
     if not bundle.is_dir():
         pytest.skip("LA conformance bundle missing")
@@ -46,6 +47,7 @@ def test_la_profile_and_generic_kernel_replay_fails_closed(tmp_path: Path) -> No
     assert profile["capability_id"] == "algebra.linear_algebra"
     assert profile["soundness_theorem"] == "replaySound"
     assert profile["fixture"] == "inv"  # historical self-test hint only
+    assert decide_exact_kernel_replay("algebra.linear_algebra").ok is True
 
     with pytest.raises(KernelReplayError) as exc:
         run_kernel_replay(
@@ -53,13 +55,14 @@ def test_la_profile_and_generic_kernel_replay_fails_closed(tmp_path: Path) -> No
             require_lean=False,
             out_record_dir=tmp_path / "la_cert",
         )
-    assert exc.value.code == "assurance_mode_unavailable"
-    assert "exact-candidate generator" in str(exc.value)
+    # Exact mode is available now. The old fixture is rejected because it is not
+    # valid candidate-bound evidence for the exact generator; it must never mint a CR.
+    assert exc.value.code == "malformed_evidence"
     assert not (tmp_path / "la_cert").exists()
 
 
-def test_cex_profile_and_generic_kernel_replay_fails_closed(tmp_path: Path) -> None:
-    """CEX fixture replay is a protocol test, not arbitrary Certification authority."""
+def test_cex_profile_rejects_historical_fixture_as_exact_candidate(tmp_path: Path) -> None:
+    """CEX exact support must reject fixture evidence as arbitrary Certification authority."""
     bundle = (
         ROOT
         / "evidence"
@@ -91,6 +94,7 @@ def test_cex_profile_and_generic_kernel_replay_fails_closed(tmp_path: Path) -> N
     profile = _capability_replay_profile(req)
     assert profile["capability_id"] == "logic.finite_counterexample"
     assert profile["fixture"] == "nat_eq0"  # historical self-test hint only
+    assert decide_exact_kernel_replay("logic.finite_counterexample").ok is True
 
     with pytest.raises(KernelReplayError) as exc:
         run_kernel_replay(
@@ -98,9 +102,18 @@ def test_cex_profile_and_generic_kernel_replay_fails_closed(tmp_path: Path) -> N
             require_lean=False,
             out_record_dir=tmp_path / "cex_cert",
         )
-    assert exc.value.code == "assurance_mode_unavailable"
-    assert "exact-candidate generator" in str(exc.value)
+    assert exc.value.code == "malformed_evidence"
     assert not (tmp_path / "cex_cert").exists()
+
+
+def test_unsupported_federated_exact_replay_fails_closed() -> None:
+    """A genuinely unsupported capability must still fail closed with no exact fallback."""
+    decision = decide_exact_kernel_replay("logic.sat_unsat")
+    assert decision.ok is False
+    assert decision.code == ASSURANCE_MODE_UNAVAILABLE
+    assert decision.policy is not None
+    assert decision.policy["exactBinding"]["supported"] is False
+    assert decision.policy["certification"]["crEligible"] is False
 
 
 def test_la_adversarial_mirrors() -> None:

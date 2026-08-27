@@ -74,7 +74,7 @@ def _rat_request_cert(
     return request, certificate
 
 
-def test_rational_equal_reduced_and_unreduced_canonicalize() -> None:
+def test_rational_exact_wire_binding_and_scope_rejections() -> None:
     # (x^2-1)/(x-1) = x+1
     lhs = {
         "tag": "div",
@@ -106,23 +106,53 @@ def test_rational_equal_reduced_and_unreduced_canonicalize() -> None:
     assert "replaySound" in text
     assert "Expr.div" in text
     assert DIGEST_A in text
+    assert "Request.ofClaim! rat_eq_claim" in text
+    assert "rat_eq_request_binding" in text
 
-    # Unreduced rat literal 2/4 -> 1/2 in source
+    # Exact theorem replay must not silently rewrite a request behind its digest.
     request2, cert2 = _rat_request_cert(
         lhs={"tag": "rat", "num": "2", "den": "4"},
         rhs={"tag": "rat", "num": "1", "den": "2"},
         factors=[],
         digest=DIGEST_B,
     )
-    text2 = generate_exact_rational_equality_module(
-        module_name="MathEvidence.Generated.Replay.rat_canon",
-        declaration_name="rat_canon",
-        request=request2,
-        certificate=cert2,
-        candidate_bundle_digest=BUNDLE,
-    )
-    assert "Expr.rat (1 : Int) 2" in text2
-    assert "Expr.rat (2 : Int) 4" not in text2
+    with pytest.raises(ValueError, match="canonical exact RationalExpr"):
+        generate_exact_rational_equality_module(
+            module_name="MathEvidence.Generated.Replay.rat_noncanonical",
+            declaration_name="rat_noncanonical",
+            request=request2,
+            certificate=cert2,
+            candidate_bundle_digest=BUNDLE,
+        )
+
+    unsupported_policy = copy.deepcopy(request)
+    unsupported_policy["resourcePolicy"] = {
+        "maxWallTimeMs": 20000,
+        "maxOutputBytes": 1048576,
+    }
+    with pytest.raises(ValueError, match="resourcePolicy"):
+        generate_module(
+            capability_id="algebra.rational_equality",
+            request=unsupported_policy,
+            certificate=certificate,
+            candidate_bundle_digest=BUNDLE,
+            module_name="MathEvidence.Generated.Replay.rat_policy",
+            declaration_name="rat_policy",
+        )
+
+    unsupported_version = copy.deepcopy(request)
+    unsupported_version["capabilityVersion"] = "0.2.0"
+    unsupported_version_cert = copy.deepcopy(certificate)
+    unsupported_version_cert["capabilityVersion"] = "0.2.0"
+    with pytest.raises(ValueError, match="supports capabilityVersion 0.1.0 only"):
+        generate_module(
+            capability_id="algebra.rational_equality",
+            request=unsupported_version,
+            certificate=unsupported_version_cert,
+            candidate_bundle_digest=BUNDLE,
+            module_name="MathEvidence.Generated.Replay.rat_version",
+            declaration_name="rat_version",
+        )
 
 
 def test_rational_negatives_zero_unequal_den0_float() -> None:
@@ -141,7 +171,7 @@ def test_rational_negatives_zero_unequal_den0_float() -> None:
     assert "Expr.neg" in text
 
     request0, cert0 = _rat_request_cert(
-        lhs={"tag": "rat", "num": "0", "den": "5"},
+        lhs={"tag": "rat", "num": "0", "den": "1"},
         rhs={"tag": "int", "value": "0"},
         factors=[],
         digest=DIGEST_B,
@@ -217,6 +247,7 @@ def test_rational_field_and_operator_mutation_change_hash() -> None:
         module_name="MathEvidence.Generated.Replay.rat_op",
         declaration_name="rat_op",
     )
+    assert other.source_hash != base.source_hash
     assert op_other.source_hash != base.source_hash
     assert "OfflineFixtures" not in base.source_text
 
@@ -226,7 +257,9 @@ def _matrix(rows: list[list[tuple[str, str]]]) -> dict:
         "tag": "matrix",
         "rows": len(rows),
         "cols": len(rows[0]),
-        "entries": [[{"tag": "rat", "num": n, "den": d} for n, d in row] for row in rows],
+        "entries": [
+            [{"tag": "rat", "num": n, "den": d} for n, d in row] for row in rows
+        ],
     }
 
 
@@ -241,7 +274,9 @@ def test_linear_algebra_ops_true_false_and_mutations() -> None:
         "capability": "algebra.linear_algebra",
         "capabilityVersion": "0.1.0",
         "operation": "inverse_witness",
-        "matrix": _matrix([[("1", "2"), ("0", "1")], [("0", "1"), ("2", "1")]]),
+        "matrix": _matrix(
+            [[("1", "2"), ("0", "1")], [("0", "1"), ("2", "1")]]
+        ),
         "requestedClaim": "witness",
         "resourcePolicy": {"maxWallTimeMs": 10000, "maxOutputBytes": 1048576},
         "requestDigest": DIGEST_A,
@@ -252,7 +287,9 @@ def test_linear_algebra_ops_true_false_and_mutations() -> None:
         "capabilityVersion": "0.1.0",
         "requestDigest": DIGEST_A,
         "operation": "inverse_witness",
-        "inverse": _matrix([[("2", "1"), ("0", "1")], [("0", "1"), ("1", "2")]]),
+        "inverse": _matrix(
+            [[("2", "1"), ("0", "1")], [("0", "1"), ("1", "2")]]
+        ),
         "provenance": {"backendId": "test", "adapterVersion": "0.1.0"},
     }
     text = generate_exact_linear_algebra_module(
@@ -317,7 +354,11 @@ def test_linear_algebra_ops_true_false_and_mutations() -> None:
         )
 
     float_req = copy.deepcopy(req)
-    float_req["matrix"]["entries"][0][0] = {"tag": "rat", "num": 1.5, "den": "1"}
+    float_req["matrix"]["entries"][0][0] = {
+        "tag": "rat",
+        "num": 1.5,
+        "den": "1",
+    }
     with pytest.raises(ValueError, match="float"):
         generate_module(
             capability_id="algebra.linear_algebra",
@@ -334,7 +375,9 @@ def test_linear_algebra_ops_true_false_and_mutations() -> None:
         "capability": "algebra.linear_algebra",
         "capabilityVersion": "0.1.0",
         "operation": "system_solution",
-        "matrix": _matrix([[("1", "1"), ("1", "1")], [("0", "1"), ("1", "1")]]),
+        "matrix": _matrix(
+            [[("1", "1"), ("1", "1")], [("0", "1"), ("1", "1")]]
+        ),
         "rhs": [_rat("3"), _rat("2")],
         "requestedClaim": "witness",
         "resourcePolicy": {"maxWallTimeMs": 10000, "maxOutputBytes": 1048576},
@@ -394,7 +437,12 @@ def test_counterexample_refutation_polarity_and_guards() -> None:
     assert "outcome = refuted" in text
     assert "claimClass := .refutation" in text
     assert "OfflineFixtures" not in text
-    assert map_claim_to_outcome(claim_class="refutation", claim_established="refutation") == "refuted"
+    assert (
+        map_claim_to_outcome(
+            claim_class="refutation", claim_established="refutation"
+        )
+        == "refuted"
+    )
 
     # non-violating / out-of-domain rejected at parse (type/domain checks)
     ood = copy.deepcopy(certificate)
@@ -463,7 +511,11 @@ def test_formal_calculus_binds_tree_and_rejects_candidate_only() -> None:
         "operation": "derivative_candidate",
         "variables": [{"name": "x", "type": "Rat"}],
         "independentVar": "x",
-        "expr": {"tag": "pow", "base": {"tag": "var", "name": "x"}, "exp": 2},
+        "expr": {
+            "tag": "pow",
+            "base": {"tag": "var", "name": "x"},
+            "exp": 2,
+        },
         "candidate": {
             "tag": "mul",
             "left": {"tag": "int", "value": "2"},
@@ -514,7 +566,11 @@ def test_analytic_whitelist_and_unsupported_fail_closed() -> None:
         "capability": "analysis.analytic_calculus",
         "capabilityVersion": "0.1.0",
         "kind": "derivative",
-        "source": {"tag": "mul", "lhs": {"tag": "variable", "idx": 0}, "rhs": {"tag": "variable", "idx": 0}},
+        "source": {
+            "tag": "mul",
+            "lhs": {"tag": "variable", "idx": 0},
+            "rhs": {"tag": "variable", "idx": 0},
+        },
         "target": {
             "tag": "add",
             "lhs": {
@@ -537,7 +593,11 @@ def test_analytic_whitelist_and_unsupported_fail_closed() -> None:
         "requestDigest": DIGEST_A,
         "source": request["source"],
         "derivative": request["target"],
-        "proof": {"tag": "mul", "p": {"tag": "variable"}, "q": {"tag": "variable"}},
+        "proof": {
+            "tag": "mul",
+            "p": {"tag": "variable"},
+            "q": {"tag": "variable"},
+        },
         "obligations": [],
         "claimsCompleteness": False,
     }
@@ -681,7 +741,6 @@ def test_analytic_antideriv_and_ode_generate() -> None:
 
 def test_phase2_exact_binding_decisions() -> None:
     for cap in (
-        "algebra.rational_equality",
         "algebra.linear_algebra",
         "logic.finite_counterexample",
         "algebra.formal_rational_calculus",
@@ -689,5 +748,12 @@ def test_phase2_exact_binding_decisions() -> None:
     ):
         decision = decide_exact_kernel_replay(cap)
         assert decision.ok is True, cap
+
+    # The rational plugin remains directly testable above, but theorem/CR replay
+    # is intentionally disabled until candidate identity is closed.
+    rational = decide_exact_kernel_replay("algebra.rational_equality")
+    assert rational.ok is False
+    assert "crEligible" in rational.message
+
     # federated remain closed
     assert decide_exact_kernel_replay("logic.smt").ok is False

@@ -17,7 +17,7 @@
     "leanPackage": "MathEvidence.IR.RationalExpr"
   },
   "admissibility": {
-    "summary": "Rational expressions over \u211a with explicit division; transcendentals and approximate numerals rejected.",
+    "summary": "Rational expressions over ℚ with explicit division; transcendentals and approximate numerals rejected.",
     "rejectedConstructs": [
       "transcendentals",
       "conditionals",
@@ -63,10 +63,10 @@
   },
   "knownLimitations": [
     "PROTOCOL REFERENCE ONLY: external search is not essential; Lean can close equalities via field_simp/ring independently of backend output (docs/security/KNOWN_TRUST_GAPS.md).",
-    "P0 trust gaps open at audit baseline: live digest substitution, offline digest trust, coverage\u2260Defined (docs/security/KNOWN_TRUST_GAPS.md).",
+    "The checker, soundness theorem, bridge, and exact-source generator remain available, but theorem-level Certification Record promotion is disabled for the pinned Lean 4.14 public preview because the candidate-specific checker proposition does not elaborate on the production native-reduction path without an unacceptable sorryAx dependency.",
     "Equality is established only under explicit nonzero denominator conditions.",
     "Does not claim identity at poles or under totalized field conventions.",
-    "Status remains experimental; stable promotion blocked until P0 trust path + human gates ME-401\u2013408 close.",
+    "Status remains experimental; lifecycle promotion is separate from mechanical checker availability.",
     "Transcendentals, conditionals, and approximate numerals are rejected.",
     "Dual-backend evidence: SymPy live (conformance_verified) + Mathematica live_generator_complete via wolframscript when MATHEVIDENCE_WOLFRAMSCRIPT is set (public CI without Wolfram remains offline fixtures / differential skip-fixture). Sage is deliberately NOT advertised for rational equality (spec 05: implement+conformance or remove)."
   ],
@@ -120,37 +120,28 @@
   "semanticReview": "absent",
   "trustReview": "absent",
   "assurancePolicy": {
-    "supportedAssuranceModes": [
-      "kernel_replay"
-    ],
+    "supportedAssuranceModes": [],
     "exactBinding": {
-      "supported": true,
-      "generatorId": "mathevidence.exact_rational_equality",
-      "generatorVersion": "0.1.0",
-      "grammarVersion": "0.1.0",
-      "generatorPath": "scripts/generate_exact_rational_equality_replay_module.py",
-      "verifier": "mathevidence-declaration-identity"
+      "supported": false
     },
     "replay": {
       "backend": "exact_generator",
       "offlineSupported": true
     },
     "certification": {
-      "allowedOutcomes": [
-        "proved"
-      ],
-      "crEligible": true
+      "allowedOutcomes": [],
+      "crEligible": false
     },
     "maturity": {
       "adapterExists": true,
       "checkerExists": true,
       "leanSoundnessExists": true,
       "bridgeReplayExists": true,
-      "exactCandidateBindingExists": true,
+      "exactCandidateBindingExists": false,
       "offlineReplayExists": true
     },
     "limitations": [
-      "CR eligibility enabled after local Lean exact-replay E2E (named-def renderer + Lake path fixes).",
+      "The pinned Lean 4.14 production path fails closed for candidate-specific theorem Certification Records; checker/soundness/bridge functionality remains available without theorem promotion.",
       "OfflineFixtures remain protocol self-tests and are not Certification Record authority.",
       "Canonical rationals: int num, strictly positive den, gcd-normalized, zero as 0/1. Floats rejected in exact mode."
     ]

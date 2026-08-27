@@ -4,7 +4,10 @@
 Runs Lake executables ``mathevidence-import-graph`` /
 ``mathevidence-axiom-report`` via ``lake env`` so ``LEAN_PATH`` includes built
 oleans. Drivers load trusted roots with ``Lean.importModules`` and emit
-Environment-level JSON under ``docs/validation/ci/``.
+Environment-level JSON. By default reports are written under
+``docs/validation/ci/``; release workflows can redirect them with
+``MATHEVIDENCE_ENV_AUDIT_OUT_DIR`` so runtime evidence does not mutate the
+checked-out release tree.
 
 Exit non-zero if either driver fails or reports ``environmentLevel: false``.
 """
@@ -12,13 +15,31 @@ Exit non-zero if either driver fails or reports ``environmentLevel: false``.
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT_DIR = ROOT / "docs" / "validation" / "ci"
+
+
+def _resolve_out_dir() -> Path:
+    raw = os.environ.get("MATHEVIDENCE_ENV_AUDIT_OUT_DIR", "").strip()
+    if not raw:
+        return ROOT / "docs" / "validation" / "ci"
+    path = Path(raw).expanduser()
+    return path if path.is_absolute() else ROOT / path
+
+
+def _display_path(path: Path) -> str:
+    try:
+        return path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return str(path)
+
+
+OUT_DIR = _resolve_out_dir()
 TRUSTED_ROOTS = [
     "MathEvidence/Core",
     "MathEvidence/IR",
@@ -29,6 +50,7 @@ TRUSTED_ROOTS = [
 
 def _run_lake_exe(name: str, out_path: Path) -> dict:
     out_path.parent.mkdir(parents=True, exist_ok=True)
+
     def _run(cmd: list[str]) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             cmd,
@@ -156,7 +178,7 @@ def main() -> int:
         }
         bundle_path = OUT_DIR / "environment_audit_scaffold.json"
         bundle_path.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
-        print(f"wrote {bundle_path.relative_to(ROOT).as_posix()}")
+        print(f"wrote {_display_path(bundle_path)}")
         return 1
 
     if not (bin_dir / "mathevidence-import-graph").is_file() and not (
@@ -177,7 +199,7 @@ def main() -> int:
         }
         bundle_path = OUT_DIR / "environment_audit_scaffold.json"
         bundle_path.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
-        print(f"wrote {bundle_path.relative_to(ROOT).as_posix()}")
+        print(f"wrote {_display_path(bundle_path)}")
         print("env audits: pending (binaries missing)", file=sys.stderr)
         return 1
 
@@ -199,7 +221,7 @@ def main() -> int:
 
     bundle_path = OUT_DIR / "environment_audit_scaffold.json"
     bundle_path.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
-    print(f"wrote {bundle_path.relative_to(ROOT).as_posix()}")
+    print(f"wrote {_display_path(bundle_path)}")
 
     rc = 0
     for key, label in (("importAudit", "import"), ("axiomAudit", "axiom")):

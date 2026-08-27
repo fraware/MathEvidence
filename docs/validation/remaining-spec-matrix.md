@@ -4,21 +4,22 @@ Maps every [PROJECT_SPEC §21](../PROJECT_SPEC.md) DoD row and every
 [DELIVERY_ROADMAP](../DELIVERY_ROADMAP.md) milestone exit criterion to an
 in-repo artifact path or `OPEN`.
 
-**Authority:** [`docs/security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md) and
-[`STATUS.md`](../STATUS.md) supersede optimistic labels when they conflict.
-Do not invent human confirmations. Capabilities remain
-`"status": "experimental"` until
+**Authority:** [`docs/security/KNOWN_TRUST_GAPS.md`](../security/KNOWN_TRUST_GAPS.md),
+[`STATUS.md`](../STATUS.md), the capability registry, and exact-head CI supersede
+optimistic historical labels when they conflict. Do not invent human
+confirmations. Capabilities remain `"status": "experimental"` until
 [stable-capability-checklist.md](stable-capability-checklist.md) is fully
 checked with real artifacts.
 
 **Status labels (historical engineering-artifact records)**
 
 These `MET` / `PARTIAL` / `OPEN` cells describe whether a qualifying
-implementation artifact existed for the §21 / roadmap row as written. They are
+implementation artifact exists for the §21 / roadmap row as written. They are
 **not** theorem-level Certification Record eligibility. Current CR authority is
-[`registry/maturity-inventory.json`](../../registry/maturity-inventory.json)
-and PR #53 / post-repair semantics in [`STATUS.md`](../STATUS.md). Dated audit
-files under `docs/audits/` are left unchanged.
+[`registry/maturity-inventory.json`](../../registry/maturity-inventory.json),
+capability-specific assurance policy, and the release gates described in
+[`STATUS.md`](../STATUS.md). Dated audit files under `docs/audits/` are retained
+as history, not silently upgraded to current authority.
 
 - `MET` — qualifying engineering artifact exists and matches the row as written.
 - `PARTIAL` — some required artifact exists; gaps listed.
@@ -32,14 +33,14 @@ Local `just check` ≠ attested immutable CI green on a release commit.
 
 | Row | Criterion | Status | Artifact path or OPEN |
 | --- | --- | --- | --- |
-| §21.1 | Rational-function equality works end to end through Mathematica and one open backend | PARTIAL — protocol reference | Dual adapters (`adapters/sympy/`, `adapters/mathematica/`). Not proof of indispensable external search (`externalSearchEssential: false`). Capability **experimental**. |
+| §21.1 | Rational-function equality works end to end through Mathematica and one open backend | PARTIAL — protocol reference | Dual adapters (`adapters/sympy/`, `adapters/mathematica/`). Not proof of indispensable external search. Capability **experimental**. |
 | §21.2 | Same Lean checker accepts both evidence formats after adapter normalization | MET (eng) | `MathEvidence/Checkers/RationalEquality/` + conformance fixtures. |
 | §21.3 | All side conditions are explicit | MET (eng) | RFC/schemas; coverage⇒Defined bridge for ℚ present in checker soundness path. |
-| §21.4 | Every example rechecks offline with backends unavailable | MET (eng) | Offline packaging + Lean request digest recompute from claim payload. |
+| §21.4 | Every example rechecks offline with backends unavailable | PARTIAL | Offline bundle integrity/regeneration is implemented and tamper-tested. Offline **kernel theorem execution** is now tracked separately and is not claimed as a release-wide maturity property; see `STATUS.md`. |
 | §21.5 | Request/certificate mismatch and malformed evidence are rejected | MET (eng) | Conformance + forensic binding/forgery suites under `tests/forensic/`. |
-| §21.6 | Lean package contains no forbidden axioms or incomplete proofs | PARTIAL | Regex audits (`scripts/audit_sorry_axioms.py`); compiled axiom/import audits still desired. |
+| §21.6 | Lean package contains no forbidden axioms or incomplete proofs | MET (eng) | Source audits plus `mathevidence-import-graph` / `mathevidence-axiom-report` environment-level drivers and `lean-assurance-audit` CI. |
 | §21.7 | Capability discoverable through registry and Agent API | MET (eng) | Registry + Agent; public API is `bundleId`-only; registry-driven dispatch. |
-| §21.8 | Benchmark includes real and adversarial tasks | MET (eng) | Suites under `benchmarks/` + `tests/forensic/`. |
+| §21.8 | Benchmark includes real and adversarial tasks | MET (eng) | Frozen release conformance/regression suites under `benchmarks/` + adversarial/forensic suites. External held-out validation remains separate. |
 | §21.9 | User can invoke one stable tactic and receive precise status reporting | PARTIAL | Tactic remains **experimental**; theorem-producing rational replay exists — not a `stable` claim. |
 | §21.10 | At least one external Lean contributor or project confirms a real workflow problem | OPEN | Template: `docs/validation/workflow-win-log.md` (0 entries). Do not invent. |
 
@@ -61,10 +62,12 @@ Local `just check` ≠ attested immutable CI green on a release commit.
 | Exit criterion | Status | Artifact |
 | --- | --- | --- |
 | Two backends share one checker | MET (eng) | SymPy + Mathematica → `MathEvidence.Checkers.RationalEquality` |
-| Offline replay | MET (eng) | `just replay`, `evidence/examples/`, `evidence/conformance/rfc0001/` |
-| Side conditions / mismatch reject / no forbidden axioms | See §21.3–§21.6 | |
+| Offline replay | PARTIAL | Offline bundle replay is implemented; offline kernel replay is a distinct stronger maturity field and is currently false in the authoritative inventory. |
+| Side conditions / mismatch reject / no forbidden axioms | MET (eng) | See §21.3, §21.5, and §21.6. |
 
-Evidence Bundle trees for full bundles use schema **v0.2** (`.cjson`).
+Candidate Bundle trees use `bundleVersion: 0.3.0` with canonical `.cjson`
+encoding. Schema v0.2 remains accepted only for historical canonical bundles;
+it is not the current Candidate Bundle protocol version.
 
 ---
 
@@ -73,7 +76,7 @@ Evidence Bundle trees for full bundles use schema **v0.2** (`.cjson`).
 | Exit criterion | Status | Artifact |
 | --- | --- | --- |
 | Common core remains small | MET (eng) | Core + LA/CEX checkers and conformance |
-| No unsafe generic escape hatch | MET | Domain-specific IR/checkers |
+| No unsafe generic escape hatch | MET | Domain-specific IR/checkers; exact generators use typed replay IR |
 | Agent held-out improvement | MET (eng) | `benchmarks/agent/held_out/`, `just agent-held-out` |
 | External Lean project adoption | OPEN | `docs/validation/adoption-log.md` (0 entries) |
 | First Agent API release | MET (eng) | Agent API **v0.1.0** (`agent/api/openapi.yaml`, `agent/CHANGELOG.md`) |
@@ -85,7 +88,7 @@ Evidence Bundle trees for full bundles use schema **v0.2** (`.cjson`).
 | Exit criterion | Status | Artifact |
 | --- | --- | --- |
 | Repaired statements pass semantic expert review | OPEN | Unsigned packets under `docs/validation/review-packets/` |
-| Weaker variants receive certified counterexamples where claimed | MET (eng) | Lean + Agent lattice/CEX paths; product spec `docs/products/03_HYPOTHESIS_SYNTHESIS.md` |
+| Weaker variants receive certified counterexamples where claimed | MET (eng) | Exact CEX path uses outcome `refuted`; product spec `docs/products/03_HYPOTHESIS_SYNTHESIS.md` |
 | Minimality never asserted without proof | MET (eng) | Agent tests assert `claimsMinimal is False` |
 
 ---
@@ -97,17 +100,21 @@ Evidence Bundle trees for full bundles use schema **v0.2** (`.cjson`).
 | Interoperability without replacing specialized checkers | PARTIAL | Federated registry entries + `docs/architecture/collaboration-cslib-lean-auto-smt.md` |
 | ≥2 projects consume or emit shared metadata | OPEN (live) / PARTIAL (fixture) | Ledger: `docs/architecture/federation-agreements.md`; fixtures under `evidence/federation/` |
 
+Federated SAT/PB/SMT metadata is not exact-CR eligible in this repository.
+
 ---
 
 ## Milestone 5 — Symbolic / formal calculus
 
 | Exit criterion | Status | Artifact |
 | --- | --- | --- |
-| Repeated evidence patterns | PARTIAL | `evidence/conformance/symbolic_calculus/` (fixture path name); capability id `algebra.formal_rational_calculus` |
-| Branch/singularity conditions explicit | MET (eng) | Capability admissibility + schemas |
-| Candidate ≠ completeness | MET (eng) | Claim classes + checker package |
+| Repeated evidence patterns | PARTIAL | `evidence/conformance/symbolic_calculus/` is a historical fixture path name; capability id is `algebra.formal_rational_calculus`. |
+| Branch/singularity conditions explicit | MET (eng) | Capability admissibility + schemas for supported forms. |
+| Candidate ≠ completeness | MET (eng) | Claim classes + checker package; candidate-only requests remain evidence-only. |
 
-Analytic Mathlib calculus is a separate experimental id: `analysis.analytic_calculus`.
+Analytic Mathlib calculus is a separate experimental id:
+`analysis.analytic_calculus`. It is a strict theorem-form whitelist, not a claim
+of arbitrary analytic-calculus automation.
 
 ---
 
@@ -130,15 +137,19 @@ Analytic Mathlib calculus is a separate experimental id: `analysis.analytic_calc
 | `logic.finite_counterexample` | `conformance_verified` | `live_generator_complete` (gated) | `live_generator_complete` (gated) |
 | `algebra.formal_rational_calculus` | `conformance_verified` | `live_generator_complete` (derivative/antiderivative gated) | n/a |
 
-Supported Mathematica live transport: `MATHEVIDENCE_WOLFRAMSCRIPT` → wolframscript.
-LeanLink native bridge remains deferred.
+Supported Mathematica live transport: `MATHEVIDENCE_WOLFRAMSCRIPT` →
+`wolframscript`. LeanLink native bridge remains deferred.
 
 ---
 
 ## Governance packaging (humans OPEN)
 
 Engineering may be packaging-ready; humans are not. See
-[`stable-capability-checklist.md`](stable-capability-checklist.md).
+[`stable-capability-checklist.md`](stable-capability-checklist.md). The
+`semanticReview` / `trustReview` registry fields belong to **stable-promotion
+human review**, not to the mechanical exact-candidate CR gate for this
+experimental preview; absent values must never be presented as completed
+review.
 
 | Gate | Status | Artifact when closed |
 | --- | --- | --- |

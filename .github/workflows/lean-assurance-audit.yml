@@ -12,9 +12,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lean-assurance-audit:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
@@ -56,7 +61,7 @@ jobs:
             --ignore=tests/forensic/test_wave2_kernel_replay.py \
             --ignore=tests/forensic/test_verify_bundle_no_theorem_status.py \
             --ignore=tests/forensic/test_theorem_producing_replay.py
-        # Lake-dependent E2E files stay in lean.yml. This gate distinguishes
+        # Lake-dependent E2E files stay in lean.yml.
         # Keep Python assurance independent of Lean setup failures.
 
       - name: Note

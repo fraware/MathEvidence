@@ -7,6 +7,7 @@ Fails when:
 - duplicate capability/version keys appear;
 - ``cr_eligible=true`` without exact-binding generator/verifier metadata;
 - exact binding is claimed without generator metadata / generator path;
+- the legacy offline-replay alias disagrees with offline bundle replay;
 - federated capabilities are marked CR-eligible;
 - ``docs/STATUS.md`` claims CR eligibility the inventory denies, or its
   machine-readable maturity table drifts from the inventory.
@@ -32,24 +33,28 @@ CAP_DIR = ROOT / "registry" / "capabilities"
 STATUS_PATH = ROOT / "docs" / "STATUS.md"
 SCHEMA_NAME = "maturity-inventory.schema.json"
 
+# Displayed independent maturity dimensions. ``offline_replay_exists`` remains
+# in the schema as a compatibility alias for offline_bundle_replay_exists but is
+# deliberately not shown as an independent dimension.
 MATURITY_BOOLS = (
     "adapter_exists",
     "checker_exists",
     "lean_soundness_exists",
     "bridge_replay_exists",
     "exact_candidate_binding_exists",
-    "offline_replay_exists",
+    "offline_bundle_replay_exists",
+    "offline_kernel_replay_exists",
     "cr_eligible",
 )
 
 TABLE_BEGIN = "<!-- maturity-inventory-table:begin -->"
 TABLE_END = "<!-- maturity-inventory-table:end -->"
-ROW_RE = re.compile(r"^\|\s*`([^`]+)`\s*\|" + r"\s*(true|false)\s*\|" * 7 + r"\s*$")
+ROW_RE = re.compile(r"^\|\s*`([^`]+)`\s*\|" + r"\s*(true|false)\s*\|" * 8 + r"\s*$")
 CR_ELIGIBLE_TRUE_RE = re.compile(r"(?i)(?:cr_eligible|crEligible)\s*[:=]\s*true\b")
 TABLE_HEADER = (
     "| Capability | adapter_exists | checker_exists | lean_soundness_exists | "
     "bridge_replay_exists | exact_candidate_binding_exists | "
-    "offline_replay_exists | cr_eligible |"
+    "offline_bundle_replay_exists | offline_kernel_replay_exists | cr_eligible |"
 )
 
 _EXACT_META_KEYS = (
@@ -88,11 +93,29 @@ def validate_entry_policy(entry: dict[str, Any], *, repo_root: Path = ROOT) -> l
     supported = binding.get("supported") is True
     exact_exists = entry.get("exact_candidate_binding_exists") is True
     cr_eligible = entry.get("cr_eligible") is True
+    offline_legacy = entry.get("offline_replay_exists") is True
+    offline_bundle = entry.get("offline_bundle_replay_exists") is True
+    offline_kernel = entry.get("offline_kernel_replay_exists") is True
 
     if exact_exists != supported:
         errors.append(
             f"{cap_id}: exact_candidate_binding_exists={exact_exists} disagrees "
             f"with exactBinding.supported={supported}"
+        )
+
+    if offline_legacy != offline_bundle:
+        errors.append(
+            f"{cap_id}: offline_replay_exists is a compatibility alias and must equal "
+            f"offline_bundle_replay_exists ({offline_legacy} != {offline_bundle})"
+        )
+    if offline_kernel and not offline_bundle:
+        errors.append(
+            f"{cap_id}: offline_kernel_replay_exists=true requires "
+            "offline_bundle_replay_exists=true"
+        )
+    if offline_kernel and not exact_exists:
+        errors.append(
+            f"{cap_id}: offline_kernel_replay_exists=true requires exact candidate binding"
         )
 
     if supported or cr_eligible or exact_exists:
@@ -127,9 +150,10 @@ def validate_entry_policy(entry: dict[str, Any], *, repo_root: Path = ROOT) -> l
                 f"{cap_id}: inventory cr_eligible={cr_eligible} disagrees with "
                 f"capability assurancePolicy.certification.crEligible={live_cr}"
             )
-        live_exact = False
-        binding = policy.get("exactBinding") if isinstance(policy.get("exactBinding"), dict) else {}
-        live_exact = binding.get("supported") is True
+        live_binding = (
+            policy.get("exactBinding") if isinstance(policy.get("exactBinding"), dict) else {}
+        )
+        live_exact = live_binding.get("supported") is True
         inv_exact = entry.get("exact_candidate_binding_exists") is True
         if live_exact != inv_exact:
             errors.append(
@@ -186,7 +210,7 @@ def format_status_table(inventory: dict[str, Any]) -> str:
     lines = [
         TABLE_BEGIN,
         TABLE_HEADER,
-        "| --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for entry in inventory.get("capabilities") or []:
         if not isinstance(entry, dict):

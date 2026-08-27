@@ -53,6 +53,34 @@ def cert_antideriv : Certificate where
   operation := .antiderivativeCandidate
   domainConditions := []
 
+/-- Production-shape antiderivative: `F = (1/2)x^2`, `f = x`.
+
+The exact replay generator receives an already-validated request digest and emits
+that digest literally into both `Request` and `Certificate`.  This fixture uses
+the same representation instead of `Request.ofClaim`, whose digest computation
+is intentionally outside the generated theorem's reduction path.  The canonical
+rational literal `1/2` is structurally well-formed and creates no runtime domain
+condition. -/
+def claim_antideriv_half : Claim where
+  operation := .antiderivativeCandidate
+  varNames := ["x"]
+  independentVar := 0
+  expr := .var 0
+  candidate := .mul (.rat 1 2) (.pow (.var 0) 2)
+  domainConditions := []
+  claimClass := .soundResult
+
+def req_antideriv_half : Request where
+  claim := claim_antideriv_half
+  requestDigest :=
+    ⟨"sha256:1111111111111111111111111111111111111111111111111111111111111111"⟩
+
+def cert_antideriv_half : Certificate where
+  requestDigest :=
+    ⟨"sha256:1111111111111111111111111111111111111111111111111111111111111111"⟩
+  operation := .antiderivativeCandidate
+  domainConditions := []
+
 /-- Closed form `u(n) = n`; recurrence `u(n+1) = u + 1`. -/
 def claim_recurrence : Claim where
   operation := .recurrenceIdentity
@@ -159,6 +187,22 @@ theorem replay_deriv_x2 :
 theorem replay_antideriv :
     checkBool req_antideriv cert_antideriv = true := by native_decide
 
+theorem replay_antideriv_half_kernel :
+    checkBool req_antideriv_half cert_antideriv_half = true := by
+  have hDigest : digestOk req_antideriv_half cert_antideriv_half = true := by
+    native_decide
+  have hWellFormed : wellFormedOk req_antideriv_half = true := by
+    native_decide
+  have hDomain : domainCoverOk req_antideriv_half cert_antideriv_half = true := by
+    native_decide
+  have hOp : opOk req_antideriv_half = true := by
+    simp [opOk, req_antideriv_half, claim_antideriv_half, Claim.opHolds,
+      antiderivativeOk, exprEqual, formalDeriv, polyEqual, differenceNumerator,
+      toFrac, Poly.combineLike, Poly.sub, Poly.add, Poly.neg, Poly.mul, Poly.pow,
+      Poly.one, Poly.C, Poly.X, Poly.mulTerm, Poly.Term.sortVars, Poly.sortNats,
+      Poly.insertSorted]
+  simp [checkBool, hDigest, hWellFormed, hDomain, hOp]
+
 theorem replay_recurrence :
     checkBool req_recurrence cert_recurrence = true := by native_decide
 
@@ -184,6 +228,10 @@ theorem replay_report_deriv :
 theorem sound_deriv_x2 :
     Claim.proposition claim_deriv_x2 :=
   checkBool_sound req_deriv_x2 cert_deriv_x2 replay_deriv_x2
+
+theorem sound_antideriv_half :
+    Claim.proposition claim_antideriv_half :=
+  checkBool_sound req_antideriv_half cert_antideriv_half replay_antideriv_half_kernel
 
 theorem sound_ode :
     Claim.proposition claim_ode :=

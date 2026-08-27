@@ -1,6 +1,4 @@
-# Release provenance toward signed 0.x experimental prerelease (ME-RV-074).
-# Honest gaps: long-term release key + human prerelease publish approval.
-# See docs/validation/ci/signed_0x_prerelease.md
+# Experimental 0.x release provenance. Stable promotion and production signing remain separate gates.
 name: release
 
 on:
@@ -11,16 +9,25 @@ on:
 
 permissions:
   contents: read
-  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release-provenance:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Install elan (checksum-pinned release asset)
         run: bash scripts/ci/install-elan-pinned.sh
+
+      - name: Restore pinned Mathlib build cache
+        run: |
+          set -euo pipefail
+          lake exe cache get
 
       - name: Install uv (SHA-pinned)
         uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
@@ -39,30 +46,71 @@ jobs:
           uv sync --frozen --extra dev --extra sympy
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
 
-      - name: Validate schemas, registry, audits
+      - name: Validate schemas, registry, maturity, and audits
+        env:
+          MATHEVIDENCE_ENV_AUDIT_OUT_DIR: ${{ runner.temp }}/mathevidence-env-audits
         run: |
+          set -euo pipefail
           python scripts/validate_schemas.py
           python scripts/validate_registry.py
+          python scripts/validate_maturity_inventory.py
           python scripts/check_import_boundaries.py
           python scripts/audit_sorry_axioms.py
           python scripts/scaffold_env_audits.py
+          test -f "$RUNNER_TEMP/mathevidence-env-audits/environment_audit_scaffold.json"
+          test -f "$RUNNER_TEMP/mathevidence-env-audits/import_graph_env.json"
+          test -f "$RUNNER_TEMP/mathevidence-env-audits/axiom_report_env.json"
 
-      - name: Lake build (verify-bundle + kernel-replay + audit drivers)
+      - name: Lake build with lock immutability
         run: |
-          lake build mathevidence-verify-bundle mathevidence-kernel-replay mathevidence-import-graph mathevidence-axiom-report
+          set -euo pipefail
+          cp lake-manifest.json /tmp/lake-manifest.before.json
+          # Exact candidate execution imports capability ReplaySound declarations
+          # directly, so release materializes the complete checker closure first.
+          lake build \
+            MathEvidenceCheckers \
+            mathevidence-verify-bundle \
+            mathevidence-kernel-replay \
+            mathevidence-declaration-identity \
+            mathevidence-import-graph \
+            mathevidence-axiom-report
+          cmp /tmp/lake-manifest.before.json lake-manifest.json
+          git diff --exit-code -- lake-manifest.json lean-toolchain
 
-      - name: Offline replay + exe smoke
+      - name: Production-generated CR exact Lean E2E + declaration identity
+        run: |
+          set -euo pipefail
+          python scripts/ci/run_cr_exact_lean_e2e_production.py | tee /tmp/cr-exact-lean-e2e.jsonl
+
+      - name: Offline bundle replay + tamper + exe smoke
         env:
           MATHEVIDENCE_ADAPTER_MODE: fixture
           MATHEVIDENCE_REQUIRE_EXE_SMOKE: "1"
+          MATHEVIDENCE_OFFLINE: "1"
         run: |
+          set -euo pipefail
           python scripts/offline_replay_python.py
+          python -m pytest tests/forensic/test_offline_exact_replay.py -q
           python scripts/smoke_exe.py
           python scripts/smoke_ideal_membership.py
 
-      - name: Generate provenance + SBOM + digests
+      - name: Assert exact checked-out source tree remained clean
         run: |
-          mkdir -p dist/provenance dist/sbom dist/signed
+          set -euo pipefail
+          status="$(git status --porcelain --untracked-files=normal)"
+          if [ -n "$status" ]; then
+            echo "Release checks mutated the non-ignored source tree:" >&2
+            printf '%s\n' "$status" >&2
+            exit 1
+          fi
+
+      - name: Generate exact-tree provenance + SBOM + digests
+        run: |
+          set -euo pipefail
+          mkdir -p dist/provenance/environment-audits dist/sbom dist/signed
+          cp "$RUNNER_TEMP/mathevidence-env-audits/environment_audit_scaffold.json" dist/provenance/environment-audits/
+          cp "$RUNNER_TEMP/mathevidence-env-audits/import_graph_env.json" dist/provenance/environment-audits/
+          cp "$RUNNER_TEMP/mathevidence-env-audits/axiom_report_env.json" dist/provenance/environment-audits/
           python scripts/generate_release_provenance.py dist/provenance
           test -f dist/provenance/provenance-manifest.json
           python scripts/generate_sbom.py dist/sbom
@@ -73,50 +121,77 @@ jobs:
           )
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
-          m = json.loads(Path("dist/provenance/provenance-manifest.json").read_text(encoding="utf-8"))
+
+          path = Path("dist/provenance/provenance-manifest.json")
+          m = json.loads(path.read_text(encoding="utf-8"))
+          assert m.get("schemaVersion") == "0.2.0"
           assert m.get("leanToolchain"), "missing leanToolchain pin"
-          assert m.get("gitCommit"), "missing gitCommit"
-          assert m.get("gitCommit") != "workspace", "gitCommit must not be workspace"
+          assert m.get("gitCommit") == os.environ.get("GITHUB_SHA"), "release SHA mismatch"
+          assert m.get("gitTree") and m["gitTree"] != "unknown", "missing git tree"
+          assert m.get("gitWorkingTreeCleanAtGeneration") is True, "release provenance generated from dirty source tree"
+          maturity = m.get("maturityInventory") or {}
+          assert str(maturity.get("digest") or "").startswith("sha256:")
+          assert maturity.get("auditedBaselineCommit"), "missing maturity baseline"
+          assert m.get("registryFiles"), "missing registry trust-surface hashes"
+          assert m.get("schemaFiles"), "missing schema trust-surface hashes"
+          assert m.get("workflowFiles"), "missing workflow trust-surface hashes"
+          assert m.get("lockFiles"), "missing lock/toolchain hashes"
           lake = m.get("lake") or {}
           assert lake.get("packages"), "missing lake package pins"
-          print("provenance ok:", m["leanToolchain"], "files=", len(m.get("evidenceAndBenchmarkFiles") or []))
+
+          evidence_rows = m.get("evidenceAndBenchmarkFiles") or []
+          bound_evidence = {row.get("path") for row in evidence_rows}
+          expected_evidence = {
+              file.relative_to(Path.cwd()).as_posix()
+              for root in ("evidence", "benchmarks")
+              for file in (Path.cwd() / root).rglob("*")
+              if file.is_file()
+          }
+          assert bound_evidence == expected_evidence, (
+              "release evidence provenance coverage mismatch",
+              sorted(expected_evidence - bound_evidence)[:20],
+              sorted(bound_evidence - expected_evidence)[:20],
+          )
+
+          audit_dir = Path("dist/provenance/environment-audits")
+          assert (audit_dir / "environment_audit_scaffold.json").is_file()
+          assert (audit_dir / "import_graph_env.json").is_file()
+          assert (audit_dir / "axiom_report_env.json").is_file()
+          print(
+              "provenance ok:",
+              m["gitCommit"],
+              m["gitTree"],
+              "clean=", m["gitWorkingTreeCleanAtGeneration"],
+              "evidence=", len(bound_evidence),
+              "registry=", len(m["registryFiles"]),
+              "schemas=", len(m["schemaFiles"]),
+          )
           PY
 
-      - name: Sign artifacts with cosign (keyless when identity available)
-        env:
-          COSIGN_YES: "true"
+      - name: Record signing status explicitly
         run: |
           set -euo pipefail
-          # Install cosign from a pinned GitHub release when missing.
-          if ! command -v cosign >/dev/null 2>&1; then
-            COSIGN_VERSION=v2.4.3
-            COSIGN_URL="https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}/cosign-linux-amd64"
-            curl -fsSL "$COSIGN_URL" -o /tmp/cosign
-            chmod +x /tmp/cosign
-            sudo mv /tmp/cosign /usr/local/bin/cosign
-          fi
-          cosign version
-          # Keyless OIDC signing via GitHub Actions identity token.
-          # This signs digests + SBOM; human publish approval is still required.
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "push" ]; then
-            cosign sign-blob --yes \
-              --bundle dist/signed/artifact-digests.cosign.bundle \
-              dist/provenance/artifact-digests.sha256 \
-              || {
-                echo "::warning title=ME-RV-074::cosign sign-blob soft-failed; digests remain unsigned until identity/key is configured"
-                echo "cosign_soft_fail" > dist/signed/STATUS.txt
-              }
-            if [ -f dist/sbom/sbom.json ]; then
-              cosign sign-blob --yes \
-                --bundle dist/signed/sbom.cosign.bundle \
-                dist/sbom/sbom.json \
-                || echo "::warning title=ME-RV-074::SBOM cosign soft-failed"
-            fi
-          fi
-          if [ ! -f dist/signed/STATUS.txt ]; then
-            echo "cosign_attempted" > dist/signed/STATUS.txt
-          fi
+          cat > dist/signed/STATUS.json <<'JSON'
+          {
+            "schemaVersion": "0.1.0",
+            "signed": false,
+            "status": "production_release_signing_deferred",
+            "note": "This experimental release workflow does not claim a production signature. Configure and independently verify an approved release identity before advertising signed release provenance."
+          }
+          JSON
+
+      - name: Recompute release artifact digests including signing status
+        run: |
+          set -euo pipefail
+          (
+            cd dist
+            find . -type f ! -path './provenance/artifact-digests.sha256' -print0 \
+              | sort -z \
+              | xargs -0 sha256sum \
+              > provenance/artifact-digests.sha256
+          )
 
       - name: Upload release artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -129,25 +204,17 @@ jobs:
 
       - name: Experimental prerelease publish gate (manual)
         if: github.event_name == 'workflow_dispatch'
-        env:
-          PUBLISH_PRERELEASE: ${{ vars.PUBLISH_EXPERIMENTAL_PRERELEASE || 'false' }}
         run: |
           set -euo pipefail
-          echo "=== ME-RV-074 experimental 0.x prerelease gate ==="
-          echo "Branch protection on main: ENABLED (required PR + checks)."
-          echo "This job does NOT auto-publish a GitHub Release."
-          echo "Manual steps for a maintainer:"
-          echo "  1. Tag an experimental commit: git tag v0.1.0-experimental.<sha7>"
-          echo "  2. Push the tag OR run workflow_dispatch after checks are green."
-          echo "  3. Download the release-provenance artifact."
-          echo "  4. Verify cosign bundles (keyless) or sign with the org Ed25519 release key:"
-          echo "       cosign verify-blob --bundle dist/signed/artifact-digests.cosign.bundle \\"
-          echo "         dist/provenance/artifact-digests.sha256"
-          echo "  5. Create a GitHub *prerelease* only after human review:"
-          echo "       gh release create <tag> --prerelease --title '0.x experimental' \\"
-          echo "         dist/provenance/* dist/sbom/* dist/signed/*"
-          echo "  6. Set repo variable PUBLISH_EXPERIMENTAL_PRERELEASE=true only when automating step 5."
-          if [ "${PUBLISH_PRERELEASE}" = "true" ]; then
-            echo "::warning::PUBLISH_EXPERIMENTAL_PRERELEASE=true but auto-publish is intentionally not wired; use gh release create."
-          fi
-          echo "release.yml: provenance+SBOM+digests+cosign hooks ready; publish remains human-gated."
+          echo "=== MathEvidence experimental 0.x release gate ==="
+          echo "This workflow does NOT infer or configure GitHub branch protection."
+          echo "Verify live repository rules/settings independently before release."
+          echo "This workflow does NOT auto-publish a GitHub Release."
+          echo "This workflow does NOT claim production release signing."
+          echo "Manual maintainer sequence after all exact-SHA checks are green:"
+          echo "  1. Verify the intended commit SHA and branch/ruleset state."
+          echo "  2. Create an immutable experimental tag on that exact SHA."
+          echo "  3. Run/download this release-provenance artifact for the tag."
+          echo "  4. Verify artifact-digests.sha256 and inspect STATUS.json."
+          echo "  5. Publish a GitHub prerelease only with experimental scope/limitations."
+          echo "Stable promotion and production signing remain separate explicit gates."

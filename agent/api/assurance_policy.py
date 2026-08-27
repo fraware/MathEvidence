@@ -111,8 +111,9 @@ def supported_assurance_modes(capability_id: str) -> frozenset[str]:
 def decide_exact_kernel_replay(capability_id: str) -> AssuranceDecision:
     """Gate for theorem-producing exact kernel replay.
 
-    Unknown capability, missing policy, unsupported mode, or unsupported exact
-    binding => ``assurance_mode_unavailable``. Never falls back to fixtures.
+    Unknown capability, missing policy, non-CR-eligible policy, unsupported mode,
+    or unsupported exact binding => ``assurance_mode_unavailable``. Never falls
+    back to fixtures.
     """
     cap = find_capability(capability_id)
     if cap is None:
@@ -129,6 +130,17 @@ def decide_exact_kernel_replay(capability_id: str) -> AssuranceDecision:
             code=ASSURANCE_MODE_UNAVAILABLE,
             message=f"capability {capability_id} has no assurancePolicy",
             capability_id=capability_id,
+        )
+    if not cr_eligible(capability_id):
+        return AssuranceDecision(
+            ok=False,
+            code=ASSURANCE_MODE_UNAVAILABLE,
+            message=(
+                f"theorem Certification Record replay is not enabled for {capability_id}; "
+                "registry certification.crEligible must be true"
+            ),
+            capability_id=capability_id,
+            policy=policy,
         )
     modes = supported_assurance_modes(capability_id)
     if "kernel_replay" not in modes:

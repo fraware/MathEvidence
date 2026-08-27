@@ -1,8 +1,9 @@
-"""Assurance adversarial corpus for every exact-bound capability.
+"""Assurance adversarial corpus for exact-bound capability implementations.
 
 Covers candidate mismatch, fixture substitution, hash/source mutation, wrong
 capability/generator/declaration, unsupported exact mode, legacy-as-exact, and
-omitted side conditions — without requiring Lake.
+omitted side conditions — without requiring Lake. Plugin availability is kept
+separate from current theorem/Certification Record eligibility.
 """
 
 from __future__ import annotations
@@ -33,7 +34,6 @@ EXACT_BOUND = (
 _CR_ELIGIBLE = frozenset(
     {
         "algebra.ideal_membership_witness",
-        "algebra.rational_equality",
         "algebra.linear_algebra",
         "logic.finite_counterexample",
         "algebra.formal_rational_calculus",
@@ -53,9 +53,10 @@ def test_exact_binding_supported_cr_eligibility_honest(capability_id: str) -> No
     policy = load_assurance_policy(capability_id)
     assert policy is not None
     decision = decide_exact_kernel_replay(capability_id)
-    assert decision.ok is True
     cert = policy.get("certification") or {}
+
     if capability_id in _CR_ELIGIBLE:
+        assert decision.ok is True
         assert cert.get("crEligible") is True
         outcomes = cert.get("allowedOutcomes") or []
         if capability_id == "logic.finite_counterexample":
@@ -63,11 +64,21 @@ def test_exact_binding_supported_cr_eligibility_honest(capability_id: str) -> No
         else:
             assert "proved" in outcomes
     else:
+        assert capability_id == "algebra.rational_equality"
+        assert decision.ok is False
         assert cert.get("crEligible") is False
+        assert cert.get("allowedOutcomes") == []
+        assert policy.get("supportedAssuranceModes") == []
+        assert (policy.get("exactBinding") or {}).get("supported") is False
 
 
 def test_unsupported_exact_mode_fail_closed() -> None:
-    for cap in ("logic.sat_unsat", "logic.smt", "logic.pseudo_boolean"):
+    for cap in (
+        "algebra.rational_equality",
+        "logic.sat_unsat",
+        "logic.smt",
+        "logic.pseudo_boolean",
+    ):
         decision = decide_exact_kernel_replay(cap)
         assert decision.ok is False
 

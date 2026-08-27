@@ -106,12 +106,7 @@ def test_duplicate_role_rejects(tmp_path: Path) -> None:
     request = _minimal_rational_request()
     cert = _minimal_certificate(request["requestDigest"])
     out = tmp_path / "dup"
-    write_candidate_bundle(
-        out, request=request, candidate={}, certificate=cert
-    )
-    # Plant a second request role path with different name but same role via
-    # forged manifest entry after write — verify should catch duplicate roles
-    # when we add a second file with role=request.
+    write_candidate_bundle(out, request=request, candidate={}, certificate=cert)
     shutil.copy(out / "request.cjson", out / "request-copy.cjson")
     manifest = json.loads((out / "manifest.cjson").read_text(encoding="utf-8"))
     manifest["files"].append(
@@ -134,9 +129,7 @@ def test_extra_unlisted_file_rejects(tmp_path: Path) -> None:
     request = _minimal_rational_request()
     cert = _minimal_certificate(request["requestDigest"])
     out = tmp_path / "extra"
-    write_candidate_bundle(
-        out, request=request, candidate={}, certificate=cert
-    )
+    write_candidate_bundle(out, request=request, candidate={}, certificate=cert)
     (out / "evil.txt").write_text("nope\n", encoding="utf-8")
     with pytest.raises(ValueError, match="unlisted"):
         verify_bundle_offline(out, strict=True)
@@ -154,9 +147,7 @@ def test_same_request_different_backends_distinct_digests(tmp_path: Path) -> Non
         tmp_path / "b",
         request=request,
         candidate={},
-        certificate=_minimal_certificate(
-            request["requestDigest"], backend_id="sage"
-        ),
+        certificate=_minimal_certificate(request["requestDigest"], backend_id="sage"),
     )
     assert a["requestDigest"] == b["requestDigest"]
     assert a["bundleDigest"] != b["bundleDigest"]
@@ -210,8 +201,6 @@ def test_content_store_collision_rejects(tmp_path: Path) -> None:
         request_digest=manifest["requestDigest"],
         bundle_digest=manifest["bundleDigest"],
     )
-    # Same digest path, different bytes: forge by writing into a clone then
-    # forcing commit with the same digest key.
     clone = tmp_path / "clone"
     shutil.copytree(bundle, clone)
     (clone / "README.md").write_text("# tampered\n", encoding="utf-8")
@@ -245,10 +234,7 @@ def test_certification_receipt_coherence_native_checked(tmp_path: Path) -> None:
         "proofDeclarationDigest": digest,
         "axiomReportDigest": digest,
         "environmentLockDigest": digest,
-        "capability": {
-            "id": "algebra.rational_equality",
-            "version": "0.1.0",
-        },
+        "capability": {"id": "algebra.rational_equality", "version": "0.1.0"},
         "checker": {
             "package": "MathEvidence.Checkers.RationalEquality",
             "module": "Check",
@@ -273,7 +259,10 @@ def test_certification_receipt_coherence_native_checked(tmp_path: Path) -> None:
             result_status="soundness_verified",
             assurance_mode="native_checked",
             replay_target={"schemaVersion": "0.3.0", "detail": "stub"},
-            checker_evaluation={"schemaVersion": "0.3.0", "resultStatus": "checker_accepted"},
+            checker_evaluation={
+                "schemaVersion": "0.3.0",
+                "resultStatus": "checker_accepted",
+            },
             theorem_identity={
                 "schemaVersion": "0.3.0",
                 "theoremTypeDigest": digest,
@@ -289,7 +278,7 @@ def test_certification_receipt_coherence_native_checked(tmp_path: Path) -> None:
         )
 
 
-def test_certification_record_structural_roundtrip_does_not_imply_verification(
+def test_rational_theorem_certification_is_rejected_even_when_structurally_coherent(
     tmp_path: Path,
 ) -> None:
     from adapters.common.theorem_identity import (
@@ -383,18 +372,13 @@ def test_certification_record_structural_roundtrip_does_not_imply_verification(
         },
         certification_receipt=receipt,
     )
-    result = verify_certification_record(cert_dir, candidate_dir=cand)
-    assert result.candidate_bundle_digest == cand_manifest["bundleDigest"]
-    assert result.assurance_mode == "kernel_replay"
-    assert result.claim_established == "soundResult"
-    assert result.record_integrity_verified is True
-    assert result.environment_lock_current is False
-    assert result.environment_lock_stale is True
-    assert result.kernel_replay_verified is False
-    assert result.verified is False
+    with pytest.raises(ValueError, match="allowedOutcomes"):
+        verify_certification_record(cert_dir, candidate_dir=cand)
 
 
-def test_migration_script_deterministic(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_migration_script_deterministic(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     """Two dry-run migrations over the same tree produce identical reports."""
     import scripts.migrate_bundles_v03 as mig
 
@@ -406,13 +390,8 @@ def test_migration_script_deterministic(tmp_path: Path, monkeypatch: pytest.Monk
         candidate={},
         certificate=_minimal_certificate(request["requestDigest"]),
     )
-    # Downgrade version marker to force migrate path interest; script rewrites anyway.
     monkeypatch.setattr(mig, "ROOT", tmp_path)
-    monkeypatch.setattr(
-        mig,
-        "collect_targets",
-        lambda: [src],
-    )
+    monkeypatch.setattr(mig, "collect_targets", lambda: [src])
     r1 = mig.migrate_one(src, dry_run=True)
     r2 = mig.migrate_one(src, dry_run=True)
     assert r1 == r2
