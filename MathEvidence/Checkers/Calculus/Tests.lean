@@ -55,8 +55,12 @@ def cert_antideriv : Certificate where
 
 /-- Production-shape antiderivative: `F = (1/2)x^2`, `f = x`.
 
-The canonical rational literal `1/2` is structurally well-formed and creates no
-runtime domain condition.  Kernel `decide` mirrors the exact replay proof mode. -/
+The exact replay generator receives an already-validated request digest and emits
+that digest literally into both `Request` and `Certificate`.  This fixture uses
+the same representation instead of `Request.ofClaim`, whose digest computation
+is intentionally outside the generated theorem's reduction path.  The canonical
+rational literal `1/2` is structurally well-formed and creates no runtime domain
+condition. -/
 def claim_antideriv_half : Claim where
   operation := .antiderivativeCandidate
   varNames := ["x"]
@@ -66,10 +70,14 @@ def claim_antideriv_half : Claim where
   domainConditions := []
   claimClass := .soundResult
 
-def req_antideriv_half : Request := Request.ofClaim claim_antideriv_half
+def req_antideriv_half : Request where
+  claim := claim_antideriv_half
+  requestDigest :=
+    ⟨"sha256:1111111111111111111111111111111111111111111111111111111111111111"⟩
 
 def cert_antideriv_half : Certificate where
-  requestDigest := req_antideriv_half.requestDigest
+  requestDigest :=
+    ⟨"sha256:1111111111111111111111111111111111111111111111111111111111111111"⟩
   operation := .antiderivativeCandidate
   domainConditions := []
 
