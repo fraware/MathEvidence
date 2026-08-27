@@ -1,0 +1,27 @@
+{
+  "schema_version": "p02_mathai_cross_context_smoke_attempt_status_v1",
+  "attempt": 1,
+  "github_actions_run_id": 33108926213,
+  "job_id": 98646223634,
+  "head_sha": "8a08bef87323ac9bbf3f035ea69e15585ee2f31b",
+  "status": "FAILED_BEFORE_CASE_EXECUTION",
+  "publication_claim_eligible": false,
+  "scientific_outcomes_observed": false,
+  "environment_setup": {
+    "pinned_project_materialized": true,
+    "pinned_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+    "lean_toolchain_file": "leanprover/lean4:v4.14.0",
+    "checksum_pinned_elan_install": "success"
+  },
+  "failure": {
+    "stage": "environment_snapshot_before_smoke_cases",
+    "message": "actual Lean version mismatch: None",
+    "diagnosis": "The first `lake env lean --version` invocation hit the harness 60-second timeout while the pinned Lean toolchain had not yet been materialized. No smoke candidate was executed."
+  },
+  "repair_policy": "Infrastructure-only correction is permitted because no case outcome was observed. Prefetch/install the already frozen leanprover/lean4:v4.14.0 toolchain before the unchanged smoke harness runs; do not alter contexts, perturbations, targets, classifier, or transferred prediction.",
+  "non_claims": [
+    "This failed attempt contains no cross-context scientific result.",
+    "It does not justify replacing or dropping any preregistered context.",
+    "It does not alter the transferred observation-order prediction."
+  ]
+}
