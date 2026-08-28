@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""Collect raw smoke observations for the P02 MATH-AI cross-context extension.
+"""Collect raw feasibility observations for the P02 MATH-AI cross-context extension.
 
 This is a feasibility gate, not the compound replication experiment. It runs
-exactly five cases in each of three contexts selected before extension
-execution: clean plus one instance of each frozen active perturbation family.
-It performs no diagnostic-class assignment and does not alter the transferred
-prediction from the original P02 native study.
+exactly nine cases in each of three contexts selected before extension
+execution: clean, one instance of each frozen active perturbation family, and
+the exact inverse repair of each single perturbation. Before native execution
+it also checks deterministic mutation locality, exact repair-to-clean identity,
+and pairwise repair commutativity for the four frozen mechanisms.
+
+The script performs no diagnostic-class assignment and does not alter the
+transferred prediction from the original P02 native study.
 """
 from __future__ import annotations
 
@@ -18,8 +22,9 @@ from typing import Any, Sequence
 
 import p02_native_v2_raw as base
 
-SCHEMA_VERSION = "p02_mathai_cross_context_smoke_raw_v1"
+SCHEMA_VERSION = "p02_mathai_cross_context_smoke_raw_v2"
 CONTEXT_SET_VERSION = "p02_mathai_cross_context_contexts_v1"
+CONFORMANCE_VERSION = "p02_mathai_cross_context_conformance_v1"
 EXPECTED_PROJECT_SHA = base.EXPECTED_PROJECT_SHA
 EXPECTED_TOOLCHAIN = base.EXPECTED_TOOLCHAIN
 EXPECTED_LEAN_VERSION = base.EXPECTED_LEAN_VERSION
@@ -55,6 +60,7 @@ class SmokeCase:
     source: str
     target_statement: str
     theorem_name: str
+    repair_of: str | None = None
 
 
 CONTEXTS: tuple[Context, ...] = (
@@ -128,6 +134,7 @@ def theorem_binders(context: Context) -> str:
 
 
 def render_source(context: Context, mechanisms: Sequence[str]) -> str:
+    """Render the already-frozen source construction for a mechanism subset."""
     m = frozenset(mechanisms)
     unknown = m.difference(MECHANISMS)
     if unknown:
@@ -166,29 +173,264 @@ def render_source(context: Context, mechanisms: Sequence[str]) -> str:
     return "\n".join(parts)
 
 
+def _replace_exactly_once(source: str, old: str, new: str, *, label: str) -> str:
+    count = source.count(old)
+    if count != 1:
+        raise AssertionError(f"{label}: expected exactly one source anchor, found {count}")
+    return source.replace(old, new, 1)
+
+
+def apply_mutation(context: Context, source: str, mechanism: str) -> str:
+    """Apply one frozen mutation as an exact source transformation."""
+    if mechanism == "SOURCE_CORRUPTION":
+        binders = theorem_binders(context)
+        return _replace_exactly_once(
+            source,
+            f"theorem p02Native{binders} :\n",
+            f"theorem{binders} :\n",
+            label=f"{context.context_id}:{mechanism}:mutate",
+        )
+    if mechanism == "INVALID_PROOF":
+        return _replace_exactly_once(
+            source,
+            f"{context.proof_line}\n",
+            f"{context.invalid_proof_line}\n",
+            label=f"{context.context_id}:{mechanism}:mutate",
+        )
+    if mechanism == "PROHIBITED_PLACEHOLDER":
+        anchor = "\n".join(context.open_lines) + "\n\n"
+        helper = "theorem p02Placeholder : True := by\n  sorry\n\n"
+        return _replace_exactly_once(
+            source,
+            anchor,
+            anchor + helper,
+            label=f"{context.context_id}:{mechanism}:mutate",
+        )
+    if mechanism == "WRONG_TARGET":
+        return _replace_exactly_once(
+            source,
+            f"    {context.clean_target_local} := by\n",
+            f"    {context.wrong_target_local} := by\n",
+            label=f"{context.context_id}:{mechanism}:mutate",
+        )
+    raise ValueError(f"unknown mechanism: {mechanism}")
+
+
+def apply_repair(context: Context, source: str, mechanism: str) -> str:
+    """Apply the exact deterministic inverse of one frozen mutation."""
+    if mechanism == "SOURCE_CORRUPTION":
+        binders = theorem_binders(context)
+        return _replace_exactly_once(
+            source,
+            f"theorem{binders} :\n",
+            f"theorem p02Native{binders} :\n",
+            label=f"{context.context_id}:{mechanism}:repair",
+        )
+    if mechanism == "INVALID_PROOF":
+        return _replace_exactly_once(
+            source,
+            f"{context.invalid_proof_line}\n",
+            f"{context.proof_line}\n",
+            label=f"{context.context_id}:{mechanism}:repair",
+        )
+    if mechanism == "PROHIBITED_PLACEHOLDER":
+        helper = "theorem p02Placeholder : True := by\n  sorry\n\n"
+        return _replace_exactly_once(
+            source,
+            helper,
+            "",
+            label=f"{context.context_id}:{mechanism}:repair",
+        )
+    if mechanism == "WRONG_TARGET":
+        return _replace_exactly_once(
+            source,
+            f"    {context.wrong_target_local} := by\n",
+            f"    {context.clean_target_local} := by\n",
+            label=f"{context.context_id}:{mechanism}:repair",
+        )
+    raise ValueError(f"unknown mechanism: {mechanism}")
+
+
+def source_digest(source: str) -> str:
+    return base.sha256_bytes(source.encode("utf-8"))
+
+
+def build_conformance_report() -> dict[str, Any]:
+    """Check frozen mutation/repair mechanics before any native observation is collected."""
+    single_checks: list[dict[str, Any]] = []
+    pair_checks: list[dict[str, Any]] = []
+
+    for context in CONTEXTS:
+        clean = render_source(context, ())
+        for mechanism in MECHANISMS:
+            rendered_single = render_source(context, (mechanism,))
+            transformed_single = apply_mutation(context, clean, mechanism)
+            if transformed_single != rendered_single:
+                raise AssertionError(
+                    f"{context.context_id}:{mechanism}: mutation transform differs "
+                    "from frozen renderer"
+                )
+            repaired = apply_repair(context, transformed_single, mechanism)
+            if repaired != clean:
+                raise AssertionError(
+                    f"{context.context_id}:{mechanism}: exact inverse repair did not "
+                    "restore clean source"
+                )
+            single_checks.append(
+                {
+                    "context_id": context.context_id,
+                    "mechanism": mechanism,
+                    "mutation_matches_frozen_renderer": True,
+                    "repair_restores_byte_identical_clean_source": True,
+                    "clean_source_sha256": source_digest(clean),
+                    "mutated_source_sha256": source_digest(transformed_single),
+                    "repaired_source_sha256": source_digest(repaired),
+                }
+            )
+
+        for i, first in enumerate(MECHANISMS):
+            for second in MECHANISMS[i + 1 :]:
+                rendered_pair = render_source(context, (first, second))
+                first_then_second = apply_mutation(
+                    context, apply_mutation(context, clean, first), second
+                )
+                second_then_first = apply_mutation(
+                    context, apply_mutation(context, clean, second), first
+                )
+                if first_then_second != rendered_pair or second_then_first != rendered_pair:
+                    raise AssertionError(
+                        f"{context.context_id}:{first}+{second}: mutation construction "
+                        "is not order-invariant or differs from frozen renderer"
+                    )
+
+                repair_first_then_second = apply_repair(
+                    context, apply_repair(context, rendered_pair, first), second
+                )
+                repair_second_then_first = apply_repair(
+                    context, apply_repair(context, rendered_pair, second), first
+                )
+                if (
+                    repair_first_then_second != clean
+                    or repair_second_then_first != clean
+                    or repair_first_then_second != repair_second_then_first
+                ):
+                    raise AssertionError(
+                        f"{context.context_id}:{first}+{second}: pairwise repair "
+                        "commutativity failed"
+                    )
+                pair_checks.append(
+                    {
+                        "context_id": context.context_id,
+                        "mechanisms": [first, second],
+                        "mutation_order_invariant": True,
+                        "repair_commutative": True,
+                        "both_repair_orders_restore_byte_identical_clean_source": True,
+                        "pair_source_sha256": source_digest(rendered_pair),
+                        "repaired_source_sha256": source_digest(clean),
+                    }
+                )
+
+    expected_single = len(CONTEXTS) * len(MECHANISMS)
+    expected_pairs = len(CONTEXTS) * (len(MECHANISMS) * (len(MECHANISMS) - 1) // 2)
+    if len(single_checks) != expected_single:
+        raise AssertionError(
+            f"single conformance cardinality mismatch: {len(single_checks)}"
+        )
+    if len(pair_checks) != expected_pairs:
+        raise AssertionError(f"pair conformance cardinality mismatch: {len(pair_checks)}")
+
+    report: dict[str, Any] = {
+        "schema_version": CONFORMANCE_VERSION,
+        "status": "STATIC_CONFORMANCE_CHECKS_PASSED",
+        "publication_claim_eligible": False,
+        "classification_performed": False,
+        "compound_states_executed": False,
+        "repair_campaign_executed": False,
+        "n_contexts": len(CONTEXTS),
+        "n_mechanisms": len(MECHANISMS),
+        "n_single_mutation_inverse_checks": len(single_checks),
+        "n_pairwise_commutativity_checks": len(pair_checks),
+        "single_checks": single_checks,
+        "pair_checks": pair_checks,
+        "scope": [
+            "Checks deterministic source transformations against the already-frozen renderer.",
+            "Checks that each exact inverse repair restores the byte-identical clean source.",
+            "Checks pairwise repair commutativity for all unordered mechanism pairs in each context.",
+            "These are construction-conformance checks, not scientific outcome classifications.",
+        ],
+    }
+    report["conformance_digest"] = base.canonical_digest(report)
+    return report
+
+
 def build_smoke_cases() -> tuple[SmokeCase, ...]:
     cases: list[SmokeCase] = []
     for context in CONTEXTS:
-        specs: list[tuple[str, tuple[str, ...]]] = [("CLEAN", ())]
-        specs.extend((mechanism, (mechanism,)) for mechanism in MECHANISMS)
-        for suffix, mechanisms in specs:
+        clean = render_source(context, ())
+        cases.append(
+            SmokeCase(
+                case_id=f"{context.context_id}__CLEAN",
+                context_id=context.context_id,
+                role="clean_control",
+                mechanisms=(),
+                source=clean,
+                target_statement=context.target_statement,
+                theorem_name=context.theorem_name,
+            )
+        )
+        for mechanism in MECHANISMS:
+            mutated = apply_mutation(context, clean, mechanism)
+            repaired = apply_repair(context, mutated, mechanism)
+            if repaired != clean:
+                raise AssertionError(
+                    f"{context.context_id}:{mechanism}: repaired source differs from clean"
+                )
             cases.append(
                 SmokeCase(
-                    case_id=f"{context.context_id}__{suffix}",
+                    case_id=f"{context.context_id}__{mechanism}",
                     context_id=context.context_id,
-                    role="clean_control" if not mechanisms else "single_perturbation_smoke",
-                    mechanisms=mechanisms,
-                    source=render_source(context, mechanisms),
+                    role="single_perturbation_smoke",
+                    mechanisms=(mechanism,),
+                    source=mutated,
                     target_statement=context.target_statement,
                     theorem_name=context.theorem_name,
                 )
             )
-    if len(cases) != 15:
-        raise AssertionError(f"smoke cardinality mismatch: {len(cases)}")
+            cases.append(
+                SmokeCase(
+                    case_id=f"{context.context_id}__{mechanism}__REPAIRED",
+                    context_id=context.context_id,
+                    role="single_perturbation_inverse_repair",
+                    mechanisms=(),
+                    source=repaired,
+                    target_statement=context.target_statement,
+                    theorem_name=context.theorem_name,
+                    repair_of=mechanism,
+                )
+            )
+
+    if len(cases) != 27:
+        raise AssertionError(f"feasibility cardinality mismatch: {len(cases)}")
     if len({case.case_id for case in cases}) != len(cases):
-        raise AssertionError("duplicate smoke case ids")
-    if len({case.source for case in cases}) != len(cases):
-        raise AssertionError("smoke sources are not unique")
+        raise AssertionError("duplicate feasibility case ids")
+
+    for context in CONTEXTS:
+        clean_source = render_source(context, ())
+        context_cases = [case for case in cases if case.context_id == context.context_id]
+        repaired_cases = [
+            case
+            for case in context_cases
+            if case.role == "single_perturbation_inverse_repair"
+        ]
+        if len(repaired_cases) != len(MECHANISMS):
+            raise AssertionError(
+                f"{context.context_id}: inverse-repair case cardinality mismatch"
+            )
+        if any(case.source != clean_source for case in repaired_cases):
+            raise AssertionError(
+                f"{context.context_id}: inverse-repair execution source is not clean-identical"
+            )
+
     return tuple(cases)
 
 
@@ -199,7 +441,8 @@ def smoke_projection(cases: Sequence[SmokeCase]) -> list[dict[str, Any]]:
             "context_id": case.context_id,
             "role": case.role,
             "mechanisms": list(case.mechanisms),
-            "source_sha256": base.sha256_bytes(case.source.encode("utf-8")),
+            "repair_of": case.repair_of,
+            "source_sha256": source_digest(case.source),
             "target_sha256": base.sha256_bytes(case.target_statement.encode("utf-8")),
             "theorem_name": case.theorem_name,
         }
@@ -258,18 +501,28 @@ def main() -> int:
                 "errors": environment_errors,
             },
         )
-        raise RuntimeError("environment validation failed: " + "; ".join(environment_errors))
+        raise RuntimeError(
+            "environment validation failed: " + "; ".join(environment_errors)
+        )
+
+    # These construction-conformance checks are evaluated before any native case
+    # is executed. They inspect source transformations only and perform no
+    # diagnostic classification.
+    conformance = build_conformance_report()
+    base.json_dump(out / "CONFORMANCE.json", conformance)
 
     cases = build_smoke_cases()
     projection = smoke_projection(cases)
     context_spec = {
         "schema_version": SCHEMA_VERSION,
         "context_set_version": CONTEXT_SET_VERSION,
+        "conformance_version": CONFORMANCE_VERSION,
         "expected_project_sha": EXPECTED_PROJECT_SHA,
         "expected_toolchain": EXPECTED_TOOLCHAIN,
         "mechanisms": list(MECHANISMS),
         "contexts": [asdict(context) for context in CONTEXTS],
         "cases": projection,
+        "conformance_digest": conformance["conformance_digest"],
     }
     context_spec["context_smoke_digest"] = base.canonical_digest(context_spec)
     base.json_dump(out / "SMOKE_SPEC.json", context_spec)
@@ -312,6 +565,7 @@ def main() -> int:
                     "context_id": case.context_id,
                     "role": case.role,
                     "mechanisms": list(case.mechanisms),
+                    "repair_of": case.repair_of,
                     "target_statement": case.target_statement,
                     "theorem_name": case.theorem_name,
                 },
@@ -319,35 +573,47 @@ def main() -> int:
 
     run_manifest = {
         "schema_version": SCHEMA_VERSION,
-        "status": "SMOKE_RAW_EXECUTED_NOT_CLASSIFIED",
+        "status": "FULL_FEASIBILITY_RAW_EXECUTED_NOT_CLASSIFIED",
         "publication_claim_eligible": False,
         "classification_performed": False,
         "compound_states_executed": False,
         "repair_campaign_executed": False,
         "n_cases": len(cases),
         "n_contexts": len(CONTEXTS),
+        "n_clean_cases": len(CONTEXTS),
+        "n_single_perturbation_cases": len(CONTEXTS) * len(MECHANISMS),
+        "n_inverse_repair_cases": len(CONTEXTS) * len(MECHANISMS),
+        "n_pairwise_commutativity_checks": len(conformance["pair_checks"]),
         "context_smoke_digest": context_spec["context_smoke_digest"],
+        "conformance_digest": conformance["conformance_digest"],
         "expected_project_sha": EXPECTED_PROJECT_SHA,
         "expected_toolchain": EXPECTED_TOOLCHAIN,
         "non_claims": [
-            "Smoke outcomes determine feasibility only; they are not the cross-context compound replication result.",
-            "The transferred observation ordering from the original P02 study is not modified by smoke outcomes.",
+            "Feasibility outcomes are not the cross-context compound replication result.",
+            "The transferred observation ordering from the original P02 study is not modified by feasibility outcomes.",
             "No context may be dropped for an unfavorable single-perturbation signature.",
             "Construction metadata is not a diagnostic oracle and is stored separately from observations.",
+            "Static repair-conformance checks do not establish scientific transfer or external validity.",
         ],
     }
     base.json_dump(out / "RUN_MANIFEST.json", run_manifest)
 
     files = base.inventory(out)
     integrity = {
-        "schema_version": "p02_mathai_cross_context_smoke_integrity_v1",
+        "schema_version": "p02_mathai_cross_context_smoke_integrity_v2",
         "publication_claim_eligible": False,
         "n_files": len(files),
         "files": files,
         "bundle_digest": base.canonical_digest({"files": files}),
     }
     base.json_dump(out / "INTEGRITY_MANIFEST.json", integrity)
-    print(json.dumps({"run": run_manifest, "integrity": integrity}, indent=2, sort_keys=True))
+    print(
+        json.dumps(
+            {"run": run_manifest, "conformance": conformance, "integrity": integrity},
+            indent=2,
+            sort_keys=True,
+        )
+    )
     return 0
 
 
