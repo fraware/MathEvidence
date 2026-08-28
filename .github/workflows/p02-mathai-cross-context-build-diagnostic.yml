@@ -1,0 +1,116 @@
+name: p02-mathai-cross-context-build-diagnostic
+
+on:
+  push:
+    branches:
+      - science/p02-mathai-cross-context-20260827
+    paths:
+      - .github/workflows/p02-mathai-cross-context-build-diagnostic.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-mathai-cross-context-build-diagnostic
+  cancel-in-progress: false
+
+env:
+  PINNED_PROJECT_SHA: 946d2f7b14840837a5b641150c9df9008c4be9eb
+  PINNED_LEAN_TOOLCHAIN: leanprover/lean4:v4.14.0
+  DIAG_DIR: evidence/p02_mathai_cross_context/build_diagnostic_after_run_33115975625
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Materialize exact pinned MathEvidence worktree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${PINNED_PROJECT_SHA}^{commit}"
+          rm -rf /tmp/mathevidence-pinned
+          git worktree add --detach /tmp/mathevidence-pinned "${PINNED_PROJECT_SHA}"
+          test "$(git -C /tmp/mathevidence-pinned rev-parse HEAD)" = "${PINNED_PROJECT_SHA}"
+          test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
+          test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "${PINNED_LEAN_TOOLCHAIN}"
+
+      - name: Install checksum-pinned elan and frozen toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
+          elan toolchain install "${PINNED_LEAN_TOOLCHAIN}"
+          cd /tmp/mathevidence-pinned
+          lake env lean --version
+          lake --version
+
+      - name: Capture targeted module build diagnostics only
+        id: builddiag
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${GITHUB_WORKSPACE}/${DIAG_DIR}"
+          cd /tmp/mathevidence-pinned
+
+          modules=(
+            MathEvidence.Assurance.RationalEquality
+            MathEvidence.Assurance.Calculus
+            MathEvidence.Assurance.LinearAlgebra
+          )
+
+          printf '{\n  "schema_version": "p02_mathai_cross_context_build_diagnostic_v1",\n  "source_run_id": 33115975625,\n  "pinned_project_sha": "%s",\n  "lean_toolchain": "%s",\n  "scientific_cases_executed": false,\n  "module_results": [\n' \
+            "${PINNED_PROJECT_SHA}" "${PINNED_LEAN_TOOLCHAIN}" \
+            > "${GITHUB_WORKSPACE}/${DIAG_DIR}/STATUS.json"
+
+          overall=0
+          first=1
+          for module in "${modules[@]}"; do
+            safe="${module//./_}"
+            log="${GITHUB_WORKSPACE}/${DIAG_DIR}/${safe}.log"
+            set +e
+            lake build "+${module}" >"${log}" 2>&1
+            rc=$?
+            set -e
+            if [ "${rc}" -ne 0 ]; then overall=1; fi
+            if [ "${first}" -eq 0 ]; then printf ',\n' >> "${GITHUB_WORKSPACE}/${DIAG_DIR}/STATUS.json"; fi
+            first=0
+            printf '    {"module": "%s", "exit_code": %d, "olean_present": %s}' \
+              "${module}" "${rc}" \
+              "$(test -f ".lake/build/lib/lean/${module//.//}.olean" && echo true || echo false)" \
+              >> "${GITHUB_WORKSPACE}/${DIAG_DIR}/STATUS.json"
+          done
+
+          printf '\n  ],\n  "overall_build_failure": %s,\n  "publication_claim_eligible": false,\n  "note": "Diagnostic-only infrastructure run; no smoke, factorial, repair, or cumulative case was executed."\n}\n' \
+            "$(test "${overall}" -ne 0 && echo true || echo false)" \
+            >> "${GITHUB_WORKSPACE}/${DIAG_DIR}/STATUS.json"
+
+          git rev-parse HEAD > "${GITHUB_WORKSPACE}/${DIAG_DIR}/PINNED_WORKTREE_HEAD.txt"
+          git status --porcelain > "${GITHUB_WORKSPACE}/${DIAG_DIR}/PINNED_WORKTREE_STATUS.txt"
+          echo "overall=${overall}" >> "${GITHUB_OUTPUT}"
+
+      - name: Commit immutable diagnostic record
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${GITHUB_WORKSPACE}"
+          git add "${DIAG_DIR}"
+          if git diff --cached --name-only | grep -v '^evidence/p02_mathai_cross_context/build_diagnostic_after_run_33115975625/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record P02 cross-context targeted build diagnostics"
+          git push origin HEAD:science/p02-mathai-cross-context-20260827
+
+      - name: Mark diagnostic job failed when a target build failed
+        if: steps.builddiag.outputs.overall != '0'
+        shell: bash
+        run: |
+          echo "At least one frozen context import module failed to build; see committed diagnostic logs." >&2
+          exit 1
