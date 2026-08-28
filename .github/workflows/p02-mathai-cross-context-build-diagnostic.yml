@@ -39,11 +39,16 @@ jobs:
           test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
           test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "${PINNED_LEAN_TOOLCHAIN}"
 
-      - name: Install checksum-pinned elan and frozen toolchain
+      - name: Install checksum-pinned elan from pinned tree
         shell: bash
         run: |
           set -euo pipefail
           bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
+
+      - name: Materialize frozen Lean toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
           elan toolchain install "${PINNED_LEAN_TOOLCHAIN}"
           cd /tmp/mathevidence-pinned
           lake env lean --version
