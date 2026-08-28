@@ -1,0 +1,15 @@
+{
+  "schema_version": "p02_mathai_cross_context_build_diagnostic_v1",
+  "source_run_id": 33115975625,
+  "pinned_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "lean_toolchain": "leanprover/lean4:v4.14.0",
+  "scientific_cases_executed": false,
+  "module_results": [
+    {"module": "MathEvidence.Assurance.RationalEquality", "exit_code": 0, "olean_present": false},
+    {"module": "MathEvidence.Assurance.Calculus", "exit_code": 0, "olean_present": false},
+    {"module": "MathEvidence.Assurance.LinearAlgebra", "exit_code": 0, "olean_present": false}
+  ],
+  "overall_build_failure": false,
+  "publication_claim_eligible": false,
+  "note": "Diagnostic-only infrastructure run; no smoke, factorial, repair, or cumulative case was executed."
+}
