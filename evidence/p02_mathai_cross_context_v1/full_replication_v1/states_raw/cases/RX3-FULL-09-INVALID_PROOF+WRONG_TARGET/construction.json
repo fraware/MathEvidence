@@ -1,0 +1,11 @@
+{
+  "case_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET",
+  "mechanisms": [
+    "INVALID_PROOF",
+    "WRONG_TARGET"
+  ],
+  "role": "cross_context_full_compound",
+  "source_sha256": "sha256:e6ef09cfacbaa5cfdeadd412f23e59bf2e868b8c06e30ff8849454aee9be904d",
+  "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+  "theorem_name": "P02CrossContext.Level.p02Native"
+}

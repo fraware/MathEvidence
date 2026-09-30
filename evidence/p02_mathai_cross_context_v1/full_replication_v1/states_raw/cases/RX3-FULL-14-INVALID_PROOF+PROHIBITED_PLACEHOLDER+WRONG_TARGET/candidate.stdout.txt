@@ -1,0 +1,7 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-14-INVALID_PROOF_PROHIBITED_PLACEHOLDER_WRONG_TARGET-candidate.lean:6:8: warning: declaration uses 'sorry'
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-14-INVALID_PROOF_PROHIBITED_PLACEHOLDER_WRONG_TARGET-candidate.lean:10:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  AssuranceLevel.checkerSoundness.toWire = "checker_soundness" : Prop

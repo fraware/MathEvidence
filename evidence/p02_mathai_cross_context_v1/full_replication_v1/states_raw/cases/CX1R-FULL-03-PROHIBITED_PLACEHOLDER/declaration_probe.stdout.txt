@@ -1,0 +1,2 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/CX1R-FULL-03-PROHIBITED_PLACEHOLDER-declaration.lean:6:8: warning: declaration uses 'sorry'
+P02CrossContext.RationalEqualityFinal.p02Native : contract.claimsCompleteness = false

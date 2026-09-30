@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-14-INVALID_PROOF_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:7:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  contract.linksDecls = true : Prop

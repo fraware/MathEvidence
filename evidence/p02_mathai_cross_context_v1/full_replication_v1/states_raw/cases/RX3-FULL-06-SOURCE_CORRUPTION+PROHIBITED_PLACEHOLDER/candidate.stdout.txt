@@ -1,0 +1,2 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-06-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER-candidate.lean:6:8: warning: declaration uses 'sorry'
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-06-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER-candidate.lean:9:19: error: unexpected token ':'; expected '_' or identifier

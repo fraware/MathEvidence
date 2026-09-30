@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.49413114300000416,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:7:2: error: type mismatch\n  True.intro\nhas type\n  True : Prop\nbut is expected to have type\n  AssuranceLevel.outputVerification.toWire = \"output_verification\" : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-02-INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5151445110000168,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-02-INVALID_PROOF-candidate.lean:7:2: error: type mismatch\n  True.intro\nhas type\n  True : Prop\nbut is expected to have type\n  AssuranceLevel.outputVerification.toWire = \"output_verification\" : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-02-INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

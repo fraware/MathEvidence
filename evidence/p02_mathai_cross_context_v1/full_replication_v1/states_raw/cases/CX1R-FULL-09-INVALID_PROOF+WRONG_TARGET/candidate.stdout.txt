@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/CX1R-FULL-09-INVALID_PROOF_WRONG_TARGET-candidate.lean:7:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  contract.linksDecls = true : Prop

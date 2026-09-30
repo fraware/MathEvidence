@@ -1,0 +1,12 @@
+{
+  "after_source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+  "before_source_sha256": "sha256:b8371e8d34d8a40f4e67535ec356b0432c52db22c9f4bc0d7c02ca6389e5c981",
+  "before_state_id": "RX3-FULL-01-SOURCE_CORRUPTION",
+  "context_id": "RX3",
+  "edge_id": "RX3-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+  "mechanisms_after": [],
+  "mechanisms_before": [
+    "SOURCE_CORRUPTION"
+  ],
+  "repair_mechanism": "SOURCE_CORRUPTION"
+}

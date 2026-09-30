@@ -1,0 +1,13 @@
+{
+  "case_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "role": "cross_context_full_compound",
+  "source_sha256": "sha256:16bccaebaa5f6ba59e6823696b3a034d54a114d89715a2102ae2adb1e90b96a6",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+}

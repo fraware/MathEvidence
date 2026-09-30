@@ -1,0 +1,14 @@
+{
+  "case_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "observations_sha256": "sha256:103d1f9d7d06c5fdd0980c152f0c1210951c1ce4247701291cc277db15202c40",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:030939073d3ee7e19b2d259ad1abd40e2afd0769fa43e02260817c0e1e77c7f8",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:030939073d3ee7e19b2d259ad1abd40e2afd0769fa43e02260817c0e1e77c7f8"
+}

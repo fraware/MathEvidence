@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-04-WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5174769629999787,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-04-WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-04-WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5008273159999703,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Level.p02Native : AssuranceLevel.checkerSoundness.toWire = \"checker_soundness\"\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-04-WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.5067629509999847,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-04-WRONG_TARGET-target.lean:11:79: error: type mismatch\n  P02CrossContext.Level.p02Native\nhas type\n  AssuranceLevel.checkerSoundness.toWire = \"checker_soundness\" : Prop\nbut is expected to have type\n  AssuranceLevel.outputVerification.toWire = \"output_verification\" : Prop\n",
+    "timed_out": false
+  }
+}

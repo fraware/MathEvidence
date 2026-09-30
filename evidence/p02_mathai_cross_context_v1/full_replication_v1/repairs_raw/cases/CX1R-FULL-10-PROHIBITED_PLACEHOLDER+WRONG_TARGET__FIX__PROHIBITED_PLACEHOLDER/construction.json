@@ -1,0 +1,10 @@
+{
+  "case_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms": [
+    "WRONG_TARGET"
+  ],
+  "role": "cross_context_full_single_repair",
+  "source_sha256": "sha256:54d43f2f14394f1982f5ebe49d090e5349a05ac79e48431ace594269def03501",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+}

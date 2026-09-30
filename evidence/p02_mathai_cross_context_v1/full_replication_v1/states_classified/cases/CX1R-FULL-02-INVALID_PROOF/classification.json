@@ -1,0 +1,14 @@
+{
+  "case_id": "CX1R-FULL-02-INVALID_PROOF",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:be1f74c765a6813023422baac872ff7be1f8ac3b441a140253f4665d8387ebef",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:8aa1b7989ee0cb20a560110f53de6ab63e1180c49611947ed55cd068e7b2cc30",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:8aa1b7989ee0cb20a560110f53de6ab63e1180c49611947ed55cd068e7b2cc30"
+}

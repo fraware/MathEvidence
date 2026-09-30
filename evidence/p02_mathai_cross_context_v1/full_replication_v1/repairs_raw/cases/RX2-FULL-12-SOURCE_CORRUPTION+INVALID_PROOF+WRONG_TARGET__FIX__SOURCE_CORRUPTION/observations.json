@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-12-SOURCE_CORRUPTION_INVALID_PROOF_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.49835868599996047,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-12-SOURCE_CORRUPTION_INVALID_PROOF_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean:7:2: error: type mismatch\n  True.intro\nhas type\n  True : Prop\nbut is expected to have type\n  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

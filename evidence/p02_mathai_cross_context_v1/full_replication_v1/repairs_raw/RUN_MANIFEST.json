@@ -1,0 +1,19 @@
+{
+  "classification_performed": false,
+  "harness_branch_sha": "46421ecd51a90124b795232e3b181b29d0a54c6c",
+  "n_cases": 96,
+  "n_contexts": 3,
+  "n_edges": 96,
+  "n_edges_per_context": 32,
+  "non_claims": [
+    "This bundle contains raw successor observations only.",
+    "Repair metadata is stored separately from observation records.",
+    "No class-change or masking result is assigned before downstream classification and analysis.",
+    "Publication promotion requires independent recomputation."
+  ],
+  "publication_claim_eligible": false,
+  "repair_plan_digest": "sha256:767cefe0093966e633f2e77cc556e8732fac2a74353d289c64c82aba5400b419",
+  "schema_version": "p02_mathai_cross_context_full_repairs_raw_v1",
+  "state_raw_bundle_digest": "sha256:480edf44501ee218c9d4a969d029e0fc452413124ee6ec6df935dbb2e6ac60ee",
+  "status": "FULL_REPAIR_RAW_EXECUTED_NOT_CLASSIFIED"
+}

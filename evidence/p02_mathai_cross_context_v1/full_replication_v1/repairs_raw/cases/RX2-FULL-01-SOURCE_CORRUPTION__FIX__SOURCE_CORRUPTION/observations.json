@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5008695269999635,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX2-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5078229939999801,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Counterexample.p02Native : contract.claimsCompleteness = false\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.5083231030000661,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

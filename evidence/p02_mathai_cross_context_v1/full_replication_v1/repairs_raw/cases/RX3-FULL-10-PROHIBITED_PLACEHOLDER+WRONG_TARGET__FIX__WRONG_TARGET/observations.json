@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-10-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5028683450000244,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-10-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-10-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4970806280000488,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-10-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean:6:8: warning: declaration uses 'sorry'\nP02CrossContext.Level.p02Native : AssuranceLevel.outputVerification.toWire = \"output_verification\"\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-10-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.4841269099999863,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-10-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-target.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

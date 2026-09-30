@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 1.0355682529999513,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-candidate.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-declaration.lean"
+    ],
+    "elapsed_seconds": 1.0076812980000796,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-declaration.lean:6:8: warning: declaration uses 'sorry'\nP02CrossContext.RationalEqualityFinal.p02Native : contract.claimsCompleteness = false\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-target.lean"
+    ],
+    "elapsed_seconds": 1.0249868129999413,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-target.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

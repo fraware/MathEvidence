@@ -1,0 +1,12 @@
+{
+  "after_source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+  "before_source_sha256": "sha256:6e959f5b38b75608d0483780111ad513dbc43d8667fdc59850e40daf2175c001",
+  "before_state_id": "RX3-FULL-04-WRONG_TARGET",
+  "context_id": "RX3",
+  "edge_id": "RX3-FULL-04-WRONG_TARGET__FIX__WRONG_TARGET",
+  "mechanisms_after": [],
+  "mechanisms_before": [
+    "WRONG_TARGET"
+  ],
+  "repair_mechanism": "WRONG_TARGET"
+}

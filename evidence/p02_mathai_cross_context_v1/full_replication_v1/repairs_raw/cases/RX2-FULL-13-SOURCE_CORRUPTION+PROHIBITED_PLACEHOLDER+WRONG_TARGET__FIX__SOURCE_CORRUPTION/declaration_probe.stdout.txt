@@ -1,0 +1,3 @@
+/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-13-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__SOURCE_CORRUPTION-declaration.lean:6:8: warning: declaration uses 'sorry'
+P02CrossContext.Counterexample.p02Native :
+  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm

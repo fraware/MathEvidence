@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-04-WRONG_TARGET-target.lean:11:49: error: type mismatch
+  P02CrossContext.Counterexample.p02Native
+has type
+  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm : Prop
+but is expected to have type
+  contract.claimsCompleteness = false : Prop

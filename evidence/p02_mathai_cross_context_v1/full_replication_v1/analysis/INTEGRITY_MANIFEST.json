@@ -1,0 +1,13 @@
+{
+  "bundle_digest": "sha256:e46fc1fa6052907bb16eb4ef3e4d4c1fe295636d5be2f51d3d91af91a21c537f",
+  "files": [
+    {
+      "path": "FULL_REPLICATION_ANALYSIS.json",
+      "sha256": "sha256:1d4f6495079cc024bbf676d05883b904bad8b1e06a947de00b19d9a6deedc462",
+      "size_bytes": 100970
+    }
+  ],
+  "n_files": 1,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_cross_context_full_analysis_integrity_v1"
+}

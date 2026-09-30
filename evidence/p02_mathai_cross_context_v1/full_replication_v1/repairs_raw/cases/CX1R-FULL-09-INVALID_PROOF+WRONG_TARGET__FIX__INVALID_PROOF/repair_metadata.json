@@ -1,0 +1,15 @@
+{
+  "after_source_sha256": "sha256:54d43f2f14394f1982f5ebe49d090e5349a05ac79e48431ace594269def03501",
+  "before_source_sha256": "sha256:0f83de7b10b1b836efbb85b72ef2c66d10fccf1b0db56ffa59fa46104c7f58a6",
+  "before_state_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET",
+  "context_id": "CX1R",
+  "edge_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+  "mechanisms_after": [
+    "WRONG_TARGET"
+  ],
+  "mechanisms_before": [
+    "INVALID_PROOF",
+    "WRONG_TARGET"
+  ],
+  "repair_mechanism": "INVALID_PROOF"
+}

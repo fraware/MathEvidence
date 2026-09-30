@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-04-WRONG_TARGET-target.lean:11:79: error: type mismatch
+  P02CrossContext.Level.p02Native
+has type
+  AssuranceLevel.checkerSoundness.toWire = "checker_soundness" : Prop
+but is expected to have type
+  AssuranceLevel.outputVerification.toWire = "output_verification" : Prop

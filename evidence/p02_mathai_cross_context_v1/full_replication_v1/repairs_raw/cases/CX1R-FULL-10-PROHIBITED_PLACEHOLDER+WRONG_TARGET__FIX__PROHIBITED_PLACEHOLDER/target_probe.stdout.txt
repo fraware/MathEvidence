@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-10-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-target.lean:11:49: error: type mismatch
+  P02CrossContext.RationalEqualityFinal.p02Native
+has type
+  contract.linksDecls = true : Prop
+but is expected to have type
+  contract.claimsCompleteness = false : Prop

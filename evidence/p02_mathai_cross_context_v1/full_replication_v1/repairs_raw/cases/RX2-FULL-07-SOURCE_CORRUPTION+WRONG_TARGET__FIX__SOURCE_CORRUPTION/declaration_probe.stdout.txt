@@ -1,0 +1,2 @@
+P02CrossContext.Counterexample.p02Native :
+  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm

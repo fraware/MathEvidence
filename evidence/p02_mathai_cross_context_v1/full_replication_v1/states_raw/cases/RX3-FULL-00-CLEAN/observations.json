@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-00-CLEAN-candidate.lean"
+    ],
+    "elapsed_seconds": 0.49397991299997557,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-00-CLEAN",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-00-CLEAN-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4865880589999847,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Level.p02Native : AssuranceLevel.outputVerification.toWire = \"output_verification\"\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-00-CLEAN-target.lean"
+    ],
+    "elapsed_seconds": 0.49748035800001844,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "after_source_sha256": "sha256:9a86d8f678205ed9c86cc7bf81f9a533fb6c3015e90fd9e5eac071326eebf9b3",
+  "before_source_sha256": "sha256:f148fd6f9faf00b290d7226d4db979157fd944a2abe172bf07e682a8607b94ab",
+  "before_state_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+  "context_id": "RX3",
+  "edge_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+  "mechanisms_after": [
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "mechanisms_before": [
+    "SOURCE_CORRUPTION",
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "repair_mechanism": "SOURCE_CORRUPTION"
+}

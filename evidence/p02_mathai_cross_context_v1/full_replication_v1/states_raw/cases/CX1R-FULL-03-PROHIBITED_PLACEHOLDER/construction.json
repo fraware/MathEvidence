@@ -1,0 +1,10 @@
+{
+  "case_id": "CX1R-FULL-03-PROHIBITED_PLACEHOLDER",
+  "mechanisms": [
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "role": "cross_context_full_singleton",
+  "source_sha256": "sha256:019ec2b38a2abee0dcf9721d8e9cd8259da42e48583c0fbca046c8ceababfebb",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+}

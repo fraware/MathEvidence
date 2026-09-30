@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-15-SOURCE_CORRUPTION_INVALID_PROOF_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.9830982669999457,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-15-SOURCE_CORRUPTION_INVALID_PROOF_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__INVALID_PROOF-candidate.lean:6:8: warning: declaration uses 'sorry'\n/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-15-SOURCE_CORRUPTION_INVALID_PROOF_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__INVALID_PROOF-candidate.lean:9:19: error: unexpected token ':'; expected '_' or identifier\n",
+    "timed_out": false
+  },
+  "case_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

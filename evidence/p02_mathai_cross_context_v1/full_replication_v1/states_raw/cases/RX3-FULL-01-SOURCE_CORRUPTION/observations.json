@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-01-SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5021241900000177,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-01-SOURCE_CORRUPTION-candidate.lean:6:19: error: unexpected token ':'; expected '_' or identifier\n",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-01-SOURCE_CORRUPTION",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

@@ -1,0 +1,14 @@
+{
+  "case_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:593701fe5990f832c92160e52897ee39d70e9fd5e4810ebc27a6a3384d9deb57",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:31ea24509e51c9912c39f96efc2d02914a8e8a38866e574490737682dca428db",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:31ea24509e51c9912c39f96efc2d02914a8e8a38866e574490737682dca428db"
+}

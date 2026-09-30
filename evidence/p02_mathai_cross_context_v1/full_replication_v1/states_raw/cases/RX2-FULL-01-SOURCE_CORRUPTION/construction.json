@@ -1,0 +1,10 @@
+{
+  "case_id": "RX2-FULL-01-SOURCE_CORRUPTION",
+  "mechanisms": [
+    "SOURCE_CORRUPTION"
+  ],
+  "role": "cross_context_full_singleton",
+  "source_sha256": "sha256:eee6f5790c5b1765a0740f13a672d9244ac88410242354a7f4ab2b3e6ef93481",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.Counterexample.p02Native"
+}

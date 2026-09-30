@@ -1,0 +1,12 @@
+{
+  "after_source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+  "before_source_sha256": "sha256:b0b57fc140ecebb7dcd44be6eee34fed9388a0098d046e212df0c962e15776ef",
+  "before_state_id": "RX2-FULL-03-PROHIBITED_PLACEHOLDER",
+  "context_id": "RX2",
+  "edge_id": "RX2-FULL-03-PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms_after": [],
+  "mechanisms_before": [
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+}

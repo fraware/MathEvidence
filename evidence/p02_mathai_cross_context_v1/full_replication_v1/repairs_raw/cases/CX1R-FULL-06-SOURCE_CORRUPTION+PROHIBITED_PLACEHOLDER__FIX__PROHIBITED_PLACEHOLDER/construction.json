@@ -1,0 +1,10 @@
+{
+  "case_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms": [
+    "SOURCE_CORRUPTION"
+  ],
+  "role": "cross_context_full_single_repair",
+  "source_sha256": "sha256:f59c441b156be1f97596bb45db1f7a3c622c1f017a4fa6f257fb45a47c3f6afe",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+}

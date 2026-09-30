@@ -1,0 +1,1 @@
+/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-05-SOURCE_CORRUPTION_INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean:6:19: error: unexpected token ':'; expected '_' or identifier

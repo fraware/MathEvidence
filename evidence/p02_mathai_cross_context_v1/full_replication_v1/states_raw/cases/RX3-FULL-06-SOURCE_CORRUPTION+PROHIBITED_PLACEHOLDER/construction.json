@@ -1,0 +1,11 @@
+{
+  "case_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "role": "cross_context_full_compound",
+  "source_sha256": "sha256:f148fd6f9faf00b290d7226d4db979157fd944a2abe172bf07e682a8607b94ab",
+  "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+  "theorem_name": "P02CrossContext.Level.p02Native"
+}

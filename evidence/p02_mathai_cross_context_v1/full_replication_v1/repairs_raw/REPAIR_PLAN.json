@@ -1,0 +1,1541 @@
+{
+  "edges": [
+    {
+      "after_source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "before_source_sha256": "sha256:f59c441b156be1f97596bb45db1f7a3c622c1f017a4fa6f257fb45a47c3f6afe",
+      "before_state_id": "CX1R-FULL-01-SOURCE_CORRUPTION",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "before_source_sha256": "sha256:8aa1b7989ee0cb20a560110f53de6ab63e1180c49611947ed55cd068e7b2cc30",
+      "before_state_id": "CX1R-FULL-02-INVALID_PROOF",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-02-INVALID_PROOF__FIX__INVALID_PROOF",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "before_source_sha256": "sha256:019ec2b38a2abee0dcf9721d8e9cd8259da42e48583c0fbca046c8ceababfebb",
+      "before_state_id": "CX1R-FULL-03-PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-03-PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "before_source_sha256": "sha256:54d43f2f14394f1982f5ebe49d090e5349a05ac79e48431ace594269def03501",
+      "before_state_id": "CX1R-FULL-04-WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-04-WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:8aa1b7989ee0cb20a560110f53de6ab63e1180c49611947ed55cd068e7b2cc30",
+      "before_source_sha256": "sha256:b368172e2eec67fc4df95a2ccde3efc7cd2e763fe83743aefec20724506ca608",
+      "before_state_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:f59c441b156be1f97596bb45db1f7a3c622c1f017a4fa6f257fb45a47c3f6afe",
+      "before_source_sha256": "sha256:b368172e2eec67fc4df95a2ccde3efc7cd2e763fe83743aefec20724506ca608",
+      "before_state_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:019ec2b38a2abee0dcf9721d8e9cd8259da42e48583c0fbca046c8ceababfebb",
+      "before_source_sha256": "sha256:48ec74b5e5c982ccc442ebd7a3469eaad97a55050bba78945246cd29051303c2",
+      "before_state_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:f59c441b156be1f97596bb45db1f7a3c622c1f017a4fa6f257fb45a47c3f6afe",
+      "before_source_sha256": "sha256:48ec74b5e5c982ccc442ebd7a3469eaad97a55050bba78945246cd29051303c2",
+      "before_state_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:54d43f2f14394f1982f5ebe49d090e5349a05ac79e48431ace594269def03501",
+      "before_source_sha256": "sha256:5f4a3ac8f19a29a19db9e1f4b165d44d92f69c2209322568c22ebc05c7eb77de",
+      "before_state_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:f59c441b156be1f97596bb45db1f7a3c622c1f017a4fa6f257fb45a47c3f6afe",
+      "before_source_sha256": "sha256:5f4a3ac8f19a29a19db9e1f4b165d44d92f69c2209322568c22ebc05c7eb77de",
+      "before_state_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:019ec2b38a2abee0dcf9721d8e9cd8259da42e48583c0fbca046c8ceababfebb",
+      "before_source_sha256": "sha256:a3f9378c15d02fb7fad030aa16d39b49284b6a9c2df90cdde52b2da3d276a471",
+      "before_state_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:8aa1b7989ee0cb20a560110f53de6ab63e1180c49611947ed55cd068e7b2cc30",
+      "before_source_sha256": "sha256:a3f9378c15d02fb7fad030aa16d39b49284b6a9c2df90cdde52b2da3d276a471",
+      "before_state_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:54d43f2f14394f1982f5ebe49d090e5349a05ac79e48431ace594269def03501",
+      "before_source_sha256": "sha256:0f83de7b10b1b836efbb85b72ef2c66d10fccf1b0db56ffa59fa46104c7f58a6",
+      "before_state_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:8aa1b7989ee0cb20a560110f53de6ab63e1180c49611947ed55cd068e7b2cc30",
+      "before_source_sha256": "sha256:0f83de7b10b1b836efbb85b72ef2c66d10fccf1b0db56ffa59fa46104c7f58a6",
+      "before_state_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:54d43f2f14394f1982f5ebe49d090e5349a05ac79e48431ace594269def03501",
+      "before_source_sha256": "sha256:030939073d3ee7e19b2d259ad1abd40e2afd0769fa43e02260817c0e1e77c7f8",
+      "before_state_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:019ec2b38a2abee0dcf9721d8e9cd8259da42e48583c0fbca046c8ceababfebb",
+      "before_source_sha256": "sha256:030939073d3ee7e19b2d259ad1abd40e2afd0769fa43e02260817c0e1e77c7f8",
+      "before_state_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:a3f9378c15d02fb7fad030aa16d39b49284b6a9c2df90cdde52b2da3d276a471",
+      "before_source_sha256": "sha256:7bb78eb6e5d09f61235fea1f4d722b1ec1719fd23b1ff2012fc2dacd91ffce2f",
+      "before_state_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:48ec74b5e5c982ccc442ebd7a3469eaad97a55050bba78945246cd29051303c2",
+      "before_source_sha256": "sha256:7bb78eb6e5d09f61235fea1f4d722b1ec1719fd23b1ff2012fc2dacd91ffce2f",
+      "before_state_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:b368172e2eec67fc4df95a2ccde3efc7cd2e763fe83743aefec20724506ca608",
+      "before_source_sha256": "sha256:7bb78eb6e5d09f61235fea1f4d722b1ec1719fd23b1ff2012fc2dacd91ffce2f",
+      "before_state_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:0f83de7b10b1b836efbb85b72ef2c66d10fccf1b0db56ffa59fa46104c7f58a6",
+      "before_source_sha256": "sha256:263cefcea81a8fa744ffc1ed78bfe70df33fa89815637576ba9e2457f8f9955e",
+      "before_state_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:5f4a3ac8f19a29a19db9e1f4b165d44d92f69c2209322568c22ebc05c7eb77de",
+      "before_source_sha256": "sha256:263cefcea81a8fa744ffc1ed78bfe70df33fa89815637576ba9e2457f8f9955e",
+      "before_state_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:b368172e2eec67fc4df95a2ccde3efc7cd2e763fe83743aefec20724506ca608",
+      "before_source_sha256": "sha256:263cefcea81a8fa744ffc1ed78bfe70df33fa89815637576ba9e2457f8f9955e",
+      "before_state_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:030939073d3ee7e19b2d259ad1abd40e2afd0769fa43e02260817c0e1e77c7f8",
+      "before_source_sha256": "sha256:c0c0a2d34545ec41398c2ea88e9943b08389abe44a1f08653db80c2504711d33",
+      "before_state_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:5f4a3ac8f19a29a19db9e1f4b165d44d92f69c2209322568c22ebc05c7eb77de",
+      "before_source_sha256": "sha256:c0c0a2d34545ec41398c2ea88e9943b08389abe44a1f08653db80c2504711d33",
+      "before_state_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:48ec74b5e5c982ccc442ebd7a3469eaad97a55050bba78945246cd29051303c2",
+      "before_source_sha256": "sha256:c0c0a2d34545ec41398c2ea88e9943b08389abe44a1f08653db80c2504711d33",
+      "before_state_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:030939073d3ee7e19b2d259ad1abd40e2afd0769fa43e02260817c0e1e77c7f8",
+      "before_source_sha256": "sha256:31ea24509e51c9912c39f96efc2d02914a8e8a38866e574490737682dca428db",
+      "before_state_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:0f83de7b10b1b836efbb85b72ef2c66d10fccf1b0db56ffa59fa46104c7f58a6",
+      "before_source_sha256": "sha256:31ea24509e51c9912c39f96efc2d02914a8e8a38866e574490737682dca428db",
+      "before_state_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:a3f9378c15d02fb7fad030aa16d39b49284b6a9c2df90cdde52b2da3d276a471",
+      "before_source_sha256": "sha256:31ea24509e51c9912c39f96efc2d02914a8e8a38866e574490737682dca428db",
+      "before_state_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:31ea24509e51c9912c39f96efc2d02914a8e8a38866e574490737682dca428db",
+      "before_source_sha256": "sha256:16bccaebaa5f6ba59e6823696b3a034d54a114d89715a2102ae2adb1e90b96a6",
+      "before_state_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:c0c0a2d34545ec41398c2ea88e9943b08389abe44a1f08653db80c2504711d33",
+      "before_source_sha256": "sha256:16bccaebaa5f6ba59e6823696b3a034d54a114d89715a2102ae2adb1e90b96a6",
+      "before_state_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:263cefcea81a8fa744ffc1ed78bfe70df33fa89815637576ba9e2457f8f9955e",
+      "before_source_sha256": "sha256:16bccaebaa5f6ba59e6823696b3a034d54a114d89715a2102ae2adb1e90b96a6",
+      "before_state_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:7bb78eb6e5d09f61235fea1f4d722b1ec1719fd23b1ff2012fc2dacd91ffce2f",
+      "before_source_sha256": "sha256:16bccaebaa5f6ba59e6823696b3a034d54a114d89715a2102ae2adb1e90b96a6",
+      "before_state_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "before_source_sha256": "sha256:eee6f5790c5b1765a0740f13a672d9244ac88410242354a7f4ab2b3e6ef93481",
+      "before_state_id": "RX2-FULL-01-SOURCE_CORRUPTION",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "before_source_sha256": "sha256:b535659d2ad34b304fd244f97bc87cdd23ce466147e0fe67e3b844c6c5d40a4a",
+      "before_state_id": "RX2-FULL-02-INVALID_PROOF",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-02-INVALID_PROOF__FIX__INVALID_PROOF",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "before_source_sha256": "sha256:b0b57fc140ecebb7dcd44be6eee34fed9388a0098d046e212df0c962e15776ef",
+      "before_state_id": "RX2-FULL-03-PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-03-PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "before_source_sha256": "sha256:2ebf723d1b65b43a1715353a18a5449db4285749942a18491bb73878723bf319",
+      "before_state_id": "RX2-FULL-04-WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-04-WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:b535659d2ad34b304fd244f97bc87cdd23ce466147e0fe67e3b844c6c5d40a4a",
+      "before_source_sha256": "sha256:be5f7ac88043682ff69c4e0fceed32c80305a23cb100662b2a3fb97f1f98d359",
+      "before_state_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:eee6f5790c5b1765a0740f13a672d9244ac88410242354a7f4ab2b3e6ef93481",
+      "before_source_sha256": "sha256:be5f7ac88043682ff69c4e0fceed32c80305a23cb100662b2a3fb97f1f98d359",
+      "before_state_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:b0b57fc140ecebb7dcd44be6eee34fed9388a0098d046e212df0c962e15776ef",
+      "before_source_sha256": "sha256:4d93ae6fa940eb1d8255dbbc8b60f6644729ca1db396da85524186708421cbfa",
+      "before_state_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:eee6f5790c5b1765a0740f13a672d9244ac88410242354a7f4ab2b3e6ef93481",
+      "before_source_sha256": "sha256:4d93ae6fa940eb1d8255dbbc8b60f6644729ca1db396da85524186708421cbfa",
+      "before_state_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:2ebf723d1b65b43a1715353a18a5449db4285749942a18491bb73878723bf319",
+      "before_source_sha256": "sha256:f5a173344a3a6618f6ef0b149ddbdf59b5e82758b9b3b71fc1aaafd36f14de28",
+      "before_state_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:eee6f5790c5b1765a0740f13a672d9244ac88410242354a7f4ab2b3e6ef93481",
+      "before_source_sha256": "sha256:f5a173344a3a6618f6ef0b149ddbdf59b5e82758b9b3b71fc1aaafd36f14de28",
+      "before_state_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:b0b57fc140ecebb7dcd44be6eee34fed9388a0098d046e212df0c962e15776ef",
+      "before_source_sha256": "sha256:17913e2be53927a6ef68d728dd147e62f0696d9e37c85b5541ae4dcc9d11e897",
+      "before_state_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:b535659d2ad34b304fd244f97bc87cdd23ce466147e0fe67e3b844c6c5d40a4a",
+      "before_source_sha256": "sha256:17913e2be53927a6ef68d728dd147e62f0696d9e37c85b5541ae4dcc9d11e897",
+      "before_state_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:2ebf723d1b65b43a1715353a18a5449db4285749942a18491bb73878723bf319",
+      "before_source_sha256": "sha256:4bf536821e1df073066c703bbc2a5ced47d6c2889c653e53f1c45e5accf0ce58",
+      "before_state_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:b535659d2ad34b304fd244f97bc87cdd23ce466147e0fe67e3b844c6c5d40a4a",
+      "before_source_sha256": "sha256:4bf536821e1df073066c703bbc2a5ced47d6c2889c653e53f1c45e5accf0ce58",
+      "before_state_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:2ebf723d1b65b43a1715353a18a5449db4285749942a18491bb73878723bf319",
+      "before_source_sha256": "sha256:28a376de060087a1563f90cb89f51f0993f9a836d12221d7291c1359a1839338",
+      "before_state_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:b0b57fc140ecebb7dcd44be6eee34fed9388a0098d046e212df0c962e15776ef",
+      "before_source_sha256": "sha256:28a376de060087a1563f90cb89f51f0993f9a836d12221d7291c1359a1839338",
+      "before_state_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:17913e2be53927a6ef68d728dd147e62f0696d9e37c85b5541ae4dcc9d11e897",
+      "before_source_sha256": "sha256:7d5781447e52ce73df44b815935972c85a6db58395d326dbadc730dc394e39b7",
+      "before_state_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:4d93ae6fa940eb1d8255dbbc8b60f6644729ca1db396da85524186708421cbfa",
+      "before_source_sha256": "sha256:7d5781447e52ce73df44b815935972c85a6db58395d326dbadc730dc394e39b7",
+      "before_state_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:be5f7ac88043682ff69c4e0fceed32c80305a23cb100662b2a3fb97f1f98d359",
+      "before_source_sha256": "sha256:7d5781447e52ce73df44b815935972c85a6db58395d326dbadc730dc394e39b7",
+      "before_state_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:4bf536821e1df073066c703bbc2a5ced47d6c2889c653e53f1c45e5accf0ce58",
+      "before_source_sha256": "sha256:39e800abae63e115f06460d8343707c61f2788ed2a98f7c091c000fb1b6f27a3",
+      "before_state_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:f5a173344a3a6618f6ef0b149ddbdf59b5e82758b9b3b71fc1aaafd36f14de28",
+      "before_source_sha256": "sha256:39e800abae63e115f06460d8343707c61f2788ed2a98f7c091c000fb1b6f27a3",
+      "before_state_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:be5f7ac88043682ff69c4e0fceed32c80305a23cb100662b2a3fb97f1f98d359",
+      "before_source_sha256": "sha256:39e800abae63e115f06460d8343707c61f2788ed2a98f7c091c000fb1b6f27a3",
+      "before_state_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:28a376de060087a1563f90cb89f51f0993f9a836d12221d7291c1359a1839338",
+      "before_source_sha256": "sha256:71070d417772312e67ed7f9227b60f0d865d9e331d624b385363e9dd40ac6400",
+      "before_state_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:f5a173344a3a6618f6ef0b149ddbdf59b5e82758b9b3b71fc1aaafd36f14de28",
+      "before_source_sha256": "sha256:71070d417772312e67ed7f9227b60f0d865d9e331d624b385363e9dd40ac6400",
+      "before_state_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:4d93ae6fa940eb1d8255dbbc8b60f6644729ca1db396da85524186708421cbfa",
+      "before_source_sha256": "sha256:71070d417772312e67ed7f9227b60f0d865d9e331d624b385363e9dd40ac6400",
+      "before_state_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:28a376de060087a1563f90cb89f51f0993f9a836d12221d7291c1359a1839338",
+      "before_source_sha256": "sha256:859307e20b71f89b1a05a62e76964da1de39a2e189dcaef65f59e794c4e80fdd",
+      "before_state_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:4bf536821e1df073066c703bbc2a5ced47d6c2889c653e53f1c45e5accf0ce58",
+      "before_source_sha256": "sha256:859307e20b71f89b1a05a62e76964da1de39a2e189dcaef65f59e794c4e80fdd",
+      "before_state_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:17913e2be53927a6ef68d728dd147e62f0696d9e37c85b5541ae4dcc9d11e897",
+      "before_source_sha256": "sha256:859307e20b71f89b1a05a62e76964da1de39a2e189dcaef65f59e794c4e80fdd",
+      "before_state_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:859307e20b71f89b1a05a62e76964da1de39a2e189dcaef65f59e794c4e80fdd",
+      "before_source_sha256": "sha256:19732a086f00b8add69af5594e4d90074d8cde6f16c2dacbc87a0e4c595c4107",
+      "before_state_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:71070d417772312e67ed7f9227b60f0d865d9e331d624b385363e9dd40ac6400",
+      "before_source_sha256": "sha256:19732a086f00b8add69af5594e4d90074d8cde6f16c2dacbc87a0e4c595c4107",
+      "before_state_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:39e800abae63e115f06460d8343707c61f2788ed2a98f7c091c000fb1b6f27a3",
+      "before_source_sha256": "sha256:19732a086f00b8add69af5594e4d90074d8cde6f16c2dacbc87a0e4c595c4107",
+      "before_state_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:7d5781447e52ce73df44b815935972c85a6db58395d326dbadc730dc394e39b7",
+      "before_source_sha256": "sha256:19732a086f00b8add69af5594e4d90074d8cde6f16c2dacbc87a0e4c595c4107",
+      "before_state_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "before_source_sha256": "sha256:b8371e8d34d8a40f4e67535ec356b0432c52db22c9f4bc0d7c02ca6389e5c981",
+      "before_state_id": "RX3-FULL-01-SOURCE_CORRUPTION",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "before_source_sha256": "sha256:0d57a60e7cba37249f52b530fab1058b6a90bf56d5d72ff53050fad95f7381a8",
+      "before_state_id": "RX3-FULL-02-INVALID_PROOF",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-02-INVALID_PROOF__FIX__INVALID_PROOF",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "before_source_sha256": "sha256:9a86d8f678205ed9c86cc7bf81f9a533fb6c3015e90fd9e5eac071326eebf9b3",
+      "before_state_id": "RX3-FULL-03-PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-03-PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "before_source_sha256": "sha256:6e959f5b38b75608d0483780111ad513dbc43d8667fdc59850e40daf2175c001",
+      "before_state_id": "RX3-FULL-04-WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-04-WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:0d57a60e7cba37249f52b530fab1058b6a90bf56d5d72ff53050fad95f7381a8",
+      "before_source_sha256": "sha256:169d0505fcbd3f8513eb4a4c2d110e1cf769f64a91f7dc8eb819656ac478e085",
+      "before_state_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:b8371e8d34d8a40f4e67535ec356b0432c52db22c9f4bc0d7c02ca6389e5c981",
+      "before_source_sha256": "sha256:169d0505fcbd3f8513eb4a4c2d110e1cf769f64a91f7dc8eb819656ac478e085",
+      "before_state_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:9a86d8f678205ed9c86cc7bf81f9a533fb6c3015e90fd9e5eac071326eebf9b3",
+      "before_source_sha256": "sha256:f148fd6f9faf00b290d7226d4db979157fd944a2abe172bf07e682a8607b94ab",
+      "before_state_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:b8371e8d34d8a40f4e67535ec356b0432c52db22c9f4bc0d7c02ca6389e5c981",
+      "before_source_sha256": "sha256:f148fd6f9faf00b290d7226d4db979157fd944a2abe172bf07e682a8607b94ab",
+      "before_state_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:6e959f5b38b75608d0483780111ad513dbc43d8667fdc59850e40daf2175c001",
+      "before_source_sha256": "sha256:943ae04a65a39b0db731bfe1dfd3c049aa963fc158f8fd80754297666b9a4298",
+      "before_state_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:b8371e8d34d8a40f4e67535ec356b0432c52db22c9f4bc0d7c02ca6389e5c981",
+      "before_source_sha256": "sha256:943ae04a65a39b0db731bfe1dfd3c049aa963fc158f8fd80754297666b9a4298",
+      "before_state_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:9a86d8f678205ed9c86cc7bf81f9a533fb6c3015e90fd9e5eac071326eebf9b3",
+      "before_source_sha256": "sha256:73a02176971bb545d8889763a97aec580af9a271662d4bc13791cdbb397ff13e",
+      "before_state_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:0d57a60e7cba37249f52b530fab1058b6a90bf56d5d72ff53050fad95f7381a8",
+      "before_source_sha256": "sha256:73a02176971bb545d8889763a97aec580af9a271662d4bc13791cdbb397ff13e",
+      "before_state_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:6e959f5b38b75608d0483780111ad513dbc43d8667fdc59850e40daf2175c001",
+      "before_source_sha256": "sha256:e6ef09cfacbaa5cfdeadd412f23e59bf2e868b8c06e30ff8849454aee9be904d",
+      "before_state_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:0d57a60e7cba37249f52b530fab1058b6a90bf56d5d72ff53050fad95f7381a8",
+      "before_source_sha256": "sha256:e6ef09cfacbaa5cfdeadd412f23e59bf2e868b8c06e30ff8849454aee9be904d",
+      "before_state_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:6e959f5b38b75608d0483780111ad513dbc43d8667fdc59850e40daf2175c001",
+      "before_source_sha256": "sha256:c1228dc29473a20c1813d15e4db3254c098064a72dc81a8d47590a438b33a0f7",
+      "before_state_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:9a86d8f678205ed9c86cc7bf81f9a533fb6c3015e90fd9e5eac071326eebf9b3",
+      "before_source_sha256": "sha256:c1228dc29473a20c1813d15e4db3254c098064a72dc81a8d47590a438b33a0f7",
+      "before_state_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:73a02176971bb545d8889763a97aec580af9a271662d4bc13791cdbb397ff13e",
+      "before_source_sha256": "sha256:39f71162bd3508ec673088eca2360edaa5d5419e8d4d268a6c660765b2411510",
+      "before_state_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:f148fd6f9faf00b290d7226d4db979157fd944a2abe172bf07e682a8607b94ab",
+      "before_source_sha256": "sha256:39f71162bd3508ec673088eca2360edaa5d5419e8d4d268a6c660765b2411510",
+      "before_state_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:169d0505fcbd3f8513eb4a4c2d110e1cf769f64a91f7dc8eb819656ac478e085",
+      "before_source_sha256": "sha256:39f71162bd3508ec673088eca2360edaa5d5419e8d4d268a6c660765b2411510",
+      "before_state_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:e6ef09cfacbaa5cfdeadd412f23e59bf2e868b8c06e30ff8849454aee9be904d",
+      "before_source_sha256": "sha256:c9d51dd25b7b1a9756c66c082011a9c776de4e882587bd10cf12700dd91c3b39",
+      "before_state_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:943ae04a65a39b0db731bfe1dfd3c049aa963fc158f8fd80754297666b9a4298",
+      "before_source_sha256": "sha256:c9d51dd25b7b1a9756c66c082011a9c776de4e882587bd10cf12700dd91c3b39",
+      "before_state_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:169d0505fcbd3f8513eb4a4c2d110e1cf769f64a91f7dc8eb819656ac478e085",
+      "before_source_sha256": "sha256:c9d51dd25b7b1a9756c66c082011a9c776de4e882587bd10cf12700dd91c3b39",
+      "before_state_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:c1228dc29473a20c1813d15e4db3254c098064a72dc81a8d47590a438b33a0f7",
+      "before_source_sha256": "sha256:77efd5c85e6c1e1d87280c1100759cd4cc164aa283eef3c5a81f0d62881f2f4b",
+      "before_state_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:943ae04a65a39b0db731bfe1dfd3c049aa963fc158f8fd80754297666b9a4298",
+      "before_source_sha256": "sha256:77efd5c85e6c1e1d87280c1100759cd4cc164aa283eef3c5a81f0d62881f2f4b",
+      "before_state_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:f148fd6f9faf00b290d7226d4db979157fd944a2abe172bf07e682a8607b94ab",
+      "before_source_sha256": "sha256:77efd5c85e6c1e1d87280c1100759cd4cc164aa283eef3c5a81f0d62881f2f4b",
+      "before_state_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:c1228dc29473a20c1813d15e4db3254c098064a72dc81a8d47590a438b33a0f7",
+      "before_source_sha256": "sha256:886816ffe176fd1ff8538b23212c82296e2457d32f8fc7e0efab6f62e0f61264",
+      "before_state_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:e6ef09cfacbaa5cfdeadd412f23e59bf2e868b8c06e30ff8849454aee9be904d",
+      "before_source_sha256": "sha256:886816ffe176fd1ff8538b23212c82296e2457d32f8fc7e0efab6f62e0f61264",
+      "before_state_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:73a02176971bb545d8889763a97aec580af9a271662d4bc13791cdbb397ff13e",
+      "before_source_sha256": "sha256:886816ffe176fd1ff8538b23212c82296e2457d32f8fc7e0efab6f62e0f61264",
+      "before_state_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_source_sha256": "sha256:886816ffe176fd1ff8538b23212c82296e2457d32f8fc7e0efab6f62e0f61264",
+      "before_source_sha256": "sha256:c84f33c1518d5c4326df4d898e5e855ebea39548b4730c59fa267023495439b3",
+      "before_state_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "SOURCE_CORRUPTION"
+    },
+    {
+      "after_source_sha256": "sha256:77efd5c85e6c1e1d87280c1100759cd4cc164aa283eef3c5a81f0d62881f2f4b",
+      "before_source_sha256": "sha256:c84f33c1518d5c4326df4d898e5e855ebea39548b4730c59fa267023495439b3",
+      "before_state_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_source_sha256": "sha256:c9d51dd25b7b1a9756c66c082011a9c776de4e882587bd10cf12700dd91c3b39",
+      "before_source_sha256": "sha256:c84f33c1518d5c4326df4d898e5e855ebea39548b4730c59fa267023495439b3",
+      "before_state_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_source_sha256": "sha256:39f71162bd3508ec673088eca2360edaa5d5419e8d4d268a6c660765b2411510",
+      "before_source_sha256": "sha256:c84f33c1518d5c4326df4d898e5e855ebea39548b4730c59fa267023495439b3",
+      "before_state_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "repair_mechanism": "WRONG_TARGET"
+    }
+  ],
+  "full_replication_freeze_date": "2026-09-30",
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "n_edges": 96,
+  "n_edges_per_context": 32,
+  "plan_digest": "sha256:767cefe0093966e633f2e77cc556e8732fac2a74353d289c64c82aba5400b419",
+  "prospective_design_date": "2026-08-27",
+  "schema_version": "p02_mathai_cross_context_full_repair_plan_v1",
+  "state_raw_bundle_digest": "sha256:480edf44501ee218c9d4a969d029e0fc452413124ee6ec6df935dbb2e6ac60ee"
+}

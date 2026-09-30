@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-03-PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.501079059999995,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-03-PROHIBITED_PLACEHOLDER-candidate.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-03-PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-03-PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5016467849999913,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-03-PROHIBITED_PLACEHOLDER-declaration.lean:6:8: warning: declaration uses 'sorry'\nP02CrossContext.Level.p02Native : AssuranceLevel.outputVerification.toWire = \"output_verification\"\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-03-PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 0.5078341950000436,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-03-PROHIBITED_PLACEHOLDER-target.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

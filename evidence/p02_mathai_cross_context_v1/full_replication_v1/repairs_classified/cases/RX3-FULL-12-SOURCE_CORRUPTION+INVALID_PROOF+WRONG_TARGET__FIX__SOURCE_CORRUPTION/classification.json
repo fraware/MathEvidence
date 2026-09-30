@@ -1,0 +1,14 @@
+{
+  "case_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:e4c86381be497e57d7156e498f09dafcb7e950d65bfeadcce3a09d17a78e21da",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:5ffb823d93a2164d07e7324ce53b9dbf1724b6ab552fff9a96cd5596f90ac855",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:e6ef09cfacbaa5cfdeadd412f23e59bf2e868b8c06e30ff8849454aee9be904d"
+}

@@ -1,0 +1,2 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX3-FULL-03-PROHIBITED_PLACEHOLDER-declaration.lean:6:8: warning: declaration uses 'sorry'
+P02CrossContext.Level.p02Native : AssuranceLevel.outputVerification.toWire = "output_verification"

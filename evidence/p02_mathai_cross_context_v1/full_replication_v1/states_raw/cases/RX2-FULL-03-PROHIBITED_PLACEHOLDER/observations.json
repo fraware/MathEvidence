@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-03-PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5152585270000145,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-03-PROHIBITED_PLACEHOLDER-candidate.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "RX2-FULL-03-PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-03-PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5026044599999864,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-03-PROHIBITED_PLACEHOLDER-declaration.lean:6:8: warning: declaration uses 'sorry'\nP02CrossContext.Counterexample.p02Native : contract.claimsCompleteness = false\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-03-PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 0.4974129589999734,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-03-PROHIBITED_PLACEHOLDER-target.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

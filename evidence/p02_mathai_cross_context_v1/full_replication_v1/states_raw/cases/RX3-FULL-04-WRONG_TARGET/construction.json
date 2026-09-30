@@ -1,0 +1,10 @@
+{
+  "case_id": "RX3-FULL-04-WRONG_TARGET",
+  "mechanisms": [
+    "WRONG_TARGET"
+  ],
+  "role": "cross_context_full_singleton",
+  "source_sha256": "sha256:6e959f5b38b75608d0483780111ad513dbc43d8667fdc59850e40daf2175c001",
+  "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+  "theorem_name": "P02CrossContext.Level.p02Native"
+}

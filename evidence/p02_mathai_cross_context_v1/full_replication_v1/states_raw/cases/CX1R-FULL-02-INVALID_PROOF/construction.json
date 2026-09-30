@@ -1,0 +1,10 @@
+{
+  "case_id": "CX1R-FULL-02-INVALID_PROOF",
+  "mechanisms": [
+    "INVALID_PROOF"
+  ],
+  "role": "cross_context_full_singleton",
+  "source_sha256": "sha256:8aa1b7989ee0cb20a560110f53de6ab63e1180c49611947ed55cd068e7b2cc30",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+}

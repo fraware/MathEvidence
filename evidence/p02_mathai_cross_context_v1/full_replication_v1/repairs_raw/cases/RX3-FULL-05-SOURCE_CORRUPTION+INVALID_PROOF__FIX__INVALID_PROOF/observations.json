@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-05-SOURCE_CORRUPTION_INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4884003640000856,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-05-SOURCE_CORRUPTION_INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean:6:19: error: unexpected token ':'; expected '_' or identifier\n",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

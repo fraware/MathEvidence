@@ -1,0 +1,11 @@
+{
+  "case_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF"
+  ],
+  "role": "cross_context_full_single_repair",
+  "source_sha256": "sha256:169d0505fcbd3f8513eb4a4c2d110e1cf769f64a91f7dc8eb819656ac478e085",
+  "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+  "theorem_name": "P02CrossContext.Level.p02Native"
+}

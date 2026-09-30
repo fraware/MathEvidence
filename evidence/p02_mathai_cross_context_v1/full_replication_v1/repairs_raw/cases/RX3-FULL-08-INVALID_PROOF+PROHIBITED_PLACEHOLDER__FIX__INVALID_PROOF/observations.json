@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.49249303500005226,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-candidate.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5010957380000036,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-declaration.lean:6:8: warning: declaration uses 'sorry'\nP02CrossContext.Level.p02Native : AssuranceLevel.outputVerification.toWire = \"output_verification\"\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-target.lean"
+    ],
+    "elapsed_seconds": 0.5079907130000265,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-target.lean:6:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

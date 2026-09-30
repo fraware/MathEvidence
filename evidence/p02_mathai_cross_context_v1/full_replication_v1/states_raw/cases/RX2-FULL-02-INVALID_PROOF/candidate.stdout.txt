@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-02-INVALID_PROOF-candidate.lean:7:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  contract.claimsCompleteness = false : Prop

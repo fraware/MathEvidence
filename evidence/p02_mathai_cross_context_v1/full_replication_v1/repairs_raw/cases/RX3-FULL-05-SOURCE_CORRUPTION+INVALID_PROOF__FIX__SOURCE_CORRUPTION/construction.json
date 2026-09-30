@@ -1,0 +1,10 @@
+{
+  "case_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+  "mechanisms": [
+    "INVALID_PROOF"
+  ],
+  "role": "cross_context_full_single_repair",
+  "source_sha256": "sha256:0d57a60e7cba37249f52b530fab1058b6a90bf56d5d72ff53050fad95f7381a8",
+  "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+  "theorem_name": "P02CrossContext.Level.p02Native"
+}

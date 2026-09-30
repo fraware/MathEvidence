@@ -1,0 +1,17 @@
+{
+  "classification_performed": false,
+  "harness_branch_sha": "46421ecd51a90124b795232e3b181b29d0a54c6c",
+  "n_cases": 48,
+  "n_contexts": 3,
+  "n_states_per_context": 16,
+  "non_claims": [
+    "This bundle contains raw state observations only.",
+    "Construction metadata is stored separately from observations.",
+    "No transferred-model match rate is assigned before downstream classification and analysis.",
+    "Publication promotion requires complete edge execution and independent review."
+  ],
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_cross_context_full_states_raw_v1",
+  "state_spec_digest": "sha256:99eaa8b66226099b16314f6e3fd8cbc5dd9c4d5f2e0cb5f11048c0099d3fb162",
+  "status": "FULL_STATE_RAW_EXECUTED_NOT_CLASSIFIED"
+}

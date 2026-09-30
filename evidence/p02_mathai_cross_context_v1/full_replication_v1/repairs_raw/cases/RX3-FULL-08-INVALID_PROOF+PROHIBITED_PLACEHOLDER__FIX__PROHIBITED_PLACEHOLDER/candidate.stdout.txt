@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:7:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  AssuranceLevel.outputVerification.toWire = "output_verification" : Prop

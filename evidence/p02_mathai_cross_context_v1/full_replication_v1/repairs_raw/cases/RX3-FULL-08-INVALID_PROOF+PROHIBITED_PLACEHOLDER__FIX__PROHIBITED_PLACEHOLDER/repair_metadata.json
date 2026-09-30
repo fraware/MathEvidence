@@ -1,0 +1,15 @@
+{
+  "after_source_sha256": "sha256:0d57a60e7cba37249f52b530fab1058b6a90bf56d5d72ff53050fad95f7381a8",
+  "before_source_sha256": "sha256:73a02176971bb545d8889763a97aec580af9a271662d4bc13791cdbb397ff13e",
+  "before_state_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+  "context_id": "RX3",
+  "edge_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms_after": [
+    "INVALID_PROOF"
+  ],
+  "mechanisms_before": [
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+}

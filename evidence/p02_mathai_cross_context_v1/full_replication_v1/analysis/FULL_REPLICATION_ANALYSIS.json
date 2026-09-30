@@ -1,0 +1,2736 @@
+{
+  "aggregate": {
+    "edge_model_matches": 96,
+    "edge_model_mismatches": 0,
+    "masked_active_class_preserved": 51,
+    "masked_active_edges": 51,
+    "n_contexts": 3,
+    "n_edges": 96,
+    "n_states": 48,
+    "state_model_matches": 48,
+    "state_model_mismatches": 0,
+    "visible_active_class_changes": 45,
+    "visible_active_edges": 45
+  },
+  "clean_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "contexts": [
+    {
+      "context_id": "CX1R",
+      "edge_model_matches": 32,
+      "edge_model_mismatches": 0,
+      "masked_active_class_changes": 0,
+      "masked_active_class_preserved": 17,
+      "masked_active_edges": 17,
+      "n_edges": 32,
+      "n_states": 16,
+      "observed_state_class_counts": {
+        "ENVIRONMENT_OR_ELAB_REJECT": 4,
+        "FRONTEND_REJECT": 8,
+        "TOOLCHAIN_ACCEPT_POLICY_REJECT": 2,
+        "TOOLCHAIN_ACCEPT_TARGET_MATCH": 1,
+        "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 1
+      },
+      "state_model_matches": 16,
+      "state_model_mismatches": 0,
+      "visible_active_class_changes": 15,
+      "visible_active_class_preserved": 0,
+      "visible_active_edges": 15
+    },
+    {
+      "context_id": "RX2",
+      "edge_model_matches": 32,
+      "edge_model_mismatches": 0,
+      "masked_active_class_changes": 0,
+      "masked_active_class_preserved": 17,
+      "masked_active_edges": 17,
+      "n_edges": 32,
+      "n_states": 16,
+      "observed_state_class_counts": {
+        "ENVIRONMENT_OR_ELAB_REJECT": 4,
+        "FRONTEND_REJECT": 8,
+        "TOOLCHAIN_ACCEPT_POLICY_REJECT": 2,
+        "TOOLCHAIN_ACCEPT_TARGET_MATCH": 1,
+        "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 1
+      },
+      "state_model_matches": 16,
+      "state_model_mismatches": 0,
+      "visible_active_class_changes": 15,
+      "visible_active_class_preserved": 0,
+      "visible_active_edges": 15
+    },
+    {
+      "context_id": "RX3",
+      "edge_model_matches": 32,
+      "edge_model_mismatches": 0,
+      "masked_active_class_changes": 0,
+      "masked_active_class_preserved": 17,
+      "masked_active_edges": 17,
+      "n_edges": 32,
+      "n_states": 16,
+      "observed_state_class_counts": {
+        "ENVIRONMENT_OR_ELAB_REJECT": 4,
+        "FRONTEND_REJECT": 8,
+        "TOOLCHAIN_ACCEPT_POLICY_REJECT": 2,
+        "TOOLCHAIN_ACCEPT_TARGET_MATCH": 1,
+        "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 1
+      },
+      "state_model_matches": 16,
+      "state_model_mismatches": 0,
+      "visible_active_class_changes": 15,
+      "visible_active_class_preserved": 0,
+      "visible_active_edges": 15
+    }
+  ],
+  "edges": [
+    {
+      "before_state_id": "CX1R-FULL-01-SOURCE_CORRUPTION",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-02-INVALID_PROOF",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-02-INVALID_PROOF__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-03-PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-03-PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-04-WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-04-WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "CX1R",
+      "edge_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-01-SOURCE_CORRUPTION",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-02-INVALID_PROOF",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-02-INVALID_PROOF__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-03-PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-03-PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-04-WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-04-WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX2",
+      "edge_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-01-SOURCE_CORRUPTION",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-02-INVALID_PROOF",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-02-INVALID_PROOF__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-03-PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-03-PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-04-WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-04-WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_change",
+      "mechanisms_after": [],
+      "mechanisms_before": [
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__INVALID_PROOF",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "INVALID_PROOF",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "visible_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+      "expected_transition": "class_change",
+      "mechanisms_after": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_change",
+      "predicted_after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "SOURCE_CORRUPTION",
+      "transferred_transition_match": true
+    },
+    {
+      "before_state_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "category": "masked_active",
+      "context_id": "RX3",
+      "edge_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "expected_transition": "class_preserved",
+      "mechanisms_after": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "mechanisms_before": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_after_class": "FRONTEND_REJECT",
+      "observed_before_class": "FRONTEND_REJECT",
+      "observed_transition": "class_preserved",
+      "predicted_after_class": "FRONTEND_REJECT",
+      "predicted_before_class": "FRONTEND_REJECT",
+      "repair_mechanism": "WRONG_TARGET",
+      "transferred_transition_match": true
+    }
+  ],
+  "non_claims": [
+    "The accepted 32-state/80-edge primary denominators are not pooled into this extension.",
+    "This extension remains one pinned Lean 4.14.0 project and does not establish cross-version stability.",
+    "State and edge matches do not establish prevalence in natural Lean developments.",
+    "No autonomous repair agent is evaluated.",
+    "Publication promotion remains blocked pending independent recomputation."
+  ],
+  "precedence": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_cross_context_full_analysis_v1",
+  "signature_map": {
+    "INVALID_PROOF": "ENVIRONMENT_OR_ELAB_REJECT",
+    "PROHIBITED_PLACEHOLDER": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+    "SOURCE_CORRUPTION": "FRONTEND_REJECT",
+    "WRONG_TARGET": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH"
+  },
+  "states": [
+    {
+      "case_id": "CX1R-FULL-00-CLEAN",
+      "context_id": "CX1R",
+      "mechanisms": [],
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-01-SOURCE_CORRUPTION",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-02-INVALID_PROOF",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-03-PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-04-WRONG_TARGET",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "CX1R-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "CX1R",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-00-CLEAN",
+      "context_id": "RX2",
+      "mechanisms": [],
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-01-SOURCE_CORRUPTION",
+      "context_id": "RX2",
+      "mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-02-INVALID_PROOF",
+      "context_id": "RX2",
+      "mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-03-PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-04-WRONG_TARGET",
+      "context_id": "RX2",
+      "mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "RX2",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "RX2",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX2",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX2",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX2",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX2-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX2",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-00-CLEAN",
+      "context_id": "RX3",
+      "mechanisms": [],
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "predicted_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-01-SOURCE_CORRUPTION",
+      "context_id": "RX3",
+      "mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-02-INVALID_PROOF",
+      "context_id": "RX3",
+      "mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-03-PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-04-WRONG_TARGET",
+      "context_id": "RX3",
+      "mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "predicted_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-05-SOURCE_CORRUPTION+INVALID_PROOF",
+      "context_id": "RX3",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET",
+      "context_id": "RX3",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-09-INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX3",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-10-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "predicted_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-11-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+      "context_id": "RX3",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-12-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "context_id": "RX3",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-13-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "predicted_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "transferred_model_match": true
+    },
+    {
+      "case_id": "RX3-FULL-15-SOURCE_CORRUPTION+INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "context_id": "RX3",
+      "mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "observed_class": "FRONTEND_REJECT",
+      "predicted_class": "FRONTEND_REJECT",
+      "transferred_model_match": true
+    }
+  ],
+  "status": "ANALYZED_PENDING_INDEPENDENT_REVIEW",
+  "transferred_prediction_modified": false
+}

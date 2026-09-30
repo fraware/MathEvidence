@@ -1,0 +1,17 @@
+{
+  "after_source_sha256": "sha256:4bf536821e1df073066c703bbc2a5ced47d6c2889c653e53f1c45e5accf0ce58",
+  "before_source_sha256": "sha256:859307e20b71f89b1a05a62e76964da1de39a2e189dcaef65f59e794c4e80fdd",
+  "before_state_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+  "context_id": "RX2",
+  "edge_id": "RX2-FULL-14-INVALID_PROOF+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms_after": [
+    "INVALID_PROOF",
+    "WRONG_TARGET"
+  ],
+  "mechanisms_before": [
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+}

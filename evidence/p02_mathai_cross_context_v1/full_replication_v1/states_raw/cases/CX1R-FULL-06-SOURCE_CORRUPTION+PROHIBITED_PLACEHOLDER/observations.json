@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-states-rucb66ow/CX1R-FULL-06-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 1.0235098129999756,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-states-rucb66ow/CX1R-FULL-06-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER-candidate.lean:6:8: warning: declaration uses 'sorry'\n/tmp/p02-mathai-xc-full-states-rucb66ow/CX1R-FULL-06-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER-candidate.lean:9:19: error: unexpected token ':'; expected '_' or identifier\n",
+    "timed_out": false
+  },
+  "case_id": "CX1R-FULL-06-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

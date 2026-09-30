@@ -1,0 +1,2 @@
+/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/CX1R-FULL-06-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION-declaration.lean:6:8: warning: declaration uses 'sorry'
+P02CrossContext.RationalEqualityFinal.p02Native : contract.claimsCompleteness = false

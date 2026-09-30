@@ -1,0 +1,12 @@
+{
+  "after_source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+  "before_source_sha256": "sha256:0d57a60e7cba37249f52b530fab1058b6a90bf56d5d72ff53050fad95f7381a8",
+  "before_state_id": "RX3-FULL-02-INVALID_PROOF",
+  "context_id": "RX3",
+  "edge_id": "RX3-FULL-02-INVALID_PROOF__FIX__INVALID_PROOF",
+  "mechanisms_after": [],
+  "mechanisms_before": [
+    "INVALID_PROOF"
+  ],
+  "repair_mechanism": "INVALID_PROOF"
+}

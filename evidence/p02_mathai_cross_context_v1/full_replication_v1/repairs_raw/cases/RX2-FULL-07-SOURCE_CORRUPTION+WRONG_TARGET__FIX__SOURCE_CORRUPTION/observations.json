@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-07-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5283451139999897,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX2-FULL-07-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-07-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4955116620000126,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Counterexample.p02Native :\n  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-07-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.5045174019999195,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX2-FULL-07-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:11:49: error: type mismatch\n  P02CrossContext.Counterexample.p02Native\nhas type\n  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm : Prop\nbut is expected to have type\n  contract.claimsCompleteness = false : Prop\n",
+    "timed_out": false
+  }
+}

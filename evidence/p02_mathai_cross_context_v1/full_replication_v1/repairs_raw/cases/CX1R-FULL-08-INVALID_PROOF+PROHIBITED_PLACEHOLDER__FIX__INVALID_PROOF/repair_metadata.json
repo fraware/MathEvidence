@@ -1,0 +1,15 @@
+{
+  "after_source_sha256": "sha256:019ec2b38a2abee0dcf9721d8e9cd8259da42e48583c0fbca046c8ceababfebb",
+  "before_source_sha256": "sha256:a3f9378c15d02fb7fad030aa16d39b49284b6a9c2df90cdde52b2da3d276a471",
+  "before_state_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER",
+  "context_id": "CX1R",
+  "edge_id": "CX1R-FULL-08-INVALID_PROOF+PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF",
+  "mechanisms_after": [
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "mechanisms_before": [
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "repair_mechanism": "INVALID_PROOF"
+}

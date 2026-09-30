@@ -1,0 +1,2 @@
+/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-08-INVALID_PROOF_PROHIBITED_PLACEHOLDER__FIX__INVALID_PROOF-declaration.lean:6:8: warning: declaration uses 'sorry'
+P02CrossContext.Level.p02Native : AssuranceLevel.outputVerification.toWire = "output_verification"

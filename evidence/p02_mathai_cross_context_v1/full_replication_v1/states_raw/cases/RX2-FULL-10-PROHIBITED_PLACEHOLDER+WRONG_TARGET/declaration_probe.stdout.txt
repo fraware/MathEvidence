@@ -1,0 +1,3 @@
+/tmp/p02-mathai-xc-full-states-rucb66ow/RX2-FULL-10-PROHIBITED_PLACEHOLDER_WRONG_TARGET-declaration.lean:6:8: warning: declaration uses 'sorry'
+P02CrossContext.Counterexample.p02Native :
+  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm

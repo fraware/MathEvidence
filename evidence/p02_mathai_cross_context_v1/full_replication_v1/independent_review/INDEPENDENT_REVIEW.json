@@ -1,0 +1,70 @@
+{
+  "aggregate": {
+    "edge_matches": 96,
+    "masked_edges": 51,
+    "masked_preserved": 51,
+    "n_edges": 96,
+    "n_states": 48,
+    "state_matches": 48,
+    "visible_changes": 45,
+    "visible_edges": 45
+  },
+  "claim_boundary": [
+    "The result concerns the three frozen contexts in one pinned Lean 4.14.0 project.",
+    "The accepted primary denominators remain separate.",
+    "The replication does not establish cross-version stability or natural-development prevalence.",
+    "No autonomous repair policy is evaluated."
+  ],
+  "contexts": [
+    {
+      "context_id": "CX1R",
+      "edge_matches": 32,
+      "masked_edges": 17,
+      "masked_preserved": 17,
+      "n_edges": 32,
+      "n_states": 16,
+      "state_matches": 16,
+      "visible_changes": 15,
+      "visible_edges": 15
+    },
+    {
+      "context_id": "RX2",
+      "edge_matches": 32,
+      "masked_edges": 17,
+      "masked_preserved": 17,
+      "n_edges": 32,
+      "n_states": 16,
+      "state_matches": 16,
+      "visible_changes": 15,
+      "visible_edges": 15
+    },
+    {
+      "context_id": "RX3",
+      "edge_matches": 32,
+      "masked_edges": 17,
+      "masked_preserved": 17,
+      "n_edges": 32,
+      "n_states": 16,
+      "state_matches": 16,
+      "visible_changes": 15,
+      "visible_edges": 15
+    }
+  ],
+  "edge_level_disagreements_with_primary_analysis": [],
+  "expected_aggregate": {
+    "edge_matches": 96,
+    "masked_edges": 51,
+    "masked_preserved": 51,
+    "n_edges": 96,
+    "n_states": 48,
+    "state_matches": 48,
+    "visible_changes": 45,
+    "visible_edges": 45
+  },
+  "implementation_independent_of_primary_analysis": true,
+  "publication_claim_eligible": true,
+  "schema_version": "p02_mathai_cross_context_independent_review_v1",
+  "state_level_disagreements_with_primary_analysis": [],
+  "status": "VERIFIED_BY_INDEPENDENT_RECOMPUTATION",
+  "transferred_prediction_modified": false
+}

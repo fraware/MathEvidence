@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-full-repairs-4rl6hmkh/RX3-FULL-12-SOURCE_CORRUPTION_INVALID_PROOF_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean:7:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  AssuranceLevel.checkerSoundness.toWire = "checker_soundness" : Prop

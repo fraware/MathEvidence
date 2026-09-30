@@ -1,0 +1,12 @@
+{
+  "after_source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+  "before_source_sha256": "sha256:eee6f5790c5b1765a0740f13a672d9244ac88410242354a7f4ab2b3e6ef93481",
+  "before_state_id": "RX2-FULL-01-SOURCE_CORRUPTION",
+  "context_id": "RX2",
+  "edge_id": "RX2-FULL-01-SOURCE_CORRUPTION__FIX__SOURCE_CORRUPTION",
+  "mechanisms_after": [],
+  "mechanisms_before": [
+    "SOURCE_CORRUPTION"
+  ],
+  "repair_mechanism": "SOURCE_CORRUPTION"
+}
