@@ -1,0 +1,8 @@
+{
+  "case_id": "CX1-SMOKE-WRONG_TARGET__REPAIR",
+  "mechanisms": [],
+  "role": "cross_context_smoke_inverse_repair",
+  "source_sha256": "sha256:161671206baad0be8f229b1a6f7bcb1ea6aaf5b2e72c77f9823b4440fd5e2331",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEquality.p02Native"
+}

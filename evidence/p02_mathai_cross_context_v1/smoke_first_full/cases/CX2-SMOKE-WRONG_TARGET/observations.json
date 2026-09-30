@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 1.0547047210000073,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CX2-SMOKE-WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 1.061008691999973,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Calculus.p02Native (req : Request) (cert : Certificate) :\n  referenceCheck req cert = referenceCheck req cert\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 1.054910839999934,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

@@ -1,0 +1,814 @@
+{
+  "all_pairwise_repairs_commute": true,
+  "all_singleton_local": true,
+  "contexts": [
+    {
+      "clean_source_sha256": "sha256:161671206baad0be8f229b1a6f7bcb1ea6aaf5b2e72c77f9823b4440fd5e2331",
+      "context_id": "CX1",
+      "label": "RationalEquality",
+      "pairwise_repair_checks": [
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        }
+      ],
+      "singleton_checks": [
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "SOURCE_CORRUPTION",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "INVALID_PROOF",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "WRONG_TARGET",
+          "mutated_differs_from_clean": true
+        }
+      ]
+    },
+    {
+      "clean_source_sha256": "sha256:9d1f3e9817437c2c500ecba857e3323daadf4f1ce165df8aeeb9f2dc187b534a",
+      "context_id": "CX2",
+      "label": "Calculus",
+      "pairwise_repair_checks": [
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        }
+      ],
+      "singleton_checks": [
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "SOURCE_CORRUPTION",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "INVALID_PROOF",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "WRONG_TARGET",
+          "mutated_differs_from_clean": true
+        }
+      ]
+    },
+    {
+      "clean_source_sha256": "sha256:57e081cae32d6609ec8e7d1df6f6d8ffc9ca6cda838e64d3d5a55234d81a06e1",
+      "context_id": "CX3",
+      "label": "LinearAlgebra",
+      "pairwise_repair_checks": [
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "PROHIBITED_PLACEHOLDER",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "INVALID_PROOF",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "SOURCE_CORRUPTION",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "PROHIBITED_PLACEHOLDER",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        },
+        {
+          "commutes": true,
+          "first": "SOURCE_CORRUPTION",
+          "second": "WRONG_TARGET",
+          "subset": [
+            "INVALID_PROOF",
+            "PROHIBITED_PLACEHOLDER",
+            "SOURCE_CORRUPTION",
+            "WRONG_TARGET"
+          ]
+        }
+      ],
+      "singleton_checks": [
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "SOURCE_CORRUPTION",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "INVALID_PROOF",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "mutated_differs_from_clean": true
+        },
+        {
+          "inverse_repair_equals_clean": true,
+          "mechanism": "WRONG_TARGET",
+          "mutated_differs_from_clean": true
+        }
+      ]
+    }
+  ],
+  "schema_version": "p02_mathai_cross_context_construction_checks_v1"
+}

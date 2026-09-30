@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-CLEAN-candidate.lean"
+    ],
+    "elapsed_seconds": 1.0142149360000303,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CX3-SMOKE-CLEAN",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-CLEAN-declaration.lean"
+    ],
+    "elapsed_seconds": 1.015727523999999,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.LinearAlgebra.p02Native (A B : Matrix) :\n  isInverseWitness A B = (isRightInverse A B && isLeftInverse A B)\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-CLEAN-target.lean"
+    ],
+    "elapsed_seconds": 1.0113157069999943,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

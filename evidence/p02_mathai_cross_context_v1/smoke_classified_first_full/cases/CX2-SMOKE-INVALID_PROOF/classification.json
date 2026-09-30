@@ -1,0 +1,14 @@
+{
+  "case_id": "CX2-SMOKE-INVALID_PROOF",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:446fb7be507b0ca30f58656da69da8db37afea096a99a0452ec383d96c3ffa58",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:3dfa6d6256104758c1c5215708b8a2c3342acadeb991efc6638ec1c01d4ebb36",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:3dfa6d6256104758c1c5215708b8a2c3342acadeb991efc6638ec1c01d4ebb36"
+}

@@ -1,0 +1,1 @@
+/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-PROHIBITED_PLACEHOLDER-target.lean:7:8: warning: declaration uses 'sorry'

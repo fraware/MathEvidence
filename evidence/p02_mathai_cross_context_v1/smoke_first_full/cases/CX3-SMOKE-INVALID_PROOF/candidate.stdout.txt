@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-INVALID_PROOF-candidate.lean:8:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  isInverseWitness A B = (isRightInverse A B && isLeftInverse A B) : Prop

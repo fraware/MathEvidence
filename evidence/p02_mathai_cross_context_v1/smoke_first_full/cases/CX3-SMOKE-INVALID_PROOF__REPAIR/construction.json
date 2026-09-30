@@ -1,0 +1,8 @@
+{
+  "case_id": "CX3-SMOKE-INVALID_PROOF__REPAIR",
+  "mechanisms": [],
+  "role": "cross_context_smoke_inverse_repair",
+  "source_sha256": "sha256:57e081cae32d6609ec8e7d1df6f6d8ffc9ca6cda838e64d3d5a55234d81a06e1",
+  "target_sha256": "sha256:24f8944dc7c8c0781eff9536503deb7ed40500d91092ddde2f8c98aa36090298",
+  "theorem_name": "P02CrossContext.LinearAlgebra.p02Native"
+}

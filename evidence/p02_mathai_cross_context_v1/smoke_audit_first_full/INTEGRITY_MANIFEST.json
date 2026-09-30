@@ -1,0 +1,13 @@
+{
+  "bundle_digest": "sha256:353d5b90f87b4d277e260f503b0782ab5680468ee103a8eebf1be99e7dec5027",
+  "files": [
+    {
+      "path": "SMOKE_AUDIT.json",
+      "sha256": "sha256:4d848ea8f83da94a4b53130aa87af8e4ea6741e73ba3f72eb897d200b79576e9",
+      "size_bytes": 9511
+    }
+  ],
+  "n_files": 1,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_cross_context_smoke_audit_integrity_v1"
+}

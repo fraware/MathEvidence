@@ -1,0 +1,10 @@
+{
+  "case_id": "CX2-SMOKE-SOURCE_CORRUPTION",
+  "mechanisms": [
+    "SOURCE_CORRUPTION"
+  ],
+  "role": "cross_context_smoke_singleton",
+  "source_sha256": "sha256:e40fc961a7e8428538e9b2baf491d712222b38cb26019a769794de110f531a66",
+  "target_sha256": "sha256:f4673fc49efc8d346a2230a305a29bd9672cb3b24b5e81e27f382a173666f8d4",
+  "theorem_name": "P02CrossContext.Calculus.p02Native"
+}

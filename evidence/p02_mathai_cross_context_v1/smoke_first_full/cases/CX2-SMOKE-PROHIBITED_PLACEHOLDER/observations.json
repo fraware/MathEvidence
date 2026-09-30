@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 1.0534413479999785,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-PROHIBITED_PLACEHOLDER-candidate.lean:7:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "CX2-SMOKE-PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 1.0584393209999234,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-PROHIBITED_PLACEHOLDER-declaration.lean:7:8: warning: declaration uses 'sorry'\nP02CrossContext.Calculus.p02Native (req : Request) (cert : Certificate) : referenceCheck req cert = checkBool req cert\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 1.0625301459999719,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-PROHIBITED_PLACEHOLDER-target.lean:7:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

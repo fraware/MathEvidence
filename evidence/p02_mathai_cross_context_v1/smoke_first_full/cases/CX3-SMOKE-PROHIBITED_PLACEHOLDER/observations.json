@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 1.0229178560000491,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-PROHIBITED_PLACEHOLDER-candidate.lean:7:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "CX3-SMOKE-PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 1.0308461299999863,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-PROHIBITED_PLACEHOLDER-declaration.lean:7:8: warning: declaration uses 'sorry'\nP02CrossContext.LinearAlgebra.p02Native (A B : Matrix) :\n  isInverseWitness A B = (isRightInverse A B && isLeftInverse A B)\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 1.0248917449999908,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-PROHIBITED_PLACEHOLDER-target.lean:7:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

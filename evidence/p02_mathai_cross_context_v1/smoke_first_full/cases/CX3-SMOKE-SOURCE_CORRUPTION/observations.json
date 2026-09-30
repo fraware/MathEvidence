@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 1.019810252999946,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-SOURCE_CORRUPTION-candidate.lean:7:34: error: unexpected token ':'; expected '_' or identifier\n",
+    "timed_out": false
+  },
+  "case_id": "CX3-SMOKE-SOURCE_CORRUPTION",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

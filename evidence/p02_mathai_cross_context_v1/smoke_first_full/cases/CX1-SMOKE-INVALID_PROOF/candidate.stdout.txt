@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX1-SMOKE-INVALID_PROOF-candidate.lean:7:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  contract.claimsCompleteness = false : Prop

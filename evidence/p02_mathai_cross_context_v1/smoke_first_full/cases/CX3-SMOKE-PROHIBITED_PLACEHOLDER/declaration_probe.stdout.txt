@@ -1,0 +1,3 @@
+/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX3-SMOKE-PROHIBITED_PLACEHOLDER-declaration.lean:7:8: warning: declaration uses 'sorry'
+P02CrossContext.LinearAlgebra.p02Native (A B : Matrix) :
+  isInverseWitness A B = (isRightInverse A B && isLeftInverse A B)

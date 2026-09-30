@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-SOURCE_CORRUPTION__REPAIR-candidate.lean"
+    ],
+    "elapsed_seconds": 1.056937471000083,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CX2-SMOKE-SOURCE_CORRUPTION__REPAIR",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-SOURCE_CORRUPTION__REPAIR-declaration.lean"
+    ],
+    "elapsed_seconds": 1.0593920929999285,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Calculus.p02Native (req : Request) (cert : Certificate) : referenceCheck req cert = checkBool req cert\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-SOURCE_CORRUPTION__REPAIR-target.lean"
+    ],
+    "elapsed_seconds": 1.064421583000012,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

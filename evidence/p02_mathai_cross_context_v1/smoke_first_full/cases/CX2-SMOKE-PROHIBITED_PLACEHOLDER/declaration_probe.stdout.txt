@@ -1,0 +1,2 @@
+/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX2-SMOKE-PROHIBITED_PLACEHOLDER-declaration.lean:7:8: warning: declaration uses 'sorry'
+P02CrossContext.Calculus.p02Native (req : Request) (cert : Certificate) : referenceCheck req cert = checkBool req cert

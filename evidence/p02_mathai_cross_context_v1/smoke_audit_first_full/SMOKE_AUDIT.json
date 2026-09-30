@@ -1,0 +1,252 @@
+{
+  "all_three_contexts_feasible": false,
+  "classified_bundle_digest": "sha256:71e313866cfb5dd3ca47dac25364ab5a9eaebfd2eedb2efe07aaecb4e686e375",
+  "contexts": [
+    {
+      "clean_candidate_returncode": 0,
+      "clean_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "clean_target_probe_returncode": 0,
+      "context_id": "CX1",
+      "feasible": false,
+      "inverse_repair_checks": [
+        {
+          "mechanism": "SOURCE_CORRUPTION",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "INVALID_PROOF",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "WRONG_TARGET",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        }
+      ],
+      "singleton_checks": [
+        {
+          "candidate_returncode": 1,
+          "expected_transferred_class": "FRONTEND_REJECT",
+          "mechanism": "SOURCE_CORRUPTION",
+          "mutation_operational": true,
+          "observed_class": "FRONTEND_REJECT",
+          "target_probe_returncode": null,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 1,
+          "expected_transferred_class": "ENVIRONMENT_OR_ELAB_REJECT",
+          "mechanism": "INVALID_PROOF",
+          "mutation_operational": true,
+          "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+          "target_probe_returncode": null,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 0,
+          "expected_transferred_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "mutation_operational": true,
+          "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+          "target_probe_returncode": 0,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 0,
+          "expected_transferred_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+          "mechanism": "WRONG_TARGET",
+          "mutation_operational": false,
+          "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "target_probe_returncode": 0,
+          "transferred_signature_match": false
+        }
+      ],
+      "transferred_singleton_matches": 3
+    },
+    {
+      "clean_candidate_returncode": 0,
+      "clean_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "clean_target_probe_returncode": 0,
+      "context_id": "CX2",
+      "feasible": false,
+      "inverse_repair_checks": [
+        {
+          "mechanism": "SOURCE_CORRUPTION",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "INVALID_PROOF",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "WRONG_TARGET",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        }
+      ],
+      "singleton_checks": [
+        {
+          "candidate_returncode": 1,
+          "expected_transferred_class": "FRONTEND_REJECT",
+          "mechanism": "SOURCE_CORRUPTION",
+          "mutation_operational": true,
+          "observed_class": "FRONTEND_REJECT",
+          "target_probe_returncode": null,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 1,
+          "expected_transferred_class": "ENVIRONMENT_OR_ELAB_REJECT",
+          "mechanism": "INVALID_PROOF",
+          "mutation_operational": true,
+          "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+          "target_probe_returncode": null,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 0,
+          "expected_transferred_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "mutation_operational": true,
+          "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+          "target_probe_returncode": 0,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 0,
+          "expected_transferred_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+          "mechanism": "WRONG_TARGET",
+          "mutation_operational": false,
+          "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "target_probe_returncode": 0,
+          "transferred_signature_match": false
+        }
+      ],
+      "transferred_singleton_matches": 3
+    },
+    {
+      "clean_candidate_returncode": 0,
+      "clean_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "clean_target_probe_returncode": 0,
+      "context_id": "CX3",
+      "feasible": false,
+      "inverse_repair_checks": [
+        {
+          "mechanism": "SOURCE_CORRUPTION",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "INVALID_PROOF",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        },
+        {
+          "mechanism": "WRONG_TARGET",
+          "observed_repair_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "repair_candidate_returncode": 0,
+          "repair_returns_clean_class": true,
+          "repair_target_probe_returncode": 0
+        }
+      ],
+      "singleton_checks": [
+        {
+          "candidate_returncode": 1,
+          "expected_transferred_class": "FRONTEND_REJECT",
+          "mechanism": "SOURCE_CORRUPTION",
+          "mutation_operational": true,
+          "observed_class": "FRONTEND_REJECT",
+          "target_probe_returncode": null,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 1,
+          "expected_transferred_class": "ENVIRONMENT_OR_ELAB_REJECT",
+          "mechanism": "INVALID_PROOF",
+          "mutation_operational": true,
+          "observed_class": "ENVIRONMENT_OR_ELAB_REJECT",
+          "target_probe_returncode": null,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 0,
+          "expected_transferred_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+          "mechanism": "PROHIBITED_PLACEHOLDER",
+          "mutation_operational": true,
+          "observed_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+          "target_probe_returncode": 0,
+          "transferred_signature_match": true
+        },
+        {
+          "candidate_returncode": 0,
+          "expected_transferred_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+          "mechanism": "WRONG_TARGET",
+          "mutation_operational": false,
+          "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+          "target_probe_returncode": 0,
+          "transferred_signature_match": false
+        }
+      ],
+      "transferred_singleton_matches": 3
+    }
+  ],
+  "expected_transferred_signatures": {
+    "INVALID_PROOF": "ENVIRONMENT_OR_ELAB_REJECT",
+    "PROHIBITED_PLACEHOLDER": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+    "SOURCE_CORRUPTION": "FRONTEND_REJECT",
+    "WRONG_TARGET": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH"
+  },
+  "full_compound_lattice_executed": false,
+  "non_claims": [
+    "Feasibility does not establish compound-state transfer.",
+    "Singleton disagreements, if any, are retained as transfer failures.",
+    "No context is removed for producing an unfavorable transferred signature.",
+    "No 48-state or 96-edge replication claim is made from smoke evidence."
+  ],
+  "publication_claim_eligible": false,
+  "raw_bundle_digest": "sha256:f5186cfe22c568d425d844e98062ca7321b1624e74c5c1eb621b33d6cb801e3c",
+  "schema_version": "p02_mathai_cross_context_smoke_audit_v1",
+  "status": "FEASIBILITY_SMOKE_AUDITED",
+  "transferred_prediction_modified": false
+}

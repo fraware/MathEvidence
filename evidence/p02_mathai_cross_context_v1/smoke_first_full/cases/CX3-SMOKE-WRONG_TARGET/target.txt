@@ -1,0 +1,1 @@
+∀ (A B : Matrix), isInverseWitness A B = (isRightInverse A B && isLeftInverse A B)

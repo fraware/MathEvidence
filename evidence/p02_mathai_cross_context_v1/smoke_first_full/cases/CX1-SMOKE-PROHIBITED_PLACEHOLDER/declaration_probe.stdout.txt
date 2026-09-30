@@ -1,0 +1,2 @@
+/tmp/p02-mathai-xc-smoke-s7_i5xpy/CX1-SMOKE-PROHIBITED_PLACEHOLDER-declaration.lean:6:8: warning: declaration uses 'sorry'
+P02CrossContext.RationalEquality.p02Native : contract.claimsCompleteness = false

@@ -1,0 +1,1 @@
+P02CrossContext.Calculus.p02Native (req : Request) (cert : Certificate) : referenceCheck req cert = checkBool req cert

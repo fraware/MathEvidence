@@ -1,0 +1,8 @@
+{
+  "case_id": "CX2-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR",
+  "mechanisms": [],
+  "role": "cross_context_smoke_inverse_repair",
+  "source_sha256": "sha256:9d1f3e9817437c2c500ecba857e3323daadf4f1ce165df8aeeb9f2dc187b534a",
+  "target_sha256": "sha256:f4673fc49efc8d346a2230a305a29bd9672cb3b24b5e81e27f382a173666f8d4",
+  "theorem_name": "P02CrossContext.Calculus.p02Native"
+}

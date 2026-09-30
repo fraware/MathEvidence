@@ -1,0 +1,148 @@
+{
+  "bundle_digest": "sha256:71e313866cfb5dd3ca47dac25364ab5a9eaebfd2eedb2efe07aaecb4e686e375",
+  "files": [
+    {
+      "path": "CLASSIFICATION_SUMMARY.json",
+      "sha256": "sha256:7838846655e5a9009cc87e529fed40f982ee0b6be7b7e27d9597e97f070b1734",
+      "size_bytes": 1282
+    },
+    {
+      "path": "cases/CX1-SMOKE-CLEAN/classification.json",
+      "sha256": "sha256:e23b9b7f1e82bbc4c1702f19daa96cc5fa929deab375c97dfd0ee973f89b2ff1",
+      "size_bytes": 790
+    },
+    {
+      "path": "cases/CX1-SMOKE-INVALID_PROOF/classification.json",
+      "sha256": "sha256:0655bfcc9801526a0339fbddb2ddb8410eaa8df87bdd42039d0688b17095d219",
+      "size_bytes": 795
+    },
+    {
+      "path": "cases/CX1-SMOKE-INVALID_PROOF__REPAIR/classification.json",
+      "sha256": "sha256:ec126a26784201a8eaa93402ed7f32cad8fa7e37f35a21e2bb634a7e77129ac8",
+      "size_bytes": 806
+    },
+    {
+      "path": "cases/CX1-SMOKE-PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:578fdbf449c3d9f9fbf03846a9b23b2c5065d64188db2aa9ba48ee9bdfec8082",
+      "size_bytes": 808
+    },
+    {
+      "path": "cases/CX1-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR/classification.json",
+      "sha256": "sha256:df16159c94d1ff0c06ac64f420a420147ce01962b4056576900a1d26156bc4d4",
+      "size_bytes": 815
+    },
+    {
+      "path": "cases/CX1-SMOKE-SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:77869ce4786423b20d8802e55c2fc3c1b6054b10521004f2e92d64c94cd516c5",
+      "size_bytes": 788
+    },
+    {
+      "path": "cases/CX1-SMOKE-SOURCE_CORRUPTION__REPAIR/classification.json",
+      "sha256": "sha256:d5c0bb64ee29f653069881e363c6c5b367984c6b0f1c95a580cf6a50cde886a1",
+      "size_bytes": 810
+    },
+    {
+      "path": "cases/CX1-SMOKE-WRONG_TARGET/classification.json",
+      "sha256": "sha256:df2be42db461b735d138b59624a8c1d1f3f288f284f51df0e3d29c5ce6c8cb11",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/CX1-SMOKE-WRONG_TARGET__REPAIR/classification.json",
+      "sha256": "sha256:8f4b2c09e5d838d8c6cb2b99506e280351f00cb171fc43e78e7bf581af5645a2",
+      "size_bytes": 805
+    },
+    {
+      "path": "cases/CX2-SMOKE-CLEAN/classification.json",
+      "sha256": "sha256:adbcbcd91ddeed8e076dea7bfda6b875ca304714d7647f80b646e266ca928600",
+      "size_bytes": 790
+    },
+    {
+      "path": "cases/CX2-SMOKE-INVALID_PROOF/classification.json",
+      "sha256": "sha256:ebb2fe3fbc76b76bcc351e9d8e61f9860ebc6a71afd501bf9668c6335d49f1bb",
+      "size_bytes": 795
+    },
+    {
+      "path": "cases/CX2-SMOKE-INVALID_PROOF__REPAIR/classification.json",
+      "sha256": "sha256:6633a0a7dc9495ce3b8cc54d841f8aabd7c0fceb89739e86b17a4ca3f3816d13",
+      "size_bytes": 806
+    },
+    {
+      "path": "cases/CX2-SMOKE-PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:1d2211f8ddefccb1b90614becaed44c48c1d68520a623970920155bf7ca9e784",
+      "size_bytes": 808
+    },
+    {
+      "path": "cases/CX2-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR/classification.json",
+      "sha256": "sha256:225434e64c3eddedd7faf08765bc75c5a787772ab9562eb6eef5bf9ce669a610",
+      "size_bytes": 815
+    },
+    {
+      "path": "cases/CX2-SMOKE-SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:066c0cf8a8bb8112d3fea3b32f3efd0d13b1f9f5435e4c7a222df5f88e161427",
+      "size_bytes": 788
+    },
+    {
+      "path": "cases/CX2-SMOKE-SOURCE_CORRUPTION__REPAIR/classification.json",
+      "sha256": "sha256:de3eb42a9bc702c2f43ad28a33c03f8e85f9ccce283a9c3c7d4cddfb078949e3",
+      "size_bytes": 810
+    },
+    {
+      "path": "cases/CX2-SMOKE-WRONG_TARGET/classification.json",
+      "sha256": "sha256:9cb884f1dd7798d8b3fe8183c35646900972f7ab1217ddb6eea5a72a005a7cd9",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/CX2-SMOKE-WRONG_TARGET__REPAIR/classification.json",
+      "sha256": "sha256:5f9f94be8aca3e73b4b5df54510a2127dd16b723930badce6d0ec671a471715f",
+      "size_bytes": 805
+    },
+    {
+      "path": "cases/CX3-SMOKE-CLEAN/classification.json",
+      "sha256": "sha256:f683eb039d80dae726a2049107e512169df5b7ac2df89114670f76ddec2e4ffd",
+      "size_bytes": 790
+    },
+    {
+      "path": "cases/CX3-SMOKE-INVALID_PROOF/classification.json",
+      "sha256": "sha256:f5bb4be3f040d21bc1e1cace285f8168cdb962b79309ad8064cc4375cb287b08",
+      "size_bytes": 795
+    },
+    {
+      "path": "cases/CX3-SMOKE-INVALID_PROOF__REPAIR/classification.json",
+      "sha256": "sha256:7d19bffe0369e566fcd921ef6376f6eb88da2c7b277483589709db387c2a2e42",
+      "size_bytes": 806
+    },
+    {
+      "path": "cases/CX3-SMOKE-PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:bd871e70385c99d7cc8226a676807ecdd1ca02bf053b1550e69b88330c4fe51a",
+      "size_bytes": 808
+    },
+    {
+      "path": "cases/CX3-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR/classification.json",
+      "sha256": "sha256:d7c061bf00b498ff188a9a6299bbf153d8d3e92d736c7e33ea54612a132b60c9",
+      "size_bytes": 815
+    },
+    {
+      "path": "cases/CX3-SMOKE-SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:46ac13f2c38188c58f80fe16545d7fab5acfc62b2bc0c57be612eb9b0db74ac8",
+      "size_bytes": 788
+    },
+    {
+      "path": "cases/CX3-SMOKE-SOURCE_CORRUPTION__REPAIR/classification.json",
+      "sha256": "sha256:1e9d3c5a379aabdff894c4b1a6d7d539fcda87b606f06d6b9509bf4fc7bd60e0",
+      "size_bytes": 810
+    },
+    {
+      "path": "cases/CX3-SMOKE-WRONG_TARGET/classification.json",
+      "sha256": "sha256:7da23cf976acf0a9a514f9f29d6d7b5e22852570e59122c4a1a8c0103e9adf2d",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/CX3-SMOKE-WRONG_TARGET__REPAIR/classification.json",
+      "sha256": "sha256:7d22b7a30eef4bb0e1e163e709483eedb1c70a840afa63cf633f7c0292d1e2d0",
+      "size_bytes": 805
+    }
+  ],
+  "n_files": 28,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_cross_context_classification_integrity_v1"
+}

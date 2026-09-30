@@ -1,0 +1,14 @@
+{
+  "case_id": "CX1-SMOKE-SOURCE_CORRUPTION",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "FRONTEND_REJECT",
+  "observations_sha256": "sha256:4f3924c84ebefd9d25c473468c093f9b58438df76bca9db38a363c6b5721fe98",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:23c31d7f82af1f6fcbfc944ad46c00daa739adb4005da18584043b87c56f629a",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:23c31d7f82af1f6fcbfc944ad46c00daa739adb4005da18584043b87c56f629a"
+}

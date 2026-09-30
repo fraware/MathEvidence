@@ -1,0 +1,14 @@
+{
+  "case_id": "CX1-SMOKE-PROHIBITED_PLACEHOLDER",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "observations_sha256": "sha256:6a58ec1a99ec0f5220ed7379f1a09a1b7e08a0761f91e8c18f5e24f884e0bee5",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:babd62c593d6e7aac7fe867d04fdabcc4c3d7ab96510c364a30c97cb5b7ab8bb",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:babd62c593d6e7aac7fe867d04fdabcc4c3d7ab96510c364a30c97cb5b7ab8bb"
+}

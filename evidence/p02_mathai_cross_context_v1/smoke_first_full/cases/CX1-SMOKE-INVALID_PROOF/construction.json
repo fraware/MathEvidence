@@ -1,0 +1,10 @@
+{
+  "case_id": "CX1-SMOKE-INVALID_PROOF",
+  "mechanisms": [
+    "INVALID_PROOF"
+  ],
+  "role": "cross_context_smoke_singleton",
+  "source_sha256": "sha256:c4d206767863a91770f30c58ba8046ba8904f1341a18b42cf2c4c12c73afc449",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEquality.p02Native"
+}

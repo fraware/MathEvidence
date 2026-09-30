@@ -1,0 +1,1 @@
+P02CrossContext.LinearAlgebra.p02Native (A B : Matrix) : isInverseWitness A B = isInverseWitness A B

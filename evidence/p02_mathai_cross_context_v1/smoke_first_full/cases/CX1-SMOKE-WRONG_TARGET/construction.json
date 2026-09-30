@@ -1,0 +1,10 @@
+{
+  "case_id": "CX1-SMOKE-WRONG_TARGET",
+  "mechanisms": [
+    "WRONG_TARGET"
+  ],
+  "role": "cross_context_smoke_singleton",
+  "source_sha256": "sha256:963dbf982648e6e465b0f6828c37f41d4302232a125e711d09c0a99cd6c5a2eb",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEquality.p02Native"
+}

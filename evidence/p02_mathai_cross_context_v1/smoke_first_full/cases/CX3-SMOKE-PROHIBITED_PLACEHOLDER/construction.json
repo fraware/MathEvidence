@@ -1,0 +1,10 @@
+{
+  "case_id": "CX3-SMOKE-PROHIBITED_PLACEHOLDER",
+  "mechanisms": [
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "role": "cross_context_smoke_singleton",
+  "source_sha256": "sha256:3f0f646f1a07de155e685f0b63187660086105a4716b1701196736bb9bf74409",
+  "target_sha256": "sha256:24f8944dc7c8c0781eff9536503deb7ed40500d91092ddde2f8c98aa36090298",
+  "theorem_name": "P02CrossContext.LinearAlgebra.p02Native"
+}
