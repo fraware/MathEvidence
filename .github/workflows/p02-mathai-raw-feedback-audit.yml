@@ -1,0 +1,84 @@
+name: p02-mathai-raw-feedback-aliasing-audit
+
+on:
+  push:
+    branches:
+      - science/p02-mathai-raw-feedback-audit-20260929
+    paths:
+      - .github/workflows/p02-mathai-raw-feedback-audit.yml
+      - scripts/p02_mathai_raw_feedback_aliasing_audit.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-mathai-raw-feedback-audit
+  cancel-in-progress: false
+
+env:
+  OUT_DIR: evidence/p02_mathai_raw_feedback_postreview_v1
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+
+      - name: Recompute richer-feedback aliasing
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "${OUT_DIR}"
+          python scripts/p02_mathai_raw_feedback_aliasing_audit.py \
+            --math-evidence-root . \
+            --out-dir "${OUT_DIR}"
+
+      - name: Fail closed on reviewed counts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          d = json.loads(
+              Path("evidence/p02_mathai_raw_feedback_postreview_v1/RAW_FEEDBACK_ALIASING_AUDIT.json")
+              .read_text(encoding="utf-8")
+          )
+          m = d["masked_active_edges"]
+          assert m == {
+              "n": 34,
+              "operational_class_preserved": 34,
+              "normalized_feedback_identical": 16,
+              "normalized_feedback_different": 18,
+          }, m
+          by = d["by_repair_mechanism"]
+          assert by["INVALID_PROOF"] == {"n": 8, "identical": 8}, by
+          assert by["PROHIBITED_PLACEHOLDER"] == {"n": 12, "different": 12}, by
+          assert by["WRONG_TARGET"] == {"n": 14, "identical": 8, "different": 6}, by
+          print("post-review richer-feedback counts reproduced")
+          PY
+
+      - name: Commit immutable post-review audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${OUT_DIR}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_mathai_raw_feedback_postreview_v1/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record MATH-AI post-review raw-feedback audit"
+          git push origin HEAD:science/p02-mathai-raw-feedback-audit-20260929
