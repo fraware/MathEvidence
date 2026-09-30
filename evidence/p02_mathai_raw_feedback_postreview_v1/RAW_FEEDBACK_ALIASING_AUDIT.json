@@ -1,0 +1,453 @@
+{
+  "analysis_role": "post_review_descriptive_audit",
+  "by_before_class": {
+    "ENVIRONMENT_OR_ELAB_REJECT": {
+      "different": 8,
+      "n": 8
+    },
+    "FRONTEND_REJECT": {
+      "different": 8,
+      "identical": 16,
+      "n": 24
+    },
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": {
+      "different": 2,
+      "n": 2
+    }
+  },
+  "by_repair_mechanism": {
+    "INVALID_PROOF": {
+      "identical": 8,
+      "n": 8
+    },
+    "PROHIBITED_PLACEHOLDER": {
+      "different": 12,
+      "n": 12
+    },
+    "WRONG_TARGET": {
+      "different": 6,
+      "identical": 8,
+      "n": 14
+    }
+  },
+  "comparison_definition": {
+    "excluded": [
+      "process command",
+      "elapsed_seconds",
+      "case_id"
+    ],
+    "included": [
+      "source_empty",
+      "candidate returncode/spawn_error/stdout/stderr/timed_out",
+      "declaration-probe returncode/spawn_error/stdout/stderr/timed_out",
+      "target-probe returncode/spawn_error/stdout/stderr/timed_out"
+    ],
+    "normalization": [
+      "replace generated /tmp/.../*.lean paths in stdout/stderr with <CANDIDATE>.lean"
+    ]
+  },
+  "evidence_digests": {
+    "baseline_raw": "sha256:482f21fe8bafd4e3784e7c3a7e0a5dc103820c087691fc0e66e5ff3dd61a63ea",
+    "repair_raw": "sha256:40b4c6a1397edb126774cf38ff06cbc54c73b216e9dbe4ef9c8a81d3e2fe4857",
+    "transition_analysis": "sha256:0b44d509271db2cbfff53d2bf1f83121681a372d4431f329529e4b070b1eb68c"
+  },
+  "masked_active_edges": {
+    "n": 34,
+    "normalized_feedback_different": 18,
+    "normalized_feedback_identical": 16,
+    "operational_class_preserved": 34
+  },
+  "non_claims": [
+    "This audit was designed and executed after reviewer feedback; it is not preregistered.",
+    "Exact equality of this stored payload is not equality of Lean internal state.",
+    "The result does not estimate prevalence in natural Lean developments or agent trajectories.",
+    "A richer or different observation interface may distinguish additional edges."
+  ],
+  "primary_evidence_unchanged": true,
+  "publication_claim_eligible": false,
+  "rows": [
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-07-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-07-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF__FIX__INVALID_PROOF",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-09-SOURCE_CORRUPTION+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-09-SOURCE_CORRUPTION+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "baseline_case_id": "ND2-13-PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-13-PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "baseline_case_id": "ND2-14-PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "changed_fields": [
+        "candidate.stdout",
+        "declaration_probe.stdout",
+        "target_probe.returncode",
+        "target_probe.stdout"
+      ],
+      "edge_id": "ND2-14-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "baseline_case_id": "ND2-15-INVALID_PROOF+WRONG_TARGET",
+      "before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-15-INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-16-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-16-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-17-SOURCE_CORRUPTION+UNKNOWN_TYPE+INVALID_PROOF",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-17-SOURCE_CORRUPTION+UNKNOWN_TYPE+INVALID_PROOF__FIX__INVALID_PROOF",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-18-SOURCE_CORRUPTION+UNKNOWN_TYPE+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-18-SOURCE_CORRUPTION+UNKNOWN_TYPE+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-19-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-19-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-19-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-19-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__INVALID_PROOF",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-20-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-20-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-20-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-20-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-21-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-21-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-21-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-21-SOURCE_CORRUPTION+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "baseline_case_id": "ND2-22-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-22-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "baseline_case_id": "ND2-23-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "before_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "changed_fields": [
+        "candidate.stdout",
+        "declaration_probe.stdout",
+        "target_probe.returncode",
+        "target_probe.stdout"
+      ],
+      "edge_id": "ND2-23-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "baseline_case_id": "ND2-24-UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-24-UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "baseline_case_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "baseline_case_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-26-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-26-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-26-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-26-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__INVALID_PROOF",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-27-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-27-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-27-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-27-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-28-SOURCE_CORRUPTION+UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-28-SOURCE_CORRUPTION+UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-28-SOURCE_CORRUPTION+UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-28-SOURCE_CORRUPTION+UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-29-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-29-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-29-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-29-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-29-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-29-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "baseline_case_id": "ND2-30-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-30-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "baseline_case_id": "ND2-30-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-30-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-31-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [
+        "candidate.stdout"
+      ],
+      "edge_id": "ND2-31-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+      "normalized_feedback_identical": false,
+      "operational_class_preserved": true,
+      "repair_mechanism": "PROHIBITED_PLACEHOLDER"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-31-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-31-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__INVALID_PROOF",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "INVALID_PROOF"
+    },
+    {
+      "after_class": "FRONTEND_REJECT",
+      "baseline_case_id": "ND2-31-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+      "before_class": "FRONTEND_REJECT",
+      "changed_fields": [],
+      "edge_id": "ND2-31-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+      "normalized_feedback_identical": true,
+      "operational_class_preserved": true,
+      "repair_mechanism": "WRONG_TARGET"
+    }
+  ],
+  "schema_version": "p02_mathai_raw_feedback_aliasing_postreview_v1"
+}
