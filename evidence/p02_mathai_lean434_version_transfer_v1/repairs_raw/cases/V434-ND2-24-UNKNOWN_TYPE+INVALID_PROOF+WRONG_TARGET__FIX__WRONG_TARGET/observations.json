@@ -1,0 +1,21 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.21659324700000582,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-24-UNKNOWN_TYPE_INVALID_PROOF_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:2:2: error: Type mismatch\n  n\nhas type\n  P02MissingType\nof sort `Sort u_1` but is expected to have type\n  n = n\nof sort `Prop`\n",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-24-UNKNOWN_TYPE+INVALID_PROOF+WRONG_TARGET__FIX__WRONG_TARGET",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

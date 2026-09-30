@@ -1,0 +1,11 @@
+{
+  "case_id": "V434-ND2-22-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__INVALID_PROOF",
+  "mechanisms": [
+    "UNKNOWN_TYPE",
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "role": "lean434_single_repair",
+  "source_sha256": "sha256:75970c1fc5a374345c6e0a1c9e5fcc91166e9d1d2c0fbf554120ab91e36c97a6",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

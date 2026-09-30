@@ -1,0 +1,21 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.21267280200000016,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-30-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:2:2: error: Type mismatch\n  n\nhas type\n  P02MissingType\nof sort `Sort u_1` but is expected to have type\n  0 = 0\nof sort `Prop`\n",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-30-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

@@ -1,0 +1,22 @@
+{
+  "expected_commit_prefix": "5045d0056413",
+  "expected_version": "4.34.1",
+  "identity_ok": true,
+  "lean_version_observation": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "--version"
+    ],
+    "elapsed_seconds": 0.03960574799999961,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)\n",
+    "timed_out": false
+  },
+  "observed_version": "4.34.1",
+  "toolchain": "leanprover/lean4:v4.34.1"
+}

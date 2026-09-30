@@ -1,0 +1,21 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-states-v5nsa745/ND2-08-SOURCE_CORRUPTION_INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.20798365399999597,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-states-v5nsa745/ND2-08-SOURCE_CORRUPTION_INVALID_PROOF-candidate.lean:1:26: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-08-SOURCE_CORRUPTION+INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

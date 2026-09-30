@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.21291285599999554,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-candidate.lean:1:19: warning: Variable name `n` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _n\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-09-SOURCE_CORRUPTION+WRONG_TARGET__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.23039538500000134,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-declaration.lean:1:19: warning: Variable name `n` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _n\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\np02Native (n : Nat) : 0 = 0\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.21712657199999796,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:1:19: warning: Variable name `n` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _n\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-v434-repairs-vcnap9co/V434-ND2-09-SOURCE_CORRUPTION_WRONG_TARGET__FIX__SOURCE_CORRUPTION-target.lean:4:32: error: Type mismatch\n  p02Native\nhas type\n  ∀ (n : Nat), 0 = 0\nbut is expected to have type\n  ∀ (n : Nat), n = n\n",
+    "timed_out": false
+  }
+}

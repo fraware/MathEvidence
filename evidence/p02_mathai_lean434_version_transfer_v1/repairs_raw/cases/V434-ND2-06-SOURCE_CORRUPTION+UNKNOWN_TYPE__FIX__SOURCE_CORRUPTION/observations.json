@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-06-SOURCE_CORRUPTION_UNKNOWN_TYPE__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.2127438710000007,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-06-SOURCE_CORRUPTION+UNKNOWN_TYPE__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-06-SOURCE_CORRUPTION_UNKNOWN_TYPE__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.2175181980000005,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-06-SOURCE_CORRUPTION_UNKNOWN_TYPE__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.21255678800000055,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

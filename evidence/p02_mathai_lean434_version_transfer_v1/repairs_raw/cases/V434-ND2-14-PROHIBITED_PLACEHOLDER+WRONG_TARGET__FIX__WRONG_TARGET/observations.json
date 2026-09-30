@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.20668958400000292,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean:1:8: warning: declaration uses `sorry`\n",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-14-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.20920413900000767,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean:1:8: warning: declaration uses `sorry`\np02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.22101582799999164,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__WRONG_TARGET-target.lean:1:8: warning: declaration uses `sorry`\n",
+    "timed_out": false
+  }
+}

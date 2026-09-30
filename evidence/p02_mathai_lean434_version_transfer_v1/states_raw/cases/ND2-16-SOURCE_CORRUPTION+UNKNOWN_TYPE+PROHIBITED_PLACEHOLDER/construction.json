@@ -1,0 +1,12 @@
+{
+  "case_id": "ND2-16-SOURCE_CORRUPTION+UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER",
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "UNKNOWN_TYPE",
+    "PROHIBITED_PLACEHOLDER"
+  ],
+  "role": "compound_fault",
+  "source_sha256": "sha256:d166dd26fdd922836dd7357365939d69a1a86e6f8d8d20144c278b7bdb199513",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

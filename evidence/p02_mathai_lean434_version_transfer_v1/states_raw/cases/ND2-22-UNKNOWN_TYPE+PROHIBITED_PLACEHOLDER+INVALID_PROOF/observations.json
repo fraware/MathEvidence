@@ -1,0 +1,21 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-states-v5nsa745/ND2-22-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.22085096600000043,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-states-v5nsa745/ND2-22-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF-candidate.lean:1:8: warning: declaration uses `sorry`\n/tmp/p02-v434-states-v5nsa745/ND2-22-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_INVALID_PROOF-candidate.lean:5:2: error: Type mismatch\n  n\nhas type\n  P02MissingType\nof sort `Sort u_1` but is expected to have type\n  n = n\nof sort `Prop`\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-22-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

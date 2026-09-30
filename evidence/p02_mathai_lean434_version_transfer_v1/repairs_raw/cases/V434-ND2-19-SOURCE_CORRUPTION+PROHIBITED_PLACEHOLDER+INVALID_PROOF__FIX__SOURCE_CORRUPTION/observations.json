@@ -1,0 +1,21 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.2198804960000018,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses `sorry`\n/tmp/p02-v434-repairs-vcnap9co/V434-ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:5:2: error: Type mismatch\n  n\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  n = n\nof sort `Prop`\n",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-19-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER+INVALID_PROOF__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

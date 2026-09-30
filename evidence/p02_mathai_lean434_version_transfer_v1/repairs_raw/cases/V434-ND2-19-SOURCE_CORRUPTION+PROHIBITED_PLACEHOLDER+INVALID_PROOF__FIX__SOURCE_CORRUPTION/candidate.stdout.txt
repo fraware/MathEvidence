@@ -1,0 +1,8 @@
+/tmp/p02-v434-repairs-vcnap9co/V434-ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses `sorry`
+/tmp/p02-v434-repairs-vcnap9co/V434-ND2-19-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER_INVALID_PROOF__FIX__SOURCE_CORRUPTION-candidate.lean:5:2: error: Type mismatch
+  n
+has type
+  Nat
+of sort `Type` but is expected to have type
+  n = n
+of sort `Prop`

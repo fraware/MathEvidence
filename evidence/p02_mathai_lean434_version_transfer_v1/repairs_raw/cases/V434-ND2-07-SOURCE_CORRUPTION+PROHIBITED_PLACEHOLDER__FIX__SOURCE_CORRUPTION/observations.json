@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.20852279100000004,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses `sorry`\n",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-07-SOURCE_CORRUPTION+PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.2090137590000012,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION-declaration.lean:1:8: warning: declaration uses `sorry`\np02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.2083812320000007,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-07-SOURCE_CORRUPTION_PROHIBITED_PLACEHOLDER__FIX__SOURCE_CORRUPTION-target.lean:1:8: warning: declaration uses `sorry`\n",
+    "timed_out": false
+  }
+}

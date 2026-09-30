@@ -1,0 +1,13 @@
+{
+  "bundle_digest": "sha256:d93e38886d61667b34397db0bffa4359aa06c458472389f42703e2e1d0002bbc",
+  "files": [
+    {
+      "path": "VERSION_TRANSFER_ANALYSIS.json",
+      "sha256": "sha256:799390017611134f891ef89be4104c74f3222b3582ef29ba3a422041654756c1",
+      "size_bytes": 73280
+    }
+  ],
+  "n_files": 1,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_lean434_version_transfer_analysis_integrity_v1"
+}

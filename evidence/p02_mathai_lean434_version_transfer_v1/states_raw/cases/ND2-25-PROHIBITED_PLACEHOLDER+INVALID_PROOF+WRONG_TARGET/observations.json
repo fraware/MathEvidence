@@ -1,0 +1,21 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-states-v5nsa745/ND2-25-PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.21444094499999977,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-states-v5nsa745/ND2-25-PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET-candidate.lean:1:8: warning: declaration uses `sorry`\n/tmp/p02-v434-states-v5nsa745/ND2-25-PROHIBITED_PLACEHOLDER_INVALID_PROOF_WRONG_TARGET-candidate.lean:5:2: error: Type mismatch\n  n\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  0 = 0\nof sort `Prop`\n",
+    "timed_out": false
+  },
+  "case_id": "ND2-25-PROHIBITED_PLACEHOLDER+INVALID_PROOF+WRONG_TARGET",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

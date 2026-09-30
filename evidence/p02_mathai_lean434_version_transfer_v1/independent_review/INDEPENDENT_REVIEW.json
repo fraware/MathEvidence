@@ -1,0 +1,27 @@
+{
+  "aggregate": {
+    "edge_matches": 80,
+    "inert_edges": 16,
+    "inert_preserved": 16,
+    "masked_edges": 34,
+    "masked_preserved": 34,
+    "n_edges": 80,
+    "n_states": 32,
+    "state_matches": 32,
+    "visible_changes": 30,
+    "visible_edges": 30
+  },
+  "claim_boundary": [
+    "The arm is post-review and tests only Lean 4.34.1 release transport of the accepted source construction.",
+    "All transfer failures remain reportable outcomes.",
+    "The accepted Lean 4.14.0 denominators remain separate.",
+    "This is not a current-mathlib project replication."
+  ],
+  "edge_level_disagreements_with_primary_analysis": [],
+  "implementation_independent_of_primary_analysis": true,
+  "publication_claim_eligible": true,
+  "schema_version": "p02_mathai_lean434_version_transfer_review_v1",
+  "state_level_disagreements_with_primary_analysis": [],
+  "status": "VERIFIED_BY_INDEPENDENT_RECOMPUTATION",
+  "transfer_success_is_not_a_review_criterion": true
+}

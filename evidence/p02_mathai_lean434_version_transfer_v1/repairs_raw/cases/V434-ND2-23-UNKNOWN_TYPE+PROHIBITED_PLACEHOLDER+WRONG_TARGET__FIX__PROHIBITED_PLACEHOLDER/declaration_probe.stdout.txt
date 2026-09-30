@@ -1,0 +1,7 @@
+/tmp/p02-v434-repairs-vcnap9co/V434-ND2-23-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-declaration.lean:1:19: warning: Variable name `n` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _n
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+p02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : 0 = 0

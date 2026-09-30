@@ -1,0 +1,21 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-11-UNKNOWN_TYPE_INVALID_PROOF__FIX__UNKNOWN_TYPE-candidate.lean"
+    ],
+    "elapsed_seconds": 0.21220690700000233,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-11-UNKNOWN_TYPE_INVALID_PROOF__FIX__UNKNOWN_TYPE-candidate.lean:2:2: error: Type mismatch\n  n\nhas type\n  Nat\nof sort `Type` but is expected to have type\n  n = n\nof sort `Prop`\n",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-11-UNKNOWN_TYPE+INVALID_PROOF__FIX__UNKNOWN_TYPE",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

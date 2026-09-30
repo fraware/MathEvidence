@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.22329845800000214,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:1:19: warning: Variable name `n` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _n\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-14-PROHIBITED_PLACEHOLDER+WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 0.21186062200000322,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-declaration.lean:1:19: warning: Variable name `n` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _n\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\np02Native (n : Nat) : 0 = 0\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 0.21617214600000523,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-target.lean:1:19: warning: Variable name `n` is not explicitly referenced.\n\nHint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:\n  [apply] _n\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-v434-repairs-vcnap9co/V434-ND2-14-PROHIBITED_PLACEHOLDER_WRONG_TARGET__FIX__PROHIBITED_PLACEHOLDER-target.lean:4:32: error: Type mismatch\n  p02Native\nhas type\n  ∀ (n : Nat), 0 = 0\nbut is expected to have type\n  ∀ (n : Nat), n = n\n",
+    "timed_out": false
+  }
+}

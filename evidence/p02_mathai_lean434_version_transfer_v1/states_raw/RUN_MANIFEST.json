@@ -1,0 +1,14 @@
+{
+  "classification_performed": false,
+  "n_cases": 32,
+  "non_claims": [
+    "This is a post-review version-transfer arm.",
+    "No state-transfer result is assigned before frozen-v2 classification.",
+    "The accepted Lean 4.14.0 denominator remains separate."
+  ],
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_lean434_version_transfer_raw_v1",
+  "state_spec_digest": "sha256:9194e98ae4a786fa5b2367ec62871268a1dd1902a0a51ea0bdfad364ce5731a7",
+  "status": "LEAN434_STATE_RAW_EXECUTED_NOT_CLASSIFIED",
+  "toolchain": "leanprover/lean4:v4.34.1"
+}

@@ -1,0 +1,10 @@
+{
+  "n_edge_executions": 80,
+  "n_state_executions": 32,
+  "publication_claim_eligible": false,
+  "repairs_raw_bundle_digest": "sha256:e392c78994ce99b4e5cc5b2e9d7b48f8212c6e0be64f891eee39298e4551f6a8",
+  "schema_version": "p02_mathai_lean434_version_transfer_raw_v1",
+  "states_raw_bundle_digest": "sha256:3e2915f1014885b2ebe35ce5a72f655cf881b22ca2fc346ae8f0fa9f1b914ca7",
+  "status": "RAW_VERSION_TRANSFER_EXECUTED_NOT_CLASSIFIED",
+  "toolchain": "leanprover/lean4:v4.34.1"
+}

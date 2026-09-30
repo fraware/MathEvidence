@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-10-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.2212157579999996,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-10-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-10-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 0.20897707399999632,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native.{u_1} {P02MissingType : Sort u_1} (n : P02MissingType) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-10-UNKNOWN_TYPE_PROHIBITED_PLACEHOLDER__FIX__PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 0.2114129240000011,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

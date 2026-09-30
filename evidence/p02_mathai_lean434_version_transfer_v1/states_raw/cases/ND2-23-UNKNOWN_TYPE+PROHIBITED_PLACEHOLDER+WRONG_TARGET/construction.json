@@ -1,0 +1,12 @@
+{
+  "case_id": "ND2-23-UNKNOWN_TYPE+PROHIBITED_PLACEHOLDER+WRONG_TARGET",
+  "mechanisms": [
+    "UNKNOWN_TYPE",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "role": "compound_fault",
+  "source_sha256": "sha256:a7cbe1ff9a7e4dd6d910a1b13654fe5737ff3c9bc9496e1e6665e02fdd635260",
+  "target_sha256": "sha256:411461b7e9c0b590144cca73396574ce2c11837acb44e9816e640fc2d4aeaa46",
+  "theorem_name": "p02Native"
+}

@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-04-INVALID_PROOF__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.2081422889999942,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-04-INVALID_PROOF__FIX__INVALID_PROOF",
+  "declaration_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-04-INVALID_PROOF__FIX__INVALID_PROOF-declaration.lean"
+    ],
+    "elapsed_seconds": 0.21248064899999974,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-04-INVALID_PROOF__FIX__INVALID_PROOF-target.lean"
+    ],
+    "elapsed_seconds": 0.2136480039999995,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

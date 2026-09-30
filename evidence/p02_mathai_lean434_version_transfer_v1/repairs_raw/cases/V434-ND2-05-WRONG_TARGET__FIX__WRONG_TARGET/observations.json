@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-05-WRONG_TARGET__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.21609972600000305,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "V434-ND2-05-WRONG_TARGET__FIX__WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-05-WRONG_TARGET__FIX__WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.21750792899999993,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Native (n : Nat) : n = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "elan",
+      "run",
+      "leanprover/lean4:v4.34.1",
+      "lean",
+      "/tmp/p02-v434-repairs-vcnap9co/V434-ND2-05-WRONG_TARGET__FIX__WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.21685390399999704,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}
