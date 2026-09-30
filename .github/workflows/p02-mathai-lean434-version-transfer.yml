@@ -1,0 +1,130 @@
+name: p02-mathai-lean434-version-transfer
+
+on:
+  push:
+    branches:
+      - science/p02-mathai-lean434-version-transfer-20260930
+    paths:
+      - .github/workflows/p02-mathai-lean434-version-transfer.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-mathai-lean434-version-transfer
+  cancel-in-progress: false
+
+env:
+  ROOT: evidence/p02_mathai_lean434_version_transfer_v1
+  STATES_RAW: evidence/p02_mathai_lean434_version_transfer_v1/states_raw
+  STATES_CLASSIFIED: evidence/p02_mathai_lean434_version_transfer_v1/states_classified
+  REPAIRS_RAW: evidence/p02_mathai_lean434_version_transfer_v1/repairs_raw
+  REPAIRS_CLASSIFIED: evidence/p02_mathai_lean434_version_transfer_v1/repairs_classified
+  ANALYSIS: evidence/p02_mathai_lean434_version_transfer_v1/analysis
+  REVIEW: evidence/p02_mathai_lean434_version_transfer_v1/independent_review
+  TOOLCHAIN: leanprover/lean4:v4.34.1
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+
+      - name: Static-check version-transfer scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile             scripts/p02_mathai_lean434_version_transfer_raw.py             scripts/p02_mathai_lean434_version_transfer_analysis.py             scripts/p02_mathai_lean434_version_transfer_review.py
+
+      - name: Install checksum-pinned elan
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/ci/install-elan-pinned.sh
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Install and verify exact Lean 4.34.1 release
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          elan toolchain install "${TOOLCHAIN}"
+          elan run "${TOOLCHAIN}" lean --version | tee /tmp/lean434-version.txt
+          grep -F 'Lean (version 4.34.1,' /tmp/lean434-version.txt
+          grep -F 'commit 5045d0056413' /tmp/lean434-version.txt
+
+      - name: Execute 32 states and 80 repairs under Lean 4.34.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "${ROOT}"
+          python scripts/p02_mathai_lean434_version_transfer_raw.py             --out "${ROOT}"             --timeout-seconds 30
+
+      - name: Classify 32 state observations with frozen v2
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/p02_mathai_cross_context_classify.py             --raw "${STATES_RAW}"             --out "${STATES_CLASSIFIED}"             --expected-cases 32             --status LEAN434_STATES_CLASSIFIED_PENDING_TRANSFER_ANALYSIS
+
+      - name: Classify 80 successor observations with frozen v2
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/p02_mathai_cross_context_classify.py             --raw "${REPAIRS_RAW}"             --out "${REPAIRS_CLASSIFIED}"             --expected-cases 80             --status LEAN434_REPAIRS_CLASSIFIED_PENDING_TRANSFER_ANALYSIS
+
+      - name: Analyze transferred primary rule
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/p02_mathai_lean434_version_transfer_analysis.py             --states-raw "${STATES_RAW}"             --states-classified "${STATES_CLASSIFIED}"             --repairs-raw "${REPAIRS_RAW}"             --repairs-classified "${REPAIRS_CLASSIFIED}"             --out "${ANALYSIS}"
+
+      - name: Independently recompute version-transfer outcomes
+        id: independent_review
+        shell: bash
+        run: |
+          set +e
+          python scripts/p02_mathai_lean434_version_transfer_review.py             --states-raw "${STATES_RAW}"             --states-classified "${STATES_CLASSIFIED}"             --repairs-raw "${REPAIRS_RAW}"             --repairs-classified "${REPAIRS_CLASSIFIED}"             --analysis "${ANALYSIS}"             --out "${REVIEW}"
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Preserve version-transfer evidence before enforcement
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${ROOT}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_mathai_lean434_version_transfer_v1/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record Lean 4.34.1 MATH-AI version transfer"
+          git push origin HEAD:science/p02-mathai-lean434-version-transfer-20260930
+
+      - name: Enforce independent review only
+        shell: bash
+        env:
+          REVIEW_EXIT_CODE: ${{ steps.independent_review.outputs.exit_code }}
+        run: |
+          set -euo pipefail
+          test "${REVIEW_EXIT_CODE}" = "0"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d = json.loads(Path("evidence/p02_mathai_lean434_version_transfer_v1/independent_review/INDEPENDENT_REVIEW.json").read_text())
+          assert d["publication_claim_eligible"] is True, d
+          assert d["state_level_disagreements_with_primary_analysis"] == [], d
+          assert d["edge_level_disagreements_with_primary_analysis"] == [], d
+          # Transfer success is deliberately not asserted here; failure is a valid reportable result.
+          PY
