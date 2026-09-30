@@ -1,0 +1,53 @@
+{
+  "by_before_class": {
+    "ENVIRONMENT_OR_ELAB_REJECT": {
+      "different": 8,
+      "identical": 0
+    },
+    "FRONTEND_REJECT": {
+      "different": 8,
+      "identical": 16
+    },
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": {
+      "different": 2,
+      "identical": 0
+    }
+  },
+  "by_mechanism": {
+    "INVALID_PROOF": {
+      "different": 0,
+      "identical": 8
+    },
+    "PROHIBITED_PLACEHOLDER": {
+      "different": 12,
+      "identical": 0
+    },
+    "WRONG_TARGET": {
+      "different": 6,
+      "identical": 8
+    }
+  },
+  "claim_boundary": [
+    "The reviewed result concerns the stored native/probe observation payload after explicit run-metadata normalization.",
+    "It does not establish equality of Lean internal state.",
+    "It was designed after reviewer feedback and remains post-review descriptive evidence.",
+    "It does not estimate natural-development or autonomous-agent prevalence."
+  ],
+  "different": 18,
+  "edge_level_disagreements_with_primary_audit": 0,
+  "identical": 16,
+  "n_masked_active_edges": 34,
+  "publication_claim_eligible": true,
+  "review_method": {
+    "comparison": "recursive equality of all remaining raw observation JSON",
+    "dropped_json_keys": [
+      "case_id",
+      "command",
+      "elapsed_seconds"
+    ],
+    "implementation_independent_of_primary_audit": true,
+    "path_normalization": "generated /tmp/.../*.lean -> <CANDIDATE>.lean"
+  },
+  "schema_version": "p02_mathai_raw_feedback_independent_review_v1",
+  "status": "VERIFIED_BY_INDEPENDENT_RECOMPUTATION"
+}
