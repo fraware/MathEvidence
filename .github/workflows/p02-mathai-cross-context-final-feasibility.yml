@@ -1,0 +1,126 @@
+name: p02-mathai-cross-context-final-feasibility
+
+on:
+  push:
+    branches:
+      - science/p02-mathai-cross-context-replacements-v1-20260930
+    paths:
+      - .github/workflows/p02-mathai-cross-context-smoke.yml
+      - scripts/p02_mathai_cross_context_final_feasibility.py
+      - scripts/p02_mathai_cross_context_classify.py
+      - scripts/p02_mathai_cross_context_final_feasibility_audit.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-mathai-cross-context-final-feasibility
+  cancel-in-progress: false
+
+env:
+  PINNED_PROJECT_SHA: 946d2f7b14840837a5b641150c9df9008c4be9eb
+  RAW_DIR: evidence/p02_mathai_cross_context_v1/final_feasibility_raw
+  CLASSIFIED_DIR: evidence/p02_mathai_cross_context_v1/final_feasibility_classified
+  AUDIT_DIR: evidence/p02_mathai_cross_context_v1/final_feasibility_audit
+
+jobs:
+  feasibility-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch with full history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+
+      - name: Materialize exact pinned MathEvidence worktree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${PINNED_PROJECT_SHA}^{commit}"
+          rm -rf /tmp/mathevidence-pinned
+          git worktree add --detach /tmp/mathevidence-pinned "${PINNED_PROJECT_SHA}"
+          test "$(git -C /tmp/mathevidence-pinned rev-parse HEAD)" = "${PINNED_PROJECT_SHA}"
+          test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
+          test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "leanprover/lean4:v4.14.0"
+
+      - name: Install checksum-pinned elan from pinned tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Initialize and build pinned imported context modules
+        shell: bash
+        working-directory: /tmp/mathevidence-pinned
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          lake env lean --version | tee /tmp/p02-xc-lean-version.txt
+          grep -F 'Lean (version 4.14.0,' /tmp/p02-xc-lean-version.txt
+          grep -F 'commit 410fab728470' /tmp/p02-xc-lean-version.txt
+          lake build +MathEvidence.Assurance.RationalEquality +MathEvidence.Assurance.Counterexample +MathEvidence.Assurance.Level
+          test -z "$(git status --porcelain)"
+
+      - name: Execute final frozen feasibility smoke only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "${RAW_DIR}"
+          python scripts/p02_mathai_cross_context_final_feasibility.py             --pinned-project /tmp/mathevidence-pinned             --out "${RAW_DIR}"             --timeout-seconds 30
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("evidence/p02_mathai_cross_context_v1/final_feasibility_raw")
+          run = json.loads((root / "RUN_MANIFEST.json").read_text())
+          assert run["status"] == "SMOKE_RAW_EXECUTED_NOT_CLASSIFIED"
+          assert run["n_cases"] == 27
+          assert run["classification_performed"] is False
+          assert run["full_compound_lattice_executed"] is False
+          PY
+
+      - name: Classify smoke with frozen v2 instrument
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "${CLASSIFIED_DIR}"
+          python scripts/p02_mathai_cross_context_classify.py             --raw "${RAW_DIR}"             --out "${CLASSIFIED_DIR}"             --expected-cases 27             --status SMOKE_CLASSIFIED_NOT_FEASIBILITY_AUDITED
+
+      - name: Audit feasibility without rewriting transferred signatures
+        id: audit
+        shell: bash
+        run: |
+          set +e
+          python scripts/p02_mathai_cross_context_final_feasibility_audit.py             --raw "${RAW_DIR}"             --classified "${CLASSIFIED_DIR}"             --out "${AUDIT_DIR}"
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Commit immutable smoke evidence and audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add evidence/p02_mathai_cross_context_v1
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_mathai_cross_context_v1/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record final MATH-AI cross-context feasibility smoke"
+          git push origin HEAD:science/p02-mathai-cross-context-v1-20260929
+
+      - name: Enforce feasibility result after evidence preservation
+        shell: bash
+        env:
+          AUDIT_EXIT_CODE: ${{ steps.audit.outputs.exit_code }}
+        run: |
+          set -euo pipefail
+          test "${AUDIT_EXIT_CODE}" = "0"
