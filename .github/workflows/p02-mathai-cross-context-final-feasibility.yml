@@ -5,7 +5,7 @@ on:
     branches:
       - science/p02-mathai-cross-context-replacements-v1-20260930
     paths:
-      - .github/workflows/p02-mathai-cross-context-smoke.yml
+      - .github/workflows/p02-mathai-cross-context-final-feasibility.yml
       - scripts/p02_mathai_cross_context_final_feasibility.py
       - scripts/p02_mathai_cross_context_classify.py
       - scripts/p02_mathai_cross_context_final_feasibility_audit.py
@@ -115,7 +115,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Record final MATH-AI cross-context feasibility smoke"
-          git push origin HEAD:science/p02-mathai-cross-context-v1-20260929
+          git push origin HEAD:science/p02-mathai-cross-context-replacements-v1-20260930
 
       - name: Enforce feasibility result after evidence preservation
         shell: bash
