@@ -65,7 +65,7 @@ jobs:
           lake env lean --version | tee /tmp/p02-xc-lean-version.txt
           grep -F 'Lean (version 4.14.0,' /tmp/p02-xc-lean-version.txt
           grep -F 'commit 410fab728470' /tmp/p02-xc-lean-version.txt
-          lake build MathEvidenceAssurance
+          lake build +MathEvidence.Assurance.RationalEquality +MathEvidence.Assurance.Calculus +MathEvidence.Assurance.LinearAlgebra
           test -z "$(git status --porcelain)"
 
       - name: Execute frozen feasibility smoke only
