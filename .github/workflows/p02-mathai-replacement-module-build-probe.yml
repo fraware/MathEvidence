@@ -1,0 +1,82 @@
+name: p02-mathai-replacement-module-build-probe
+
+on:
+  push:
+    branches:
+      - science/p02-mathai-cross-context-replacements-v1-20260930
+    paths:
+      - .github/workflows/p02-mathai-replacement-module-build-probe.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PINNED_PROJECT_SHA: 946d2f7b14840837a5b641150c9df9008c4be9eb
+
+jobs:
+  build-probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Materialize exact pinned project
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${PINNED_PROJECT_SHA}^{commit}"
+          rm -rf /tmp/mathevidence-pinned
+          git worktree add --detach /tmp/mathevidence-pinned "${PINNED_PROJECT_SHA}"
+          test "$(git -C /tmp/mathevidence-pinned rev-parse HEAD)" = "${PINNED_PROJECT_SHA}"
+          test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
+          test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "leanprover/lean4:v4.14.0"
+
+      - name: Install checksum-pinned elan
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Verify pinned Lean
+        shell: bash
+        working-directory: /tmp/mathevidence-pinned
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          lake env lean --version | tee /tmp/lean-version.txt
+          grep -F 'Lean (version 4.14.0,' /tmp/lean-version.txt
+          grep -F 'commit 410fab728470' /tmp/lean-version.txt
+
+      - name: Build Counterexample replacement module
+        id: counterexample
+        continue-on-error: true
+        shell: bash
+        working-directory: /tmp/mathevidence-pinned
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          lake build +MathEvidence.Assurance.Counterexample
+
+      - name: Build Level replacement module
+        id: level
+        continue-on-error: true
+        shell: bash
+        working-directory: /tmp/mathevidence-pinned
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          lake build +MathEvidence.Assurance.Level
+
+      - name: Report build probe
+        shell: bash
+        env:
+          COUNTEREXAMPLE_OUTCOME: ${{ steps.counterexample.outcome }}
+          LEVEL_OUTCOME: ${{ steps.level.outcome }}
+        run: |
+          set -euo pipefail
+          printf 'Counterexample=%s\nLevel=%s\n' "$COUNTEREXAMPLE_OUTCOME" "$LEVEL_OUTCOME"
+          test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
