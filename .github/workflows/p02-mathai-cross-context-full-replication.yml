@@ -1,0 +1,174 @@
+name: p02-mathai-cross-context-full-replication
+
+on:
+  push:
+    branches:
+      - science/p02-mathai-cross-context-replacements-v1-20260930
+    paths:
+      - .github/workflows/p02-mathai-cross-context-full-replication.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: p02-mathai-cross-context-full-replication
+  cancel-in-progress: false
+
+env:
+  PINNED_PROJECT_SHA: 946d2f7b14840837a5b641150c9df9008c4be9eb
+  ROOT: evidence/p02_mathai_cross_context_v1/full_replication_v1
+  STATES_RAW: evidence/p02_mathai_cross_context_v1/full_replication_v1/states_raw
+  STATES_CLASSIFIED: evidence/p02_mathai_cross_context_v1/full_replication_v1/states_classified
+  REPAIRS_RAW: evidence/p02_mathai_cross_context_v1/full_replication_v1/repairs_raw
+  REPAIRS_CLASSIFIED: evidence/p02_mathai_cross_context_v1/full_replication_v1/repairs_classified
+  ANALYSIS: evidence/p02_mathai_cross_context_v1/full_replication_v1/analysis
+  REVIEW: evidence/p02_mathai_cross_context_v1/full_replication_v1/independent_review
+
+jobs:
+  replicate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout evidence branch with full history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+
+      - name: Static-check replication scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile             scripts/p02_mathai_cross_context_full_states.py             scripts/p02_mathai_cross_context_full_repairs.py             scripts/p02_mathai_cross_context_full_analysis.py             scripts/p02_mathai_cross_context_independent_review.py
+
+      - name: Verify successful feasibility evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("evidence/p02_mathai_cross_context_v1/final_feasibility_audit/SMOKE_AUDIT.json")
+          d = json.loads(p.read_text())
+          assert d["all_three_contexts_feasible"] is True, d
+          assert d["raw_bundle_digest"] == "sha256:fa89084a1484d3dd2e721041f318757d5cde64b16dc42b25cfc9829a21090b0a", d
+          assert d["transferred_prediction_modified"] is False, d
+          assert all(c["transferred_singleton_matches"] == 4 for c in d["contexts"]), d
+          PY
+
+      - name: Materialize exact pinned MathEvidence worktree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${PINNED_PROJECT_SHA}^{commit}"
+          rm -rf /tmp/mathevidence-pinned
+          git worktree add --detach /tmp/mathevidence-pinned "${PINNED_PROJECT_SHA}"
+          test "$(git -C /tmp/mathevidence-pinned rev-parse HEAD)" = "${PINNED_PROJECT_SHA}"
+          test -z "$(git -C /tmp/mathevidence-pinned status --porcelain)"
+          test "$(cat /tmp/mathevidence-pinned/lean-toolchain)" = "leanprover/lean4:v4.14.0"
+
+      - name: Install checksum-pinned elan from pinned tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash /tmp/mathevidence-pinned/scripts/ci/install-elan-pinned.sh
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Build pinned context modules
+        shell: bash
+        working-directory: /tmp/mathevidence-pinned
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.elan/bin:$PATH"
+          lake env lean --version | tee /tmp/p02-full-lean-version.txt
+          grep -F 'Lean (version 4.14.0,' /tmp/p02-full-lean-version.txt
+          grep -F 'commit 410fab728470' /tmp/p02-full-lean-version.txt
+          lake build             +MathEvidence.Assurance.RationalEquality             +MathEvidence.Assurance.Counterexample             +MathEvidence.Assurance.Level
+          test -z "$(git status --porcelain)"
+
+      - name: Execute 48 frozen state cases
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "${ROOT}"
+          python scripts/p02_mathai_cross_context_full_states.py             --pinned-project /tmp/mathevidence-pinned             --feasibility-root evidence/p02_mathai_cross_context_v1             --out "${STATES_RAW}"             --timeout-seconds 30
+
+      - name: Classify 48 state cases with frozen v2
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/p02_mathai_cross_context_classify.py             --raw "${STATES_RAW}"             --out "${STATES_CLASSIFIED}"             --expected-cases 48             --status FULL_STATES_CLASSIFIED_PENDING_TRANSFER_ANALYSIS
+
+      - name: Execute all 96 frozen removal edges
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/p02_mathai_cross_context_full_repairs.py             --pinned-project /tmp/mathevidence-pinned             --states-raw "${STATES_RAW}"             --out "${REPAIRS_RAW}"             --timeout-seconds 30
+
+      - name: Classify 96 successor cases with frozen v2
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/p02_mathai_cross_context_classify.py             --raw "${REPAIRS_RAW}"             --out "${REPAIRS_CLASSIFIED}"             --expected-cases 96             --status FULL_REPAIRS_CLASSIFIED_PENDING_TRANSFER_ANALYSIS
+
+      - name: Analyze transferred model
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/p02_mathai_cross_context_full_analysis.py             --states-raw "${STATES_RAW}"             --states-classified "${STATES_CLASSIFIED}"             --repairs-raw "${REPAIRS_RAW}"             --repairs-classified "${REPAIRS_CLASSIFIED}"             --out "${ANALYSIS}"
+
+      - name: Independently recompute all predictions
+        id: independent_review
+        shell: bash
+        run: |
+          set +e
+          python scripts/p02_mathai_cross_context_independent_review.py             --states-raw "${STATES_RAW}"             --states-classified "${STATES_CLASSIFIED}"             --repairs-raw "${REPAIRS_RAW}"             --repairs-classified "${REPAIRS_CLASSIFIED}"             --primary-analysis "${ANALYSIS}"             --out "${REVIEW}"
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Preserve full replication evidence before enforcement
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "${ROOT}"
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -v '^evidence/p02_mathai_cross_context_v1/full_replication_v1/' ; then
+            echo "unexpected staged path" >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record full MATH-AI cross-context replication"
+          git push origin HEAD:science/p02-mathai-cross-context-replacements-v1-20260930
+
+      - name: Enforce independent review after evidence preservation
+        shell: bash
+        env:
+          REVIEW_EXIT_CODE: ${{ steps.independent_review.outputs.exit_code }}
+        run: |
+          set -euo pipefail
+          test "${REVIEW_EXIT_CODE}" = "0"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("evidence/p02_mathai_cross_context_v1/full_replication_v1/independent_review/INDEPENDENT_REVIEW.json")
+          d = json.loads(p.read_text())
+          assert d["publication_claim_eligible"] is True, d
+          assert d["aggregate"] == {
+              "n_states": 48,
+              "state_matches": 48,
+              "n_edges": 96,
+              "edge_matches": 96,
+              "visible_edges": 45,
+              "visible_changes": 45,
+              "masked_edges": 51,
+              "masked_preserved": 51,
+          }, d
+          assert d["state_level_disagreements_with_primary_analysis"] == [], d
+          assert d["edge_level_disagreements_with_primary_analysis"] == [], d
+          PY
