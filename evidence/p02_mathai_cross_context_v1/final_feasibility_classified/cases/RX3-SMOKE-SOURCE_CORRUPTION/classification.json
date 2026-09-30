@@ -1,0 +1,14 @@
+{
+  "case_id": "RX3-SMOKE-SOURCE_CORRUPTION",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "FRONTEND_REJECT",
+  "observations_sha256": "sha256:9d10c6b295919697870168a4285e9bbd5d91ebef74e472871d70b434837ba1ae",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:5335e633970e7d094c169cab2657b25844132e117851c33b530093864c0d50d2",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:b8371e8d34d8a40f4e67535ec356b0432c52db22c9f4bc0d7c02ca6389e5c981"
+}

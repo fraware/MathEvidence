@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-smoke-rum0c5t1/RX3-SMOKE-INVALID_PROOF-candidate.lean:7:2: error: type mismatch
+  True.intro
+has type
+  True : Prop
+but is expected to have type
+  AssuranceLevel.outputVerification.toWire = "output_verification" : Prop

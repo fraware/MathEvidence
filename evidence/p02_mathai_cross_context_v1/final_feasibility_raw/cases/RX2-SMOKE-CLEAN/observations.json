@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-CLEAN-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5582016909999084,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX2-SMOKE-CLEAN",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-CLEAN-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5623600530000203,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Counterexample.p02Native : contract.claimsCompleteness = false\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-CLEAN-target.lean"
+    ],
+    "elapsed_seconds": 0.5756820990000051,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

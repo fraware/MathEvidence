@@ -1,0 +1,6 @@
+/tmp/p02-mathai-xc-smoke-rum0c5t1/CX1R-SMOKE-WRONG_TARGET-target.lean:11:49: error: type mismatch
+  P02CrossContext.RationalEqualityFinal.p02Native
+has type
+  contract.linksDecls = true : Prop
+but is expected to have type
+  contract.claimsCompleteness = false : Prop

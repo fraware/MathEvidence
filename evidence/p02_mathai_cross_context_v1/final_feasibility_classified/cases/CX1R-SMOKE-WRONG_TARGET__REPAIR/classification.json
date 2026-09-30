@@ -1,0 +1,14 @@
+{
+  "case_id": "CX1R-SMOKE-WRONG_TARGET__REPAIR",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:3798c443488e20fc6b0c9de8ab4d46c1a44ca38468a3db5b9044e7100b2e5bae",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9"
+}

@@ -1,0 +1,10 @@
+{
+  "case_id": "RX2-SMOKE-INVALID_PROOF",
+  "mechanisms": [
+    "INVALID_PROOF"
+  ],
+  "role": "cross_context_smoke_singleton",
+  "source_sha256": "sha256:b535659d2ad34b304fd244f97bc87cdd23ce466147e0fe67e3b844c6c5d40a4a",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.Counterexample.p02Native"
+}

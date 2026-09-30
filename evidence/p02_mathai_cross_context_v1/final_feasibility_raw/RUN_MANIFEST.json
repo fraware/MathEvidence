@@ -1,0 +1,19 @@
+{
+  "classification_performed": false,
+  "expected_lean_version": "4.14.0",
+  "expected_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "expected_toolchain": "leanprover/lean4:v4.14.0",
+  "full_compound_lattice_executed": false,
+  "harness_branch_sha": "2323f73ad448310247f155186e2537db698e5eaa",
+  "n_cases": 27,
+  "non_claims": [
+    "This bundle is the final feasibility-smoke evidence; earlier failed feasibility evidence remains retained.",
+    "No compound cross-context state or intervention result exists in this bundle.",
+    "Smoke outcomes may not be used to rewrite the transferred precedence prediction.",
+    "Publication promotion remains blocked pending full replication and independent review."
+  ],
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_cross_context_final_feasibility_raw_v1",
+  "smoke_spec_digest": "sha256:630f48039ead91e2d8f8cbd0b04e94d545201f0b99334599e9598afef1fb4c60",
+  "status": "SMOKE_RAW_EXECUTED_NOT_CLASSIFIED"
+}

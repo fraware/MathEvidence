@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-WRONG_TARGET__REPAIR-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5619826390000071,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX2-SMOKE-WRONG_TARGET__REPAIR",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-WRONG_TARGET__REPAIR-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5699337610000157,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Counterexample.p02Native : contract.claimsCompleteness = false\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-WRONG_TARGET__REPAIR-target.lean"
+    ],
+    "elapsed_seconds": 0.5659794210000655,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

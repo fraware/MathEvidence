@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/CX1R-SMOKE-WRONG_TARGET__REPAIR-candidate.lean"
+    ],
+    "elapsed_seconds": 1.1504425719999745,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CX1R-SMOKE-WRONG_TARGET__REPAIR",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/CX1R-SMOKE-WRONG_TARGET__REPAIR-declaration.lean"
+    ],
+    "elapsed_seconds": 1.1654966880000757,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.RationalEqualityFinal.p02Native : contract.claimsCompleteness = false\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/CX1R-SMOKE-WRONG_TARGET__REPAIR-target.lean"
+    ],
+    "elapsed_seconds": 1.1339180930000339,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

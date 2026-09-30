@@ -1,0 +1,8 @@
+{
+  "case_id": "RX2-SMOKE-WRONG_TARGET__REPAIR",
+  "mechanisms": [],
+  "role": "cross_context_smoke_inverse_repair",
+  "source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.Counterexample.p02Native"
+}

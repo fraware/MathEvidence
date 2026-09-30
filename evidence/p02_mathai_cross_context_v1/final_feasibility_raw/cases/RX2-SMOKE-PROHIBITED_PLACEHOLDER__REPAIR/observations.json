@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5857119940000075,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX2-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5645618050000394,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Counterexample.p02Native : contract.claimsCompleteness = false\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR-target.lean"
+    ],
+    "elapsed_seconds": 0.5684821490000331,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

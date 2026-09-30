@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX3-SMOKE-WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5606986050000842,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX3-SMOKE-WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX3-SMOKE-WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.557738062999988,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Level.p02Native : AssuranceLevel.checkerSoundness.toWire = \"checker_soundness\"\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX3-SMOKE-WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.5598746680000204,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX3-SMOKE-WRONG_TARGET-target.lean:11:79: error: type mismatch\n  P02CrossContext.Level.p02Native\nhas type\n  AssuranceLevel.checkerSoundness.toWire = \"checker_soundness\" : Prop\nbut is expected to have type\n  AssuranceLevel.outputVerification.toWire = \"output_verification\" : Prop\n",
+    "timed_out": false
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5653487660000565,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "RX2-SMOKE-WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5666772390000006,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.Counterexample.p02Native :\n  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.5632590620000428,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-mathai-xc-smoke-rum0c5t1/RX2-SMOKE-WRONG_TARGET-target.lean:11:49: error: type mismatch\n  P02CrossContext.Counterexample.p02Native\nhas type\n  contract.assuranceLevel = MathEvidence.Assurance.AssuranceLevel.verifiedReferenceAlgorithm : Prop\nbut is expected to have type\n  contract.claimsCompleteness = false : Prop\n",
+    "timed_out": false
+  }
+}

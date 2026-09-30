@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/CX1R-SMOKE-INVALID_PROOF__REPAIR-candidate.lean"
+    ],
+    "elapsed_seconds": 1.1107775510000693,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CX1R-SMOKE-INVALID_PROOF__REPAIR",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/CX1R-SMOKE-INVALID_PROOF__REPAIR-declaration.lean"
+    ],
+    "elapsed_seconds": 1.0975964059999797,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "P02CrossContext.RationalEqualityFinal.p02Native : contract.claimsCompleteness = false\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-mathai-xc-smoke-rum0c5t1/CX1R-SMOKE-INVALID_PROOF__REPAIR-target.lean"
+    ],
+    "elapsed_seconds": 1.113200167000059,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

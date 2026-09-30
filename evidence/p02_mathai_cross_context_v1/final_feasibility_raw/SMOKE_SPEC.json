@@ -1,0 +1,307 @@
+{
+  "cases": [
+    {
+      "case_id": "CX1R-SMOKE-CLEAN",
+      "mechanisms": [],
+      "role": "cross_context_smoke_clean",
+      "source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "CX1R-SMOKE-SOURCE_CORRUPTION",
+      "mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:f59c441b156be1f97596bb45db1f7a3c622c1f017a4fa6f257fb45a47c3f6afe",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "CX1R-SMOKE-SOURCE_CORRUPTION__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "CX1R-SMOKE-INVALID_PROOF",
+      "mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:8aa1b7989ee0cb20a560110f53de6ab63e1180c49611947ed55cd068e7b2cc30",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "CX1R-SMOKE-INVALID_PROOF__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "CX1R-SMOKE-PROHIBITED_PLACEHOLDER",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:019ec2b38a2abee0dcf9721d8e9cd8259da42e48583c0fbca046c8ceababfebb",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "CX1R-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "CX1R-SMOKE-WRONG_TARGET",
+      "mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:54d43f2f14394f1982f5ebe49d090e5349a05ac79e48431ace594269def03501",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "CX1R-SMOKE-WRONG_TARGET__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-CLEAN",
+      "mechanisms": [],
+      "role": "cross_context_smoke_clean",
+      "source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-SOURCE_CORRUPTION",
+      "mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:eee6f5790c5b1765a0740f13a672d9244ac88410242354a7f4ab2b3e6ef93481",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-SOURCE_CORRUPTION__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-INVALID_PROOF",
+      "mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:b535659d2ad34b304fd244f97bc87cdd23ce466147e0fe67e3b844c6c5d40a4a",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-INVALID_PROOF__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-PROHIBITED_PLACEHOLDER",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:b0b57fc140ecebb7dcd44be6eee34fed9388a0098d046e212df0c962e15776ef",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-WRONG_TARGET",
+      "mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:2ebf723d1b65b43a1715353a18a5449db4285749942a18491bb73878723bf319",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX2-SMOKE-WRONG_TARGET__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:85bef0c4829480dc756f0a9d326b765fa882df3294d689bf7c60b8dfe88ea5e9",
+      "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+      "theorem_name": "P02CrossContext.Counterexample.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-CLEAN",
+      "mechanisms": [],
+      "role": "cross_context_smoke_clean",
+      "source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-SOURCE_CORRUPTION",
+      "mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:b8371e8d34d8a40f4e67535ec356b0432c52db22c9f4bc0d7c02ca6389e5c981",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-SOURCE_CORRUPTION__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-INVALID_PROOF",
+      "mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:0d57a60e7cba37249f52b530fab1058b6a90bf56d5d72ff53050fad95f7381a8",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-INVALID_PROOF__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-PROHIBITED_PLACEHOLDER",
+      "mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:9a86d8f678205ed9c86cc7bf81f9a533fb6c3015e90fd9e5eac071326eebf9b3",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-PROHIBITED_PLACEHOLDER__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-WRONG_TARGET",
+      "mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "role": "cross_context_smoke_singleton",
+      "source_sha256": "sha256:6e959f5b38b75608d0483780111ad513dbc43d8667fdc59850e40daf2175c001",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    },
+    {
+      "case_id": "RX3-SMOKE-WRONG_TARGET__REPAIR",
+      "mechanisms": [],
+      "role": "cross_context_smoke_inverse_repair",
+      "source_sha256": "sha256:a721c8dd043739f562f923056be1a7e88629d4ddf0e7216a6911cf6fb50aac28",
+      "target_sha256": "sha256:e218101d7b34089adb508f91f479b652a5bf4145e60900381075f3bd271a1f3c",
+      "theorem_name": "P02CrossContext.Level.p02Native"
+    }
+  ],
+  "contexts": [
+    {
+      "binders": "",
+      "clean_proof": "native_decide",
+      "clean_statement": "contract.claimsCompleteness = false",
+      "context_id": "CX1R",
+      "import_line": "import MathEvidence.Assurance.RationalEquality",
+      "label": "RationalEquality",
+      "namespace": "P02CrossContext.RationalEqualityFinal",
+      "open_lines": [
+        "open MathEvidence.Assurance.RationalEquality"
+      ],
+      "target_statement": "contract.claimsCompleteness = false",
+      "wrong_statement": "contract.linksDecls = true"
+    },
+    {
+      "binders": "",
+      "clean_proof": "native_decide",
+      "clean_statement": "contract.claimsCompleteness = false",
+      "context_id": "RX2",
+      "import_line": "import MathEvidence.Assurance.Counterexample",
+      "label": "Counterexample",
+      "namespace": "P02CrossContext.Counterexample",
+      "open_lines": [
+        "open MathEvidence.Assurance.Counterexample"
+      ],
+      "target_statement": "contract.claimsCompleteness = false",
+      "wrong_statement": "contract.assuranceLevel = .verifiedReferenceAlgorithm"
+    },
+    {
+      "binders": "",
+      "clean_proof": "rfl",
+      "clean_statement": "AssuranceLevel.toWire .outputVerification = \"output_verification\"",
+      "context_id": "RX3",
+      "import_line": "import MathEvidence.Assurance.Level",
+      "label": "Level",
+      "namespace": "P02CrossContext.Level",
+      "open_lines": [
+        "open MathEvidence.Assurance"
+      ],
+      "target_statement": "AssuranceLevel.toWire .outputVerification = \"output_verification\"",
+      "wrong_statement": "AssuranceLevel.toWire .checkerSoundness = \"checker_soundness\""
+    }
+  ],
+  "design_frozen_date": "2026-08-27",
+  "final_context_mapping": {
+    "CX1": "CX1R:RationalEquality(final feasibility target)",
+    "CX2": "RX2:Counterexample",
+    "CX3": "RX3:Level"
+  },
+  "full_compound_lattice_executed": false,
+  "mechanisms": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "n_executions": 27,
+  "pinned_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "pinned_toolchain": "leanprover/lean4:v4.14.0",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_mathai_cross_context_final_feasibility_spec_v1",
+  "spec_digest": "sha256:630f48039ead91e2d8f8cbd0b04e94d545201f0b99334599e9598afef1fb4c60"
+}

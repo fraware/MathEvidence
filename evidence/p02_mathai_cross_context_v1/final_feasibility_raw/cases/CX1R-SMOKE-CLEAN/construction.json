@@ -1,0 +1,8 @@
+{
+  "case_id": "CX1R-SMOKE-CLEAN",
+  "mechanisms": [],
+  "role": "cross_context_smoke_clean",
+  "source_sha256": "sha256:35147516f23ce4b86661b4af1cfa19d0af022d915f86b157e32fc961a69ab7c9",
+  "target_sha256": "sha256:cc4a2844c747612d3895dae86466fe140e63044eb9de020b44591948f533cf21",
+  "theorem_name": "P02CrossContext.RationalEqualityFinal.p02Native"
+}

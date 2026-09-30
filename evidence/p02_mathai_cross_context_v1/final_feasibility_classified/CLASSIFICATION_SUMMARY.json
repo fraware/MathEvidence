@@ -1,0 +1,31 @@
+{
+  "classification_inputs": [
+    "candidate.lean",
+    "observations.json"
+  ],
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "construction_metadata_read_during_classification": false,
+  "derived_class_counts": {
+    "ENVIRONMENT_OR_ELAB_REJECT": 3,
+    "FRONTEND_REJECT": 3,
+    "SOURCE_EMPTY": 0,
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": 3,
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH": 15,
+    "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 3,
+    "UNKNOWN": 0
+  },
+  "n_cases": 27,
+  "non_claims": [
+    "This wrapper reuses the already-frozen v2 classifier rules.",
+    "Construction labels are not read during classification.",
+    "Classification does not establish cross-context transfer.",
+    "Publication promotion remains blocked pending analysis and independent review."
+  ],
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "publication_claim_eligible": false,
+  "raw_bundle_digest": "sha256:fa89084a1484d3dd2e721041f318757d5cde64b16dc42b25cfc9829a21090b0a",
+  "schema_version": "p02_mathai_cross_context_classification_v1",
+  "status": "SMOKE_CLASSIFIED_NOT_FEASIBILITY_AUDITED"
+}
