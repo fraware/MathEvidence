@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1100__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5417052390000094,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1100__FIX__INVALID_PROOF-candidate.lean:1:30: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-PROP-ID-S1100__FIX__INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

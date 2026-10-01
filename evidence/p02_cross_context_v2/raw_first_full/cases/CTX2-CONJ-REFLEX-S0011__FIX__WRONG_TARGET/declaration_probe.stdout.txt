@@ -1,0 +1,2 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S0011__FIX__WRONG_TARGET-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02Ctx2Conj (a b : Nat) : a = a ∧ b = b

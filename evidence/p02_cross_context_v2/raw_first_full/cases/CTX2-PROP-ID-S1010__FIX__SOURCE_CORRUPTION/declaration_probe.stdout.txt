@@ -1,0 +1,2 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1010__FIX__SOURCE_CORRUPTION-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02Ctx2Prop (p : Prop) : p → p

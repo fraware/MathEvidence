@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5337361929999815,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION-candidate.lean:1:27: warning: unused variable `b`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5430619610000349,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION-declaration.lean:1:27: warning: unused variable `b`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Ctx2Conj (a b : Nat) : a = a ∧ a = a\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.5335767379999652,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION-target.lean:1:27: warning: unused variable `b`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION-target.lean:5:42: error: type mismatch\n  p02Ctx2Conj\nhas type\n  ∀ (a : Nat), Nat → a = a ∧ a = a : Prop\nbut is expected to have type\n  ∀ (a b : Nat), a = a ∧ b = b : Prop\n",
+    "timed_out": false
+  }
+}

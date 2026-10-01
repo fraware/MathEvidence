@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX2-CONJ-REFLEX-S1000__FIX__SOURCE_CORRUPTION",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX2-CONJ-REFLEX",
+  "source_sha256": "sha256:0b7b52803ca9e80fa7e1425c674528479cedfe2dfd0409917ea5a17231b54356",
+  "target_sha256": "sha256:f8b0374f5b82cfa10db4e5c2ca8e842b8d4f7c744b1c149619f633bff334c6de",
+  "theorem_name": "p02Ctx2Conj"
+}

@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1111__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5378475329999901,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1111__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:1:30: error: unexpected token ':'; expected ')'\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1111__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:5:2: error: type mismatch\n  False\nhas type\n  Prop : Type\nbut is expected to have type\n  Nat → ∃ m, m = m : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-EXISTS-NAT-S1111__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

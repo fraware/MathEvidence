@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX2-PROP-ID-S1110__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX2-PROP-ID",
+  "source_sha256": "sha256:0b39faa4cbf261bddf0c0202fd8a62249c7b863a83e18f5195784633a3799cce",
+  "target_sha256": "sha256:f9e4b80b006ac734037dc2df0d413735b69a91c7e8196156db128c1369b552bb",
+  "theorem_name": "p02Ctx2Prop"
+}

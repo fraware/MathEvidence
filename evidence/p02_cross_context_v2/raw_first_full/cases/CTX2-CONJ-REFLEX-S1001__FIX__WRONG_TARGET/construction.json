@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX2-CONJ-REFLEX-S1001__FIX__WRONG_TARGET",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX2-CONJ-REFLEX",
+  "source_sha256": "sha256:24b67178bbd41cd32597816c7259af679cf7a9c574f54a56cd65f6a6b1c84fa4",
+  "target_sha256": "sha256:f8b0374f5b82cfa10db4e5c2ca8e842b8d4f7c744b1c149619f633bff334c6de",
+  "theorem_name": "p02Ctx2Conj"
+}

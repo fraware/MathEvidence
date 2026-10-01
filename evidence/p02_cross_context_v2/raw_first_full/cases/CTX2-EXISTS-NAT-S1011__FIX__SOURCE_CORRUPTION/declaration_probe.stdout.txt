@@ -1,0 +1,4 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1011__FIX__SOURCE_CORRUPTION-declaration.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1011__FIX__SOURCE_CORRUPTION-declaration.lean:4:27: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+p02Ctx2Exists (n : Nat) : ∃ m, m = m

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0000-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5376887619999877,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CTX2-PROP-ID-S0000",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0000-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5361266029999854,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Ctx2Prop (p : Prop) : p → p\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0000-target.lean"
+    ],
+    "elapsed_seconds": 0.5383979229999909,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

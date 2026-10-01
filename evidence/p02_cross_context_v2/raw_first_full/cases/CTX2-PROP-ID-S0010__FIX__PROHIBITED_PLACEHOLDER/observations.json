@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0010__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5325710320000212,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CTX2-PROP-ID-S0010__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0010__FIX__PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5346867119999956,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Ctx2Prop (p : Prop) : p → p\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0010__FIX__PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 0.5363450579999949,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

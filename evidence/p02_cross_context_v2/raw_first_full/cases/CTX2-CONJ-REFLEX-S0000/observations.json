@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S0000-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5411858959999734,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CTX2-CONJ-REFLEX-S0000",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S0000-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5402508079999961,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Ctx2Conj (a b : Nat) : a = a ∧ b = b\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S0000-target.lean"
+    ],
+    "elapsed_seconds": 0.5414725669999996,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

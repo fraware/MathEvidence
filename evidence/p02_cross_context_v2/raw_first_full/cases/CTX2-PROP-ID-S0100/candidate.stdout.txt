@@ -1,0 +1,6 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0100-candidate.lean:2:2: error: type mismatch
+  False
+has type
+  Prop : Type
+but is expected to have type
+  ∀ (p : Prop), p → p : Prop

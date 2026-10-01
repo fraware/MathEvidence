@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1011__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5339298530000178,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1011__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:1:30: error: unexpected token ':'; expected ')'\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S1011__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:4:27: warning: unused variable `b`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-CONJ-REFLEX-S1011__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

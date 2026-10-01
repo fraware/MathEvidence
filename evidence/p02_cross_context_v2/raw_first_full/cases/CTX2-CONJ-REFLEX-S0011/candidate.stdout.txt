@@ -1,0 +1,3 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S0011-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S0011-candidate.lean:4:27: warning: unused variable `b`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

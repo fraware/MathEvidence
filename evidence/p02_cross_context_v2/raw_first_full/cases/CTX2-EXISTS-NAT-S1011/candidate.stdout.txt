@@ -1,0 +1,4 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1011-candidate.lean:1:30: error: unexpected token ':'; expected ')'
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1011-candidate.lean:4:8: warning: declaration uses 'sorry'
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1011-candidate.lean:7:27: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

@@ -1,0 +1,14 @@
+{
+  "case_id": "CTX2-CONJ-REFLEX-S0101",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:bb9ad3e9734ff5cad56245d0cd0bb00a32a81ce4cc294dd1ad6d71787077a7cd",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:6b7af793aee7665d67056b30d09cdc2d934665433732abbcdc76ce23f5d2f09a",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:6b7af793aee7665d67056b30d09cdc2d934665433732abbcdc76ce23f5d2f09a"
+}

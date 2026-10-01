@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001-candidate.lean"
+    ],
+    "elapsed_seconds": 0.542138312999981,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001-candidate.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-EXISTS-NAT-S0001",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5361283290000074,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001-declaration.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Ctx2Exists (n : Nat) : ∃ m, m = m\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001-target.lean"
+    ],
+    "elapsed_seconds": 0.541925636000002,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001-target.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001-target.lean:5:43: error: type mismatch\n  p02Ctx2Exists\nhas type\n  Nat → ∃ m, m = m : Prop\nbut is expected to have type\n  ∀ (n : Nat), ∃ m, m = n : Prop\n",
+    "timed_out": false
+  }
+}

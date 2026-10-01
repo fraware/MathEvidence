@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX2-EXISTS-NAT-S1111__FIX__INVALID_PROOF",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX2-EXISTS-NAT",
+  "source_sha256": "sha256:634ba16f082491fedcb016c7b697f63ea6e29b98ed554465bb4482af5271ca9a",
+  "target_sha256": "sha256:63644cf43af6944b343e923a844f70b1cc1d9b89bab31561abd0f8ec08e15f48",
+  "theorem_name": "p02Ctx2Exists"
+}

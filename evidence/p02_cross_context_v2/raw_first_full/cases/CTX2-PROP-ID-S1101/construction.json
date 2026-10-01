@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX2-PROP-ID-S1101",
+  "mechanisms": [],
+  "role": "cross_context_state_CTX2-PROP-ID",
+  "source_sha256": "sha256:a28af299964d65db7a3651ee7e12dce58ee26a24dceb0557ab0e1ccf094bfc58",
+  "target_sha256": "sha256:f9e4b80b006ac734037dc2df0d413735b69a91c7e8196156db128c1369b552bb",
+  "theorem_name": "p02Ctx2Prop"
+}

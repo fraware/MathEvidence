@@ -1,0 +1,4 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1111__FIX__INVALID_PROOF-candidate.lean:1:30: error: unexpected token ':'; expected ')'
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1111__FIX__INVALID_PROOF-candidate.lean:4:8: warning: declaration uses 'sorry'
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1111__FIX__INVALID_PROOF-candidate.lean:7:25: warning: unused variable `p`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

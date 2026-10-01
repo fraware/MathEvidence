@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5333304420000218,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-candidate.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5409543779999808,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-declaration.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Ctx2Exists (n : Nat) : ∃ m, m = m\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.5386554309999951,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-target.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-target.lean:5:43: error: type mismatch\n  p02Ctx2Exists\nhas type\n  Nat → ∃ m, m = m : Prop\nbut is expected to have type\n  ∀ (n : Nat), ∃ m, m = n : Prop\n",
+    "timed_out": false
+  }
+}

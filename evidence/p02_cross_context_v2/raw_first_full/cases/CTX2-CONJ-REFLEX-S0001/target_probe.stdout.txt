@@ -1,0 +1,8 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S0001-target.lean:1:27: warning: unused variable `b`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-CONJ-REFLEX-S0001-target.lean:5:42: error: type mismatch
+  p02Ctx2Conj
+has type
+  ∀ (a : Nat), Nat → a = a ∧ a = a : Prop
+but is expected to have type
+  ∀ (a b : Nat), a = a ∧ b = b : Prop

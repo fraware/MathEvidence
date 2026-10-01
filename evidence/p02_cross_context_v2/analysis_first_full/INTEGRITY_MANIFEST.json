@@ -1,0 +1,23 @@
+{
+  "bundle_digest": "sha256:08210ca279c2f20e0204b9bd8ef47a7662747251d1ce870663811fe6752ef4dc",
+  "files": [
+    {
+      "path": "CROSS_CONTEXT_ANALYSIS.json",
+      "sha256": "sha256:38188d3f15377018b33f8fa595335e0d244fb3be3e683f32f70a8b4fc2e2747e",
+      "size_bytes": 2088
+    },
+    {
+      "path": "EDGE_TABLE.csv",
+      "sha256": "sha256:f8cda3fa3ea7cda2587c859493351c635156855f4360068a90fab30f97b7397a",
+      "size_bytes": 25318
+    },
+    {
+      "path": "STATE_TABLE.csv",
+      "sha256": "sha256:ec00a3c790a1f5449e008b85c4484361946c4fb9cf107c72baaecfd55d780f2e",
+      "size_bytes": 4271
+    }
+  ],
+  "n_files": 3,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_cross_context_v2_analysis_integrity_v1"
+}

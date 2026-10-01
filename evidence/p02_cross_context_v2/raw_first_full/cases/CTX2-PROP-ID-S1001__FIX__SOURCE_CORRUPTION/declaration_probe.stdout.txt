@@ -1,0 +1,3 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1001__FIX__SOURCE_CORRUPTION-declaration.lean:1:25: warning: unused variable `p`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+p02Ctx2Prop (p : Prop) : True → True

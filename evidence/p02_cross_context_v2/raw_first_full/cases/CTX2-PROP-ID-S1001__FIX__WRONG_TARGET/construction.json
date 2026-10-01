@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX2-PROP-ID-S1001__FIX__WRONG_TARGET",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX2-PROP-ID",
+  "source_sha256": "sha256:34e098c467f420fa3be43863f5f6107f891fa846491a3339f3279cb766dae9f5",
+  "target_sha256": "sha256:f9e4b80b006ac734037dc2df0d413735b69a91c7e8196156db128c1369b552bb",
+  "theorem_name": "p02Ctx2Prop"
+}

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.537970745000024,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CTX2-EXISTS-NAT-S0001__FIX__WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001__FIX__WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5357857589999924,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Ctx2Exists (n : Nat) : ∃ m, m = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0001__FIX__WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.5411289440000076,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

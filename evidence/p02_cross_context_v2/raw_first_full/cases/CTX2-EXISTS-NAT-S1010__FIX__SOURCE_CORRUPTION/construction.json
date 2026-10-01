@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX2-EXISTS-NAT-S1010__FIX__SOURCE_CORRUPTION",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX2-EXISTS-NAT",
+  "source_sha256": "sha256:5b37e1a173510b8153be56a60a498eea3cc4c79a0b6ea5346e108485a4150b7f",
+  "target_sha256": "sha256:63644cf43af6944b343e923a844f70b1cc1d9b89bab31561abd0f8ec08e15f48",
+  "theorem_name": "p02Ctx2Exists"
+}

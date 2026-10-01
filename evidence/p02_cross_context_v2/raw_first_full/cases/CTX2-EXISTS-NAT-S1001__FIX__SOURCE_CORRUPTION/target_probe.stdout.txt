@@ -1,0 +1,8 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-target.lean:1:27: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION-target.lean:5:43: error: type mismatch
+  p02Ctx2Exists
+has type
+  Nat → ∃ m, m = m : Prop
+but is expected to have type
+  ∀ (n : Nat), ∃ m, m = n : Prop

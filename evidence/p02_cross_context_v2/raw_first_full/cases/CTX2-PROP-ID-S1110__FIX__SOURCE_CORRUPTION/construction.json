@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX2-PROP-ID-S1110__FIX__SOURCE_CORRUPTION",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX2-PROP-ID",
+  "source_sha256": "sha256:ea7f1495c6b7123b40170880402d44c32866f882c6e9325509945cfb5717d10c",
+  "target_sha256": "sha256:f9e4b80b006ac734037dc2df0d413735b69a91c7e8196156db128c1369b552bb",
+  "theorem_name": "p02Ctx2Prop"
+}

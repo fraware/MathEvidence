@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1101__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5360688049999851,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1101__FIX__INVALID_PROOF-candidate.lean:1:30: error: unexpected token ':'; expected ')'\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S1101__FIX__INVALID_PROOF-candidate.lean:4:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-EXISTS-NAT-S1101__FIX__INVALID_PROOF",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

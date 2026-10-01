@@ -1,0 +1,14 @@
+{
+  "case_id": "CTX2-EXISTS-NAT-S1110__FIX__SOURCE_CORRUPTION",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:cbe66a330299385400e07e6d698bcc5814ee920e45d0f688c1008a0180d6a670",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:e697c1ea105e4e42c852f999249c69fa751de0ac53e607902126b86f06a9e730",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:e697c1ea105e4e42c852f999249c69fa751de0ac53e607902126b86f06a9e730"
+}

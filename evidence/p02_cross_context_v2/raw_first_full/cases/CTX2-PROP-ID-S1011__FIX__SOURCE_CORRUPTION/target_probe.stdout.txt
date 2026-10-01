@@ -1,0 +1,9 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1011__FIX__SOURCE_CORRUPTION-target.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1011__FIX__SOURCE_CORRUPTION-target.lean:4:25: warning: unused variable `p`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1011__FIX__SOURCE_CORRUPTION-target.lean:8:33: error: type mismatch
+  p02Ctx2Prop
+has type
+  Prop → True → True : Prop
+but is expected to have type
+  ∀ (p : Prop), p → p : Prop

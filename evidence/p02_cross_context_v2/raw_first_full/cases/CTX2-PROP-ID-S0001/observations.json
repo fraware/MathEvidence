@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0001-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5365474080000183,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0001-candidate.lean:1:25: warning: unused variable `p`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-PROP-ID-S0001",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0001-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5356280749999769,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0001-declaration.lean:1:25: warning: unused variable `p`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Ctx2Prop (p : Prop) : True → True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0001-target.lean"
+    ],
+    "elapsed_seconds": 0.5413852669999812,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0001-target.lean:1:25: warning: unused variable `p`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S0001-target.lean:5:33: error: type mismatch\n  p02Ctx2Prop\nhas type\n  Prop → True → True : Prop\nbut is expected to have type\n  ∀ (p : Prop), p → p : Prop\n",
+    "timed_out": false
+  }
+}

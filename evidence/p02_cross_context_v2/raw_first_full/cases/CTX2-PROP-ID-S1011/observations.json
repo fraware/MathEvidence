@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1011-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5468545559999995,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1011-candidate.lean:1:30: error: unexpected token ':'; expected ')'\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1011-candidate.lean:4:8: warning: declaration uses 'sorry'\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1011-candidate.lean:7:25: warning: unused variable `p`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-PROP-ID-S1011",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

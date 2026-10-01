@@ -1,0 +1,7 @@
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1110__FIX__SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-cross-context-v2-h08iw3yr/CTX2-PROP-ID-S1110__FIX__SOURCE_CORRUPTION-candidate.lean:5:2: error: type mismatch
+  False
+has type
+  Prop : Type
+but is expected to have type
+  ∀ (p : Prop), p → p : Prop

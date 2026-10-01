@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0010__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5354668319999973,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CTX2-EXISTS-NAT-S0010__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0010__FIX__PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5335414810000145,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02Ctx2Exists (n : Nat) : ∃ m, m = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0010__FIX__PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 0.5334298490000151,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

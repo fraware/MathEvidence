@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5397575640000127,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX2-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5320252299999879,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER-declaration.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02Ctx2Exists (n : Nat) : ∃ m, m = m\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER-target.lean"
+    ],
+    "elapsed_seconds": 0.5423442759999944,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER-target.lean:1:27: warning: unused variable `n`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-cross-context-v2-h08iw3yr/CTX2-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER-target.lean:5:43: error: type mismatch\n  p02Ctx2Exists\nhas type\n  Nat → ∃ m, m = m : Prop\nbut is expected to have type\n  ∀ (n : Nat), ∃ m, m = n : Prop\n",
+    "timed_out": false
+  }
+}
