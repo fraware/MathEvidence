@@ -1,0 +1,14 @@
+{
+  "case_id": "SC2-SYNTAX-CLEAN",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+  "observations_sha256": "sha256:7369b504fcb9bf9506516e0f511096b0bb75a43caf7bf7b5bc140018a92b277b",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:d9995efc9bd38d5678fa58c0ae062d4a2667d7181e486372afa2e98c4c2d8dde",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:d9995efc9bd38d5678fa58c0ae062d4a2667d7181e486372afa2e98c4c2d8dde"
+}

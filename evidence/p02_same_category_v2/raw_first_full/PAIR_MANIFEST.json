@@ -1,0 +1,37 @@
+{
+  "case_spec_sha256": "sha256:d368da152062d3192fa9cddbbae86ef35834fcd1bcb594b9cd529b32ca04ed46",
+  "pairs": [
+    {
+      "declared_category": "FRONTEND_REJECT",
+      "pair_id": "SC2-SYNTAX",
+      "state_ids": [
+        "SC2-SYNTAX-CLEAN",
+        "SC2-SYNTAX-A",
+        "SC2-SYNTAX-B",
+        "SC2-SYNTAX-AB"
+      ]
+    },
+    {
+      "declared_category": "ENVIRONMENT_OR_ELAB_REJECT",
+      "pair_id": "SC2-ELAB",
+      "state_ids": [
+        "SC2-ELAB-CLEAN",
+        "SC2-ELAB-A",
+        "SC2-ELAB-B",
+        "SC2-ELAB-AB"
+      ]
+    },
+    {
+      "declared_category": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "pair_id": "SC2-POLICY",
+      "state_ids": [
+        "SC2-POLICY-CLEAN",
+        "SC2-POLICY-A",
+        "SC2-POLICY-B",
+        "SC2-POLICY-AB"
+      ]
+    }
+  ],
+  "prereg_commit": "03e2d240806877e028514abb11e101b83951b5aa",
+  "schema_version": "p02_same_category_pair_manifest_v1"
+}

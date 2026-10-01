@@ -1,0 +1,8 @@
+{
+  "case_id": "SC2-POLICY-B",
+  "mechanisms": [],
+  "role": "same_category_SC2-POLICY_b",
+  "source_sha256": "sha256:41fba32b579acd409420e153ecd3f518901544d3455c43be420b21668564fc82",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "scPolicyMain"
+}

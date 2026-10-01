@@ -1,0 +1,8 @@
+{
+  "case_id": "SC2-ELAB-AB",
+  "mechanisms": [],
+  "role": "same_category_SC2-ELAB_ab",
+  "source_sha256": "sha256:e7dfe931b6258cf0b73fe5d053632aaa57cb5bf5517b95d628886ea2cf289ace",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "scElabMain"
+}

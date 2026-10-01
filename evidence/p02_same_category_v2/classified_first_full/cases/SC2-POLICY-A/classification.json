@@ -1,0 +1,14 @@
+{
+  "case_id": "SC2-POLICY-A",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+  "observations_sha256": "sha256:49c3d4134f57c5699c1266c82ca6419e3adc0cf2a8fe0583359ff822cc24b26a",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:fb1f814c09b4d2dbfe547d9299534eab5281ef6dabd1340c96e3ecbb526f3aa0",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:fb1f814c09b4d2dbfe547d9299534eab5281ef6dabd1340c96e3ecbb526f3aa0"
+}

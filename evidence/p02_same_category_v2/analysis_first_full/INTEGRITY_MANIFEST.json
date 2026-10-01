@@ -1,0 +1,23 @@
+{
+  "bundle_digest": "sha256:3e3788c4f793bd925616c5ea627437ac5e7bb1fd2641ef7d4c2decb97ce4610c",
+  "files": [
+    {
+      "path": "EDGE_TABLE.csv",
+      "sha256": "sha256:192dff36cf239a360790cb6ff5ec010048f4ec5ac2e363637e1c0ba16ee46b14",
+      "size_bytes": 1385
+    },
+    {
+      "path": "SAME_CATEGORY_ANALYSIS.json",
+      "sha256": "sha256:0763a4fb3ff4c85dbb4f88c2d52e324bc08cde7030235d227d41019fe714fe83",
+      "size_bytes": 2262
+    },
+    {
+      "path": "STATE_TABLE.csv",
+      "sha256": "sha256:c7bcd12d6abeafc6583d16dfedeada83509f0cd0694c6c82fd46af29e6e68e5a",
+      "size_bytes": 1089
+    }
+  ],
+  "n_files": 3,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_same_category_analysis_integrity_v1"
+}

@@ -1,0 +1,7 @@
+/tmp/p02-same-category-jaqg4h1g/SC2-ELAB-AB-candidate.lean:2:2: error: type mismatch
+  n
+has type
+  Nat : Type
+but is expected to have type
+  n = n : Prop
+/tmp/p02-same-category-jaqg4h1g/SC2-ELAB-AB-candidate.lean:4:8: error: unknown identifier 'scMissingProof'

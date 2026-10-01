@@ -1,0 +1,8 @@
+{
+  "case_id": "SC2-SYNTAX-A",
+  "mechanisms": [],
+  "role": "same_category_SC2-SYNTAX_a",
+  "source_sha256": "sha256:b8aaed5332c0c85e3690a6ea2f610bc9c2d0bd6e648fc615f3e4d0f957870419",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "scSyntaxMain"
+}

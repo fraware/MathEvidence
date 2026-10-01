@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-ELAB-CLEAN-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5814857249999932,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "SC2-ELAB-CLEAN",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-ELAB-CLEAN-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5557897850000018,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "scElabMain : True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-ELAB-CLEAN-target.lean"
+    ],
+    "elapsed_seconds": 0.536243902999999,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

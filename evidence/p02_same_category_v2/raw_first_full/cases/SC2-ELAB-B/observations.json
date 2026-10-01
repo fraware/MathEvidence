@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-ELAB-B-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5606346550000012,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-same-category-jaqg4h1g/SC2-ELAB-B-candidate.lean:2:8: error: unknown identifier 'scMissingProof'\n",
+    "timed_out": false
+  },
+  "case_id": "SC2-ELAB-B",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

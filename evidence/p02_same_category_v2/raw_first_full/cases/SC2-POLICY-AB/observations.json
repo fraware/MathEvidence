@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-POLICY-AB-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5464470950000049,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-same-category-jaqg4h1g/SC2-POLICY-AB-candidate.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "SC2-POLICY-AB",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-POLICY-AB-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5492731979999945,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-same-category-jaqg4h1g/SC2-POLICY-AB-declaration.lean:1:8: warning: declaration uses 'sorry'\nscPolicyMain : True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-POLICY-AB-target.lean"
+    ],
+    "elapsed_seconds": 0.5444433499999946,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-same-category-jaqg4h1g/SC2-POLICY-AB-target.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-SYNTAX-CLEAN-candidate.lean"
+    ],
+    "elapsed_seconds": 0.5775182120000011,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "SC2-SYNTAX-CLEAN",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-SYNTAX-CLEAN-declaration.lean"
+    ],
+    "elapsed_seconds": 0.5788989720000046,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "scSyntaxMain : True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-jaqg4h1g/SC2-SYNTAX-CLEAN-target.lean"
+    ],
+    "elapsed_seconds": 0.5700792940000099,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

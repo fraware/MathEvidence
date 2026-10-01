@@ -1,0 +1,2 @@
+/tmp/p02-same-category-jaqg4h1g/SC2-SYNTAX-AB-candidate.lean:1:11: error: unexpected token ')'; expected term
+/tmp/p02-same-category-jaqg4h1g/SC2-SYNTAX-AB-candidate.lean:2:11: error: unexpected token ')'; expected term

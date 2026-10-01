@@ -1,0 +1,72 @@
+{
+  "candidate_error_marker_counts": {
+    "SC2-ELAB-A": 1,
+    "SC2-ELAB-AB": 2,
+    "SC2-ELAB-B": 1,
+    "SC2-ELAB-CLEAN": 0,
+    "SC2-POLICY-A": 0,
+    "SC2-POLICY-AB": 0,
+    "SC2-POLICY-B": 0,
+    "SC2-POLICY-CLEAN": 0,
+    "SC2-SYNTAX-A": 1,
+    "SC2-SYNTAX-AB": 2,
+    "SC2-SYNTAX-B": 1,
+    "SC2-SYNTAX-CLEAN": 0
+  },
+  "edge_mismatches": [],
+  "expected_results_sha256": "sha256:e3a69d1d1e1e2dbc722a7966d8586e3c6b13dec71f6d179057fe89a1c87e7e57",
+  "n_active_edges": 12,
+  "n_edge_matches": 12,
+  "n_edge_mismatches": 0,
+  "n_state_matches": 12,
+  "n_state_mismatches": 0,
+  "n_states": 12,
+  "non_claims": [
+    "The three micro-corpora are targeted constructions, not samples from a natural failure population.",
+    "Their 12-edge denominator is reported separately from the primary 64 active-edge denominator.",
+    "The extension tests shared-category occupancy and does not estimate prevalence in real proof repair.",
+    "Error-marker counts describe retained raw candidate output and do not alter classification."
+  ],
+  "observed_category_changes": 6,
+  "observed_category_preservations": 6,
+  "observed_class_counts": {
+    "ENVIRONMENT_OR_ELAB_REJECT": 3,
+    "FRONTEND_REJECT": 3,
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": 3,
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH": 3
+  },
+  "per_pair": {
+    "SC2-ELAB": {
+      "category_changes": 2,
+      "category_preservations": 2,
+      "declared_category": "ENVIRONMENT_OR_ELAB_REJECT",
+      "edge_matches": 4,
+      "edge_total": 4,
+      "state_matches": 4,
+      "state_total": 4
+    },
+    "SC2-POLICY": {
+      "category_changes": 2,
+      "category_preservations": 2,
+      "declared_category": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "edge_matches": 4,
+      "edge_total": 4,
+      "state_matches": 4,
+      "state_total": 4
+    },
+    "SC2-SYNTAX": {
+      "category_changes": 2,
+      "category_preservations": 2,
+      "declared_category": "FRONTEND_REJECT",
+      "edge_matches": 4,
+      "edge_total": 4,
+      "state_matches": 4,
+      "state_total": 4
+    }
+  },
+  "prereg_commit": "03e2d240806877e028514abb11e101b83951b5aa",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_same_category_analysis_v1",
+  "state_mismatches": [],
+  "status": "PREREGISTERED_EXPECTATIONS_MATCH"
+}
