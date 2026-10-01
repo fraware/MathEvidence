@@ -1,0 +1,133 @@
+{
+  "schema_version": "p02_same_category_case_spec_v1",
+  "study": "P02 same-category compound-failure extension v2",
+  "base_evidence_commit": "e2f1e5bc1efd973c98da2027769404271cd92d6b",
+  "pinned_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "lean_toolchain": "leanprover/lean4:v4.14.0",
+  "classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "collection_reads_expectations": false,
+  "pairs": [
+    {
+      "pair_id": "SC2-SYNTAX",
+      "category": "FRONTEND_REJECT",
+      "states": [
+        {
+          "pair_id": "SC2-SYNTAX",
+          "state": "clean",
+          "state_id": "SC2-SYNTAX-CLEAN",
+          "source": "theorem scSyntaxMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scSyntaxMain"
+        },
+        {
+          "pair_id": "SC2-SYNTAX",
+          "state": "a",
+          "state_id": "SC2-SYNTAX-A",
+          "source": "#check (1 + )\ntheorem scSyntaxMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scSyntaxMain"
+        },
+        {
+          "pair_id": "SC2-SYNTAX",
+          "state": "b",
+          "state_id": "SC2-SYNTAX-B",
+          "source": "#check (2 * )\ntheorem scSyntaxMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scSyntaxMain"
+        },
+        {
+          "pair_id": "SC2-SYNTAX",
+          "state": "ab",
+          "state_id": "SC2-SYNTAX-AB",
+          "source": "#check (1 + )\n#check (2 * )\ntheorem scSyntaxMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scSyntaxMain"
+        }
+      ]
+    },
+    {
+      "pair_id": "SC2-ELAB",
+      "category": "ENVIRONMENT_OR_ELAB_REJECT",
+      "states": [
+        {
+          "pair_id": "SC2-ELAB",
+          "state": "clean",
+          "state_id": "SC2-ELAB-CLEAN",
+          "source": "theorem scElabMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scElabMain"
+        },
+        {
+          "pair_id": "SC2-ELAB",
+          "state": "a",
+          "state_id": "SC2-ELAB-A",
+          "source": "theorem scElabA (n : Nat) : n = n := by\n  exact n\ntheorem scElabMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scElabMain"
+        },
+        {
+          "pair_id": "SC2-ELAB",
+          "state": "b",
+          "state_id": "SC2-ELAB-B",
+          "source": "theorem scElabB : True := by\n  exact scMissingProof\ntheorem scElabMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scElabMain"
+        },
+        {
+          "pair_id": "SC2-ELAB",
+          "state": "ab",
+          "state_id": "SC2-ELAB-AB",
+          "source": "theorem scElabA (n : Nat) : n = n := by\n  exact n\ntheorem scElabB : True := by\n  exact scMissingProof\ntheorem scElabMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scElabMain"
+        }
+      ]
+    },
+    {
+      "pair_id": "SC2-POLICY",
+      "category": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "states": [
+        {
+          "pair_id": "SC2-POLICY",
+          "state": "clean",
+          "state_id": "SC2-POLICY-CLEAN",
+          "source": "theorem scPolicyMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scPolicyMain"
+        },
+        {
+          "pair_id": "SC2-POLICY",
+          "state": "a",
+          "state_id": "SC2-POLICY-A",
+          "source": "theorem scPolicyA : True := by\n  sorry\ntheorem scPolicyMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scPolicyMain"
+        },
+        {
+          "pair_id": "SC2-POLICY",
+          "state": "b",
+          "state_id": "SC2-POLICY-B",
+          "source": "axiom scPolicyB : True\ntheorem scPolicyMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scPolicyMain"
+        },
+        {
+          "pair_id": "SC2-POLICY",
+          "state": "ab",
+          "state_id": "SC2-POLICY-AB",
+          "source": "theorem scPolicyA : True := by\n  sorry\naxiom scPolicyB : True\ntheorem scPolicyMain : True := by\n  trivial\n",
+          "target_statement": "True",
+          "theorem_name": "scPolicyMain"
+        }
+      ]
+    }
+  ],
+  "revision_note": "Follow-up preregistration after v1 retained SC-ELAB-A as UNKNOWN. Syntax and policy constructions are unchanged in mechanism; elaboration uses diagnostic forms inside the frozen mapper's declared pattern set.",
+  "stop_conditions": [
+    "isolated expected category fails",
+    "combined state becomes UNKNOWN",
+    "combined state leaves the declared category",
+    "source interaction changes another planted edit",
+    "pinned environment identity fails"
+  ]
+}
