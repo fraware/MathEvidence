@@ -1,0 +1,57 @@
+{
+  "schema_version": "p02_same_category_elab_followup_case_spec_v1",
+  "study": "P02 same-category elaboration follow-up",
+  "design_status": "designed_after_v1_mapper_coverage_miss_before_followup_execution",
+  "motivating_v1_evidence_commit": "e2f1e5bc1efd973c98da2027769404271cd92d6b",
+  "motivating_mismatch_case": "SC-ELAB-A",
+  "motivating_observed_class": "UNKNOWN",
+  "motivation": "The frozen mapper did not recognize the Lean 4.14.0 diagnostic 'numerals are data in Lean, but the expected type is a proposition'. The follow-up uses two distinct type-mismatch proof sites whose diagnostic family is already covered by the frozen mapper. The classifier is unchanged.",
+  "pinned_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "lean_toolchain": "leanprover/lean4:v4.14.0",
+  "classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "collection_reads_expectations": false,
+  "pair": {
+    "pair_id": "SC-ELAB2",
+    "category": "ENVIRONMENT_OR_ELAB_REJECT",
+    "states": [
+      {
+        "pair_id": "SC-ELAB2",
+        "state": "clean",
+        "state_id": "SC-ELAB2-CLEAN",
+        "source": "theorem scElab2Main : True := by\n  trivial\n",
+        "theorem_name": "scElab2Main",
+        "target_statement": "True"
+      },
+      {
+        "pair_id": "SC-ELAB2",
+        "state": "a",
+        "state_id": "SC-ELAB2-A",
+        "source": "theorem scElab2A : True := by\n  exact False\n\ntheorem scElab2Main : True := by\n  trivial\n",
+        "theorem_name": "scElab2Main",
+        "target_statement": "True"
+      },
+      {
+        "pair_id": "SC-ELAB2",
+        "state": "b",
+        "state_id": "SC-ELAB2-B",
+        "source": "theorem scElab2B : False := by\n  exact True\n\ntheorem scElab2Main : True := by\n  trivial\n",
+        "theorem_name": "scElab2Main",
+        "target_statement": "True"
+      },
+      {
+        "pair_id": "SC-ELAB2",
+        "state": "ab",
+        "state_id": "SC-ELAB2-AB",
+        "source": "theorem scElab2A : True := by\n  exact False\n\ntheorem scElab2B : False := by\n  exact True\n\ntheorem scElab2Main : True := by\n  trivial\n",
+        "theorem_name": "scElab2Main",
+        "target_statement": "True"
+      }
+    ]
+  },
+  "stop_conditions": [
+    "either singleton leaves ENVIRONMENT_OR_ELAB_REJECT",
+    "doubleton leaves ENVIRONMENT_OR_ELAB_REJECT",
+    "any classified state becomes UNKNOWN",
+    "pinned environment identity fails"
+  ]
+}
