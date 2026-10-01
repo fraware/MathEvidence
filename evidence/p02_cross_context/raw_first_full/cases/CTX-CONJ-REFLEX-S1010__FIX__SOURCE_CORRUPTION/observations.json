@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4515158940000106,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION-candidate.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4445334149999951,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION-declaration.lean:1:8: warning: declaration uses 'sorry'\np02CtxConj (a b : Nat) : a = a ∧ b = b\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION-target.lean"
+    ],
+    "elapsed_seconds": 0.4449493999999845,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION-target.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

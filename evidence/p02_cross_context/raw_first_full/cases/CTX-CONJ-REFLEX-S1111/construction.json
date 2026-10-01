@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX-CONJ-REFLEX-S1111",
+  "mechanisms": [],
+  "role": "cross_context_state_CTX-CONJ-REFLEX",
+  "source_sha256": "sha256:55c26634efb6804e55bab828fffe2cd7042a2f5ad699cba6937834cdddec6cce",
+  "target_sha256": "sha256:f8b0374f5b82cfa10db4e5c2ca8e842b8d4f7c744b1c149619f633bff334c6de",
+  "theorem_name": "p02CtxConj"
+}

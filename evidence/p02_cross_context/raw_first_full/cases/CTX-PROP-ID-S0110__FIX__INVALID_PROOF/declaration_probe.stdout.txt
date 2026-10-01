@@ -1,0 +1,2 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0110__FIX__INVALID_PROOF-declaration.lean:1:8: warning: declaration uses 'sorry'
+p02CtxProp (p : Prop) : p → p

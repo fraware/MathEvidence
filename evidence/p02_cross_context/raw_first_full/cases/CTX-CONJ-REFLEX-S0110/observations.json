@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0110-candidate.lean"
+    ],
+    "elapsed_seconds": 0.46181539599999155,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0110-candidate.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0110-candidate.lean:5:2: error: type mismatch\n  False\nhas type\n  Prop : Type\nbut is expected to have type\n  True : Prop\n/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0110-candidate.lean:8:2: error: type mismatch\n  False\nhas type\n  Prop : Type\nbut is expected to have type\n  ∀ (a b : Nat), a = a ∧ b = b : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "CTX-CONJ-REFLEX-S0110",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4554753109999865,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET-candidate.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET-declaration.lean"
+    ],
+    "elapsed_seconds": 0.45208830199999284,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET-declaration.lean:1:8: warning: declaration uses 'sorry'\np02CtxExists (n : Nat) : ∃ m, m = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET-target.lean"
+    ],
+    "elapsed_seconds": 0.4612810240000158,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET-target.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

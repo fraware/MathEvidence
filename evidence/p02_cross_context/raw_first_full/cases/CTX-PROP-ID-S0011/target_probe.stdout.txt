@@ -1,0 +1,9 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0011-target.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0011-target.lean:4:24: warning: unused variable `p`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0011-target.lean:8:33: error: type mismatch
+  p02CtxProp
+has type
+  Prop → True → True : Prop
+but is expected to have type
+  ∀ (p : Prop), p → p : Prop

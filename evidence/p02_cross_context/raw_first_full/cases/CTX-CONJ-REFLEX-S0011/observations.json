@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4528719300000006,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-candidate.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-candidate.lean:4:26: warning: unused variable `b`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX-CONJ-REFLEX-S0011",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-declaration.lean"
+    ],
+    "elapsed_seconds": 0.45517736100001116,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-declaration.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-declaration.lean:4:26: warning: unused variable `b`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02CtxConj (a b : Nat) : a = a ∧ a = a\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-target.lean"
+    ],
+    "elapsed_seconds": 0.44627042100000835,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-target.lean:1:8: warning: declaration uses 'sorry'\n/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-target.lean:4:26: warning: unused variable `b`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S0011-target.lean:8:42: error: type mismatch\n  p02CtxConj\nhas type\n  ∀ (a : Nat), Nat → a = a ∧ a = a : Prop\nbut is expected to have type\n  ∀ (a b : Nat), a = a ∧ b = b : Prop\n",
+    "timed_out": false
+  }
+}

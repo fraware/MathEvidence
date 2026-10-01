@@ -1,0 +1,14 @@
+{
+  "case_id": "CTX-CONJ-REFLEX-S1111__FIX__SOURCE_CORRUPTION",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:6168c8d8c74a58dc8b5caa833196dc2169df16977f7ab407119694a9f7762380",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:dad447f6bf63d471ab8fbe03a0003909a6598d66e305214cb958f56b8941b113",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:dad447f6bf63d471ab8fbe03a0003909a6598d66e305214cb958f56b8941b113"
+}

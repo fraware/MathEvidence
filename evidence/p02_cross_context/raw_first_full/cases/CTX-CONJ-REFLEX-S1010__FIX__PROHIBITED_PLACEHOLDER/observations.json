@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010__FIX__PROHIBITED_PLACEHOLDER-candidate.lean"
+    ],
+    "elapsed_seconds": 0.44907705299999634,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010__FIX__PROHIBITED_PLACEHOLDER-candidate.lean:1:29: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "CTX-CONJ-REFLEX-S1010__FIX__PROHIBITED_PLACEHOLDER",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

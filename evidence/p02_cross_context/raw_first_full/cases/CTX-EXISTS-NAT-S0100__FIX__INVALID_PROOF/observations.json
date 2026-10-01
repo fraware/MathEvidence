@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0100__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4538311530000101,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "CTX-EXISTS-NAT-S0100__FIX__INVALID_PROOF",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0100__FIX__INVALID_PROOF-declaration.lean"
+    ],
+    "elapsed_seconds": 0.45021677799999793,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "p02CtxExists (n : Nat) : ∃ m, m = n\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0100__FIX__INVALID_PROOF-target.lean"
+    ],
+    "elapsed_seconds": 0.44089837000001353,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

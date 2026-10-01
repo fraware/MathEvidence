@@ -1,0 +1,2 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0101__FIX__INVALID_PROOF-candidate.lean:1:24: warning: unused variable `p`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

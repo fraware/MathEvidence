@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX-EXISTS-NAT-S0111__FIX__WRONG_TARGET",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX-EXISTS-NAT",
+  "source_sha256": "sha256:13bfed81d29fc6955064729ca22bb2aa078d0062ba90acf1c1eed3cb36fed164",
+  "target_sha256": "sha256:63644cf43af6944b343e923a844f70b1cc1d9b89bab31561abd0f8ec08e15f48",
+  "theorem_name": "p02CtxExists"
+}

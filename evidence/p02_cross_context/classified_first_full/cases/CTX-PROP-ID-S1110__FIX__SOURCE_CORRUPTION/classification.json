@@ -1,0 +1,14 @@
+{
+  "case_id": "CTX-PROP-ID-S1110__FIX__SOURCE_CORRUPTION",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:7c4e99a143060ba7cc9838af611968d2e734ac8f1f094d67eeabec83a86f197a",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:de8e1a6c91a40d57f364b68e0072d8adc6d88d37da1051c76deb7d7d916e08a9",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:de8e1a6c91a40d57f364b68e0072d8adc6d88d37da1051c76deb7d7d916e08a9"
+}

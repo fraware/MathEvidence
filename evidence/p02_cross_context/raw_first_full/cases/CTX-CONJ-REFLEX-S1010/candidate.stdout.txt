@@ -1,0 +1,2 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010-candidate.lean:1:29: error: unexpected token ':'; expected ')'
+/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1010-candidate.lean:4:8: warning: declaration uses 'sorry'

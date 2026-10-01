@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0110__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4428961859999987,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0110__FIX__INVALID_PROOF-candidate.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  },
+  "case_id": "CTX-PROP-ID-S0110__FIX__INVALID_PROOF",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0110__FIX__INVALID_PROOF-declaration.lean"
+    ],
+    "elapsed_seconds": 0.4535452810000038,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0110__FIX__INVALID_PROOF-declaration.lean:1:8: warning: declaration uses 'sorry'\np02CtxProp (p : Prop) : p → p\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0110__FIX__INVALID_PROOF-target.lean"
+    ],
+    "elapsed_seconds": 0.44396345600000586,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0110__FIX__INVALID_PROOF-target.lean:1:8: warning: declaration uses 'sorry'\n",
+    "timed_out": false
+  }
+}

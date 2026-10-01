@@ -1,0 +1,14 @@
+{
+  "case_id": "CTX-PROP-ID-S0111",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:a72cf8368f1b909e85d9e81dd1b2b25862fe27c6c6fc4688cd0b1eaef6185929",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:7cf6d754813c2efc7e60280c5734e3ce8b56e26613ff055c7e0893312fe1f9ed",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:7cf6d754813c2efc7e60280c5734e3ce8b56e26613ff055c7e0893312fe1f9ed"
+}

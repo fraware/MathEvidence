@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S1000-candidate.lean"
+    ],
+    "elapsed_seconds": 0.4456908589999955,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S1000-candidate.lean:1:29: error: unexpected token ':'; expected ')'\n",
+    "timed_out": false
+  },
+  "case_id": "CTX-EXISTS-NAT-S1000",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

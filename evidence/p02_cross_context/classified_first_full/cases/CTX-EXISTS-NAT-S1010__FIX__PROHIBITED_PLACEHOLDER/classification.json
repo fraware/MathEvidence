@@ -1,0 +1,14 @@
+{
+  "case_id": "CTX-EXISTS-NAT-S1010__FIX__PROHIBITED_PLACEHOLDER",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "FRONTEND_REJECT",
+  "observations_sha256": "sha256:859986e8f636132af3ea172db04d4d23d6451995795eeac2983bb0542a2090ee",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:c14192e624642be4bf95adcc0074fc6a7e57d9b11bfacc9f614444d5454b1a5e",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:c14192e624642be4bf95adcc0074fc6a7e57d9b11bfacc9f614444d5454b1a5e"
+}

@@ -1,0 +1,1 @@
+p02CtxProp (p : Prop) : p → p

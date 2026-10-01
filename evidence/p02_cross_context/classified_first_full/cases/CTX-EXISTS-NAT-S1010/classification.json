@@ -1,0 +1,14 @@
+{
+  "case_id": "CTX-EXISTS-NAT-S1010",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "FRONTEND_REJECT",
+  "observations_sha256": "sha256:a0727733038d1bfdaaa27da38b51d4fbf367057b7e975e00f70bffc022b20365",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:4ad4057e4a19a80a008bb310d2d4f05ca879cf25244677a23a0d8e1cc84dafc9",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:4ad4057e4a19a80a008bb310d2d4f05ca879cf25244677a23a0d8e1cc84dafc9"
+}

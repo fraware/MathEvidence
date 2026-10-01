@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0101__FIX__INVALID_PROOF-candidate.lean"
+    ],
+    "elapsed_seconds": 0.44692167099999836,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0101__FIX__INVALID_PROOF-candidate.lean:1:24: warning: unused variable `p`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n",
+    "timed_out": false
+  },
+  "case_id": "CTX-PROP-ID-S0101__FIX__INVALID_PROOF",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0101__FIX__INVALID_PROOF-declaration.lean"
+    ],
+    "elapsed_seconds": 0.45221799199998713,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0101__FIX__INVALID_PROOF-declaration.lean:1:24: warning: unused variable `p`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\np02CtxProp (p : Prop) : True → True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0101__FIX__INVALID_PROOF-target.lean"
+    ],
+    "elapsed_seconds": 0.4459880019999929,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0101__FIX__INVALID_PROOF-target.lean:1:24: warning: unused variable `p`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`\n/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0101__FIX__INVALID_PROOF-target.lean:5:33: error: type mismatch\n  p02CtxProp\nhas type\n  Prop → True → True : Prop\nbut is expected to have type\n  ∀ (p : Prop), p → p : Prop\n",
+    "timed_out": false
+  }
+}

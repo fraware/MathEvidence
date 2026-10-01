@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX-EXISTS-NAT-S1111",
+  "mechanisms": [],
+  "role": "cross_context_state_CTX-EXISTS-NAT",
+  "source_sha256": "sha256:1a472ec5a6b39cfae7f1b49b5e95452aee4ff5bd69908ffbb01a5a8aa962478d",
+  "target_sha256": "sha256:63644cf43af6944b343e923a844f70b1cc1d9b89bab31561abd0f8ec08e15f48",
+  "theorem_name": "p02CtxExists"
+}

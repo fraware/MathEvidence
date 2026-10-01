@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX-CONJ-REFLEX-S0100__FIX__INVALID_PROOF",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX-CONJ-REFLEX",
+  "source_sha256": "sha256:2606ac4867c6e52aa4af7522e65be2f8cef2db77c26fcb43dfeeb61113c25815",
+  "target_sha256": "sha256:f8b0374f5b82cfa10db4e5c2ca8e842b8d4f7c744b1c149619f633bff334c6de",
+  "theorem_name": "p02CtxConj"
+}

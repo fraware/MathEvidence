@@ -1,0 +1,1 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S1100__FIX__INVALID_PROOF-candidate.lean:1:29: error: unexpected token ':'; expected ')'

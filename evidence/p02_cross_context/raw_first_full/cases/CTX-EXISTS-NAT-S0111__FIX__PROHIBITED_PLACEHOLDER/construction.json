@@ -1,0 +1,8 @@
+{
+  "case_id": "CTX-EXISTS-NAT-S0111__FIX__PROHIBITED_PLACEHOLDER",
+  "mechanisms": [],
+  "role": "cross_context_edge_CTX-EXISTS-NAT",
+  "source_sha256": "sha256:bafb6bb65722a733966837bd43ad7d37ad882d04ad18a68c0a3d8fed1a25fe03",
+  "target_sha256": "sha256:63644cf43af6944b343e923a844f70b1cc1d9b89bab31561abd0f8ec08e15f48",
+  "theorem_name": "p02CtxExists"
+}

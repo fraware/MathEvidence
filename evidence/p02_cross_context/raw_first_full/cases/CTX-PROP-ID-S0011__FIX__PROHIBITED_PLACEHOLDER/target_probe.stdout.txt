@@ -1,0 +1,8 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0011__FIX__PROHIBITED_PLACEHOLDER-target.lean:1:24: warning: unused variable `p`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-cross-context-4y_to9yq/CTX-PROP-ID-S0011__FIX__PROHIBITED_PLACEHOLDER-target.lean:5:33: error: type mismatch
+  p02CtxProp
+has type
+  Prop → True → True : Prop
+but is expected to have type
+  ∀ (p : Prop), p → p : Prop

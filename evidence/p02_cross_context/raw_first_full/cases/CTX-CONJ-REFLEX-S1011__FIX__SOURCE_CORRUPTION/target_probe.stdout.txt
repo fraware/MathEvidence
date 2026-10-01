@@ -1,0 +1,9 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1011__FIX__SOURCE_CORRUPTION-target.lean:1:8: warning: declaration uses 'sorry'
+/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1011__FIX__SOURCE_CORRUPTION-target.lean:4:26: warning: unused variable `b`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/p02-cross-context-4y_to9yq/CTX-CONJ-REFLEX-S1011__FIX__SOURCE_CORRUPTION-target.lean:8:42: error: type mismatch
+  p02CtxConj
+has type
+  ∀ (a : Nat), Nat → a = a ∧ a = a : Prop
+but is expected to have type
+  ∀ (a b : Nat), a = a ∧ b = b : Prop

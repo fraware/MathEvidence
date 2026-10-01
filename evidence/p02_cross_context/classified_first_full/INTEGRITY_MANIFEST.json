@@ -1,0 +1,733 @@
+{
+  "bundle_digest": "sha256:1d7e5e52bd40ebb8f978fee04bbbee6901975c34561b8f5c3aeca8a91a7cc356",
+  "files": [
+    {
+      "path": "CLASSIFICATION_SUMMARY.json",
+      "sha256": "sha256:cbf1b55486c79e92b898127527ad1adede08ae801409797af3ee94405176524e",
+      "size_bytes": 1692
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0000/classification.json",
+      "sha256": "sha256:9c269038beeb1882d38188d2cc474f20a2a20ffcb29b361fbd2247bf61746790",
+      "size_bytes": 796
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0001/classification.json",
+      "sha256": "sha256:5a5c4c3f05ede9b947330d9fc0bdb7a437f64b9f638d4fcff480d927bfeb86c9",
+      "size_bytes": 799
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0001__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:01bb4a90e8feef9f059e270167e5347cf36b0b3714c9a4fac6c9f50fb0ad731f",
+      "size_bytes": 815
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0010/classification.json",
+      "sha256": "sha256:773a3a94e41e3764ab224168c587d3c412cd6314e1527bd7ce8d4596f8962c41",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0010__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:dd2c598e482a8e9d11df768ae01f8819347bc312c7d0a124504fc7615c9e7bd0",
+      "size_bytes": 825
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0011/classification.json",
+      "sha256": "sha256:c018ea5a983efdd55702301872217fa212398b73ca9c18c55d48678e4026c14a",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0011__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:8541143edd0c217a754b37c56641e3cacddffdb77d3bd06efcba0ba4819e67c9",
+      "size_bytes": 828
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0011__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:788b7abee3721f83f937efc88cadb139f04ac728b7bafbc370c14e266a0b9974",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0100/classification.json",
+      "sha256": "sha256:00a738bc4962200cdb6bf7b3f7bb2ea81b5005cdd86ffe4aa84a076aa787f745",
+      "size_bytes": 793
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0100__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:2b803748e1cfbfd8aa909a6fbb2e13275d406deeba4cfc300742642298b72323",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0101/classification.json",
+      "sha256": "sha256:83979daef50492b529be06fd5d4c8d6d9f294f9b2e732d3f820dc35e7cb575ec",
+      "size_bytes": 793
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0101__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:7629f6117fe4467d283bcc862b06a3bdd98c186301b6e99e90e6af4a9257a56c",
+      "size_bytes": 819
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0101__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:56d3174462188f41d004b7df79c7e275638f93a1ca72ed3e3c78d2db0780bdd3",
+      "size_bytes": 812
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0110/classification.json",
+      "sha256": "sha256:8b82b1575b91e8730ff040d91bc941ee1b21ad7f552acb58d5f46542d06da483",
+      "size_bytes": 793
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0110__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:b0a5f072566bc73ae72b5931c9dab3bf1754eee3ef515903dc716b4da8e401f1",
+      "size_bytes": 817
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0110__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:e6b947986f4daca9bb184a5dc2e97d8092ffce77d3d226ccfe3eb7b806d5d1fb",
+      "size_bytes": 822
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0111/classification.json",
+      "sha256": "sha256:e5520b5827ae7400727a817e69d509e0b48941fed6b827793c63d2a28912c95a",
+      "size_bytes": 793
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0111__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:9398af87aad9825155ee9bf148c39a52b77f2692c4cf6eeecaddf56435410cc1",
+      "size_bytes": 817
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0111__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:e726be2a4008b81aeecf550231cb2cde2ad09067e91d70c70bce9da755250796",
+      "size_bytes": 822
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S0111__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:c93876c1fb0cf5b7cd289ccc6af243c2070fcb2d12a1a911e4e04938a2ce1ce5",
+      "size_bytes": 812
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1000/classification.json",
+      "sha256": "sha256:4bcd58cd3ee58176559d257eb5bbf98f812aec6f4b7c77952c9edc15ba5947d6",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1000__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:b2df579f6af8f6ea50e93318b670b2740002a637b3056a3ffe937670f5eae5aa",
+      "size_bytes": 820
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1001/classification.json",
+      "sha256": "sha256:fee66610c333ba7695b23870fa4f7c9d03dbec5f2c1a1be234650ee0a521be03",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:4ffdc344652f69d4c73e18f74befad0b0efba74596e70d06bfab3961cd24db59",
+      "size_bytes": 823
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1001__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:10002d3a0a9bb9c3539ff49c2362d191781441bc058c360177a737a15c083b00",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1010/classification.json",
+      "sha256": "sha256:877652cac102df85a4dd2b8784b2008805fd0eefd5ae8c160872d11f90d23431",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1010__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:56f78592f8052fcb74d8875e819273fe42da8d9a909032d5bc9b81161d0d4006",
+      "size_bytes": 811
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:5903db90af28ae1322ea2666d9451e72e7d14bdbda81b3e23e608d69f16d7d32",
+      "size_bytes": 821
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1011/classification.json",
+      "sha256": "sha256:bb7d8d7894d0dbc565c61564d45de5421d9d9bbb216580e856ae3d5f7787d5db",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1011__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:f46b8dd96e7ad2f7be3bd1e54ad05f95d7c41d49f0aa0d315330aa986cbbe578",
+      "size_bytes": 811
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1011__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:8e596749966f5cab4ec29bc1edb2a1356100b9f136bf13f2a2adef4390cebbad",
+      "size_bytes": 821
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1011__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:3ce6e3810290543df0e2d896aa7d9a72eb1a396c0f5d5342f042f2133398c6ee",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1100/classification.json",
+      "sha256": "sha256:94e87fcb85a9297c788d364047127929d4e9c788e57dd5d6260881d65ce3a6de",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1100__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:83d397b4ccfd91defedafc7bfecc73d90e976f4f12ea31c4e0a7698bd2c68fc1",
+      "size_bytes": 802
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1100__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:57aab8c644391b31e8b1b4e9e4847a6a255a06df31f29d7b7b78fd172e3b35d1",
+      "size_bytes": 817
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1101/classification.json",
+      "sha256": "sha256:e5a61e0b4c63185a6373e389fc560951050d922ecccd126342a3838f3b4a41b3",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1101__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:700db5d5587c05d79786370516effc22619cc91366ea00d66d7ee7d92cf9fcbe",
+      "size_bytes": 802
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1101__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:847b46f79608dfea0278257907e193f74c96a3bd1f8be02fdeaa3ade1842c25a",
+      "size_bytes": 817
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1101__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:4233bd55a4c33d474d18beea5e376a3838d0f4923aadbedbda0c779e5102e977",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1110/classification.json",
+      "sha256": "sha256:ce8627d3238f3354ecae829b0827da9c8ed4f2a9aad55d2c7966002268f866f6",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1110__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:fc19724063bdaf4789f0824812e14c422d8886348d2a1c7326f702ea224aea2e",
+      "size_bytes": 802
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1110__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:d6f2aed5386a16c414be0a8a49e0326faec4789422f4062ad7ab9f2644b59171",
+      "size_bytes": 811
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1110__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:082af025ad43d6eac442864fd7ead5fb7d1c40a241bb2ba27eea84df0d493fe2",
+      "size_bytes": 817
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1111/classification.json",
+      "sha256": "sha256:7d5e8cbda98d7ee317248875a9194b6119591fca7c83e0f63e58fd9b62fbdc1c",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1111__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:a83ffefcfb1f87fdb96e82e88bf670e2910425ee990c67c896cfbe457d95bbdd",
+      "size_bytes": 802
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1111__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:65745ad600f78a1128dd7ad5aba0f8cdfbd0cf2dd8e491facc4f661a731141c6",
+      "size_bytes": 811
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1111__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:c52dfcc70523c40344f22765d61f91fef32c73450cbcd40241039a58a0756e98",
+      "size_bytes": 817
+    },
+    {
+      "path": "cases/CTX-CONJ-REFLEX-S1111__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:c573d56f1a5eafdcbbbf3550ae9dac8452e3e331b6f5fa51c717bb3b2dfbe297",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0000/classification.json",
+      "sha256": "sha256:d3617ea64d42217cd9d69d803b2e2e577895f763231be6fb353301cf1c033df5",
+      "size_bytes": 795
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0001/classification.json",
+      "sha256": "sha256:ba4956743b3dc47ecb712129a50a1081ff417bf8c1fb81cec0c9fca090d234ee",
+      "size_bytes": 798
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0001__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:0dbe268960d79641958575dfe00521b9a4fbd0a07090e36b41d6a2b8ff1e5212",
+      "size_bytes": 814
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0010/classification.json",
+      "sha256": "sha256:0da23194688da9aa74839c5ed721e8408c120075a61267e6296c68cc6c2bed12",
+      "size_bytes": 796
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0010__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:10ea94e676f72e0d8fb17991791bea1624a4be68ed524168978139bac62b153f",
+      "size_bytes": 824
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0011/classification.json",
+      "sha256": "sha256:52229470c3ee3053dd172297f465dd4e8218a0ee69f5b8f3e7653b5326d27937",
+      "size_bytes": 796
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:50984d0c3ce9a8bf5e52f476602186995f551f735d86cfd371eacb5edb69bfc0",
+      "size_bytes": 827
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:6e29e5e8154639b9c16de0cc86cac0cf8317cb407b770c7744042f2f470504cd",
+      "size_bytes": 815
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0100/classification.json",
+      "sha256": "sha256:64510a806b1c615a6d49b811f37ba8c4db09b5f9ddf3136d17e527238894b0c0",
+      "size_bytes": 792
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0100__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:90d3c0d3c71cf5ff5fb63bb46633c1f7c6b797a01b47a624816955bc80cece2f",
+      "size_bytes": 815
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0101/classification.json",
+      "sha256": "sha256:4d8edfb664b614b1da0d0a2f8f60ff83f8b888cc02a460873a9cacd67e786489",
+      "size_bytes": 792
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0101__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:4238ddaac60cd043c26141b1f33e8b34c903a92b13d6835db30eaed1e3ba1b68",
+      "size_bytes": 818
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0101__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:5beb8513cdecbff4a196193b8032c50849507e26bfc3bfc39fa0e9357b006676",
+      "size_bytes": 811
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0110/classification.json",
+      "sha256": "sha256:4a02e69e814c99c210b800594f06470758a9722b2f938daf8dfa54d11fc5587b",
+      "size_bytes": 792
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0110__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:1b2666a3c2ed6bc1c431f50fb4ed692850db65e82dfbeb9a62e2a08d507617bb",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0110__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:bc5c5c7a04079a6953947f3610d56452575acb8aeec911feaacac4f09d77991b",
+      "size_bytes": 821
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0111/classification.json",
+      "sha256": "sha256:7a06dc3519cd046a086997e16e0c3e58b0236fb071f7ca95c2e20185104eae83",
+      "size_bytes": 792
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0111__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:2e758964f5a9d48ae65790f5e280eaf76596ed94b065bd9b9a7ec27c7a101cb3",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0111__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:e21f9e7b5ca883d2ccb1062db052622555d9efc3dd3c9f14ac99b71b7853548e",
+      "size_bytes": 821
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S0111__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:28052e5d2369e80e5887ac9e16be6c779d5ffac79035f100f6eee7ba061f3b2a",
+      "size_bytes": 811
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1000/classification.json",
+      "sha256": "sha256:23c367c427b81abb1c690fb8e187f1f3555a430e480c2541f0f32817c7b76f90",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1000__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:6320e30ba4263539f22287cdc013928d88011feebe5678956362aec39a24fa46",
+      "size_bytes": 819
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1001/classification.json",
+      "sha256": "sha256:54253c79361817259ca12ea78bf8ceb8c18c04bcbe933285b7e32bcf5a430a71",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:517816200bf9e0ec38660954905760f8f311b326096206ef2caf82361e782607",
+      "size_bytes": 822
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1001__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:5bc5f0d88a3dda57a1d6eb5b08a60db249ffda0c00b8b0112e1d7ed9b292e54a",
+      "size_bytes": 800
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1010/classification.json",
+      "sha256": "sha256:d0866aba4bc18e9dac1ab207fccd1eeafb6dee71ab0d9be1a8384d587ffdb0f5",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1010__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:76440db188549437c1ecb043454bec2c1effabfa9412ddd033bbc2984603d727",
+      "size_bytes": 810
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1010__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:8fd3d66f5d260c5904fa0e938d70526374b4c8a170edd8639d5e18e3fad4d307",
+      "size_bytes": 820
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1011/classification.json",
+      "sha256": "sha256:cf88067aac52998a01d1c2a8b9790dc1fc735a059a6aef3f9b71f8189f39524a",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1011__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:c79f62c71c0b19d8e8beb6e5284b684a5be260ed618612e85aecc784c1ceeb46",
+      "size_bytes": 810
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1011__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:1edb088aec31815b3d976f2977943fc8061de937b35957e93a9f3db456a648e2",
+      "size_bytes": 820
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1011__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:5ac8f2d76be02ee0c37de1d05c5ce18a20ab93d22aed1f83b377ce3d9603ad31",
+      "size_bytes": 800
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1100/classification.json",
+      "sha256": "sha256:507d8c4e185ee2680786fa8a558374d98bf80254107b84d501ebbd0a4841021c",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1100__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:e6dbeaf4c137e4a7de8780b1a70d2ac2d62b5413a9060690573ae919561d6a72",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1100__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:e7942bb29ecda62bf65e1d031aa19f1634fdde16f05b722678b193dd8b9e35b4",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1101/classification.json",
+      "sha256": "sha256:4c8e589fb0eae93a6346813bf2f3a5e8388c9ceb5338cb3565ce727e43aeec56",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1101__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:407cca52508a26be70253bf320a6cbe05f6ef43bfc638b76d3e7fffe065e8c5d",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1101__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:5fa05a0b02f331fa17663014d5366118fb5ad8680c10e89010ce4ce74a4edd0e",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1101__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:5cb7e9e3586d3843036708286061754e63dd500c8d00d6ae4f435adb9fa512b8",
+      "size_bytes": 800
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1110/classification.json",
+      "sha256": "sha256:fb63a4e7484dc32479ae4b9fb5afca92beb147aa754bab4054a60cefde597ceb",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1110__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:5c897be0b1bacbbb7b046ab451a2735710d8efaea99a0915cb9336e61432290c",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1110__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:abe66db29edab9ff6a0facd4d25456bc385f3ee23ed3b4cab3ee99a59f10a03b",
+      "size_bytes": 810
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1110__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:f0be484cb13be836ab655665e2f93dd613d163e951b43e3498d559205930d1e1",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1111/classification.json",
+      "sha256": "sha256:7324535026f7c66d127b68e60ae1265eea3374f402a2471ca6068b6791f8e18a",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1111__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:9acd591586fbf92f922c690341c5e051855a9cbad3c6401444f749076fd8dc68",
+      "size_bytes": 801
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1111__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:fbb6105ebe3e85dc40d4b874b4ce0dbd089904eb03467f379b1ab2594d8347ac",
+      "size_bytes": 810
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1111__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:909801e64150fbd9946fd4110191a204bc817c72d476c1c4d9a19c65ade76478",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-EXISTS-NAT-S1111__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:6a83b932c93f1dff3f036f7855facd884b6d79a6d8274fde1090262a93b44b22",
+      "size_bytes": 800
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0000/classification.json",
+      "sha256": "sha256:875be1e2ccfd95a51eb35a1b242a14fc6b488393aa750ad22711b9b9e34a9db5",
+      "size_bytes": 792
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0001/classification.json",
+      "sha256": "sha256:97da7853c5bbb36b4dd7f41a3db621e1f2c8c81d7af06d87822cd388e29f9b3c",
+      "size_bytes": 795
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0001__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:50a1dc0d9532d4ab785e46a99ad24b204cd8a7c57d4762a0142c74e4a3048c61",
+      "size_bytes": 811
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0010/classification.json",
+      "sha256": "sha256:8f53c32296cece200617e63837b8273f112d1b22533332a81c8bfb54b2b43578",
+      "size_bytes": 793
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0010__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:bf5a423380c9a188fe2c90ee31aff060190fa6e77af63285b1a10d9a4eccfca5",
+      "size_bytes": 821
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0011/classification.json",
+      "sha256": "sha256:1eb0f94fe60dd8e238560056fc53e9b9dab7155dc9aa301a697165325118678d",
+      "size_bytes": 793
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0011__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:60a7d35bd762a3e7c90a63a8b539af55b1c1516d34295124c1390e7197c135a6",
+      "size_bytes": 824
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0011__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:902a3937b6e6f3ec56cb9d631fbd448f593f07de2b7bb2f855babe86426a09f3",
+      "size_bytes": 812
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0100/classification.json",
+      "sha256": "sha256:4b4f86e5df492d5ba0761e6cdf1abd71d8c2735ee0ec8ac9ad54a52282d81db5",
+      "size_bytes": 789
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0100__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:2d8642906933458231644af5db30f66ec4f778ac947934b8d964ac3337e82969",
+      "size_bytes": 812
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0101/classification.json",
+      "sha256": "sha256:fbba8e843327d479decdd76669f7c797387b7d5f4375066c9292c6d20b249958",
+      "size_bytes": 789
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0101__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:889cb366940e91e02bd497be8ffd49308b386ec3a3ef225b30af91c2a236fe86",
+      "size_bytes": 815
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0101__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:0c9c98fe5ad50240996adffba3dd1ae41477caf64a13be32898638b8a80169e0",
+      "size_bytes": 808
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0110/classification.json",
+      "sha256": "sha256:544d3a6ebea5e3bb4866ad7142b005a80a3553915e1adcf45bda7d901573f1bc",
+      "size_bytes": 789
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0110__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:612683a006017c30f86f557892b993475632cca5a49dbf6c61c3b7d085b031ed",
+      "size_bytes": 813
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0110__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:6ae84358a73a45c3ec41869ed54c774717b8b1bf0f79af060c10ae5627beb481",
+      "size_bytes": 818
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0111/classification.json",
+      "sha256": "sha256:6d248c380dc2d7d23556d9421c72bd3fbebdda26849295fef2f497121a122b6e",
+      "size_bytes": 789
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0111__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:9f166293e771c89e8bf3b20d9983c586a27e1d93136de7238ece51234f518468",
+      "size_bytes": 813
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0111__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:cc81800aedae3fe844e1bbbeff3dae783714b7d101d20ad4a3e692144eefa164",
+      "size_bytes": 818
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S0111__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:64292e393135f194399afb48b619fec18a43702caead8f34612a16e5d7f1a230",
+      "size_bytes": 808
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1000/classification.json",
+      "sha256": "sha256:851930a1883372eb54db7d6e07078668a9e5f425da11f9e0a2e8bc32e88fbca7",
+      "size_bytes": 778
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1000__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:1915c1c0d01f0e445d464a5898311a3e358f39da0d52aba222bb340a632f8d13",
+      "size_bytes": 816
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1001/classification.json",
+      "sha256": "sha256:0f8249e3c469e67316ec28425904511a57496598eb5709f7055f2f73e5c2dfe4",
+      "size_bytes": 778
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1001__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:4da57b7dc7f292644e73cfdeb97efa81660eeabbc57267535d93236db43634d7",
+      "size_bytes": 819
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1001__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:26fb3c6e0ac73e7323c2822d98842e137c419ffc9c424b60acde20ff5ab757ef",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1010/classification.json",
+      "sha256": "sha256:992e1670b8b4223c0f620ad21a238672589aa95a38ab81ce52f3de75e2f36d51",
+      "size_bytes": 778
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1010__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:38022973d2d9d91303cad13724b60913244530e2a3e544b98853f27221722299",
+      "size_bytes": 807
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1010__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:fc313181520a9a56a264b2e47691bc36db74ad1766724de53649b0c54f65dcec",
+      "size_bytes": 817
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1011/classification.json",
+      "sha256": "sha256:49629c95848ef304c016176ea402e69b34e144efe72ca5f54a8b62212b509930",
+      "size_bytes": 778
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1011__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:f8bc35492c9dd4af6adac76b83ac3a6d65dcb0d1e72fbdbe5135dc7c2decdb97",
+      "size_bytes": 807
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1011__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:4029d0711b29cf845b4efa5405a7201788360168b63d60b34ae124435e49fad6",
+      "size_bytes": 817
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1011__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:895f443de3d397b7e7a75eb6009c8cc86c3e37643df9602c2afa60fdd9648aa2",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1100/classification.json",
+      "sha256": "sha256:5119361099928a2fa36cf55bf24a052eaed2b830f334baa6794765021ae477e1",
+      "size_bytes": 778
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1100__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:34b123b8742a5a970818762ab5d051c2dd874b04f106d4353deeb58ff9d454a2",
+      "size_bytes": 798
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1100__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:dc5474832f8a9a47a4065dbb626cd70f151fb67ef3f8a228077c21059d611d72",
+      "size_bytes": 813
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1101/classification.json",
+      "sha256": "sha256:98c1c5e6af2894fb342ad993ef6900be6d63a2b245384d9c1896509bcae6a9b5",
+      "size_bytes": 778
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1101__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:f2388836bf31a463f74edb58d8c2eb2e00f9bc15535cde234fe3bd78e7707d4c",
+      "size_bytes": 798
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1101__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:956489b1cd1a69435d9a4a8ca989c7dea16cf1275bdb1a6c1c790ef403b20ede",
+      "size_bytes": 813
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1101__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:ede40f01710366fc759756f7210d0099484630b82acd80d684bc5174ac50abf7",
+      "size_bytes": 797
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1110/classification.json",
+      "sha256": "sha256:e23ad04ce5bee9161584e5cf5fca03e1d4a1ce9d4e485bd51432353e213dd76c",
+      "size_bytes": 778
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1110__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:75c7735f6607c2c1e30fa554f89d0a395fd7d08a2113ceec594dbe337852b31f",
+      "size_bytes": 798
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1110__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:61cf1d707104437c41c7e1c0b37e42cc6bc1f16ef94eafc69433912cbb77c8ee",
+      "size_bytes": 807
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1110__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:ce46055f0b5d8874ee9927f6e776b1dd44ea41387d7af862b7adc3fc3a7a84b9",
+      "size_bytes": 813
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1111/classification.json",
+      "sha256": "sha256:5c6a42bb27d50855e6d72211e1b762f8278fc309aa44e2f5ba967233a4acb0ac",
+      "size_bytes": 778
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1111__FIX__INVALID_PROOF/classification.json",
+      "sha256": "sha256:26be0b6973391a6a5f943190aded61096a2de06f9f636bd553aa7b3b10bdeef1",
+      "size_bytes": 798
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1111__FIX__PROHIBITED_PLACEHOLDER/classification.json",
+      "sha256": "sha256:622e726984e5ff97a64264488bec4bcc7d97f0fac1154bd25e89ce30ab3d7e95",
+      "size_bytes": 807
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1111__FIX__SOURCE_CORRUPTION/classification.json",
+      "sha256": "sha256:357be71a1cd4f1c95552182f0b95faa015a31ea98f4af98fcac577c863a43007",
+      "size_bytes": 813
+    },
+    {
+      "path": "cases/CTX-PROP-ID-S1111__FIX__WRONG_TARGET/classification.json",
+      "sha256": "sha256:a612f815f344caddb6f3b87476bbf8232b14ce629071a2da2e7b98b731cffe36",
+      "size_bytes": 797
+    }
+  ],
+  "n_files": 145,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_classification_v2_hardened_integrity"
+}

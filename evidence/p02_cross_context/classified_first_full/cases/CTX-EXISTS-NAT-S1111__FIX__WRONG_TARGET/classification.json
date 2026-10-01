@@ -1,0 +1,14 @@
+{
+  "case_id": "CTX-EXISTS-NAT-S1111__FIX__WRONG_TARGET",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "FRONTEND_REJECT",
+  "observations_sha256": "sha256:703a1078547b381758d10ddbd5b23e7761a8e0cf41979597d503650e92ae1075",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": false,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": true,
+  "policy_sanitized_sha256": "sha256:1d4d66e2f8fd40823a8ec19ad8789aa8e010418a5e9aaef189af9011b1af7a0e",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:1d4d66e2f8fd40823a8ec19ad8789aa8e010418a5e9aaef189af9011b1af7a0e"
+}

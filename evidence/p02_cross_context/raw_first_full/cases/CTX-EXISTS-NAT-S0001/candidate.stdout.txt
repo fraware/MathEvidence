@@ -1,0 +1,2 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S0001-candidate.lean:1:26: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

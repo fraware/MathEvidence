@@ -1,0 +1,63 @@
+{
+  "edge_mismatches": [],
+  "expected_results_sha256": "sha256:e74272521460fe36929912d262a57b8e9a48eb60bc06aa806342cbc27e8aca7a",
+  "n_contexts": 3,
+  "n_edge_cases": 96,
+  "n_edge_class_matches": 96,
+  "n_independent_rerun_matches": 96,
+  "n_movement_matches": 96,
+  "n_state_cases": 48,
+  "n_state_matches": 48,
+  "nonclaims": [
+    "The three theorem contexts are targeted constructions, not a natural corpus.",
+    "The replication reuses the same four mechanism families under changed propositions and proof shapes.",
+    "Its counts are reported separately from the primary factorial study.",
+    "Agreement tests transfer of the declared mechanism, not prevalence or autonomous-agent performance."
+  ],
+  "observed_category_changes": 45,
+  "observed_category_preservations": 51,
+  "observed_class_counts": {
+    "ENVIRONMENT_OR_ELAB_REJECT": 36,
+    "FRONTEND_REJECT": 60,
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": 21,
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH": 15,
+    "TOOLCHAIN_ACCEPT_TARGET_MISMATCH": 12
+  },
+  "per_context": {
+    "CTX-CONJ-REFLEX": {
+      "category_changes": 15,
+      "category_preservations": 17,
+      "edge_class_matches": 32,
+      "edge_total": 32,
+      "independent_rerun_matches": 32,
+      "movement_matches": 32,
+      "state_matches": 16,
+      "state_total": 16
+    },
+    "CTX-EXISTS-NAT": {
+      "category_changes": 15,
+      "category_preservations": 17,
+      "edge_class_matches": 32,
+      "edge_total": 32,
+      "independent_rerun_matches": 32,
+      "movement_matches": 32,
+      "state_matches": 16,
+      "state_total": 16
+    },
+    "CTX-PROP-ID": {
+      "category_changes": 15,
+      "category_preservations": 17,
+      "edge_class_matches": 32,
+      "edge_total": 32,
+      "independent_rerun_matches": 32,
+      "movement_matches": 32,
+      "state_matches": 16,
+      "state_total": 16
+    }
+  },
+  "prereg_commit": "637d66a3b4a71c4dfec57e68d3379b460c05e7c2",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_cross_context_analysis_v1",
+  "state_mismatches": [],
+  "status": "CROSS_CONTEXT_EXPECTATIONS_MATCH"
+}

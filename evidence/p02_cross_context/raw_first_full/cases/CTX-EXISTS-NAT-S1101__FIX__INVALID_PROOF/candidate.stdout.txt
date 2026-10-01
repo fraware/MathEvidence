@@ -1,0 +1,3 @@
+/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S1101__FIX__INVALID_PROOF-candidate.lean:1:29: error: unexpected token ':'; expected ')'
+/tmp/p02-cross-context-4y_to9yq/CTX-EXISTS-NAT-S1101__FIX__INVALID_PROOF-candidate.lean:4:26: warning: unused variable `n`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
