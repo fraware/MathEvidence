@@ -1,0 +1,20 @@
+{
+  "case_spec_sha256": "sha256:066f6be307bf8c9c7b470beab0c4266e188dcb410aaa316a2d8ba42886416ad0",
+  "classification_performed": false,
+  "expected_classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "expected_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "expected_results_read_during_collection": false,
+  "expected_toolchain": "leanprover/lean4:v4.14.0",
+  "n_cases": 4,
+  "non_claims": [
+    "This is a follow-up designed after the v1 elaboration mapper-coverage miss.",
+    "The collector does not receive expected results.",
+    "No category claim is assigned during raw collection."
+  ],
+  "prereg_commit": "627d14b7af7d8d3293181a1e940c4a4b4d70648e",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_same_category_elab_followup_raw_v1",
+  "status": "RAW_ELAB_FOLLOWUP_EXECUTED_NOT_CLASSIFIED",
+  "toolchain_archive_sha256": null,
+  "toolchain_transport": "elan_release_host"
+}

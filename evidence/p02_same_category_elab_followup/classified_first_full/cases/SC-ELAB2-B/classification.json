@@ -1,0 +1,14 @@
+{
+  "case_id": "SC-ELAB2-B",
+  "classifier_version": "p02_native_observation_classifier_v2_syntax_aware_policy",
+  "derived_native_class": "ENVIRONMENT_OR_ELAB_REJECT",
+  "observations_sha256": "sha256:1066d25a6a1be977e12e375eec614a71d774d42ef00f6d656725171770d27f63",
+  "parent_classifier_version": "p02_native_observation_classifier_v1",
+  "parent_frozen_classifier_blob_sha": "681309212d1b045558277b167a99dc28c45bef71",
+  "policy_admissible": true,
+  "policy_has_custom_axiom": false,
+  "policy_has_placeholder": false,
+  "policy_sanitized_sha256": "sha256:21577db739bf6f70781a6cbb791eb45221557044e22e1deeed00996f18e0397f",
+  "policy_scan_version": "lean_lexical_noncode_erasure_v1",
+  "source_sha256": "sha256:21577db739bf6f70781a6cbb791eb45221557044e22e1deeed00996f18e0397f"
+}

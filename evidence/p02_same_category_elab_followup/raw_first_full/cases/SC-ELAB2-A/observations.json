@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-sc-elab-followup-azip6bmr/SC-ELAB2-A-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3632180919999968,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-sc-elab-followup-azip6bmr/SC-ELAB2-A-candidate.lean:2:2: error: type mismatch\n  False\nhas type\n  Prop : Type\nbut is expected to have type\n  True : Prop\n",
+    "timed_out": false
+  },
+  "case_id": "SC-ELAB2-A",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}

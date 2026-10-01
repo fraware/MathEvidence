@@ -1,0 +1,33 @@
+{
+  "bundle_digest": "sha256:a7563205ae999fe957848f205009f7e07da8fcb76e2e33a7afe5bcdc820eb7e9",
+  "files": [
+    {
+      "path": "CLASSIFICATION_SUMMARY.json",
+      "sha256": "sha256:9ce3d34ec8d1125b2bbac868fdfc49af13715bd78a82d665b3432cc960058e75",
+      "size_bytes": 1738
+    },
+    {
+      "path": "cases/SC-ELAB2-A/classification.json",
+      "sha256": "sha256:12296dbce630afcfd3c027241dcd60fe1e682e91292ac9b478a06e2e3add12bc",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/SC-ELAB2-AB/classification.json",
+      "sha256": "sha256:108b3c1f78fe063b2c21c88246693dc981c933fc55f7fb06eeee916e895e1edf",
+      "size_bytes": 783
+    },
+    {
+      "path": "cases/SC-ELAB2-B/classification.json",
+      "sha256": "sha256:8dcd06596433c0bda34e4ae1ae761ba6ddc074a46c145ec3dc61287c946d5c88",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/SC-ELAB2-CLEAN/classification.json",
+      "sha256": "sha256:198af5ac26a4315cf75dd7909dc451e4358cbe39a05c73d0bacc708ed7b2f728",
+      "size_bytes": 789
+    }
+  ],
+  "n_files": 5,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_classification_v2_hardened_integrity"
+}

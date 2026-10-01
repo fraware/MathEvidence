@@ -1,0 +1,91 @@
+{
+  "design_status": "designed_after_v1_mapper_coverage_miss_before_followup_execution",
+  "edge_rows": [
+    {
+      "expected_change": true,
+      "from": "SC-ELAB2-A",
+      "from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": true,
+      "observed_change": true,
+      "removed": "a",
+      "to": "SC-ELAB2-CLEAN",
+      "to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    },
+    {
+      "expected_change": true,
+      "from": "SC-ELAB2-B",
+      "from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": true,
+      "observed_change": true,
+      "removed": "b",
+      "to": "SC-ELAB2-CLEAN",
+      "to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    },
+    {
+      "expected_change": false,
+      "from": "SC-ELAB2-AB",
+      "from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": true,
+      "observed_change": false,
+      "removed": "a",
+      "to": "SC-ELAB2-B",
+      "to_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "expected_change": false,
+      "from": "SC-ELAB2-AB",
+      "from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": true,
+      "observed_change": false,
+      "removed": "b",
+      "to": "SC-ELAB2-A",
+      "to_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    }
+  ],
+  "expected_results_sha256": "sha256:c8d9b5f0547c8c0c916865618773f96a826abb345b66b1b6cfc8a4af7facbe0b",
+  "n_active_edges": 4,
+  "n_edge_matches": 4,
+  "n_state_matches": 4,
+  "n_states": 4,
+  "non_claims": [
+    "This follow-up was designed after observing the v1 elaboration UNKNOWN outcome.",
+    "It does not erase or replace the v1 mismatch.",
+    "It tests same-category masking under two elaboration diagnostics already covered by the frozen mapper."
+  ],
+  "observed_category_changes": 2,
+  "observed_category_preservations": 2,
+  "prereg_commit": "627d14b7af7d8d3293181a1e940c4a4b4d70648e",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_same_category_elab_followup_analysis_v1",
+  "state_rows": [
+    {
+      "candidate_error_marker_count": 1,
+      "case_id": "SC-ELAB2-A",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": true,
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "candidate_error_marker_count": 2,
+      "case_id": "SC-ELAB2-AB",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": true,
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "candidate_error_marker_count": 1,
+      "case_id": "SC-ELAB2-B",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": true,
+      "observed_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "candidate_error_marker_count": 0,
+      "case_id": "SC-ELAB2-CLEAN",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "match": true,
+      "observed_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    }
+  ],
+  "status": "FOLLOWUP_EXPECTATIONS_MATCH"
+}

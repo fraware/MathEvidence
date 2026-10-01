@@ -1,0 +1,23 @@
+{
+  "bundle_digest": "sha256:0bc0287aeacdf1d514fe7543290753f2094f5d2aeb52ac4bea1156a501be2eab",
+  "files": [
+    {
+      "path": "EDGE_TABLE.csv",
+      "sha256": "sha256:603126028d72beab239acf00577675f63e4db797bc5bd716fb227508f846be55",
+      "size_bytes": 471
+    },
+    {
+      "path": "FOLLOWUP_ANALYSIS.json",
+      "sha256": "sha256:abcfa9e9887e2c112d78473509455ae2e6bb6e506b617caa74bb2e095f45de6d",
+      "size_bytes": 2841
+    },
+    {
+      "path": "STATE_TABLE.csv",
+      "sha256": "sha256:03e18b65e68cf5e84564f55303d5635004d8455d4986c2d15924e63ddcb5d07f",
+      "size_bytes": 377
+    }
+  ],
+  "n_files": 3,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_same_category_elab_followup_analysis_integrity_v1"
+}
