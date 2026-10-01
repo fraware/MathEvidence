@@ -1,0 +1,94 @@
+{
+  "candidate_error_marker_counts": {
+    "SC-ELAB-A": 1,
+    "SC-ELAB-AB": 3,
+    "SC-ELAB-B": 2,
+    "SC-ELAB-CLEAN": 0,
+    "SC-POLICY-A": 0,
+    "SC-POLICY-AB": 0,
+    "SC-POLICY-B": 0,
+    "SC-POLICY-CLEAN": 0,
+    "SC-SYNTAX-A": 1,
+    "SC-SYNTAX-AB": 2,
+    "SC-SYNTAX-B": 1,
+    "SC-SYNTAX-CLEAN": 0
+  },
+  "edge_mismatches": [
+    {
+      "expected_change": false,
+      "from": "SC-ELAB-AB",
+      "from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": false,
+      "observed_change": true,
+      "pair_id": "SC-ELAB",
+      "removed": "b",
+      "to": "SC-ELAB-A",
+      "to_class": "UNKNOWN"
+    }
+  ],
+  "expected_results_sha256": "sha256:49433bec54107ea14f7bea52c0d74f9ffee35065a7fa856eabb44f0370de318d",
+  "n_active_edges": 12,
+  "n_edge_matches": 11,
+  "n_edge_mismatches": 1,
+  "n_state_matches": 11,
+  "n_state_mismatches": 1,
+  "n_states": 12,
+  "non_claims": [
+    "The three micro-corpora are targeted constructions, not samples from a natural failure population.",
+    "Their 12-edge denominator is reported separately from the primary 64 active-edge denominator.",
+    "The extension tests shared-category occupancy and does not estimate prevalence in real proof repair.",
+    "Error-marker counts describe retained raw candidate output and do not alter classification."
+  ],
+  "observed_category_changes": 7,
+  "observed_category_preservations": 5,
+  "observed_class_counts": {
+    "ENVIRONMENT_OR_ELAB_REJECT": 2,
+    "FRONTEND_REJECT": 3,
+    "TOOLCHAIN_ACCEPT_POLICY_REJECT": 3,
+    "TOOLCHAIN_ACCEPT_TARGET_MATCH": 3,
+    "UNKNOWN": 1
+  },
+  "per_pair": {
+    "SC-ELAB": {
+      "category_changes": 3,
+      "category_preservations": 1,
+      "declared_category": "ENVIRONMENT_OR_ELAB_REJECT",
+      "edge_matches": 3,
+      "edge_total": 4,
+      "state_matches": 3,
+      "state_total": 4
+    },
+    "SC-POLICY": {
+      "category_changes": 2,
+      "category_preservations": 2,
+      "declared_category": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "edge_matches": 4,
+      "edge_total": 4,
+      "state_matches": 4,
+      "state_total": 4
+    },
+    "SC-SYNTAX": {
+      "category_changes": 2,
+      "category_preservations": 2,
+      "declared_category": "FRONTEND_REJECT",
+      "edge_matches": 4,
+      "edge_total": 4,
+      "state_matches": 4,
+      "state_total": 4
+    }
+  },
+  "prereg_commit": "5af08b29aa6eb592e008b0bce03a53f86c2af531",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_same_category_analysis_v1",
+  "state_mismatches": [
+    {
+      "candidate_error_marker_count": 1,
+      "case_id": "SC-ELAB-A",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "match": false,
+      "observed_class": "UNKNOWN",
+      "pair_id": "SC-ELAB"
+    }
+  ],
+  "status": "PREREGISTERED_EXPECTATIONS_MISMATCH"
+}

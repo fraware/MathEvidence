@@ -1,0 +1,2 @@
+/tmp/p02-same-category-r3swg63q/SC-ELAB-A-candidate.lean:2:8: error: numerals are data in Lean, but the expected type is a proposition
+  True : Prop

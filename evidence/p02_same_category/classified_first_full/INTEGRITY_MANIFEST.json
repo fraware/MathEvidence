@@ -1,0 +1,73 @@
+{
+  "bundle_digest": "sha256:867df4280756816072c51d61f927a398cfaadba38765a918c1a3145d3d714c51",
+  "files": [
+    {
+      "path": "CLASSIFICATION_SUMMARY.json",
+      "sha256": "sha256:d07bca20e95d45579db427efd11dcd6814ed10794f82977c69145b702fb27ba6",
+      "size_bytes": 1684
+    },
+    {
+      "path": "cases/SC-ELAB-A/classification.json",
+      "sha256": "sha256:55c711f560b60d3166d5b54fd0ecdc69cec1212bd8fb5358c8057fd03c813f2f",
+      "size_bytes": 762
+    },
+    {
+      "path": "cases/SC-ELAB-AB/classification.json",
+      "sha256": "sha256:b7d5807a42914bdbcb853b32939afb5b82c32730f09923b025059aaeb8cb956f",
+      "size_bytes": 782
+    },
+    {
+      "path": "cases/SC-ELAB-B/classification.json",
+      "sha256": "sha256:88bce09188a739e26124044385ea368217b1815c22260c66d2f1715f10078ad2",
+      "size_bytes": 781
+    },
+    {
+      "path": "cases/SC-ELAB-CLEAN/classification.json",
+      "sha256": "sha256:fb3ea51eebdcb7eeb8dbb43a16cbf7afd13457123669655359929632d5f6581f",
+      "size_bytes": 788
+    },
+    {
+      "path": "cases/SC-POLICY-A/classification.json",
+      "sha256": "sha256:26f7c4f1770b0256042dab1e279ee7873fce6a59d75a08419fcf926474a5b9ce",
+      "size_bytes": 787
+    },
+    {
+      "path": "cases/SC-POLICY-AB/classification.json",
+      "sha256": "sha256:ccb6c2257dcf17a4038f416a0f808e24e1ed3a14a3b087ceb03ebf1c7a7345b2",
+      "size_bytes": 787
+    },
+    {
+      "path": "cases/SC-POLICY-B/classification.json",
+      "sha256": "sha256:5e038a8e5923f19f20c6ca57277a9201af9dd021f787b5bc2bebe0c4bcc3f8b2",
+      "size_bytes": 787
+    },
+    {
+      "path": "cases/SC-POLICY-CLEAN/classification.json",
+      "sha256": "sha256:da91d1f2c493645c200751cf92945ea935f82031c8dab65c06df698a34f09799",
+      "size_bytes": 790
+    },
+    {
+      "path": "cases/SC-SYNTAX-A/classification.json",
+      "sha256": "sha256:2e23514d72d35fda4ccccc872015317368c8e2b6eb010c6bf997af08cfd21760",
+      "size_bytes": 772
+    },
+    {
+      "path": "cases/SC-SYNTAX-AB/classification.json",
+      "sha256": "sha256:25b731a039faad3b3a5d4208b790af2b1e0d672905f809d84da5dbff56279fa5",
+      "size_bytes": 773
+    },
+    {
+      "path": "cases/SC-SYNTAX-B/classification.json",
+      "sha256": "sha256:6168d2d70f9f951c91bc01f7d139022147fc33e2ce0d5716023a8b8f34a21753",
+      "size_bytes": 772
+    },
+    {
+      "path": "cases/SC-SYNTAX-CLEAN/classification.json",
+      "sha256": "sha256:baadb3c050c08623fa7dc8bcdd3a244615ac87fc81ba072a2b13ead9a85922b0",
+      "size_bytes": 790
+    }
+  ],
+  "n_files": 13,
+  "publication_claim_eligible": false,
+  "schema_version": "p02_native_classification_v2_hardened_integrity"
+}

@@ -1,0 +1,8 @@
+{
+  "case_id": "SC-SYNTAX-B",
+  "mechanisms": [],
+  "role": "same_category_SC-SYNTAX_b",
+  "source_sha256": "sha256:2e3a4090e2d7cddfa3c21f015c1f59586608f999a4a013643e17f8bf1c821a31",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "scSyntaxMain"
+}

@@ -1,0 +1,46 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-r3swg63q/SC-POLICY-B-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3929725630000007,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  },
+  "case_id": "SC-POLICY-B",
+  "declaration_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-r3swg63q/SC-POLICY-B-declaration.lean"
+    ],
+    "elapsed_seconds": 0.3895050280000021,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "scPolicyMain : True\n",
+    "timed_out": false
+  },
+  "source_empty": false,
+  "target_probe": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-r3swg63q/SC-POLICY-B-target.lean"
+    ],
+    "elapsed_seconds": 0.3931371969999873,
+    "returncode": 0,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "",
+    "timed_out": false
+  }
+}

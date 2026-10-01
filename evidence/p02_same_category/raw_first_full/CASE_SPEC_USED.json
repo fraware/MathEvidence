@@ -1,0 +1,132 @@
+{
+  "base_evidence_commit": "12cb2e5ac19db5f845a9315967a6ab69eba88ef5",
+  "classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "collection_reads_expectations": false,
+  "lean_toolchain": "leanprover/lean4:v4.14.0",
+  "pairs": [
+    {
+      "category": "FRONTEND_REJECT",
+      "pair_id": "SC-SYNTAX",
+      "states": [
+        {
+          "pair_id": "SC-SYNTAX",
+          "source": "theorem scSyntaxMain : True := by\n  trivial\n",
+          "state": "clean",
+          "state_id": "SC-SYNTAX-CLEAN",
+          "target_statement": "True",
+          "theorem_name": "scSyntaxMain"
+        },
+        {
+          "pair_id": "SC-SYNTAX",
+          "source": "#check (1 + )\ntheorem scSyntaxMain : True := by\n  trivial\n",
+          "state": "a",
+          "state_id": "SC-SYNTAX-A",
+          "target_statement": "True",
+          "theorem_name": "scSyntaxMain"
+        },
+        {
+          "pair_id": "SC-SYNTAX",
+          "source": "#check (2 * )\ntheorem scSyntaxMain : True := by\n  trivial\n",
+          "state": "b",
+          "state_id": "SC-SYNTAX-B",
+          "target_statement": "True",
+          "theorem_name": "scSyntaxMain"
+        },
+        {
+          "pair_id": "SC-SYNTAX",
+          "source": "#check (1 + )\n#check (2 * )\ntheorem scSyntaxMain : True := by\n  trivial\n",
+          "state": "ab",
+          "state_id": "SC-SYNTAX-AB",
+          "target_statement": "True",
+          "theorem_name": "scSyntaxMain"
+        }
+      ]
+    },
+    {
+      "category": "ENVIRONMENT_OR_ELAB_REJECT",
+      "pair_id": "SC-ELAB",
+      "states": [
+        {
+          "pair_id": "SC-ELAB",
+          "source": "theorem scElabMain : True := by\n  trivial\n",
+          "state": "clean",
+          "state_id": "SC-ELAB-CLEAN",
+          "target_statement": "True",
+          "theorem_name": "scElabMain"
+        },
+        {
+          "pair_id": "SC-ELAB",
+          "source": "theorem scElabA : True := by\n  exact 0\ntheorem scElabMain : True := by\n  trivial\n",
+          "state": "a",
+          "state_id": "SC-ELAB-A",
+          "target_statement": "True",
+          "theorem_name": "scElabMain"
+        },
+        {
+          "pair_id": "SC-ELAB",
+          "source": "theorem scElabB : Nat := by\n  exact True\ntheorem scElabMain : True := by\n  trivial\n",
+          "state": "b",
+          "state_id": "SC-ELAB-B",
+          "target_statement": "True",
+          "theorem_name": "scElabMain"
+        },
+        {
+          "pair_id": "SC-ELAB",
+          "source": "theorem scElabA : True := by\n  exact 0\ntheorem scElabB : Nat := by\n  exact True\ntheorem scElabMain : True := by\n  trivial\n",
+          "state": "ab",
+          "state_id": "SC-ELAB-AB",
+          "target_statement": "True",
+          "theorem_name": "scElabMain"
+        }
+      ]
+    },
+    {
+      "category": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "pair_id": "SC-POLICY",
+      "states": [
+        {
+          "pair_id": "SC-POLICY",
+          "source": "theorem scPolicyMain : True := by\n  trivial\n",
+          "state": "clean",
+          "state_id": "SC-POLICY-CLEAN",
+          "target_statement": "True",
+          "theorem_name": "scPolicyMain"
+        },
+        {
+          "pair_id": "SC-POLICY",
+          "source": "theorem scPolicyA : True := by\n  sorry\ntheorem scPolicyMain : True := by\n  trivial\n",
+          "state": "a",
+          "state_id": "SC-POLICY-A",
+          "target_statement": "True",
+          "theorem_name": "scPolicyMain"
+        },
+        {
+          "pair_id": "SC-POLICY",
+          "source": "axiom scPolicyB : True\ntheorem scPolicyMain : True := by\n  trivial\n",
+          "state": "b",
+          "state_id": "SC-POLICY-B",
+          "target_statement": "True",
+          "theorem_name": "scPolicyMain"
+        },
+        {
+          "pair_id": "SC-POLICY",
+          "source": "theorem scPolicyA : True := by\n  sorry\naxiom scPolicyB : True\ntheorem scPolicyMain : True := by\n  trivial\n",
+          "state": "ab",
+          "state_id": "SC-POLICY-AB",
+          "target_statement": "True",
+          "theorem_name": "scPolicyMain"
+        }
+      ]
+    }
+  ],
+  "pinned_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "schema_version": "p02_same_category_case_spec_v1",
+  "stop_conditions": [
+    "isolated expected category fails",
+    "combined state becomes UNKNOWN",
+    "combined state leaves the declared category",
+    "source interaction changes another planted edit",
+    "pinned environment identity fails"
+  ],
+  "study": "P02 same-category compound-failure extension"
+}

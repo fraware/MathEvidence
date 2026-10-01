@@ -1,0 +1,8 @@
+{
+  "case_id": "SC-POLICY-CLEAN",
+  "mechanisms": [],
+  "role": "same_category_SC-POLICY_clean",
+  "source_sha256": "sha256:a3eedc7bb69181c014344134166fd32f91e3ac35ec1a418c15e0de24f4086237",
+  "target_sha256": "sha256:3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+  "theorem_name": "scPolicyMain"
+}

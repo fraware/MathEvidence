@@ -1,0 +1,24 @@
+{
+  "case_spec_sha256": "sha256:f00b5cd812c7d28b2794e8dfe655b924340f22a8fb08946f2ae1c544bb8d5b25",
+  "classification_performed": false,
+  "expected_classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "expected_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "expected_results_read_during_collection": false,
+  "expected_toolchain": "leanprover/lean4:v4.14.0",
+  "harness_branch_sha": "dd2f404fabc37fb56796e8d71d186578a5979307",
+  "n_cases": 12,
+  "n_pairs": 3,
+  "non_claims": [
+    "This bundle contains raw observations only.",
+    "The collector receives the source-only CASE_SPEC and does not receive EXPECTED_RESULTS.",
+    "No category or agreement claim is assigned during collection.",
+    "The study is a targeted constructed extension and is not a population sample of Lean failures."
+  ],
+  "prereg_commit": "5af08b29aa6eb592e008b0bce03a53f86c2af531",
+  "publication_claim_eligible": false,
+  "schema_version": "p02_same_category_raw_v1",
+  "status": "RAW_SAME_CATEGORY_EXECUTED_NOT_CLASSIFIED",
+  "timeout_seconds": 30.0,
+  "toolchain_archive_sha256": null,
+  "toolchain_transport": "elan_release_host"
+}

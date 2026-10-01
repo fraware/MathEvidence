@@ -1,0 +1,1 @@
+/tmp/p02-same-category-r3swg63q/SC-SYNTAX-A-candidate.lean:1:11: error: unexpected token ')'; expected term

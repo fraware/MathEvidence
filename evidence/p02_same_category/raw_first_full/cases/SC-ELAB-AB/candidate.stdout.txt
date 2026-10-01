@@ -1,0 +1,10 @@
+/tmp/p02-same-category-r3swg63q/SC-ELAB-AB-candidate.lean:2:8: error: numerals are data in Lean, but the expected type is a proposition
+  True : Prop
+/tmp/p02-same-category-r3swg63q/SC-ELAB-AB-candidate.lean:4:2: error: type mismatch
+  True
+has type
+  Prop : Type
+but is expected to have type
+  Nat : Type
+/tmp/p02-same-category-r3swg63q/SC-ELAB-AB-candidate.lean:3:0: error: type of theorem 'scElabB' is not a proposition
+  Nat

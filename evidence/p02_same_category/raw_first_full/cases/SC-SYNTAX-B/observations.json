@@ -1,0 +1,20 @@
+{
+  "candidate": {
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/p02-same-category-r3swg63q/SC-SYNTAX-B-candidate.lean"
+    ],
+    "elapsed_seconds": 0.3901059770000046,
+    "returncode": 1,
+    "spawn_error": null,
+    "stderr": "",
+    "stdout": "/tmp/p02-same-category-r3swg63q/SC-SYNTAX-B-candidate.lean:1:11: error: unexpected token ')'; expected term\n",
+    "timed_out": false
+  },
+  "case_id": "SC-SYNTAX-B",
+  "declaration_probe": null,
+  "source_empty": false,
+  "target_probe": null
+}
