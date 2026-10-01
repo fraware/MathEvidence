@@ -1,0 +1,121 @@
+{
+  "schema_version": "p02_same_category_expected_results_v1",
+  "study": "P02 same-category compound-failure extension",
+  "pairs": [
+    {
+      "pair_id": "SC-SYNTAX",
+      "category": "FRONTEND_REJECT",
+      "state_expectations": {
+        "SC-SYNTAX-CLEAN": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+        "SC-SYNTAX-A": "FRONTEND_REJECT",
+        "SC-SYNTAX-B": "FRONTEND_REJECT",
+        "SC-SYNTAX-AB": "FRONTEND_REJECT"
+      },
+      "edge_expectations": [
+        {
+          "from": "SC-SYNTAX-A",
+          "to": "SC-SYNTAX-CLEAN",
+          "removed": "a",
+          "category_changes": true
+        },
+        {
+          "from": "SC-SYNTAX-B",
+          "to": "SC-SYNTAX-CLEAN",
+          "removed": "b",
+          "category_changes": true
+        },
+        {
+          "from": "SC-SYNTAX-AB",
+          "to": "SC-SYNTAX-B",
+          "removed": "a",
+          "category_changes": false
+        },
+        {
+          "from": "SC-SYNTAX-AB",
+          "to": "SC-SYNTAX-A",
+          "removed": "b",
+          "category_changes": false
+        }
+      ]
+    },
+    {
+      "pair_id": "SC-ELAB",
+      "category": "ENVIRONMENT_OR_ELAB_REJECT",
+      "state_expectations": {
+        "SC-ELAB-CLEAN": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+        "SC-ELAB-A": "ENVIRONMENT_OR_ELAB_REJECT",
+        "SC-ELAB-B": "ENVIRONMENT_OR_ELAB_REJECT",
+        "SC-ELAB-AB": "ENVIRONMENT_OR_ELAB_REJECT"
+      },
+      "edge_expectations": [
+        {
+          "from": "SC-ELAB-A",
+          "to": "SC-ELAB-CLEAN",
+          "removed": "a",
+          "category_changes": true
+        },
+        {
+          "from": "SC-ELAB-B",
+          "to": "SC-ELAB-CLEAN",
+          "removed": "b",
+          "category_changes": true
+        },
+        {
+          "from": "SC-ELAB-AB",
+          "to": "SC-ELAB-B",
+          "removed": "a",
+          "category_changes": false
+        },
+        {
+          "from": "SC-ELAB-AB",
+          "to": "SC-ELAB-A",
+          "removed": "b",
+          "category_changes": false
+        }
+      ]
+    },
+    {
+      "pair_id": "SC-POLICY",
+      "category": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "state_expectations": {
+        "SC-POLICY-CLEAN": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+        "SC-POLICY-A": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+        "SC-POLICY-B": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+        "SC-POLICY-AB": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+      },
+      "edge_expectations": [
+        {
+          "from": "SC-POLICY-A",
+          "to": "SC-POLICY-CLEAN",
+          "removed": "a",
+          "category_changes": true
+        },
+        {
+          "from": "SC-POLICY-B",
+          "to": "SC-POLICY-CLEAN",
+          "removed": "b",
+          "category_changes": true
+        },
+        {
+          "from": "SC-POLICY-AB",
+          "to": "SC-POLICY-B",
+          "removed": "a",
+          "category_changes": false
+        },
+        {
+          "from": "SC-POLICY-AB",
+          "to": "SC-POLICY-A",
+          "removed": "b",
+          "category_changes": false
+        }
+      ]
+    }
+  ],
+  "planned_counts": {
+    "pairs": 3,
+    "states": 12,
+    "active_edges": 12,
+    "predicted_category_changes": 6,
+    "predicted_category_preservations": 6
+  }
+}
