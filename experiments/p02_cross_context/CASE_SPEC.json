@@ -1,0 +1,1593 @@
+{
+  "schema_version": "p02_cross_context_case_spec_v1",
+  "study": "P02 ordered masking cross-context replication",
+  "design_status": "sealed_before_cross_context_execution",
+  "base_primary_evidence_commit": "12cb2e5ac19db5f845a9315967a6ab69eba88ef5",
+  "pinned_project_sha": "946d2f7b14840837a5b641150c9df9008c4be9eb",
+  "lean_toolchain": "leanprover/lean4:v4.14.0",
+  "classifier_v2_blob_sha": "75d0599c277806007b1f31db451dbbe1bec3962e",
+  "mechanism_order": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "contexts": [
+    {
+      "context_id": "CTX-PROP-ID",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p",
+      "clean_statement": "∀ (p : Prop), p → p",
+      "wrong_statement": "∀ (p : Prop), True → True",
+      "proof": "by\n  intro p h\n  exact h",
+      "proof_shape": "propositional implication with introductions"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n",
+      "clean_statement": "∀ (n : Nat), ∃ m : Nat, m = n",
+      "wrong_statement": "∀ (n : Nat), ∃ m : Nat, m = m",
+      "proof": "by\n  intro n\n  exact ⟨n, rfl⟩",
+      "proof_shape": "existential witness construction"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b",
+      "clean_statement": "∀ (a b : Nat), a = a ∧ b = b",
+      "wrong_statement": "∀ (a b : Nat), a = a ∧ a = a",
+      "proof": "by\n  intro a b\n  exact ⟨rfl, rfl⟩",
+      "proof_shape": "conjunction construction with reflexivity"
+    }
+  ],
+  "state_cases": [
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0000",
+      "bits": "0000",
+      "active_mechanisms": [],
+      "source": "theorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0001",
+      "bits": "0001",
+      "active_mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0010",
+      "bits": "0010",
+      "active_mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0011",
+      "bits": "0011",
+      "active_mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0100",
+      "bits": "0100",
+      "active_mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0101",
+      "bits": "0101",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0110",
+      "bits": "0110",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0111",
+      "bits": "0111",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1000",
+      "bits": "1000",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1001",
+      "bits": "1001",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1010",
+      "bits": "1010",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1011",
+      "bits": "1011",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1100",
+      "bits": "1100",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1101",
+      "bits": "1101",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1110",
+      "bits": "1110",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1111",
+      "bits": "1111",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0000",
+      "bits": "0000",
+      "active_mechanisms": [],
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0001",
+      "bits": "0001",
+      "active_mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0010",
+      "bits": "0010",
+      "active_mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0011",
+      "bits": "0011",
+      "active_mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0100",
+      "bits": "0100",
+      "active_mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0101",
+      "bits": "0101",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0110",
+      "bits": "0110",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0111",
+      "bits": "0111",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1000",
+      "bits": "1000",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1001",
+      "bits": "1001",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1010",
+      "bits": "1010",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1011",
+      "bits": "1011",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1100",
+      "bits": "1100",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1101",
+      "bits": "1101",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1110",
+      "bits": "1110",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1111",
+      "bits": "1111",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0000",
+      "bits": "0000",
+      "active_mechanisms": [],
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0001",
+      "bits": "0001",
+      "active_mechanisms": [
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0010",
+      "bits": "0010",
+      "active_mechanisms": [
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0011",
+      "bits": "0011",
+      "active_mechanisms": [
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0100",
+      "bits": "0100",
+      "active_mechanisms": [
+        "INVALID_PROOF"
+      ],
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0101",
+      "bits": "0101",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0110",
+      "bits": "0110",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0111",
+      "bits": "0111",
+      "active_mechanisms": [
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1000",
+      "bits": "1000",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1001",
+      "bits": "1001",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1010",
+      "bits": "1010",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1011",
+      "bits": "1011",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1100",
+      "bits": "1100",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1101",
+      "bits": "1101",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1110",
+      "bits": "1110",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1111",
+      "bits": "1111",
+      "active_mechanisms": [
+        "SOURCE_CORRUPTION",
+        "INVALID_PROOF",
+        "PROHIBITED_PLACEHOLDER",
+        "WRONG_TARGET"
+      ],
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    }
+  ],
+  "edge_cases": [
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S0001",
+      "to_state_id": "CTX-PROP-ID-S0000",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S0010",
+      "to_state_id": "CTX-PROP-ID-S0000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S0011",
+      "to_state_id": "CTX-PROP-ID-S0001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S0011",
+      "to_state_id": "CTX-PROP-ID-S0010",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S0100",
+      "to_state_id": "CTX-PROP-ID-S0000",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S0101",
+      "to_state_id": "CTX-PROP-ID-S0001",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S0101",
+      "to_state_id": "CTX-PROP-ID-S0100",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S0110",
+      "to_state_id": "CTX-PROP-ID-S0010",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S0110",
+      "to_state_id": "CTX-PROP-ID-S0100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S0111",
+      "to_state_id": "CTX-PROP-ID-S0011",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S0111",
+      "to_state_id": "CTX-PROP-ID-S0101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S0111",
+      "to_state_id": "CTX-PROP-ID-S0110",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1000__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1000",
+      "to_state_id": "CTX-PROP-ID-S0000",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1001__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1001",
+      "to_state_id": "CTX-PROP-ID-S0001",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S1001",
+      "to_state_id": "CTX-PROP-ID-S1000",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1010__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1010",
+      "to_state_id": "CTX-PROP-ID-S0010",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S1010",
+      "to_state_id": "CTX-PROP-ID-S1000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1011__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1011",
+      "to_state_id": "CTX-PROP-ID-S0011",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S1011",
+      "to_state_id": "CTX-PROP-ID-S1001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S1011",
+      "to_state_id": "CTX-PROP-ID-S1010",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1100__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1100",
+      "to_state_id": "CTX-PROP-ID-S0100",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S1100",
+      "to_state_id": "CTX-PROP-ID-S1000",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1101__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1101",
+      "to_state_id": "CTX-PROP-ID-S0101",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S1101",
+      "to_state_id": "CTX-PROP-ID-S1001",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S1101",
+      "to_state_id": "CTX-PROP-ID-S1100",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1110__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1110",
+      "to_state_id": "CTX-PROP-ID-S0110",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S1110",
+      "to_state_id": "CTX-PROP-ID-S1010",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S1110",
+      "to_state_id": "CTX-PROP-ID-S1100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1111__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1111",
+      "to_state_id": "CTX-PROP-ID-S0111",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S1111",
+      "to_state_id": "CTX-PROP-ID-S1011",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  intro p h\n  exact h\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S1111",
+      "to_state_id": "CTX-PROP-ID-S1101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), True → True := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S1111",
+      "to_state_id": "CTX-PROP-ID-S1110",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxProp : ∀ (p : Prop), p → p := by\n  exact False\n",
+      "theorem_name": "p02CtxProp",
+      "target_statement": "∀ (p : Prop), p → p"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S0001",
+      "to_state_id": "CTX-EXISTS-NAT-S0000",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S0010",
+      "to_state_id": "CTX-EXISTS-NAT-S0000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S0011",
+      "to_state_id": "CTX-EXISTS-NAT-S0001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S0011",
+      "to_state_id": "CTX-EXISTS-NAT-S0010",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S0100",
+      "to_state_id": "CTX-EXISTS-NAT-S0000",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S0101",
+      "to_state_id": "CTX-EXISTS-NAT-S0001",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S0101",
+      "to_state_id": "CTX-EXISTS-NAT-S0100",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S0110",
+      "to_state_id": "CTX-EXISTS-NAT-S0010",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S0110",
+      "to_state_id": "CTX-EXISTS-NAT-S0100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S0111",
+      "to_state_id": "CTX-EXISTS-NAT-S0011",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S0111",
+      "to_state_id": "CTX-EXISTS-NAT-S0101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S0111",
+      "to_state_id": "CTX-EXISTS-NAT-S0110",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1000__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1000",
+      "to_state_id": "CTX-EXISTS-NAT-S0000",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1001",
+      "to_state_id": "CTX-EXISTS-NAT-S0001",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S1001",
+      "to_state_id": "CTX-EXISTS-NAT-S1000",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1010__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1010",
+      "to_state_id": "CTX-EXISTS-NAT-S0010",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S1010",
+      "to_state_id": "CTX-EXISTS-NAT-S1000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1011__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1011",
+      "to_state_id": "CTX-EXISTS-NAT-S0011",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S1011",
+      "to_state_id": "CTX-EXISTS-NAT-S1001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S1011",
+      "to_state_id": "CTX-EXISTS-NAT-S1010",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1100__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1100",
+      "to_state_id": "CTX-EXISTS-NAT-S0100",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S1100",
+      "to_state_id": "CTX-EXISTS-NAT-S1000",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1101__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1101",
+      "to_state_id": "CTX-EXISTS-NAT-S0101",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S1101",
+      "to_state_id": "CTX-EXISTS-NAT-S1001",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S1101",
+      "to_state_id": "CTX-EXISTS-NAT-S1100",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1110__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1110",
+      "to_state_id": "CTX-EXISTS-NAT-S0110",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S1110",
+      "to_state_id": "CTX-EXISTS-NAT-S1010",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S1110",
+      "to_state_id": "CTX-EXISTS-NAT-S1100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1111__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1111",
+      "to_state_id": "CTX-EXISTS-NAT-S0111",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S1111",
+      "to_state_id": "CTX-EXISTS-NAT-S1011",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  intro n\n  exact ⟨n, rfl⟩\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S1111",
+      "to_state_id": "CTX-EXISTS-NAT-S1101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = m := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S1111",
+      "to_state_id": "CTX-EXISTS-NAT-S1110",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxExists : ∀ (n : Nat), ∃ m : Nat, m = n := by\n  exact False\n",
+      "theorem_name": "p02CtxExists",
+      "target_statement": "∀ (n : Nat), ∃ m : Nat, m = n"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S0001",
+      "to_state_id": "CTX-CONJ-REFLEX-S0000",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S0010",
+      "to_state_id": "CTX-CONJ-REFLEX-S0000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S0011",
+      "to_state_id": "CTX-CONJ-REFLEX-S0001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S0011",
+      "to_state_id": "CTX-CONJ-REFLEX-S0010",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S0100",
+      "to_state_id": "CTX-CONJ-REFLEX-S0000",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S0101",
+      "to_state_id": "CTX-CONJ-REFLEX-S0001",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S0101",
+      "to_state_id": "CTX-CONJ-REFLEX-S0100",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S0110",
+      "to_state_id": "CTX-CONJ-REFLEX-S0010",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S0110",
+      "to_state_id": "CTX-CONJ-REFLEX-S0100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S0111",
+      "to_state_id": "CTX-CONJ-REFLEX-S0011",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S0111",
+      "to_state_id": "CTX-CONJ-REFLEX-S0101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S0111",
+      "to_state_id": "CTX-CONJ-REFLEX-S0110",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1000__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1000",
+      "to_state_id": "CTX-CONJ-REFLEX-S0000",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1001",
+      "to_state_id": "CTX-CONJ-REFLEX-S0001",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S1001",
+      "to_state_id": "CTX-CONJ-REFLEX-S1000",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1010",
+      "to_state_id": "CTX-CONJ-REFLEX-S0010",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S1010",
+      "to_state_id": "CTX-CONJ-REFLEX-S1000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1011__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1011",
+      "to_state_id": "CTX-CONJ-REFLEX-S0011",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S1011",
+      "to_state_id": "CTX-CONJ-REFLEX-S1001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S1011",
+      "to_state_id": "CTX-CONJ-REFLEX-S1010",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1100__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1100",
+      "to_state_id": "CTX-CONJ-REFLEX-S0100",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S1100",
+      "to_state_id": "CTX-CONJ-REFLEX-S1000",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1101__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1101",
+      "to_state_id": "CTX-CONJ-REFLEX-S0101",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S1101",
+      "to_state_id": "CTX-CONJ-REFLEX-S1001",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S1101",
+      "to_state_id": "CTX-CONJ-REFLEX-S1100",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1110__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1110",
+      "to_state_id": "CTX-CONJ-REFLEX-S0110",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S1110",
+      "to_state_id": "CTX-CONJ-REFLEX-S1010",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S1110",
+      "to_state_id": "CTX-CONJ-REFLEX-S1100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1111__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1111",
+      "to_state_id": "CTX-CONJ-REFLEX-S0111",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "source": "theorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S1111",
+      "to_state_id": "CTX-CONJ-REFLEX-S1011",
+      "removed_mechanism": "INVALID_PROOF",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  intro a b\n  exact ⟨rfl, rfl⟩\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S1111",
+      "to_state_id": "CTX-CONJ-REFLEX-S1101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ a = a := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S1111",
+      "to_state_id": "CTX-CONJ-REFLEX-S1110",
+      "removed_mechanism": "WRONG_TARGET",
+      "source": "theorem p02CtxSyntax (x : Nat : x = x := by\n  rfl\n\ntheorem p02CtxPolicy : True := by\n  sorry\n\ntheorem p02CtxElab : True := by\n  exact False\n\ntheorem p02CtxConj : ∀ (a b : Nat), a = a ∧ b = b := by\n  exact False\n",
+      "theorem_name": "p02CtxConj",
+      "target_statement": "∀ (a b : Nat), a = a ∧ b = b"
+    }
+  ],
+  "collection_reads_expectations": false,
+  "planned_counts": {
+    "contexts": 3,
+    "state_cases": 48,
+    "edge_cases": 96,
+    "total_lean_invocations": 144
+  },
+  "nonclaims": [
+    "The contexts are targeted constructions, not a natural distribution of Lean proof failures.",
+    "The extension changes theorem statements and proof shapes while retaining the same four mechanism families.",
+    "Results remain separate from the primary 32-state and 64-active-edge denominators."
+  ]
+}
