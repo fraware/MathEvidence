@@ -1,0 +1,1226 @@
+{
+  "schema_version": "p02_cross_context_expected_results_v1",
+  "study": "P02 ordered masking cross-context replication",
+  "mechanism_order": [
+    "SOURCE_CORRUPTION",
+    "INVALID_PROOF",
+    "PROHIBITED_PLACEHOLDER",
+    "WRONG_TARGET"
+  ],
+  "state_expectations": [
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0000",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0001",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0010",
+      "expected_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0011",
+      "expected_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0100",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0101",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0110",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S0111",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1000",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1001",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1010",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1011",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1100",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1101",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1110",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "state_id": "CTX-PROP-ID-S1111",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0000",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0001",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0010",
+      "expected_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0011",
+      "expected_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0100",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0101",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0110",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S0111",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1000",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1001",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1010",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1011",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1100",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1101",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1110",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "state_id": "CTX-EXISTS-NAT-S1111",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0000",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0001",
+      "expected_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0010",
+      "expected_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0011",
+      "expected_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0100",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0101",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0110",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S0111",
+      "expected_class": "ENVIRONMENT_OR_ELAB_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1000",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1001",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1010",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1011",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1100",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1101",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1110",
+      "expected_class": "FRONTEND_REJECT"
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "state_id": "CTX-CONJ-REFLEX-S1111",
+      "expected_class": "FRONTEND_REJECT"
+    }
+  ],
+  "edge_expectations": [
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S0001",
+      "to_state_id": "CTX-PROP-ID-S0000",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S0010",
+      "to_state_id": "CTX-PROP-ID-S0000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S0011",
+      "to_state_id": "CTX-PROP-ID-S0001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S0011",
+      "to_state_id": "CTX-PROP-ID-S0010",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S0100",
+      "to_state_id": "CTX-PROP-ID-S0000",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S0101",
+      "to_state_id": "CTX-PROP-ID-S0001",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S0101",
+      "to_state_id": "CTX-PROP-ID-S0100",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S0110",
+      "to_state_id": "CTX-PROP-ID-S0010",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S0110",
+      "to_state_id": "CTX-PROP-ID-S0100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S0111",
+      "to_state_id": "CTX-PROP-ID-S0011",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S0111",
+      "to_state_id": "CTX-PROP-ID-S0101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S0111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S0111",
+      "to_state_id": "CTX-PROP-ID-S0110",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1000__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1000",
+      "to_state_id": "CTX-PROP-ID-S0000",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1001__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1001",
+      "to_state_id": "CTX-PROP-ID-S0001",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S1001",
+      "to_state_id": "CTX-PROP-ID-S1000",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1010__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1010",
+      "to_state_id": "CTX-PROP-ID-S0010",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S1010",
+      "to_state_id": "CTX-PROP-ID-S1000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1011__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1011",
+      "to_state_id": "CTX-PROP-ID-S0011",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S1011",
+      "to_state_id": "CTX-PROP-ID-S1001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S1011",
+      "to_state_id": "CTX-PROP-ID-S1010",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1100__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1100",
+      "to_state_id": "CTX-PROP-ID-S0100",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S1100",
+      "to_state_id": "CTX-PROP-ID-S1000",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1101__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1101",
+      "to_state_id": "CTX-PROP-ID-S0101",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S1101",
+      "to_state_id": "CTX-PROP-ID-S1001",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S1101",
+      "to_state_id": "CTX-PROP-ID-S1100",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1110__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1110",
+      "to_state_id": "CTX-PROP-ID-S0110",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S1110",
+      "to_state_id": "CTX-PROP-ID-S1010",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S1110",
+      "to_state_id": "CTX-PROP-ID-S1100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1111__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-PROP-ID-S1111",
+      "to_state_id": "CTX-PROP-ID-S0111",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-PROP-ID-S1111",
+      "to_state_id": "CTX-PROP-ID-S1011",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-PROP-ID-S1111",
+      "to_state_id": "CTX-PROP-ID-S1101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-PROP-ID",
+      "edge_id": "CTX-PROP-ID-S1111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-PROP-ID-S1111",
+      "to_state_id": "CTX-PROP-ID-S1110",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S0001",
+      "to_state_id": "CTX-EXISTS-NAT-S0000",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S0010",
+      "to_state_id": "CTX-EXISTS-NAT-S0000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S0011",
+      "to_state_id": "CTX-EXISTS-NAT-S0001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S0011",
+      "to_state_id": "CTX-EXISTS-NAT-S0010",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S0100",
+      "to_state_id": "CTX-EXISTS-NAT-S0000",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S0101",
+      "to_state_id": "CTX-EXISTS-NAT-S0001",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S0101",
+      "to_state_id": "CTX-EXISTS-NAT-S0100",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S0110",
+      "to_state_id": "CTX-EXISTS-NAT-S0010",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S0110",
+      "to_state_id": "CTX-EXISTS-NAT-S0100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S0111",
+      "to_state_id": "CTX-EXISTS-NAT-S0011",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S0111",
+      "to_state_id": "CTX-EXISTS-NAT-S0101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S0111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S0111",
+      "to_state_id": "CTX-EXISTS-NAT-S0110",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1000__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1000",
+      "to_state_id": "CTX-EXISTS-NAT-S0000",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1001__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1001",
+      "to_state_id": "CTX-EXISTS-NAT-S0001",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S1001",
+      "to_state_id": "CTX-EXISTS-NAT-S1000",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1010__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1010",
+      "to_state_id": "CTX-EXISTS-NAT-S0010",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S1010",
+      "to_state_id": "CTX-EXISTS-NAT-S1000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1011__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1011",
+      "to_state_id": "CTX-EXISTS-NAT-S0011",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S1011",
+      "to_state_id": "CTX-EXISTS-NAT-S1001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S1011",
+      "to_state_id": "CTX-EXISTS-NAT-S1010",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1100__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1100",
+      "to_state_id": "CTX-EXISTS-NAT-S0100",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S1100",
+      "to_state_id": "CTX-EXISTS-NAT-S1000",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1101__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1101",
+      "to_state_id": "CTX-EXISTS-NAT-S0101",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S1101",
+      "to_state_id": "CTX-EXISTS-NAT-S1001",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S1101",
+      "to_state_id": "CTX-EXISTS-NAT-S1100",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1110__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1110",
+      "to_state_id": "CTX-EXISTS-NAT-S0110",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S1110",
+      "to_state_id": "CTX-EXISTS-NAT-S1010",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S1110",
+      "to_state_id": "CTX-EXISTS-NAT-S1100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1111__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-EXISTS-NAT-S1111",
+      "to_state_id": "CTX-EXISTS-NAT-S0111",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-EXISTS-NAT-S1111",
+      "to_state_id": "CTX-EXISTS-NAT-S1011",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-EXISTS-NAT-S1111",
+      "to_state_id": "CTX-EXISTS-NAT-S1101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-EXISTS-NAT",
+      "edge_id": "CTX-EXISTS-NAT-S1111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-EXISTS-NAT-S1111",
+      "to_state_id": "CTX-EXISTS-NAT-S1110",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S0001",
+      "to_state_id": "CTX-CONJ-REFLEX-S0000",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S0010",
+      "to_state_id": "CTX-CONJ-REFLEX-S0000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S0011",
+      "to_state_id": "CTX-CONJ-REFLEX-S0001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S0011",
+      "to_state_id": "CTX-CONJ-REFLEX-S0010",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S0100",
+      "to_state_id": "CTX-CONJ-REFLEX-S0000",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S0101",
+      "to_state_id": "CTX-CONJ-REFLEX-S0001",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S0101",
+      "to_state_id": "CTX-CONJ-REFLEX-S0100",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S0110",
+      "to_state_id": "CTX-CONJ-REFLEX-S0010",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S0110",
+      "to_state_id": "CTX-CONJ-REFLEX-S0100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S0111",
+      "to_state_id": "CTX-CONJ-REFLEX-S0011",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S0111",
+      "to_state_id": "CTX-CONJ-REFLEX-S0101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S0111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S0111",
+      "to_state_id": "CTX-CONJ-REFLEX-S0110",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1000__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1000",
+      "to_state_id": "CTX-CONJ-REFLEX-S0000",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1001__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1001",
+      "to_state_id": "CTX-CONJ-REFLEX-S0001",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_TARGET_MISMATCH",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1001__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S1001",
+      "to_state_id": "CTX-CONJ-REFLEX-S1000",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1010__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1010",
+      "to_state_id": "CTX-CONJ-REFLEX-S0010",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1010__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S1010",
+      "to_state_id": "CTX-CONJ-REFLEX-S1000",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1011__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1011",
+      "to_state_id": "CTX-CONJ-REFLEX-S0011",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1011__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S1011",
+      "to_state_id": "CTX-CONJ-REFLEX-S1001",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1011__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S1011",
+      "to_state_id": "CTX-CONJ-REFLEX-S1010",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1100__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1100",
+      "to_state_id": "CTX-CONJ-REFLEX-S0100",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1100__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S1100",
+      "to_state_id": "CTX-CONJ-REFLEX-S1000",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1101__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1101",
+      "to_state_id": "CTX-CONJ-REFLEX-S0101",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1101__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S1101",
+      "to_state_id": "CTX-CONJ-REFLEX-S1001",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1101__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S1101",
+      "to_state_id": "CTX-CONJ-REFLEX-S1100",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1110__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1110",
+      "to_state_id": "CTX-CONJ-REFLEX-S0110",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1110__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S1110",
+      "to_state_id": "CTX-CONJ-REFLEX-S1010",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1110__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S1110",
+      "to_state_id": "CTX-CONJ-REFLEX-S1100",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1111__FIX__SOURCE_CORRUPTION",
+      "from_state_id": "CTX-CONJ-REFLEX-S1111",
+      "to_state_id": "CTX-CONJ-REFLEX-S0111",
+      "removed_mechanism": "SOURCE_CORRUPTION",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "ENVIRONMENT_OR_ELAB_REJECT",
+      "expected_change": true
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1111__FIX__INVALID_PROOF",
+      "from_state_id": "CTX-CONJ-REFLEX-S1111",
+      "to_state_id": "CTX-CONJ-REFLEX-S1011",
+      "removed_mechanism": "INVALID_PROOF",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1111__FIX__PROHIBITED_PLACEHOLDER",
+      "from_state_id": "CTX-CONJ-REFLEX-S1111",
+      "to_state_id": "CTX-CONJ-REFLEX-S1101",
+      "removed_mechanism": "PROHIBITED_PLACEHOLDER",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    },
+    {
+      "context_id": "CTX-CONJ-REFLEX",
+      "edge_id": "CTX-CONJ-REFLEX-S1111__FIX__WRONG_TARGET",
+      "from_state_id": "CTX-CONJ-REFLEX-S1111",
+      "to_state_id": "CTX-CONJ-REFLEX-S1110",
+      "removed_mechanism": "WRONG_TARGET",
+      "expected_from_class": "FRONTEND_REJECT",
+      "expected_to_class": "FRONTEND_REJECT",
+      "expected_change": false
+    }
+  ],
+  "per_context_expected": {
+    "state_matches": 16,
+    "edge_execution_matches": 32,
+    "category_changes": 15,
+    "category_preservations": 17
+  },
+  "planned_totals": {
+    "state_matches": 48,
+    "edge_execution_matches": 96,
+    "category_changes": 45,
+    "category_preservations": 51
+  }
+}
