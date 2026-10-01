@@ -1,0 +1,122 @@
+{
+  "schema_version": "p02_same_category_expected_results_v1",
+  "study": "P02 same-category compound-failure extension v2",
+  "pairs": [
+    {
+      "pair_id": "SC2-SYNTAX",
+      "category": "FRONTEND_REJECT",
+      "state_expectations": {
+        "SC2-SYNTAX-CLEAN": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+        "SC2-SYNTAX-A": "FRONTEND_REJECT",
+        "SC2-SYNTAX-B": "FRONTEND_REJECT",
+        "SC2-SYNTAX-AB": "FRONTEND_REJECT"
+      },
+      "edge_expectations": [
+        {
+          "from": "SC2-SYNTAX-A",
+          "to": "SC2-SYNTAX-CLEAN",
+          "removed": "a",
+          "category_changes": true
+        },
+        {
+          "from": "SC2-SYNTAX-B",
+          "to": "SC2-SYNTAX-CLEAN",
+          "removed": "b",
+          "category_changes": true
+        },
+        {
+          "from": "SC2-SYNTAX-AB",
+          "to": "SC2-SYNTAX-B",
+          "removed": "a",
+          "category_changes": false
+        },
+        {
+          "from": "SC2-SYNTAX-AB",
+          "to": "SC2-SYNTAX-A",
+          "removed": "b",
+          "category_changes": false
+        }
+      ]
+    },
+    {
+      "pair_id": "SC2-ELAB",
+      "category": "ENVIRONMENT_OR_ELAB_REJECT",
+      "state_expectations": {
+        "SC2-ELAB-CLEAN": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+        "SC2-ELAB-A": "ENVIRONMENT_OR_ELAB_REJECT",
+        "SC2-ELAB-B": "ENVIRONMENT_OR_ELAB_REJECT",
+        "SC2-ELAB-AB": "ENVIRONMENT_OR_ELAB_REJECT"
+      },
+      "edge_expectations": [
+        {
+          "from": "SC2-ELAB-A",
+          "to": "SC2-ELAB-CLEAN",
+          "removed": "a",
+          "category_changes": true
+        },
+        {
+          "from": "SC2-ELAB-B",
+          "to": "SC2-ELAB-CLEAN",
+          "removed": "b",
+          "category_changes": true
+        },
+        {
+          "from": "SC2-ELAB-AB",
+          "to": "SC2-ELAB-B",
+          "removed": "a",
+          "category_changes": false
+        },
+        {
+          "from": "SC2-ELAB-AB",
+          "to": "SC2-ELAB-A",
+          "removed": "b",
+          "category_changes": false
+        }
+      ]
+    },
+    {
+      "pair_id": "SC2-POLICY",
+      "category": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+      "state_expectations": {
+        "SC2-POLICY-CLEAN": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+        "SC2-POLICY-A": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+        "SC2-POLICY-B": "TOOLCHAIN_ACCEPT_POLICY_REJECT",
+        "SC2-POLICY-AB": "TOOLCHAIN_ACCEPT_POLICY_REJECT"
+      },
+      "edge_expectations": [
+        {
+          "from": "SC2-POLICY-A",
+          "to": "SC2-POLICY-CLEAN",
+          "removed": "a",
+          "category_changes": true
+        },
+        {
+          "from": "SC2-POLICY-B",
+          "to": "SC2-POLICY-CLEAN",
+          "removed": "b",
+          "category_changes": true
+        },
+        {
+          "from": "SC2-POLICY-AB",
+          "to": "SC2-POLICY-B",
+          "removed": "a",
+          "category_changes": false
+        },
+        {
+          "from": "SC2-POLICY-AB",
+          "to": "SC2-POLICY-A",
+          "removed": "b",
+          "category_changes": false
+        }
+      ]
+    }
+  ],
+  "planned_counts": {
+    "pairs": 3,
+    "states": 12,
+    "active_edges": 12,
+    "predicted_category_changes": 6,
+    "predicted_category_preservations": 6
+  },
+  "revision_note": "Follow-up expectations sealed after the v1 elaboration mapper-coverage miss and before v2 execution."
+}
