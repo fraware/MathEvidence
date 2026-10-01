@@ -1,0 +1,43 @@
+{
+  "schema_version": "p02_same_category_elab_followup_expected_v1",
+  "study": "P02 same-category elaboration follow-up",
+  "pair_id": "SC-ELAB2",
+  "state_expectations": {
+    "SC-ELAB2-CLEAN": "TOOLCHAIN_ACCEPT_TARGET_MATCH",
+    "SC-ELAB2-A": "ENVIRONMENT_OR_ELAB_REJECT",
+    "SC-ELAB2-B": "ENVIRONMENT_OR_ELAB_REJECT",
+    "SC-ELAB2-AB": "ENVIRONMENT_OR_ELAB_REJECT"
+  },
+  "edge_expectations": [
+    {
+      "from": "SC-ELAB2-A",
+      "to": "SC-ELAB2-CLEAN",
+      "removed": "a",
+      "category_changes": true
+    },
+    {
+      "from": "SC-ELAB2-B",
+      "to": "SC-ELAB2-CLEAN",
+      "removed": "b",
+      "category_changes": true
+    },
+    {
+      "from": "SC-ELAB2-AB",
+      "to": "SC-ELAB2-B",
+      "removed": "a",
+      "category_changes": false
+    },
+    {
+      "from": "SC-ELAB2-AB",
+      "to": "SC-ELAB2-A",
+      "removed": "b",
+      "category_changes": false
+    }
+  ],
+  "planned_counts": {
+    "states": 4,
+    "active_edges": 4,
+    "predicted_category_changes": 2,
+    "predicted_category_preservations": 2
+  }
+}
